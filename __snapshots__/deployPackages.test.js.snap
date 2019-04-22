@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deployPackages function when it succeeds logs a list of packages 1`] = `
+Object {
+  "description": "A collection of common visual components.",
+  "group": "components",
+  "name": "@thm/fe-common-components",
+  "version": "0.1.0",
+}
+`;
