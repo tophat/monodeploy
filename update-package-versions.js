@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { getNpmVersionFromRegistry } = require('../command-helpers')
+const { getNpmVersionFromRegistry } = require('./command-helpers')
 const path = require('path')
 const root = './packages'
 

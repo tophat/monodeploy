@@ -21,6 +21,21 @@ function getLernaUpdatedJson() {
     })
 }
 
+function getNpmVersionFromRegistry(packageName) {
+    return exec(`npm view ${packageName} version`)
+        .then(version => version.trim())
+        .catch(err => {
+            if (
+                err.message.includes(
+                    `'${packageName}' is not in the npm registry`,
+                )
+            ) {
+                return '0.1.0'
+            }
+            throw new Error(err)
+        })
+}
+
 function _extractNewVersionsFromPublishOutput(output) {
     return output
         .split('\n')

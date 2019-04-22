@@ -1,7 +1,7 @@
 const {
     getLernaUpdatedJson,
     getNpmVersionFromRegistry,
-} = require('../command-helpers')
+} = require('./command-helpers')
 
 async function fetchUpdatedPackageVersions() {
     const updatedJson = await getLernaUpdatedJson()

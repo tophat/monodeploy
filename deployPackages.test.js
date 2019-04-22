@@ -1,3 +1,5 @@
+const { fs, vol } = require('memfs')
+
 import { deployPackages as _deployPackages } from './index'
 import {
     __setLernaUpdatedSucceeds,
@@ -6,9 +8,10 @@ import {
     createGitTag,
     __setLernaPublishSucceeds,
     __setCreateGitTagSucceeds,
-} from '../command-helpers'
+} from './command-helpers'
 
-jest.mock('../command-helpers')
+jest.mock('fs')
+jest.mock('./command-helpers')
 jest.mock('./update-package-versions', () => jest.fn())
 
 const mockPackageList = [
@@ -23,7 +26,7 @@ const mockPackageList = [
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
-    const deployPackages = () => _deployPackages({ stderr, stdout })
+    const deployPackages = () => _deployPackages({ stderr, stdout, fs, vol})
 
     beforeEach(() => {
         stdout.mockClear()
