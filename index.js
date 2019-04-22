@@ -6,8 +6,8 @@ const {
     lernaPublish,
     createGitTag,
     getChangelogLink,
-} = require('../command-helpers')
-const getPackageInfo = require('../get-package-info')
+} = require('./command-helpers')
+const getPackageInfo = require('./get-package-info')
 
 const deployPackages = async ({
     stderr = console.error.bind(console),
