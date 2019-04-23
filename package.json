@@ -1,6 +1,6 @@
 {
   "name": "monodeploy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A small wrapper around lerna that makes it easier to use in CI",
   "main": "index.js",
   "repository": "git@github.com:tophat/monodeploy.git",
