@@ -1,7 +1,7 @@
 import { fs, vol } from 'memfs'
 import path from 'path'
 
-const packagesRoot = path.resolve(__dirname, '../../packages')
+const packagesRoot = path.resolve(process.cwd(), 'packages')
 vol.fromJSON(
     {
         'package1/package.json': JSON.stringify({

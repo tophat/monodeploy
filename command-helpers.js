@@ -5,8 +5,7 @@ const path = require('path')
 const exec = promisify(childProcess.exec.bind(childProcess))
 
 const lernaExecutable = path.join(
-    __dirname,
-    '..',
+    process.cwd(),
     'node_modules',
     '.bin',
     'lerna',
