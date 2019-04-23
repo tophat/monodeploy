@@ -55,7 +55,7 @@ async function lernaPublish({ registryUrl = null } = {}) {
         'publish',
         '--skip-git',
         '--conventional-commits',
-        '--changelog-preset @thm/conventional-changelog-felib',
+        '--changelog-preset @thm/conventional-changelog-config',
         '--yes',
     ]
 
