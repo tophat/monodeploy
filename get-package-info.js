@@ -4,7 +4,7 @@ const path = require('path')
 
 const { getNpmVersionFromRegistry } = require('./command-helpers')
 
-const packagesRoot = path.resolve(__dirname, '../packages')
+const packagesRoot = path.resolve(process.cwd(), 'packages')
 
 function getPackageInfo({ useRegistry, knownPackages = {} } = {}) {
     return Promise.all(
