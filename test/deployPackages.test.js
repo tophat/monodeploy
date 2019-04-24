@@ -1,5 +1,3 @@
-const { fs, vol } = require('memfs')
-
 import { deployPackages as _deployPackages } from '..'
 import {
     __setLernaUpdatedSucceeds,
@@ -41,9 +39,7 @@ describe('deployPackages function', () => {
                 .resolves.toBeUndefined()
                 .then(() => {
                     expect(
-                        JSON.parse(stdout.mock.calls[0][0]).find(
-                            ({ name }) => name === '@thm/fe-common-components',
-                        ),
+                        JSON.parse(stdout.mock.calls[0][0]),
                     ).toMatchSnapshot()
                 }))
 

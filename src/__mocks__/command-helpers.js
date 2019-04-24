@@ -1,4 +1,5 @@
 const helpers = jest.genMockFromModule('../command-helpers')
+import mockRegistry from '../../test/mock-registry'
 
 let lernaUpdatedJson = JSON.stringify([])
 let lernaUpdatedSucceeds = true
@@ -15,10 +16,7 @@ helpers.__setLernaUpdatedSucceeds = value => {
 
 const npmRegistryVersions = {}
 helpers.getNpmVersionFromRegistry = packageName =>
-    Promise.resolve(npmRegistryVersions[packageName] || '0.1.0')
-helpers.__setNpmRegistryVersion = (packageName, version) => {
-    npmRegistryVersions[packageName] = version
-}
+    Promise.resolve(mockRegistry.view(packageName) || '0.1.0')
 
 let lernaPublishSucceeds = true
 helpers.lernaPublish = jest.fn(
