@@ -1,6 +1,6 @@
 {
     "name": "monodeploy",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "A small wrapper around lerna that makes it easier to use in CI",
     "main": "src/index.js",
     "files": [
