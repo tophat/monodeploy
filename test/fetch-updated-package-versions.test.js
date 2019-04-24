@@ -7,10 +7,6 @@ import getPackageInfo from '../src/get-package-info'
 
 describe('fetchUpdatedPackageVersions function', () => {
     it('fetches the updated package versions', async () => {
-        const packageInfo = await getPackageInfo({ useRegistry: true })
-
-        __setLernaUpdatedJson(packageInfo)
-
         const versions = await fetchUpdatedPackageVersions()
 
         Object.entries(versions).forEach(([packageName, version]) => {

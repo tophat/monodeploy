@@ -1,16 +1,15 @@
 import mockRegistry from '../../test/mock-registry'
+import getPackageInfo from '../get-package-info'
 
 const helpers = jest.genMockFromModule('../command-helpers')
 
-let lernaUpdatedJson = JSON.stringify([])
 let lernaUpdatedSucceeds = true
 helpers.getLernaUpdatedJson = () =>
     lernaUpdatedSucceeds
-        ? Promise.resolve(lernaUpdatedJson)
+        ? getPackageInfo({ useRegistry: true }).then(
+            list => JSON.stringify(list),
+        )
         : Promise.reject(new Error())
-helpers.__setLernaUpdatedJson = obj => {
-    lernaUpdatedJson = JSON.stringify(obj)
-}
 helpers.__setLernaUpdatedSucceeds = value => {
     lernaUpdatedSucceeds = value
 }
@@ -22,11 +21,11 @@ let lernaPublishSucceeds = true
 helpers.lernaPublish = jest.fn(
     () =>
         lernaPublishSucceeds
-            ? Promise.resolve(
+            ? helpers.getLernaUpdatedJson().then(lernaUpdatedJson =>
                   JSON.parse(lernaUpdatedJson).reduce(
                       (map, { name, version }) => ({
                           ...map,
-                          [name]: `${version}1`,
+                          [name]: version,
                       }),
                       {},
                   ),
