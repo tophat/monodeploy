@@ -4,21 +4,24 @@ import getPackageInfo from '../get-package-info'
 const helpers = jest.genMockFromModule('../command-helpers')
 
 let lernaUpdatedSucceeds = true
-helpers.getLernaUpdatedJson = () =>
+
+const getLernaUpdatedJson = () =>
     lernaUpdatedSucceeds
         ? getPackageInfo({ useRegistry: true }).then(
             list => JSON.stringify(list),
         )
         : Promise.reject(new Error())
-helpers.__setLernaUpdatedSucceeds = value => {
+
+const __setLernaUpdatedSucceeds = value => {
     lernaUpdatedSucceeds = value
 }
 
-helpers.getNpmVersionFromRegistry = packageName =>
+const getNpmVersionFromRegistry = packageName =>
     Promise.resolve(mockRegistry.view(packageName) || '0.1.0')
 
 let lernaPublishSucceeds = true
-helpers.lernaPublish = jest.fn(
+
+const lernaPublish = jest.fn(
     () =>
         lernaPublishSucceeds
             ? helpers.getLernaUpdatedJson().then(lernaUpdatedJson =>
@@ -32,17 +35,30 @@ helpers.lernaPublish = jest.fn(
               )
             : Promise.reject(new Error()),
 )
-helpers.__setLernaPublishSucceeds = value => {
+
+const __setLernaPublishSucceeds = value => {
     lernaPublishSucceeds = value
 }
 
 let createGitTagSucceeds = true
-helpers.createGitTag = jest.fn(
+
+const createGitTag = jest.fn(
     () =>
         createGitTagSucceeds ? Promise.resolve() : Promise.reject(new Error()),
 )
-helpers.__setCreateGitTagSucceeds = value => {
+
+const __setCreateGitTagSucceeds = value => {
     createGitTagSucceeds = value
 }
 
-module.exports = helpers
+const mocks = {
+    getLernaUpdatedJson,
+    __setLernaUpdatedSucceeds,
+    getNpmVersionFromRegistry,
+    lernaPublish,
+    __setLernaPublishSucceeds,
+    createGitTag,
+    __setCreateGitTagSucceeds,
+}
+
+module.exports = Object.assign(helpers, mocks)
