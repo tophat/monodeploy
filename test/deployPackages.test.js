@@ -10,14 +10,12 @@ import {
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
 
-jest.mock('../src/update-package-versions', () => jest.fn())
-
 const mockPackageList = [
     {
-        name: 'package-1',
+        name: 'package1',
     },
     {
-        name: 'package-2',
+        name: 'package2',
     },
 ]
 
