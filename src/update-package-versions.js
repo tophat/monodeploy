@@ -10,9 +10,7 @@ const updatePackageJsonVersions = (changedPackages, { registryUrl } = {}) =>
             ([packageName, currentRegistryVersion]) => {
                 const modifiedPackageName = packageName.split('@thm/').pop()
                 const packageJsonFilePath = path.join(
-                    __dirname,
-                    '..',
-                    '..',
+                    process.cwd(),
                     root,
                     modifiedPackageName,
                     'package.json',
