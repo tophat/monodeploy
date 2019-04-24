@@ -2,7 +2,10 @@
   "name": "monodeploy",
   "version": "0.0.3",
   "description": "A small wrapper around lerna that makes it easier to use in CI",
-  "main": "index.js",
+  "main": "src/index.js",
+  "files": [
+      "src"
+  ],
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -16,5 +19,10 @@
     "lerna": "^3.13.3",
     "memfs": "^2.15.2",
     "regenerator-runtime": "^0.13.2"
+  },
+  "jest": {
+      "collectCoverageFrom": [
+          "src/**/*.js"
+      ]
   }
 }
