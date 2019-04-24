@@ -1,10 +1,10 @@
-import fetchUpdatedPackageVersions from './fetch-updated-package-versions'
+import fetchUpdatedPackageVersions from '../src/fetch-updated-package-versions'
 import {
     __setNpmRegistryVersion,
     __setLernaUpdatedJson,
-} from './command-helpers'
+} from '../src/command-helpers'
 
-jest.mock('./command-helpers')
+jest.mock('../src/command-helpers')
 
 describe('fetchUpdatedPackageVersions function', () => {
     it('fetches the updated package versions', async () => {
