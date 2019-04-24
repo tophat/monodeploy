@@ -10,8 +10,6 @@ import {
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
 
-jest.mock('fs')
-jest.mock('../src/command-helpers')
 jest.mock('../src/update-package-versions', () => jest.fn())
 
 const mockPackageList = [
@@ -26,7 +24,7 @@ const mockPackageList = [
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
-    const deployPackages = () => _deployPackages({ stderr, stdout, fs, vol})
+    const deployPackages = () => _deployPackages({ stderr, stdout })
 
     beforeEach(() => {
         stdout.mockClear()
@@ -63,7 +61,7 @@ describe('deployPackages function', () => {
             })
         })
 
-        it('does not do the publish if there no packages to publish', () => {
+        it('does not do the publish if there are no packages to publish', () => {
             __setLernaUpdatedSucceeds(true)
             __setLernaPublishSucceeds(true)
             __setLernaUpdatedJson([])

@@ -4,8 +4,6 @@ import {
     __setLernaUpdatedJson,
 } from '../src/command-helpers'
 
-jest.mock('../src/command-helpers')
-
 describe('fetchUpdatedPackageVersions function', () => {
     it('fetches the updated package versions', async () => {
         const mockPackageMap = {
