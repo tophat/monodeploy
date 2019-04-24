@@ -1,28 +1,31 @@
 {
-  "name": "monodeploy",
-  "version": "0.0.3",
-  "description": "A small wrapper around lerna that makes it easier to use in CI",
-  "main": "src/index.js",
-  "files": [
-      "src"
-  ],
-  "repository": "git@github.com:tophat/monodeploy.git",
-  "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/runtime": "^7.4.3",
-    "babel-jest": "^24.7.1",
-    "jest": "^24.7.1",
-    "lerna": "^3.13.3",
-    "memfs": "^2.15.2",
-    "regenerator-runtime": "^0.13.2"
-  },
-  "jest": {
-      "collectCoverageFrom": [
-          "src/**/*.js"
-      ]
-  }
+    "name": "monodeploy",
+    "version": "0.0.3",
+    "description": "A small wrapper around lerna that makes it easier to use in CI",
+    "main": "src/index.js",
+    "files": [
+        "src"
+    ],
+    "repository": "git@github.com:tophat/monodeploy.git",
+    "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
+    "license": "Apache-2.0",
+    "peerDependencies": {
+        "lerna": "3.0.0-beta.21"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.3",
+        "@babel/plugin-transform-runtime": "^7.4.3",
+        "@babel/preset-env": "^7.4.3",
+        "@babel/runtime": "^7.4.3",
+        "babel-jest": "^24.7.1",
+        "jest": "^24.7.1",
+        "lerna": "3.0.0-beta.21",
+        "memfs": "^2.15.2",
+        "regenerator-runtime": "^0.13.2"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.js"
+        ]
+    }
 }
