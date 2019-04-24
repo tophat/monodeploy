@@ -7,26 +7,20 @@ import {
     __setLernaPublishSucceeds,
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
-
-const mockPackageList = [
-    {
-        name: 'package1',
-    },
-    {
-        name: 'package2',
-    },
-]
+import getPackageInfo from '../src/get-package-info'
 
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
     const deployPackages = () => _deployPackages({ stderr, stdout })
+    let mockPackageList
 
-    beforeEach(() => {
+    beforeEach(async () => {
         stdout.mockClear()
         stderr.mockClear()
         lernaPublish.mockClear()
         createGitTag.mockClear()
+        mockPackageList = await getPackageInfo()
     })
 
     describe('when it succeeds', () => {
