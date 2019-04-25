@@ -85,6 +85,27 @@ jobs:
           root: ./
           paths:
             - build/
+  deploy_website:
+    docker:
+      - image: circleci/node:8.11
+    working_directory: ~/repo/website
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          name: Restore node_modules cache
+          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - attach_workspace:
+          at: ./
+      - add_ssh_keys:
+          fingerprints:
+            - "24:16:4e:a5:71:1b:9d:de:f5:dc:65:86:be:02:c0:ed"
+      - run:
+          name: Setup git user and deploy website
+          command: |
+            git config --global user.email "circleci-monodeploy@users.noreply.github.com"
+            git config --global user.name "CircleCI monodeploy"
+            USE_SSH=true yarn publish-gh-pages
 
 workflows:
     version: 2
@@ -117,3 +138,10 @@ workflows:
                   branches:
                     ignore: /.*/
             - website
+            - deploy_website:
+                requires:
+                  - website
+                filters:
+                  branches:
+                    only:
+                      - master
