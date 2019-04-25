@@ -7,9 +7,9 @@ let lernaUpdatedSucceeds = true
 
 const getLernaUpdatedJson = () =>
     lernaUpdatedSucceeds
-        ? getPackageInfo({ useRegistry: true }).then(
-            list => JSON.stringify(list),
-        )
+        ? getPackageInfo({ useRegistry: true }).then(list =>
+              JSON.stringify(list),
+          )
         : Promise.reject(new Error())
 
 const __setLernaUpdatedSucceeds = value => {
@@ -21,19 +21,18 @@ const getNpmVersionFromRegistry = packageName =>
 
 let lernaPublishSucceeds = true
 
-const lernaPublish = jest.fn(
-    () =>
-        lernaPublishSucceeds
-            ? helpers.getLernaUpdatedJson().then(lernaUpdatedJson =>
-                  JSON.parse(lernaUpdatedJson).reduce(
-                      (map, { name, version }) => ({
-                          ...map,
-                          [name]: version,
-                      }),
-                      {},
-                  ),
-              )
-            : Promise.reject(new Error()),
+const lernaPublish = jest.fn(() =>
+    lernaPublishSucceeds
+        ? helpers.getLernaUpdatedJson().then(lernaUpdatedJson =>
+              JSON.parse(lernaUpdatedJson).reduce(
+                  (map, { name, version }) => ({
+                      ...map,
+                      [name]: version,
+                  }),
+                  {},
+              ),
+          )
+        : Promise.reject(new Error()),
 )
 
 const __setLernaPublishSucceeds = value => {
@@ -42,9 +41,8 @@ const __setLernaPublishSucceeds = value => {
 
 let createGitTagSucceeds = true
 
-const createGitTag = jest.fn(
-    () =>
-        createGitTagSucceeds ? Promise.resolve() : Promise.reject(new Error()),
+const createGitTag = jest.fn(() =>
+    createGitTagSucceeds ? Promise.resolve() : Promise.reject(new Error()),
 )
 
 const __setCreateGitTagSucceeds = value => {

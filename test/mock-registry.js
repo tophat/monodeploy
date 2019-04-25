@@ -13,5 +13,5 @@ const reset = () => {
 export default {
     publish,
     view,
-    reset
+    reset,
 }
