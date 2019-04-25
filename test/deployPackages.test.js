@@ -43,9 +43,7 @@ describe('deployPackages function', () => {
             return getPackageInfo().then(packages =>
                 deployPackages().then(() => {
                     expect(lernaPublish).toHaveBeenCalled()
-                    expect(createGitTag).toHaveBeenCalledTimes(
-                        packages.length,
-                    )
+                    expect(createGitTag).toHaveBeenCalledTimes(packages.length)
                 }),
             )
         })

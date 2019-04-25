@@ -1,9 +1,5 @@
 import fetchUpdatedPackageVersions from '../src/fetch-updated-package-versions'
-import {
-    __setLernaUpdatedJson,
-} from '../src/command-helpers'
 import mockRegistry from './mock-registry'
-import getPackageInfo from '../src/get-package-info'
 
 describe('fetchUpdatedPackageVersions function', () => {
     it('fetches the updated package versions', async () => {
