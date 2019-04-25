@@ -7,9 +7,40 @@
 [![npm](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
-WIP
-
 A small wrapper around lerna that makes it easier to use in CI
+
+## Installation
+
+```sh
+yarn add --dev monodeploy
+```
+
+or
+
+```sh
+npm install --save-dev monodeploy
+```
+
+## Why monodeploy?
+
+As a monorepo manager, [lerna](https://github.com/lerna/lerna) is a great tool, but it's not necessarily easy to use in CI if you want to publish all your packages every master build. Here are some problems you might encounter:
+
+- Running `lerna publish` in CI pushes back to your git repository, which may fail if commits have been pushed to your master branch in the meantime.
+- lerna requires all package versions to be stored in your repository, in their respective package.json files, therefore it's not possible to simply skip pushing to git from CI by using the [`--no-push`](https://github.com/lerna/lerna/tree/master/commands/version#--no-push) option when publishing.
+
+monodeploy allows you to publish NPM packages from a monorepo in CI, using lerna, on every single master build, without storing your version numbers in your package.json files and without having CI commit back to your repo.
+We could argue back and forth about whether or not it's good idea to publish NPM packages every single build to master (maybe [`--canary`](https://github.com/lerna/lerna/tree/master/commands/publish#--canary) builds would be better), and we could certainly agree that not storing version numbers in package.json files is confusing, but in some cases the benefits of such a scheme outweigh the shortcomings, and monodeploy is intended to suit those scenarios.
+
+## How does monodeploy work?
+
+monodeploy uses the registry as the single source of truth for package version numbers. At a high level, it does the following:
+
+1. Use lerna to determine which packages need to be published
+1. Retrieve the latest versions of these packages from the registry
+1. Update the package.json files for these packages with the latest version numbers from the registry
+1. Use lerna to bump the package versions and publish to the registry without commiting to the repo or pushing to the remote
+1. Create git tags for each newly published package
+1. Output a JSON list of all packages in your monorepo, including their latest version numbers.
 
 ## Contributors
 
