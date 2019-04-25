@@ -1,51 +1,64 @@
+import mockRegistry from '../../test/mock-registry'
+import getPackageInfo from '../get-package-info'
+
 const helpers = jest.genMockFromModule('../command-helpers')
 
-let lernaUpdatedJson = JSON.stringify([])
 let lernaUpdatedSucceeds = true
-helpers.getLernaUpdatedJson = () =>
+
+const getLernaUpdatedJson = () =>
     lernaUpdatedSucceeds
-        ? Promise.resolve(lernaUpdatedJson)
+        ? getPackageInfo({ useRegistry: true }).then(
+            list => JSON.stringify(list),
+        )
         : Promise.reject(new Error())
-helpers.__setLernaUpdatedJson = obj => {
-    lernaUpdatedJson = JSON.stringify(obj)
-}
-helpers.__setLernaUpdatedSucceeds = value => {
+
+const __setLernaUpdatedSucceeds = value => {
     lernaUpdatedSucceeds = value
 }
 
-const npmRegistryVersions = {}
-helpers.getNpmVersionFromRegistry = packageName =>
-    Promise.resolve(npmRegistryVersions[packageName] || '0.1.0')
-helpers.__setNpmRegistryVersion = (packageName, version) => {
-    npmRegistryVersions[packageName] = version
-}
+const getNpmVersionFromRegistry = packageName =>
+    Promise.resolve(mockRegistry.view(packageName) || '0.1.0')
 
 let lernaPublishSucceeds = true
-helpers.lernaPublish = jest.fn(
+
+const lernaPublish = jest.fn(
     () =>
         lernaPublishSucceeds
-            ? Promise.resolve(
+            ? helpers.getLernaUpdatedJson().then(lernaUpdatedJson =>
                   JSON.parse(lernaUpdatedJson).reduce(
                       (map, { name, version }) => ({
                           ...map,
-                          [name]: `${version}1`,
+                          [name]: version,
                       }),
                       {},
                   ),
               )
             : Promise.reject(new Error()),
 )
-helpers.__setLernaPublishSucceeds = value => {
+
+const __setLernaPublishSucceeds = value => {
     lernaPublishSucceeds = value
 }
 
 let createGitTagSucceeds = true
-helpers.createGitTag = jest.fn(
+
+const createGitTag = jest.fn(
     () =>
         createGitTagSucceeds ? Promise.resolve() : Promise.reject(new Error()),
 )
-helpers.__setCreateGitTagSucceeds = value => {
+
+const __setCreateGitTagSucceeds = value => {
     createGitTagSucceeds = value
 }
 
-module.exports = helpers
+const mocks = {
+    getLernaUpdatedJson,
+    __setLernaUpdatedSucceeds,
+    getNpmVersionFromRegistry,
+    lernaPublish,
+    __setLernaPublishSucceeds,
+    createGitTag,
+    __setCreateGitTagSucceeds,
+}
+
+module.exports = Object.assign(helpers, mocks)

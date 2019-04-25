@@ -1,34 +1,21 @@
-const { fs, vol } = require('memfs')
-
+import path from 'path'
+import { vol } from 'memfs'
 import { deployPackages as _deployPackages } from '..'
 import {
     __setLernaUpdatedSucceeds,
     lernaPublish,
-    __setLernaUpdatedJson,
     createGitTag,
     __setLernaPublishSucceeds,
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
-
-jest.mock('fs')
-jest.mock('../src/command-helpers')
-jest.mock('../src/update-package-versions', () => jest.fn())
-
-const mockPackageList = [
-    {
-        name: 'package-1',
-    },
-    {
-        name: 'package-2',
-    },
-]
+import getPackageInfo from '../src/get-package-info'
 
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
-    const deployPackages = () => _deployPackages({ stderr, stdout, fs, vol})
+    const deployPackages = () => _deployPackages({ stderr, stdout })
 
-    beforeEach(() => {
+    beforeEach(async () => {
         stdout.mockClear()
         stderr.mockClear()
         lernaPublish.mockClear()
@@ -45,28 +32,29 @@ describe('deployPackages function', () => {
                 .resolves.toBeUndefined()
                 .then(() => {
                     expect(
-                        JSON.parse(stdout.mock.calls[0][0]).find(
-                            ({ name }) => name === '@thm/fe-common-components',
-                        ),
+                        JSON.parse(stdout.mock.calls[0][0]),
                     ).toMatchSnapshot()
                 }))
 
         it('does the publish if there are packages to publish', () => {
             __setLernaUpdatedSucceeds(true)
             __setLernaPublishSucceeds(true)
-            __setLernaUpdatedJson(mockPackageList)
-            return deployPackages().then(() => {
-                expect(lernaPublish).toHaveBeenCalled()
-                expect(createGitTag).toHaveBeenCalledTimes(
-                    mockPackageList.length,
-                )
-            })
+
+            return getPackageInfo().then(packages =>
+                deployPackages().then(() => {
+                    expect(lernaPublish).toHaveBeenCalled()
+                    expect(createGitTag).toHaveBeenCalledTimes(
+                        packages.length,
+                    )
+                }),
+            )
         })
 
-        it('does not do the publish if there no packages to publish', () => {
+        it('does not do the publish if there are no packages to publish', () => {
             __setLernaUpdatedSucceeds(true)
             __setLernaPublishSucceeds(true)
-            __setLernaUpdatedJson([])
+            vol.reset()
+            vol.fromJSON({ packages: {} }, path.join(process.cwd()))
             return deployPackages().then(() => {
                 expect(lernaPublish).not.toHaveBeenCalled()
                 expect(createGitTag).not.toHaveBeenCalled()
@@ -82,12 +70,10 @@ describe('deployPackages function', () => {
         it('throws an error if the lerna publish fails', () => {
             __setLernaUpdatedSucceeds(true)
             __setLernaPublishSucceeds(false)
-            __setLernaUpdatedJson(mockPackageList)
             return expect(deployPackages()).rejects.toEqual(expect.any(Error))
         })
 
         it('throws an error if git tagging fails', () => {
-            __setLernaUpdatedJson(mockPackageList)
             __setLernaUpdatedSucceeds(true)
             __setLernaPublishSucceeds(true)
             __setCreateGitTagSucceeds(false)

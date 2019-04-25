@@ -1,10 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`deployPackages function when it succeeds logs a list of packages 1`] = `
-Object {
-  "description": "A collection of common visual components.",
-  "group": "components",
-  "name": "@thm/fe-common-components",
-  "version": "0.1.0",
-}
+Array [
+  Object {
+    "description": "A sample package package1",
+    "group": "components",
+    "name": "package1",
+    "version": "1.0.0",
+  },
+  Object {
+    "description": "A sample package package2",
+    "group": "components",
+    "name": "package2",
+    "version": "0.3.0",
+  },
+  Object {
+    "description": "A sample package package3",
+    "group": "components",
+    "name": "package3",
+    "version": "2.3.1",
+  },
+]
 `;
