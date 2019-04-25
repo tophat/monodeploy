@@ -1,6 +1,6 @@
 # monodeploy
 
-<span><img align="right" width="200" height="200" src="./monodeploy.svg" alt="monodeploy"></span>
+<span><img align="right" width="200" height="200" src="./website/static/img/monodeploy.svg" alt="monodeploy"></span>
 
 [![npm](https://img.shields.io/npm/v/monodeploy.svg)](https://www.npmjs.com/package/monodeploy)
 [![npm](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
