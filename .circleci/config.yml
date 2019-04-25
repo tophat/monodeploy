@@ -15,7 +15,7 @@ jobs:
         working_directory: ~/repo
         # Pick a Docker image here: https://circleci.com/docs/2.0/circleci-images/
         docker:
-            - image: circleci/node:latest
+            - image: circleci/node:8.11
         steps:
             - checkout
             - run:
@@ -43,7 +43,7 @@ jobs:
           name: Authenticate with NPM Registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Publish New Package Version with Lerna
+          name: Publish New Package Version through npm
           command: npm publish
 
 # Workflows: stringing jobs together into a pipeline
@@ -59,6 +59,7 @@ workflows:
                     - lint
                     - test
                 filters:
-                    branches:
-                        only:
-                            - master
+                  tags:
+                    only: /^v.*/
+                  branches:
+                    ignore: /.*/
