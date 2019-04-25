@@ -30,7 +30,7 @@ jobs:
             - checkout
             - run:
                 name: Run Tests
-                command: yarn jest
+                command: yarn test
 
     publish:
       working_directory: ~/repo
