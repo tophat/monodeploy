@@ -1,0 +1,51 @@
+{
+  "projectName": "monodeploy",
+  "projectOwner": "tophat",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "msrose",
+      "name": "Michael Rose",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3495264?v=4",
+      "profile": "http://msrose.github.io",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "thebrendan",
+      "name": "Brendan Hall-Hern",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/48444889?v=4",
+      "profile": "https://github.com/thebrendan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "sdcosta",
+      "name": "Shouvik DCosta",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6020693?v=4",
+      "profile": "https://opensource.tophat.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "maryampaz",
+      "name": "Maryam Pazirandeh",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/30090413?v=4",
+      "profile": "https://github.com/maryampaz",
+      "contributions": [
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
