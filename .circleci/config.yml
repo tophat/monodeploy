@@ -19,8 +19,8 @@ jobs:
         steps:
             - checkout
             - run:
-              name: Run Linting
-              command: yarn lint
+                name: Run Linting
+                command: yarn lint
 
     test:
         working_directory: ~/repo
@@ -29,8 +29,8 @@ jobs:
         steps:
             - checkout
             - run:
-              name: Run Tests
-              command: yarn jest
+                name: Run Tests
+                command: yarn jest
 
     publish:
       working_directory: ~/repo
