@@ -14,7 +14,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:8.11
     steps:
       - checkout
       - restore_cache:
@@ -39,6 +39,10 @@ jobs:
           - image: circleci/node:8.11
       steps:
           - checkout
+          - restore_cache:
+              name: Restore Yarn Package Cache
+              keys:
+                - yarn-packages-{{ checksum "yarn.lock" }}
           - run:
               name: Run Linting
               command: yarn lint
@@ -49,6 +53,10 @@ jobs:
           - image: circleci/node:latest
       steps:
           - checkout
+          - restore_cache:
+              name: Restore Yarn Package Cache
+              keys:
+                - yarn-packages-{{ checksum "yarn.lock" }}
           - run:
               name: Run Tests
               command: yarn test
@@ -80,7 +88,6 @@ workflows:
             - test:
                 requires:
                   - build
-                  - lint
             - publish:
                 requires:
                     - build
