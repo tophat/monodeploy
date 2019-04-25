@@ -32,19 +32,19 @@ jobs:
               name: Run Tests
               command: yarn jest
 
-  publish:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Authenticate with NPM Registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish New Package Version through npm
-          command: npm publish
+    publish:
+      working_directory: ~/repo
+      docker:
+        - image: circleci/node:latest
+      steps:
+        - attach_workspace:
+            at: ~/repo
+        - run:
+            name: Authenticate with NPM Registry
+            command: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/repo/.npmrc
+        - run:
+            name: Publish New Package Version through npm
+            command: npm publish
 
 # Workflows: stringing jobs together into a pipeline
 
