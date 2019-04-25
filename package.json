@@ -9,6 +9,10 @@
     "repository": "git@github.com:tophat/monodeploy.git",
     "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
     "license": "Apache-2.0",
+    "scripts": {
+        "test": "jest",
+        "lint": "eslint ."
+    },
     "peerDependencies": {
         "lerna": "3.0.0-beta.21"
     },
