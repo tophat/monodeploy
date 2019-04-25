@@ -74,10 +74,10 @@ workflows:
     build_test_lint:
         jobs:
             - build
-            - lint
+            - lint:
                 requires:
                   - build
-            - test
+            - test:
                 requires:
                   - build
                   - lint
