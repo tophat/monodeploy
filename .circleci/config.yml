@@ -79,15 +79,24 @@ jobs:
 
 workflows:
     version: 2
-    build_test_lint:
+    build_to_production:
         jobs:
-            - build
+            - build:
+                filters:
+                  tags:
+                    only: /^v.*/
             - lint:
                 requires:
                   - build
+                filters:
+                  tags:
+                    only: /^v.*/
             - test:
                 requires:
                   - build
+                filters:
+                  tags:
+                    only: /^v.*/
             - publish:
                 requires:
                     - build
