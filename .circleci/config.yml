@@ -1,14 +1,6 @@
-#
-# This basic CircleCI config is just a starting point with some common structures that you might need to get started.
-#
-# Make it your own and go nuts!
-#
 # When in doubt, look up the CircleCI documentation, it has everything you need to know: https://circleci.com/docs/
-#
 
 version: 2.1
-
-# Jobs: tasks that your CI pipeline can do
 
 jobs:
   build:
@@ -46,7 +38,6 @@ jobs:
           - run:
               name: Run Linting
               command: yarn lint
-
   test:
       working_directory: ~/repo
       docker:
@@ -60,7 +51,6 @@ jobs:
           - run:
               name: Run Tests
               command: yarn test
-
   publish:
     working_directory: ~/repo
     docker:
@@ -74,8 +64,27 @@ jobs:
       - run:
           name: Publish New Package Version through npm
           command: npm publish
-
-# Workflows: stringing jobs together into a pipeline
+  website:
+    docker:
+      - image: circleci/node:8.11
+    working_directory: ~/repo/website
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          name: Restore node_modules cache
+          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save node_modules cache
+          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+      - run: yarn build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - build/
 
 workflows:
     version: 2
@@ -107,3 +116,4 @@ workflows:
                     only: /^v.*/
                   branches:
                     ignore: /.*/
+            - website
