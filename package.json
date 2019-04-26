@@ -33,7 +33,7 @@
         "eslint-plugin-prettier": "^3.0.1",
         "eslint-plugin-react": "^7.12.4",
         "jest": "^24.7.1",
-        "lerna": "3.0.0-beta.21",
+        "lerna": "3.13.4",
         "memfs": "^2.15.2",
         "prettier": "^1.17.0",
         "regenerator-runtime": "^0.13.2"
