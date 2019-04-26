@@ -5,7 +5,8 @@
 [![npm](https://img.shields.io/npm/v/monodeploy.svg)](https://www.npmjs.com/package/monodeploy)
 [![CircleCI](https://circleci.com/gh/tophat/monodeploy.svg?style=svg)](https://circleci.com/gh/tophat/monodeploy)
 [![npm](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors) [![Greenkeeper badge](https://badges.greenkeeper.io/tophat/monodeploy.svg)](https://greenkeeper.io/)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+[![Greenkeeper badge](https://badges.greenkeeper.io/tophat/monodeploy.svg)](https://greenkeeper.io/)
 
 A small wrapper around lerna that makes it easier to use in CI
 
