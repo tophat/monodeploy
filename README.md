@@ -3,7 +3,7 @@
 <span><img align="right" width="200" height="200" src="./website/static/img/monodeploy.svg" alt="monodeploy"></span>
 
 [![npm](https://img.shields.io/npm/v/monodeploy.svg)](https://www.npmjs.com/package/monodeploy)
-[![CircleCI](https://circleci.com/gh/tophat/monodeploy.svg?style=svg)](https://circleci.com/gh/tophat/monodeploy)
+[![CircleCI](https://img.shields.io/circleci/project/github/tophat/monodeploy/master.svg)](https://circleci.com/gh/tophat/monodeploy)
 [![npm](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 [![Greenkeeper badge](https://badges.greenkeeper.io/tophat/monodeploy.svg)](https://greenkeeper.io/)
