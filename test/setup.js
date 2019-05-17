@@ -8,21 +8,39 @@ jest.mock('../src/command-helpers')
 const packagesRoot = path.resolve(process.cwd(), 'packages')
 
 const mockPackages = {
-    package1: '1.0.0',
-    package2: '0.3.0',
-    package3: '2.3.1',
+    package1: {
+        version: '1.0.0',
+        dependencies: ['package2', 'package3'],
+    },
+    package2: {
+        version: '0.3.0',
+        dependencies: ['package3'],
+    },
+    package3: {
+        version: '2.3.1',
+        dependencies: [],
+    },
 }
 
 beforeEach(() => {
     vol.fromJSON(
         Object.entries(mockPackages).reduce(
-            (files, [packageName, version]) =>
+            (files, [packageName, { version, dependencies }]) =>
                 Object.assign(files, {
                     [`${packageName}/package.json`]: JSON.stringify({
                         description: `A sample package ${packageName}`,
                         felibPackageGroup: 'components',
                         name: packageName,
                         version: version,
+                        dependencies: dependencies.reduce(
+                            (dependencyMap, dependency) =>
+                                Object.assign(dependencyMap, {
+                                    [`"${dependency}"`]: `^${
+                                        mockPackages[dependency]
+                                    }`,
+                                }),
+                            {},
+                        ),
                     }),
                 }),
             {},
@@ -30,7 +48,7 @@ beforeEach(() => {
         packagesRoot,
     )
     mockRegistry.reset()
-    Object.entries(mockPackages).forEach(([packageName, version]) => {
+    Object.entries(mockPackages).forEach(([packageName, { version }]) => {
         mockRegistry.publish(packageName, version)
     })
 })
