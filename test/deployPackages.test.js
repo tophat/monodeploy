@@ -9,11 +9,13 @@ import {
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
 import getPackageInfo from '../src/get-package-info'
+import fs from 'fs'
 
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
-    const deployPackages = () => _deployPackages({ stderr, stdout })
+    const deployPackages = (args = {}) =>
+        _deployPackages({ ...args, stderr, stdout })
 
     beforeEach(async () => {
         stdout.mockClear()
@@ -57,6 +59,44 @@ describe('deployPackages function', () => {
                 expect(lernaPublish).not.toHaveBeenCalled()
                 expect(createGitTag).not.toHaveBeenCalled()
             })
+        })
+    })
+
+    it('updates the package.json files of the sibling packages', async () => {
+        await deployPackages()
+        const packageInfo = await getPackageInfo()
+        packageInfo.forEach(({ name }) => {
+            expect(
+                fs.readFileSync(
+                    path.join(
+                        process.cwd(),
+                        'packages',
+                        name.replace('@thm/', ''),
+                        'package.json',
+                    ),
+                    'utf8',
+                ),
+            ).toMatchSnapshot()
+        })
+    })
+
+    it('updates the package.json publish config if given', async () => {
+        await deployPackages({
+            registryUrl: 'http://example.com/production-registry/',
+        })
+        const packageInfo = await getPackageInfo()
+        packageInfo.forEach(({ name }) => {
+            expect(
+                fs.readFileSync(
+                    path.join(
+                        process.cwd(),
+                        'packages',
+                        name.replace('@thm/', ''),
+                        'package.json',
+                    ),
+                    'utf8',
+                ),
+            ).toMatchSnapshot()
         })
     })
 
