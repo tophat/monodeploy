@@ -50,7 +50,11 @@ jobs:
                 - yarn-packages-{{ checksum "yarn.lock" }}
           - run:
               name: Run Tests
-              command: yarn test
+              command: yarn test --coverage
+          - run:
+              name: Upload Test Coverage
+              command: bash <(curl -s https://codecov.io/bash)
+              when: always
   publish:
     working_directory: ~/repo
     docker:
