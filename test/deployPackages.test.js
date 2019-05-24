@@ -62,21 +62,22 @@ describe('deployPackages function', () => {
         })
     })
 
+    const getPackageJsonContents = packageName =>
+        fs.readFileSync(
+            path.join(
+                process.cwd(),
+                'packages',
+                packageName.replace('@thm/', ''),
+                'package.json',
+            ),
+            'utf8',
+        )
+
     it('updates the package.json files of the sibling packages', async () => {
         await deployPackages()
         const packageInfo = await getPackageInfo()
         packageInfo.forEach(({ name }) => {
-            expect(
-                fs.readFileSync(
-                    path.join(
-                        process.cwd(),
-                        'packages',
-                        name.replace('@thm/', ''),
-                        'package.json',
-                    ),
-                    'utf8',
-                ),
-            ).toMatchSnapshot()
+            expect(getPackageJsonContents(name)).toMatchSnapshot()
         })
     })
 
@@ -86,17 +87,7 @@ describe('deployPackages function', () => {
         })
         const packageInfo = await getPackageInfo()
         packageInfo.forEach(({ name }) => {
-            expect(
-                fs.readFileSync(
-                    path.join(
-                        process.cwd(),
-                        'packages',
-                        name.replace('@thm/', ''),
-                        'package.json',
-                    ),
-                    'utf8',
-                ),
-            ).toMatchSnapshot()
+            expect(getPackageJsonContents(name)).toMatchSnapshot()
         })
     })
 
