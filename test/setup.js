@@ -22,34 +22,42 @@ const mockPackages = {
     },
 }
 
-beforeEach(() => {
-    vol.reset()
-    vol.fromJSON(
-        Object.entries(mockPackages).reduce(
-            (files, [packageName, { version, dependencies }]) =>
-                Object.assign(files, {
-                    [`${packageName.replace(
-                        '@thm/',
-                        '',
-                    )}/package.json`]: JSON.stringify({
-                        description: `A sample package ${packageName}`,
-                        felibPackageGroup: 'components',
-                        name: packageName,
-                        version: version,
-                        dependencies: dependencies.reduce(
-                            (dependencyMap, dependency) =>
-                                Object.assign(dependencyMap, {
-                                    [dependency]: '*',
-                                }),
-                            {},
-                        ),
-                        publishConfig: {},
-                    }),
+function buildPackageJson(packageName, version, dependencies) {
+    return {
+        description: `A sample package ${packageName}`,
+        felibPackageGroup: 'components',
+        name: packageName,
+        version: version,
+        dependencies: dependencies.reduce(
+            (dependencyMap, dependency) =>
+                Object.assign(dependencyMap, {
+                    [dependency]: '*',
                 }),
             {},
         ),
-        packagesRoot,
+        publishConfig: {},
+    }
+}
+
+function getPackageJsonPath(packageName) {
+    return `${packageName.replace('@thm/', '')}/package.json`
+}
+
+function getMockPackageJsonFiles(mockPackages) {
+    return Object.entries(mockPackages).reduce(
+        (files, [packageName, { version, dependencies }]) =>
+            Object.assign(files, {
+                [getPackageJsonPath(packageName)]: JSON.stringify(
+                    buildPackageJson(packageName, version, dependencies),
+                ),
+            }),
+        {},
     )
+}
+
+beforeEach(() => {
+    vol.reset()
+    vol.fromJSON(getMockPackageJsonFiles(mockPackages), packagesRoot)
     mockRegistry.reset()
     Object.entries(mockPackages).forEach(([packageName, { version }]) => {
         mockRegistry.publish(packageName, version)
