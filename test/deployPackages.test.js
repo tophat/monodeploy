@@ -9,11 +9,13 @@ import {
     __setCreateGitTagSucceeds,
 } from '../src/command-helpers'
 import getPackageInfo from '../src/get-package-info'
+import fs from 'fs'
 
 describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
-    const deployPackages = () => _deployPackages({ stderr, stdout })
+    const deployPackages = (args = {}) =>
+        _deployPackages({ ...args, stderr, stdout })
 
     beforeEach(async () => {
         stdout.mockClear()
@@ -57,6 +59,35 @@ describe('deployPackages function', () => {
                 expect(lernaPublish).not.toHaveBeenCalled()
                 expect(createGitTag).not.toHaveBeenCalled()
             })
+        })
+    })
+
+    const getPackageJsonContents = packageName =>
+        fs.readFileSync(
+            path.join(
+                process.cwd(),
+                'packages',
+                packageName.replace('@thm/', ''),
+                'package.json',
+            ),
+            'utf8',
+        )
+
+    it('updates the package.json files of the sibling packages', async () => {
+        await deployPackages()
+        const packageInfo = await getPackageInfo()
+        packageInfo.forEach(({ name }) => {
+            expect(getPackageJsonContents(name)).toMatchSnapshot()
+        })
+    })
+
+    it('updates the package.json publish config if given', async () => {
+        await deployPackages({
+            registryUrl: 'http://example.com/production-registry/',
+        })
+        const packageInfo = await getPackageInfo()
+        packageInfo.forEach(({ name }) => {
+            expect(getPackageJsonContents(name)).toMatchSnapshot()
         })
     })
 

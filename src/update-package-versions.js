@@ -35,8 +35,7 @@ const updatePackageJsonVersions = (changedPackages, { registryUrl } = {}) =>
                 ).then(dependencies => {
                     const dependencyMap = dependencies.reduce(
                         (map, [name, version]) => {
-                            map[name] = version // eslint-disable-line no-param-reassign
-
+                            map[name] = version
                             return map
                         },
                         {},
