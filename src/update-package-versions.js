@@ -3,12 +3,16 @@ const { getNpmVersionFromRegistry } = require('./command-helpers')
 const path = require('path')
 const root = './packages'
 
-// TODO: tests
-const updatePackageJsonVersions = (changedPackages, { registryUrl } = {}) =>
+const updatePackageJsonVersions = (
+    changedPackages,
+    { registryUrl, scopeToStrip = '' } = {},
+) =>
     Promise.all(
         Object.entries(changedPackages).map(
             ([packageName, currentRegistryVersion]) => {
-                const modifiedPackageName = packageName.split('@thm/').pop()
+                const modifiedPackageName = scopeToStrip
+                    ? packageName.split(scopeToStrip).pop()
+                    : packageName
                 const packageJsonFilePath = path.join(
                     process.cwd(),
                     root,
@@ -21,7 +25,10 @@ const updatePackageJsonVersions = (changedPackages, { registryUrl } = {}) =>
                 return Promise.all(
                     Object.entries(packageFileContent.dependencies || {}).map(
                         ([dependencyName, dependencyVersion]) => {
-                            if (dependencyName.startsWith('@thm')) {
+                            const isSiblingPackage = scopeToStrip
+                                ? dependencyName.startsWith(scopeToStrip)
+                                : false
+                            if (isSiblingPackage) {
                                 return getNpmVersionFromRegistry(
                                     dependencyName,
                                 ).then(version => [

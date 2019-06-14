@@ -39,15 +39,15 @@ function buildPackageJson(packageName, version, dependencies) {
     }
 }
 
-function getPackageJsonPath(packageName) {
-    return `${packageName.replace('@thm/', '')}/package.json`
+function getPackageJsonPath(packageName, scopeToStrip) {
+    return `${packageName.replace(`${scopeToStrip}/`, '')}/package.json`
 }
 
-function getMockPackageJsonFiles(mockPackages) {
+function getMockPackageJsonFiles(mockPackages, scopeToStrip = '') {
     return Object.entries(mockPackages).reduce(
         (files, [packageName, { version, dependencies }]) =>
             Object.assign(files, {
-                [getPackageJsonPath(packageName)]: JSON.stringify(
+                [getPackageJsonPath(packageName, scopeToStrip)]: JSON.stringify(
                     buildPackageJson(packageName, version, dependencies),
                 ),
             }),
@@ -57,7 +57,7 @@ function getMockPackageJsonFiles(mockPackages) {
 
 beforeEach(() => {
     vol.reset()
-    vol.fromJSON(getMockPackageJsonFiles(mockPackages), packagesRoot)
+    vol.fromJSON(getMockPackageJsonFiles(mockPackages, '@thm'), packagesRoot)
     mockRegistry.reset()
     Object.entries(mockPackages).forEach(([packageName, { version }]) => {
         mockRegistry.publish(packageName, version)

@@ -14,6 +14,7 @@ const deployPackages = async ({
     stdout = console.log.bind(console),
     registryUrl,
     gitTagSuffix,
+    scopeToStrip,
 } = {}) => {
     let changedPackages
     try {
@@ -28,7 +29,10 @@ const deployPackages = async ({
     let newPackageVersions
 
     if (changedPackageNames.length !== 0) {
-        await updatePackageJsonVersions(changedPackages, { registryUrl })
+        await updatePackageJsonVersions(changedPackages, {
+            registryUrl,
+            scopeToStrip,
+        })
 
         try {
             newPackageVersions = await lernaPublish({ registryUrl })
@@ -94,11 +98,16 @@ const deployPackages = async ({
 exports.deployPackages = deployPackages
 
 if (require.main === module) {
-    const [registryUrl, gitTagSuffix] = process.argv.slice(2)
+    const [
+        registryUrl,
+        gitTagSuffix,
+        // TODO: remove this default value when we are ready to make breaking changes
+        scopeToStrip = '@thm',
+    ] = process.argv.slice(2)
     console.error(`Deploying packages to ${registryUrl}...`)
     ;(async () => {
         try {
-            await deployPackages({ gitTagSuffix, registryUrl })
+            await deployPackages({ gitTagSuffix, registryUrl, scopeToStrip })
         } catch (e) {
             console.error('Fatal error when deploying!', e)
             process.exit(1)

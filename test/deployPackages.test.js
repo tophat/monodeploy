@@ -15,9 +15,9 @@ describe('deployPackages function', () => {
     const stdout = jest.fn()
     const stderr = jest.fn()
     const deployPackages = (args = {}) =>
-        _deployPackages({ ...args, stderr, stdout })
+        _deployPackages({ ...args, stderr, stdout, scopeToStrip: '@thm' })
 
-    beforeEach(async () => {
+    beforeEach(() => {
         stdout.mockClear()
         stderr.mockClear()
         lernaPublish.mockClear()
@@ -62,12 +62,12 @@ describe('deployPackages function', () => {
         })
     })
 
-    const getPackageJsonContents = packageName =>
+    const getPackageJsonContents = (packageName, scopeToStrip = '') =>
         fs.readFileSync(
             path.join(
                 process.cwd(),
                 'packages',
-                packageName.replace('@thm/', ''),
+                packageName.replace(`${scopeToStrip}/`, ''),
                 'package.json',
             ),
             'utf8',
@@ -77,7 +77,7 @@ describe('deployPackages function', () => {
         await deployPackages()
         const packageInfo = await getPackageInfo()
         packageInfo.forEach(({ name }) => {
-            expect(getPackageJsonContents(name)).toMatchSnapshot()
+            expect(getPackageJsonContents(name, '@thm')).toMatchSnapshot()
         })
     })
 
@@ -87,7 +87,7 @@ describe('deployPackages function', () => {
         })
         const packageInfo = await getPackageInfo()
         packageInfo.forEach(({ name }) => {
-            expect(getPackageJsonContents(name)).toMatchSnapshot()
+            expect(getPackageJsonContents(name, '@thm')).toMatchSnapshot()
         })
     })
 
