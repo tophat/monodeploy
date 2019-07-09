@@ -53,8 +53,8 @@ async function lernaPublish({ registryUrl = null } = {}) {
     const command = [
         lernaExecutable,
         'publish',
-	'--no-git-tag-version',
-	'--no-push',
+        '--no-git-tag-version',
+        '--no-push',
         '--conventional-commits',
         '--changelog-preset @tophat/conventional-changelog-config',
         '--yes',
