@@ -13,7 +13,7 @@ const lernaExecutable = path.join(
 
 function getLernaUpdatedJson() {
     return exec(`${lernaExecutable} updated --json`).catch(err => {
-        if (err.message.includes('No packages need updating')) {
+        if (err.message.includes('No changed packages found')) {
             return JSON.stringify([])
         }
         throw new Error(err)
