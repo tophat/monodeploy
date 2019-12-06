@@ -1,15 +1,18 @@
-import path from 'path'
-import { vol } from 'memfs'
 import { deployPackages as _deployPackages } from '..'
+
+import path from 'path'
+import fs from 'fs'
+
+import { vol } from 'memfs'
+
 import {
-    __setLernaUpdatedSucceeds,
-    lernaPublish,
-    createGitTag,
-    __setLernaPublishSucceeds,
     __setCreateGitTagSucceeds,
+    __setLernaPublishSucceeds,
+    __setLernaUpdatedSucceeds,
+    createGitTag,
+    lernaPublish,
 } from '../src/command-helpers'
 import getPackageInfo from '../src/get-package-info'
-import fs from 'fs'
 
 describe('deployPackages function', () => {
     const stdout = jest.fn()

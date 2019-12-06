@@ -1,3 +1,6 @@
 module.exports = {
-    extends: ['@tophat', '@tophat/eslint-config/jest']
+    extends: ['@tophat/eslint-config/base', '@tophat/eslint-config/jest'],
+    rules: {
+        'jest/no-standalone-expect': 'off',
+    },
 }

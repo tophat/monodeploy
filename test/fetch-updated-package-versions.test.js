@@ -1,4 +1,5 @@
 import fetchUpdatedPackageVersions from '../src/fetch-updated-package-versions'
+
 import mockRegistry from './mock-registry'
 
 describe('fetchUpdatedPackageVersions function', () => {
