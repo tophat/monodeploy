@@ -1,3 +1,3 @@
 module.exports = {
-    extends: ['@tophat/eslint-config/react']
+    extends: ['@tophat/eslint-config/react'],
 }

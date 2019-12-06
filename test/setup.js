@@ -1,5 +1,7 @@
 import path from 'path'
+
 import { vol } from 'memfs'
+
 import mockRegistry from './mock-registry'
 
 jest.mock('fs')
