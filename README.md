@@ -7,7 +7,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/tophat/monodeploy/master.svg)](https://circleci.com/gh/tophat/monodeploy)
 [![codecov](https://codecov.io/gh/tophat/monodeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/monodeploy)
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
-[![Greenkeeper badge](https://badges.greenkeeper.io/tophat/monodeploy.svg)](https://greenkeeper.io/)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)
 
 A small wrapper around lerna that makes it easier to use in CI
 
