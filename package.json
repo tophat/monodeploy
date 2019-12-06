@@ -16,7 +16,7 @@
         "contrib:generate": "all-contributors generate"
     },
     "peerDependencies": {
-        "lerna": "3.15.0"
+        "lerna": "3.19.0"
     },
     "devDependencies": {
         "@babel/core": "^7.7.5",
@@ -34,7 +34,7 @@
         "eslint-plugin-prettier": "^3.1.1",
         "eslint-plugin-react": "^7.17.0",
         "jest": "^24.9.0",
-        "lerna": "3.15.0",
+        "lerna": "3.19.0",
         "memfs": "^3.0.1",
         "prettier": "^1.19.1",
         "regenerator-runtime": "^0.13.3"
