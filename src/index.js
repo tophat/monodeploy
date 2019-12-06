@@ -58,16 +58,15 @@ const deployPackages = async ({
 
         try {
             await Promise.all(
-                Object.entries(newPackageVersions).map(
-                    ([packageName, newVersion]) =>
-                        createGitTag(
-                            packageName,
-                            newVersion,
-                            `View changelog at ${getChangelogLink(
-                                packageName,
-                            )}`,
-                            gitTagSuffix,
-                        ),
+                Object.entries(
+                    newPackageVersions,
+                ).map(([packageName, newVersion]) =>
+                    createGitTag(
+                        packageName,
+                        newVersion,
+                        `View changelog at ${getChangelogLink(packageName)}`,
+                        gitTagSuffix,
+                    ),
                 ),
             )
         } catch (e) {
