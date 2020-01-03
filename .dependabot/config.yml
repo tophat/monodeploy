@@ -10,9 +10,17 @@ update_configs:
       - match:
           dependency_name: lerna
           version_requirement: "> 3.15.0"
+    automerged_updates:
+      - match:
+          dependency_type: "development"
+          update_type: "in_range"
   - package_manager: "javascript"
     directory: "/website"
     update_schedule: "weekly"
     version_requirement_updates: "increase_versions"
     commit_message:
-      prefix: "chore"
+        prefix: "chore"
+    automerged_updates:
+      - match:
+          dependency_type: "all"
+          update_type: "in_range"
