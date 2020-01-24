@@ -5401,10 +5401,10 @@ mem@^4.0.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
-memfs@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.0.1.tgz#efd259d5ff448a7c0678198d43cee0d1f60b74e1"
-  integrity sha512-v8MPoino1vfmwl2LDbFAg5tgPd7EPvKLvcSkx/CDJGB3JCGyHZSasRtC63wmM+iHFXh4cooYCu+cWCd1dqh2+A==
+memfs@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.0.4.tgz#17997ec34d67d0a4756f6a34f2fefd13a8dbab08"
+  integrity sha512-OcZEzwX9E5AoY8SXjuAvw0DbIAYwUzV/I236I8Pqvrlv7sL/Y0E9aRCon05DhaV8pg1b32uxj76RgW0s5xjHBA==
   dependencies:
     fast-extend "1.0.2"
     fs-monkey "0.3.3"
