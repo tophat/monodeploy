@@ -45,14 +45,11 @@ async function run() {
         )
     }
 
-    await lernaVersion({
-        amend: true,
-        yes: true,
-        conventionalCommits: true,
-    })
-
     await lernaPublish({
+        amend: true,
+        conventionalCommits: true,
         bump: 'from-git',
+        yes: true,
     })
 }
 
