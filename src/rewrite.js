@@ -5,7 +5,6 @@ const { getPackages } = require('@lerna/project')
 const latestVersion = require('latest-version')
 const PackageGraph = require('@lerna/package-graph')
 const collectUpdates = require('@lerna/collect-updates')
-const lernaVersion = require('@lerna/version')
 const lernaPublish = require('@lerna/publish')
 
 async function run() {
@@ -25,6 +24,7 @@ async function run() {
         packages,
         graph,
         { cwd: process.cwd() },
+        // TODO: pass relevant command options here
         { ignoreChanges: [] },
     )
 
@@ -49,7 +49,11 @@ async function run() {
         amend: true,
         yes: true,
         conventionalCommits: true,
+        // changelogPreset: '@tophat/conventional-changelog-config',
+        // registry: "TODO",
     })
+
+    // TODO: Write latest versions file
 }
 
 run()

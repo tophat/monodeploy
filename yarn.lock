@@ -2115,7 +2115,7 @@
     slash "^1.0.0"
     temp-write "^3.4.0"
 
-"@lerna/version@3.20.2", "@lerna/version@^3.20.2":
+"@lerna/version@3.20.2":
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/@lerna/version/-/version-3.20.2.tgz#3709141c0f537741d9bc10cb24f56897bcb30428"
   integrity sha512-ckBJMaBWc+xJen0cMyCE7W67QXLLrc0ELvigPIn8p609qkfNM0L0CF803MKxjVOldJAjw84b8ucNWZLvJagP/Q==
