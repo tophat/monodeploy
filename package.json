@@ -46,5 +46,13 @@
         "setupFilesAfterEnv": [
             "<rootDir>/test/setup.js"
         ]
+    },
+    "dependencies": {
+        "@lerna/collect-updates": "^3.20.0",
+        "@lerna/package-graph": "^3.18.5",
+        "@lerna/project": "^3.18.0",
+        "@lerna/publish": "^3.20.2",
+        "@lerna/version": "^3.20.2",
+        "latest-version": "^5.1.0"
     }
 }
