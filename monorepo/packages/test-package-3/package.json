@@ -1,6 +1,6 @@
 {
   "name": "@msrose/test-package-3",
-  "version": "1.2.4",
+  "version": "0.1.1",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
