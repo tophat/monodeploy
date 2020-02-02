@@ -1,9 +1,9 @@
 {
   "name": "@msrose/test-package-2",
-  "version": "1.0.0",
+  "version": "1.2.4",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@msrose/test-package-1": "^1.0.0"
+    "@msrose/test-package-1": "^0.1.1"
   }
 }
