@@ -7,12 +7,15 @@ const PackageGraph = require('@lerna/package-graph')
 const collectUpdates = require('@lerna/collect-updates')
 const lernaPublish = require('@lerna/publish')
 
-async function run() {
+async function run({ registry, changelogPreset } = {}) {
     const packages = await getPackages(process.cwd())
 
     for (const pkg of packages) {
         try {
-            const version = await latestVersion(pkg.name)
+            const version = await latestVersion(
+                pkg.name,
+                registry ? { registryUrl: registry } : {},
+            )
             pkg.version = version
         } catch (e) {
             pkg.version = '0.1.0'
@@ -45,15 +48,27 @@ async function run() {
         )
     }
 
-    await lernaPublish({
+    const lernaPublishOptions = {
         amend: true,
         yes: true,
         conventionalCommits: true,
-        // changelogPreset: '@tophat/conventional-changelog-config',
-        // registry: "TODO",
-    })
+    }
+
+    if (registry) {
+        lernaPublishOptions.registry = registry
+    }
+
+    if (changelogPreset) {
+        lernaPublishOptions.changelogPreset = changelogPreset
+    }
+
+    await lernaPublish(lernaPublishOptions)
+
+    // TODO: if publish fails, try again with "from-git" or "from-package"
 
     // TODO: Write latest versions file
 }
 
-run()
+const [registry] = process.argv.slice(2)
+
+run({ registry })
