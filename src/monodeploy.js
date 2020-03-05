@@ -7,14 +7,18 @@ const PackageGraph = require('@lerna/package-graph')
 const collectUpdates = require('@lerna/collect-updates')
 const lernaPublish = require('@lerna/publish')
 
-async function run({ registry, changelogPreset } = {}) {
+async function monodeploy({
+    registryUrl,
+    changelogPreset,
+    // latestVersionsFile,
+} = {}) {
     const packages = await getPackages(process.cwd())
 
     for (const pkg of packages) {
         try {
             const version = await latestVersion(
                 pkg.name,
-                registry ? { registryUrl: registry } : {},
+                registryUrl ? { registryUrl } : {},
             )
             pkg.version = version
         } catch (e) {
@@ -52,14 +56,8 @@ async function run({ registry, changelogPreset } = {}) {
         amend: true,
         yes: true,
         conventionalCommits: true,
-    }
-
-    if (registry) {
-        lernaPublishOptions.registry = registry
-    }
-
-    if (changelogPreset) {
-        lernaPublishOptions.changelogPreset = changelogPreset
+        registry: registryUrl,
+        changelogPreset,
     }
 
     await lernaPublish(lernaPublishOptions)
@@ -69,6 +67,4 @@ async function run({ registry, changelogPreset } = {}) {
     // TODO: Write latest versions file
 }
 
-const [registry] = process.argv.slice(2)
-
-run({ registry })
+module.exports = monodeploy
