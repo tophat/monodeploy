@@ -2,24 +2,28 @@ const fs = require('fs')
 const path = require('path')
 
 const Project = require('@lerna/project')
-const latestVersion = require('latest-version')
 const PackageGraph = require('@lerna/package-graph')
 const collectUpdates = require('@lerna/collect-updates')
-const lernaPublish = require('@lerna/publish')
 
-async function monodeploy({
-    registryUrl,
-    changelogPreset,
-    // latestVersionsFile,
-} = {}) {
-    const project = new Project(process.cwd())
+const { ExternalResources } = require('./resources')
+
+async function monodeploy(
+    {
+        registryUrl,
+        changelogPreset,
+        // latestVersionsFile,
+    } = {},
+    cwd = process.cwd(),
+    resources = new ExternalResources(),
+) {
+    const project = new Project(cwd)
     const packages = await project.getPackages()
 
     for (const pkg of packages) {
         try {
-            const version = await latestVersion(
+            const version = await resources.getPackageLatestVersion(
                 pkg.name,
-                registryUrl ? { registryUrl } : {},
+                registryUrl,
             )
             pkg.version = version
         } catch (e) {
@@ -59,7 +63,7 @@ async function monodeploy({
         )
     }
 
-    const lernaPublishOptions = {
+    const publishOptions = {
         amend: true,
         yes: true,
         conventionalCommits: true,
@@ -67,7 +71,7 @@ async function monodeploy({
         changelogPreset,
     }
 
-    await lernaPublish(lernaPublishOptions)
+    await resources.publish(publishOptions)
 
     // TODO: if publish fails, try again with "from-git" or "from-package"
 
