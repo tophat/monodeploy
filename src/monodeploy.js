@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const { getPackages } = require('@lerna/project')
+const Project = require('@lerna/project')
 const latestVersion = require('latest-version')
 const PackageGraph = require('@lerna/package-graph')
 const collectUpdates = require('@lerna/collect-updates')
@@ -12,7 +12,8 @@ async function monodeploy({
     changelogPreset,
     // latestVersionsFile,
 } = {}) {
-    const packages = await getPackages(process.cwd())
+    const project = new Project(process.cwd())
+    const packages = await project.getPackages()
 
     for (const pkg of packages) {
         try {
@@ -27,12 +28,18 @@ async function monodeploy({
     }
 
     const graph = new PackageGraph(packages)
+
+    const { command: commandOptions } = project.config
     const changedPackages = collectUpdates(
         packages,
         graph,
         { cwd: process.cwd() },
-        // TODO: pass relevant command options here
-        { ignoreChanges: [] },
+        {
+            ignoreChanges:
+                (commandOptions.publish &&
+                    commandOptions.publish.ignoreChanges) ||
+                [],
+        },
     )
 
     // TODO: use package graph and localDependencies here
