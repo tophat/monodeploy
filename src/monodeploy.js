@@ -8,11 +8,7 @@ const collectUpdates = require('@lerna/collect-updates')
 const { ExternalResources } = require('./resources')
 
 async function monodeploy(
-    {
-        registryUrl,
-        changelogPreset,
-        // latestVersionsFile,
-    } = {},
+    { registryUrl, changelogPreset, latestVersionsFile } = {},
     cwd = process.cwd(),
     resources = new ExternalResources(),
 ) {
@@ -72,10 +68,23 @@ async function monodeploy(
     }
 
     await resources.publish(publishOptions)
-
     // TODO: if publish fails, try again with "from-git" or "from-package"
 
-    // TODO: Write latest versions file
+    if (!latestVersionsFile) {
+        return
+    }
+
+    const updatedPackages = await project.getPackages()
+
+    const packageInfo = updatedPackages.reduce((info, pkg) => {
+        const { version, name, description } = pkg.toJSON()
+        return info.concat({ version, name, description })
+    }, {})
+
+    fs.writeFileSync(
+        path.join(cwd, latestVersionsFile),
+        JSON.stringify(packageInfo, null, 2),
+    )
 }
 
 module.exports = monodeploy
