@@ -10,14 +10,3 @@ export class ExternalResources {
         return lernaPublish(options)
     }
 }
-
-export class InMemoryResources {
-    getPackageLatestVersion() {
-        // TODO
-    }
-
-    publish() {
-        // TODO
-        // Use lerna version, then publish to mock registry?
-    }
-}

@@ -29,11 +29,11 @@ async function monodeploy(
 
     const graph = new PackageGraph(packages)
 
-    const { command: commandOptions } = project.config
+    const { command: commandOptions = {} } = project.config
     const changedPackages = collectUpdates(
         packages,
         graph,
-        { cwd: process.cwd() },
+        { cwd },
         {
             ignoreChanges:
                 (commandOptions.publish &&
@@ -67,7 +67,7 @@ async function monodeploy(
         changelogPreset,
     }
 
-    await resources.publish(publishOptions)
+    await resources.publish(publishOptions, cwd)
     // TODO: if publish fails, try again with "from-git" or "from-package"
 
     if (!latestVersionsFile) {
