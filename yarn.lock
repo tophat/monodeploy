@@ -1879,10 +1879,10 @@
   dependencies:
     type-detect "4.0.8"
 
-"@tophat/eslint-config@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@tophat/eslint-config/-/eslint-config-0.4.0.tgz#eca7e04fcea11fc66eff988d0ab301d4b4c08a2f"
-  integrity sha512-xEedBuMbB1E3sY/BFby39S/JfcFjW2Ho3ujz13197Mi+AlnEiiL4DobgcoTz4jPN4wcKFyymrm7xFICpzkIb0Q==
+"@tophat/eslint-config@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@tophat/eslint-config/-/eslint-config-0.5.0.tgz#86a0b299dd1543d1f4354685b5a73ba8530b9669"
+  integrity sha512-0MsU1j9STO4fIDx9/Io5nFfwjwwHfxy208kJB3ZYIjP63Ab4v2E56gDxvkIJFZWK2fm1CYMI32qnEWS3CfCMYg==
 
 "@types/babel__core@^7.1.0":
   version "7.1.1"
