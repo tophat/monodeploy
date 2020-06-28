@@ -21,7 +21,7 @@ class RegistryManager {
         }
 
         if (!this.registries[registryUrl][name]) {
-            this.registries[registryUrl] = []
+            this.registries[registryUrl][name] = []
         }
 
         this.registries[registryUrl][name].push(packageJson)
@@ -107,17 +107,27 @@ describe('monodeploy', () => {
     })
 
     afterEach(() => {
-        // rimraf.sync(monorepoDirectory)
-        console.log(monorepoDirectory)
+        rimraf.sync(monorepoDirectory)
     })
 
-    const monodeploy = options =>
-        _monodeploy(options, monorepoDirectory, resources)
+    const monodeploy = options => {
+        // Could not figure out how to pass cwd to git-raw-commits when it gets
+        // called by conventional-changelog to update changelogs, so we settle
+        // for mocking process.cwd which seems to work just fine
+        jest.spyOn(process, 'cwd').mockImplementation(() => monorepoDirectory)
+        return _monodeploy(options, monorepoDirectory, resources)
+    }
 
     it('works', async () => {
         await monodeploy()
-        expect(resources.getPackageLatestVersion('package-0')).toBe('0.1.0')
-        expect(resources.getPackageLatestVersion('package-1')).toBe('0.1.0')
-        expect(resources.getPackageLatestVersion('package-2')).toBe('0.1.0')
+        await expect(
+            resources.getPackageLatestVersion('package-0'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-1'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-2'),
+        ).resolves.toBe('0.1.1')
     })
 })
