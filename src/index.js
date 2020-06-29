@@ -1,106 +1,90 @@
-/* eslint-disable no-console */
+const fs = require('fs')
+const path = require('path')
 
-const fetchUpdatedPackageVersions = require('./fetch-updated-package-versions')
-const updatePackageJsonVersions = require('./update-package-versions')
-const {
-    lernaPublish,
-    createGitTag,
-    getChangelogLink,
-} = require('./command-helpers')
-const getPackageInfo = require('./get-package-info')
+const Project = require('@lerna/project')
+const PackageGraph = require('@lerna/package-graph')
+const collectUpdates = require('@lerna/collect-updates')
 
-const deployPackages = async ({
-    stderr = console.error.bind(console),
-    stdout = console.log.bind(console),
-    registryUrl,
-    gitTagSuffix,
-} = {}) => {
-    let changedPackages
-    try {
-        changedPackages = await fetchUpdatedPackageVersions()
-    } catch (e) {
-        stderr('Failed to fetch updated packages.', e)
-        throw new Error(e)
+const { ExternalResources } = require('./resources')
+
+async function monodeploy(
+    { registryUrl, changelogPreset, latestVersionsFile } = {},
+    cwd = process.cwd(),
+    resources = new ExternalResources(),
+) {
+    const project = new Project(cwd)
+    const packages = await project.getPackages()
+
+    for (const pkg of packages) {
+        try {
+            const version = await resources.getPackageLatestVersion(pkg.name, {
+                registryUrl,
+            })
+            pkg.version = version
+        } catch (e) {
+            pkg.version = '0.1.0'
+        }
     }
 
-    const changedPackageNames = Object.keys(changedPackages)
+    const graph = new PackageGraph(packages)
 
-    let newPackageVersions
+    const { command: commandOptions = {} } = project.config
+    const changedPackages = collectUpdates(
+        packages,
+        graph,
+        { cwd },
+        {
+            ignoreChanges:
+                (commandOptions.publish &&
+                    commandOptions.publish.ignoreChanges) ||
+                [],
+        },
+    )
 
-    if (changedPackageNames.length !== 0) {
-        await updatePackageJsonVersions(changedPackages, { registryUrl })
-
-        try {
-            newPackageVersions = await lernaPublish({ registryUrl })
-        } catch (e) {
-            stderr('Failed to run lerna publish!', e)
-            throw new Error(e)
-        }
-
-        changedPackageNames.forEach(changedPackageName => {
-            if (!newPackageVersions[changedPackageName]) {
-                stderr(
-                    `WARNING: ${changedPackageName} does not have a new version as reported by publish step.\n` +
-                        'Is there something wrong with the extraction of new versions from publish output?',
-                )
+    // TODO: use package graph and localDependencies here
+    changedPackages.forEach(({ pkg }) => {
+        Object.keys(pkg.dependencies || {}).forEach(dependency => {
+            const siblingPackage = packages.find(pkg => pkg.name === dependency)
+            if (siblingPackage) {
+                pkg.dependencies[dependency] = `^${siblingPackage.version}`
             }
         })
+    })
 
-        if (
-            changedPackageNames.length !==
-            Object.keys(newPackageVersions).length
-        ) {
-            stderr(
-                'WARNING: publish step reported more changed packages than expected.\n' +
-                    'Is there something wrong with the extraction of new versions from publish output?',
-            )
-        }
-
-        try {
-            await Promise.all(
-                Object.entries(
-                    newPackageVersions,
-                ).map(([packageName, newVersion]) =>
-                    createGitTag(
-                        packageName,
-                        newVersion,
-                        `View changelog at ${getChangelogLink(packageName)}`,
-                        gitTagSuffix,
-                    ),
-                ),
-            )
-        } catch (e) {
-            stderr(
-                'Failed to create git tags! If the publish succeeded, you should' +
-                    ' make sure there are git tags for every published package!',
-                e,
-            )
-            throw new Error(e)
-        }
-    } else {
-        stderr('No packages to update!')
+    for (const { pkg } of changedPackages) {
+        fs.writeFileSync(
+            path.join(pkg.location, 'package.json'),
+            JSON.stringify(pkg, null, 2),
+        )
     }
 
-    stderr(`Deployed new package versions for: ${changedPackageNames}`)
+    const publishOptions = {
+        amend: true,
+        yes: true,
+        conventionalCommits: true,
+        registry: registryUrl,
+        changelogPreset,
+        cwd,
+    }
 
-    const packageInfo = await getPackageInfo({
-        knownPackages: newPackageVersions,
-        useRegistry: true,
-    })
-    stdout(JSON.stringify(packageInfo))
+    await resources.publish(publishOptions, cwd)
+    // TODO: if publish fails, try again with "from-git" or "from-package"
+
+    if (!latestVersionsFile) {
+        return
+    }
+
+    const updatedPackages = await project.getPackages()
+
+    const packageInfo = updatedPackages.reduce((info, pkg) => {
+        const { version, name, description } = pkg.toJSON()
+        return info.concat({ version, name, description })
+    }, {})
+
+    fs.writeFileSync(
+        path.join(cwd, latestVersionsFile),
+        JSON.stringify(packageInfo, null, 2),
+    )
 }
 
-exports.deployPackages = deployPackages
-
-if (require.main === module) {
-    const [registryUrl, gitTagSuffix] = process.argv.slice(2)
-    console.error(`Deploying packages to ${registryUrl}...`)
-    ;(async () => {
-        try {
-            await deployPackages({ gitTagSuffix, registryUrl })
-        } catch (e) {
-            console.error('Fatal error when deploying!', e)
-            process.exit(1)
-        }
-    })()
-}
+module.exports = monodeploy
