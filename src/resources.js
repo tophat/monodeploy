@@ -2,7 +2,7 @@ const lernaPublish = require('@lerna/publish')
 const latestVersion = require('latest-version')
 
 export class ExternalResources {
-    getPackageLatestVersion(name, registryUrl = null) {
+    getPackageLatestVersion(name, { registryUrl } = {}) {
         return latestVersion(name, registryUrl ? { registryUrl } : {})
     }
 

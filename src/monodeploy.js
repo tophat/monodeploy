@@ -17,10 +17,9 @@ async function monodeploy(
 
     for (const pkg of packages) {
         try {
-            const version = await resources.getPackageLatestVersion(
-                pkg.name,
+            const version = await resources.getPackageLatestVersion(pkg.name, {
                 registryUrl,
-            )
+            })
             pkg.version = version
         } catch (e) {
             pkg.version = '0.1.0'
@@ -65,6 +64,7 @@ async function monodeploy(
         conventionalCommits: true,
         registry: registryUrl,
         changelogPreset,
+        cwd,
     }
 
     await resources.publish(publishOptions, cwd)

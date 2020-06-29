@@ -38,15 +38,15 @@ class InMemoryResources {
         this.registryManager = registryManager
     }
 
-    getPackageLatestVersion(packageName) {
+    getPackageLatestVersion(packageName, { registryUrl } = {}) {
         return Promise.resolve(
-            this.registryManager.getLatestVersion(packageName),
+            this.registryManager.getLatestVersion(packageName, registryUrl),
         )
     }
 
-    async publish(options, cwd) {
-        await lernaVersion({ ...options, cwd })
-        const packages = await getPackages(cwd)
+    async publish(options) {
+        await lernaVersion(options)
+        const packages = await getPackages(options.cwd)
         for (const pkg of packages) {
             this.registryManager.publish(pkg.toJSON(), options.registryUrl)
         }
@@ -119,6 +119,29 @@ describe('monodeploy', () => {
     }
 
     it('works', async () => {
+        await monodeploy()
+        await expect(
+            resources.getPackageLatestVersion('package-0'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-1'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-2'),
+        ).resolves.toBe('0.1.1')
+    })
+
+    it('does not bump packages if they have not been changed', async () => {
+        await monodeploy()
+        await expect(
+            resources.getPackageLatestVersion('package-0'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-1'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-2'),
+        ).resolves.toBe('0.1.1')
         await monodeploy()
         await expect(
             resources.getPackageLatestVersion('package-0'),
