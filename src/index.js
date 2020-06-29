@@ -51,7 +51,7 @@ const deployPackages = async ({
             Object.keys(newPackageVersions).length
         ) {
             stderr(
-                `WARNING: publish step reported more changed packages than expected.\n` +
+                'WARNING: publish step reported more changed packages than expected.\n' +
                     'Is there something wrong with the extraction of new versions from publish output?',
             )
         }

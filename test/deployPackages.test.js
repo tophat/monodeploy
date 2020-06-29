@@ -1,10 +1,9 @@
-import { deployPackages as _deployPackages } from '..'
-
 import path from 'path'
 import fs from 'fs'
 
 import { vol } from 'memfs'
 
+import { deployPackages as _deployPackages } from '..'
 import {
     __setCreateGitTagSucceeds,
     __setLernaPublishSucceeds,

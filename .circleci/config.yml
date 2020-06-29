@@ -28,7 +28,7 @@ jobs:
       working_directory: ~/repo
       # Pick a Docker image here: https://circleci.com/docs/2.0/circleci-images/
       docker:
-          - image: circleci/node:8.11
+          - image: circleci/node:12
       steps:
           - checkout
           - restore_cache:
@@ -41,13 +41,18 @@ jobs:
   test:
       working_directory: ~/repo
       docker:
-          - image: circleci/node:latest
+          - image: circleci/node:12
       steps:
           - checkout
           - restore_cache:
               name: Restore Yarn Package Cache
               keys:
                 - yarn-packages-{{ checksum "yarn.lock" }}
+          - run:
+              name: Set Global Git User
+              command: |
+                git config --global user.email "circleci-monodeploy@users.noreply.github.com"
+                git config --global user.name "CircleCI monodeploy"
           - run:
               name: Run Tests
               command: yarn test --coverage
