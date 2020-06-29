@@ -6,9 +6,7 @@ import lernaVersion from '@lerna/version'
 import { getPackages } from '@lerna/project'
 import rimraf from 'rimraf'
 
-import _monodeploy from '../src/monodeploy.js'
-
-jest.unmock('fs')
+import _monodeploy from '../src/index'
 
 class RegistryManager {
     constructor() {
