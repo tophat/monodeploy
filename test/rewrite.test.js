@@ -8,6 +8,8 @@ import rimraf from 'rimraf'
 
 import _monodeploy from '../src/monodeploy.js'
 
+jest.unmock('fs')
+
 class RegistryManager {
     constructor() {
         this.registries = {}
