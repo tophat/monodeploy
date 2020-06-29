@@ -49,6 +49,11 @@ jobs:
               keys:
                 - yarn-packages-{{ checksum "yarn.lock" }}
           - run:
+              name: Set Global Git User
+              command:
+                - git config --global user.email circleci@tophat.com
+                - git config --global user.name "Top Hat Circle CI"
+          - run:
               name: Run Tests
               command: yarn test --coverage
           - run:
