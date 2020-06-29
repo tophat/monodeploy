@@ -2,7 +2,7 @@
 
 const yargs = require('yargs')
 
-// const monodeploy = require('./monodeploy')
+const monodeploy = require('./index')
 
 const { argv } = yargs
     .option('registry-url', {
@@ -24,6 +24,4 @@ const { argv } = yargs
     .strict()
     .wrap(yargs.terminalWidth())
 
-console.log(argv)
-
-// monodeploy(argv)
+monodeploy(argv)
