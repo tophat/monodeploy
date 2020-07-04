@@ -2,56 +2,11 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
-import lernaVersion from '@lerna/version'
-import { getPackages } from '@lerna/project'
 import rimraf from 'rimraf'
 
 import _monodeploy from '../src/index'
 
-class RegistryManager {
-    constructor() {
-        this.registries = {}
-    }
-
-    publish(packageJson, registryUrl = 'DEFAULT_REGISTRY/') {
-        const { name } = packageJson
-
-        if (!this.registries[registryUrl]) {
-            this.registries[registryUrl] = {}
-        }
-
-        if (!this.registries[registryUrl][name]) {
-            this.registries[registryUrl][name] = []
-        }
-
-        this.registries[registryUrl][name].push(packageJson)
-    }
-
-    getLatestVersion(pkg, registryUrl = 'DEFAULT_REGISTRY/') {
-        const versions = this.registries[registryUrl][pkg]
-        return versions[versions.length - 1].version
-    }
-}
-
-class InMemoryResources {
-    constructor(registryManager = new RegistryManager()) {
-        this.registryManager = registryManager
-    }
-
-    getPackageLatestVersion(packageName, { registryUrl } = {}) {
-        return Promise.resolve(
-            this.registryManager.getLatestVersion(packageName, registryUrl),
-        )
-    }
-
-    async publish(options) {
-        await lernaVersion(options)
-        const packages = await getPackages(options.cwd)
-        for (const pkg of packages) {
-            this.registryManager.publish(pkg.toJSON(), options.registryUrl)
-        }
-    }
-}
+import InMemoryResources from './resources'
 
 describe('monodeploy', () => {
     let monorepoDirectory
