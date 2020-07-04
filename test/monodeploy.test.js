@@ -9,13 +9,15 @@ import _monodeploy from '../src/index'
 import InMemoryResources from './resources'
 
 class GitRepo {
+    constructor(cwd) {
+        this.cwd = cwd
+    }
+
     _runCommand(command) {
-        if (!this.cwd) throw new Error('must call init on git repo')
         execSync(`git ${command}`, { cwd: this.cwd })
     }
 
-    init(cwd) {
-        this.cwd = cwd
+    init() {
         this._runCommand('init')
     }
 
@@ -29,13 +31,12 @@ class GitRepo {
 }
 
 class TestMonorepo {
-    constructor({ packageNames } = {}, gitRepo = new GitRepo()) {
+    constructor({ packageNames } = {}) {
         this.packageNames = packageNames
-        this.gitRepo = gitRepo
         this.directoryPath = fs.mkdtempSync(
             path.join(path.sep, 'tmp', 'monodeploy-'),
         )
-        this.gitRepo.init(this.getPath())
+        this.gitRepo = new GitRepo(this.getPath())
     }
 
     init() {
@@ -57,16 +58,22 @@ class TestMonorepo {
         this.addDirectory('packages')
         this.packageNames.forEach(packageName => {
             this.addDirectory(path.join('packages', packageName))
-            this.addFile(
-                path.join('packages', packageName, 'package.json'),
+            this.addFileToPackage(
+                packageName,
+                'package.json',
                 JSON.stringify({ version: '0.0.0', name: packageName }),
             )
         })
+        this.gitRepo.init()
         this.commitChanges({ message: 'Initial commit' })
     }
 
     addFile(name, contents) {
         fs.writeFileSync(path.join(this.getPath(), name), contents)
+    }
+
+    addFileToPackage(packageName, filename, contents) {
+        this.addFile(path.join('packages', packageName, filename), contents)
     }
 
     addDirectory(name) {
@@ -91,6 +98,27 @@ describe('monodeploy', () => {
     let resources
     let monorepo
 
+    expect.extend({
+        async toHaveVersion(received, expected) {
+            const latestVersion = await resources.getPackageLatestVersion(
+                received,
+            )
+            if (latestVersion === expected) {
+                return {
+                    pass: true,
+                    message: () =>
+                        `expected ${received} not to have latest version ${expected}, but it did`,
+                }
+            } else {
+                return {
+                    pass: false,
+                    message: () =>
+                        `expected ${received} to have latest version ${expected}, but instead it was ${latestVersion}`,
+                }
+            }
+        },
+    })
+
     beforeEach(() => {
         resources = new InMemoryResources()
         monorepo = new TestMonorepo({
@@ -113,53 +141,33 @@ describe('monodeploy', () => {
 
     it('publishes packages for the first time', async () => {
         await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
     })
 
     it('does not bump packages if they have not been changed', async () => {
         await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
         await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
     })
 
     it('bumps the version of changed packages', async () => {
         await monodeploy()
-        monorepo.addFile(path.join('packages', 'package-0', 'newFile.js'))
+        monorepo.addFileToPackage(
+            'package-0',
+            'newFile.js',
+            'console.log("hi")',
+        )
         monorepo.commitChanges({ message: 'Add newFile' })
         await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.2')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+        await expect('package-0').toHaveVersion('0.1.2')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
     })
 })
