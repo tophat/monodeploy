@@ -18,7 +18,15 @@ class RegistryManager {
     }
 
     getLatestVersion(pkg, registryUrl = 'DEFAULT_REGISTRY/') {
+        if (!this.registries[registryUrl]) {
+            throw new Error(`Registry ${registryUrl} does not exist`)
+        }
         const versions = this.registries[registryUrl][pkg]
+        if (!versions) {
+            throw new Error(
+                `Package ${pkg} does not exist in registry ${registryUrl}`,
+            )
+        }
         return versions[versions.length - 1].version
     }
 }
