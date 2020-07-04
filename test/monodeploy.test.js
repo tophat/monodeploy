@@ -62,8 +62,7 @@ class TestMonorepo {
                 JSON.stringify({ version: '0.0.0', name: packageName }),
             )
         })
-        this.gitRepo.add('.')
-        this.gitRepo.commit({ message: 'Initial commit' })
+        this.commitChanges({ message: 'Initial commit' })
     }
 
     addFile(name, contents) {
@@ -72,6 +71,11 @@ class TestMonorepo {
 
     addDirectory(name) {
         fs.mkdirSync(path.join(this.getPath(), name))
+    }
+
+    commitChanges({ message }) {
+        this.gitRepo.add('.')
+        this.gitRepo.commit({ message })
     }
 
     delete() {
@@ -107,7 +111,7 @@ describe('monodeploy', () => {
         return _monodeploy(options, monorepo.getPath(), resources)
     }
 
-    it('works', async () => {
+    it('publishes packages for the first time', async () => {
         await monodeploy()
         await expect(
             resources.getPackageLatestVersion('package-0'),
@@ -135,6 +139,22 @@ describe('monodeploy', () => {
         await expect(
             resources.getPackageLatestVersion('package-0'),
         ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-1'),
+        ).resolves.toBe('0.1.1')
+        await expect(
+            resources.getPackageLatestVersion('package-2'),
+        ).resolves.toBe('0.1.1')
+    })
+
+    it('bumps the version of changed packages', async () => {
+        await monodeploy()
+        monorepo.addFile(path.join('packages', 'package-0', 'newFile.js'))
+        monorepo.commitChanges({ message: 'Add newFile' })
+        await monodeploy()
+        await expect(
+            resources.getPackageLatestVersion('package-0'),
+        ).resolves.toBe('0.1.2')
         await expect(
             resources.getPackageLatestVersion('package-1'),
         ).resolves.toBe('0.1.1')
