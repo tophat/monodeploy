@@ -12,6 +12,11 @@ import InMemoryResources from './resources'
 const exec = promisify(_exec)
 const rimraf = promisify(_rimraf)
 
+// Actual output from lerna is annoying in tests. Output from this function is
+// anything lerna wants to go to stdout, so it's not configurable with the
+// logger (npmlog) which is for things that go to stderr.
+jest.mock('@lerna/output', () => () => {})
+
 class GitRepo {
     constructor(cwd) {
         this.cwd = cwd
@@ -35,8 +40,8 @@ class GitRepo {
 }
 
 class TestMonorepo {
-    constructor({ packageNames } = {}) {
-        this.packageNames = packageNames
+    constructor({ packages } = {}) {
+        this.dependencyGraph = packages
         this.directoryPath = mkdtempSync(
             path.join(path.sep, 'tmp', 'monodeploy-'),
         )
@@ -61,17 +66,29 @@ class TestMonorepo {
         )
         await this.addDirectory('packages')
         await Promise.all(
-            this.packageNames.map(packageName => {
-                return this.addDirectory(
-                    path.join('packages', packageName),
-                ).then(() => {
-                    this.addFileToPackage(
-                        packageName,
-                        'package.json',
-                        JSON.stringify({ version: '0.0.0', name: packageName }),
-                    )
-                })
-            }),
+            Object.entries(this.dependencyGraph).map(
+                ([packageName, dependencies]) => {
+                    return this.addDirectory(
+                        path.join('packages', packageName),
+                    ).then(() => {
+                        this.addFileToPackage(
+                            packageName,
+                            'package.json',
+                            JSON.stringify({
+                                version: '0.0.0',
+                                name: packageName,
+                                dependencies: dependencies.reduce(
+                                    (dependencyMap, dependency) => ({
+                                        ...dependencyMap,
+                                        [dependency]: '*',
+                                    }),
+                                    {},
+                                ),
+                            }),
+                        )
+                    })
+                },
+            ),
         )
         await this.gitRepo.init()
         await this.commitChanges({ message: 'Initial commit' })
@@ -131,8 +148,8 @@ describe('monodeploy', () => {
         resources = new InMemoryResources()
     })
 
-    const createMonorepo = async packageNames => {
-        const monorepo = new TestMonorepo({ packageNames })
+    const createMonorepo = async packages => {
+        const monorepo = new TestMonorepo(packages)
         await monorepo.init()
         return monorepo
     }
@@ -146,11 +163,9 @@ describe('monodeploy', () => {
     }
 
     it('publishes packages for the first time', async () => {
-        const monorepo = await createMonorepo([
-            'package-0',
-            'package-1',
-            'package-2',
-        ])
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
         await monodeploy(monorepo)
         await expect('package-0').toHaveVersion('0.1.1')
         await expect('package-1').toHaveVersion('0.1.1')
@@ -159,11 +174,9 @@ describe('monodeploy', () => {
     })
 
     it('does not bump packages if they have not been changed', async () => {
-        const monorepo = await createMonorepo([
-            'package-0',
-            'package-1',
-            'package-2',
-        ])
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
         await monodeploy(monorepo)
         await expect('package-0').toHaveVersion('0.1.1')
         await expect('package-1').toHaveVersion('0.1.1')
@@ -176,11 +189,9 @@ describe('monodeploy', () => {
     })
 
     it('bumps the version of changed packages', async () => {
-        const monorepo = await createMonorepo([
-            'package-0',
-            'package-1',
-            'package-2',
-        ])
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
         await monodeploy(monorepo)
         await monorepo.addFileToPackage(
             'package-0',
@@ -191,6 +202,28 @@ describe('monodeploy', () => {
         await monodeploy(monorepo)
         await expect('package-0').toHaveVersion('0.1.2')
         await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monorepo.delete()
+    })
+
+    it('bumps dependent packages', async () => {
+        const monorepo = await createMonorepo({
+            packages: {
+                'package-0': ['package-1'],
+                'package-1': [],
+                'package-2': [],
+            },
+        })
+        await monodeploy(monorepo)
+        await monorepo.addFileToPackage(
+            'package-1',
+            'newFile.js',
+            'console.log("hi")',
+        )
+        await monorepo.commitChanges({ message: 'Add newFile' })
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.2')
+        await expect('package-1').toHaveVersion('0.1.2')
         await expect('package-2').toHaveVersion('0.1.1')
         await monorepo.delete()
     })

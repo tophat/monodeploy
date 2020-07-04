@@ -9,6 +9,10 @@ async function publishPackages(
         registry: registryUrl,
         changelogPreset,
         cwd,
+        // Configure stderr logs that come from lerna (via npmlog). It might
+        // make sense to silence these completely and have a set of monodeploy
+        // logs instead.
+        loglevel: 'error',
     }
 
     await resources.publish(publishOptions)
