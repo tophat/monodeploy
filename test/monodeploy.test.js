@@ -1,156 +1,197 @@
-import { execSync } from 'child_process'
-import fs from 'fs'
+import { exec as _exec } from 'child_process'
+import { promises as fs, mkdtempSync } from 'fs'
 import path from 'path'
+import { promisify } from 'util'
 
-import lernaVersion from '@lerna/version'
-import { getPackages } from '@lerna/project'
-import rimraf from 'rimraf'
+import _rimraf from 'rimraf'
 
 import _monodeploy from '../src/index'
 
-class RegistryManager {
-    constructor() {
-        this.registries = {}
+import InMemoryResources from './resources'
+
+const exec = promisify(_exec)
+const rimraf = promisify(_rimraf)
+
+class GitRepo {
+    constructor(cwd) {
+        this.cwd = cwd
     }
 
-    publish(packageJson, registryUrl = 'DEFAULT_REGISTRY/') {
-        const { name } = packageJson
-
-        if (!this.registries[registryUrl]) {
-            this.registries[registryUrl] = {}
-        }
-
-        if (!this.registries[registryUrl][name]) {
-            this.registries[registryUrl][name] = []
-        }
-
-        this.registries[registryUrl][name].push(packageJson)
+    _runCommand(command) {
+        return exec(`git ${command}`, { cwd: this.cwd })
     }
 
-    getLatestVersion(pkg, registryUrl = 'DEFAULT_REGISTRY/') {
-        const versions = this.registries[registryUrl][pkg]
-        return versions[versions.length - 1].version
-    }
-}
-
-class InMemoryResources {
-    constructor(registryManager = new RegistryManager()) {
-        this.registryManager = registryManager
+    init() {
+        return this._runCommand('init')
     }
 
-    getPackageLatestVersion(packageName, { registryUrl } = {}) {
-        return Promise.resolve(
-            this.registryManager.getLatestVersion(packageName, registryUrl),
-        )
+    commit({ message }) {
+        return this._runCommand(`commit -am "${message}"`)
     }
 
-    async publish(options) {
-        await lernaVersion(options)
-        const packages = await getPackages(options.cwd)
-        for (const pkg of packages) {
-            this.registryManager.publish(pkg.toJSON(), options.registryUrl)
-        }
+    add(files) {
+        return this._runCommand(`add ${files}`)
     }
 }
 
-describe('monodeploy', () => {
-    let monorepoDirectory
-    let resources
-
-    beforeEach(() => {
-        monorepoDirectory = fs.mkdtempSync(
+class TestMonorepo {
+    constructor({ packageNames } = {}) {
+        this.packageNames = packageNames
+        this.directoryPath = mkdtempSync(
             path.join(path.sep, 'tmp', 'monodeploy-'),
         )
-        resources = new InMemoryResources()
+        this.gitRepo = new GitRepo(this.getPath())
+    }
 
-        execSync('git init', { cwd: monorepoDirectory })
-        fs.writeFileSync(
-            path.join(monorepoDirectory, 'lerna.json'),
+    async init() {
+        this.addFile(
+            'lerna.json',
             JSON.stringify({
                 packages: ['packages/*'],
                 version: 'independent',
             }),
         )
-        fs.writeFileSync(
-            path.join(monorepoDirectory, 'package.json'),
+        await this.addFile(
+            'package.json',
             JSON.stringify({
                 private: true,
                 version: '1.0.0',
                 name: 'monorepo',
             }),
         )
-        fs.mkdirSync(path.join(monorepoDirectory, 'packages'))
-        Array(3)
-            .fill()
-            .forEach((_, i) => {
-                const packageName = `package-${i}`
-                fs.mkdirSync(
-                    path.join(monorepoDirectory, 'packages', packageName),
-                )
-                fs.writeFileSync(
-                    path.join(
-                        monorepoDirectory,
-                        'packages',
+        await this.addDirectory('packages')
+        await Promise.all(
+            this.packageNames.map(packageName => {
+                return this.addDirectory(
+                    path.join('packages', packageName),
+                ).then(() => {
+                    this.addFileToPackage(
                         packageName,
                         'package.json',
-                    ),
-                    JSON.stringify(
-                        { version: '0.0.0', name: packageName },
-                        null,
-                        2,
-                    ),
-                )
-            })
-        execSync('git add . && git commit -m "Initial commit"', {
-            cwd: monorepoDirectory,
-        })
+                        JSON.stringify({ version: '0.0.0', name: packageName }),
+                    )
+                })
+            }),
+        )
+        await this.gitRepo.init()
+        await this.commitChanges({ message: 'Initial commit' })
+    }
+
+    addFile(name, contents) {
+        return fs.writeFile(path.join(this.getPath(), name), contents)
+    }
+
+    addFileToPackage(packageName, filename, contents) {
+        this.addFile(path.join('packages', packageName, filename), contents)
+    }
+
+    addDirectory(name) {
+        return fs.mkdir(path.join(this.getPath(), name))
+    }
+
+    async commitChanges({ message }) {
+        await this.gitRepo.add('.')
+        await this.gitRepo.commit({ message })
+    }
+
+    delete() {
+        return rimraf(this.getPath())
+    }
+
+    getPath() {
+        return this.directoryPath
+    }
+}
+
+describe('monodeploy', () => {
+    let resources
+
+    expect.extend({
+        async toHaveVersion(received, expected) {
+            const latestVersion = await resources.getPackageLatestVersion(
+                received,
+            )
+            if (latestVersion === expected) {
+                return {
+                    pass: true,
+                    message: () =>
+                        `expected ${received} not to have latest version ${expected}, but it did`,
+                }
+            } else {
+                return {
+                    pass: false,
+                    message: () =>
+                        `expected ${received} to have latest version ${expected}, but instead it was ${latestVersion}`,
+                }
+            }
+        },
     })
 
-    afterEach(() => {
-        rimraf.sync(monorepoDirectory)
+    beforeEach(async () => {
+        resources = new InMemoryResources()
     })
 
-    const monodeploy = options => {
+    const createMonorepo = async packageNames => {
+        const monorepo = new TestMonorepo({ packageNames })
+        await monorepo.init()
+        return monorepo
+    }
+
+    const monodeploy = (monorepo, options) => {
         // Could not figure out how to pass cwd to git-raw-commits when it gets
         // called by conventional-changelog to update changelogs, so we settle
         // for mocking process.cwd which seems to work just fine
-        jest.spyOn(process, 'cwd').mockImplementation(() => monorepoDirectory)
-        return _monodeploy(options, monorepoDirectory, resources)
+        jest.spyOn(process, 'cwd').mockImplementation(() => monorepo.getPath())
+        return _monodeploy(options, monorepo.getPath(), resources)
     }
 
-    it('works', async () => {
-        await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+    it('publishes packages for the first time', async () => {
+        const monorepo = await createMonorepo([
+            'package-0',
+            'package-1',
+            'package-2',
+        ])
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monorepo.delete()
     })
 
     it('does not bump packages if they have not been changed', async () => {
-        await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
-        await monodeploy()
-        await expect(
-            resources.getPackageLatestVersion('package-0'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-1'),
-        ).resolves.toBe('0.1.1')
-        await expect(
-            resources.getPackageLatestVersion('package-2'),
-        ).resolves.toBe('0.1.1')
+        const monorepo = await createMonorepo([
+            'package-0',
+            'package-1',
+            'package-2',
+        ])
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monorepo.delete()
+    })
+
+    it('bumps the version of changed packages', async () => {
+        const monorepo = await createMonorepo([
+            'package-0',
+            'package-1',
+            'package-2',
+        ])
+        await monodeploy(monorepo)
+        await monorepo.addFileToPackage(
+            'package-0',
+            'newFile.js',
+            'console.log("hi")',
+        )
+        await monorepo.commitChanges({ message: 'Add newFile' })
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.2')
+        await expect('package-1').toHaveVersion('0.1.1')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monorepo.delete()
     })
 })
