@@ -68,25 +68,7 @@ class TestMonorepo {
         await Promise.all(
             Object.entries(this.dependencyGraph).map(
                 ([packageName, dependencies]) => {
-                    return this.addDirectory(
-                        path.join('packages', packageName),
-                    ).then(() => {
-                        this.addFileToPackage(
-                            packageName,
-                            'package.json',
-                            JSON.stringify({
-                                version: '0.0.0',
-                                name: packageName,
-                                dependencies: dependencies.reduce(
-                                    (dependencyMap, dependency) => ({
-                                        ...dependencyMap,
-                                        [dependency]: '*',
-                                    }),
-                                    {},
-                                ),
-                            }),
-                        )
-                    })
+                    return this.createPackage(packageName, dependencies)
                 },
             ),
         )
@@ -104,6 +86,25 @@ class TestMonorepo {
 
     addDirectory(name) {
         return fs.mkdir(path.join(this.getPath(), name))
+    }
+
+    async createPackage(name, dependencies) {
+        await this.addDirectory(path.join('packages', name))
+        await this.addFileToPackage(
+            name,
+            'package.json',
+            JSON.stringify({
+                version: '0.0.0',
+                name,
+                dependencies: dependencies.reduce(
+                    (dependencyMap, dependency) => ({
+                        ...dependencyMap,
+                        [dependency]: '*',
+                    }),
+                    {},
+                ),
+            }),
+        )
     }
 
     async commitChanges({ message }) {
@@ -224,6 +225,24 @@ describe('monodeploy', () => {
         await monodeploy(monorepo)
         await expect('package-0').toHaveVersion('0.1.2')
         await expect('package-1').toHaveVersion('0.1.2')
+        await expect('package-2').toHaveVersion('0.1.1')
+        await monorepo.delete()
+    })
+
+    it('bumps the minor version for features', async () => {
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
+        await monodeploy(monorepo)
+        await monorepo.addFileToPackage(
+            'package-1',
+            'newFile.js',
+            'console.log("hi")',
+        )
+        await monorepo.commitChanges({ message: 'feat: Add newFile' })
+        await monodeploy(monorepo)
+        await expect('package-0').toHaveVersion('0.1.1')
+        await expect('package-1').toHaveVersion('0.2.0')
         await expect('package-2').toHaveVersion('0.1.1')
         await monorepo.delete()
     })
