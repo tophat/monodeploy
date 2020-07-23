@@ -229,6 +229,21 @@ describe('monodeploy', () => {
         await monorepo.delete()
     })
 
+    it('writes a latest versions file if name is given', async () => {
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
+        await monodeploy(monorepo, {
+            latestVersionsFile: 'latest-versions.json',
+        })
+        const latestVersionsContents = await fs.readFile(
+            path.join(monorepo.getPath(), 'latest-versions.json'),
+            'utf-8',
+        )
+        expect(latestVersionsContents).toMatchSnapshot()
+        await monorepo.delete()
+    })
+
     it('bumps the minor version for features', async () => {
         const monorepo = await createMonorepo({
             packages: { 'package-0': [], 'package-1': [], 'package-2': [] },

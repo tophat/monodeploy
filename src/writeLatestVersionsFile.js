@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs').promises
 const path = require('path')
 
 async function writeLatestVersionFile(filepath, packages, { cwd }) {
@@ -9,9 +9,9 @@ async function writeLatestVersionFile(filepath, packages, { cwd }) {
     const packageInfo = packages.reduce((info, pkg) => {
         const { version, name, description } = pkg.toJSON()
         return info.concat({ version, name, description })
-    }, {})
+    }, [])
 
-    fs.writeFileSync(
+    await fs.writeFile(
         path.join(cwd, filepath),
         JSON.stringify(packageInfo, null, 2),
     )
