@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`monodeploy updates the package.json files of the published packages 1`] = `
+"{
+  \\"version\\": \\"1.0.2\\",
+  \\"name\\": \\"package-0\\",
+  \\"dependencies\\": {
+    \\"package-1\\": \\"^1.0.2\\"
+  }
+}
+"
+`;
+
+exports[`monodeploy updates the package.json files of the published packages 2`] = `
+"{
+  \\"version\\": \\"1.0.2\\",
+  \\"name\\": \\"package-1\\"
+}
+"
+`;
+
+exports[`monodeploy updates the package.json files of the published packages 3`] = `
+"{
+  \\"version\\": \\"1.0.1\\",
+  \\"name\\": \\"package-2\\"
+}
+"
+`;
+
 exports[`monodeploy writes a latest versions file if name is given 1`] = `
 "{
   \\"latestVersions\\": [

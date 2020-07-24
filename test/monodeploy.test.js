@@ -107,6 +107,13 @@ class TestMonorepo {
         )
     }
 
+    getPackageJSON(name) {
+        return fs.readFile(
+            path.join(this.getPath(), 'packages', name, 'package.json'),
+            'utf-8',
+        )
+    }
+
     async commitChanges({ message }) {
         await this.gitRepo.add('.')
         await this.gitRepo.commit({ message })
@@ -277,6 +284,28 @@ describe('monodeploy', () => {
         })
         await monodeploy(monorepo)
         await expect('package-1').toHaveVersion('2.0.0')
+        await monorepo.delete()
+    })
+
+    it('updates the package.json files of the published packages', async () => {
+        const monorepo = await createMonorepo({
+            packages: {
+                'package-0': ['package-1'],
+                'package-1': [],
+                'package-2': [],
+            },
+        })
+        await monodeploy(monorepo)
+        await monorepo.addFileToPackage(
+            'package-1',
+            'newFile.js',
+            'console.log("hi")',
+        )
+        await monorepo.commitChanges({ message: 'Add newFile' })
+        await monodeploy(monorepo)
+        expect(await monorepo.getPackageJSON('package-0')).toMatchSnapshot()
+        expect(await monorepo.getPackageJSON('package-1')).toMatchSnapshot()
+        expect(await monorepo.getPackageJSON('package-2')).toMatchSnapshot()
         await monorepo.delete()
     })
 })
