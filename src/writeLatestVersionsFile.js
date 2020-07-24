@@ -13,7 +13,7 @@ async function writeLatestVersionFile(filepath, packages, { cwd }) {
 
     await fs.writeFile(
         path.join(cwd, filepath),
-        JSON.stringify(packageInfo, null, 2),
+        JSON.stringify({ latestVersions: packageInfo }, null, 2),
     )
 }
 

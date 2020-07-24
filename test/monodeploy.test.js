@@ -168,9 +168,9 @@ describe('monodeploy', () => {
             packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
         })
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.1')
-        await expect('package-1').toHaveVersion('0.1.1')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.1')
+        await expect('package-1').toHaveVersion('1.0.1')
+        await expect('package-2').toHaveVersion('1.0.1')
         await monorepo.delete()
     })
 
@@ -179,13 +179,13 @@ describe('monodeploy', () => {
             packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
         })
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.1')
-        await expect('package-1').toHaveVersion('0.1.1')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.1')
+        await expect('package-1').toHaveVersion('1.0.1')
+        await expect('package-2').toHaveVersion('1.0.1')
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.1')
-        await expect('package-1').toHaveVersion('0.1.1')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.1')
+        await expect('package-1').toHaveVersion('1.0.1')
+        await expect('package-2').toHaveVersion('1.0.1')
         await monorepo.delete()
     })
 
@@ -201,9 +201,9 @@ describe('monodeploy', () => {
         )
         await monorepo.commitChanges({ message: 'Add newFile' })
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.2')
-        await expect('package-1').toHaveVersion('0.1.1')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.2')
+        await expect('package-1').toHaveVersion('1.0.1')
+        await expect('package-2').toHaveVersion('1.0.1')
         await monorepo.delete()
     })
 
@@ -223,9 +223,9 @@ describe('monodeploy', () => {
         )
         await monorepo.commitChanges({ message: 'Add newFile' })
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.2')
-        await expect('package-1').toHaveVersion('0.1.2')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.2')
+        await expect('package-1').toHaveVersion('1.0.2')
+        await expect('package-2').toHaveVersion('1.0.1')
         await monorepo.delete()
     })
 
@@ -256,9 +256,27 @@ describe('monodeploy', () => {
         )
         await monorepo.commitChanges({ message: 'feat: Add newFile' })
         await monodeploy(monorepo)
-        await expect('package-0').toHaveVersion('0.1.1')
-        await expect('package-1').toHaveVersion('0.2.0')
-        await expect('package-2').toHaveVersion('0.1.1')
+        await expect('package-0').toHaveVersion('1.0.1')
+        await expect('package-1').toHaveVersion('1.1.0')
+        await expect('package-2').toHaveVersion('1.0.1')
+        await monorepo.delete()
+    })
+
+    it('bumps the major version for breaking changes', async () => {
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
+        await monodeploy(monorepo)
+        await monorepo.addFileToPackage(
+            'package-1',
+            'newFile.js',
+            'console.log("hi")',
+        )
+        await monorepo.commitChanges({
+            message: 'feat: Add newFile\n\nBREAKING CHANGE: Yeet the yeet',
+        })
+        await monodeploy(monorepo)
+        await expect('package-1').toHaveVersion('2.0.0')
         await monorepo.delete()
     })
 })
