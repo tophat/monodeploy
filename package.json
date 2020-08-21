@@ -37,7 +37,7 @@
         "eslint-plugin-react-hooks": "^4.1.0",
         "jest": "^26.2.2",
         "prettier": "^2.0.5",
-        "regenerator-runtime": "^0.13.3",
+        "regenerator-runtime": "^0.13.7",
         "rimraf": "^3.0.2"
     },
     "jest": {
