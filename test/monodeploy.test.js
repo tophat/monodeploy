@@ -48,12 +48,13 @@ class TestMonorepo {
         this.gitRepo = new GitRepo(this.getPath())
     }
 
-    async init() {
+    async init(lernaConfig = {}) {
         this.addFile(
             'lerna.json',
             JSON.stringify({
                 packages: ['packages/*'],
                 version: 'independent',
+                ...lernaConfig,
             }),
         )
         await this.addFile(
@@ -156,9 +157,9 @@ describe('monodeploy', () => {
         resources = new InMemoryResources()
     })
 
-    const createMonorepo = async packages => {
+    const createMonorepo = async (packages, lernaConfig = {}) => {
         const monorepo = new TestMonorepo(packages)
-        await monorepo.init()
+        await monorepo.init(lernaConfig)
         return monorepo
     }
 
@@ -326,6 +327,25 @@ describe('monodeploy', () => {
             expect(await monorepo.getPackageJSON('package-0')).toMatchSnapshot()
             expect(await monorepo.getPackageJSON('package-1')).toMatchSnapshot()
             expect(await monorepo.getPackageJSON('package-2')).toMatchSnapshot()
+        })
+    })
+
+    it('ignores changes based on the lerna publish command config', async () => {
+        const monorepo = await createMonorepo(
+            { packages: { 'package-0': [] } },
+            { command: { publish: { ignoreChanges: ['*.test.js'] } } },
+        )
+        await withMonorepo(monorepo).do(async () => {
+            await monodeploy(monorepo)
+            expect('package-0').toHaveVersion('1.0.1')
+            await monorepo.addFileToPackage(
+                'package-0',
+                'index.test.js',
+                'console.log("hi")',
+            )
+            await monorepo.commitChanges({ message: 'Add tests' })
+            await monodeploy(monorepo)
+            expect('package-0').toHaveVersion('1.0.1')
         })
     })
 })
