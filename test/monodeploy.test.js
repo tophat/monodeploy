@@ -6,6 +6,7 @@ import _monodeploy from '../src/index'
 import InMemoryResources from './resources'
 import TestMonorepo from './test-monorepo'
 import { makeVersionMatcher } from './custom-matchers'
+import RegistryManager from './mockRegistry'
 
 // Actual output from lerna is annoying in tests. Output from this function is
 // anything lerna wants to go to stdout, so it's not configurable with the
@@ -14,11 +15,13 @@ jest.mock('@lerna/output', () => () => {})
 
 describe('monodeploy', () => {
     let resources
+    let registryManager
 
     expect.extend(makeVersionMatcher(() => resources))
 
     beforeEach(() => {
-        resources = new InMemoryResources()
+        registryManager = new RegistryManager()
+        resources = new InMemoryResources(registryManager)
     })
 
     const createMonorepo = async (packages, lernaConfig = {}) => {
@@ -210,6 +213,15 @@ describe('monodeploy', () => {
             await monorepo.commitChanges({ message: 'Add tests' })
             await monodeploy(monorepo)
             await expect('package-0').toHaveVersion('1.0.1')
+        })
+    })
+
+    it('fails if there are unknown errors when fetching package versions', async () => {
+        const monorepo = await createMonorepo({ packages: { 'package-0': [] } })
+        const error = new Error('unknown error')
+        registryManager.failFetchForPackage('package-0', error)
+        await withMonorepo(monorepo).do(async () => {
+            await expect(monodeploy(monorepo)).rejects.toBe(error)
         })
     })
 })
