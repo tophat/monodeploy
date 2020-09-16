@@ -1,159 +1,23 @@
-import { exec as _exec } from 'child_process'
-import { promises as fs, mkdtempSync } from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-import { promisify } from 'util'
-
-import _rimraf from 'rimraf'
 
 import _monodeploy from '../src/index'
 
 import InMemoryResources from './resources'
-
-const exec = promisify(_exec)
-const rimraf = promisify(_rimraf)
+import TestMonorepo from './test-monorepo'
+import { makeVersionMatcher } from './custom-matchers'
 
 // Actual output from lerna is annoying in tests. Output from this function is
 // anything lerna wants to go to stdout, so it's not configurable with the
 // logger (npmlog) which is for things that go to stderr.
 jest.mock('@lerna/output', () => () => {})
 
-class GitRepo {
-    constructor(cwd) {
-        this.cwd = cwd
-    }
-
-    _runCommand(command) {
-        return exec(`git ${command}`, { cwd: this.cwd })
-    }
-
-    init() {
-        return this._runCommand('init')
-    }
-
-    commit({ message }) {
-        return this._runCommand(`commit -am "${message}"`)
-    }
-
-    add(files) {
-        return this._runCommand(`add ${files}`)
-    }
-}
-
-class TestMonorepo {
-    constructor({ packages } = {}) {
-        this.dependencyGraph = packages
-        this.directoryPath = mkdtempSync(
-            path.join(path.sep, 'tmp', 'monodeploy-'),
-        )
-        this.gitRepo = new GitRepo(this.getPath())
-    }
-
-    async init(lernaConfig = {}) {
-        this.addFile(
-            'lerna.json',
-            JSON.stringify({
-                packages: ['packages/*'],
-                version: 'independent',
-                ...lernaConfig,
-            }),
-        )
-        await this.addFile(
-            'package.json',
-            JSON.stringify({
-                private: true,
-                version: '1.0.0',
-                name: 'monorepo',
-            }),
-        )
-        await this.addDirectory('packages')
-        await Promise.all(
-            Object.entries(this.dependencyGraph).map(
-                ([packageName, dependencies]) => {
-                    return this.createPackage(packageName, dependencies)
-                },
-            ),
-        )
-        await this.gitRepo.init()
-        await this.commitChanges({ message: 'Initial commit' })
-    }
-
-    addFile(name, contents) {
-        return fs.writeFile(path.join(this.getPath(), name), contents)
-    }
-
-    addFileToPackage(packageName, filename, contents) {
-        this.addFile(path.join('packages', packageName, filename), contents)
-    }
-
-    addDirectory(name) {
-        return fs.mkdir(path.join(this.getPath(), name))
-    }
-
-    async createPackage(name, dependencies) {
-        await this.addDirectory(path.join('packages', name))
-        await this.addFileToPackage(
-            name,
-            'package.json',
-            JSON.stringify({
-                version: '0.0.0',
-                name,
-                dependencies: dependencies.reduce(
-                    (dependencyMap, dependency) => ({
-                        ...dependencyMap,
-                        [dependency]: '*',
-                    }),
-                    {},
-                ),
-            }),
-        )
-    }
-
-    getPackageJSON(name) {
-        return fs.readFile(
-            path.join(this.getPath(), 'packages', name, 'package.json'),
-            'utf-8',
-        )
-    }
-
-    async commitChanges({ message }) {
-        await this.gitRepo.add('.')
-        await this.gitRepo.commit({ message })
-    }
-
-    delete() {
-        return rimraf(this.getPath())
-    }
-
-    getPath() {
-        return this.directoryPath
-    }
-}
-
 describe('monodeploy', () => {
     let resources
 
-    expect.extend({
-        async toHaveVersion(received, expected) {
-            const latestVersion = await resources.getPackageLatestVersion(
-                received,
-            )
-            if (latestVersion === expected) {
-                return {
-                    pass: true,
-                    message: () =>
-                        `expected ${received} not to have latest version ${expected}, but it did`,
-                }
-            } else {
-                return {
-                    pass: false,
-                    message: () =>
-                        `expected ${received} to have latest version ${expected}, but instead it was ${latestVersion}`,
-                }
-            }
-        },
-    })
+    expect.extend(makeVersionMatcher(() => resources))
 
-    beforeEach(async () => {
+    beforeEach(() => {
         resources = new InMemoryResources()
     })
 
@@ -265,7 +129,7 @@ describe('monodeploy', () => {
                 path.join(monorepo.getPath(), 'latest-versions.json'),
                 'utf-8',
             )
-            expect(latestVersionsContents).toMatchSnapshot()
+            await expect(latestVersionsContents).toMatchSnapshot()
         })
     })
 
@@ -337,7 +201,7 @@ describe('monodeploy', () => {
         )
         await withMonorepo(monorepo).do(async () => {
             await monodeploy(monorepo)
-            expect('package-0').toHaveVersion('1.0.1')
+            await expect('package-0').toHaveVersion('1.0.1')
             await monorepo.addFileToPackage(
                 'package-0',
                 'index.test.js',
@@ -345,7 +209,7 @@ describe('monodeploy', () => {
             )
             await monorepo.commitChanges({ message: 'Add tests' })
             await monodeploy(monorepo)
-            expect('package-0').toHaveVersion('1.0.1')
+            await expect('package-0').toHaveVersion('1.0.1')
         })
     })
 })
