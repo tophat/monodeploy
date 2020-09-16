@@ -1,7 +1,7 @@
 const lernaPublish = require('@lerna/publish')
 const latestVersion = require('latest-version')
 
-export class ResourceInterface {
+class ResourceInterface {
     // eslint-disable-next-line no-unused-vars
     getPackageLatestVersion(name, { registryUrl } = {}) {
         throw new Error('not implemented!')
@@ -13,7 +13,7 @@ export class ResourceInterface {
     }
 }
 
-export class ExternalResources extends ResourceInterface {
+class ExternalResources extends ResourceInterface {
     getPackageLatestVersion(name, { registryUrl } = {}) {
         return latestVersion(name, registryUrl ? { registryUrl } : {})
     }
@@ -22,3 +22,8 @@ export class ExternalResources extends ResourceInterface {
         return lernaPublish(options)
     }
 }
+
+Object.assign(exports, {
+    ResourceInterface,
+    ExternalResources,
+})
