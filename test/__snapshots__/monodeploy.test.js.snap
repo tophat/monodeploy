@@ -14,7 +14,10 @@ exports[`monodeploy updates the package.json files of the published packages 1`]
 exports[`monodeploy updates the package.json files of the published packages 2`] = `
 "{
   \\"version\\": \\"1.0.2\\",
-  \\"name\\": \\"package-1\\"
+  \\"name\\": \\"package-1\\",
+  \\"dependencies\\": {
+    \\"package-2\\": \\"^1.0.1\\"
+  }
 }
 "
 `;

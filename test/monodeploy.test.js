@@ -178,7 +178,7 @@ describe('monodeploy', () => {
         const monorepo = await createMonorepo({
             packages: {
                 'package-0': ['package-1'],
-                'package-1': [],
+                'package-1': ['package-2'],
                 'package-2': [],
             },
         })
