@@ -224,4 +224,18 @@ describe('monodeploy', () => {
             await expect(monodeploy(monorepo)).rejects.toBe(error)
         })
     })
+
+    it('allows publishing to different registries', async () => {
+        const monorepo = await createMonorepo({ packages: { 'package-0': [] } })
+        registryManager.createRegistry('http://zombo.com')
+        await withMonorepo(monorepo).do(async () => {
+            await monodeploy(monorepo)
+            await expect('package-0').toHaveVersion('1.0.1')
+            await monodeploy(monorepo, { registryUrl: 'http://zombo.com' })
+            await expect('package-0').toHaveVersion({
+                version: '1.0.1',
+                registryUrl: 'http://zombo.com',
+            })
+        })
+    })
 })

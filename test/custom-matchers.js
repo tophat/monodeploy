@@ -1,20 +1,24 @@
 export function makeVersionMatcher(getResources) {
     return {
-        async toHaveVersion(received, expected) {
+        async toHaveVersion(pkg, expected) {
+            const version =
+                typeof expected === 'string' ? expected : expected.version
+            const { registryUrl } = expected
             const latestVersion = await getResources().getPackageLatestVersion(
-                received,
+                pkg,
+                registryUrl ? { registryUrl } : {},
             )
-            if (latestVersion === expected) {
+            if (latestVersion === version) {
                 return {
                     pass: true,
                     message: () =>
-                        `expected ${received} not to have latest version ${expected}, but it did`,
+                        `expected ${pkg} not to have latest version ${expected}, but it did`,
                 }
             } else {
                 return {
                     pass: false,
                     message: () =>
-                        `expected ${received} to have latest version ${expected}, but instead it was ${latestVersion}`,
+                        `expected ${pkg} to have latest version ${expected}, but instead it was ${latestVersion}`,
                 }
             }
         },
