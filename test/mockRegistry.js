@@ -1,9 +1,22 @@
+const DEFAULT_REGISTRY = 'DEFAULT_REGISTRY'
+
+import { PackageNotFoundError } from 'package-json'
+
 class RegistryManager {
     constructor() {
         this.registries = {}
+        this.fetchesToFail = {}
+        this.createRegistry(DEFAULT_REGISTRY)
     }
 
-    publish(packageJson, registryUrl = 'DEFAULT_REGISTRY/') {
+    createRegistry(name) {
+        if (this.registries[name]) {
+            throw new Error(`Registry ${name} already exists`)
+        }
+        this.registries[name] = {}
+    }
+
+    publish(packageJson, registryUrl = DEFAULT_REGISTRY) {
         const { name } = packageJson
 
         if (!this.registries[registryUrl]) {
@@ -17,15 +30,20 @@ class RegistryManager {
         this.registries[registryUrl][name].push(packageJson)
     }
 
-    getLatestVersion(pkg, registryUrl = 'DEFAULT_REGISTRY/') {
+    failFetchForPackage(pkg, error) {
+        this.fetchesToFail[pkg] = error
+    }
+
+    getLatestVersion(pkg, registryUrl = DEFAULT_REGISTRY) {
+        if (this.fetchesToFail[pkg]) {
+            throw this.fetchesToFail[pkg]
+        }
         if (!this.registries[registryUrl]) {
             throw new Error(`Registry ${registryUrl} does not exist`)
         }
         const versions = this.registries[registryUrl][pkg]
         if (!versions) {
-            throw new Error(
-                `Package ${pkg} does not exist in registry ${registryUrl}`,
-            )
+            throw new PackageNotFoundError(pkg)
         }
         return versions[versions.length - 1].version
     }
