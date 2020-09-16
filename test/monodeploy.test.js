@@ -238,4 +238,22 @@ describe('monodeploy', () => {
             })
         })
     })
+
+    it('creates git tags for all published packages', async () => {
+        const monorepo = await createMonorepo({
+            packages: {
+                'package-0': [],
+                'package-1': [],
+                'package-2': [],
+            },
+        })
+        await withMonorepo(monorepo).do(async () => {
+            await monodeploy(monorepo)
+            expect(await monorepo.getTags()).toEqual([
+                'package-0@1.0.1',
+                'package-1@1.0.1',
+                'package-2@1.0.1',
+            ])
+        })
+    })
 })
