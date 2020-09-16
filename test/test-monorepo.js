@@ -96,6 +96,11 @@ class TestMonorepo {
     getPath() {
         return this.directoryPath
     }
+
+    async getTags() {
+        const { stdout: tags } = await this.gitRepo.tag()
+        return tags.trim().split('\n')
+    }
 }
 
 export default TestMonorepo

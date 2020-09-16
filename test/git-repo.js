@@ -23,6 +23,10 @@ class GitRepo {
     add(files) {
         return this._runCommand(`add ${files}`)
     }
+
+    tag() {
+        return this._runCommand('tag')
+    }
 }
 
 export default GitRepo
