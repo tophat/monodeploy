@@ -1,5 +1,3 @@
-# When in doubt, look up the CircleCI documentation, it has everything you need to know: https://circleci.com/docs/
-
 version: 2.1
 
 jobs:
@@ -73,48 +71,6 @@ jobs:
       - run:
           name: Publish New Package Version through npm
           command: npm publish
-  website:
-    docker:
-      - image: circleci/node:8.11
-    working_directory: ~/repo/website
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          name: Restore node_modules cache
-          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run: yarn install --frozen-lockfile
-      - save_cache:
-          name: Save node_modules cache
-          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules/
-      - run: yarn build
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - build/
-  deploy_website:
-    docker:
-      - image: circleci/node:8.11
-    working_directory: ~/repo/website
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          name: Restore node_modules cache
-          key: website-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - attach_workspace:
-          at: ./
-      - add_ssh_keys:
-          fingerprints:
-            - "24:16:4e:a5:71:1b:9d:de:f5:dc:65:86:be:02:c0:ed"
-      - run:
-          name: Setup git user and deploy website
-          command: |
-            git config --global user.email "circleci-monodeploy@users.noreply.github.com"
-            git config --global user.name "CircleCI monodeploy"
-            USE_SSH=true yarn publish-gh-pages
 
 workflows:
     version: 2
@@ -146,11 +102,3 @@ workflows:
                     only: /^v.*/
                   branches:
                     ignore: /.*/
-            - website
-            - deploy_website:
-                requires:
-                  - website
-                filters:
-                  branches:
-                    only:
-                      - master
