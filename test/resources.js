@@ -12,7 +12,6 @@ class InMemoryResources extends ResourceInterface {
     }
 
     getPackageLatestVersion(packageName, { registryUrl } = {}) {
-        console.log('in get package latest version', registryUrl)
         try {
             return Promise.resolve(
                 this.registryManager.getLatestVersion(packageName, registryUrl),
