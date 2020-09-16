@@ -12,16 +12,20 @@ class InMemoryResources extends ResourceInterface {
     }
 
     getPackageLatestVersion(packageName, { registryUrl } = {}) {
-        return Promise.resolve(
-            this.registryManager.getLatestVersion(packageName, registryUrl),
-        )
+        try {
+            return Promise.resolve(
+                this.registryManager.getLatestVersion(packageName, registryUrl),
+            )
+        } catch (e) {
+            return Promise.reject(e)
+        }
     }
 
     async publish(options) {
         await lernaVersion(options)
         const packages = await getPackages(options.cwd)
         for (const pkg of packages) {
-            this.registryManager.publish(pkg.toJSON(), options.registryUrl)
+            this.registryManager.publish(pkg.toJSON(), options.registry)
         }
     }
 }
