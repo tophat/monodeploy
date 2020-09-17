@@ -24,4 +24,7 @@ const { argv } = yargs
     .strict()
     .wrap(yargs.terminalWidth())
 
-monodeploy(argv)
+monodeploy(argv).catch(e => {
+    console.error(e)
+    process.exit(1)
+})
