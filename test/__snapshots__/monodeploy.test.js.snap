@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`monodeploy respects latest version files created outside current working directory 1`] = `
+"{
+  \\"latestVersions\\": [
+    {
+      \\"version\\": \\"1.0.1\\",
+      \\"name\\": \\"package-0\\"
+    },
+    {
+      \\"version\\": \\"1.0.1\\",
+      \\"name\\": \\"package-1\\"
+    },
+    {
+      \\"version\\": \\"1.0.1\\",
+      \\"name\\": \\"package-2\\"
+    }
+  ]
+}"
+`;
+
 exports[`monodeploy updates the package.json files of the published packages 1`] = `
 "{
   \\"version\\": \\"1.0.2\\",

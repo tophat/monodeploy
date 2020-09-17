@@ -136,6 +136,22 @@ describe('monodeploy', () => {
         })
     })
 
+    it('respects latest version files created outside current working directory', async () => {
+        const monorepo = await createMonorepo({
+            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
+        })
+        await withMonorepo(monorepo).do(async () => {
+            await monodeploy(monorepo, {
+                latestVersionsFile: '/tmp/latest-versions.json',
+            })
+            const latestVersionsContents = await fs.readFile(
+                '/tmp/latest-versions.json',
+                'utf-8',
+            )
+            await expect(latestVersionsContents).toMatchSnapshot()
+        })
+    })
+
     it('bumps the minor version for features', async () => {
         const monorepo = await createMonorepo({
             packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
