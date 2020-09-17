@@ -24,8 +24,8 @@ class GitRepo {
         return this._runCommand(`add ${files}`)
     }
 
-    tag() {
-        return this._runCommand('tag')
+    tag(args = []) {
+        return this._runCommand(`tag ${args.join(' ')}`)
     }
 }
 

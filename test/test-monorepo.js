@@ -77,13 +77,6 @@ class TestMonorepo {
         )
     }
 
-    getPackageJSON(name) {
-        return fs.readFile(
-            path.join(this.getPath(), 'packages', name, 'package.json'),
-            'utf-8',
-        )
-    }
-
     async commitChanges({ message }) {
         await this.gitRepo.add('.')
         await this.gitRepo.commit({ message })
@@ -100,6 +93,14 @@ class TestMonorepo {
     async getTags() {
         const { stdout: tags } = await this.gitRepo.tag()
         return tags.trim().split('\n')
+    }
+
+    async deleteTags() {
+        const tags = await this.getTags()
+        if (tags.length === 0) {
+            return
+        }
+        return this.gitRepo.tag(['-d'].concat(tags))
     }
 }
 

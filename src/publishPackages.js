@@ -1,9 +1,12 @@
 async function publishPackages(
     resources,
+    changedPackages,
     { registryUrl, changelogPreset, cwd },
 ) {
     const publishOptions = {
-        amend: true,
+        gitTagVersion: false,
+        push: false,
+        gitReset: false,
         yes: true,
         conventionalCommits: true,
         registry: registryUrl,
@@ -15,7 +18,7 @@ async function publishPackages(
         loglevel: 'error',
     }
 
-    await resources.publish(publishOptions)
+    await resources.publish(changedPackages, publishOptions)
     // TODO: if publish fails, try again with "from-git" or "from-package"
 }
 

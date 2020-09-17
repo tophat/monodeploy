@@ -21,11 +21,14 @@ class InMemoryResources extends ResourceInterface {
         }
     }
 
-    async publish(options) {
+    async publish(changedPackages, options) {
         await lernaVersion(options)
         const packages = await getPackages(options.cwd)
-        for (const pkg of packages) {
-            this.registryManager.publish(pkg.toJSON(), options.registry)
+        for (const changedPackage of changedPackages) {
+            this.registryManager.publish(
+                packages.find(pkg => pkg.name === changedPackage.name).toJSON(),
+                options.registry,
+            )
         }
     }
 }

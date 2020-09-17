@@ -12,13 +12,13 @@ export function makeVersionMatcher(getResources) {
                 return {
                     pass: true,
                     message: () =>
-                        `expected ${pkg} not to have latest version ${expected}, but it did`,
+                        `expected ${pkg} not to have latest version ${version}, but it did`,
                 }
             } else {
                 return {
                     pass: false,
                     message: () =>
-                        `expected ${pkg} to have latest version ${expected}, but instead it was ${latestVersion}`,
+                        `expected ${pkg} to have latest version ${version}, but instead it was ${latestVersion}`,
                 }
             }
         },

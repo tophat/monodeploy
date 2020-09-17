@@ -207,9 +207,15 @@ describe('monodeploy', () => {
             )
             await monorepo.commitChanges({ message: 'Add newFile' })
             await monodeploy(monorepo)
-            expect(await monorepo.getPackageJSON('package-0')).toMatchSnapshot()
-            expect(await monorepo.getPackageJSON('package-1')).toMatchSnapshot()
-            expect(await monorepo.getPackageJSON('package-2')).toMatchSnapshot()
+            expect(
+                await registryManager.getPackageJSON('package-0'),
+            ).toMatchSnapshot()
+            expect(
+                await registryManager.getPackageJSON('package-1'),
+            ).toMatchSnapshot()
+            expect(
+                await registryManager.getPackageJSON('package-2'),
+            ).toMatchSnapshot()
         })
     })
 
@@ -247,6 +253,7 @@ describe('monodeploy', () => {
         await withMonorepo(monorepo).do(async () => {
             await monodeploy(monorepo)
             await expect('package-0').toHaveVersion('1.0.1')
+            await monorepo.deleteTags()
             await monodeploy(monorepo, { registryUrl: 'http://zombo.com' })
             await expect('package-0').toHaveVersion({
                 version: '1.0.1',
