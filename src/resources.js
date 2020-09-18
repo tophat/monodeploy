@@ -8,7 +8,7 @@ class ResourceInterface {
     }
 
     // eslint-disable-next-line no-unused-vars
-    publish(options) {
+    publish(changedPackages, options) {
         throw new Error('not implemented!')
     }
 }
@@ -18,7 +18,7 @@ class ExternalResources extends ResourceInterface {
         return latestVersion(name, registryUrl ? { registryUrl } : {})
     }
 
-    publish(options) {
+    publish(changedPackages, options) {
         return lernaPublish(options)
     }
 }

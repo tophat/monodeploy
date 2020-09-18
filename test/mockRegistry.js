@@ -38,6 +38,10 @@ class RegistryManager {
         if (this.fetchesToFail[pkg]) {
             throw this.fetchesToFail[pkg]
         }
+        return this.getPackageJSON(pkg, registryUrl).version
+    }
+
+    getPackageJSON(pkg, registryUrl = DEFAULT_REGISTRY) {
         if (!this.registries[registryUrl]) {
             throw new Error(`Registry ${registryUrl} does not exist`)
         }
@@ -45,7 +49,7 @@ class RegistryManager {
         if (!versions) {
             throw new PackageNotFoundError(pkg)
         }
-        return versions[versions.length - 1].version
+        return versions[versions.length - 1]
     }
 }
 
