@@ -102,6 +102,11 @@ class TestMonorepo {
         }
         return this.gitRepo.tag(['-d'].concat(tags))
     }
+
+    async resetChanges() {
+        await this.gitRepo.checkout(['.'])
+        await this.gitRepo.clean()
+    }
 }
 
 export default TestMonorepo

@@ -27,6 +27,14 @@ class GitRepo {
     tag(args = []) {
         return this._runCommand(`tag ${args.join(' ')}`)
     }
+
+    clean() {
+        return this._runCommand('clean -f')
+    }
+
+    checkout(files) {
+        return this._runCommand(`checkout -- ${files.join(' ')}`)
+    }
 }
 
 export default GitRepo

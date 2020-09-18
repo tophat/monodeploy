@@ -30,12 +30,13 @@ describe('monodeploy', () => {
         return monorepo
     }
 
-    const monodeploy = (monorepo, options) => {
+    const monodeploy = async (monorepo, options) => {
         // Could not figure out how to pass cwd to git-raw-commits when it gets
         // called by conventional-changelog to update changelogs, so we settle
         // for mocking process.cwd which seems to work just fine
         jest.spyOn(process, 'cwd').mockImplementation(() => monorepo.getPath())
-        return _monodeploy(options, monorepo.getPath(), resources)
+        await _monodeploy(options, monorepo.getPath(), resources)
+        await monorepo.resetChanges()
     }
 
     // Use a weird context manager style API to make sure we clean up the
@@ -120,28 +121,15 @@ describe('monodeploy', () => {
         })
     })
 
-    it('writes a latest versions file if name is given', async () => {
+    it('writes a latest versions file if file name is given', async () => {
         const monorepo = await createMonorepo({
             packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
         })
         await withMonorepo(monorepo).do(async () => {
             await monodeploy(monorepo, {
-                latestVersionsFile: 'latest-versions.json',
-            })
-            const latestVersionsContents = await fs.readFile(
-                path.join(monorepo.getPath(), 'latest-versions.json'),
-                'utf-8',
-            )
-            await expect(latestVersionsContents).toMatchSnapshot()
-        })
-    })
-
-    it('respects latest version files created outside current working directory', async () => {
-        const monorepo = await createMonorepo({
-            packages: { 'package-0': [], 'package-1': [], 'package-2': [] },
-        })
-        await withMonorepo(monorepo).do(async () => {
-            await monodeploy(monorepo, {
+                // NB: we have to create the file outside the git repo in order
+                // to read it later, since the tests clean all untracked files
+                // upon each run of monodeploy
                 latestVersionsFile: '/tmp/latest-versions.json',
             })
             const latestVersionsContents = await fs.readFile(

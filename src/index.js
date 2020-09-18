@@ -9,7 +9,6 @@ const writePackageJsonFiles = require('./writePackageJsonFiles')
 const publishPackages = require('./publishPackages')
 const writeLatestVersionsFile = require('./writeLatestVersionsFile')
 const createTags = require('./createTags')
-const resetChanges = require('./resetChanges')
 
 async function monodeploy(
     { registryUrl, changelogPreset, latestVersionsFile } = {},
@@ -43,10 +42,13 @@ async function monodeploy(
         ),
         { cwd },
     )
-    await resetChanges(cwd)
     await writeLatestVersionsFile(latestVersionsFile, allPackagesWithUpdates, {
         cwd,
     })
+    // NB: the working git directory is left in a dirty state, including
+    // package.json changes and changelogs. This behaviour is strange and
+    // should be fixed at some point, but for now it's the best way to
+    // accomodate Top Hat's deployment process.
 }
 
 module.exports = monodeploy
