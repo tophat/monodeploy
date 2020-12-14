@@ -23,6 +23,8 @@ jobs:
             node-version: ${{ env.NODE_VERSION }}
         - name: Create artifacts directory
           run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Install Commit Watch
+          run: yarn global add commit-watch
         - name: Run Commit Watch
           env:
             COMMIT_WATCH_OUTPUT_DIR: ${{ env.ARTIFACT_DIR }}/
@@ -32,7 +34,7 @@ jobs:
             CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
             CI_BASE_BRANCH: ${{ github.base_ref }}
             VERBOSE: 1
-          run: yarn dlx commit-watch
+          run: commit-watch
         - name: Upload Artifacts
           uses: actions/upload-artifact@v2
           with:
