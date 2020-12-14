@@ -1,0 +1,48 @@
+name: Continuous Integration
+
+on:
+  - pull_request_target
+
+env:
+  CI: 1
+  ARTIFACT_DIR: ./artifacts
+
+jobs:
+  tests:
+    name: Lint, Tests, and Build
+    runs-on: ubuntu-18.04
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            ref: ${{ github.event.pull_request.head.sha }}
+        - uses: ./.github/actions/detect-node
+        - name: Setup Node.js
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: ./.yarn/cache
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: yarn install --immutable
+        - name: Linting
+          run: yarn lint:ci
+        - name: Tests
+          run: yarn test:ci
+        - uses: codecov/codecov-action@v1
+          with:
+            directory: ${{ env.ARTIFACT_DIR }}/test_results/jest/
+            fail_ci_if_error: false
+            verbose: true
+        - name: Build
+          run: yarn build
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: reports-and-build-artifacts
+            path: ${{ env.ARTIFACT_DIR }}
