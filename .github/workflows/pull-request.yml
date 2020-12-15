@@ -32,6 +32,10 @@ jobs:
           run: yarn install --immutable
         - name: Linting
           run: yarn lint:ci
+        - name: Set GitHub user email for test
+          run: git config --global user.email "hansmoleman@tophat.com"
+        - name: Set GitHub user name for tests
+          run: git config --global user.name "Hans Moleman"
         - name: Tests
           run: yarn test:ci
         - uses: codecov/codecov-action@v1
