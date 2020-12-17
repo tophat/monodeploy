@@ -1,5 +1,14 @@
 .vscode/settings.json
-node_modules/
 coverage
+node_modules
 website/build
+lib/
+artifacts/
+*.junit.xml
 *.log
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/versions
+.pnp.*
