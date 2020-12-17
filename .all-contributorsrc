@@ -74,7 +74,19 @@
         "code",
         "infra"
       ]
+    },
+    {
+      "login": "AnvarGazizovTH",
+      "name": "AnvarGazizovTH",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/69803154?v=4",
+      "profile": "https://github.com/AnvarGazizovTH",
+      "contributions": [
+        "infra",
+        "tool",
+        "code"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
