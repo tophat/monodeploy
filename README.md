@@ -9,7 +9,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)
 
-A small wrapper around lerna that makes it easier to use in CI
+A small wrapper around yarn berry that makes it easier to use in CI
 
 ## Installation
 

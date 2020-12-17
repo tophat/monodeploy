@@ -1,7 +1,7 @@
 {
     "name": "monodeploy",
     "version": "1.0.0",
-    "description": "A small wrapper around lerna that makes it easier to use in CI",
+    "description": "A small wrapper around yarn berry that makes it easier to use in CI",
     "main": "lib/index.js",
     "files": [
         "lib"
@@ -35,7 +35,6 @@
         "@babel/core": "^7.11.6",
         "@babel/plugin-transform-runtime": "^7.11.5",
         "@babel/preset-env": "^7.11.5",
-        "@lerna/version": "^3.22.1",
         "@tophat/eslint-config": "^0.7.0",
         "all-contributors-cli": "^6.19.0",
         "babel-jest": "^26.6.3",
@@ -58,13 +57,7 @@
         "rimraf": "^3.0.2"
     },
     "dependencies": {
-        "@lerna/collect-updates": "^3.20.0",
-        "@lerna/output": "^3.13.0",
-        "@lerna/package-graph": "^3.18.5",
-        "@lerna/project": "^3.21.0",
-        "@lerna/publish": "^3.22.1",
         "latest-version": "^5.1.0",
-        "lodash.get": "^4.4.2",
         "yargs": "^16.2.0"
     },
     "lint-staged": {

@@ -1,4 +1,3 @@
-const get = require('lodash.get')
 const Project = require('@lerna/project')
 
 const { ExternalResources } = require('./resources')
@@ -21,7 +20,7 @@ async function monodeploy(
     await updatePackageVersions(resources, packages, { registryUrl })
     const changedPackages = getChangedPackages(packages, {
         cwd,
-        ignoreChanges: get(project.config, 'command.publish.ignoreChanges', []),
+        ignoreChanges: project.config?.command?.publish?.ignoreChanges ?? [],
     })
     updatePackageDependencies(changedPackages, packages)
     await writePackageJsonFiles(changedPackages)
