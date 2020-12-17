@@ -52,12 +52,9 @@
         "jest-junit": "^12.0.0",
         "lint-staged": "^10.5.3",
         "package-json": "^6.5.0",
-        "prettier": "^2.2.1",
-        "regenerator-runtime": "^0.13.7",
-        "rimraf": "^3.0.2"
+        "prettier": "^2.2.1"
     },
     "dependencies": {
-        "latest-version": "^5.1.0",
         "yargs": "^16.2.0"
     },
     "lint-staged": {

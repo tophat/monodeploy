@@ -5420,15 +5420,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"latest-version@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "latest-version@npm:5.1.0"
-  dependencies:
-    package-json: ^6.3.0
-  checksum: 63c1f224358d094a75782cc48a5b3eeaf70a70c0e18f8b814480e50ed0ecedb4bc5f2c9cc44c7983fbf31e865f0376526bf9a563c304f3261971f38d8f51c5c6
-  languageName: node
-  linkType: hard
-
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -5802,15 +5793,12 @@ __metadata:
     husky: ^5.0.6
     jest: ^26.6.3
     jest-junit: ^12.0.0
-    latest-version: ^5.1.0
     lint-staged: ^10.5.3
     package-json: ^6.5.0
     prettier: ^2.2.1
-    regenerator-runtime: ^0.13.7
-    rimraf: ^3.0.2
     yargs: ^16.2.0
   bin:
-    monodeploy: ./lib/monodeploy
+    monodeploy: ./lib/cli.js
   languageName: unknown
   linkType: soft
 
@@ -6257,7 +6245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"package-json@npm:^6.3.0, package-json@npm:^6.5.0":
+"package-json@npm:^6.5.0":
   version: 6.5.0
   resolution: "package-json@npm:6.5.0"
   dependencies:
@@ -6712,7 +6700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.4, regenerator-runtime@npm:^0.13.7":
+"regenerator-runtime@npm:^0.13.4":
   version: 0.13.7
   resolution: "regenerator-runtime@npm:0.13.7"
   checksum: 6ef567c662088b1b292214920cbd72443059298d477f72e1a37e0a113bafbfac9057cbfe35ae617284effc4b423493326a78561bbff7b04162c7949bdb9624e8
