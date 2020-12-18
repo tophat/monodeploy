@@ -32,13 +32,12 @@ const getModifiedPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    const stdout = execSync(
-        `git diff ${config.git.baseBranch}...${config.git.commitSha} --name-only`,
-        {
-            encoding: 'utf8',
-            cwd: config.cwd,
-        },
-    )
+    const gitCommand = `git diff ${config.git.baseBranch}...${config.git.commitSha} --name-only`
+    logging.debug(`Exec: ${gitCommand}`)
+    const stdout = execSync(gitCommand, {
+        encoding: 'utf8',
+        cwd: config.cwd,
+    })
     const paths = stdout.split('\n')
     const uniquePaths = paths.reduce(
         (uniquePaths: Set<string>, currentPath: string) => {
