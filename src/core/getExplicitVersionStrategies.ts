@@ -1,10 +1,13 @@
 import { execSync } from 'child_process'
 import { PortablePath } from '@yarnpkg/fslib'
+import { structUtils } from '@yarnpkg/core'
+
+import logging from '../logging'
 import type {
     MonodeployConfiguration,
-    PackageVersionBumps,
+    PackageStrategyMap,
     YarnContext,
-    PackageVersionBumpType,
+    PackageStrategyType,
 } from '../types'
 
 import getCommitMessages from '../utils/getCommitMessages'
@@ -16,19 +19,24 @@ const STRATEGY = {
     MAJOR: 3,
 }
 
-const strategyLevelToType = (level: number): PackageVersionBumpType | null => {
+const strategyLevelToType = (level: number): PackageStrategyType | null => {
     const name = Object.entries(STRATEGY)
         .find((key, value) => level === value)?.[0]
         ?.toLowerCase()
     if (name === 'none') return null
-    return (name as PackageVersionBumpType | null) ?? null
+    return (name as PackageStrategyType | null) ?? null
 }
 
 const getModifiedPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    const stdout = execSync('git diff', { encoding: 'utf8' })
+    const stdout = execSync(
+        `git diff ${config.git.baseBranch}...${config.git.commitSha}`,
+        {
+            encoding: 'utf8',
+        },
+    )
     const modifiedPathPattern = /^(\+{3}|\-{3})\s+[a-b]\/(.*\/.*\..*)$/gm
     const paths = [...stdout.matchAll(modifiedPathPattern)]
     const uniquePaths = paths.reduce(
@@ -46,10 +54,12 @@ const getModifiedPackages = async (
                 const workspace = context.project.getWorkspaceByFilePath(
                     path as PortablePath,
                 )
-                const packageName = workspace?.manifest?.name?.name
+                const ident = workspace?.manifest?.name
+                if (!ident) throw new Error('Missing workspace identity.')
+                const packageName = structUtils.stringifyIdent(ident)
                 if (packageName) modifiedPackages.push(packageName)
             } catch (e) {
-                console.error(e)
+                logging.error(e)
             }
             return modifiedPackages
         },
@@ -58,10 +68,10 @@ const getModifiedPackages = async (
     return modifiedPackages
 }
 
-const getPendingVersionBumps = async (
+const getExplicitVersionStrategies = async (
     config: MonodeployConfiguration,
     context: YarnContext,
-): Promise<PackageVersionBumps> => {
+): Promise<PackageStrategyMap> => {
     const commitMessages = await getCommitMessages(config)
     const pattern = new RegExp('(w+)(\\([^:]+\\))?:.*')
     const strategies = commitMessages.map(msg => {
@@ -79,12 +89,12 @@ const getPendingVersionBumps = async (
 
     const packageNames = await getModifiedPackages(config, context)
 
-    const versionBumps: PackageVersionBumps = {}
+    const versionStrategies: PackageStrategyMap = new Map()
     for (const pkgName of packageNames) {
-        if (strategy) versionBumps[pkgName] = strategy
+        if (strategy) versionStrategies.set(pkgName, strategy)
     }
 
-    return versionBumps
+    return versionStrategies
 }
 
-export default getPendingVersionBumps
+export default getExplicitVersionStrategies

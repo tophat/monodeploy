@@ -35,9 +35,9 @@ const getLatestPackageTags = async (
         }),
     )
 
-    const tags: PackageTagMap = {}
+    const tags: PackageTagMap = new Map()
     for (const [pkgName, latest] of distTags) {
-        if (pkgName) tags[pkgName] = latest
+        if (pkgName) tags.set(pkgName, latest)
     }
 
     return tags

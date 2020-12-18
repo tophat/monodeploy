@@ -2,12 +2,16 @@ import { Configuration, Project } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import NpmPlugin from '@yarnpkg/plugin-npm'
 
-import type { MonodeployConfiguration, YarnContext } from './types'
+import type {
+    MonodeployConfiguration,
+    YarnContext,
+    PackageStrategyMap,
+} from './types'
 
 import logging from './logging'
 import getLatestPackageTags from './core/getLatestPackageTags'
-import getPendingVersionBumps from './core/getPendingVersionBumps'
-import patchPackageJsons from './core/patchPackageJsons'
+import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
+import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import applyReleases from './core/applyReleases'
 
 import getRegistryUrl from './utils/getRegistryUrl'
@@ -38,19 +42,39 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
     logging.debug(`Registry Tags`, JSON.stringify(registryTags, null, 2))
 
     // Determine version bumps via commit messages
-    const versionBumps = await getPendingVersionBumps(config, context)
-    logging.debug(`Version Strategies`, JSON.stringify(versionBumps, null, 2))
+    const explicitVersionStrategies = await getExplicitVersionStrategies(
+        config,
+        context,
+    )
+
+    // Determine version bumps to dependent packages
+    const implicitVersionStrategies = await getImplicitVersionStrategies(
+        config,
+        context,
+        explicitVersionStrategies,
+    )
+
+    const versionStrategies: PackageStrategyMap = new Map([
+        ...explicitVersionStrategies.entries(),
+        ...implicitVersionStrategies.entries(),
+    ])
+
+    logging.debug(
+        `Version Strategies`,
+        JSON.stringify(
+            Object.fromEntries(versionStrategies.entries()),
+            null,
+            2,
+        ),
+    )
 
     // Backup workspace package.jsons
     const backupKey = await backupPackageJsons(config, context)
     logging.debug(`Backup Key: ${backupKey}`)
 
     try {
-        // Update workspace package.jsons
-        await patchPackageJsons(config, context, registryTags)
-
-        // Apply releases
-        await applyReleases(config, context, versionBumps)
+        // Apply releases, and update package.jsons
+        await applyReleases(config, context, registryTags, versionStrategies)
 
         // Publish (+ Git Tags)
         // TODO

@@ -16,10 +16,8 @@ export interface YarnContext {
     workspace: Workspace
 }
 
-export type PackageTagMap = { [packageName: string]: string }
+export type PackageTagMap = Map<string, string>
 
-export type PackageVersionBumpType = 'major' | 'minor' | 'patch'
+export type PackageStrategyType = 'major' | 'minor' | 'patch'
 
-export type PackageVersionBumps = {
-    [packageName: string]: PackageVersionBumpType
-}
+export type PackageStrategyMap = Map<string, PackageStrategyType>

@@ -1,3 +1,4 @@
+import { Writable } from 'stream'
 import chalk from 'chalk'
 
 const LOG_LEVELS = {
@@ -8,6 +9,8 @@ const LOG_LEVELS = {
 } as const
 
 type LogLevelType = typeof LOG_LEVELS[keyof typeof LOG_LEVELS]
+
+type Logger = (...args: unknown[]) => void
 
 type Formatter = (arg: unknown) => string
 
@@ -29,7 +32,9 @@ const getCurrentLogLevel = () => {
     return LOG_LEVELS.WARNING
 }
 
-const createLogger = (level: LogLevelType) => (...args: unknown[]): void => {
+const createLogger = (level: LogLevelType): Logger => (
+    ...args: unknown[]
+): void => {
     if (getCurrentLogLevel() > level) return
     const timestamp = `[${Date.now()}]`
     const colour = levelToColour[level]
@@ -45,5 +50,12 @@ const logger = {
     warning: createLogger(LOG_LEVELS.WARNING),
     error: createLogger(LOG_LEVELS.ERROR),
 }
+
+export const asStream = (loggerFn: Logger): Writable =>
+    new Writable({
+        write(chunk, encoding) {
+            loggerFn(chunk.toString(encoding))
+        },
+    })
 
 export default logger

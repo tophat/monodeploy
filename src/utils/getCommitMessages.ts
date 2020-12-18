@@ -1,4 +1,4 @@
-import gitRawCommits from 'git-raw-commits'
+import { execSync } from 'child_process'
 import type { MonodeployConfiguration } from '../types'
 
 const getCommitMessages = async (
@@ -7,13 +7,15 @@ const getCommitMessages = async (
     const from = config.git.baseBranch
     const to = config.git.commitSha
 
-    return new Promise((resolve, reject) => {
-        const data: string[] = []
-        const readStream = gitRawCommits({ from, to }, { cwd: config.cwd })
-        readStream.on('data', chunk => data.push(chunk.toString('utf-8')))
-        readStream.on('error', reject)
-        readStream.on('end', () => resolve(data))
+    const stdout = execSync(`git log ${from}...${to} --format=oneline`, {
+        encoding: 'utf8',
     })
+    const commitMessagePattern = /^[a-z0-9]*\s+(.*)$/gm
+
+    const commitMessages = [...stdout.matchAll(commitMessagePattern)].map(
+        match => `${match}\n\n`,
+    )
+    return commitMessages
 }
 
 export default getCommitMessages
