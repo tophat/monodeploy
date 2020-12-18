@@ -4,11 +4,13 @@ import type {
     YarnContext,
 } from '../types'
 
+import getCommitMessages from '../utils/getCommitMessages'
+
 const getPendingVersionBumps = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<PackageVersionBumps> => {
-    // TODO
+    const commitMessages = await getCommitMessages(config)
     return { 'commit-utils-core': 'minor' }
 }
 

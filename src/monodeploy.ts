@@ -3,10 +3,11 @@ import { PortablePath } from '@yarnpkg/fslib'
 import NpmPlugin from '@yarnpkg/plugin-npm'
 import type { MonodeployConfiguration, YarnContext } from './types'
 
+import getLatestPackageTags from './core/getLatestPackageTags'
+import getPendingVersionBumps from './core/getPendingVersionBumps'
+import patchPackageJsons from './core/patchPackageJsons'
+
 import getRegistryUrl from './utils/getRegistryUrl'
-import getLatestPackageTags from './utils/getLatestPackageTags'
-import getPendingVersionBumps from './utils/getPendingVersionBumps'
-import patchPackageJsons from './utils/patchPackageJsons'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {

@@ -6,7 +6,7 @@ import type {
     YarnContext,
 } from '../types'
 
-import getPackageJsonPaths from './getPackageJsonPaths'
+import getPackageJsonPaths from '../utils/getPackageJsonPaths'
 
 const patchPackageJsons = async (
     config: MonodeployConfiguration,
