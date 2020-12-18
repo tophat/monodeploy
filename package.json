@@ -2,11 +2,12 @@
     "name": "monodeploy",
     "version": "1.0.0",
     "description": "A small wrapper around yarn berry that makes it easier to use in CI",
-    "main": "lib/index.js",
+    "main": "lib/monodeploy.js",
     "files": [
         "lib"
     ],
     "bin": "./lib/cli.js",
+    "types": "./lib/index.d.ts",
     "repository": "git@github.com:tophat/monodeploy.git",
     "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
     "license": "Apache-2.0",
@@ -14,7 +15,7 @@
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
-        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} lib node_modules",
+        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} lib node_modules ./src/*.js",
         "test": "jest",
         "test:ci": "jest --ci",
         "test:update": "jest -u",
@@ -22,9 +23,12 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
-        "build:babel": "rm -rf lib && yarn babel src --out-dir=lib --copy-files --no-copy-ignored --ignore 'src/**/*.test.js'",
+        "types:generate": "tsc",
+        "types:watch": "tsc --watch",
+        "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.js'",
+        "build:babel:watch": "yarn build:babel --watch",
         "build:package": "mkdir -p ${ARTIFACT_DIR:-artifacts} && yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz",
-        "build": "yarn build:babel && yarn build:package",
+        "build": "rm -rf lib && yarn build:babel && yarn types:generate && yarn build:package",
         "deploy": "npm publish ${ARTIFACT_DIR:-artifacts}/package.tgz --access public",
         "contrib:add": "all-contributors add",
         "contrib:generate": "all-contributors generate",
@@ -35,7 +39,16 @@
         "@babel/core": "^7.11.6",
         "@babel/plugin-transform-runtime": "^7.11.5",
         "@babel/preset-env": "^7.11.5",
+        "@babel/preset-typescript": "^7.12.7",
         "@tophat/eslint-config": "^0.7.0",
+        "@types/git-raw-commits": "^2.0.0",
+        "@types/node": "^14.14.14",
+        "@types/yargs": "^15.0.12",
+        "@typescript-eslint/eslint-plugin": "^4.10.0",
+        "@typescript-eslint/parser": "^4.10.0",
+        "@yarnpkg/cli": "^2.4.0",
+        "@yarnpkg/plugin-pack": "^2.2.3",
+        "@yarnpkg/pnpify": "^2.4.0",
         "all-contributors-cli": "^6.19.0",
         "babel-jest": "^26.6.3",
         "eslint": "^7.15.0",
@@ -52,9 +65,15 @@
         "jest-junit": "^12.0.0",
         "lint-staged": "^10.5.3",
         "package-json": "^6.5.0",
-        "prettier": "^2.2.1"
+        "prettier": "^2.2.1",
+        "typescript": "^4.1.3"
     },
     "dependencies": {
+        "@yarnpkg/core": "^2.4.0",
+        "@yarnpkg/fslib": "^2.4.0",
+        "@yarnpkg/plugin-npm": "^2.4.0",
+        "@yarnpkg/plugin-version": "^2.2.1",
+        "git-raw-commits": "^2.0.8",
         "yargs": "^16.2.0"
     },
     "lint-staged": {
