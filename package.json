@@ -36,7 +36,7 @@
         "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
         "@babel/plugin-proposal-optional-chaining": "^7.12.7",
         "@babel/plugin-transform-runtime": "^7.11.5",
-        "@babel/preset-env": "^7.11.5",
+        "@babel/preset-env": "^7.12.11",
         "@lerna/version": "^3.22.1",
         "@tophat/eslint-config": "^0.7.0",
         "all-contributors-cli": "^6.19.0",
