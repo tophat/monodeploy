@@ -73,7 +73,6 @@
         "@yarnpkg/core": "^2.4.0",
         "@yarnpkg/fslib": "^2.4.0",
         "@yarnpkg/plugin-npm": "^2.4.0",
-        "@yarnpkg/plugin-version": "^2.2.1",
         "chalk": "^4.1.0",
         "semver": "^7.3.4",
         "yargs": "^16.2.0"

@@ -1,4 +1,5 @@
 import { execSync } from 'child_process'
+import path from 'path'
 import { PortablePath } from '@yarnpkg/fslib'
 import { structUtils } from '@yarnpkg/core'
 
@@ -32,27 +33,26 @@ const getModifiedPackages = async (
     context: YarnContext,
 ): Promise<string[]> => {
     const stdout = execSync(
-        `git diff ${config.git.baseBranch}...${config.git.commitSha}`,
+        `git diff ${config.git.baseBranch}...${config.git.commitSha} --name-only`,
         {
             encoding: 'utf8',
+            cwd: config.cwd,
         },
     )
-    const modifiedPathPattern = /^(\+{3}|\-{3})\s+[a-b]\/(.*\/.*\..*)$/gm
-    const paths = [...stdout.matchAll(modifiedPathPattern)]
+    const paths = stdout.split('\n')
     const uniquePaths = paths.reduce(
-        (uniquePaths: Set<string>, currentMatch: string[]) => {
-            const currentPath = currentMatch[2]
-            uniquePaths.add(currentPath)
+        (uniquePaths: Set<string>, currentPath: string) => {
+            if (currentPath) uniquePaths.add(currentPath)
             return uniquePaths
         },
         new Set(),
     )
 
     const modifiedPackages = [...uniquePaths].reduce(
-        (modifiedPackages: string[], path: string): string[] => {
+        (modifiedPackages: string[], currentPath: string): string[] => {
             try {
                 const workspace = context.project.getWorkspaceByFilePath(
-                    path as PortablePath,
+                    path.resolve(config.cwd, currentPath) as PortablePath,
                 )
                 const ident = workspace?.manifest?.name
                 if (!ident) throw new Error('Missing workspace identity.')

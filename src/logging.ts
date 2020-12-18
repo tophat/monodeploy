@@ -38,6 +38,7 @@ const createLogger = (level: LogLevelType): Logger => (
     if (getCurrentLogLevel() > level) return
     const timestamp = `[${Date.now()}]`
     const colour = levelToColour[level]
+
     console.log(
         chalk.yellow(timestamp),
         ...args.map((a, index) => (index > 0 ? a : (colour as Formatter)(a))),

@@ -26,18 +26,13 @@ const patchPackageJsons = async (
             packageManifest.version = registryTags.get(packageManifest.name)
 
             for (const dependentSetKey of Manifest.allDependencies) {
-                for (const packageName of packageManifest[dependentSetKey]) {
-                    try {
-                        if (!registryTags.get(packageName)) {
-                            throw new Error(`No next tag for ${packageName}`)
-                        }
-
-                        packageManifest[dependentSetKey][
-                            packageName
-                        ] = `^${registryTags.get(packageName)}`
-                    } catch (e) {
-                        logging.error(e)
-                    }
+                const dependencySet = packageManifest[dependentSetKey]
+                if (!dependencySet) continue
+                for (const packageName of Object.keys(dependencySet)) {
+                    if (!registryTags.get(packageName)) continue
+                    dependencySet[packageName] = `^${registryTags.get(
+                        packageName,
+                    )}`
                 }
             }
 

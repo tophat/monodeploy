@@ -13,8 +13,8 @@ import getLatestPackageTags from './core/getLatestPackageTags'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import applyReleases from './core/applyReleases'
-
 import getRegistryUrl from './utils/getRegistryUrl'
+import { prettyPrintMap } from './utils/prettyPrint'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
@@ -39,7 +39,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
 
     // Fetch latest package versions for workspaces
     const registryTags = await getLatestPackageTags(config, context)
-    logging.debug(`Registry Tags`, JSON.stringify(registryTags, null, 2))
+    logging.debug(`Registry Tags`, prettyPrintMap(registryTags))
 
     // Determine version bumps via commit messages
     const explicitVersionStrategies = await getExplicitVersionStrategies(
@@ -59,14 +59,12 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         ...implicitVersionStrategies.entries(),
     ])
 
-    logging.debug(
-        `Version Strategies`,
-        JSON.stringify(
-            Object.fromEntries(versionStrategies.entries()),
-            null,
-            2,
-        ),
-    )
+    logging.debug(`Version Strategies`, prettyPrintMap(versionStrategies))
+
+    if (!versionStrategies.size) {
+        logging.warning('No packages need to be updated.')
+        return
+    }
 
     // Backup workspace package.jsons
     const backupKey = await backupPackageJsons(config, context)
@@ -83,7 +81,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         logging.error(err)
     } finally {
         // Restore workspace package.jsons
-        await restorePackageJsons(config, context, backupKey)
+        //await restorePackageJsons(config, context, backupKey)
     }
 
     logging.debug(`Monodeploy completed successfully.`)
