@@ -1,3 +1,5 @@
+import { execSync } from 'child_process'
+import { PortablePath } from '@yarnpkg/fslib'
 import type {
     MonodeployConfiguration,
     PackageVersionBumps,
@@ -26,8 +28,34 @@ const getModifiedPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    // TODO: Look at git diff for modified files. Use version plugin or access dependents and dependencies via workspace?
-    return ['commit-utils-core']
+    const stdout = execSync('git diff', { encoding: 'utf8' })
+    const modifiedPathPattern = /^(\+{3}|\-{3})\s+[a-b]\/(.*\/.*\..*)$/gm
+    const paths = [...stdout.matchAll(modifiedPathPattern)]
+    const uniquePaths = paths.reduce(
+        (uniquePaths: Set<string>, currentMatch: Array<string>) => {
+            const currentPath = currentMatch[2]
+            uniquePaths.add(currentPath)
+            return uniquePaths
+        },
+        new Set(),
+    )
+
+    const modifiedPackages = [...uniquePaths].reduce(
+        (modifiedPackages: Array<string>, path: string): Array<string> => {
+            try {
+                const workspace = context.project.getWorkspaceByFilePath(
+                    path as PortablePath,
+                )
+                const packageName = workspace?.manifest?.name?.name
+                if (packageName) modifiedPackages.push(packageName)
+            } catch (e) {
+                console.error(e)
+            }
+            return modifiedPackages
+        },
+        [],
+    )
+    return modifiedPackages
 }
 
 const getPendingVersionBumps = async (
