@@ -8,6 +8,7 @@ interface ArgOutput {
     dryRun?: boolean
     gitBaseBranch?: string
     gitCommitSha?: string
+    logLevel?: number
 }
 
 const { argv } = yargs
@@ -31,9 +32,17 @@ const { argv } = yargs
         type: 'string',
         description: 'Git commit sha to compare against to determine changes',
     })
+    .option('log-level', {
+        type: 'number',
+        description: 'Log level',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
+
+if (argv.logLevel !== undefined && argv.logLevel !== null) {
+    process.env.MONODEPLOY_LOG_LEVEL = String(argv.logLevel)
+}
 
 monodeploy({
     registryUrl: argv.registryUrl ?? undefined,
