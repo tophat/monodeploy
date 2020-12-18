@@ -72,9 +72,10 @@ const getExplicitVersionStrategies = async (
     context: YarnContext,
 ): Promise<PackageStrategyMap> => {
     const commitMessages = await getCommitMessages(config)
-    const pattern = new RegExp('(w+)(\\([^:]+\\))?:.*')
+    const pattern = new RegExp('^(\\w+)(\\([^:]+\\))?:.*', 'g')
     const strategies = commitMessages.map(msg => {
-        const type = msg.match(pattern)?.[1]
+        const matches = [...msg.matchAll(pattern)]?.[0]
+        const type = matches?.[1]
         if (msg.includes('BREAKING CHANGE:')) return STRATEGY.MAJOR
         if (type) {
             if (['fix'].includes(type)) return STRATEGY.PATCH

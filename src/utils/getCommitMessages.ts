@@ -3,23 +3,21 @@ import { execSync } from 'child_process'
 import type { MonodeployConfiguration } from '../types'
 import logging from '../logging'
 
+const DELIMITER = '-----------------monodeploy-----------------'
+
 const getCommitMessages = async (
     config: MonodeployConfiguration,
 ): Promise<string[]> => {
     const from = config.git.baseBranch
     const to = config.git.commitSha
 
-    const gitCommand = `git log ${from}...${to} --format=oneline`
+    const gitCommand = `git log ${from}...${to} --format=%B%n${DELIMITER}`
     logging.debug(`Exec: ${gitCommand}`)
     const stdout = execSync(gitCommand, {
         encoding: 'utf8',
+        cwd: config.cwd,
     })
-    const commitMessagePattern = /^[a-z0-9]*\s+(.*)$/gm
-
-    const commitMessages = [...stdout.matchAll(commitMessagePattern)].map(
-        match => `${match}\n\n`,
-    )
-    return commitMessages
+    return [...stdout.toString().split(`${DELIMITER}\n`)]
 }
 
 export default getCommitMessages
