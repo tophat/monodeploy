@@ -32,7 +32,7 @@ const getModifiedPackages = async (
     const modifiedPathPattern = /^(\+{3}|\-{3})\s+[a-b]\/(.*\/.*\..*)$/gm
     const paths = [...stdout.matchAll(modifiedPathPattern)]
     const uniquePaths = paths.reduce(
-        (uniquePaths: Set<string>, currentMatch: Array<string>) => {
+        (uniquePaths: Set<string>, currentMatch: string[]) => {
             const currentPath = currentMatch[2]
             uniquePaths.add(currentPath)
             return uniquePaths
@@ -41,7 +41,7 @@ const getModifiedPackages = async (
     )
 
     const modifiedPackages = [...uniquePaths].reduce(
-        (modifiedPackages: Array<string>, path: string): Array<string> => {
+        (modifiedPackages: string[], path: string): string[] => {
             try {
                 const workspace = context.project.getWorkspaceByFilePath(
                     path as PortablePath,
