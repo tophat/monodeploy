@@ -27,7 +27,7 @@ const { argv } = yargs
         type: 'string',
         description: 'Git base branch to compare against to determine changes',
     })
-    .option('git-commit-branch', {
+    .option('git-commit-sha', {
         type: 'string',
         description: 'Git commit sha to compare against to determine changes',
     })

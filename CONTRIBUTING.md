@@ -1,5 +1,13 @@
 # Contributing to Monodeploy
 
+## Quick Setup (Optional)
+
+Just for initial setup.
+
+```sh
+. script/bootstrap
+```
+
 ## Getting Started
 
 Optionally install nvm to ensure you're using the correct version of node. You can find the node version in the `.nvmrc` file.
@@ -31,6 +39,14 @@ You can execute `yarn build` to generate the `.tgz` package that ultimately gets
 You can use `yarn build:babel:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
 
 ## Tips
+
+### Configuring Your IDE
+
+#### VSCode
+
+You'll need to download the [ZipFS](https://marketplace.visualstudio.com/items?itemName=arcanis.vscode-zipfs) extension to be able to use functionality such as "Go To Definition" with the zipped npm packages.
+
+In a Typescript file, <kbd>Cmd + Shift + P</kbd> will open the command menu. Select "TypeScript: Select Typescript Version..." and use the version from the workspace.
 
 ### Debugging Yarn API Packages
 
