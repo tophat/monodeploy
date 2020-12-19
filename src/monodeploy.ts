@@ -12,6 +12,7 @@ import logging from './logging'
 import getLatestPackageTags from './core/getLatestPackageTags'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
+import publishPackages from './core/publishPackages'
 import applyReleases from './core/applyReleases'
 import getRegistryUrl from './utils/getRegistryUrl'
 import { prettyPrintMap } from './utils/prettyPrint'
@@ -75,7 +76,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         await applyReleases(config, context, registryTags, versionStrategies)
 
         // Publish (+ Git Tags)
-        // TODO
+        await publishPackages(config, context)
     } catch (err) {
         // TODO: Handle errors
         logging.error(err)
