@@ -28,9 +28,19 @@ This project use Typescript, Babel, and Yarn Berry.
 
 ## Tests
 
+Start the mock registry:
+
+```sh
+yarn test:registry
+```
+
+and then run the tests:
+
 ```sh
 yarn test
 ```
+
+You can run `yarn test:registry:logs` to see a live stream of the registry logs.
 
 ## Build
 
