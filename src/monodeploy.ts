@@ -81,7 +81,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         logging.error(err)
     } finally {
         // Restore workspace package.jsons
-        //await restorePackageJsons(config, context, backupKey)
+        await restorePackageJsons(config, context, backupKey)
     }
 
     logging.debug(`Monodeploy completed successfully.`)
