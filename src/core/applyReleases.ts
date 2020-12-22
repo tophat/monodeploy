@@ -1,5 +1,6 @@
 import { inc as incrementSemver } from 'semver'
 
+import logging from '../logging'
 import patchPackageJsons from './patchPackageJsons'
 import type {
     MonodeployConfiguration,
@@ -23,9 +24,16 @@ const applyReleases = async (
             ? incrementSemver(packageTag, packageVersionStrategy)
             : packageTag
         intendedRegistryTags.set(packageName, nextPackageTag)
+
+        if (packageTag !== nextPackageTag)
+            logging.info(
+                `${packageName} version change: ${packageTag} -> ${nextPackageTag}`,
+            )
     }
 
     // Update newVersions to contain appropriate updates for dependents
+    if (config.dryRun) return
+
     await patchPackageJsons(config, context, intendedRegistryTags)
 }
 

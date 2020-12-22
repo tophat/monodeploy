@@ -7,8 +7,6 @@ import type {
     YarnContext,
 } from '../types'
 
-import logging from '../logging'
-
 import getPackageJsonPaths from '../utils/getPackageJsonPaths'
 
 const patchPackageJsons = async (
