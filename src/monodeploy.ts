@@ -86,9 +86,9 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
             context,
             versionStrategies,
             workspacesToPublish,
+            registryUrl,
         )
     } catch (err) {
-        // TODO: Handle errors
         logging.error(err)
     } finally {
         // Restore workspace package.jsons

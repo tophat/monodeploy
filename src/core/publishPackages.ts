@@ -13,41 +13,50 @@ const publishPackages = async (
     context: YarnContext,
     versionStrategies: PackageStrategyMap,
     workspacesToPublish: Set<Workspace>,
+    registryUrl: string,
 ): Promise<void> => {
-    for (const workspace of workspacesToPublish) {
-        if (config.dryRun) {
-            logging.info('Skipping publish step because of dry-run.')
-            break
-        }
-
-        // Prepare pack streams.
-        const filesToPack = await packUtils.genPackList(workspace)
-        const pack = await packUtils.genPackStream(workspace, filesToPack)
-
-        // Publish
-        const buffer = await miscUtils.bufferStream(pack)
-
-        const body = await npmPublishUtils.makePublishBody(workspace, buffer, {
-            access: 'token', // TODO: replace with token.
-            tag: 'tag-tag', // TODO: replace with actual tag.
-            registry: config.registryUrl,
-        })
-
-        // TODO: Tidy this up.
-        try {
-            const ident = workspace.manifest.name
-
-            if (!ident) continue
-            await npmHttpUtils.put(npmHttpUtils.getIdentUrl(ident), body, {
-                authType: npmHttpUtils.AuthType.NO_AUTH,
-                configuration: context.project.configuration,
-                ident,
-                registry: config.registryUrl,
-            })
-        } catch (e) {
-            console.error(e)
-        }
+    if (config.dryRun) {
+        logging.info('Skipping publish step because of dry-run.')
     }
+
+    await Promise.all(
+        [...workspacesToPublish].map(async (workspace: Workspace) => {
+            // Prepare pack streams.
+            const filesToPack = await packUtils.genPackList(workspace)
+            const pack = await packUtils.genPackStream(workspace, filesToPack)
+
+            // Publish
+            const buffer = await miscUtils.bufferStream(pack)
+
+            const body = await npmPublishUtils.makePublishBody(
+                workspace,
+                buffer,
+                {
+                    access: 'token', // TODO: replace with token.
+                    tag: 'latest',
+                    registry: registryUrl,
+                },
+            )
+
+            try {
+                const ident = workspace.manifest.name
+                if (!ident) return
+
+                const identUrl = npmHttpUtils.getIdentUrl(ident)
+
+                if (!config.dryRun) {
+                    await npmHttpUtils.put(identUrl, body, {
+                        authType: npmHttpUtils.AuthType.NO_AUTH,
+                        configuration: context.project.configuration,
+                        ident,
+                        registry: registryUrl,
+                    })
+                }
+            } catch (e) {
+                logging.error(e)
+            }
+        }),
+    )
 
     // Push git tags
     // TODO
