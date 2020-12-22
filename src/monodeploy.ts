@@ -15,6 +15,7 @@ import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import publishPackages from './core/publishPackages'
 import applyReleases from './core/applyReleases'
 import getRegistryUrl from './utils/getRegistryUrl'
+import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import { prettyPrintMap } from './utils/prettyPrint'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 
@@ -76,7 +77,16 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         await applyReleases(config, context, registryTags, versionStrategies)
 
         // Publish (+ Git Tags)
-        await publishPackages(config, context)
+        const workspacesToPublish = getWorkspacesToPublish(
+            context,
+            versionStrategies,
+        )
+        await publishPackages(
+            config,
+            context,
+            versionStrategies,
+            workspacesToPublish,
+        )
     } catch (err) {
         // TODO: Handle errors
         logging.error(err)
