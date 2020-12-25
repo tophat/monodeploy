@@ -9,7 +9,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)
 
-A small wrapper around yarn berry that makes it easier to use in CI
+A powerful CLI tool to simplify publishing packages from a monorepo using yarn workspaces.
 
 ## Getting Started
 
@@ -19,10 +19,24 @@ Requires:
 - Node v14.15.0+
 - Yarn Berry
 
-### Install
+### Getting Started
+
+In the root of your monorepo:
 
 ```sh
 yarn add --dev monodeploy
+```
+
+and then in CI:
+
+```sh
+yarn monodeploy
+```
+
+For help:
+
+```sh
+yarn monodeploy --help
 ```
 
 ### Migrating From Lerna
