@@ -9,6 +9,7 @@ interface ArgOutput {
     gitBaseBranch?: string
     gitCommitSha?: string
     logLevel?: number
+    conventionalChangelogConfig?: string
 }
 
 const { argv } = yargs
@@ -36,6 +37,11 @@ const { argv } = yargs
         type: 'number',
         description: 'Log level',
     })
+    .option('conventional-changelog-config', {
+        type: 'string',
+        description:
+            'Conventional changelog configuration to use to determine version strategies',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -52,6 +58,7 @@ monodeploy({
         baseBranch: argv.gitBaseBranch ?? 'origin/master',
         commitSha: argv.gitCommitSha ?? 'HEAD',
     },
+    conventionalChangelogConfig: argv.conventionalChangelogConfig ?? undefined,
 }).catch(err => {
     console.error(err)
     process.exit(1)

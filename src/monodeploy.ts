@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { Configuration, Project } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import NpmPlugin from '@yarnpkg/plugin-npm'
@@ -19,7 +21,7 @@ import { prettyPrintMap } from './utils/prettyPrint'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
-    const cwd = config.cwd as PortablePath
+    const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
     const configuration = await Configuration.find(cwd, {
         modules: new Map([['@yarnpkg/plugin-npm', NpmPlugin]]),
         plugins: new Set([`@yarnpkg/plugin-npm`]),

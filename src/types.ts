@@ -8,6 +8,7 @@ export interface MonodeployConfiguration {
         baseBranch: string
         commitSha: string
     }
+    conventionalChangelogConfig?: string
 }
 
 export interface YarnContext {

@@ -67,13 +67,13 @@ const getModifiedPackages = async (
     return modifiedPackages
 }
 
-const getExplicitVersionStrategies = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-): Promise<PackageStrategyMap> => {
-    const commitMessages = await getCommitMessages(config)
+type StrategyDeterminer = (commits: string[]) => Promise<number>
+
+const getDefaultRecommendedStrategy: StrategyDeterminer = async (
+    commits: string[],
+): Promise<number> => {
     const pattern = new RegExp('^(\\w+)(\\([^:]+\\))?:.*', 'g')
-    const strategies = commitMessages.map(msg => {
+    const strategies = commits.map(msg => {
         const matches = [...msg.matchAll(pattern)]?.[0]
         const type = matches?.[1]
         if (msg.includes('BREAKING CHANGE:')) return STRATEGY.MAJOR
@@ -83,10 +83,33 @@ const getExplicitVersionStrategies = async (
         }
         return STRATEGY.NONE
     })
-    const strategy = strategyLevelToType(
-        strategies.reduce((s, c) => Math.max(s, c)),
-    )
+    return strategies.reduce((s, c) => Math.max(s, c))
+}
 
+const createGetConventionalRecommendedStrategy = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    conventionalChangelogConfigPath: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+): StrategyDeterminer => async (commits: string[]): Promise<number> => {
+    logging.error(
+        'Custom conventional changelog configurations are not supported at this time.',
+    )
+    throw new Error('Invalid configuration.')
+}
+
+const getExplicitVersionStrategies = async (
+    config: MonodeployConfiguration,
+    context: YarnContext,
+): Promise<PackageStrategyMap> => {
+    const commitMessages = await getCommitMessages(config)
+    const strategyDeterminer = config.conventionalChangelogConfig
+        ? createGetConventionalRecommendedStrategy(
+              config.conventionalChangelogConfig,
+          )
+        : getDefaultRecommendedStrategy
+    const strategy = strategyLevelToType(
+        await strategyDeterminer(commitMessages),
+    )
     const packageNames = await getModifiedPackages(config, context)
 
     const versionStrategies: PackageStrategyMap = new Map()
