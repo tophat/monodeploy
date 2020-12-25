@@ -1,4 +1,5 @@
 import { Writable } from 'stream'
+
 import chalk from 'chalk'
 
 const LOG_LEVELS = {
@@ -28,7 +29,7 @@ const getCurrentLogLevel = () => {
             const logLevel = Number(envLogLevel)
             return logLevel ?? LOG_LEVELS.WARNING
         }
-    } catch {}
+    } catch {} // eslint-disable-line no-empty
     return LOG_LEVELS.WARNING
 }
 

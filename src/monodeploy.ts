@@ -4,10 +4,9 @@ import NpmPlugin from '@yarnpkg/plugin-npm'
 
 import type {
     MonodeployConfiguration,
-    YarnContext,
     PackageStrategyMap,
+    YarnContext,
 } from './types'
-
 import logging from './logging'
 import getLatestPackageTags from './core/getLatestPackageTags'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'

@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import path from 'path'
+
 import { PortablePath } from '@yarnpkg/fslib'
 import { structUtils } from '@yarnpkg/core'
 
@@ -7,10 +8,9 @@ import logging from '../logging'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
-    YarnContext,
     PackageStrategyType,
+    YarnContext,
 } from '../types'
-
 import getCommitMessages from '../utils/getCommitMessages'
 
 const STRATEGY = {

@@ -1,13 +1,14 @@
 import { inc as incrementSemver } from 'semver'
 
 import logging from '../logging'
-import patchPackageJsons from './patchPackageJsons'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
 } from '../types'
+
+import patchPackageJsons from './patchPackageJsons'
 
 const applyReleases = async (
     config: MonodeployConfiguration,

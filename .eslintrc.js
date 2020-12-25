@@ -4,6 +4,7 @@ module.exports = {
     plugins: ['@typescript-eslint', 'prettier'],
     extends: [
         'plugin:@typescript-eslint/recommended',
+        '@tophat/eslint-config/base',
         '@tophat/eslint-config/jest',
         'prettier',
     ],
@@ -28,6 +29,14 @@ module.exports = {
         'no-duplicate-imports': 'error',
         camelcase: ['error', { properties: 'never' }],
         'dot-notation': 'error',
+        'no-unused-vars': 'off', // covered by typescript eslint
     },
     ignorePatterns: ['example-monorepo/**/*', '.*', '**/*.js', 'lib'],
+    settings: {
+        'import/resolver': {
+            node: {
+                extensions: ['.ts', '.js'],
+            },
+        },
+    },
 }

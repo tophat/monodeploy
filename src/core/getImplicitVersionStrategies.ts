@@ -2,8 +2,8 @@ import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 
 import type {
     MonodeployConfiguration,
-    YarnContext,
     PackageStrategyMap,
+    YarnContext,
 } from '../types'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
