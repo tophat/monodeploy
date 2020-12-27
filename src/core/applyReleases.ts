@@ -15,7 +15,7 @@ const applyReleases = async (
     context: YarnContext,
     registryTags: PackageTagMap,
     versionStrategies: PackageStrategyMap,
-): Promise<void> => {
+): Promise<PackageTagMap> => {
     // Registry tags from mono
     const intendedRegistryTags = new Map()
 
@@ -33,9 +33,11 @@ const applyReleases = async (
     }
 
     // Update newVersions to contain appropriate updates for dependents
-    if (config.dryRun) return
+    if (!config.dryRun) {
+        await patchPackageJsons(config, context, intendedRegistryTags)
+    }
 
-    await patchPackageJsons(config, context, intendedRegistryTags)
+    return intendedRegistryTags
 }
 
 export default applyReleases

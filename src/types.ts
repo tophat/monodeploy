@@ -9,6 +9,7 @@ export interface MonodeployConfiguration {
         commitSha: string
     }
     conventionalChangelogConfig?: string
+    changesetFilename?: string
 }
 
 export interface YarnContext {

@@ -10,6 +10,7 @@ interface ArgOutput {
     gitCommitSha?: string
     logLevel?: number
     conventionalChangelogConfig?: string
+    changesetFilename?: string
 }
 
 const { argv } = yargs
@@ -42,6 +43,10 @@ const { argv } = yargs
         description:
             'Conventional changelog configuration to use to determine version strategies',
     })
+    .option('changeset-filename', {
+        type: 'string',
+        description: 'Changeset output filename',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -59,6 +64,7 @@ monodeploy({
         commitSha: argv.gitCommitSha ?? 'HEAD',
     },
     conventionalChangelogConfig: argv.conventionalChangelogConfig ?? undefined,
+    changesetFilename: argv.changesetFilename ?? undefined,
 }).catch(err => {
     console.error(err)
     process.exit(1)

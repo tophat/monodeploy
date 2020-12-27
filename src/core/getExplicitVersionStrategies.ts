@@ -55,8 +55,11 @@ const getModifiedPackages = async (
                 )
                 const ident = workspace?.manifest?.name
                 if (!ident) throw new Error('Missing workspace identity.')
+
                 const packageName = structUtils.stringifyIdent(ident)
-                if (packageName) modifiedPackages.push(packageName)
+                if (packageName && !workspace.manifest.private) {
+                    modifiedPackages.push(packageName)
+                }
             } catch (e) {
                 logging.error(e)
             }

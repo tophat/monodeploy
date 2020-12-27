@@ -11,9 +11,12 @@ const getLatestPackageTags = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<PackageTagMap> => {
-    const workspaces = [...context.project.topLevelWorkspace.workspacesCwds]
+    const workspaces = [
+        context.project.topLevelWorkspace.cwd,
+        ...context.project.topLevelWorkspace.workspacesCwds,
+    ]
         .map(wCwd => context.project.workspacesByCwd.get(wCwd))
-        .filter(workspace => workspace)
+        .filter(workspace => !workspace?.manifest.private)
 
     const distTags = await Promise.all(
         (workspaces as Array<Workspace>).map(async workspace => {

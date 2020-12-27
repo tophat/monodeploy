@@ -19,6 +19,7 @@ import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import { prettyPrintMap } from './utils/prettyPrint'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
+import writeChangesetFile from './core/writeChangesetFile'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
     const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
@@ -75,7 +76,12 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
 
     try {
         // Apply releases, and update package.jsons
-        await applyReleases(config, context, registryTags, versionStrategies)
+        const newVersions = await applyReleases(
+            config,
+            context,
+            registryTags,
+            versionStrategies,
+        )
 
         // Publish (+ Git Tags)
         const workspacesToPublish = getWorkspacesToPublish(
@@ -89,6 +95,9 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
             workspacesToPublish,
             registryUrl,
         )
+
+        // Write changeset
+        await writeChangesetFile(config, context, newVersions)
     } catch (err) {
         logging.error(err)
     } finally {
