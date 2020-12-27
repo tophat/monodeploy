@@ -55,7 +55,6 @@ const getModifiedPackages = async (
                 )
                 const ident = workspace?.manifest?.name
                 if (!ident) throw new Error('Missing workspace identity.')
-
                 const packageName = structUtils.stringifyIdent(ident)
                 if (packageName && !workspace.manifest.private) {
                     modifiedPackages.push(packageName)
@@ -67,7 +66,7 @@ const getModifiedPackages = async (
         },
         [],
     )
-    return modifiedPackages
+    return [...new Set(modifiedPackages)]
 }
 
 type StrategyDeterminer = (commits: string[]) => Promise<number>

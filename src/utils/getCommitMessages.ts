@@ -17,7 +17,7 @@ const getCommitMessages = async (
         encoding: 'utf8',
         cwd: config.cwd,
     })
-    return [...stdout.toString().split(`${DELIMITER}\n`)]
+    return [...stdout.toString().split(`${DELIMITER}\n`)].filter(msg => msg)
 }
 
 export default getCommitMessages
