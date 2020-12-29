@@ -1870,6 +1870,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/conventional-commits-parser@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@types/conventional-commits-parser@npm:3.0.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: bde96a682f8d051f509556c94b6be1d0a0ab9e6a0ddab8d11f553457bacfd6cbdb951abfc22936f41b7aa4a52d2dbcafdca5cbe73287a20f94ebdd82de870a46
+  languageName: node
+  linkType: hard
+
 "@types/emscripten@npm:^1.38.0":
   version: 1.39.4
   resolution: "@types/emscripten@npm:1.39.4"
@@ -3721,7 +3730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-commits-parser@npm:^3.0.0":
+"conventional-commits-parser@npm:^3.0.0, conventional-commits-parser@npm:^3.2.0":
   version: 3.2.0
   resolution: "conventional-commits-parser@npm:3.2.0"
   dependencies:
@@ -7448,6 +7457,7 @@ fsevents@~2.1.2:
     "@tophat/commitlint-config": ^0.1.2
     "@tophat/eslint-config": ^0.7.0
     "@types/chalk": ^2.2.0
+    "@types/conventional-commits-parser": ^3.0.1
     "@types/node": ^14.14.14
     "@types/semver": ^7.3.4
     "@types/yargs": ^15.0.12
@@ -7463,6 +7473,7 @@ fsevents@~2.1.2:
     babel-jest: ^26.6.3
     chalk: ^4.1.0
     commitizen: ^4.2.2
+    conventional-commits-parser: ^3.2.0
     eslint: ^7.16.0
     eslint-config-prettier: ^7.1.0
     eslint-import-resolver-typescript: ^2.3.0

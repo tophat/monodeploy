@@ -49,6 +49,7 @@ const getImplicitVersionStrategies = async (
         for (const dependent of dependents) {
             const ident = dependent?.manifest?.name
             if (!ident) throw new Error('Missing workspace identity.')
+            if (dependent?.manifest?.private) continue
             const name = structUtils.stringifyIdent(ident)
             if (requiresUpdate.has(name)) continue
             if (intentionalStrategies.has(name)) continue

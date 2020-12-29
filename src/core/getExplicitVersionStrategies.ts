@@ -1,8 +1,10 @@
 import { execSync } from 'child_process'
 import path from 'path'
+import { Readable } from 'stream'
 
 import { structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
+import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
 import logging from '../logging'
 import type {
@@ -88,15 +90,35 @@ const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     return strategies.reduce((s, c) => Math.max(s, c))
 }
 
+const readStream = <T>(stream: Readable): Promise<T[]> =>
+    new Promise(resolve => {
+        const chunks: T[] = []
+        stream.on('data', chunk => chunks.push(chunk))
+        stream.on('end', () => resolve(chunks))
+    })
+
 const createGetConventionalRecommendedStrategy = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    config: MonodeployConfiguration,
     conventionalChangelogConfigPath: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ): StrategyDeterminer => async (commits: string[]): Promise<number> => {
-    logging.error(
-        'Custom conventional changelog configurations are not supported at this time.',
+    const conventionalConfig = await require(require.resolve(
+        conventionalChangelogConfigPath,
+        { paths: [config.cwd] },
+    ))
+
+    const commitsStream = Readable.from(commits).pipe(
+        conventionalCommitsParser(conventionalConfig.parserOpts),
     )
-    throw new Error('Invalid configuration.')
+    const conventionalCommits = await readStream<Commit>(commitsStream)
+
+    const conventionalStrategy = await conventionalConfig.recommendedBumpOpts.whatBump(
+        conventionalCommits,
+    )
+
+    if (conventionalStrategy.level === 0) return STRATEGY.MAJOR
+    if (conventionalStrategy.level === 1) return STRATEGY.MINOR
+    if (conventionalStrategy.level === 2) return STRATEGY.PATCH
+    return STRATEGY.NONE
 }
 
 const getExplicitVersionStrategies = async (
@@ -106,6 +128,7 @@ const getExplicitVersionStrategies = async (
     const commitMessages = await getCommitMessages(config)
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(
+              config,
               config.conventionalChangelogConfig,
           )
         : getDefaultRecommendedStrategy
