@@ -33,7 +33,7 @@ const publishPackages = async (
                 workspace,
                 buffer,
                 {
-                    access: 'token', // TODO: replace with token.
+                    access: config.access,
                     tag: 'latest',
                     registry: registryUrl,
                 },
@@ -47,7 +47,7 @@ const publishPackages = async (
 
                 if (!config.dryRun) {
                     await npmHttpUtils.put(identUrl, body, {
-                        authType: npmHttpUtils.AuthType.NO_AUTH,
+                        authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
                         configuration: context.project.configuration,
                         ident,
                         registry: registryUrl,

@@ -11,6 +11,7 @@ interface ArgOutput {
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    access?: string
 }
 
 const { argv } = yargs
@@ -47,6 +48,11 @@ const { argv } = yargs
         type: 'string',
         description: 'Changeset output filename',
     })
+    .option('access', {
+        type: 'string',
+        description:
+            'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -65,6 +71,7 @@ monodeploy({
     },
     conventionalChangelogConfig: argv.conventionalChangelogConfig ?? undefined,
     changesetFilename: argv.changesetFilename ?? undefined,
+    access: argv.access ?? 'public',
 }).catch(err => {
     console.error(err)
     process.exit(1)

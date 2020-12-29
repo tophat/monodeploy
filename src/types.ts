@@ -10,6 +10,7 @@ export interface MonodeployConfiguration {
     }
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    access: string
 }
 
 export interface YarnContext {
