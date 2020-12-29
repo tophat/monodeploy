@@ -1,7 +1,11 @@
 import { execSync } from 'child_process'
 
 import logging from '../logging'
-import { MonodeployConfiguration, PackageTagMap, YarnContext } from '../types'
+import type {
+    MonodeployConfiguration,
+    PackageTagMap,
+    YarnContext,
+} from '../types'
 
 function pushTags(
     config: MonodeployConfiguration,
