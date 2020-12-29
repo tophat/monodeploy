@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yarn dlx verdaccio &
+yarn dlx verdaccio --listen http://0.0.0.0:4873 &
 
 sleep 1;
 
