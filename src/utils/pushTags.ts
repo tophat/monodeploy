@@ -23,10 +23,11 @@ function pushTags(
 
             try {
                 if (!config.dryRun) {
-                    const stdout = execSync(`git push origin ${tag}`, {
+                    // TODO: Tidy.
+                    execSync(`git tag ${tag}`, { encoding: 'utf8' })
+                    execSync(`git push origin ${tag}`, {
                         encoding: 'utf8',
                     })
-                    console.log(stdout)
                 }
 
                 logging.info(`Pushed tag ${tag} to remote.`)
