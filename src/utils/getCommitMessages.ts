@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 
-import type { MonodeployConfiguration } from '../types'
 import logging from '../logging'
+import type { MonodeployConfiguration } from '../types'
 
 const DELIMITER = '-----------------monodeploy-----------------'
 

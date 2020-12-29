@@ -1,6 +1,6 @@
 import { Workspace, miscUtils } from '@yarnpkg/core'
-import { packUtils } from '@yarnpkg/plugin-pack'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
+import { packUtils } from '@yarnpkg/plugin-pack'
 
 import logging from '../logging'
 import type {

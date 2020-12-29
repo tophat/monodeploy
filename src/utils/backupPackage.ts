@@ -1,6 +1,6 @@
-import path from 'path'
-import os from 'os'
 import fs from 'fs/promises'
+import os from 'os'
+import path from 'path'
 
 import type { MonodeployConfiguration, YarnContext } from '../types'
 

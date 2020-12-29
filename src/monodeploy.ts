@@ -4,22 +4,22 @@ import { Configuration, Project } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import NpmPlugin from '@yarnpkg/plugin-npm'
 
+import applyReleases from './core/applyReleases'
+import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
+import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
+import getLatestPackageTags from './core/getLatestPackageTags'
+import publishPackages from './core/publishPackages'
+import writeChangesetFile from './core/writeChangesetFile'
+import logging from './logging'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     YarnContext,
 } from './types'
-import logging from './logging'
-import getLatestPackageTags from './core/getLatestPackageTags'
-import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
-import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
-import publishPackages from './core/publishPackages'
-import applyReleases from './core/applyReleases'
+import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import { prettyPrintMap } from './utils/prettyPrint'
-import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
-import writeChangesetFile from './core/writeChangesetFile'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
     const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath

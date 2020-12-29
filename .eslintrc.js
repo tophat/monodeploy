@@ -9,33 +9,32 @@ module.exports = {
         'prettier',
     ],
     rules: {
-        'jest/no-standalone-expect': 'off',
-        'prettier/prettier': [
+        'no-unused-vars': 'off', // covered by typescript eslint
+        'import/order': [
             'error',
             {
-                printWidth: 80,
-                tabWidth: 4,
-                semi: false,
-                trailingComma: 'all',
-                singleQuote: true,
-                arrowParens: 'avoid',
+                alphabetize: { order: 'asc' },
+                'newlines-between': 'always',
+                groups: [
+                    'unknown',
+                    'builtin',
+                    'external',
+                    'internal',
+                    'parent',
+                    'sibling',
+                    'index',
+                ],
             },
         ],
-        eqeqeq: 'error',
-        'prefer-const': 'error',
-        'prefer-template': 'error',
-        'no-nested-ternary': 'error',
-        'no-useless-computed-key': 'error',
-        'no-duplicate-imports': 'error',
-        camelcase: ['error', { properties: 'never' }],
-        'dot-notation': 'error',
-        'no-unused-vars': 'off', // covered by typescript eslint
     },
     ignorePatterns: ['example-monorepo/**/*', '.*', '**/*.js', 'lib'],
     settings: {
+        'import/parsers': {
+            '@typescript-eslint/parser': ['.ts', '.js'],
+        },
         'import/resolver': {
-            node: {
-                extensions: ['.ts', '.js'],
+            typescript: {
+                alwaysTryTypes: true,
             },
         },
     },

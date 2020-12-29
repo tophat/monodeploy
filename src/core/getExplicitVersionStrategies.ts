@@ -1,8 +1,8 @@
 import { execSync } from 'child_process'
 import path from 'path'
 
-import { PortablePath } from '@yarnpkg/fslib'
 import { structUtils } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 
 import logging from '../logging'
 import type {
