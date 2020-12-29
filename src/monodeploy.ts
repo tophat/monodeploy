@@ -94,6 +94,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
             versionStrategies,
             workspacesToPublish,
             registryUrl,
+            newVersions,
         )
 
         // Write changeset

@@ -6,8 +6,10 @@ import logging from '../logging'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
+    PackageTagMap,
     YarnContext,
 } from '../types'
+import pushTags from '../utils/pushTags'
 
 const publishPackages = async (
     config: MonodeployConfiguration,
@@ -15,6 +17,7 @@ const publishPackages = async (
     versionStrategies: PackageStrategyMap,
     workspacesToPublish: Set<Workspace>,
     registryUrl: string,
+    newVersions: PackageTagMap,
 ): Promise<void> => {
     if (config.dryRun) {
         logging.info('Skipping publish step because of dry-run.')
@@ -60,7 +63,7 @@ const publishPackages = async (
     )
 
     // Push git tags
-    // TODO
+    await pushTags(config, context, newVersions)
 }
 
 export default publishPackages
