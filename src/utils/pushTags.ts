@@ -12,10 +12,6 @@ function pushTags(
     context: YarnContext,
     versions: PackageTagMap,
 ): Promise<void[]> {
-    if (config.dryRun) {
-        logging.info('Skipping git tag push because of dry-run')
-    }
-
     return Promise.all(
         [...versions.entries()].map((packageVersionEntry: string[]) => {
             const [packageIdent, packageVersion] = packageVersionEntry
@@ -25,12 +21,14 @@ function pushTags(
                 if (!config.dryRun) {
                     // TODO: Tidy.
                     execSync(`git tag ${tag}`, { encoding: 'utf8' })
-                    execSync(`git push origin ${tag}`, {
+                    execSync(`git push ${config.git.remote} ${tag}`, {
                         encoding: 'utf8',
                     })
                 }
 
-                logging.info(`Pushed tag ${tag} to remote.`)
+                logging.info(
+                    `Pushed tag '${tag}' to remote '${config.git.remote}'.`,
+                )
             } catch (e) {
                 logging.error(`Failed to push tag ${tag} to remote.`)
                 logging.error(e)

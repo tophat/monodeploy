@@ -8,6 +8,7 @@ interface ArgOutput {
     dryRun?: boolean
     gitBaseBranch?: string
     gitCommitSha?: string
+    gitRemote?: string
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
@@ -34,6 +35,10 @@ const { argv } = yargs
     .option('git-commit-sha', {
         type: 'string',
         description: 'Git commit sha to compare against to determine changes',
+    })
+    .option('git-remote', {
+        type: 'string',
+        description: 'Git remote name to publish release tags to',
     })
     .option('log-level', {
         type: 'number',
@@ -68,6 +73,7 @@ monodeploy({
     git: {
         baseBranch: argv.gitBaseBranch ?? 'origin/master',
         commitSha: argv.gitCommitSha ?? 'HEAD',
+        remote: argv.gitRemote ?? 'origin',
     },
     conventionalChangelogConfig: argv.conventionalChangelogConfig ?? undefined,
     changesetFilename: argv.changesetFilename ?? undefined,

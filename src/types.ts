@@ -7,6 +7,7 @@ export interface MonodeployConfiguration {
     git: {
         baseBranch: string
         commitSha: string
+        remote: string
     }
     conventionalChangelogConfig?: string
     changesetFilename?: string

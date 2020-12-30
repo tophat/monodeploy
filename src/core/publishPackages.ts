@@ -19,10 +19,6 @@ const publishPackages = async (
     registryUrl: string,
     newVersions: PackageTagMap,
 ): Promise<void> => {
-    if (config.dryRun) {
-        logging.info('Skipping publish step because of dry-run.')
-    }
-
     await Promise.all(
         [...workspacesToPublish].map(async (workspace: Workspace) => {
             // Prepare pack streams.
@@ -56,6 +52,7 @@ const publishPackages = async (
                         registry: registryUrl,
                     })
                 }
+                logging.info(`Published ${ident.name} to ${registryUrl}`)
             } catch (e) {
                 logging.error(e)
             }

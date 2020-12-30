@@ -22,6 +22,8 @@ import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import { prettyPrintMap } from './utils/prettyPrint'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
+    logging.setDryRun(config.dryRun)
+
     const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
     const configuration = await Configuration.find(cwd, {
         modules: new Map([['@yarnpkg/plugin-npm', NpmPlugin]]),

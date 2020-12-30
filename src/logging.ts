@@ -1,5 +1,3 @@
-import { Writable } from 'stream'
-
 import chalk from 'chalk'
 
 const LOG_LEVELS = {
@@ -20,6 +18,10 @@ const levelToColour = {
     [LOG_LEVELS.INFO]: chalk.grey,
     [LOG_LEVELS.WARNING]: chalk.yellow,
     [LOG_LEVELS.ERROR]: chalk.red,
+}
+
+const loggerOpts = {
+    dryRun: false,
 }
 
 const leftPad = (value: string | number, padding: number): string => {
@@ -50,7 +52,13 @@ const createLogger = (level: LogLevelType): Logger => (
     )}:${leftPad(date.getSeconds(), 2)}.${leftPad(date.getMilliseconds(), 3)}]`
     const colour = levelToColour[level]
 
-    console.log(chalk.yellow(timestamp), (colour as Formatter)(args[0]))
+    const line = [chalk.yellow(timestamp)]
+    if (loggerOpts.dryRun && level === LOG_LEVELS.INFO) {
+        line.push(chalk.grey('[Dry Run]'))
+    }
+    line.push((colour as Formatter)(args[0]))
+
+    console.log(line.join(' '))
     if (args.length > 1) {
         for (const arg of args.slice(1)) {
             console.log(arg)
@@ -58,18 +66,16 @@ const createLogger = (level: LogLevelType): Logger => (
     }
 }
 
+const setDryRun = (value: boolean): void => {
+    loggerOpts.dryRun = value
+}
+
 const logger = {
     debug: createLogger(LOG_LEVELS.DEBUG),
     info: createLogger(LOG_LEVELS.INFO),
     warning: createLogger(LOG_LEVELS.WARNING),
     error: createLogger(LOG_LEVELS.ERROR),
+    setDryRun,
 }
-
-export const asStream = (loggerFn: Logger): Writable =>
-    new Writable({
-        write(chunk, encoding) {
-            loggerFn(chunk.toString(encoding))
-        },
-    })
 
 export default logger
