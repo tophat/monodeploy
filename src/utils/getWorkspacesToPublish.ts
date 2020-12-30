@@ -24,7 +24,9 @@ const getWorkspacesToPublish = (
     for (const packageName of versionStrategies.keys()) {
         const workspace = workspacesByIdent.get(packageName)
 
-        if (workspace) workspacesToRelease.add(workspace)
+        if (workspace && !workspace.manifest.private) {
+            workspacesToRelease.add(workspace)
+        }
     }
 
     return workspacesToRelease
