@@ -115,6 +115,14 @@ const createGetConventionalRecommendedStrategy = (
         conventionalCommits,
     )
 
+    if (
+        !conventionalStrategy ||
+        conventionalStrategy.level === null ||
+        conventionalStrategy.level === undefined
+    ) {
+        return STRATEGY.NONE
+    }
+
     if (conventionalStrategy.level === 0) return STRATEGY.MAJOR
     if (conventionalStrategy.level === 1) return STRATEGY.MINOR
     if (conventionalStrategy.level === 2) return STRATEGY.PATCH
