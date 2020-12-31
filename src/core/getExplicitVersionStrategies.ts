@@ -74,10 +74,7 @@ const getExplicitVersionStrategies = async (
 ): Promise<PackageStrategyMap> => {
     const commitMessages = await getCommitMessages(config)
     const strategyDeterminer = config.conventionalChangelogConfig
-        ? createGetConventionalRecommendedStrategy(
-              config,
-              config.conventionalChangelogConfig,
-          )
+        ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
     const strategy = strategyLevelToType(
         await strategyDeterminer(commitMessages),

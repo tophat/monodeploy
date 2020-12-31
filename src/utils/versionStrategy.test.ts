@@ -1,4 +1,10 @@
-import { STRATEGY, getDefaultRecommendedStrategy } from './versionStrategy'
+import { MonodeployConfiguration } from '../types'
+
+import {
+    STRATEGY,
+    createGetConventionalRecommendedStrategy,
+    getDefaultRecommendedStrategy,
+} from './versionStrategy'
 
 describe('Default Recommended Strategy', () => {
     it.each([
@@ -56,6 +62,54 @@ describe('Default Recommended Strategy', () => {
 })
 
 describe('Custom Conventional Recommended Strategy', () => {
-    it.todo('chooses none if strategy or level is not defined')
-    it.todo('chooses strategy based on custom config')
+    const monodeployConfig: MonodeployConfiguration = {
+        cwd: process.cwd(),
+        dryRun: false,
+        git: {
+            baseBranch: 'master',
+            commitSha: 'HEAD',
+            remote: 'origin',
+        },
+        conventionalChangelogConfig: `./src/mocks/conventional-config.mock.ts`,
+        access: 'public',
+    }
+
+    afterEach(() => {
+        // the mock config takes the value from an env variable
+        delete process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_
+        delete process.env._TEST_VERSION_RETURN_NULL_
+    })
+
+    it('chooses none if strategy or level is not defined', async () => {
+        const strategyDeterminer = createGetConventionalRecommendedStrategy(
+            monodeployConfig,
+        )
+
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = ''
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
+            STRATEGY.NONE,
+        )
+
+        process.env._TEST_VERSION_RETURN_NULL_ = 1
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MINOR
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
+            STRATEGY.NONE,
+        )
+    })
+
+    it('chooses strategy based on custom config', async () => {
+        const strategyDeterminer = createGetConventionalRecommendedStrategy(
+            monodeployConfig,
+        )
+
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MINOR
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
+            STRATEGY.MINOR,
+        )
+
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MAJOR
+        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(
+            STRATEGY.MAJOR,
+        )
+    })
 })

@@ -60,10 +60,13 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
 
 export const createGetConventionalRecommendedStrategy = (
     config: MonodeployConfiguration,
-    conventionalChangelogConfigPath: string,
 ): StrategyDeterminer => async (commits: string[]): Promise<number> => {
+    if (!config.conventionalChangelogConfig) {
+        throw new Error('Invalid conventional changelog config')
+    }
+
     const conventionalConfig = await require(require.resolve(
-        conventionalChangelogConfigPath,
+        config.conventionalChangelogConfig,
         { paths: [config.cwd] },
     ))
 
