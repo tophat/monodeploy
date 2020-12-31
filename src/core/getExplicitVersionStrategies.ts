@@ -1,4 +1,3 @@
-import { execSync } from 'child_process'
 import path from 'path'
 
 import { structUtils } from '@yarnpkg/core'
@@ -12,6 +11,7 @@ import type {
     YarnContext,
 } from '../types'
 import getCommitMessages from '../utils/getCommitMessages'
+import { gitDiff } from '../utils/git'
 import {
     STRATEGY,
     createGetConventionalRecommendedStrategy,
@@ -30,13 +30,14 @@ const getModifiedPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    const gitCommand = `git diff ${config.git.baseBranch}...${config.git.commitSha} --name-only`
-    logging.debug(`[Exec] ${gitCommand}`)
-    const stdout = execSync(gitCommand, {
-        encoding: 'utf8',
-        cwd: config.cwd,
-    })
-    const paths = stdout.split('\n')
+    const diffOutput = await gitDiff(
+        config.git.baseBranch,
+        config.git.commitSha,
+        {
+            cwd: config.cwd,
+        },
+    )
+    const paths = diffOutput.split('\n')
     const uniquePaths = paths.reduce(
         (uniquePaths: Set<string>, currentPath: string) => {
             if (currentPath) uniquePaths.add(currentPath)

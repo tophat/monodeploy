@@ -1,5 +1,3 @@
-import { execSync } from 'child_process'
-
 import logging from '../logging'
 import type {
     MonodeployConfiguration,
@@ -7,22 +5,25 @@ import type {
     YarnContext,
 } from '../types'
 
+import { gitPush, gitTag } from './git'
+
 function pushTags(
     config: MonodeployConfiguration,
     context: YarnContext,
     versions: PackageTagMap,
 ): Promise<void[]> {
     return Promise.all(
-        [...versions.entries()].map((packageVersionEntry: string[]) => {
+        [...versions.entries()].map(async (packageVersionEntry: string[]) => {
             const [packageIdent, packageVersion] = packageVersionEntry
             const tag = `${packageIdent}@${packageVersion}`
 
             try {
                 if (!config.dryRun) {
                     // TODO: Tidy.
-                    execSync(`git tag ${tag}`, { encoding: 'utf8' })
-                    execSync(`git push ${config.git.remote} ${tag}`, {
-                        encoding: 'utf8',
+                    await gitTag(tag, { cwd: config.cwd })
+                    await gitPush(tag, {
+                        cwd: config.cwd,
+                        remote: config.git.remote,
                     })
                 }
 
