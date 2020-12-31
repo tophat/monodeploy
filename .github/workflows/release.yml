@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
         - uses: actions/checkout@v2
-        - uses: ./.github/actions/detect-node
+        - uses: ./.github/actions/detect-env
         - name: Setup Node.js
           uses: actions/setup-node@v1
           with:
