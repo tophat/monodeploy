@@ -12,7 +12,7 @@ const getCommitMessages = async (
     const to = config.git.commitSha
 
     const gitCommand = `git log ${from}...${to} --format=%B%n${DELIMITER}`
-    logging.debug(`Exec: ${gitCommand}`)
+    logging.debug(`[Exec] ${gitCommand}`)
     const stdout = execSync(gitCommand, {
         encoding: 'utf8',
         cwd: config.cwd,

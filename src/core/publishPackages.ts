@@ -52,7 +52,7 @@ const publishPackages = async (
                         registry: registryUrl,
                     })
                 }
-                logging.info(`Published ${ident.name} to ${registryUrl}`)
+                logging.info(`[Publish] ${ident.name} (${registryUrl})`)
             } catch (e) {
                 logging.error(e)
             }

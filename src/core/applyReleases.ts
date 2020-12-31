@@ -26,10 +26,11 @@ const applyReleases = async (
             : packageTag
         intendedRegistryTags.set(packageName, nextPackageTag)
 
-        if (packageTag !== nextPackageTag)
+        if (packageTag !== nextPackageTag) {
             logging.info(
-                `${packageName} version change: ${packageTag} -> ${nextPackageTag}`,
+                `[Version Change] ${packageName}: ${packageTag} -> ${nextPackageTag} (${packageVersionStrategy})`,
             )
+        }
     }
 
     // Update newVersions to contain appropriate updates for dependents

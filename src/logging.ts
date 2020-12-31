@@ -15,7 +15,7 @@ type Formatter = (arg: unknown) => string
 
 const levelToColour = {
     [LOG_LEVELS.DEBUG]: chalk.magenta,
-    [LOG_LEVELS.INFO]: chalk.grey,
+    [LOG_LEVELS.INFO]: chalk.reset,
     [LOG_LEVELS.WARNING]: chalk.yellow,
     [LOG_LEVELS.ERROR]: chalk.red,
 }
@@ -61,7 +61,7 @@ const createLogger = (level: LogLevelType): Logger => (
     console.log(line.join(' '))
     if (args.length > 1) {
         for (const arg of args.slice(1)) {
-            console.log(arg)
+            console.log((colour as Formatter)(arg))
         }
     }
 }

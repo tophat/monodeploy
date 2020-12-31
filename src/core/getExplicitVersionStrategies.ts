@@ -1,10 +1,8 @@
 import { execSync } from 'child_process'
 import path from 'path'
-import { Readable } from 'stream'
 
 import { structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
-import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
 import logging from '../logging'
 import type {
@@ -14,13 +12,11 @@ import type {
     YarnContext,
 } from '../types'
 import getCommitMessages from '../utils/getCommitMessages'
-
-const STRATEGY = {
-    NONE: 0,
-    PATCH: 1,
-    MINOR: 2,
-    MAJOR: 3,
-}
+import {
+    STRATEGY,
+    createGetConventionalRecommendedStrategy,
+    getDefaultRecommendedStrategy,
+} from '../utils/versionStrategy'
 
 const strategyLevelToType = (level: number): PackageStrategyType | null => {
     const name = Object.entries(STRATEGY)
@@ -35,7 +31,7 @@ const getModifiedPackages = async (
     context: YarnContext,
 ): Promise<string[]> => {
     const gitCommand = `git diff ${config.git.baseBranch}...${config.git.commitSha} --name-only`
-    logging.debug(`Exec: ${gitCommand}`)
+    logging.debug(`[Exec] ${gitCommand}`)
     const stdout = execSync(gitCommand, {
         encoding: 'utf8',
         cwd: config.cwd,
@@ -69,64 +65,6 @@ const getModifiedPackages = async (
         [],
     )
     return [...new Set(modifiedPackages)]
-}
-
-type StrategyDeterminer = (commits: string[]) => Promise<number>
-
-const getDefaultRecommendedStrategy: StrategyDeterminer = async (
-    commits: string[],
-): Promise<number> => {
-    const pattern = new RegExp('^(\\w+)(\\([^:]+\\))?:.*', 'g')
-    const strategies = commits.map(msg => {
-        const matches = [...msg.matchAll(pattern)]?.[0]
-        const type = matches?.[1]
-        if (msg.includes('BREAKING CHANGE:')) return STRATEGY.MAJOR
-        if (type) {
-            if (['fix'].includes(type)) return STRATEGY.PATCH
-            if (['feat'].includes(type)) return STRATEGY.MINOR
-        }
-        return STRATEGY.NONE
-    })
-    return strategies.reduce((s, c) => Math.max(s, c))
-}
-
-const readStream = <T>(stream: Readable): Promise<T[]> =>
-    new Promise(resolve => {
-        const chunks: T[] = []
-        stream.on('data', chunk => chunks.push(chunk))
-        stream.on('end', () => resolve(chunks))
-    })
-
-const createGetConventionalRecommendedStrategy = (
-    config: MonodeployConfiguration,
-    conventionalChangelogConfigPath: string,
-): StrategyDeterminer => async (commits: string[]): Promise<number> => {
-    const conventionalConfig = await require(require.resolve(
-        conventionalChangelogConfigPath,
-        { paths: [config.cwd] },
-    ))
-
-    const commitsStream = Readable.from(commits).pipe(
-        conventionalCommitsParser(conventionalConfig.parserOpts),
-    )
-    const conventionalCommits = await readStream<Commit>(commitsStream)
-
-    const conventionalStrategy = await conventionalConfig.recommendedBumpOpts.whatBump(
-        conventionalCommits,
-    )
-
-    if (
-        !conventionalStrategy ||
-        conventionalStrategy.level === null ||
-        conventionalStrategy.level === undefined
-    ) {
-        return STRATEGY.NONE
-    }
-
-    if (conventionalStrategy.level === 0) return STRATEGY.MAJOR
-    if (conventionalStrategy.level === 1) return STRATEGY.MINOR
-    if (conventionalStrategy.level === 2) return STRATEGY.PATCH
-    return STRATEGY.NONE
 }
 
 const getExplicitVersionStrategies = async (

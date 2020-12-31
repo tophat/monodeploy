@@ -30,7 +30,7 @@ const writeChangesetFile = async (
     await fs.writeFile(changesetPath, JSON.stringify(changesetData, null, 2), {
         encoding: 'utf8',
     })
-    logging.info(`Changeset written to: ${changesetPath}`)
+    logging.info(`[Changeset] Written to: ${changesetPath}`)
 }
 
 export default writeChangesetFile

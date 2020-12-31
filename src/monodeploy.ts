@@ -19,10 +19,13 @@ import type {
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
-import { prettyPrintMap } from './utils/prettyPrint'
 
 const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
     logging.setDryRun(config.dryRun)
+    logging.debug(
+        `Starting monodeploy with config:`,
+        JSON.stringify(config, null, 2),
+    )
 
     const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
     const configuration = await Configuration.find(cwd, {
@@ -41,11 +44,10 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
 
     // Determine registry
     const registryUrl = await getRegistryUrl(config, context)
-    logging.debug(`Registry Url: ${registryUrl}`)
+    logging.debug(`[Config] Registry Url: ${registryUrl}`)
 
     // Fetch latest package versions for workspaces
     const registryTags = await getLatestPackageTags(config, context)
-    logging.debug(`Registry Tags`, prettyPrintMap(registryTags))
 
     // Determine version bumps via commit messages
     const explicitVersionStrategies = await getExplicitVersionStrategies(
@@ -65,8 +67,6 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         ...implicitVersionStrategies.entries(),
     ])
 
-    logging.debug(`Version Strategies`, prettyPrintMap(versionStrategies))
-
     if (!versionStrategies.size) {
         logging.warning('No packages need to be updated.')
         return
@@ -74,7 +74,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
 
     // Backup workspace package.jsons
     const backupKey = await backupPackageJsons(config, context)
-    logging.debug(`Backup Key: ${backupKey}`)
+    logging.debug(`[Savepoint] Saving working tree (key: ${backupKey})`)
 
     try {
         // Apply releases, and update package.jsons
@@ -102,13 +102,17 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         // Write changeset
         await writeChangesetFile(config, context, newVersions)
     } catch (err) {
+        logging.error(`Monodeploy failed`)
         logging.error(err)
     } finally {
         // Restore workspace package.jsons
+        logging.debug(
+            `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
+        )
         await restorePackageJsons(config, context, backupKey)
     }
 
-    logging.debug(`Monodeploy completed successfully.`)
+    logging.info(`Monodeploy completed successfully`)
 }
 
 export default monodeploy

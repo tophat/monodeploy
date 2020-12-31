@@ -26,11 +26,11 @@ function pushTags(
                     })
                 }
 
-                logging.info(
-                    `Pushed tag '${tag}' to remote '${config.git.remote}'.`,
-                )
+                logging.info(`[Push Tag] ${tag} (remote: ${config.git.remote})`)
             } catch (e) {
-                logging.error(`Failed to push tag ${tag} to remote.`)
+                logging.error(
+                    `[Push Tag] Failed ${tag} (remote: ${config.git.remote})`,
+                )
                 logging.error(e)
             }
         }),
