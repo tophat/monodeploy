@@ -21,31 +21,36 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     )
     const conventionalCommits = await readStream<Commit>(commitsStream)
     const pattern = new RegExp('^(\\w+)(\\([^:]+\\))?:.*', 'g')
-    const patchTypes = ['fix', 'perf']
-    const featureTypes = ['feat']
+    const PATCH_TYPES = ['fix', 'perf']
+    const FEATURE_TYPES = ['feat']
+    const BREAKING_CHANGE = 'breaking change'
     return conventionalCommits.reduce((level, commit) => {
         for (const note of commit.notes) {
-            if (note.title.toLowerCase().includes('breaking change')) {
+            if (note.title.toLowerCase().includes(BREAKING_CHANGE)) {
                 return STRATEGY.MAJOR
             }
 
             const matches = [...note.title.matchAll(pattern)]?.[0]
             const type = matches?.[1]
 
-            if (featureTypes.includes(type)) {
+            if (FEATURE_TYPES.includes(type)) {
                 return Math.min(level, STRATEGY.MINOR)
             }
-            if (patchTypes.includes(type)) {
+            if (PATCH_TYPES.includes(type)) {
                 return Math.min(level, STRATEGY.PATCH)
             }
         }
 
+        if (commit.header?.toLowerCase().includes(BREAKING_CHANGE)) {
+            return STRATEGY.MAJOR
+        }
+
         const commitType = commit.type
         if (commitType) {
-            if (featureTypes.includes(commitType)) {
+            if (FEATURE_TYPES.includes(commitType)) {
                 return Math.min(level, STRATEGY.MINOR)
             }
-            if (patchTypes.includes(commitType)) {
+            if (PATCH_TYPES.includes(commitType)) {
                 return Math.min(level, STRATEGY.PATCH)
             }
         }

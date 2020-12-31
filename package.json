@@ -15,7 +15,7 @@
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
-        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} lib node_modules ./src/*.js",
+        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} lib node_modules && find ./src -name '*.js' -type f -delete",
         "test": "jest",
         "test:ci": "jest --ci",
         "test:update": "jest -u",
@@ -30,7 +30,7 @@
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
         "types:generate": "tsc",
         "types:watch": "tsc --pretty --watch",
-        "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.js'",
+        "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.ts'",
         "build:babel:watch": "yarn build:babel --watch",
         "build:package": "mkdir -p ${ARTIFACT_DIR:-artifacts} && yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz",
         "build": "rm -rf lib && yarn build:babel && yarn types:generate && yarn build:package",
