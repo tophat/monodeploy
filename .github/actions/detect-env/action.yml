@@ -1,5 +1,5 @@
-name: detect-node
-description: Sets ndoe and yarn version from nvmrc and yvmrc files.
+name: detect-env
+description: Sets node and yarn version from nvmrc and yvmrc files.
 runs:
   using: "composite"
   steps:
