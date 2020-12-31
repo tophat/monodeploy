@@ -26,6 +26,10 @@ module.exports = {
                 ],
             },
         ],
+        'jest/no-standalone-expect': [
+            'error',
+            { additionalTestBlockFunctions: ['teste2e'] },
+        ],
     },
     ignorePatterns: ['example-monorepo/**/*', '.*', '**/*.js', 'lib'],
     settings: {
