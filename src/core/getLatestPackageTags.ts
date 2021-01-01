@@ -1,6 +1,7 @@
 import { Workspace } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
+import logging from '../logging'
 import type {
     MonodeployConfiguration,
     PackageTagMap,
@@ -24,15 +25,34 @@ const getLatestPackageTags = async (
             if (ident) {
                 const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
                 const distTagUrl = `/-/package${identUrl}/dist-tags`
-                const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
-                    configuration: context.configuration,
-                    ident,
-                    jsonResponse: true,
-                })
                 const pkgName = ident.scope
                     ? `@${ident.scope}/${ident.name}`
                     : ident.name
-                return [pkgName, result.latest]
+
+                try {
+                    const result = await pluginNPM.npmHttpUtils.get(
+                        distTagUrl,
+                        {
+                            configuration: context.configuration,
+                            ident,
+                            jsonResponse: true,
+                        },
+                    )
+                    return [pkgName, result.latest]
+                } catch (err) {
+                    if (String(err).includes('404 (Not Found)')) {
+                        // Package has never been published before
+                        logging.warning(
+                            `[Get Tags] Cannot find ${pkgName} in registry (version: 0.0.0)`,
+                        )
+                        return [pkgName, '0.0.0']
+                    }
+
+                    logging.error(
+                        `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
+                    )
+                    throw err
+                }
             }
             return [null, null]
         }),

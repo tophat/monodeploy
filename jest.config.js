@@ -19,4 +19,5 @@ module.exports = {
         coverageDirectory: `${ARTIFACT_DIR}/test_results/jest/`,
         collectCoverageFrom: ['src/**/*.js', '!src/**/*.test.js', '!src/**/*.mock.js'],
     }),
+    watchPathIgnorePatterns: ['<rootDir>/example-monorepo', '<rootDir>/lib', '<rootDir>/artifacts']
 }
