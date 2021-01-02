@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 
-const LOG_LEVELS = {
+export const LOG_LEVELS = {
     DEBUG: 0,
     INFO: 1,
     WARNING: 2,

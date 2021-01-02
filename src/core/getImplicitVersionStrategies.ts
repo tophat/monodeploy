@@ -46,6 +46,13 @@ const getImplicitVersionStrategies = async (
         const dependents = workspaceToDependents.get(dependency)
         if (!dependents || !dependents.size) continue
 
+        // If the dependency does not have an intentional update,
+        // we can ignore the dependents
+        const dependencyIdent = dependency.manifest.name
+        if (!dependencyIdent) throw new Error('Missing dependency identity.')
+        const dependencyName = structUtils.stringifyIdent(dependencyIdent)
+        if (!intentionalStrategies.has(dependencyName)) continue
+
         for (const dependent of dependents) {
             const ident = dependent?.manifest?.name
             if (!ident) throw new Error('Missing workspace identity.')

@@ -30,7 +30,7 @@
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
         "types:generate": "tsc",
         "types:watch": "tsc --pretty --watch",
-        "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.ts' --ignore 'src/**/*.mock.ts'",
+        "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.ts' --ignore 'src/**/*.mock.ts' --ignore 'src/**/__mocks__/**/*.ts'",
         "build:babel:watch": "yarn build:babel --watch",
         "build:package": "mkdir -p ${ARTIFACT_DIR:-artifacts} && yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz",
         "build": "rm -rf lib && yarn build:babel && yarn types:generate && yarn build:package",

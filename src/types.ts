@@ -27,3 +27,7 @@ export type PackageStrategyType = 'major' | 'minor' | 'patch'
 export type PackageStrategyMap = Map<string, PackageStrategyType>
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>
+
+export interface ChangesetSchema {
+    [version: string]: { version: string }
+}

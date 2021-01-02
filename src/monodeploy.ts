@@ -12,6 +12,7 @@ import publishPackages from './core/publishPackages'
 import writeChangesetFile from './core/writeChangesetFile'
 import logging from './logging'
 import type {
+    ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
     YarnContext,
@@ -20,7 +21,9 @@ import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 
-const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
+const monodeploy = async (
+    config: MonodeployConfiguration,
+): Promise<ChangesetSchema> => {
     logging.setDryRun(config.dryRun)
     logging.debug(
         `Starting monodeploy with config:`,
@@ -69,12 +72,14 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
 
     if (!versionStrategies.size) {
         logging.warning('No packages need to be updated.')
-        return
+        return {}
     }
 
     // Backup workspace package.jsons
     const backupKey = await backupPackageJsons(config, context)
     logging.debug(`[Savepoint] Saving working tree (key: ${backupKey})`)
+
+    let result: ChangesetSchema = {}
 
     try {
         // Apply releases, and update package.jsons
@@ -100,7 +105,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
         )
 
         // Write changeset
-        await writeChangesetFile(config, context, newVersions)
+        result = await writeChangesetFile(config, context, newVersions)
     } catch (err) {
         logging.error(`Monodeploy failed`)
         logging.error(err)
@@ -113,6 +118,7 @@ const monodeploy = async (config: MonodeployConfiguration): Promise<void> => {
     }
 
     logging.info(`Monodeploy completed successfully`)
+    return result
 }
 
 export default monodeploy
