@@ -20,19 +20,15 @@ const writeChangesetFile = async (
         changesetData[pkgName] = { version }
     }
 
-    if (config.changesetFilename) {
-        const changesetPath = path.resolve(config.cwd, config.changesetFilename)
-        await fs.mkdir(path.dirname(changesetPath), { recursive: true })
+    if (!config.changesetFilename) return changesetData
 
-        await fs.writeFile(
-            changesetPath,
-            JSON.stringify(changesetData, null, 2),
-            {
-                encoding: 'utf8',
-            },
-        )
-        logging.info(`[Changeset] Written to: ${changesetPath}`)
-    }
+    const changesetPath = path.resolve(config.cwd, config.changesetFilename)
+    await fs.mkdir(path.dirname(changesetPath), { recursive: true })
+
+    await fs.writeFile(changesetPath, JSON.stringify(changesetData, null, 2), {
+        encoding: 'utf8',
+    })
+    logging.info(`[Changeset] Written to: ${changesetPath}`)
 
     return changesetData
 }
