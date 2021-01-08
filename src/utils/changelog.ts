@@ -1,38 +1,122 @@
 import { Readable } from 'stream'
+import url from 'url'
 
+import { Workspace } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
-import { Commit } from 'conventional-commits-parser' // it requires hash, so this is the wrong type..
+import conventionalCommitsParser, { Commit } from 'conventional-commits-parser' // it requires hash, so this is the wrong type..
 
 import type { MonodeployConfiguration, YarnContext } from '../types'
 
-import { readStreamString } from './stream'
+import getIdentFromName from './getIdentFromName'
+import { readStream, readStreamString } from './stream'
 
-const generateChangelogEntry = async (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    config: MonodeployConfiguration,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    context: YarnContext,
-): Promise<string | null> => {
-    // TODO: a version of the commit in versionStrategy but with "hash", and grouped per workspace
-    const rawCommits: Commit[] = []
+type RepositoryInfo = {
+    host: string | null
+    owner: string | null
+    repository: string | null
+    repoUrl: string | null
+}
 
-    const templateContext = {
-        version: '',
-        title: '',
-        host: '',
-        owner: '',
-        repository: '',
-        repoUrl: '', // TODO: fallback if repository does not exist (host + repository)
+const parseRepositoryProperty = async (
+    workspace: Workspace,
+): Promise<RepositoryInfo> => {
+    const rawManifest = workspace.manifest.raw
+
+    const data: RepositoryInfo = {
+        host: null,
+        owner: null,
+        repository: null,
+        repoUrl: null,
     }
 
-    const writerOpts = {} // TODO: taken from conventional config as writerOpts
+    const repositoryUrl = rawManifest?.repository?.url ?? ''
+    if (repositoryUrl.startsWith('git+')) {
+        data.repoUrl = repositoryUrl.substring('git+'.length)
+    }
+
+    if (repositoryUrl.endsWith('.git')) {
+        const parts = repositoryUrl.split('/')
+
+        const repository = parts.pop()
+        const owner = parts.pop()
+
+        data.repository = repository.substring(
+            0,
+            repository.length - '.git'.length,
+        )
+        data.owner = owner
+    }
+
+    if (data.repoUrl?.startsWith('https://')) {
+        const parsedUrl = url.parse(data.repoUrl)
+        if (parsedUrl?.hostname) {
+            data.host = `${parsedUrl.protocol}//${parsedUrl.host}`
+        }
+    }
+
+    console.log(data)
+
+    return data
+}
+
+const generateChangelogEntry = async (
+    config: MonodeployConfiguration,
+    context: YarnContext,
+    packageName: string,
+    version: string,
+    commits: string[],
+): Promise<string | null> => {
+    if (!config.conventionalChangelogConfig) {
+        return null
+    }
+
+    const ident = getIdentFromName(packageName)
+    const workspace = context.project.getWorkspaceByIdent(ident)
+
+    const conventionalConfig = await require(require.resolve(
+        config.conventionalChangelogConfig,
+        { paths: [config.cwd] },
+    ))
+
+    const commitsStream = Readable.from(commits).pipe(
+        conventionalCommitsParser(conventionalConfig.parserOpts),
+    )
+    const conventionalCommits = await readStream<Commit>(commitsStream)
+
+    const { host, owner, repository, repoUrl } = await parseRepositoryProperty(
+        workspace,
+    )
+
+    const templateContext = {
+        version,
+        title: `${packageName}@${version}`,
+        host: host ?? '',
+        owner: owner ?? workspace.manifest.raw?.author ?? '',
+        repository: repository ?? '',
+        repoUrl: repoUrl ?? '',
+    }
 
     const changelogWriter = conventionalChangelogWriter(
         templateContext,
-        writerOpts,
+        conventionalConfig.writerOpts,
     )
 
-    return readStreamString(Readable.from(rawCommits).pipe(changelogWriter))
+    async function* transformedCommits() {
+        for (const commit of conventionalCommits) {
+            // NOTE: This mutates the commit.
+            const mutableCommit = JSON.parse(JSON.stringify(commit))
+
+            await conventionalConfig.writerOpts?.transform?.(
+                mutableCommit,
+                templateContext,
+            )
+            yield mutableCommit
+        }
+    }
+
+    const pipeline = Readable.from(transformedCommits()).pipe(changelogWriter)
+
+    return readStreamString(pipeline)
 }
 
 export default generateChangelogEntry

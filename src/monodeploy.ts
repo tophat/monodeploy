@@ -105,7 +105,12 @@ const monodeploy = async (
         )
 
         // Write changeset
-        result = await writeChangesetFile(config, context, newVersions)
+        result = await writeChangesetFile(
+            config,
+            context,
+            newVersions,
+            versionStrategies,
+        )
     } catch (err) {
         logging.error(`Monodeploy failed`)
         logging.error(err)

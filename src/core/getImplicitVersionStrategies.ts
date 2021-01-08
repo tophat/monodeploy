@@ -61,7 +61,7 @@ const getImplicitVersionStrategies = async (
             if (requiresUpdate.has(name)) continue
             if (intentionalStrategies.has(name)) continue
             pending.push(dependent)
-            requiresUpdate.set(name, 'patch')
+            requiresUpdate.set(name, { type: 'patch', commits: [] })
         }
     }
 

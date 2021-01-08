@@ -20,7 +20,7 @@ const applyReleases = async (
     const intendedRegistryTags = new Map()
 
     for (const [packageName, packageTag] of registryTags.entries()) {
-        const packageVersionStrategy = versionStrategies.get(packageName)
+        const packageVersionStrategy = versionStrategies.get(packageName)?.type
         const nextPackageTag = packageVersionStrategy
             ? incrementSemver(packageTag, packageVersionStrategy)
             : packageTag

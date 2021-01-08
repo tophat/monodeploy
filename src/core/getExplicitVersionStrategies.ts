@@ -83,7 +83,12 @@ const getExplicitVersionStrategies = async (
 
     const versionStrategies: PackageStrategyMap = new Map()
     for (const pkgName of packageNames) {
-        if (strategy) versionStrategies.set(pkgName, strategy)
+        if (strategy) {
+            versionStrategies.set(pkgName, {
+                type: strategy,
+                commits: commitMessages,
+            })
+        }
     }
 
     return versionStrategies
