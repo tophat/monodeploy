@@ -54,8 +54,6 @@ const parseRepositoryProperty = async (
         }
     }
 
-    console.log(data)
-
     return data
 }
 
