@@ -2,6 +2,18 @@ import childProcess from 'child_process'
 
 import logging from '../logging'
 
+export const gitResolveSha = async (
+    ref: string,
+    { cwd }: { cwd: string },
+): Promise<string> => {
+    const gitCommand = `git log --format="%H" -n 1 ${ref}`
+    logging.debug(`[Exec] ${gitCommand}`)
+    return childProcess
+        .execSync(gitCommand, { encoding: 'utf8', cwd })
+        .toString()
+        .trim()
+}
+
 export const gitDiff = async (
     from: string,
     to: string,

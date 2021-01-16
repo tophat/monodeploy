@@ -1784,6 +1784,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tophat/conventional-changelog-config@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@tophat/conventional-changelog-config@npm:0.0.9"
+  dependencies:
+    "@tophat/commit-utils-core": ^0.0.9
+  checksum: 7def18383d86e39d6b07f99c218ff7edec67bc6fc71d02047c58791ef5a55b083e875e41cf0ef3194a1b56fa90f5773983dbaf76f12b97b681546b4a0cac3b4c
+  languageName: node
+  linkType: hard
+
 "@tophat/eslint-config@npm:^0.7.0":
   version: 0.7.0
   resolution: "@tophat/eslint-config@npm:0.7.0"
@@ -3685,7 +3694,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compare-func@npm:^2.0.0":
+"compare-func@npm:*, compare-func@npm:^2.0.0":
   version: 2.0.0
   resolution: "compare-func@npm:2.0.0"
   dependencies:
@@ -7533,6 +7542,7 @@ fsevents@~2.1.2:
     "@commitlint/cli": ^11.0.0
     "@tophat/commitizen-adapter": ^0.0.11
     "@tophat/commitlint-config": ^0.1.2
+    "@tophat/conventional-changelog-config": ^0.0.9
     "@tophat/eslint-config": ^0.7.0
     "@types/chalk": ^2.2.0
     "@types/conventional-changelog-writer": ^4.0.0

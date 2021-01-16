@@ -48,6 +48,7 @@
         "@commitlint/cli": "^11.0.0",
         "@tophat/commitizen-adapter": "^0.0.11",
         "@tophat/commitlint-config": "^0.1.2",
+        "@tophat/conventional-changelog-config": "^0.0.9",
         "@tophat/eslint-config": "^0.7.0",
         "@types/chalk": "^2.2.0",
         "@types/conventional-changelog-writer": "^4.0.0",

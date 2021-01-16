@@ -108,6 +108,11 @@ const generateChangelogEntry = async (
                 mutableCommit,
                 templateContext,
             )
+
+            if (!mutableCommit.hash && config.git.commitSha) {
+                mutableCommit.hash = config.git.commitSha
+            }
+
             yield mutableCommit
         }
     }

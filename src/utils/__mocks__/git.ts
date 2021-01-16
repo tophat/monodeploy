@@ -23,6 +23,13 @@ export const _getPushedTags_ = (): string[] => {
     return registry.pushedTags
 }
 
+export const gitResolveSha = async (
+    ref: string,
+    { cwd }: { cwd: string },
+): Promise<string> => {
+    return `sha:${ref}`
+}
+
 export const gitDiff = async (
     from: string,
     to: string,

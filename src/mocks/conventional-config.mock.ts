@@ -6,7 +6,9 @@ const config = () => ({
             if (process.env._TEST_VERSION_RETURN_NULL_) {
                 return null
             }
-            return { level: pinnedLevel === null ? null : Number(pinnedLevel) }
+            return {
+                level: pinnedLevel === null ? null : Number(pinnedLevel),
+            }
         },
     },
 })

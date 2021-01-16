@@ -1,6 +1,7 @@
 import yargs from 'yargs'
 
 import monodeploy from './monodeploy'
+import { gitResolveSha } from './utils/git'
 
 interface ArgOutput {
     registryUrl?: string
@@ -66,19 +67,29 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
     process.env.MONODEPLOY_LOG_LEVEL = String(argv.logLevel)
 }
 
-monodeploy({
-    registryUrl: argv.registryUrl ?? undefined,
-    cwd: argv.cwd ?? process.cwd(),
-    dryRun: argv.dryRun ?? false,
-    git: {
-        baseBranch: argv.gitBaseBranch ?? 'origin/master',
-        commitSha: argv.gitCommitSha ?? 'HEAD',
-        remote: argv.gitRemote ?? 'origin',
-    },
-    conventionalChangelogConfig: argv.conventionalChangelogConfig ?? undefined,
-    changesetFilename: argv.changesetFilename ?? undefined,
-    access: argv.access ?? 'public',
-}).catch(err => {
-    console.error(err)
-    process.exit(1)
-})
+const cwd = argv.cwd ?? process.cwd()
+
+;(async () => {
+    const config = {
+        registryUrl: argv.registryUrl ?? undefined,
+        cwd,
+        dryRun: argv.dryRun ?? false,
+        git: {
+            baseBranch: argv.gitBaseBranch ?? 'origin/master',
+            commitSha:
+                argv.gitCommitSha ?? (await gitResolveSha('HEAD', { cwd })),
+            remote: argv.gitRemote ?? 'origin',
+        },
+        conventionalChangelogConfig:
+            argv.conventionalChangelogConfig ?? undefined,
+        changesetFilename: argv.changesetFilename ?? undefined,
+        access: argv.access ?? 'public',
+    }
+
+    try {
+        await monodeploy(config)
+    } catch (err) {
+        console.error(err)
+        process.exit(1)
+    }
+})()
