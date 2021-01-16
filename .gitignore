@@ -1,14 +1,21 @@
-.vscode/settings.json
-coverage
+# dependency management
 node_modules
-website/build
-lib/
-artifacts/
-*.junit.xml
-*.log
-
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
 !.yarn/versions
+!.yarn/sdks
 .pnp.*
+
+# transient files
+*.log
+
+# build artifacts
+coverage
+lib
+artifacts
+*.junit.xml
+website/build
+
+# this is configured via bootstrap script
+.vscode

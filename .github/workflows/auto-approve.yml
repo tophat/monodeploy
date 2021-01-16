@@ -4,7 +4,7 @@ on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+    if: github.actor == 'dependabot[bot]'
     steps:
     - uses: hmarr/auto-approve-action@v2.0.0
       with:
