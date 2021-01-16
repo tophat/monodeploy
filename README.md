@@ -4,7 +4,6 @@
 
 [![npm](https://img.shields.io/npm/v/monodeploy.svg)](https://www.npmjs.com/package/monodeploy)
 [![npm downloads](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
-[![CircleCI](https://img.shields.io/circleci/project/github/tophat/monodeploy/master.svg)](https://circleci.com/gh/tophat/monodeploy)
 [![codecov](https://codecov.io/gh/tophat/monodeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/monodeploy)
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)

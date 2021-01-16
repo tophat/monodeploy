@@ -1428,9 +1428,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@eslint/eslintrc@npm:0.2.2"
+"@eslint/eslintrc@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@eslint/eslintrc@npm:0.3.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.1.1
@@ -1439,10 +1439,10 @@ __metadata:
     ignore: ^4.0.6
     import-fresh: ^3.2.1
     js-yaml: ^3.13.1
-    lodash: ^4.17.19
+    lodash: ^4.17.20
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: 049c98898934100aa5ad4912242ecbec136454787c00776a236e5321c73176dbc813917445a3d50d230a5a84531a99ec0e2885dd7a6838be68b46b6720fa1459
+  checksum: 00e87c194672eb85dcea22ba749fb3cabdd9768e952e748b2c727940f06691c873369d75cf3bddb239301eca8c38de6e098b0de4839fa7c16a2062e536e8ff5a
   languageName: node
   linkType: hard
 
@@ -3668,12 +3668,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commitizen@npm:^4.0.3, commitizen@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "commitizen@npm:4.2.2"
+"commitizen@npm:^4.0.3, commitizen@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "commitizen@npm:4.2.3"
   dependencies:
     cachedir: 2.2.0
-    cz-conventional-changelog: 3.3.0
+    cz-conventional-changelog: 3.2.0
     dedent: 0.7.0
     detect-indent: 6.0.0
     find-node-modules: 2.0.0
@@ -3690,7 +3690,7 @@ __metadata:
     commitizen: bin/commitizen
     cz: bin/git-cz
     git-cz: bin/git-cz
-  checksum: 3b126399bb75742cd73910d9d154e3f4367ff48f9c19609ee8065b00291c010e72a06863001c3c3cffe7f7d16c8dfa9e6c9e141b7afd897e09e237d61d19f7b5
+  checksum: b7d74861e2e9fdee67b74581e0cb4a9f37546b5d2fc641317d0b971f70afcd795363130df5534a805090f64dbfed100e4bb9664c01d381922019e00ade4ebd01
   languageName: node
   linkType: hard
 
@@ -3902,9 +3902,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cz-conventional-changelog@npm:3.3.0":
-  version: 3.3.0
-  resolution: "cz-conventional-changelog@npm:3.3.0"
+"cz-conventional-changelog@npm:3.2.0":
+  version: 3.2.0
+  resolution: "cz-conventional-changelog@npm:3.2.0"
   dependencies:
     "@commitlint/load": ">6.1.1"
     chalk: ^2.4.1
@@ -3916,7 +3916,7 @@ __metadata:
   dependenciesMeta:
     "@commitlint/load":
       optional: true
-  checksum: aa696ecb99ecb667d6d73bac40f5966eb53dd7e2fcd85d4254cec1ae041fd6c3579c4447a382668c607433ec6540a590154603bf0062062e9e10aa48066cc75d
+  checksum: 8fce253c2c99181994ea16f52606ec1e23d710fc04f928560c5918ae686b07b58384fd49173212a378643397c2b05008fc55fc27a865412a1771bc4377957f3f
   languageName: node
   linkType: hard
 
@@ -4481,18 +4481,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "eslint-plugin-prettier@npm:3.3.0"
+"eslint-plugin-prettier@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "eslint-plugin-prettier@npm:3.3.1"
   dependencies:
     prettier-linter-helpers: ^1.0.0
   peerDependencies:
     eslint: ">=5.0.0"
     prettier: ">=1.13.0"
   peerDependenciesMeta:
-    eslint-plugin-prettier:
+    eslint-config-prettier:
       optional: true
-  checksum: d79ea6ed414f861d0b84818b9a3f7ac40f67998918d3a0c27e9d82f097768aeae8211f382cc5f9b059f4bdb417d098c8250ea8a552e6e18c904a961eb2b21681
+  checksum: cf35b0f0e9ef30782fe82913db92f6874181723d77f0c4613f9d69c87069f73d0dc420ef850ebc844613c00a8e87eb9762a36b7d028334c5c7b091763118347b
   languageName: node
   linkType: hard
 
@@ -4505,9 +4505,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.21.5":
-  version: 7.21.5
-  resolution: "eslint-plugin-react@npm:7.21.5"
+"eslint-plugin-react@npm:^7.22.0":
+  version: 7.22.0
+  resolution: "eslint-plugin-react@npm:7.22.0"
   dependencies:
     array-includes: ^3.1.1
     array.prototype.flatmap: ^1.2.3
@@ -4522,7 +4522,7 @@ __metadata:
     string.prototype.matchall: ^4.0.2
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7
-  checksum: a7123f6feb287ad7e15d36b1c9fda8f78a0f0d39b9ee2d6479a5f0ad0effb8f60f639ef7449cecabb711095060e487f0950b69478b22768547b909c0de4f3afd
+  checksum: 34927cb4880984e3a3e413ef57ebedbc4c4bf8e26f3cf561986e240c621d0873765fc5eef2be22171625deab2f77d0ec7013b422987ae5296fbdee0c682c6cc5
   languageName: node
   linkType: hard
 
@@ -4559,12 +4559,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.16.0":
-  version: 7.16.0
-  resolution: "eslint@npm:7.16.0"
+"eslint@npm:^7.18.0":
+  version: 7.18.0
+  resolution: "eslint@npm:7.18.0"
   dependencies:
     "@babel/code-frame": ^7.0.0
-    "@eslint/eslintrc": ^0.2.2
+    "@eslint/eslintrc": ^0.3.0
     ajv: ^6.10.0
     chalk: ^4.0.0
     cross-spawn: ^7.0.2
@@ -4588,7 +4588,7 @@ __metadata:
     js-yaml: ^3.13.1
     json-stable-stringify-without-jsonify: ^1.0.1
     levn: ^0.4.1
-    lodash: ^4.17.19
+    lodash: ^4.17.20
     minimatch: ^3.0.4
     natural-compare: ^1.4.0
     optionator: ^0.9.1
@@ -4602,7 +4602,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: facdebbce95f7812b026cae955f22863e0850584c8b4ab6daefa555f48b38a8b3d62c1857c0eeebe52218c49345853f516209b300c6747ea89d6f88ef495a56d
+  checksum: 5c6f6ca0eb6c3738a0d14d3441a23f045ef9e7f73aaba4848aea0877c5fd50ec42937ccdaf53fb9107694f5700a9989bca55334b7b17e5d3be2f6e69a42241fa
   languageName: node
   linkType: hard
 
@@ -7561,17 +7561,17 @@ fsevents@~2.1.2:
     all-contributors-cli: ^6.19.0
     babel-jest: ^26.6.3
     chalk: ^4.1.0
-    commitizen: ^4.2.2
+    commitizen: ^4.2.3
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
-    eslint: ^7.16.0
+    eslint: ^7.18.0
     eslint-config-prettier: ^7.1.0
     eslint-import-resolver-typescript: ^2.3.0
     eslint-plugin-import: ^2.22.1
     eslint-plugin-jest: ^24.1.3
     eslint-plugin-jsx-a11y: ^6.4.1
-    eslint-plugin-prettier: ^3.3.0
-    eslint-plugin-react: ^7.21.5
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-react: ^7.22.0
     eslint-plugin-react-hooks: ^4.2.0
     husky: ^5.0.6
     jest: ^26.6.3
