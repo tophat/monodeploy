@@ -2,6 +2,8 @@ import childProcess from 'child_process'
 
 import logging from '../logging'
 
+import { assertProduction } from './invariants'
+
 export const gitResolveSha = async (
     ref: string,
     { cwd }: { cwd: string },
@@ -44,6 +46,7 @@ export const gitTag = async (
     tag: string,
     { cwd }: { cwd: string },
 ): Promise<void> => {
+    assertProduction()
     const gitCommand = `git tag ${tag}`
     logging.debug(`[Exec] ${gitCommand}`)
     childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
@@ -53,6 +56,7 @@ export const gitPush = async (
     tag: string,
     { cwd, remote }: { cwd: string; remote: string },
 ): Promise<void> => {
+    assertProduction()
     const gitCommand = `git push ${remote} ${tag}`
     logging.debug(`[Exec] ${gitCommand}`)
     childProcess.execSync(gitCommand, {

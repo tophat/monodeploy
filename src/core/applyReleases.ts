@@ -24,9 +24,9 @@ const applyReleases = async (
         const nextPackageTag = packageVersionStrategy
             ? incrementSemver(packageTag, packageVersionStrategy)
             : packageTag
-        intendedRegistryTags.set(packageName, nextPackageTag)
 
         if (packageTag !== nextPackageTag) {
+            intendedRegistryTags.set(packageName, nextPackageTag)
             logging.info(
                 `[Version Change] ${packageName}: ${packageTag} -> ${nextPackageTag} (${packageVersionStrategy})`,
             )
@@ -34,9 +34,7 @@ const applyReleases = async (
     }
 
     // Update newVersions to contain appropriate updates for dependents
-    if (!config.dryRun) {
-        await patchPackageJsons(config, context, intendedRegistryTags)
-    }
+    await patchPackageJsons(config, context, intendedRegistryTags)
 
     return intendedRegistryTags
 }

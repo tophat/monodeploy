@@ -8,8 +8,12 @@ const _reset_ = (): void => {
     registry.tags = {}
 }
 
-const _setTag_ = (pkgName: string, tag: string): void => {
-    registry.tags[pkgName] = { latest: tag }
+const _setTag_ = (
+    pkgName: string,
+    tagValue: string,
+    tagKey = 'latest',
+): void => {
+    registry.tags[pkgName] = { ...registry.tags[pkgName], [tagKey]: tagValue }
 }
 
 const npmHttpUtilsGet = (distTagUrl, { ident }) => {
@@ -21,12 +25,21 @@ const npmHttpUtilsGet = (distTagUrl, { ident }) => {
     return tags
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const npmHttpUtilsPut = (identUrl, body, configuration) => {
+    const pkgName = body.name
+    for (const [key, version] of Object.entries(body['dist-tags'])) {
+        _setTag_(pkgName, version, key)
+    }
+}
+
 module.exports = {
     __esModule: true,
     ...actualModule,
     npmHttpUtils: {
         ...actualModule.npmHttpUtils,
         get: npmHttpUtilsGet,
+        put: npmHttpUtilsPut,
     },
     _reset_,
     _setTag_,

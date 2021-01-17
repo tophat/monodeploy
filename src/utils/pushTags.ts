@@ -19,7 +19,6 @@ function pushTags(
 
             try {
                 if (!config.dryRun) {
-                    // TODO: Tidy.
                     await gitTag(tag, { cwd: config.cwd })
                     await gitPush(tag, {
                         cwd: config.cwd,
