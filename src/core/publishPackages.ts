@@ -9,6 +9,7 @@ import type {
     PackageTagMap,
     YarnContext,
 } from '../types'
+import { assertProductionOrTest } from '../utils/invariants'
 import pushTags from '../utils/pushTags'
 
 const publishPackages = async (
@@ -45,6 +46,7 @@ const publishPackages = async (
                 const identUrl = npmHttpUtils.getIdentUrl(ident)
 
                 if (!config.dryRun) {
+                    assertProductionOrTest()
                     await npmHttpUtils.put(identUrl, body, {
                         authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
                         configuration: context.project.configuration,
