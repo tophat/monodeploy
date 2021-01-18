@@ -1,5 +1,8 @@
 import { Configuration, Project, Workspace } from '@yarnpkg/core'
 
+/**
+ * @public
+ */
 export interface MonodeployConfiguration {
     cwd: string
     registryUrl?: string
@@ -31,6 +34,9 @@ export type PackageStrategyMap = Map<
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>
 
+/**
+ * @public
+ */
 export interface ChangesetSchema {
     [version: string]: { version: string; changelog: string | null }
 }

@@ -7,7 +7,7 @@
         "lib"
     ],
     "bin": "./lib/cli.js",
-    "types": "./lib/index.d.ts",
+    "types": "./lib/monodeploy.d.ts",
     "repository": "git@github.com:tophat/monodeploy.git",
     "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
     "license": "Apache-2.0",
@@ -37,7 +37,8 @@
         "deploy": "npm publish ${ARTIFACT_DIR:-artifacts}/package.tgz --access public",
         "contrib:add": "all-contributors add",
         "contrib:generate": "all-contributors generate",
-        "contrib:check": "all-contributors check"
+        "contrib:check": "all-contributors check",
+        "docs": "yarn api-extractor run --local --verbose && yarn api-documenter markdown --input-folder temp --output-folder docs"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.10",
@@ -46,6 +47,8 @@
         "@babel/preset-env": "^7.12.11",
         "@babel/preset-typescript": "^7.12.7",
         "@commitlint/cli": "^11.0.0",
+        "@microsoft/api-documenter": "^7.12.4",
+        "@microsoft/api-extractor": "^7.13.0",
         "@tophat/commitizen-adapter": "^0.0.11",
         "@tophat/commitlint-config": "^0.1.2",
         "@tophat/conventional-changelog-config": "^0.0.9",

@@ -21,6 +21,13 @@ import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 
+export { MonodeployConfiguration, ChangesetSchema } from './types'
+
+/**
+ * @public
+ *
+ * @param config - Monodeploy configuration
+ */
 const monodeploy = async (
     config: MonodeployConfiguration,
 ): Promise<ChangesetSchema> => {

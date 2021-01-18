@@ -9,6 +9,7 @@ node_modules
 
 # transient files
 *.log
+temp
 
 # build artifacts
 coverage
@@ -16,6 +17,7 @@ lib
 artifacts
 *.junit.xml
 website/build
+docs
 
 # this is configured via bootstrap script
 .vscode
