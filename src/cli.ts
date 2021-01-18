@@ -13,7 +13,9 @@ interface ArgOutput {
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    changelogFilename?: string
     access?: string
+    push?: boolean
 }
 
 const { argv } = yargs
@@ -54,6 +56,15 @@ const { argv } = yargs
         type: 'string',
         description: 'Changeset output filename',
     })
+    .option('prepend-changelog', {
+        type: 'string',
+        description: 'Changelog file to prepend changelog entries',
+    })
+    .option('push', {
+        type: 'boolean',
+        description: 'Whether to push git changes to remote',
+        default: true,
+    })
     .option('access', {
         type: 'string',
         description:
@@ -79,10 +90,12 @@ const cwd = argv.cwd ?? process.cwd()
             commitSha:
                 argv.gitCommitSha ?? (await gitResolveSha('HEAD', { cwd })),
             remote: argv.gitRemote ?? 'origin',
+            push: argv.push ?? true,
         },
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
+        changelogFilename: argv.changelogFilename ?? undefined,
         access: argv.access ?? 'public',
     }
 

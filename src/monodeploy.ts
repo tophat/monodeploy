@@ -8,6 +8,7 @@ import applyReleases from './core/applyReleases'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import getLatestPackageTags from './core/getLatestPackageTags'
+import prependChangelogFile from './core/prependChangelogFile'
 import publishPackages from './core/publishPackages'
 import writeChangesetFile from './core/writeChangesetFile'
 import logging from './logging'
@@ -113,6 +114,8 @@ const monodeploy = async (
             newVersions,
             versionStrategies,
         )
+
+        await prependChangelogFile(config, context, result)
     } catch (err) {
         logging.error(`Monodeploy failed`)
         logging.error(err)
