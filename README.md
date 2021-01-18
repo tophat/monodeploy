@@ -65,9 +65,60 @@ In your monorepo's root package.json, add:
 },
 ```
 
+## API
+
+Monodeploy supports both a Command Line Interface, as well as a Node API.
+
+### CLI
+
+For the CLI, use the `--help` flag for a list of options.
+
+```sh
+yarn monodeploy --help
+```
+
+If you are okay with the defaults, you can go ahead and add a call to monodeploy to your CI's publish stage:
+
+```sh
+yarn monodeploy
+```
+
+Or to give things a try first, run monodeploy in dry run mode with verbose logging. Dry run mode won't modify the remote registry, or git.
+
+```sh
+yarn monodeploy --dry-run --log-level 0
+```
+
+The CLI provides a few sensible defaults, however if using the Node API, you will have to provide all relevant information.
+
+### Node API
+
+To use the API:
+
+```ts
+import monodeploy, { MonodeployConfiguration } from 'monodeploy'
+
+try {
+    const config: MonodeployConfiguration = {
+        cwd: process.cwd(),
+        dryRun: false,
+        git: {
+            baseBranch: 'master',
+            commitSha: 'HEAD',
+            remote: 'origin',
+        },
+        conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+        access: 'public',
+    }
+    const changeset = await monodeploy(config)
+} catch (err) {
+    console.error(err)
+}
+```
+
 ## Contributing
 
-See the [Contributing Guide](./CONTRIBUTING.md).
+See the [Contributing Guide](./CONTRIBUTING.md) for setup instructions, tips, and guidelines.
 
 ## Contributors
 
