@@ -8,9 +8,11 @@ export interface MonodeployConfiguration {
         baseBranch: string
         commitSha: string
         remote: string
+        push: boolean
     }
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    changelogFilename?: string
     access: string
 }
 

@@ -65,6 +65,25 @@ In your monorepo's root package.json, add:
 },
 ```
 
+#### Changelog
+
+If you choose to use the `--prepend-changelog CHANGELOG.md` flag or related API config property, in your CHANGELOG.md file you'll need to insert a marker to let monodeploy know where to insert the changelog entries. For example:
+
+```md
+# My Example Changelog
+
+Some blurb here.
+
+<!-- MONODEPLOY:BELOW -->
+
+## v1.0.0
+
+Some entry.
+```
+
+The marker `<!-- MONODEPLOY:BELOW -->` must match exactly. It is whitespace and case-sensitive.
+
+
 ## API
 
 Monodeploy supports both a Command Line Interface, as well as a Node API.

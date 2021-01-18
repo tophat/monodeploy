@@ -1,3 +1,5 @@
+import { promises as fs } from 'fs'
+import os from 'os'
 import path from 'path'
 
 import * as mockNPM from '@yarnpkg/plugin-npm'
@@ -18,6 +20,7 @@ describe('Monodeploy (Dry Run)', () => {
             baseBranch: 'master',
             commitSha: 'HEAD',
             remote: 'origin',
+            push: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
@@ -126,6 +129,7 @@ describe('Monodeploy', () => {
             baseBranch: 'master',
             commitSha: 'HEAD',
             remote: 'origin',
+            push: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
@@ -173,6 +177,26 @@ describe('Monodeploy', () => {
         expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
     })
 
+    it('does not push tags if push disabled', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            git: { ...monodeployConfig.git, push: false },
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toEqual('0.1.0')
+
+        // push is disabled, so no pushed tags
+        expect(mockGit._getPushedTags_()).toEqual([])
+    })
+
     it('propagates dependant changes', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
@@ -204,5 +228,59 @@ describe('Monodeploy', () => {
             'pkg-2@1.0.0',
             'pkg-3@0.0.2',
         ])
+    })
+
+    it('updates changelog', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const tempFile = await path.join(tempDir, 'changelog.md')
+
+        try {
+            const changelogTemplate = [
+                `# Changelog`,
+                `Some blurb`,
+                `<!-- MONODEPLOY:BELOW -->`,
+                `## Old Versions`,
+                `Content`,
+            ].join('\n')
+            await fs.writeFile(tempFile, changelogTemplate, {
+                encoding: 'utf-8',
+            })
+
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename: tempFile,
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            const updatedChangelog = await fs.readFile(tempFile, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // assert it contains the old entries
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('Old Versions'),
+            )
+        } finally {
+            try {
+                if (tempFile) await fs.unlink(tempFile)
+                if (tempDir) await fs.rmdir(tempDir)
+            } catch {
+                /* ignore */
+            }
+        }
     })
 })
