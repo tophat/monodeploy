@@ -16,17 +16,21 @@ import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
+    RecursivePartial,
     YarnContext,
 } from './types'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
+import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 export { ChangesetSchema, MonodeployConfiguration } from './types'
 
 const monodeploy = async (
-    config: MonodeployConfiguration,
+    baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<ChangesetSchema> => {
+    const config: MonodeployConfiguration = await mergeDefaultConfig(baseConfig)
+
     logging.setDryRun(config.dryRun)
     logging.debug(
         `Starting monodeploy with config:`,
