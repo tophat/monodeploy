@@ -28,6 +28,11 @@ export interface YarnContext {
     workspace: Workspace
 }
 
+export type CommitMessage = {
+    sha: string
+    body: string
+}
+
 export type PackageTagMap = Map<string, string>
 
 export type PackageStrategyType = 'major' | 'minor' | 'patch'

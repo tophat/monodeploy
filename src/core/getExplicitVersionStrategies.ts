@@ -72,7 +72,9 @@ const getExplicitVersionStrategies = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<PackageStrategyMap> => {
-    const commitMessages = await getCommitMessages(config)
+    const commitMessages = (await getCommitMessages(config)).map(
+        commit => commit.body,
+    )
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy

@@ -34,7 +34,7 @@ export const gitLog = async (
     to: string,
     { cwd, DELIMITER }: { cwd: string; DELIMITER: string },
 ): Promise<string> => {
-    const gitCommand = `git log ${from}...${to} --format=%B%n${DELIMITER}`
+    const gitCommand = `git log ${from}...${to} --format=%H%n%B%n${DELIMITER}`
     logging.debug(`[Exec] ${gitCommand}`)
     return childProcess.execSync(gitCommand, {
         encoding: 'utf8',

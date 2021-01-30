@@ -1,4 +1,4 @@
-import type { MonodeployConfiguration } from '../types'
+import type { CommitMessage, MonodeployConfiguration } from '../types'
 
 import { gitLog } from './git'
 
@@ -6,11 +6,18 @@ const DELIMITER = '-----------------monodeploy-----------------'
 
 const getCommitMessages = async (
     config: MonodeployConfiguration,
-): Promise<string[]> => {
+): Promise<CommitMessage[]> => {
     const from = config.git.baseBranch
     const to = config.git.commitSha
     const logOutput = await gitLog(from, to, { cwd: config.cwd, DELIMITER })
-    return [...logOutput.toString().split(`${DELIMITER}\n`)].filter(msg => msg)
+    return logOutput
+        .toString()
+        .split(`${DELIMITER}\n`)
+        .map(logEntry => {
+            const [sha, ...msg] = logEntry.split('\n')
+            return { sha, body: msg.join('\n') }
+        })
+        .filter(msg => msg.body)
 }
 
 export default getCommitMessages

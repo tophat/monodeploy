@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-const registry = {
+import type { CommitMessage } from '../../types'
+
+const registry: {
+    commits: CommitMessage[]
+    filesModified: string[]
+    tags: string[]
+    pushedTags: string[]
+} = {
     commits: [],
     filesModified: [],
     tags: [],
@@ -14,8 +21,12 @@ export const _reset_ = (): void => {
     registry.pushedTags = []
 }
 
-export const _commitFiles_ = (commit: string, files: string[]): void => {
-    registry.commits.push(commit)
+export const _commitFiles_ = (
+    sha: string,
+    commit: string,
+    files: string[],
+): void => {
+    registry.commits.push({ sha, body: commit })
     registry.filesModified.push(...files)
 }
 
@@ -43,7 +54,9 @@ export const gitLog = async (
     to: string,
     { cwd, DELIMITER }: { cwd: string; DELIMITER: string },
 ): Promise<string> => {
-    return registry.commits.join(`${DELIMITER}\n`)
+    return registry.commits
+        .map(commit => `${commit.sha}\n${commit.body}`)
+        .join(`${DELIMITER}\n`)
 }
 
 export const gitTag = async (

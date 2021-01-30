@@ -49,7 +49,7 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -74,6 +74,7 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_(
+            'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
             ['./packages/pkg-2/README.md'],
         )
@@ -100,7 +101,7 @@ describe('Monodeploy (Dry Run)', () => {
     })
 
     it('defaults to 0.0.0 as base version for first publish', async () => {
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -158,7 +159,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -181,7 +182,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -202,6 +203,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_(
+            'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
             ['./packages/pkg-2/README.md'],
         )
@@ -234,7 +236,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
