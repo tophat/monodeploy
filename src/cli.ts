@@ -63,7 +63,7 @@ const { argv } = yargs
     .option('push', {
         type: 'boolean',
         description: 'Whether to push git changes to remote',
-        default: true,
+        default: false,
     })
     .option('access', {
         type: 'string',
@@ -90,7 +90,7 @@ const cwd = argv.cwd ?? process.cwd()
             commitSha:
                 argv.gitCommitSha ?? (await gitResolveSha('HEAD', { cwd })),
             remote: argv.gitRemote ?? 'origin',
-            push: argv.push ?? true,
+            push: argv.push ?? false,
         },
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,

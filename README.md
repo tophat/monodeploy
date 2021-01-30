@@ -99,7 +99,13 @@ yarn monodeploy --help
 If you are okay with the defaults, you can go ahead and add a call to monodeploy to your CI's publish stage:
 
 ```sh
-yarn monodeploy
+yarn monodeploy --push
+```
+
+If you omit `--push`, you can manually push the tags on success:
+
+```sh
+yarn monodeploy && git push --tags
 ```
 
 Or to give things a try first, run monodeploy in dry run mode with verbose logging. Dry run mode won't modify the remote registry, or git.
@@ -125,6 +131,7 @@ try {
             baseBranch: 'master',
             commitSha: 'HEAD',
             remote: 'origin',
+            push: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
