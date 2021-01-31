@@ -101,7 +101,7 @@ jobs:
         - name: Install dependencies
           run: yarn install --immutable
         - name: Build
-          run: yarn build
+          run: yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz
         - name: Upload Artifacts
           uses: actions/upload-artifact@v2
           with:

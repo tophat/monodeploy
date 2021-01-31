@@ -32,9 +32,8 @@
         "types:watch": "tsc --pretty --watch",
         "build:babel": "yarn babel src --out-dir=lib --no-copy-ignored --extensions '.ts' --ignore 'src/**/*.test.ts' --ignore 'src/**/*.mock.ts' --ignore 'src/**/__mocks__/**/*.ts'",
         "build:babel:watch": "yarn build:babel --watch",
-        "build:package": "mkdir -p ${ARTIFACT_DIR:-artifacts} && yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz",
-        "build": "rm -rf lib && yarn build:babel && yarn types:generate && yarn build:package",
-        "deploy": "npm publish ${ARTIFACT_DIR:-artifacts}/package.tgz --access public",
+        "build": "rm -rf lib && yarn build:babel && yarn types:generate",
+        "prepack": "yarn build",
         "contrib:add": "all-contributors add",
         "contrib:generate": "all-contributors generate",
         "contrib:check": "all-contributors check"
