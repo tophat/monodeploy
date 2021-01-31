@@ -31,7 +31,7 @@ jobs:
         - name: Install dependencies
           run: yarn install --immutable
         - name: Build Package
-          run: yarn build
+          run: yarn pack --filename ${ARTIFACT_DIR:-artifacts}/package.tgz
         - name: Set Publish Credentials
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
             npm config set registry=https://registry.npmjs.org/
             npm config set "//registry.npmjs.org/:_authToken" "${NPM_PUBLISH_TOKEN}"
         - name: Publish Package
-          run: yarn deploy
+          run: npm publish ${ARTIFACT_DIR:-artifacts}/package.tgz --access public
         - name: Upload Artifacts
           if: ${{ always() }}
           uses: actions/upload-artifact@v2

@@ -50,7 +50,7 @@ yarn test:watch
 
 ## Build
 
-You can execute `yarn build` to generate the `.tgz` package that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
+You can execute `yarn pack --filename artifacts/package.tgz` to generate the `.tgz` package that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
 
 You can use `yarn build:babel:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
 
