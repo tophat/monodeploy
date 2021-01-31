@@ -24,12 +24,6 @@ const loggerOpts = {
     dryRun: false,
 }
 
-const leftPad = (value: string | number, padding: number): string => {
-    const str = String(value)
-    const whitespace = '0'.repeat(Math.max(padding - str.length, 0))
-    return `${whitespace}${str}`
-}
-
 const getCurrentLogLevel = () => {
     try {
         const envLogLevel = process.env.MONODEPLOY_LOG_LEVEL
@@ -46,10 +40,11 @@ const createLogger = (level: LogLevelType): Logger => (
 ): void => {
     if (getCurrentLogLevel() > level) return
     const date = new Date()
-    const timestamp = `[${leftPad(date.getHours(), 2)}:${leftPad(
+    const timestamp = `[${String(date.getHours()).padStart(2, '0')}:${String(
         date.getMinutes(),
-        2,
-    )}:${leftPad(date.getSeconds(), 2)}.${leftPad(date.getMilliseconds(), 3)}]`
+    ).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(
+        date.getMilliseconds(),
+    ).padStart(3, '0')}]`
     const colour = levelToColour[level]
 
     const line = [chalk.yellow(timestamp)]

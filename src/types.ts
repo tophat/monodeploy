@@ -1,5 +1,11 @@
 import { Configuration, Project, Workspace } from '@yarnpkg/core'
 
+export type RecursivePartial<T> = {
+    [P in keyof T]?: T[P] extends Record<string, unknown>
+        ? RecursivePartial<T[P]>
+        : T[P]
+}
+
 export interface MonodeployConfiguration {
     cwd: string
     registryUrl?: string
@@ -20,6 +26,11 @@ export interface YarnContext {
     configuration: Configuration
     project: Project
     workspace: Workspace
+}
+
+export type CommitMessage = {
+    sha: string
+    body: string
 }
 
 export type PackageTagMap = Map<string, string>

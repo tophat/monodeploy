@@ -20,13 +20,19 @@ function pushTags(
             try {
                 if (!config.dryRun) {
                     await gitTag(tag, { cwd: config.cwd })
-                    await gitPush(tag, {
-                        cwd: config.cwd,
-                        remote: config.git.remote,
-                    })
+                    if (config.git.push) {
+                        await gitPush(tag, {
+                            cwd: config.cwd,
+                            remote: config.git.remote,
+                        })
+                    }
                 }
 
-                logging.info(`[Push Tag] ${tag} (remote: ${config.git.remote})`)
+                logging.info(
+                    `[Push Tag]${
+                        config.git.push ? '' : ' [Skipped]'
+                    } ${tag} (remote: ${config.git.remote})`,
+                )
             } catch (e) {
                 logging.error(
                     `[Push Tag] Failed ${tag} (remote: ${config.git.remote})`,

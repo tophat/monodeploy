@@ -49,7 +49,7 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -74,6 +74,7 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_(
+            'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
             ['./packages/pkg-2/README.md'],
         )
@@ -100,7 +101,7 @@ describe('Monodeploy (Dry Run)', () => {
     })
 
     it('defaults to 0.0.0 as base version for first publish', async () => {
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -158,7 +159,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -181,7 +182,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 
@@ -202,6 +203,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_(
+            'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
             ['./packages/pkg-2/README.md'],
         )
@@ -230,11 +232,55 @@ describe('Monodeploy', () => {
         ])
     })
 
+    it('publishes changed workspaces with distinct version stategies and commits', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+        mockGit._commitFiles_('sha2', 'fix: a different fix!', [
+            './packages/pkg-2/README.md',
+        ])
+
+        const result = await monodeploy(monodeployConfig)
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toEqual('0.1.0')
+        expect(result['pkg-1'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
+        // pkg-2 is explicitly updated with patch bump
+        expect(result['pkg-2'].version).toEqual('0.0.2')
+        expect(result['pkg-2'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+        expect(result['pkg-2'].changelog).toEqual(
+            expect.stringContaining('a different fix'),
+        )
+
+        // pkg-3 depends on pkg-2
+        expect(result['pkg-3'].version).toEqual('0.0.2')
+        expect(result['pkg-3'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+        expect(result['pkg-3'].changelog).not.toEqual(
+            expect.stringContaining('a different fix'),
+        )
+
+        expect(mockGit._getPushedTags_()).toEqual([
+            'pkg-1@0.1.0',
+            'pkg-2@0.0.2',
+            'pkg-3@0.0.2',
+        ])
+    })
+
     it('updates changelog', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('feat: some new feature!', [
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
 

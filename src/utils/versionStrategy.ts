@@ -2,7 +2,11 @@ import { Readable } from 'stream'
 
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
-import type { MonodeployConfiguration, StrategyDeterminer } from '../types'
+import type {
+    MonodeployConfiguration,
+    PackageStrategyType,
+    StrategyDeterminer,
+} from '../types'
 
 import { readStream } from './stream'
 
@@ -80,4 +84,21 @@ export const createGetConventionalRecommendedStrategy = (
     )
 
     return conventionalStrategy?.level ?? STRATEGY.NONE
+}
+
+export const maxStrategy = async (
+    strategyA?: PackageStrategyType,
+    strategyB?: PackageStrategyType,
+): Promise<PackageStrategyType> => {
+    if (!strategyA && !strategyB) throw new Error('Invalid strategies.')
+    if (!strategyA) return strategyB as PackageStrategyType
+    if (!strategyB) return strategyA as PackageStrategyType
+
+    if (strategyA === 'major' || strategyB === 'major') {
+        return 'major'
+    }
+    if (strategyA === 'minor' || strategyB === 'minor') {
+        return 'minor'
+    }
+    return 'patch'
 }

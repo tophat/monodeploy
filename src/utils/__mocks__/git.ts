@@ -1,22 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-const registry = {
+import type { CommitMessage } from '../../types'
+
+const registry: {
+    commits: CommitMessage[]
+    filesModified: Map<string, string[]>
+    tags: string[]
+    pushedTags: string[]
+} = {
     commits: [],
-    filesModified: [],
+    filesModified: new Map(),
     tags: [],
     pushedTags: [],
 }
 
 export const _reset_ = (): void => {
     registry.commits = []
-    registry.filesModified = []
+    registry.filesModified = new Map()
     registry.tags = []
     registry.pushedTags = []
 }
 
-export const _commitFiles_ = (commit: string, files: string[]): void => {
-    registry.commits.push(commit)
-    registry.filesModified.push(...files)
+export const _commitFiles_ = (
+    sha: string,
+    commit: string,
+    files: string[],
+): void => {
+    registry.commits.push({ sha, body: commit })
+    registry.filesModified.set(sha, registry.filesModified.get(sha) ?? [])
+    registry.filesModified.get(sha).push(...files)
 }
 
 export const _getPushedTags_ = (): string[] => {
@@ -30,12 +42,11 @@ export const gitResolveSha = async (
     return `sha:${ref}`
 }
 
-export const gitDiff = async (
-    from: string,
-    to: string,
+export const gitDiffTree = async (
+    ref: string,
     { cwd }: { cwd: string },
 ): Promise<string> => {
-    return registry.filesModified.join('\n')
+    return (registry.filesModified.get(ref) ?? []).join('\n')
 }
 
 export const gitLog = async (
@@ -43,7 +54,9 @@ export const gitLog = async (
     to: string,
     { cwd, DELIMITER }: { cwd: string; DELIMITER: string },
 ): Promise<string> => {
-    return registry.commits.join(`${DELIMITER}\n`)
+    return registry.commits
+        .map(commit => `${commit.sha}\n${commit.body}`)
+        .join(`${DELIMITER}\n`)
 }
 
 export const gitTag = async (

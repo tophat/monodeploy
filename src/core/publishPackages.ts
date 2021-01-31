@@ -62,11 +62,7 @@ const publishPackages = async (
     )
 
     // Push git tags
-    if (config.git.push) {
-        await pushTags(config, context, newVersions)
-    } else {
-        logging.info(`[Publish] Skipping git tag publish.`)
-    }
+    await pushTags(config, context, newVersions)
 }
 
 export default publishPackages

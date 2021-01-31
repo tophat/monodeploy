@@ -1,7 +1,6 @@
 import yargs from 'yargs'
 
 import monodeploy from './monodeploy'
-import { gitResolveSha } from './utils/git'
 
 interface ArgOutput {
     registryUrl?: string
@@ -63,7 +62,7 @@ const { argv } = yargs
     .option('push', {
         type: 'boolean',
         description: 'Whether to push git changes to remote',
-        default: true,
+        default: false,
     })
     .option('access', {
         type: 'string',
@@ -78,25 +77,23 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
     process.env.MONODEPLOY_LOG_LEVEL = String(argv.logLevel)
 }
 
-const cwd = argv.cwd ?? process.cwd()
-
+// eslint-disable-next-line @typescript-eslint/no-extra-semi
 ;(async () => {
     const config = {
         registryUrl: argv.registryUrl ?? undefined,
-        cwd,
-        dryRun: argv.dryRun ?? false,
+        cwd: argv.cwd ?? undefined,
+        dryRun: argv.dryRun ?? undefined,
         git: {
-            baseBranch: argv.gitBaseBranch ?? 'origin/master',
-            commitSha:
-                argv.gitCommitSha ?? (await gitResolveSha('HEAD', { cwd })),
-            remote: argv.gitRemote ?? 'origin',
-            push: argv.push ?? true,
+            baseBranch: argv.gitBaseBranch ?? undefined,
+            commitSha: argv.gitCommitSha ?? undefined,
+            remote: argv.gitRemote ?? undefined,
+            push: argv.push ?? undefined,
         },
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
         changelogFilename: argv.changelogFilename ?? undefined,
-        access: argv.access ?? 'public',
+        access: argv.access ?? undefined,
     }
 
     try {
