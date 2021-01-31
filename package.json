@@ -57,7 +57,6 @@
         "@types/yargs": "^15.0.12",
         "@typescript-eslint/eslint-plugin": "^4.10.0",
         "@typescript-eslint/parser": "^4.10.0",
-        "@yarnpkg/cli": "^2.4.0",
         "@yarnpkg/pnpify": "^2.4.0",
         "all-contributors-cli": "^6.19.0",
         "babel-jest": "^26.6.3",
@@ -81,6 +80,7 @@
         "yaml-validator": "^3.0.0"
     },
     "dependencies": {
+        "@yarnpkg/cli": "^2.4.0",
         "@yarnpkg/core": "^2.4.0",
         "@yarnpkg/fslib": "^2.4.0",
         "@yarnpkg/plugin-npm": "^2.4.0",
