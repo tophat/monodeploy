@@ -11,11 +11,12 @@ import type {
     YarnContext,
 } from '../types'
 import getCommitMessages from '../utils/getCommitMessages'
-import { gitDiff } from '../utils/git'
+import { gitDiffTree } from '../utils/git'
 import {
     STRATEGY,
     createGetConventionalRecommendedStrategy,
     getDefaultRecommendedStrategy,
+    maxStrategy,
 } from '../utils/versionStrategy'
 
 const strategyLevelToType = (level: number): PackageStrategyType | null => {
@@ -29,14 +30,11 @@ const strategyLevelToType = (level: number): PackageStrategyType | null => {
 const getModifiedPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
+    commitSha: string,
 ): Promise<string[]> => {
-    const diffOutput = await gitDiff(
-        config.git.baseBranch,
-        config.git.commitSha,
-        {
-            cwd: config.cwd,
-        },
-    )
+    const diffOutput = await gitDiffTree(commitSha, {
+        cwd: config.cwd,
+    })
     const paths = diffOutput.split('\n')
     const uniquePaths = paths.reduce(
         (uniquePaths: Set<string>, currentPath: string) => {
@@ -72,23 +70,37 @@ const getExplicitVersionStrategies = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<PackageStrategyMap> => {
-    const commitMessages = (await getCommitMessages(config)).map(
-        commit => commit.body,
-    )
+    const versionStrategies: PackageStrategyMap = new Map()
+
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
-    const strategy = strategyLevelToType(
-        await strategyDeterminer(commitMessages),
-    )
-    const packageNames = await getModifiedPackages(config, context)
 
-    const versionStrategies: PackageStrategyMap = new Map()
-    for (const pkgName of packageNames) {
-        if (strategy) {
+    const commits = await getCommitMessages(config)
+    for (const commit of commits) {
+        const strategy = strategyLevelToType(
+            await strategyDeterminer([commit.body]),
+        )
+        const packageNames = await getModifiedPackages(
+            config,
+            context,
+            commit.sha,
+        )
+
+        for (const pkgName of packageNames) {
+            if (!strategy) continue
+
+            const previousVersionStrategy = versionStrategies.get(pkgName)
+
             versionStrategies.set(pkgName, {
-                type: strategy,
-                commits: commitMessages,
+                type: await maxStrategy(
+                    previousVersionStrategy?.type,
+                    strategy,
+                ),
+                commits: [
+                    commit.body,
+                    ...(previousVersionStrategy?.commits ?? []),
+                ],
             })
         }
     }

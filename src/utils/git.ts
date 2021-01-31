@@ -16,12 +16,11 @@ export const gitResolveSha = async (
         .trim()
 }
 
-export const gitDiff = async (
-    from: string,
-    to: string,
+export const gitDiffTree = async (
+    ref: string,
     { cwd }: { cwd: string },
 ): Promise<string> => {
-    const gitCommand = `git diff ${from}...${to} --name-only`
+    const gitCommand = `git diff-tree --no-commit-id --name-only -r --root ${ref}`
     logging.debug(`[Exec] ${gitCommand}`)
     return childProcess.execSync(gitCommand, {
         encoding: 'utf8',
