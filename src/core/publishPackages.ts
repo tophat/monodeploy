@@ -10,6 +10,7 @@ import type {
     YarnContext,
 } from '../types'
 import { assertProductionOrTest } from '../utils/invariants'
+import maybeExecuteLifecycleScript from '../utils/maybeExecuteLifecycleScript'
 import pushTags from '../utils/pushTags'
 
 const publishPackages = async (
@@ -23,8 +24,19 @@ const publishPackages = async (
     await Promise.all(
         [...workspacesToPublish].map(async (workspace: Workspace) => {
             // Prepare pack streams.
+            await maybeExecuteLifecycleScript(
+                context.workspace,
+                'prepack',
+                workspace.cwd,
+            )
             const filesToPack = await packUtils.genPackList(workspace)
             const pack = await packUtils.genPackStream(workspace, filesToPack)
+
+            await maybeExecuteLifecycleScript(
+                context.workspace,
+                'postpack',
+                workspace.cwd,
+            )
 
             // Publish
             const buffer = await miscUtils.bufferStream(pack)
@@ -44,6 +56,11 @@ const publishPackages = async (
                 if (!ident) return
 
                 const identUrl = npmHttpUtils.getIdentUrl(ident)
+                await maybeExecuteLifecycleScript(
+                    context.workspace,
+                    'prepublish',
+                    workspace.cwd,
+                )
 
                 if (!config.dryRun) {
                     assertProductionOrTest()
