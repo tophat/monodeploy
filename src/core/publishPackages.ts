@@ -26,6 +26,12 @@ const publishPackages = async (
             // Prepare pack streams.
             await maybeExecuteLifecycleScript(
                 context.workspace,
+                'prepare',
+                workspace,
+            )
+
+            await maybeExecuteLifecycleScript(
+                context.workspace,
                 'prepack',
                 workspace,
             )
@@ -56,11 +62,6 @@ const publishPackages = async (
                 if (!ident) return
 
                 const identUrl = npmHttpUtils.getIdentUrl(ident)
-                await maybeExecuteLifecycleScript(
-                    context.workspace,
-                    'prepublish',
-                    workspace,
-                )
 
                 if (!config.dryRun) {
                     assertProductionOrTest()
