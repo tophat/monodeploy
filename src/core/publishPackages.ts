@@ -27,7 +27,7 @@ const publishPackages = async (
             await maybeExecuteLifecycleScript(
                 context.workspace,
                 'prepack',
-                workspace.cwd,
+                workspace,
             )
             const filesToPack = await packUtils.genPackList(workspace)
             const pack = await packUtils.genPackStream(workspace, filesToPack)
@@ -35,7 +35,7 @@ const publishPackages = async (
             await maybeExecuteLifecycleScript(
                 context.workspace,
                 'postpack',
-                workspace.cwd,
+                workspace,
             )
 
             // Publish
@@ -59,7 +59,7 @@ const publishPackages = async (
                 await maybeExecuteLifecycleScript(
                     context.workspace,
                     'prepublish',
-                    workspace.cwd,
+                    workspace,
                 )
 
                 if (!config.dryRun) {
