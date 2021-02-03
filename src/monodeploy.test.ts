@@ -359,6 +359,12 @@ describe('Monodeploy Lifecycle Scripts', () => {
         access: 'public',
     }
 
+    const resolvePackagePath = (pkgName: string, filename: string) =>
+        path.resolve(
+            path.join(monodeployConfig.cwd, 'packages', pkgName),
+            filename,
+        )
+
     const cleanup = async pkgName => {
         const pkgDir = path.join(monodeployConfig.cwd, 'packages', pkgName)
         for (const tmpFile of await fs.readdir(pkgDir)) {
@@ -405,6 +411,19 @@ describe('Monodeploy Lifecycle Scripts', () => {
             )
 
             expect(mockGit._getPushedTags_()).toEqual(['pkg-4@0.1.0'])
+
+            const filesToCheck = [
+                '.prepare.test.tmp',
+                '.prepublish.test.tmp',
+                '.postpack.test.tmp',
+                '.postpublish.test.tmp',
+            ]
+
+            for (const fileToCheck of filesToCheck) {
+                const filename = resolvePackagePath('pkg-4', fileToCheck)
+                const stat = await fs.stat(filename)
+                expect(stat).toBeDefined()
+            }
         } finally {
             // cleanup lifecycle artifacts
             await cleanup('pkg-4')
