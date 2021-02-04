@@ -16,7 +16,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"pkg-2@^1.0.0, pkg-2@workspace:packages/pkg-2":
+"pkg-2@workspace:*, pkg-2@workspace:packages/pkg-2":
   version: 0.0.0-use.local
   resolution: "pkg-2@workspace:packages/pkg-2"
   languageName: unknown
@@ -26,7 +26,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pkg-3@workspace:packages/pkg-3"
   dependencies:
-    pkg-2: ^1.0.0
+    pkg-2: "workspace:*"
   languageName: unknown
   linkType: soft
 

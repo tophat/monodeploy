@@ -32,5 +32,9 @@ module.exports = {
     ],
     testPathIgnorePatterns: [
         '<rootDir>/.*\\.js',
+        '<rootDir>/.*/lib/',
     ],
+    haste: {
+        throwOnModuleCollision: true,
+    },
 }
