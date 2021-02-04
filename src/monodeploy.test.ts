@@ -2,15 +2,29 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import * as mockNPM from '@yarnpkg/plugin-npm'
+import * as npm from '@yarnpkg/plugin-npm'
 
 import { LOG_LEVELS } from './logging'
 import monodeploy from './monodeploy'
 import type { MonodeployConfiguration } from './types'
-import * as mockGit from './utils/git'
+import * as git from './utils/git'
 
 jest.mock('@yarnpkg/plugin-npm')
 jest.mock('./utils/git')
+
+const mockGit = git as jest.Mocked<
+    typeof git & {
+        _reset_: () => void
+        _commitFiles_: (sha: string, commit: string, files: string[]) => void
+        _getPushedTags_: () => string[]
+    }
+>
+const mockNPM = npm as jest.Mocked<
+    typeof npm & {
+        _reset_: () => void
+        _setTag_: (pkgName: string, tagValue: string, tagKey?: string) => void
+    }
+>
 
 describe('Monodeploy (Dry Run)', () => {
     const monodeployConfig: MonodeployConfiguration = {
@@ -27,7 +41,7 @@ describe('Monodeploy (Dry Run)', () => {
     }
 
     beforeAll(async () => {
-        process.env.MONODEPLOY_LOG_LEVEL = LOG_LEVELS.ERROR
+        process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
     afterEach(() => {
@@ -137,7 +151,7 @@ describe('Monodeploy', () => {
     }
 
     beforeAll(async () => {
-        process.env.MONODEPLOY_LOG_LEVEL = LOG_LEVELS.ERROR
+        process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
     afterEach(() => {
@@ -327,6 +341,93 @@ describe('Monodeploy', () => {
             } catch {
                 /* ignore */
             }
+        }
+    })
+})
+
+describe('Monodeploy Lifecycle Scripts', () => {
+    const monodeployConfig: MonodeployConfiguration = {
+        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        dryRun: false,
+        git: {
+            baseBranch: 'master',
+            commitSha: 'HEAD',
+            remote: 'origin',
+            push: true,
+        },
+        conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+        access: 'public',
+    }
+
+    const resolvePackagePath = (pkgName: string, filename: string) =>
+        path.resolve(
+            path.join(monodeployConfig.cwd, 'packages', pkgName),
+            filename,
+        )
+
+    const cleanup = async pkgName => {
+        const pkgDir = path.join(monodeployConfig.cwd, 'packages', pkgName)
+        for (const tmpFile of await fs.readdir(pkgDir)) {
+            const resolvedFile = path.resolve(pkgDir, tmpFile)
+            if (resolvedFile.endsWith('.tmp')) {
+                try {
+                    await fs.unlink(resolvedFile)
+                } catch {
+                    /* ignore */
+                }
+            }
+        }
+    }
+
+    beforeAll(async () => {
+        process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
+    })
+
+    afterEach(() => {
+        mockGit._reset_()
+        mockNPM._reset_()
+    })
+
+    afterAll(() => {
+        delete process.env.MONODEPLOY_LOG_LEVEL
+    })
+
+    it('runs lifecycle scripts for changed workspaces', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-4', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-4/README.md',
+        ])
+
+        try {
+            const result = await monodeploy(monodeployConfig)
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-4'].version).toEqual('0.1.0')
+            expect(result['pkg-4'].changelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            expect(mockGit._getPushedTags_()).toEqual(['pkg-4@0.1.0'])
+
+            const filesToCheck = [
+                '.prepack.test.tmp',
+                '.prepare.test.tmp',
+                '.prepublish.test.tmp',
+                '.postpack.test.tmp',
+                '.postpublish.test.tmp',
+            ]
+
+            for (const fileToCheck of filesToCheck) {
+                const filename = resolvePackagePath('pkg-4', fileToCheck)
+                const stat = await fs.stat(filename)
+                expect(stat).toBeDefined()
+            }
+        } finally {
+            // cleanup lifecycle artifacts
+            await cleanup('pkg-4')
         }
     })
 })

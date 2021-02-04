@@ -29,7 +29,7 @@ const npmHttpUtilsGet = (distTagUrl, { ident }) => {
 const npmHttpUtilsPut = (identUrl, body, configuration) => {
     const pkgName = body.name
     for (const [key, version] of Object.entries(body['dist-tags'])) {
-        _setTag_(pkgName, version, key)
+        _setTag_(pkgName, version as string, key)
     }
 }
 

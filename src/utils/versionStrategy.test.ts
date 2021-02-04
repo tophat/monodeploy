@@ -90,8 +90,8 @@ describe('Custom Conventional Recommended Strategy', () => {
             STRATEGY.NONE,
         )
 
-        process.env._TEST_VERSION_RETURN_NULL_ = 1
-        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MINOR
+        process.env._TEST_VERSION_RETURN_NULL_ = '1'
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
         expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
             STRATEGY.NONE,
         )
@@ -102,12 +102,12 @@ describe('Custom Conventional Recommended Strategy', () => {
             monodeployConfig,
         )
 
-        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MINOR
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
         expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
             STRATEGY.MINOR,
         )
 
-        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = STRATEGY.MAJOR
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MAJOR)
         expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(
             STRATEGY.MAJOR,
         )
