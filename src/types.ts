@@ -39,7 +39,7 @@ export type PackageStrategyType = 'major' | 'minor' | 'patch'
 
 export type PackageStrategyMap = Map<
     string,
-    { type: PackageStrategyType; commits: string[] }
+    { type: PackageStrategyType; commits: CommitMessage[] }
 >
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>

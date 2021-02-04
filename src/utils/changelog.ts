@@ -3,9 +3,13 @@ import url from 'url'
 
 import { Workspace } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
-import conventionalCommitsParser, { Commit } from 'conventional-commits-parser' // it requires hash, so this is the wrong type..
+import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
-import type { MonodeployConfiguration, YarnContext } from '../types'
+import type {
+    CommitMessage,
+    MonodeployConfiguration,
+    YarnContext,
+} from '../types'
 
 import getIdentFromName from './getIdentFromName'
 import { readStream, readStreamString } from './stream'
@@ -62,7 +66,7 @@ const generateChangelogEntry = async (
     context: YarnContext,
     packageName: string,
     version: string,
-    commits: string[],
+    commits: CommitMessage[],
 ): Promise<string | null> => {
     if (!config.conventionalChangelogConfig) {
         return null
@@ -76,9 +80,9 @@ const generateChangelogEntry = async (
         { paths: [config.cwd] },
     ))
 
-    const commitsStream = Readable.from(commits).pipe(
-        conventionalCommitsParser(conventionalConfig.parserOpts),
-    )
+    const commitsStream = Readable.from(
+        commits.map(commit => commit.body),
+    ).pipe(conventionalCommitsParser(conventionalConfig.parserOpts))
     const conventionalCommits = await readStream<Commit>(commitsStream)
 
     const { host, owner, repository, repoUrl } = await parseRepositoryProperty(

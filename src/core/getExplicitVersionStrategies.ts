@@ -97,10 +97,7 @@ const getExplicitVersionStrategies = async (
                     previousVersionStrategy?.type,
                     strategy,
                 ),
-                commits: [
-                    commit.body,
-                    ...(previousVersionStrategy?.commits ?? []),
-                ],
+                commits: [commit, ...(previousVersionStrategy?.commits ?? [])],
             })
         }
     }
