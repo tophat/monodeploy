@@ -7569,7 +7569,6 @@ fsevents@~2.1.2:
     "@yarnpkg/plugin-npm": ^2.4.0
     "@yarnpkg/plugin-pack": ^2.2.3
     "@yarnpkg/pnpify": ^2.4.0
-    "@yarnpkg/shell": ^2.4.1
     all-contributors-cli: ^6.19.0
     babel-jest: ^26.6.3
     chalk: ^4.1.0
