@@ -1,3 +1,4 @@
+import { Workspace } from '@yarnpkg/core'
 import { inc as incrementSemver } from 'semver'
 
 import logging from '../logging'
@@ -13,6 +14,7 @@ import patchPackageJsons from './patchPackageJsons'
 const applyReleases = async (
     config: MonodeployConfiguration,
     context: YarnContext,
+    workspaces: Set<Workspace>,
     registryTags: PackageTagMap,
     versionStrategies: PackageStrategyMap,
 ): Promise<PackageTagMap> => {
@@ -34,7 +36,7 @@ const applyReleases = async (
     }
 
     // Update newVersions to contain appropriate updates for dependents
-    await patchPackageJsons(config, context, intendedRegistryTags)
+    await patchPackageJsons(config, context, workspaces, intendedRegistryTags)
 
     return intendedRegistryTags
 }
