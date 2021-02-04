@@ -63,3 +63,30 @@ export const gitPush = async (
         cwd,
     })
 }
+
+export const gitLastTaggedCommit = async ({
+    cwd,
+}: {
+    cwd: string
+}): Promise<string> => {
+    const mostRecentTagCommand = `git describe --abbrev=0`
+    logging.debug(`[Exec] ${mostRecentTagCommand}`)
+
+    const tag = childProcess
+        .execSync(mostRecentTagCommand, {
+            encoding: 'utf8',
+            cwd,
+        })
+        .toString()
+        .trim()
+
+    const associatedShaCommand = `git rev-list -1 ${tag}`
+    logging.debug(`[Exec] ${associatedShaCommand}`)
+    return childProcess
+        .execSync(associatedShaCommand, {
+            encoding: 'utf8',
+            cwd,
+        })
+        .toString()
+        .trim()
+}

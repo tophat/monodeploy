@@ -1,6 +1,6 @@
 import { MonodeployConfiguration, RecursivePartial } from '../types'
 
-import { gitResolveSha } from './git'
+import { gitLastTaggedCommit, gitResolveSha } from './git'
 
 const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
@@ -12,7 +12,9 @@ const mergeDefaultConfig = async (
         cwd,
         dryRun: baseConfig.dryRun ?? false,
         git: {
-            baseBranch: baseConfig.git?.baseBranch ?? 'origin/master',
+            baseBranch:
+                baseConfig.git?.baseBranch ??
+                (await gitLastTaggedCommit({ cwd })),
             commitSha:
                 baseConfig.git?.commitSha ??
                 (await gitResolveSha('HEAD', { cwd })),

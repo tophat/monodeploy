@@ -125,9 +125,10 @@ const monodeploy = async (
         )
 
         await prependChangelogFile(config, context, result)
+        logging.info(`Monodeploy completed successfully`)
     } catch (err) {
         logging.error(`Monodeploy failed`)
-        logging.error(err)
+        throw err
     } finally {
         // Restore workspace package.jsons
         logging.debug(
@@ -136,7 +137,6 @@ const monodeploy = async (
         await restorePackageJsons(config, context, backupKey)
     }
 
-    logging.info(`Monodeploy completed successfully`)
     return result
 }
 

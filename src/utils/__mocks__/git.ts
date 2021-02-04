@@ -7,11 +7,13 @@ const registry: {
     filesModified: Map<string, string[]>
     tags: string[]
     pushedTags: string[]
+    lastTaggedCommit?: string
 } = {
     commits: [],
     filesModified: new Map(),
     tags: [],
     pushedTags: [],
+    lastTaggedCommit: undefined,
 }
 
 export const _reset_ = (): void => {
@@ -19,6 +21,7 @@ export const _reset_ = (): void => {
     registry.filesModified = new Map()
     registry.tags = []
     registry.pushedTags = []
+    registry.lastTaggedCommit = undefined
 }
 
 export const _commitFiles_ = (
@@ -64,6 +67,8 @@ export const gitTag = async (
     { cwd }: { cwd: string },
 ): Promise<void> => {
     registry.tags.push(tag)
+    registry.lastTaggedCommit =
+        registry.commits[registry.commits.length - 1]?.sha
 }
 
 export const gitPush = async (
@@ -74,4 +79,15 @@ export const gitPush = async (
         throw new Error(`Tag ${tag} does not exist.`)
     }
     registry.pushedTags.push(tag)
+}
+
+export const gitLastTaggedCommit = async ({
+    cwd,
+}: {
+    cwd: string
+}): Promise<string> => {
+    if (!registry.lastTaggedCommit) {
+        throw new Error('No tagged commit.')
+    }
+    return registry.lastTaggedCommit
 }
