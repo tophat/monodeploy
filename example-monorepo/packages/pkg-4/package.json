@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
+    "prepack": "touch .prepack.test.tmp",
     "prepare": "touch .prepare.test.tmp",
     "prepublish": "touch .prepublish.test.tmp",
     "postpack": "touch .postpack.test.tmp",

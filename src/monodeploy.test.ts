@@ -413,6 +413,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
             expect(mockGit._getPushedTags_()).toEqual(['pkg-4@0.1.0'])
 
             const filesToCheck = [
+                '.prepack.test.tmp',
                 '.prepare.test.tmp',
                 '.prepublish.test.tmp',
                 '.postpack.test.tmp',
