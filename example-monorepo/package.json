@@ -4,9 +4,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "prepack": "touch .prepack.toplevel.test.tmp"
-  },
   "publishConfig": {
     "registry": "http://localhost:4873/"
   }

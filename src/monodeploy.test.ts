@@ -430,45 +430,4 @@ describe('Monodeploy Lifecycle Scripts', () => {
             await cleanup('pkg-4')
         }
     })
-
-    it('runs lifecycle scripts from top level workspace if changed workspaces does not have it', async () => {
-        mockNPM._setTag_('pkg-1', '0.0.1')
-        mockNPM._setTag_('pkg-2', '0.0.1')
-        mockNPM._setTag_('pkg-3', '0.0.1')
-        mockNPM._setTag_('pkg-4', '0.0.1')
-        mockNPM._setTag_('pkg-5', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-5/README.md',
-        ])
-
-        try {
-            const result = await monodeploy(monodeployConfig)
-
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-5'].version).toEqual('0.1.0')
-            expect(result['pkg-5'].changelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
-
-            expect(mockGit._getPushedTags_()).toEqual(['pkg-5@0.1.0'])
-
-            const filesToCheck = [
-                '.prepack.toplevel.test.tmp',
-                '.prepare.test.tmp',
-                '.prepublish.test.tmp',
-                '.postpack.test.tmp',
-                '.postpublish.test.tmp',
-            ]
-
-            for (const fileToCheck of filesToCheck) {
-                const filename = resolvePackagePath('pkg-5', fileToCheck)
-                const stat = await fs.stat(filename)
-                expect(stat).toBeDefined()
-            }
-        } finally {
-            // cleanup lifecycle artifacts
-            for (const pkgName of ['pkg-1', 'pkg-2', 'pkg-3', 'pkg-4', 'pkg-5'])
-                await cleanup(pkgName)
-        }
-    })
 })

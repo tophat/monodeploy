@@ -35,9 +35,3 @@ __metadata:
   resolution: "pkg-4@workspace:packages/pkg-4"
   languageName: unknown
   linkType: soft
-
-"pkg-5@workspace:packages/pkg-5":
-  version: 0.0.0-use.local
-  resolution: "pkg-5@workspace:packages/pkg-5"
-  languageName: unknown
-  linkType: soft
