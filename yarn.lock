@@ -2058,12 +2058,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.12":
+"@types/yargs@npm:^15.0.0":
   version: 15.0.12
   resolution: "@types/yargs@npm:15.0.12"
   dependencies:
     "@types/yargs-parser": "*"
   checksum: b67cf9e8f25865a6d6e72196fe7f47c6f328d2b7a54ed9fa0e60f9693abb332fec1a826f90310804f231bca28a2f71367956b3be2fdba2d4bf316f0394d84f4d
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "@types/yargs@npm:16.0.0"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: a17fa2814a4c19b7d327c0d6e6ecb9ca6a68fbfded0c1966d0ef6557540c055f7b9c1c1eadde48acb584f75708d4ec96ba59e58e77b8edbb602c23ed3bee76b9
   languageName: node
   linkType: hard
 
@@ -7540,9 +7549,45 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"monodeploy@workspace:.":
+"monodeploy-changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
-  resolution: "monodeploy@workspace:."
+  resolution: "monodeploy-changelog@workspace:packages/changelog"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-cli@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-cli@workspace:packages/cli"
+  dependencies:
+    "@types/yargs": ^16.0.0
+    monodeploy: "workspace:packages/node"
+    yargs: ^16.2.0
+  bin:
+    monodeploy-cli: ./lib/cli.js
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-dependencies@workspace:packages/dependencies":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-dependencies@workspace:packages/dependencies"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-git@workspace:packages/git":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-git@workspace:packages/git"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-logging@workspace:packages/logging":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-logging@workspace:packages/logging"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-monorepo@workspace:."
   dependencies:
     "@babel/cli": ^7.12.10
     "@babel/core": ^7.12.10
@@ -7554,27 +7599,14 @@ fsevents@~2.1.2:
     "@tophat/commitlint-config": ^0.1.2
     "@tophat/conventional-changelog-config": ^0.0.9
     "@tophat/eslint-config": ^0.7.0
-    "@types/chalk": ^2.2.0
-    "@types/conventional-changelog-writer": ^4.0.0
-    "@types/conventional-commits-parser": ^3.0.1
     "@types/jest": ^26.0.20
     "@types/node": ^14.14.14
-    "@types/semver": ^7.3.4
-    "@types/yargs": ^15.0.12
     "@typescript-eslint/eslint-plugin": ^4.10.0
     "@typescript-eslint/parser": ^4.10.0
-    "@yarnpkg/cli": ^2.4.0
-    "@yarnpkg/core": ^2.4.0
-    "@yarnpkg/fslib": ^2.4.0
-    "@yarnpkg/plugin-npm": ^2.4.0
-    "@yarnpkg/plugin-pack": ^2.2.3
     "@yarnpkg/pnpify": ^2.4.0
     all-contributors-cli: ^6.19.0
     babel-jest: ^26.6.3
-    chalk: ^4.1.0
     commitizen: ^4.2.3
-    conventional-changelog-writer: ^5.0.0
-    conventional-commits-parser: ^3.2.0
     eslint: ^7.18.0
     eslint-config-prettier: ^7.1.0
     eslint-import-resolver-typescript: ^2.3.0
@@ -7590,12 +7622,41 @@ fsevents@~2.1.2:
     lint-staged: ^10.5.3
     package-json: ^6.5.0
     prettier: ^2.2.1
-    semver: ^7.3.4
     typescript: ^4.1.3
     yaml-validator: ^3.0.0
-    yargs: ^16.2.0
-  bin:
-    monodeploy: ./lib/cli.js
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-publish@workspace:packages/publish":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-publish@workspace:packages/publish"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-versions@workspace:packages/versions":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-versions@workspace:packages/versions"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy@workspace:packages/node":
+  version: 0.0.0-use.local
+  resolution: "monodeploy@workspace:packages/node"
+  dependencies:
+    "@types/chalk": ^2.2.0
+    "@types/conventional-changelog-writer": ^4.0.0
+    "@types/conventional-commits-parser": ^3.0.1
+    "@types/node": ^14.14.14
+    "@types/semver": ^7.3.4
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
+    chalk: ^4.1.0
+    conventional-changelog-writer: ^5.0.0
+    conventional-commits-parser: ^3.2.0
+    semver: ^7.3.4
   languageName: unknown
   linkType: soft
 

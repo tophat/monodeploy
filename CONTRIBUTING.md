@@ -50,14 +50,14 @@ yarn test:watch
 
 ## Build
 
-You can execute `yarn pack --filename artifacts/package.tgz` to generate the `.tgz` package that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
+You can execute `yarn build` to generate the build assets that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
 
-You can use `yarn build:babel:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
+You can use `yarn workspaces foreach -p build:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
 
 To regenerate typescript definition files (and to catch type violations):
 
 ```sh
-yarn types:watch
+yarn workspaces foreach -p types:watch
 ```
 
 ## Using Example Monorepo
@@ -65,7 +65,7 @@ yarn types:watch
 After building the code (via above watch commands), run:
 
 ```sh
-yarn node lib/cli.js --cwd <PATH_TO_EXAMPLE_MONOREPO> \
+yarn node packages/cli/lib/cli.js --cwd <PATH_TO_EXAMPLE_MONOREPO> \
     --dry-run --log-level 0 \
     --conventional-changelog-config @tophat/conventional-changelog-config
 ```

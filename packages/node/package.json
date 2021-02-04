@@ -1,0 +1,40 @@
+{
+  "name": "monodeploy",
+  "version": "0.0.0",
+  "repository": "git@github.com:tophat/monodeploy.git",
+  "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "./lib/monodeploy.js",
+  "types": "./lib/monodeploy.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "run workspace:clean \"$(pwd)\"",
+    "types:watch": "run workspace:types:watch \"$(pwd)\"",
+    "test:watch": "run workspace:test:watch \"$(pwd)\"",
+    "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
+    "prepack": "run workspace:build \"$(pwd)\""
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/conventional-changelog-writer": "^4.0.0",
+    "@types/conventional-commits-parser": "^3.0.1",
+    "@types/node": "^14.14.14",
+    "@types/semver": "^7.3.4"
+  },
+  "dependencies": {
+    "@yarnpkg/cli": "^2.4.0",
+    "@yarnpkg/core": "^2.4.0",
+    "@yarnpkg/fslib": "^2.4.0",
+    "@yarnpkg/plugin-npm": "^2.4.0",
+    "@yarnpkg/plugin-pack": "^2.2.3",
+    "chalk": "^4.1.0",
+    "conventional-changelog-writer": "^5.0.0",
+    "conventional-commits-parser": "^3.2.0",
+    "semver": "^7.3.4"
+  }
+}

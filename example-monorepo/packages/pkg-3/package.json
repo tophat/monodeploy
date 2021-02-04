@@ -1,8 +1,8 @@
 {
   "name": "pkg-3",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "main": "index.js",
   "dependencies": {
-    "pkg-2": "workspace:*"
+    "pkg-2": "^1.0.0"
   }
 }

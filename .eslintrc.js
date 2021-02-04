@@ -31,7 +31,7 @@ module.exports = {
             { additionalTestBlockFunctions: ['teste2e'] },
         ],
     },
-    ignorePatterns: ['example-monorepo/**/*', '.*', '**/*.js', 'lib'],
+    ignorePatterns: ['example-monorepo/**/*', '.*', '**/*.js', '**/lib'],
     settings: {
         'import/parsers': {
             '@typescript-eslint/parser': ['.ts', '.js'],

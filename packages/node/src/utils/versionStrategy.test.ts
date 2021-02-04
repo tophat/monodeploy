@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { MonodeployConfiguration } from '../types'
 
 import {
@@ -69,8 +71,11 @@ describe('Custom Conventional Recommended Strategy', () => {
             baseBranch: 'master',
             commitSha: 'HEAD',
             remote: 'origin',
+            push: false,
         },
-        conventionalChangelogConfig: `./src/mocks/conventional-config.mock.ts`,
+        conventionalChangelogConfig: path.resolve(
+            path.join(__dirname, '..', 'mocks', 'conventional-config.mock.ts'),
+        ),
         access: 'public',
     }
 
