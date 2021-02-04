@@ -12,7 +12,7 @@ interface ArgOutput {
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
-    changelogFilename?: string
+    prependChangelog?: string
     access?: string
     push?: boolean
 }
@@ -92,7 +92,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
-        changelogFilename: argv.changelogFilename ?? undefined,
+        changelogFilename: argv.prependChangelog ?? undefined,
         access: argv.access ?? undefined,
     }
 
