@@ -1,45 +1,57 @@
-import { promises as fs } from 'fs'
-
-import { Manifest } from '@yarnpkg/core'
+import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
 } from '../types'
-import getPackageJsonPaths from '../utils/getPackageJsonPaths'
+
+const identPartsToPackageName = (scope: string | null, name: string): string =>
+    scope ? `@${scope}/${name}` : name
 
 const patchPackageJsons = async (
     config: MonodeployConfiguration,
     context: YarnContext,
+    workspaces: Set<Workspace>,
     registryTags: PackageTagMap,
 ): Promise<void> => {
-    const packageJsonPaths = await getPackageJsonPaths(config, context)
-
     await Promise.all(
-        packageJsonPaths.map(async filename => {
-            const packageManifest = JSON.parse(
-                await fs.readFile(filename, 'utf-8'),
-            )
-            packageManifest.version = registryTags.get(packageManifest.name)
+        [...workspaces].map(async (workspace: Workspace) => {
+            const ident = workspace.manifest.name
+            if (!ident) return
 
+            const pkgName = identPartsToPackageName(ident.scope, ident.name)
+            const version = registryTags.get(pkgName)
+            if (!version) return
+
+            workspace.manifest.version = version
             for (const dependentSetKey of Manifest.allDependencies) {
-                const dependencySet = packageManifest[dependentSetKey]
+                const dependencySet = workspace.manifest[dependentSetKey]
                 if (!dependencySet) continue
-                for (const packageName of Object.keys(dependencySet)) {
-                    if (!registryTags.get(packageName)) continue
-                    dependencySet[packageName] = `^${registryTags.get(
-                        packageName,
-                    )}`
+
+                for (const [, descriptor] of dependencySet.entries()) {
+                    const depPackageName = identPartsToPackageName(
+                        descriptor.scope,
+                        descriptor.name,
+                    )
+
+                    if (!registryTags.get(depPackageName)) continue
+                    const range = `^${registryTags.get(depPackageName)}`
+                    const updatedDescriptor = structUtils.makeDescriptor(
+                        structUtils.makeIdent(
+                            descriptor.scope,
+                            descriptor.name,
+                        ),
+                        range,
+                    )
+                    dependencySet.set(
+                        updatedDescriptor.identHash,
+                        updatedDescriptor,
+                    )
                 }
             }
 
-            const updatedPackageManifest = JSON.stringify(
-                packageManifest,
-                null,
-                2,
-            )
-            await fs.writeFile(filename, `${updatedPackageManifest}\n`, 'utf-8')
+            await workspace.persistManifest()
         }),
     )
 }

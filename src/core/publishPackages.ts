@@ -120,7 +120,9 @@ const publishPackages = async (
                             registry: registryUrl,
                         })
                     }
-                    logging.info(`[Publish] ${ident.name} (${registryUrl})`)
+                    logging.info(
+                        `[Publish] ${ident.name} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                    )
                 } catch (e) {
                     logging.error(e)
                 }

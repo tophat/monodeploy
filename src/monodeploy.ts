@@ -95,19 +95,21 @@ const monodeploy = async (
     let result: ChangesetSchema = {}
 
     try {
+        const workspacesToPublish = getWorkspacesToPublish(
+            context,
+            versionStrategies,
+        )
+
         // Apply releases, and update package.jsons
         const newVersions = await applyReleases(
             config,
             context,
+            workspacesToPublish,
             registryTags,
             versionStrategies,
         )
 
         // Publish (+ Git Tags)
-        const workspacesToPublish = getWorkspacesToPublish(
-            context,
-            versionStrategies,
-        )
         await publishPackages(
             config,
             context,
