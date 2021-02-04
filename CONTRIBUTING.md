@@ -12,7 +12,7 @@ Just for initial setup.
 
 Optionally install nvm to ensure you're using the correct version of node. You can find the node version in the `.nvmrc` file.
 
-Instal dependencies.
+Install dependencies.
 
 ```sh
 yarn
