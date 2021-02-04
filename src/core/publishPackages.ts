@@ -17,23 +17,9 @@ const maybeExecuteWorkspaceLifecycleScript = async (
     scriptName: string,
     { cwd }: { cwd: PortablePath },
 ): Promise<void> => {
-    const topLevelWorkspace = workspace.project.topLevelWorkspace
     if (workspace.manifest.scripts.has(scriptName)) {
         await scriptUtils.executePackageScript(
             workspace.anchoredLocator,
-            scriptName,
-            [],
-            {
-                cwd,
-                project: workspace.project,
-                stdin: null,
-                stdout: process.stdout,
-                stderr: process.stderr,
-            },
-        )
-    } else if (topLevelWorkspace.manifest.scripts.has(scriptName)) {
-        await scriptUtils.executePackageScript(
-            topLevelWorkspace.anchoredLocator,
             scriptName,
             [],
             {
