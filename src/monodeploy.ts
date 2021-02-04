@@ -1,8 +1,8 @@
 import path from 'path'
 
-import { Configuration, Project } from '@yarnpkg/core'
+import { getPluginConfiguration } from '@yarnpkg/cli'
+import { Cache, Configuration, Project, ThrowReport } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
-import NpmPlugin from '@yarnpkg/plugin-npm'
 
 import applyReleases from './core/applyReleases'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
@@ -38,13 +38,19 @@ const monodeploy = async (
     )
 
     const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
-    const configuration = await Configuration.find(cwd, {
-        modules: new Map([['@yarnpkg/plugin-npm', NpmPlugin]]),
-        plugins: new Set([`@yarnpkg/plugin-npm`]),
-    })
+    const configuration = await Configuration.find(
+        cwd,
+        getPluginConfiguration(),
+    )
     const { project, workspace } = await Project.find(configuration, cwd)
 
     if (!workspace) throw new Error(`Workspace required! Cwd: ${cwd}`)
+
+    await project.install({
+        cache: await Cache.find(configuration),
+        report: new ThrowReport(),
+    })
+    await project.restoreInstallState()
 
     const context: YarnContext = {
         configuration,
@@ -105,7 +111,6 @@ const monodeploy = async (
         await publishPackages(
             config,
             context,
-            versionStrategies,
             workspacesToPublish,
             registryUrl,
             newVersions,

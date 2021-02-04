@@ -1,83 +1,134 @@
-import { Workspace, miscUtils } from '@yarnpkg/core'
+import { Workspace, miscUtils, scriptUtils } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 
 import logging from '../logging'
 import type {
     MonodeployConfiguration,
-    PackageStrategyMap,
     PackageTagMap,
     YarnContext,
 } from '../types'
 import { assertProductionOrTest } from '../utils/invariants'
-import maybeExecuteLifecycleScript from '../utils/maybeExecuteLifecycleScript'
 import pushTags from '../utils/pushTags'
+
+const maybeExecuteWorkspaceLifecycleScript = async (
+    workspace: Workspace,
+    scriptName: string,
+    { cwd }: { cwd: PortablePath },
+): Promise<void> => {
+    if (workspace.manifest.scripts.has(scriptName)) {
+        await scriptUtils.executePackageScript(
+            workspace.anchoredLocator,
+            scriptName,
+            [],
+            {
+                cwd,
+                project: workspace.project,
+                stdin: null,
+                stdout: process.stdout,
+                stderr: process.stderr,
+            },
+        )
+    }
+}
+
+const prepareForPack = async (
+    workspace: Workspace,
+    { cwd }: { cwd: PortablePath },
+    cb: () => Promise<void>,
+) => {
+    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepack', {
+        cwd,
+    })
+    try {
+        await cb()
+    } finally {
+        await maybeExecuteWorkspaceLifecycleScript(workspace, 'postpack', {
+            cwd,
+        })
+    }
+}
+
+const prepareForPublish = async (
+    workspace: Workspace,
+    { cwd }: { cwd: PortablePath },
+    cb: () => Promise<void>,
+) => {
+    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepublishOnly', {
+        cwd,
+    })
+
+    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepare', {
+        cwd,
+    })
+
+    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepublish', {
+        cwd,
+    })
+
+    try {
+        await cb()
+    } finally {
+        await maybeExecuteWorkspaceLifecycleScript(workspace, 'postpublish', {
+            cwd,
+        })
+    }
+}
 
 const publishPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
-    versionStrategies: PackageStrategyMap,
     workspacesToPublish: Set<Workspace>,
     registryUrl: string,
     newVersions: PackageTagMap,
 ): Promise<void> => {
-    await Promise.all(
-        [...workspacesToPublish].map(async (workspace: Workspace) => {
-            // Prepare pack streams.
-            await maybeExecuteLifecycleScript(
-                context.workspace,
-                'prepare',
-                workspace,
-            )
+    const prepareWorkspace = async (workspace: Workspace) => {
+        const ident = workspace.manifest.name
+        if (!ident) return
 
-            await maybeExecuteLifecycleScript(
-                context.workspace,
-                'prepack',
-                workspace,
-            )
-            const filesToPack = await packUtils.genPackList(workspace)
-            const pack = await packUtils.genPackStream(workspace, filesToPack)
+        const cwd = workspace.cwd
+        await prepareForPublish(workspace, { cwd }, async () => {
+            await prepareForPack(workspace, { cwd }, async () => {
+                const filesToPack = await packUtils.genPackList(workspace)
+                const pack = await packUtils.genPackStream(
+                    workspace,
+                    filesToPack,
+                )
 
-            await maybeExecuteLifecycleScript(
-                context.workspace,
-                'postpack',
-                workspace,
-            )
+                const buffer = await miscUtils.bufferStream(pack)
 
-            // Publish
-            const buffer = await miscUtils.bufferStream(pack)
-
-            const body = await npmPublishUtils.makePublishBody(
-                workspace,
-                buffer,
-                {
-                    access: config.access,
-                    tag: 'latest',
-                    registry: registryUrl,
-                },
-            )
-
-            try {
-                const ident = workspace.manifest.name
-                if (!ident) return
-
-                const identUrl = npmHttpUtils.getIdentUrl(ident)
-
-                if (!config.dryRun) {
-                    assertProductionOrTest()
-                    await npmHttpUtils.put(identUrl, body, {
-                        authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
-                        configuration: context.project.configuration,
-                        ident,
+                const body = await npmPublishUtils.makePublishBody(
+                    workspace,
+                    buffer,
+                    {
+                        access: config.access,
+                        tag: 'latest',
                         registry: registryUrl,
-                    })
+                    },
+                )
+
+                try {
+                    const identUrl = npmHttpUtils.getIdentUrl(ident)
+
+                    if (!config.dryRun) {
+                        assertProductionOrTest()
+                        await npmHttpUtils.put(identUrl, body, {
+                            authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
+                            configuration: context.project.configuration,
+                            ident,
+                            registry: registryUrl,
+                        })
+                    }
+                    logging.info(`[Publish] ${ident.name} (${registryUrl})`)
+                } catch (e) {
+                    logging.error(e)
                 }
-                logging.info(`[Publish] ${ident.name} (${registryUrl})`)
-            } catch (e) {
-                logging.error(e)
-            }
-        }),
-    )
+            })
+        })
+    }
+
+    await Promise.all([...workspacesToPublish].map(prepareWorkspace))
 
     // Push git tags
     await pushTags(config, context, newVersions)

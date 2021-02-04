@@ -29,3 +29,9 @@ __metadata:
     pkg-2: "workspace:*"
   languageName: unknown
   linkType: soft
+
+"pkg-4@workspace:packages/pkg-4":
+  version: 0.0.0-use.local
+  resolution: "pkg-4@workspace:packages/pkg-4"
+  languageName: unknown
+  linkType: soft
