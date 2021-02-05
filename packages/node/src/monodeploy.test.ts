@@ -12,7 +12,7 @@ import type { MonodeployConfiguration } from './types'
 
 jest.mock('@yarnpkg/plugin-npm')
 jest.mock('monodeploy-git')
-console.log(git)
+
 const mockGit = git as jest.Mocked<
     typeof git & {
         _reset_: () => void
