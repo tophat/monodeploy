@@ -1,6 +1,6 @@
-import { MonodeployConfiguration, RecursivePartial } from '../types'
+import { gitLastTaggedCommit, gitResolveSha } from 'monodeploy-git'
 
-import { gitLastTaggedCommit, gitResolveSha } from './git'
+import { MonodeployConfiguration, RecursivePartial } from '../types'
 
 const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,

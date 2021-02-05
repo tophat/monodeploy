@@ -35,6 +35,7 @@
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0",
     "monodeploy-changelog": "workspace:packages/changelog",
+    "monodeploy-git": "workspace:packages/git",
     "monodeploy-logging": "workspace:packages/logging",
     "semver": "^7.3.4"
   }

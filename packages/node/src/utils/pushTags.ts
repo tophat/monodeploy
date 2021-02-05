@@ -1,3 +1,4 @@
+import { gitPush, gitTag } from 'monodeploy-git'
 import logging from 'monodeploy-logging'
 
 import type {
@@ -5,8 +6,6 @@ import type {
     PackageTagMap,
     YarnContext,
 } from '../types'
-
-import { gitPush, gitTag } from './git'
 
 function pushTags(
     config: MonodeployConfiguration,

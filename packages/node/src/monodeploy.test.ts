@@ -4,15 +4,15 @@ import path from 'path'
 
 import * as npm from '@yarnpkg/plugin-npm'
 
+import * as git from 'monodeploy-git'
 import { LOG_LEVELS } from 'monodeploy-logging'
 
 import monodeploy from './monodeploy'
 import type { MonodeployConfiguration } from './types'
-import * as git from './utils/git'
 
 jest.mock('@yarnpkg/plugin-npm')
-jest.mock('./utils/git')
-
+jest.mock('monodeploy-git')
+console.log(git)
 const mockGit = git as jest.Mocked<
     typeof git & {
         _reset_: () => void
