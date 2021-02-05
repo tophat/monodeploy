@@ -64,6 +64,8 @@ jobs:
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
+        - name: Build
+          run: yarn build
         - name: Linting
           run: yarn lint:ci
         - name: Set GitHub user for tests
@@ -71,7 +73,7 @@ jobs:
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
         - name: Tests
-          run: yarn build && yarn test:ci # Because we use workspace references, we need to build the workspaces before linting can succeed.
+          run: yarn test:ci
         - name: Upload Coverage Report
           run: ./.github/codecov.sh $GITHUB_EVENT_PATH
           env:
