@@ -4,7 +4,7 @@ import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
 
 const identPartsToPackageName = (scope: string | null, name: string): string =>
     scope ? `@${scope}/${name}` : name

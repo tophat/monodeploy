@@ -2,12 +2,11 @@ import { Workspace } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
 import logging from 'monodeploy-logging'
-
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
 
 const getLatestPackageTags = async (
     config: MonodeployConfiguration,

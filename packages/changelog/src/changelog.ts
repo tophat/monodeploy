@@ -5,13 +5,14 @@ import { Workspace } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
-import getIdentFromName from './getIdentFromName'
-import { readStream, readStreamString } from './stream'
 import type {
     CommitMessage,
     MonodeployConfiguration,
     YarnContext,
-} from './types'
+} from 'monodeploy-types'
+
+import getIdentFromName from './getIdentFromName'
+import { readStream, readStreamString } from './stream'
 
 type RepositoryInfo = {
     host: string | null

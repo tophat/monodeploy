@@ -1,11 +1,10 @@
 import { gitPush, gitTag } from 'monodeploy-git'
 import logging from 'monodeploy-logging'
-
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
 
 function pushTags(
     config: MonodeployConfiguration,

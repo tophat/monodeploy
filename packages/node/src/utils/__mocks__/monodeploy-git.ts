@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { CommitMessage } from '../../types'
+import type { CommitMessage } from 'monodeploy-types'
 
 const registry: {
     commits: CommitMessage[]
