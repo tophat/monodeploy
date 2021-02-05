@@ -1,5 +1,5 @@
 {
-  "name": "monodeploy",
+  "name": "monodeploy-node",
   "version": "0.0.0",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
@@ -7,8 +7,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "./lib/monodeploy.js",
-  "types": "./lib/monodeploy.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib"
   ],
