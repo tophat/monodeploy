@@ -7568,6 +7568,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
   dependencies:
+    "@yarnpkg/core": ^2.4.0
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
@@ -7657,6 +7658,7 @@ fsevents@~2.1.2:
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
     monodeploy-changelog: "workspace:packages/changelog"
+    monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
     monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"
