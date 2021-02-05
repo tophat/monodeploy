@@ -1,4 +1,1 @@
-const fn = (): null => {
-    return null
-}
-export default fn
+export { default as getDependents } from './getDependents'
