@@ -1,6 +1,5 @@
-import yargs from 'yargs'
-
 import monodeploy from 'monodeploy'
+import yargs from 'yargs'
 
 interface ArgOutput {
     registryUrl?: string
