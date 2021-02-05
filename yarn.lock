@@ -2000,6 +2000,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14.14.25":
+  version: 14.14.25
+  resolution: "@types/node@npm:14.14.25"
+  checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
@@ -7583,6 +7590,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-logging@workspace:packages/logging"
   dependencies:
+    "@types/node": ^14.14.25
     chalk: ^4.1.0
   languageName: unknown
   linkType: soft
