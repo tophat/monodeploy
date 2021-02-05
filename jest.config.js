@@ -37,4 +37,7 @@ module.exports = {
     haste: {
         throwOnModuleCollision: true,
     },
+    modulePathIgnorePatterns: [
+        "<rootDir>/.*/lib"
+    ]
 }
