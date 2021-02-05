@@ -64,15 +64,15 @@ jobs:
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
+        - name: Build
+          run: yarn build
         - name: Linting
           run: yarn lint:ci
         - name: Set GitHub user for tests
           run: |
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
-        - name: Build
-          run: yarn build
-        - name: Tests
+                - name: Tests
           run: yarn test:ci
         - name: Upload Coverage Report
           run: ./.github/codecov.sh $GITHUB_EVENT_PATH
