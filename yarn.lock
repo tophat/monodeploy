@@ -7558,6 +7558,7 @@ fsevents@~2.1.2:
     "@yarnpkg/core": ^2.4.0
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
+    monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
@@ -7590,6 +7591,14 @@ fsevents@~2.1.2:
   dependencies:
     "@types/node": ^14.14.25
     monodeploy-logging: "workspace:packages/logging"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-io@workspace:packages/io":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-io@workspace:packages/io"
+  dependencies:
+    "@types/node": ^14.14.25
   languageName: unknown
   linkType: soft
 
@@ -7686,6 +7695,7 @@ fsevents@~2.1.2:
     conventional-commits-parser: ^3.2.0
     monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
     semver: ^7.3.4

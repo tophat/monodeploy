@@ -2,13 +2,12 @@ import { Readable } from 'stream'
 
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
+import { readStream } from 'monodeploy-io'
 import type {
     MonodeployConfiguration,
     PackageStrategyType,
     StrategyDeterminer,
 } from 'monodeploy-types'
-
-import { readStream } from './stream'
 
 export const STRATEGY = {
     MAJOR: 0,
