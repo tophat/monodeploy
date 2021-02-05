@@ -4,12 +4,12 @@ import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 
 import logging from 'monodeploy-logging'
-
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
+
 import { assertProductionOrTest } from '../utils/invariants'
 import pushTags from '../utils/pushTags'
 

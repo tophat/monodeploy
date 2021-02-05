@@ -6,7 +6,7 @@ import type {
     MonodeployConfiguration,
     PackageStrategyType,
     StrategyDeterminer,
-} from '../types'
+} from 'monodeploy-types'
 
 import { readStream } from './stream'
 

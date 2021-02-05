@@ -1,9 +1,11 @@
 {
-  "name": "monodeploy-publish",
+  "name": "monodeploy-types",
   "version": "0.0.0",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
+  "main": "./lib/types.js",
+  "types": "./lib/types.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -18,6 +20,6 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "monodeploy-types": "workspace:packages/types"
+    "@yarnpkg/core": "^2.4.0"
   }
 }

@@ -1986,10 +1986,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.14":
-  version: 14.14.14
-  resolution: "@types/node@npm:14.14.14"
-  checksum: dea8d257d49d68c65dafa6ebde9453bb61b67febc92ed8d7e38fce8b95f18d32ccffb3ab37021f9be8d1e5c65cd59cdb7dd8981d9b89b2be103b3012aee09fcf
+"@types/node@npm:*, @types/node@npm:^14.14.14, @types/node@npm:^14.14.25":
+  version: 14.14.25
+  resolution: "@types/node@npm:14.14.25"
+  checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
   languageName: node
   linkType: hard
 
@@ -1997,13 +1997,6 @@ __metadata:
   version: 13.13.36
   resolution: "@types/node@npm:13.13.36"
   checksum: 6051625e34ce7b3eac64802629503f18e3930c3330fbb13128dea6ef0a87322df1ad30dcfd3bda3ff849dd18152f7038fb472a373f26e186966a7bdd50eae3c4
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^14.14.25":
-  version: 14.14.25
-  resolution: "@types/node@npm:14.14.25"
-  checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
   languageName: node
   linkType: hard
 
@@ -7566,6 +7559,7 @@ fsevents@~2.1.2:
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
     monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
@@ -7575,6 +7569,7 @@ fsevents@~2.1.2:
   dependencies:
     "@types/yargs": ^16.0.0
     monodeploy: "workspace:packages/node"
+    monodeploy-types: "workspace:packages/types"
     yargs: ^16.2.0
   bin:
     monodeploy-cli: ./lib/cli.js
@@ -7584,6 +7579,8 @@ fsevents@~2.1.2:
 "monodeploy-dependencies@workspace:packages/dependencies":
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
+  dependencies:
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
@@ -7650,12 +7647,24 @@ fsevents@~2.1.2:
 "monodeploy-publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
+  dependencies:
+    monodeploy-types: "workspace:packages/types"
+  languageName: unknown
+  linkType: soft
+
+"monodeploy-types@workspace:packages/types":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-types@workspace:packages/types"
+  dependencies:
+    "@yarnpkg/core": ^2.4.0
   languageName: unknown
   linkType: soft
 
 "monodeploy-versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "monodeploy-versions@workspace:packages/versions"
+  dependencies:
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
@@ -7678,6 +7687,7 @@ fsevents@~2.1.2:
     monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-git: "workspace:packages/git"
     monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
     semver: ^7.3.4
   languageName: unknown
   linkType: soft

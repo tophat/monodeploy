@@ -2,13 +2,12 @@ import { Workspace } from '@yarnpkg/core'
 import { inc as incrementSemver } from 'semver'
 
 import logging from 'monodeploy-logging'
-
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
 
 import patchPackageJsons from './patchPackageJsons'
 

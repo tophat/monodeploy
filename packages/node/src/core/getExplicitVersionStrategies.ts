@@ -5,13 +5,13 @@ import { PortablePath } from '@yarnpkg/fslib'
 
 import { gitDiffTree } from 'monodeploy-git'
 import logging from 'monodeploy-logging'
-
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageStrategyType,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
+
 import getCommitMessages from '../utils/getCommitMessages'
 import {
     STRATEGY,

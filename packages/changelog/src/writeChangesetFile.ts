@@ -2,15 +2,15 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import logging from 'monodeploy-logging'
-
-import generateChangelogEntry from './changelog'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
-} from './types'
+} from 'monodeploy-types'
+
+import generateChangelogEntry from './changelog'
 
 const writeChangesetFile = async (
     config: MonodeployConfiguration,

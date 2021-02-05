@@ -4,7 +4,7 @@ import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     YarnContext,
-} from '../types'
+} from 'monodeploy-types'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
     for (const dependencySetKey of Manifest.allDependencies) {

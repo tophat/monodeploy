@@ -1,8 +1,5 @@
 import { gitLog } from 'monodeploy-git'
-
-console.log('gitlog', gitLog)
-
-import type { CommitMessage, MonodeployConfiguration } from '../types'
+import type { CommitMessage, MonodeployConfiguration } from 'monodeploy-types'
 
 const DELIMITER = '-----------------monodeploy-----------------'
 
