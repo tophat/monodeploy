@@ -70,6 +70,8 @@ jobs:
           run: |
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
+        - name: Build
+          run: yarn build
         - name: Tests
           run: yarn test:ci
         - name: Upload Coverage Report
