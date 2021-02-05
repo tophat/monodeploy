@@ -10,11 +10,15 @@
   "files": [
     "lib"
   ],
+  "main": "lib/index.js",
   "scripts": {
     "clean": "run workspace:clean \"$(pwd)\"",
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
+  },
+  "dependencies": {
+    "chalk": "^4.1.0"
   }
 }

@@ -32,9 +32,9 @@
     "@yarnpkg/fslib": "^2.4.0",
     "@yarnpkg/plugin-npm": "^2.4.0",
     "@yarnpkg/plugin-pack": "^2.2.3",
-    "chalk": "^4.1.0",
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0",
+    "monodeploy-logging": "workspace:packages/logging",
     "semver": "^7.3.4"
   }
 }

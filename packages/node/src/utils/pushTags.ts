@@ -1,4 +1,5 @@
-import logging from '../logging'
+import logging from 'monodeploy-logging'
+
 import type {
     MonodeployConfiguration,
     PackageTagMap,

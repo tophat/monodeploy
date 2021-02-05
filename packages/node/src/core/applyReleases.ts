@@ -1,7 +1,8 @@
 import { Workspace } from '@yarnpkg/core'
 import { inc as incrementSemver } from 'semver'
 
-import logging from '../logging'
+import logging from 'monodeploy-logging'
+
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,

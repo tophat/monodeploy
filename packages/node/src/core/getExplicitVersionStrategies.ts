@@ -3,7 +3,8 @@ import path from 'path'
 import { structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import logging from '../logging'
+import logging from 'monodeploy-logging'
+
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,

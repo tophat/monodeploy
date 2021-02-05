@@ -3,7 +3,8 @@ import { PortablePath } from '@yarnpkg/fslib'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 
-import logging from '../logging'
+import logging from 'monodeploy-logging'
+
 import type {
     MonodeployConfiguration,
     PackageTagMap,

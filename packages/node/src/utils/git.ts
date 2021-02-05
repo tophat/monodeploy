@@ -1,6 +1,6 @@
 import childProcess from 'child_process'
 
-import logging from '../logging'
+import logging from 'monodeploy-logging'
 
 import { assertProduction } from './invariants'
 

@@ -4,7 +4,8 @@ import path from 'path'
 
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { LOG_LEVELS } from './logging'
+import { LOG_LEVELS } from 'monodeploy-logging'
+
 import monodeploy from './monodeploy'
 import type { MonodeployConfiguration } from './types'
 import * as git from './utils/git'
