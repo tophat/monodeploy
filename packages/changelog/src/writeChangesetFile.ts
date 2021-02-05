@@ -3,14 +3,14 @@ import path from 'path'
 
 import logging from 'monodeploy-logging'
 
+import generateChangelogEntry from './changelog'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
-} from '../types'
-import generateChangelogEntry from '../utils/changelog'
+} from './types'
 
 const writeChangesetFile = async (
     config: MonodeployConfiguration,

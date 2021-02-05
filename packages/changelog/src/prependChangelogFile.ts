@@ -7,7 +7,7 @@ import type {
     ChangesetSchema,
     MonodeployConfiguration,
     YarnContext,
-} from '../types'
+} from './types'
 
 const MARKER = '<!-- MONODEPLOY:BELOW -->'
 

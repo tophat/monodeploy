@@ -10,11 +10,22 @@
   "files": [
     "lib"
   ],
+  "main": "lib/index.js",
   "scripts": {
     "clean": "run workspace:clean \"$(pwd)\"",
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
+  },
+  "dependencies": {
+    "@yarnpkg/core": "^2.4.0",
+    "conventional-changelog-writer": "^5.0.0",
+    "conventional-commits-parser": "^3.2.0",
+    "monodeploy-logging": "workspace:packages/logging"
+  },
+  "devDependencies": {
+    "@types/conventional-changelog-writer": "^4.0.0",
+    "@types/conventional-commits-parser": "^3.0.1"
   }
 }

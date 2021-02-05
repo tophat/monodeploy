@@ -4,15 +4,14 @@ import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Cache, Configuration, Project, ThrowReport } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
+import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
 import logging from 'monodeploy-logging'
 
 import applyReleases from './core/applyReleases'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import getLatestPackageTags from './core/getLatestPackageTags'
-import prependChangelogFile from './core/prependChangelogFile'
 import publishPackages from './core/publishPackages'
-import writeChangesetFile from './core/writeChangesetFile'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,

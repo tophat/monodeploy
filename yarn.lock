@@ -7559,6 +7559,13 @@ fsevents@~2.1.2:
 "monodeploy-changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "monodeploy-changelog@workspace:packages/changelog"
+  dependencies:
+    "@types/conventional-changelog-writer": ^4.0.0
+    "@types/conventional-commits-parser": ^3.0.1
+    "@yarnpkg/core": ^2.4.0
+    conventional-changelog-writer: ^5.0.0
+    conventional-commits-parser: ^3.2.0
+    monodeploy-logging: "workspace:packages/logging"
   languageName: unknown
   linkType: soft
 
@@ -7665,6 +7672,7 @@ fsevents@~2.1.2:
     "@yarnpkg/plugin-pack": ^2.2.3
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
+    monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-logging: "workspace:packages/logging"
     semver: ^7.3.4
   languageName: unknown
