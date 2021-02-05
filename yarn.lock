@@ -7564,19 +7564,6 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
-"monodeploy-cli@workspace:packages/cli":
-  version: 0.0.0-use.local
-  resolution: "monodeploy-cli@workspace:packages/cli"
-  dependencies:
-    "@types/yargs": ^16.0.0
-    monodeploy: "workspace:packages/node"
-    monodeploy-types: "workspace:packages/types"
-    yargs: ^16.2.0
-  bin:
-    monodeploy-cli: ./lib/cli.js
-  languageName: unknown
-  linkType: soft
-
 "monodeploy-dependencies@workspace:packages/dependencies":
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
@@ -7653,6 +7640,31 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
+"monodeploy-node@workspace:packages/node":
+  version: 0.0.0-use.local
+  resolution: "monodeploy-node@workspace:packages/node"
+  dependencies:
+    "@types/chalk": ^2.2.0
+    "@types/conventional-changelog-writer": ^4.0.0
+    "@types/conventional-commits-parser": ^3.0.1
+    "@types/node": ^14.14.14
+    "@types/semver": ^7.3.4
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
+    conventional-changelog-writer: ^5.0.0
+    conventional-commits-parser: ^3.2.0
+    monodeploy-changelog: "workspace:packages/changelog"
+    monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
+    semver: ^7.3.4
+  languageName: unknown
+  linkType: soft
+
 "monodeploy-publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
@@ -7677,28 +7689,17 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
-"monodeploy@workspace:packages/node":
+"monodeploy@workspace:packages/cli":
   version: 0.0.0-use.local
-  resolution: "monodeploy@workspace:packages/node"
+  resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@types/chalk": ^2.2.0
-    "@types/conventional-changelog-writer": ^4.0.0
-    "@types/conventional-commits-parser": ^3.0.1
-    "@types/node": ^14.14.14
-    "@types/semver": ^7.3.4
-    "@yarnpkg/cli": ^2.4.0
-    "@yarnpkg/core": ^2.4.0
-    "@yarnpkg/fslib": ^2.4.0
-    "@yarnpkg/plugin-npm": ^2.4.0
-    "@yarnpkg/plugin-pack": ^2.2.3
-    conventional-changelog-writer: ^5.0.0
-    conventional-commits-parser: ^3.2.0
-    monodeploy-changelog: "workspace:packages/changelog"
-    monodeploy-git: "workspace:packages/git"
-    monodeploy-io: "workspace:packages/io"
-    monodeploy-logging: "workspace:packages/logging"
+    "@types/node": ^14.14.25
+    "@types/yargs": ^16.0.0
+    monodeploy-node: "workspace:packages/node"
     monodeploy-types: "workspace:packages/types"
-    semver: ^7.3.4
+    yargs: ^16.2.0
+  bin:
+    monodeploy: ./lib/cli.js
   languageName: unknown
   linkType: soft
 

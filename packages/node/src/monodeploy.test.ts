@@ -8,7 +8,7 @@ import * as git from 'monodeploy-git'
 import { LOG_LEVELS } from 'monodeploy-logging'
 import type { MonodeployConfiguration } from 'monodeploy-types'
 
-import monodeploy from './monodeploy'
+import monodeploy from '.'
 
 jest.mock('@yarnpkg/plugin-npm')
 jest.mock('monodeploy-git')

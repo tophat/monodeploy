@@ -121,7 +121,8 @@ The CLI provides a few sensible defaults, however if using the Node API, you wil
 To use the API:
 
 ```ts
-import monodeploy, { MonodeployConfiguration } from 'monodeploy'
+import type { MonodeployConfiguration }  from 'monodeploy-types'
+import monodeploy from 'monodeploy-node'
 
 try {
     const config: MonodeployConfiguration = {

@@ -1,5 +1,5 @@
 {
-  "name": "monodeploy-cli",
+  "name": "monodeploy",
   "version": "0.0.0",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
@@ -19,10 +19,11 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
+    "@types/node": "^14.14.25",
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "monodeploy": "workspace:packages/node",
+    "monodeploy-node": "workspace:packages/node",
     "monodeploy-types": "workspace:packages/types",
     "yargs": "^16.2.0"
   }
