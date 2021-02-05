@@ -71,7 +71,7 @@ jobs:
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
         - name: Tests
-          run: yarn test:ci
+          run: yarn build && yarn test:ci # Because we use workspace references, we need to build the workspaces before linting can succeed.
         - name: Upload Coverage Report
           run: ./.github/codecov.sh $GITHUB_EVENT_PATH
           env:
