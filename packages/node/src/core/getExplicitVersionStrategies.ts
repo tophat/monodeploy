@@ -3,6 +3,7 @@ import path from 'path'
 import { structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
+import { gitDiffTree } from 'monodeploy-git'
 import logging from 'monodeploy-logging'
 
 import type {
@@ -12,7 +13,6 @@ import type {
     YarnContext,
 } from '../types'
 import getCommitMessages from '../utils/getCommitMessages'
-import { gitDiffTree } from '../utils/git'
 import {
     STRATEGY,
     createGetConventionalRecommendedStrategy,
