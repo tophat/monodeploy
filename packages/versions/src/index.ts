@@ -1,4 +1,4 @@
-const fn = (): null => {
-    return null
-}
-export default fn
+import getExplicitVersionStrategies from './getExplicitVersionStrategies'
+import getImplicitVersionStrategies from './getImplicitVersionStrategies'
+
+export { getImplicitVersionStrategies, getExplicitVersionStrategies }
