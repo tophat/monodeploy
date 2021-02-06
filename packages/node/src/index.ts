@@ -14,10 +14,12 @@ import type {
     RecursivePartial,
     YarnContext,
 } from 'monodeploy-types'
+import {
+    getExplicitVersionStrategies,
+    getImplicitVersionStrategies,
+} from 'monodeploy-versions'
 
 import applyReleases from './core/applyReleases'
-import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
-import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import getLatestPackageTags from './core/getLatestPackageTags'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'

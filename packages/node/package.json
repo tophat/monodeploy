@@ -41,6 +41,7 @@
     "monodeploy-logging": "workspace:packages/logging",
     "monodeploy-publish": "workspace:packages/publish",
     "monodeploy-types": "workspace:packages/types",
+    "monodeploy-versions": "workspace:packages/versions",
     "semver": "^7.3.4"
   }
 }
