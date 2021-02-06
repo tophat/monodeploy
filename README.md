@@ -143,6 +143,26 @@ try {
 }
 ```
 
+### Note About Package Versioning
+
+This monorepo follows semantic versioning. That being said, the packages are divided into two categories: public & private.
+
+Public:
+- monodeploy
+- monodeploy-node
+- monodeploy-types
+
+Private:
+- monodeploy-git
+- monodeploy-logging
+- monodeploy-io
+- monodeploy-publish
+- monodeploy-changelog
+- monodeploy-versions
+- monodeploy-dependencies
+
+Public packages should have fairly stable APIs, whereas private packages are mainly intended as helpers for the private packages, and so can expect frequent API changes (still following semantic versioning though).
+
 ## Contributing
 
 See the [Contributing Guide](./CONTRIBUTING.md) for setup instructions, tips, and guidelines.

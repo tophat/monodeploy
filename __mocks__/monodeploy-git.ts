@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { CommitMessage } from 'monodeploy-types'
+import type { CommitMessage, MonodeployConfiguration } from 'monodeploy-types'
 
 const registry: {
     commits: CommitMessage[]
@@ -16,7 +16,7 @@ const registry: {
     lastTaggedCommit: undefined,
 }
 
-export const _reset_ = (): void => {
+const _reset_ = (): void => {
     registry.commits = []
     registry.filesModified = new Map()
     registry.tags = []
@@ -24,35 +24,31 @@ export const _reset_ = (): void => {
     registry.lastTaggedCommit = undefined
 }
 
-export const _commitFiles_ = (
-    sha: string,
-    commit: string,
-    files: string[],
-): void => {
+const _commitFiles_ = (sha: string, commit: string, files: string[]): void => {
     registry.commits.push({ sha, body: commit })
     registry.filesModified.set(sha, registry.filesModified.get(sha) ?? [])
     registry.filesModified.get(sha).push(...files)
 }
 
-export const _getPushedTags_ = (): string[] => {
+const _getPushedTags_ = (): string[] => {
     return registry.pushedTags
 }
 
-export const gitResolveSha = async (
+const gitResolveSha = async (
     ref: string,
     { cwd }: { cwd: string },
 ): Promise<string> => {
     return `sha:${ref}`
 }
 
-export const gitDiffTree = async (
+const gitDiffTree = async (
     ref: string,
     { cwd }: { cwd: string },
 ): Promise<string> => {
     return (registry.filesModified.get(ref) ?? []).join('\n')
 }
 
-export const gitLog = async (
+const gitLog = async (
     from: string,
     to: string,
     { cwd, DELIMITER }: { cwd: string; DELIMITER: string },
@@ -62,16 +58,13 @@ export const gitLog = async (
         .join(`${DELIMITER}\n`)
 }
 
-export const gitTag = async (
-    tag: string,
-    { cwd }: { cwd: string },
-): Promise<void> => {
+const gitTag = async (tag: string, { cwd }: { cwd: string }): Promise<void> => {
     registry.tags.push(tag)
     registry.lastTaggedCommit =
         registry.commits[registry.commits.length - 1]?.sha
 }
 
-export const gitPush = async (
+const gitPush = async (
     tag: string,
     { cwd, remote }: { cwd: string; remote: string },
 ): Promise<void> => {
@@ -81,7 +74,7 @@ export const gitPush = async (
     registry.pushedTags.push(tag)
 }
 
-export const gitLastTaggedCommit = async ({
+const gitLastTaggedCommit = async ({
     cwd,
 }: {
     cwd: string
@@ -90,4 +83,35 @@ export const gitLastTaggedCommit = async ({
         throw new Error('No tagged commit.')
     }
     return registry.lastTaggedCommit
+}
+
+export const getCommitMessages = async (
+    config: MonodeployConfiguration,
+): Promise<CommitMessage[]> => {
+    const DELIMITER = '-----------------monodeploy-----------------'
+    const from = config.git.baseBranch
+    const to = config.git.commitSha
+    const logOutput = await gitLog(from, to, { cwd: config.cwd, DELIMITER })
+    return logOutput
+        .toString()
+        .split(`${DELIMITER}\n`)
+        .map(logEntry => {
+            const [sha, ...msg] = logEntry.split('\n')
+            return { sha, body: msg.join('\n') }
+        })
+        .filter(msg => msg.body)
+}
+
+module.exports = {
+    __esModule: true,
+    _reset_,
+    _commitFiles_,
+    _getPushedTags_,
+    gitResolveSha,
+    gitDiffTree,
+    gitLog,
+    gitTag,
+    gitPush,
+    gitLastTaggedCommit,
+    getCommitMessages,
 }

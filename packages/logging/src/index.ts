@@ -1,5 +1,7 @@
 import chalk from 'chalk'
 
+export * from './invariants'
+
 export const LOG_LEVELS = {
     DEBUG: 0,
     INFO: 1,

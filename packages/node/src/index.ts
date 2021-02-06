@@ -6,6 +6,7 @@ import { PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
 import logging from 'monodeploy-logging'
+import { publishPackages } from 'monodeploy-publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -18,7 +19,6 @@ import applyReleases from './core/applyReleases'
 import getExplicitVersionStrategies from './core/getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './core/getImplicitVersionStrategies'
 import getLatestPackageTags from './core/getLatestPackageTags'
-import publishPackages from './core/publishPackages'
 import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'

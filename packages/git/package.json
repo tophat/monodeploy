@@ -23,6 +23,7 @@
     "@types/node": "^14.14.25"
   },
   "dependencies": {
-    "monodeploy-logging": "workspace:packages/logging"
+    "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-types": "workspace:packages/types"
   }
 }

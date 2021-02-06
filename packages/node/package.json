@@ -39,6 +39,7 @@
     "monodeploy-git": "workspace:packages/git",
     "monodeploy-io": "workspace:packages/io",
     "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-publish": "workspace:packages/publish",
     "monodeploy-types": "workspace:packages/types",
     "semver": "^7.3.4"
   }
