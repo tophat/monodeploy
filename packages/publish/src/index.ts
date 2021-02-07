@@ -9,8 +9,11 @@ import type {
     YarnContext,
 } from 'monodeploy-types'
 
+import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
 import pushTags from './pushTags'
+
+export { getWorkspacesToPublish }
 
 export const publishPackages = async (
     config: MonodeployConfiguration,
