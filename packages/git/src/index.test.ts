@@ -1,7 +1,14 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
 
-import { getCommitMessages, gitDiffTree, gitResolveSha } from '.'
+import {
+    getCommitMessages,
+    gitDiffTree,
+    gitLastTaggedCommit,
+    gitPush,
+    gitResolveSha,
+    gitTag,
+} from '.'
 
 async function setupTestRepository(): string {
     const tempRoot = await fs.mkdtemp('test-repository-')
@@ -21,7 +28,7 @@ describe('monodeploy-git', () => {
         await fs.writeFile(`${testPath}/test.txt`, 'wowfile')
         await fs.mkdir(`${testPath}/testDir`)
         await fs.writeFile(`${testPath}/testDir/test.txt`, 'wowfile')
-        await execSync('git add . && git commit -m "test: test file" -n', {
+        execSync('git add . && git commit -m "test: test file" -n', {
             cwd: testPath,
         })
         const headSha = execSync('git rev-parse HEAD', {
@@ -43,7 +50,7 @@ describe('monodeploy-git', () => {
 
         // Create some files and commit them to have a diff.
         await fs.writeFile(`${testPath}/test.txt`, 'wowfile')
-        await execSync('git add . && git commit -m "test: test file" -n', {
+        execSync('git add . && git commit -m "test: test file" -n', {
             cwd: testPath,
         })
         const headSha = execSync('git rev-parse HEAD', {
@@ -63,12 +70,12 @@ describe('monodeploy-git', () => {
 
         // Create some files and commit them to have a diff.
         await fs.writeFile(`${testPath}/test.txt`, 'wowfile')
-        await execSync('git commit -m "test: base" --allow-empty', {
+        execSync('git commit -m "test: base" --allow-empty', {
             cwd: testPath,
         })
-        await execSync('git checkout -b test-branch', { cwd: testPath })
+        execSync('git checkout -b test-branch', { cwd: testPath })
         const commitMessage = 'test: test file'
-        await execSync(`git add . && git commit -m "${commitMessage}" -n`, {
+        execSync(`git add . && git commit -m "${commitMessage}" -n`, {
             cwd: testPath,
         })
         const headSha = execSync('git rev-parse HEAD', {
@@ -85,5 +92,63 @@ describe('monodeploy-git', () => {
         expect(messages).toEqual([
             { sha: headSha, body: `${commitMessage}\n\n` },
         ])
+    })
+
+    it('gitTag creates a tag', async () => {
+        const testPath = await setupTestRepository()
+        execSync('git commit -m "test: base" --allow-empty', {
+            cwd: testPath,
+        })
+        const newTag = '1.0.0'
+        await gitTag(newTag, { cwd: testPath, skipInvariant: true })
+        const tagList = execSync('git tag -l', {
+            cwd: testPath,
+            encoding: 'utf8',
+        })
+
+        await cleanUp([testPath])
+
+        expect(tagList.trim().split('\n')).toEqual([newTag])
+    })
+
+    it('gitTag fails if invariant not respected', async () => {
+        const testPath = await setupTestRepository()
+        execSync('git commit -m "test: base" --allow-empty', {
+            cwd: testPath,
+        })
+        await expect(async () =>
+            gitTag('1.0.0', { cwd: testPath }),
+        ).rejects.toMatchInlineSnapshot(
+            `[Error: Invariant Violation: Invalid environment test !== production.]`,
+        )
+
+        await cleanUp([testPath])
+    })
+
+    it('gitPush fails if invariant not respected', async () => {
+        const testPath = await setupTestRepository()
+        execSync('git commit -m "test: base" --allow-empty', {
+            cwd: testPath,
+        })
+        await gitTag('1.0.0', { cwd: testPath, skipInvariant: true })
+        await expect(async () =>
+            gitPush('1.0.0', { cwd: testPath }),
+        ).rejects.toMatchInlineSnapshot(
+            `[Error: Invariant Violation: Invalid environment test !== production.]`,
+        )
+
+        await cleanUp([testPath])
+    })
+
+    // TODO: Unannotated tags?
+    it.skip('gitLastTaggedCommit gets last tagged commit', async () => {
+        const testPath = await setupTestRepository()
+        execSync('git commit -m "test: base" --allow-empty', {
+            cwd: testPath,
+        })
+
+        await gitTag('1.0.0', { cwd: testPath, skipInvariant: true })
+        console.log(await gitLastTaggedCommit({ cwd: testPath }))
+        await cleanUp([testPath])
     })
 })
