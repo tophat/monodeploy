@@ -1,0 +1,30 @@
+{
+  "name": "monodeploy-io",
+  "version": "0.0.0",
+  "repository": "git@github.com:tophat/monodeploy.git",
+  "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "run workspace:clean \"$(pwd)\"",
+    "types:watch": "run workspace:types:watch \"$(pwd)\"",
+    "test:watch": "run workspace:test:watch \"$(pwd)\"",
+    "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
+    "prepack": "run workspace:build \"$(pwd)\""
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.25"
+  },
+  "dependencies": {
+    "@yarnpkg/core": "^2.4.0",
+    "@yarnpkg/fslib": "^2.4.0",
+    "monodeploy-types": "workspace:packages/types"
+  }
+}

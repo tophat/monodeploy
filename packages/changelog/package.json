@@ -1,0 +1,34 @@
+{
+  "name": "monodeploy-changelog",
+  "version": "0.0.0",
+  "repository": "git@github.com:tophat/monodeploy.git",
+  "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "run workspace:clean \"$(pwd)\"",
+    "types:watch": "run workspace:types:watch \"$(pwd)\"",
+    "test:watch": "run workspace:test:watch \"$(pwd)\"",
+    "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
+    "prepack": "run workspace:build \"$(pwd)\""
+  },
+  "dependencies": {
+    "@yarnpkg/core": "^2.4.0",
+    "conventional-changelog-writer": "^5.0.0",
+    "conventional-commits-parser": "^3.2.0",
+    "monodeploy-io": "workspace:packages/io",
+    "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-types": "workspace:packages/types"
+  },
+  "devDependencies": {
+    "@types/conventional-changelog-writer": "^4.0.0",
+    "@types/conventional-commits-parser": "^3.0.1"
+  }
+}
