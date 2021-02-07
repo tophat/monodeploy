@@ -7,7 +7,7 @@ import { PortablePath } from '@yarnpkg/fslib'
 import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
 import { backupPackageJsons, restorePackageJsons } from 'monodeploy-io'
 import logging from 'monodeploy-logging'
-import { publishPackages } from 'monodeploy-publish'
+import { getWorkspacesToPublish, publishPackages } from 'monodeploy-publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -16,14 +16,13 @@ import type {
     YarnContext,
 } from 'monodeploy-types'
 import {
+    applyReleases,
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
+    getLatestPackageTags,
 } from 'monodeploy-versions'
 
-import applyReleases from './core/applyReleases'
-import getLatestPackageTags from './core/getLatestPackageTags'
 import getRegistryUrl from './utils/getRegistryUrl'
-import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 const monodeploy = async (

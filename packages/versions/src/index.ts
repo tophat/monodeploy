@@ -1,4 +1,11 @@
+import applyReleases from './applyReleases'
 import getExplicitVersionStrategies from './getExplicitVersionStrategies'
 import getImplicitVersionStrategies from './getImplicitVersionStrategies'
+import getLatestPackageTags from './getLatestPackageTags'
 
-export { getImplicitVersionStrategies, getExplicitVersionStrategies }
+export {
+    applyReleases,
+    getLatestPackageTags,
+    getImplicitVersionStrategies,
+    getExplicitVersionStrategies,
+}
