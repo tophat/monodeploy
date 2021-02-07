@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
 
-import { gitDiffTree, gitResolveSha } from '.'
+import { getCommitMessages, gitDiffTree, gitResolveSha } from '.'
 
 async function setupTestRepository(): string {
     const tempRoot = await fs.mkdtemp('test-repository-')
@@ -56,5 +56,34 @@ describe('monodeploy-git', () => {
         await cleanUp([testPath])
 
         expect(resolvedHead).toEqual(headSha.trim())
+    })
+
+    it('getCommitMessages gets commit messages', async () => {
+        const testPath = await setupTestRepository()
+
+        // Create some files and commit them to have a diff.
+        await fs.writeFile(`${testPath}/test.txt`, 'wowfile')
+        await execSync('git commit -m "test: base" --allow-empty', {
+            cwd: testPath,
+        })
+        await execSync('git checkout -b test-branch', { cwd: testPath })
+        const commitMessage = 'test: test file'
+        await execSync(`git add . && git commit -m "${commitMessage}" -n`, {
+            cwd: testPath,
+        })
+        const headSha = execSync('git rev-parse HEAD', {
+            cwd: testPath,
+            encoding: 'utf8',
+        }).trim()
+
+        const messages = await getCommitMessages({
+            cwd: testPath,
+            git: { baseBranch: 'master', commitSha: headSha },
+        })
+
+        await cleanUp([testPath])
+        expect(messages).toEqual([
+            { sha: headSha, body: `${commitMessage}\n\n` },
+        ])
     })
 })
