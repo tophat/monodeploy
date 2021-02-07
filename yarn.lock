@@ -1863,15 +1863,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chalk@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@types/chalk@npm:2.2.0"
-  dependencies:
-    chalk: "*"
-  checksum: 9cded9031f180268be59010fc1e13c7b4384e51f0ca8b75bc7a40bdd46f5f3c4859953525fb53663287e5bb25ca5df59396c276ce5c09e1a83aa7a2aec6a9f59
-  languageName: node
-  linkType: hard
-
 "@types/color-name@npm:^1.1.1":
   version: 1.1.1
   resolution: "@types/color-name@npm:1.1.1"
@@ -3396,7 +3387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:*, chalk@npm:4.1.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:4.1.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.0
   resolution: "chalk@npm:4.1.0"
   dependencies:
@@ -7654,18 +7645,11 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-node@workspace:packages/node"
   dependencies:
-    "@types/chalk": ^2.2.0
-    "@types/conventional-changelog-writer": ^4.0.0
-    "@types/conventional-commits-parser": ^3.0.1
     "@types/node": ^14.14.14
-    "@types/semver": ^7.3.4
     "@yarnpkg/cli": ^2.4.0
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
-    "@yarnpkg/plugin-pack": ^2.2.3
-    conventional-changelog-writer: ^5.0.0
-    conventional-commits-parser: ^3.2.0
     monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
@@ -7674,7 +7658,6 @@ fsevents@~2.1.2:
     monodeploy-publish: "workspace:packages/publish"
     monodeploy-types: "workspace:packages/types"
     monodeploy-versions: "workspace:packages/versions"
-    semver: ^7.3.4
   languageName: unknown
   linkType: soft
 
