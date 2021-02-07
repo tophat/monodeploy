@@ -5,6 +5,7 @@ import { Cache, Configuration, Project, ThrowReport } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
+import { backupPackageJsons, restorePackageJsons } from 'monodeploy-io'
 import logging from 'monodeploy-logging'
 import { publishPackages } from 'monodeploy-publish'
 import type {
@@ -21,7 +22,6 @@ import {
 
 import applyReleases from './core/applyReleases'
 import getLatestPackageTags from './core/getLatestPackageTags'
-import { backupPackageJsons, restorePackageJsons } from './utils/backupPackage'
 import getRegistryUrl from './utils/getRegistryUrl'
 import getWorkspacesToPublish from './utils/getWorkspacesToPublish'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'

@@ -7590,6 +7590,7 @@ fsevents@~2.1.2:
     "@types/node": ^14.14.25
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
