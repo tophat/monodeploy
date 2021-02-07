@@ -7672,6 +7672,7 @@ fsevents@~2.1.2:
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-publish: "workspace:packages/publish"
     monodeploy-types: "workspace:packages/types"
+    monodeploy-versions: "workspace:packages/versions"
     semver: ^7.3.4
   languageName: unknown
   linkType: soft
@@ -7704,6 +7705,14 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-versions@workspace:packages/versions"
   dependencies:
+    "@types/conventional-commits-parser": ^3.0.1
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    conventional-commits-parser: ^3.2.0
+    monodeploy-dependencies: "workspace:packages/dependencies"
+    monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
