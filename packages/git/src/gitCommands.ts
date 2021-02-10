@@ -41,12 +41,10 @@ export const gitLog = async (
 
 export const gitTag = async (
     tag: string,
-    { cwd, skipInvariant }: { cwd: string; skipInvariant?: boolean },
+    { cwd }: { cwd: string },
 ): Promise<void> => {
-    if (!skipInvariant) {
-        assertProduction()
-    }
-    const gitCommand = `git tag ${tag}`
+    assertProduction()
+    const gitCommand = `git tag ${tag} -m ${tag}`
     logging.debug(`[Exec] ${gitCommand}`)
     childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
 }
