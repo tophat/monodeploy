@@ -1,5 +1,7 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
+import { tmpdir } from 'os'
+import { join } from 'path'
 
 import { gitLastTaggedCommit, gitTag } from '.'
 
@@ -8,7 +10,7 @@ jest.mock('monodeploy-logging')
 describe('monodeploy-git (mocked invariants)', () => {
     let tempRepositoryRoot
     async function setupTestRepository(): string {
-        const rootPath = await fs.mkdtemp(path.join(os.tmpdir(), 'test-repository-'))
+        const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
         execSync('git init', { cwd: rootPath, encoding: 'utf8' })
         return rootPath
     }

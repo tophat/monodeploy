@@ -1,6 +1,7 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
-import path from 'path'
+import { tmpdir } from 'os'
+import { dirname, join } from 'path'
 
 import {
     getCommitMessages,
@@ -14,7 +15,7 @@ describe('monodeploy-git', () => {
     let tempRepositoryRoot
 
     async function setupTestRepository(): string {
-        const rootPath = await fs.mkdtemp('test-repository-')
+        const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
         execSync('git init', { cwd: rootPath, encoding: 'utf8' })
         return rootPath
     }
@@ -26,7 +27,7 @@ describe('monodeploy-git', () => {
     }
 
     async function createFile(filePath: string, cwd: string): void {
-        const parent = path.dirname(filePath)
+        const parent = dirname(filePath)
         await fs.mkdir(`${cwd}/${parent}`, { recursive: true })
         await fs.writeFile(`${cwd}/${filePath}`, 'some_content')
     }
