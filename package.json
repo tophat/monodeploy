@@ -94,8 +94,5 @@
     },
     "engines": {
         "node": ">=14.15.0"
-    },
-    "dependencies": {
-        "monodeploy-logging": "workspace:packages/logging"
     }
 }
