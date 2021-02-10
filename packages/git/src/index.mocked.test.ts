@@ -8,7 +8,7 @@ jest.mock('monodeploy-logging')
 describe('monodeploy-git (mocked invariants)', () => {
     let tempRepositoryRoot
     async function setupTestRepository(): string {
-        const rootPath = await fs.mkdtemp('test-repository-')
+        const rootPath = await fs.mkdtemp(path.join(os.tmpdir(), 'test-repository-'))
         execSync('git init', { cwd: rootPath, encoding: 'utf8' })
         return rootPath
     }
