@@ -35,3 +35,26 @@ __metadata:
   resolution: "pkg-4@workspace:packages/pkg-4"
   languageName: unknown
   linkType: soft
+
+"pkg-5@workspace:packages/pkg-5":
+  version: 0.0.0-use.local
+  resolution: "pkg-5@workspace:packages/pkg-5"
+  dependencies:
+    pkg-4: "workspace:packages/pkg-4"
+  languageName: unknown
+  linkType: soft
+
+"pkg-6@workspace:packages/pkg-6":
+  version: 0.0.0-use.local
+  resolution: "pkg-6@workspace:packages/pkg-6"
+  dependencies:
+    pkg-3: "workspace:packages/pkg-3"
+    pkg-7: "workspace:packages/pkg-7"
+  languageName: unknown
+  linkType: soft
+
+"pkg-7@workspace:packages/pkg-7":
+  version: 0.0.0-use.local
+  resolution: "pkg-7@workspace:packages/pkg-7"
+  languageName: unknown
+  linkType: soft
