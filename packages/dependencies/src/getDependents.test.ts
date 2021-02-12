@@ -53,7 +53,7 @@ describe('monodeploy-dependencies', () => {
             new Set(['pkg-2', 'pkg-3']),
         )
 
-        expect(dependents).toEqual(new Set())
+        expect(dependents).toEqual(new Set(['pkg-6']))
     })
 
     it('Errors if a dependency is unnamed', async () => {
@@ -98,5 +98,17 @@ describe('monodeploy-dependencies', () => {
             new Set(['pkg-4']),
         )
         expect(dependents).toEqual(new Set())
+    })
+
+    it('Only counts dependents once', async () => {
+        const context = await setupContext(cwd)
+
+        // pkg-6 is a dependent of both pkg-3 and pkg-7
+        const dependents = await getDependents(
+            defaultMonodeployConfig,
+            context,
+            new Set(['pkg-3', 'pkg-7']),
+        )
+        expect(dependents).toEqual(new Set(['pkg-6']))
     })
 })

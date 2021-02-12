@@ -6,7 +6,7 @@ node_modules
 !.yarn/versions
 !.yarn/sdks
 .pnp.*
-
+*.tmp
 # transient files
 *.log
 
