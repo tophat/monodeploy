@@ -17,6 +17,11 @@ describe('Invariants', () => {
             process.env.NODE_ENV = 'production'
             expect(() => assertProduction()).not.toThrow(/Invariant Violation/)
         })
+
+        it('does not raise violation if node env not set', () => {
+            delete process.env.NODE_ENV
+            expect(() => assertProduction()).not.toThrow(/Invariant Violation/)
+        })
     })
 
     describe('assertProductionOrTest', () => {
@@ -36,5 +41,10 @@ describe('Invariants', () => {
                 )
             },
         )
+
+        it('does not raise violation if node env not set', () => {
+            delete process.env.NODE_ENV
+            expect(() => assertProduction()).not.toThrow(/Invariant Violation/)
+        })
     })
 })
