@@ -44,7 +44,9 @@ describe('Invariants', () => {
 
         it('does not raise violation if node env not set', () => {
             delete process.env.NODE_ENV
-            expect(() => assertProduction()).not.toThrow(/Invariant Violation/)
+            expect(() => assertProductionOrTest()).not.toThrow(
+                /Invariant Violation/,
+            )
         })
     })
 })
