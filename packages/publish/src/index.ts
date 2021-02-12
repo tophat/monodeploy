@@ -64,6 +64,7 @@ export const publishPackages = async (
                     )
                 } catch (e) {
                     logging.error(e)
+                    throw e
                 }
             })
         })

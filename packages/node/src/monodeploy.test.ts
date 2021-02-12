@@ -5,7 +5,7 @@ import path from 'path'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import * as git from 'monodeploy-git'
-import { LOG_LEVELS } from 'monodeploy-logging'
+import logger, { LOG_LEVELS } from 'monodeploy-logging'
 import type { MonodeployConfiguration } from 'monodeploy-types'
 
 import monodeploy from '.'
@@ -182,6 +182,30 @@ describe('Monodeploy', () => {
 
     afterAll(() => {
         delete process.env.MONODEPLOY_LOG_LEVEL
+    })
+
+    it('logs an error if publishing fails', async () => {
+        const spyError = jest.spyOn(logger, 'error').mockImplementation()
+        const spyPublish = jest
+            .spyOn(npm.npmHttpUtils, 'put')
+            .mockImplementation(() => {
+                throw new Error('Fail to publish!')
+            })
+
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        await expect(async () => {
+            await monodeploy(monodeployConfig)
+        }).rejects.toThrow()
+
+        expect(spyError).toHaveBeenCalledWith(
+            expect.stringContaining('Monodeploy failed'),
+        )
+        spyError.mockRestore()
+        spyPublish.mockRestore()
     })
 
     it('does not publish if no changes detected', async () => {
