@@ -87,4 +87,16 @@ describe('monodeploy-dependencies', () => {
                 ),
         ).rejects.toEqual(new Error('Missing workspace identity.'))
     })
+
+    it('Ignores private dependents', async () => {
+        const context = await setupContext(cwd)
+
+        // pkg-5 is a private dependent of pk-4
+        const dependents = await getDependents(
+            defaultMonodeployConfig,
+            context,
+            new Set(['pkg-4']),
+        )
+        expect(dependents).toEqual(new Set())
+    })
 })
