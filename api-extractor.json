@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "<packageName>/lib/index.d.ts",
+
+    "bundledPackages": [],
+
+    "compiler": {
+      },
+
+   "apiReport": {
+    "enabled": true,
+
+        "reportFolder": "<projectFolder>/etc/"
+
+      },
+
+  "docModel": {
+    "enabled": true
+
+      },
+  "dtsRollup": {
+    "enabled": true
+
+      },
+
+  "tsdocMetadata": {
+    },
+
+    "messages": {
+      "compilerMessageReporting": {
+      "default": {
+              "logLevel": "warning"
+
+            }
+
+    },
+
+        "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      }
+
+    },
+
+        "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      }
+
+    }
+  }
+}

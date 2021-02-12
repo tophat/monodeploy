@@ -14,6 +14,7 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "clean": "run workspace:clean \"$(pwd)\"",
+    "docs": "run workspace:docs \"$(pwd)\"",
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
@@ -28,6 +29,8 @@
     "monodeploy-types": "workspace:packages/types"
   },
   "devDependencies": {
+    "@microsoft/api-documenter": "^7.12.7",
+    "@microsoft/api-extractor": "^7.13.1",
     "@types/conventional-changelog-writer": "^4.0.0",
     "@types/conventional-commits-parser": "^3.0.1"
   }

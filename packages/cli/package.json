@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "clean": "run workspace:clean \"$(pwd)\"",
+    "docs": "run workspace:docs \"$(pwd)\"", 
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",

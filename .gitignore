@@ -7,6 +7,12 @@ node_modules
 !.yarn/sdks
 .pnp.*
 
+# Docs
+docs
+temp
+dist
+etc
+
 # transient files
 *.log
 
