@@ -1,25 +1,13 @@
 import { execSync } from 'child_process'
-import { promises as fs } from 'fs'
-import { tmpdir } from 'os'
-import { join } from 'path'
 
-import { gitLastTaggedCommit, gitTag } from '.'
+import { cleanUp, setupTestRepository } from './test_utils'
+
+import { gitLastTaggedCommit, gitPush, gitTag } from '.'
 
 jest.mock('monodeploy-logging')
 
 describe('monodeploy-git (mocked invariants)', () => {
     let tempRepositoryRoot
-    async function setupTestRepository(): string {
-        const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
-        execSync('git init', { cwd: rootPath, encoding: 'utf8' })
-        return rootPath
-    }
-
-    async function cleanUp(paths: string[]) {
-        await Promise.all(
-            paths.map(path => fs.rmdir(path, { recursive: true })),
-        )
-    }
 
     beforeEach(async () => {
         tempRepositoryRoot = await setupTestRepository()
@@ -59,5 +47,29 @@ describe('monodeploy-git (mocked invariants)', () => {
         })
 
         expect(lastTaggedSha).toEqual(actualSha.trim())
+    })
+
+    it('gitPush pushes to remote', async () => {
+        const cwd = tempRepositoryRoot
+        const tempUpstream = await setupTestRepository()
+        execSync(`git remote add local ${tempUpstream}`, { cwd })
+        execSync('git commit -m "test: base" --allow-empty', {
+            cwd,
+        })
+
+        await gitTag('1.0.0', { cwd })
+        await gitPush('1.0.0', { cwd, remote: 'local' })
+
+        const lastTaggedSha = await gitLastTaggedCommit({ cwd })
+
+        const remoteTags = execSync('git ls-remote --tags local', {
+            cwd,
+            encoding: 'utf8',
+        })
+        await cleanUp([tempUpstream])
+
+        expect(remoteTags).toEqual(
+            expect.stringContaining(lastTaggedSha.trim()),
+        )
     })
 })

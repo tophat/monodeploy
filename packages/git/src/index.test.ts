@@ -1,7 +1,6 @@
 import { execSync } from 'child_process'
-import { promises as fs } from 'fs'
-import { tmpdir } from 'os'
-import { dirname, join } from 'path'
+
+import { cleanUp, createFile, setupTestRepository } from './test_utils'
 
 import {
     getCommitMessages,
@@ -13,24 +12,6 @@ import {
 
 describe('monodeploy-git', () => {
     let tempRepositoryRoot
-
-    async function setupTestRepository(): string {
-        const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
-        execSync('git init', { cwd: rootPath, encoding: 'utf8' })
-        return rootPath
-    }
-
-    async function cleanUp(paths: string[]) {
-        await Promise.all(
-            paths.map(path => fs.rmdir(path, { recursive: true })),
-        )
-    }
-
-    async function createFile(filePath: string, cwd: string): void {
-        const parent = dirname(filePath)
-        await fs.mkdir(`${cwd}/${parent}`, { recursive: true })
-        await fs.writeFile(`${cwd}/${filePath}`, 'some_content')
-    }
 
     beforeEach(async () => {
         tempRepositoryRoot = await setupTestRepository()
@@ -87,7 +68,7 @@ describe('monodeploy-git', () => {
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
-        execSync('git checkout -b test-branch', { cwd })
+        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
         const commitMessage = 'test: test file'
         execSync(`git add . && git commit -m "${commitMessage}" -n`, {
             cwd,
