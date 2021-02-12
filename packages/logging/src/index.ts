@@ -55,10 +55,12 @@ const createLogger = (level: LogLevelType): Logger => (
     }
     line.push((colour as Formatter)(args[0]))
 
-    console.log(line.join(' '))
+    const logFn = level >= LOG_LEVELS.WARNING ? console.error : console.log
+
+    logFn(line.join(' '))
     if (args.length > 1) {
         for (const arg of args.slice(1)) {
-            console.log((colour as Formatter)(arg))
+            logFn((colour as Formatter)(arg))
         }
     }
 }
