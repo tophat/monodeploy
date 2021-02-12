@@ -44,7 +44,7 @@ export const gitTag = async (
     { cwd }: { cwd: string },
 ): Promise<void> => {
     assertProduction()
-    const gitCommand = `git tag ${tag}`
+    const gitCommand = `git tag ${tag} -m ${tag}`
     logging.debug(`[Exec] ${gitCommand}`)
     childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
 }
