@@ -54,6 +54,26 @@ describe('Monodeploy (Dry Run)', () => {
         delete process.env.MONODEPLOY_LOG_LEVEL
     })
 
+    it('throws an error if invoked in a non-project', async () => {
+        const tmpDir = await fs.mkdtemp(
+            path.join(os.tmpdir(), 'non-workspace-'),
+        )
+        try {
+            await expect(async () => {
+                await monodeploy({
+                    ...monodeployConfig,
+                    cwd: tmpDir,
+                })
+            }).rejects.toThrow(/No project/)
+        } finally {
+            try {
+                await fs.rmdir(tmpDir)
+            } catch {
+                /* ignore */
+            }
+        }
+    })
+
     it('does not publish if no changes detected', async () => {
         const result = await monodeploy(monodeployConfig)
         expect(result).toEqual({})
