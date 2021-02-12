@@ -7718,8 +7718,6 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-changelog@workspace:packages/changelog"
   dependencies:
-    "@microsoft/api-documenter": ^7.12.7
-    "@microsoft/api-extractor": ^7.13.1
     "@types/conventional-changelog-writer": ^4.0.0
     "@types/conventional-commits-parser": ^3.0.1
     "@yarnpkg/core": ^2.4.0
