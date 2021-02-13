@@ -20,9 +20,11 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
+    "@yarnpkg/cli": "^2.4.0",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/fslib": "^2.4.0",
     "@yarnpkg/plugin-npm": "^2.4.0",
+    "@yarnpkg/plugin-pack": "^2.2.3",
     "conventional-commits-parser": "^3.2.0",
     "monodeploy-dependencies": "workspace:packages/dependencies",
     "monodeploy-git": "workspace:packages/git",
