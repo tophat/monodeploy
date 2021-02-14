@@ -3,7 +3,7 @@ module.exports = {
         [
             '@babel/preset-env',
             {
-                targets: { node: '14.15.2' },
+                targets: { node: '14.15.5' },
             },
         ],
         '@babel/preset-typescript',

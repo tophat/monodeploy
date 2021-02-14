@@ -26,7 +26,7 @@ jobs:
           id: yarn-cache
           uses: actions/cache@v2
           with:
-            path: ./.yarn/cache
+            path: ./.yarn
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
