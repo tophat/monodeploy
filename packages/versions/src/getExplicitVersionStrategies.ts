@@ -75,7 +75,6 @@ const getExplicitVersionStrategies = async (
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
-
     const commits = await getCommitMessages(config)
     for (const commit of commits) {
         const strategy = strategyLevelToType(
