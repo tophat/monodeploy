@@ -1,30 +1,12 @@
 import { join, resolve } from 'path'
 
-import { getPluginConfiguration } from '@yarnpkg/cli'
-import { Configuration, Project } from '@yarnpkg/core'
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { YarnContext } from 'monodeploy-types'
+import { setupContext } from './test_utils'
 
 import { getLatestPackageTags } from '.'
 
 const cwd = resolve(join(process.cwd(), './example-monorepo'))
-
-async function setupContext(cwd: string): Promise<YarnContext> {
-    const configuration = await Configuration.find(
-        cwd,
-        getPluginConfiguration(),
-    )
-    const { project, workspace } = await Project.find(configuration, cwd)
-
-    const context: YarnContext = {
-        configuration,
-        project,
-        workspace,
-    }
-
-    return context
-}
 
 const defaultMonodeployConfig = {
     cwd,
