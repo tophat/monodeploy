@@ -2,7 +2,9 @@ import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { YarnContext } from 'monodeploy-types'
+import { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+
+import mergeDefaultConfig from '../packages/node/src/utils/mergeDefaultConfig'
 
 export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
     const configuration = await Configuration.find(
@@ -22,4 +24,15 @@ export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
     }
 
     return context
+}
+
+export async function getMonodeployConfig({
+    baseBranch,
+    commitSha,
+    cwd,
+}: MonodeployConfiguration): Promise<MonodeployConfiguration> {
+    return await mergeDefaultConfig({
+        cwd,
+        git: { baseBranch, commitSha },
+    })
 }

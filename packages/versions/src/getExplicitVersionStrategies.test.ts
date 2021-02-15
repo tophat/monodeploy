@@ -4,6 +4,7 @@ import {
     cleanUp,
     createCommit,
     createFile,
+    getMonodeployConfig,
     setupContext,
     setupTestRepository,
 } from '../../../testUtils'
@@ -14,28 +15,33 @@ jest.mock('monodeploy-git', () => jest.requireActual('monodeploy-git'))
 import { getExplicitVersionStrategies } from '.'
 
 describe('getExplicitVersionStrategies', () => {
-    let repo
+    let tempRepositoryRoot
 
     beforeEach(async () => {
-        repo = await setupTestRepository()
+        tempRepositoryRoot = await setupTestRepository()
     })
     afterEach(async () => {
-        await cleanUp([repo])
+        await cleanUp([tempRepositoryRoot])
     })
 
     it('produces strategies if a package has commited changes', async () => {
-        const context = await setupContext(repo)
-        await createCommit('feat: initial commit', repo)
-        execSync('git checkout -b test-branch', { cwd: repo, stdio: 'ignore' })
-        await createFile(`packages/pkg-1/test.js`, repo)
+        const cwd = tempRepositoryRoot
+        const context = await setupContext(cwd)
+        await createCommit('feat: initial commit', cwd)
+        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
+        await createFile(`packages/pkg-1/test.js`, cwd)
         const mockMessage = 'feat: woa'
-        await createCommit(mockMessage, repo)
+        await createCommit(mockMessage, cwd)
         const headSha = execSync('git rev-parse HEAD', {
-            cwd: repo,
+            cwd,
             encoding: 'utf8',
         }).trim()
         const strategies = await getExplicitVersionStrategies(
-            { cwd: repo, git: { commitSha: headSha, baseBranch: 'master' } },
+            await getMonodeployConfig({
+                cwd,
+                commitSha: headSha,
+                baseBranch: 'master',
+            }),
             context,
         )
 
