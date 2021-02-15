@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 
-import { cleanUp, setupTestRepository } from './test_utils'
+import { cleanUp, setupTestRepository } from '../../../testUtils'
 
 import { gitLastTaggedCommit, gitPush, gitTag } from '.'
 

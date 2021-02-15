@@ -1,5 +1,4 @@
 import { execSync } from 'child_process'
-import { join, resolve } from 'path'
 
 import {
     cleanUp,
@@ -7,7 +6,7 @@ import {
     createFile,
     setupContext,
     setupTestRepository,
-} from './test_utils'
+} from '../../../testUtils'
 
 // Skipping the git mock as we use a temp repository for these tests.
 jest.mock('monodeploy-git', () => jest.requireActual('monodeploy-git'))

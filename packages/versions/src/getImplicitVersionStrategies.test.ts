@@ -1,6 +1,6 @@
 import { join, resolve } from 'path'
 
-import { setupContext } from './test_utils'
+import { setupContext } from '../../../testUtils'
 
 import { getImplicitVersionStrategies } from '.'
 
