@@ -7651,6 +7651,7 @@ fsevents@~2.1.2:
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
@@ -7696,6 +7697,7 @@ fsevents@~2.1.2:
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     conventional-commits-parser: ^3.2.0
     monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"

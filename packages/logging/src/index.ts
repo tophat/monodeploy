@@ -27,14 +27,8 @@ const loggerOpts = {
 }
 
 const getCurrentLogLevel = () => {
-    try {
-        const envLogLevel = process.env.MONODEPLOY_LOG_LEVEL
-        if (envLogLevel !== undefined) {
-            const logLevel = Number(envLogLevel)
-            return logLevel ?? LOG_LEVELS.WARNING
-        }
-    } catch {} // eslint-disable-line no-empty
-    return LOG_LEVELS.WARNING
+    const envLogLevel = Number(process.env.MONODEPLOY_LOG_LEVEL)
+    return isNaN(envLogLevel) ? LOG_LEVELS.WARNING : envLogLevel
 }
 
 const createLogger = (level: LogLevelType): Logger => (

@@ -21,7 +21,7 @@
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
         "lint:fix": "eslint . --fix",
         "lint": "eslint .",
-        "test:ci": "run test --ci",
+        "test:ci": "CI=1 run test --ci",
         "test:registry:build": "docker build -t monodeploy-test-registry .",
         "test:registry:logs": "docker container logs -f monodeploy-registry",
         "test:registry:start": "docker run -itd -p 4873:4873 --name monodeploy-registry monodeploy-test-registry",
