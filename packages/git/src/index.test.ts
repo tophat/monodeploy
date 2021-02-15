@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 
-import { cleanUp, createFile, setupTestRepository } from './test_utils'
+import { cleanUp, createFile, setupTestRepository } from '../../../testUtils'
 
 import {
     getCommitMessages,
@@ -39,7 +39,9 @@ describe('monodeploy-git', () => {
         const diffTreeOutput = await gitDiffTree(headSha, { cwd })
 
         expect(diffTreeOutput.trim()).toEqual(
-            ['test.txt', 'testDir/test.txt'].join('\n'),
+            expect.stringContaining(
+                ['test.txt', 'testDir/test.txt'].join('\n'),
+            ),
         )
     })
 

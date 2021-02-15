@@ -55,6 +55,7 @@
         "@typescript-eslint/parser": "^4.10.0",
         "@yarnpkg/cli": "^2.4.0",
         "@yarnpkg/core": "^2.4.0",
+        "@yarnpkg/fslib": "^2.4.0",
         "@yarnpkg/plugin-npm": "^2.4.0",
         "@yarnpkg/plugin-pack": "^2.2.3",
         "@yarnpkg/pnpify": "^2.4.0",
