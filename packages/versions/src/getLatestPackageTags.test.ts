@@ -12,12 +12,19 @@ const defaultMonodeployConfig = {
     cwd,
 }
 
-// TODO: add mock type.
 jest.mock('@yarnpkg/plugin-npm')
+
+const mockNPM = npm as jest.Mocked<
+    typeof npm & {
+        _reset_: () => void
+        _setTag_: (pkgName: string, tagValue: string, tagKey?: string) => void
+    }
+>
+
 describe('getLatestPackageTags', () => {
     afterEach(() => {
         jest.restoreAllMocks()
-        npm._reset_()
+        mockNPM._reset_()
     })
 
     it('returns default tag 0.0.0 if no tags found', async () => {
@@ -45,7 +52,7 @@ describe('getLatestPackageTags', () => {
             }),
         )
 
-        for (const tagPair of registryTags) npm._setTag_(...tagPair)
+        for (const tagPair of registryTags) mockNPM._setTag_(...tagPair)
 
         const tags = await getLatestPackageTags(
             defaultMonodeployConfig,
@@ -65,8 +72,8 @@ describe('getLatestPackageTags', () => {
     it('bubbles up error if not 404', async () => {
         const context = await setupContext(cwd)
         const mockError = new Error('Oh blarg. Something bad happened.')
-        const mockGet = npm.npmHttpUtils.get
-        npm.npmHttpUtils.get = jest.fn().mockImplementation(() => {
+        const mockGet = mockNPM.npmHttpUtils.get
+        mockNPM.npmHttpUtils.get = jest.fn().mockImplementation(() => {
             throw mockError
         })
 
@@ -74,7 +81,7 @@ describe('getLatestPackageTags', () => {
             getLatestPackageTags(defaultMonodeployConfig, context),
         ).rejects.toEqual(mockError)
 
-        npm.npmHttpUtils.get = mockGet
+        mockNPM.npmHttpUtils.get = mockGet
     })
 
     it('returns a null pair for malformed workspaces (missing ident)', async () => {
