@@ -1,0 +1,3 @@
+yarn && \
+    yarn husky install && \
+    yarn pnpify --sdk vscode vim

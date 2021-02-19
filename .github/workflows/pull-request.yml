@@ -14,6 +14,7 @@ jobs:
   commit-watch:
     name: Run Commit Watch
     runs-on: ubuntu-20.04
+    if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
         - uses: actions/checkout@v2
           with:
@@ -43,8 +44,11 @@ jobs:
   tests:
     name: Lint & Tests
     runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
         - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
           uses: actions/setup-node@v1
@@ -56,10 +60,12 @@ jobs:
           id: yarn-cache
           uses: actions/cache@v2
           with:
-            path: ./.yarn/cache
+            path: ./.yarn
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
+        - name: Build
+          run: yarn build
         - name: Linting
           run: yarn lint:ci
         - name: Set GitHub user for tests
@@ -81,6 +87,7 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     needs: [tests]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
         - uses: actions/checkout@v2
         - uses: ./.github/actions/detect-env
@@ -94,7 +101,7 @@ jobs:
           id: yarn-cache
           uses: actions/cache@v2
           with:
-            path: ./.yarn/cache
+            path: ./.yarn
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable

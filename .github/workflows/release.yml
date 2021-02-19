@@ -26,20 +26,14 @@ jobs:
           id: yarn-cache
           uses: actions/cache@v2
           with:
-            path: ./.yarn/cache
+            path: ./.yarn
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
-        - name: Build Package
-          run: yarn build
-        - name: Set Publish Credentials
+        - name: Publish Package
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          run: |
-            npm config set registry=https://registry.npmjs.org/
-            npm config set "//registry.npmjs.org/:_authToken" "${NPM_PUBLISH_TOKEN}"
-        - name: Publish Package
-          run: yarn deploy
+          run: yarn npm publish --access public
         - name: Upload Artifacts
           if: ${{ always() }}
           uses: actions/upload-artifact@v2
@@ -47,4 +41,3 @@ jobs:
             name: reports-and-build-artifacts
             path: |
                 ${{ env.ARTIFACT_DIR }}
-                ~/.npm/_logs/*.log

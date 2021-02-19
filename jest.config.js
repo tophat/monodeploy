@@ -17,6 +17,27 @@ module.exports = {
         coverageReporters: ['lcov'],
         collectCoverage: true,
         coverageDirectory: `${ARTIFACT_DIR}/test_results/jest/`,
-        collectCoverageFrom: ['src/**/*.js', '!src/**/*.test.js'],
+        collectCoverageFrom: [
+            'packages/**/src/**/*.ts',
+            '!packages/**/src/**/*.test.ts',
+            '!packages/**/src/**/*.mock.ts',
+            '!packages/**/src/**/__mocks__',
+        ],
     }),
+    watchPathIgnorePatterns: [
+        '<rootDir>/example-monorepo',
+        '<rootDir>/artifacts',
+        '<rootDir>/packages/.*/lib',
+        '<rootDir>/packages/.*/.*\\.js'
+    ],
+    testPathIgnorePatterns: [
+        '<rootDir>/.*\\.js',
+        '<rootDir>/.*/lib/',
+    ],
+    haste: {
+        throwOnModuleCollision: true,
+    },
+    modulePathIgnorePatterns: [
+        "<rootDir>/.*/lib"
+    ]
 }

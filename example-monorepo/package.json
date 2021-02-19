@@ -1,0 +1,10 @@
+{
+  "name": "example-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:4873/"
+  }
+}
