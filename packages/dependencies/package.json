@@ -20,10 +20,10 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@yarnpkg/core": "^2.4.0",
-    "monodeploy-types": "workspace:packages/types"
+    "@yarnpkg/core": "^2.4.0"
   },
   "devDependencies": {
-    "@yarnpkg/cli": "^2.4.0"
+    "@yarnpkg/cli": "^2.4.0",
+    "monodeploy-types": "workspace:packages/types"
   }
 }

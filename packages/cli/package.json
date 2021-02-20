@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.25",
-    "@types/yargs": "^16.0.0"
+    "@types/yargs": "^16.0.0",
+    "monodeploy-types": "workspace:packages/types"
   },
   "dependencies": {
     "monodeploy-node": "workspace:packages/node",
-    "monodeploy-types": "workspace:packages/types",
     "yargs": "^16.2.0"
   }
 }

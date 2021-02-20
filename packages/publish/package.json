@@ -27,7 +27,9 @@
     "@yarnpkg/plugin-pack": "^2.2.3",
     "monodeploy-git": "workspace:packages/git",
     "monodeploy-io": "workspace:packages/io",
-    "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-logging": "workspace:packages/logging"
+  },
+  "devDependencies": {
     "monodeploy-types": "workspace:packages/types"
   }
 }

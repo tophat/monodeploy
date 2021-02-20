@@ -30,12 +30,12 @@
     "monodeploy-git": "workspace:packages/git",
     "monodeploy-io": "workspace:packages/io",
     "monodeploy-logging": "workspace:packages/logging",
-    "monodeploy-types": "workspace:packages/types",
     "semver": "^7.3.4"
   },
   "devDependencies": {
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/semver": "^7.3.4",
-    "@yarnpkg/cli": "^2.4.0"
+    "@yarnpkg/cli": "^2.4.0",
+    "monodeploy-types": "workspace:packages/types"
   }
 }
