@@ -26,13 +26,17 @@ export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
     return context
 }
 
-export async function getMonodeployConfig({
-    baseBranch,
-    commitSha,
-    cwd,
-}: MonodeployConfiguration): Promise<MonodeployConfiguration> {
+export async function getMonodeployConfig(
+    {
+        baseBranch,
+        commitSha,
+        cwd,
+        changelogFilename,
+    }: MonodeployConfiguration = { changelogFilename: 'changelog' },
+): Promise<MonodeployConfiguration> {
     return await mergeDefaultConfig({
         cwd,
         git: { baseBranch, commitSha },
+        changelogFilename,
     })
 }

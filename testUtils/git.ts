@@ -1,9 +1,8 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
 import { tmpdir } from 'os'
-import { dirname, join, resolve } from 'path'
+import { join, resolve } from 'path'
 
-// TODO: Currently taken from monodeploy-git's test utils. Extract into util workspace?
 export async function setupTestRepository(): Promise<string> {
     const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
 
@@ -25,10 +24,4 @@ export async function createCommit(
     cwd: string,
 ): Promise<void> {
     execSync(`git add . && git commit -m "${message}"`, { cwd })
-}
-
-export async function createFile(filePath: string, cwd: string): Promise<void> {
-    const parent = dirname(filePath)
-    await fs.mkdir(`${cwd}/${parent}`, { recursive: true })
-    await fs.writeFile(`${cwd}/${filePath}`, 'some_content')
 }
