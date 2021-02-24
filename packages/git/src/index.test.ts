@@ -25,8 +25,8 @@ describe('monodeploy-git', () => {
     it('gitDiffTree returns list of modified files', async () => {
         const cwd = tempRepositoryRoot
 
-        await createFile('test.txt', cwd)
-        await createFile('testDir/test.txt', cwd)
+        await createFile({ filePath: 'test.txt', cwd })
+        await createFile({ filePath: 'testDir/test.txt', cwd })
 
         execSync('git add . && git commit -m "test: test file" -n', {
             cwd,
@@ -48,7 +48,7 @@ describe('monodeploy-git', () => {
     it('gitResolveSha resolves HEAD properly', async () => {
         const cwd = tempRepositoryRoot
 
-        await createFile('test.txt', cwd)
+        await createFile({ filePath: 'test.txt', cwd })
         execSync('git add . && git commit -m "test: test file" -n', {
             cwd,
         })
@@ -66,7 +66,7 @@ describe('monodeploy-git', () => {
         const cwd = tempRepositoryRoot
 
         // Create some files and commit them to have a diff.
-        await createFile('test.txt', cwd)
+        await createFile({ filePath: 'test.txt', cwd })
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })

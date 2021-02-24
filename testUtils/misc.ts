@@ -30,9 +30,13 @@ export async function getMonodeployConfig({
     baseBranch,
     commitSha,
     cwd,
+    changelogFilename,
+    dryRun,
 }: MonodeployConfiguration): Promise<MonodeployConfiguration> {
     return await mergeDefaultConfig({
         cwd,
         git: { baseBranch, commitSha },
+        changelogFilename,
+        dryRun,
     })
 }

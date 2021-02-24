@@ -29,7 +29,7 @@ describe('getExplicitVersionStrategies', () => {
         const context = await setupContext(cwd)
         await createCommit('feat: initial commit', cwd)
         execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
-        await createFile(`packages/pkg-1/test.js`, cwd)
+        await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)
         const headSha = execSync('git rev-parse HEAD', {
