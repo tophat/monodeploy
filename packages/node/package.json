@@ -23,11 +23,11 @@
     "@types/node": "^14.14.14"
   },
   "dependencies": {
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0",
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0",
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0",
-    "@yarnpkg/plugin-npm": "yarnpkg/berry#workspace=@yarnpkg/plugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0",
-    "@yarnpkg/plugin-pack": "yarnpkg/berry#workspace=@yarnpkg/plugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0",
+    "@yarnpkg/cli": "^2.4.0",
+    "@yarnpkg/core": "^2.4.0",
+    "@yarnpkg/fslib": "^2.4.0",
+    "@yarnpkg/plugin-npm": "^2.4.0",
+    "@yarnpkg/plugin-pack": "^2.2.3",
     "monodeploy-changelog": "workspace:packages/changelog",
     "monodeploy-dependencies": "workspace:packages/dependencies",
     "monodeploy-git": "workspace:packages/git",

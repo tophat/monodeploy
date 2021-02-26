@@ -5,15 +5,40 @@ const {
     Manifest,
     structUtils,
 } = require ('@yarnpkg/core')
+const pluginNPM = require('@yarnpkg/plugin-npm')
 const querystring = require('querystring')
 
-;(async () => {
-    const commit = process.argv[2]
+const tagCache = new Map()
 
-    if (!commit) {
-        console.error('Missing commit.')
+const fetchLatestTag = async ({ ident, configuration }) => {
+    if (tagCache.has(ident.identHash)) return tagCache.get(ident.identHash)
+
+    const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
+    const distTagUrl = `/-/package${identUrl}/dist-tags`
+    const result = await pluginNPM.npmHttpUtils.get(
+        distTagUrl,
+        {
+            configuration,
+            ident,
+            jsonResponse: true,
+        },
+    )
+
+    tagCache.set(ident.identHash, result.latest)
+    return tagCache.get(ident.identHash)
+}
+
+;(async () => {
+    tagCache.clear()
+
+    const commitOrVersion = process.argv[2]
+
+    if (!commitOrVersion) {
+        console.error('Missing commit or version.')
         return
     }
+
+    const isVersion = commitOrVersion === 'latest'
 
     const configuration = await Configuration.find(
         process.cwd(),
@@ -22,8 +47,6 @@ const querystring = require('querystring')
     const { project } = await Project.find(configuration, process.cwd())
 
     for (const workspace of project.workspaces) {
-        if (workspace.manifest.private) continue
-
         for (const dependencyTypeKey of Manifest.allDependencies) {
             const dependencySet = workspace.manifest[dependencyTypeKey]
             if (!dependencySet) continue
@@ -32,17 +55,27 @@ const querystring = require('querystring')
                 if (descriptor.scope !== 'yarnpkg') continue
 
                 const range = structUtils.parseRange(descriptor.range, { parseSelector: true })
-                const selector = querystring.stringify({
-                    ...range.selector,
-                    commit,
-                }, '&', '=', { encodeURIComponent: v => v })
                 const ident = structUtils.makeIdent(descriptor.scope, descriptor.name)
-                const newDescriptor = structUtils.makeDescriptor(
-                    ident,
-                    structUtils.makeRange({ ...range, selector }),
-                )
 
-                dependencySet.set(ident.identHash, newDescriptor)
+                if (isVersion) {
+                    const latestVersion = await fetchLatestTag({ ident, configuration })
+                    const newDescriptor = structUtils.makeDescriptor(
+                        ident,
+                        `^${latestVersion}`,
+                    )
+                    dependencySet.set(ident.identHash, newDescriptor)
+                } else {
+                    const selector = querystring.stringify({
+                        ...range.selector,
+                        commit,
+                    }, '&', '=', { encodeURIComponent: v => v })
+                    const newDescriptor = structUtils.makeDescriptor(
+                        ident,
+                        structUtils.makeRange({ ...range, selector }),
+                    )
+
+                    dependencySet.set(ident.identHash, newDescriptor)
+                }
             }
 
         }

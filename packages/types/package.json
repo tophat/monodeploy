@@ -20,6 +20,6 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/core": "^2.4.0"
   }
 }

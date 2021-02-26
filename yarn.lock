@@ -2226,9 +2226,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/cli@yarnpkg/berry#workspace=@yarnpkg/cli, @yarnpkg/cli@yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0":
+"@yarnpkg/cli@npm:^2.4.0":
   version: 2.4.0
-  resolution: "@yarnpkg/cli@https://github.com/yarnpkg/berry.git#workspace=%40yarnpkg%2Fcli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+  resolution: "@yarnpkg/cli@npm:2.4.0"
   dependencies:
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
@@ -2252,14 +2252,14 @@ __metadata:
     "@yarnpkg/shell": ^2.4.1
     chalk: ^3.0.0
     ci-info: ^2.0.0
-    clipanion: ^3.0.0-rc.10
+    clipanion: ^2.6.2
     fromentries: ^1.2.0
     semver: ^7.1.2
     tslib: ^1.13.0
-    typanion: ^3.3.0
+    yup: ^0.27.0
   peerDependencies:
     "@yarnpkg/core": ^2.4.0
-  checksum: e86a73cd977c463d0887236a0df7312d5ac60634a3bdf481891d24a3f89a29b7ed81201b9442c070f4c23183761e9925691e5ad03aaab68ee6ae778fb46a2216
+  checksum: 7a0e0573d74c2d77eedc4ee5e019df5c96125fb82c12e2944b4e2d1802841c6686563ae7b0991a0eb8a8055da4763397f4189513a09723637cccde5836c91464
   languageName: node
   linkType: hard
 
@@ -2302,45 +2302,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/core@yarnpkg/berry#workspace=@yarnpkg/core, @yarnpkg/core@yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0":
-  version: 2.4.0
-  resolution: "@yarnpkg/core@https://github.com/yarnpkg/berry.git#workspace=%40yarnpkg%2Fcore&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-  dependencies:
-    "@arcanis/slice-ansi": ^1.0.2
-    "@types/semver": ^7.1.0
-    "@types/treeify": ^1.0.0
-    "@yarnpkg/fslib": ^2.4.0
-    "@yarnpkg/json-proxy": ^2.1.0
-    "@yarnpkg/libzip": ^2.2.1
-    "@yarnpkg/parsers": ^2.3.0
-    "@yarnpkg/pnp": ^2.3.2
-    "@yarnpkg/shell": ^2.4.1
-    camelcase: ^5.3.1
-    chalk: ^3.0.0
-    ci-info: ^2.0.0
-    clipanion: ^3.0.0-rc.10
-    cross-spawn: 7.0.3
-    diff: ^4.0.1
-    globby: ^11.0.1
-    got: ^11.7.0
-    json-file-plus: ^3.3.1
-    lodash: ^4.17.15
-    micromatch: ^4.0.2
-    mkdirp: ^0.5.1
-    p-limit: ^2.2.0
-    pluralize: ^7.0.0
-    pretty-bytes: ^5.1.0
-    semver: ^7.1.2
-    stream-to-promise: ^2.2.0
-    strip-ansi: ^6.0.0
-    tar: ^6.0.5
-    treeify: ^1.1.0
-    tslib: ^1.13.0
-    tunnel: ^0.0.6
-  checksum: 2d37b0cd4ccb3749be18ee0cc36aa8abd9edfabd89193a6055522ce9c6b0b955b6814bdea6e13d39d1f85f05be20387d85840df2d5dc2387e41524091ea1dde3
-  languageName: node
-  linkType: hard
-
 "@yarnpkg/fslib@npm:^2.1.0, @yarnpkg/fslib@npm:^2.2.0, @yarnpkg/fslib@npm:^2.2.2, @yarnpkg/fslib@npm:^2.4.0":
   version: 2.4.0
   resolution: "@yarnpkg/fslib@npm:2.4.0"
@@ -2348,16 +2309,6 @@ __metadata:
     "@yarnpkg/libzip": ^2.2.1
     tslib: ^1.13.0
   checksum: da4bfaee70132c778b824fc198d795b2b56edf9069b0592800acffa6fd7670c12e72d80f162ea1d85dd2fe0e63ae1461823dd4aa1fecfc141145e2809bd3d46f
-  languageName: node
-  linkType: hard
-
-"@yarnpkg/fslib@yarnpkg/berry#workspace=@yarnpkg/fslib, @yarnpkg/fslib@yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0":
-  version: 2.4.0
-  resolution: "@yarnpkg/fslib@https://github.com/yarnpkg/berry.git#workspace=%40yarnpkg%2Ffslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-  dependencies:
-    "@yarnpkg/libzip": ^2.2.1
-    tslib: ^1.13.0
-  checksum: b33f9fe6bbe08907107f9e821bcc9921f885af3d13e9ea02bfea07cad39fcc604684b5774ef966c93a9f5a079063c511dbed452b441c0d596990f329f398398e
   languageName: node
   linkType: hard
 
@@ -2573,22 +2524,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/plugin-npm@yarnpkg/berry#workspace=@yarnpkg/plugin-npm, @yarnpkg/plugin-npm@yarnpkg/berry#workspace=@yarnpkg/plugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0":
-  version: 2.4.0
-  resolution: "@yarnpkg/plugin-npm@https://github.com/yarnpkg/berry.git#workspace=%40yarnpkg%2Fplugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-  dependencies:
-    "@yarnpkg/fslib": ^2.4.0
-    enquirer: ^2.3.6
-    semver: ^7.1.2
-    ssri: ^6.0.1
-    tslib: ^1.13.0
-  peerDependencies:
-    "@yarnpkg/core": ^2.4.0
-    "@yarnpkg/plugin-pack": ^2.2.3
-  checksum: 78cbf26dd6eaa872c891f1995bdfdb4ac9da9f3b14b3ef6f2ed4cb4fb3a8f362444a44f00c0ab32b9b4d8b1692d0b350a3ea20e9a6211e15b32f1244a841719b
-  languageName: node
-  linkType: hard
-
 "@yarnpkg/plugin-pack@npm:^2.2.3":
   version: 2.2.3
   resolution: "@yarnpkg/plugin-pack@npm:2.2.3"
@@ -2602,22 +2537,6 @@ __metadata:
     "@yarnpkg/cli": ^2.4.0
     "@yarnpkg/core": ^2.4.0
   checksum: 93240e522e65d1a71d981aa8b0b5fb2538ec8041c372c1993e829950f44629b645aaaed64a3cd5d37dc2490c21f13bb02c9f5b70158cc52b9f85fec31cf5d6e2
-  languageName: node
-  linkType: hard
-
-"@yarnpkg/plugin-pack@yarnpkg/berry#workspace=@yarnpkg/plugin-pack, @yarnpkg/plugin-pack@yarnpkg/berry#workspace=@yarnpkg/plugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0":
-  version: 2.2.3
-  resolution: "@yarnpkg/plugin-pack@https://github.com/yarnpkg/berry.git#workspace=%40yarnpkg%2Fplugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-  dependencies:
-    "@yarnpkg/fslib": ^2.4.0
-    clipanion: ^3.0.0-rc.10
-    micromatch: ^4.0.2
-    tar-stream: ^2.0.1
-    tslib: ^1.13.0
-  peerDependencies:
-    "@yarnpkg/cli": ^2.4.0
-    "@yarnpkg/core": ^2.4.0
-  checksum: e44a49516c648b845e583251a8bf1e61b5a3f22335cff3ea2423365a93c54268afaca64a2858ca7abc0b5b3d793544fb7471f5868d549655d72525fda1691372
   languageName: node
   linkType: hard
 
@@ -3744,17 +3663,6 @@ __metadata:
   version: 2.6.2
   resolution: "clipanion@npm:2.6.2"
   checksum: d162deedd0bd297f0881ef2814cf00409d2c67383589345cf8ae0ae6d9eee2e7235313b392dd3ec9df85490e4875dd52c085997e4161a6c8aa4ec0a2c78f8f36
-  languageName: node
-  linkType: hard
-
-"clipanion@npm:^3.0.0-rc.10":
-  version: 3.0.0-rc.10
-  resolution: "clipanion@npm:3.0.0-rc.10"
-  dependencies:
-    typanion: ^3.3.0
-  peerDependencies:
-    typanion: "*"
-  checksum: 23f317cb94dd7d4d2f573ed54e5dfc78b05ce22233b80d64a3cbb152110f907dcc5c9d0bbab930cb1d11fffb1fbb82c156f28678eb70a27a6e26b39a622e9e2d
   languageName: node
   linkType: hard
 
@@ -7762,7 +7670,7 @@ __metadata:
   dependencies:
     "@types/conventional-changelog-writer": ^4.0.0
     "@types/conventional-commits-parser": ^3.0.1
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/core": ^2.4.0
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
     monodeploy-io: "workspace:packages/io"
@@ -7775,8 +7683,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
   dependencies:
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
@@ -7796,8 +7704,8 @@ __metadata:
   resolution: "monodeploy-io@workspace:packages/io"
   dependencies:
     "@types/node": ^14.14.25
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
@@ -7829,11 +7737,11 @@ __metadata:
     "@types/node": ^14.14.14
     "@typescript-eslint/eslint-plugin": ^4.10.0
     "@typescript-eslint/parser": ^4.10.0
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli"
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core"
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib"
-    "@yarnpkg/plugin-npm": "yarnpkg/berry#workspace=@yarnpkg/plugin-npm"
-    "@yarnpkg/plugin-pack": "yarnpkg/berry#workspace=@yarnpkg/plugin-pack"
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     "@yarnpkg/pnpify": ^2.4.0
     all-contributors-cli: ^6.19.0
     babel-jest: ^26.6.3
@@ -7865,11 +7773,11 @@ __metadata:
   resolution: "monodeploy-node@workspace:packages/node"
   dependencies:
     "@types/node": ^14.14.14
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-npm": "yarnpkg/berry#workspace=@yarnpkg/plugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-pack": "yarnpkg/berry#workspace=@yarnpkg/plugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     monodeploy-changelog: "workspace:packages/changelog"
     monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
@@ -7885,11 +7793,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
   dependencies:
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-npm": "yarnpkg/berry#workspace=@yarnpkg/plugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-pack": "yarnpkg/berry#workspace=@yarnpkg/plugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     monodeploy-git: "workspace:packages/git"
     monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"
@@ -7901,7 +7809,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monodeploy-types@workspace:packages/types"
   dependencies:
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/core": ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -7911,11 +7819,11 @@ __metadata:
   dependencies:
     "@types/conventional-commits-parser": ^3.0.1
     "@types/semver": ^7.3.4
-    "@yarnpkg/cli": "yarnpkg/berry#workspace=@yarnpkg/cli&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/core": "yarnpkg/berry#workspace=@yarnpkg/core&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/fslib": "yarnpkg/berry#workspace=@yarnpkg/fslib&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-npm": "yarnpkg/berry#workspace=@yarnpkg/plugin-npm&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
-    "@yarnpkg/plugin-pack": "yarnpkg/berry#workspace=@yarnpkg/plugin-pack&commit=2da810140af64e07a7c94d368ad5c937f7373cb0"
+    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/core": ^2.4.0
+    "@yarnpkg/fslib": ^2.4.0
+    "@yarnpkg/plugin-npm": ^2.4.0
+    "@yarnpkg/plugin-pack": ^2.2.3
     conventional-commits-parser: ^3.2.0
     monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
@@ -10195,7 +10103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.0.2, tar@npm:^6.0.5":
+"tar@npm:^6.0.2":
   version: 6.1.0
   resolution: "tar@npm:6.1.0"
   dependencies:
@@ -10445,13 +10353,6 @@ __metadata:
   version: 0.14.5
   resolution: "tweetnacl@npm:0.14.5"
   checksum: e1c9d52e2e9f582fd0df9ea26ba5a9ab88b9a38b69625d8e55c5e8870a4832ac8c32f8854b41fce7b59f97258bb103535363f9eda7050aa70e75824b972c7dde
-  languageName: node
-  linkType: hard
-
-"typanion@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "typanion@npm:3.3.0"
-  checksum: e31d9ee6e50bba9d066675a0efcc43df95c581176dcd02855c690bbf1936a160d56c8e3146d9e6870e982a4dc807221e9ede0f0d4603f82a074181ab1860d80d
   languageName: node
   linkType: hard
 
