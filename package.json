@@ -36,7 +36,8 @@
         "workspace:test:watch": "run workspace:test $0 --watch",
         "workspace:test": "jest $0",
         "workspace:types:generate": "tsc -p $0",
-        "workspace:types:watch": "tsc -p $0 --pretty --watch"
+        "workspace:types:watch": "tsc -p $0 --pretty --watch",
+        "update:yarn": "node ./ci-scripts/update-yarn.js"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.10",
@@ -78,6 +79,7 @@
         "monodeploy-types": "workspace:packages/types",
         "package-json": "^6.5.0",
         "prettier": "^2.2.1",
+        "querystring": "^0.2.1",
         "typescript": "^4.1.3",
         "yaml-validator": "^3.0.0"
     },
