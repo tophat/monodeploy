@@ -1,0 +1,52 @@
+name: Update Dependencies
+on:
+  schedule:
+    # 9am EST, every 3rd day
+    - cron: '0 14 * * 0/3'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'master'
+          token: ${{ secrets.GH_TOKEN }}
+      - uses: ./.github/actions/detect-env
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Restore yarn cache
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./.yarn
+            .pnp.*
+          key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Perform Updates
+        run: yarn up '@babel/*' --caret
+      - name: Configure Git
+        run: |
+          git config user.name tophat-opensource-bot
+          git config user.email opensource-leads+bot@tophatmonocle.com
+      - name: Open PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: 'chore: auto-update dependencies'
+          branch: update-deps/patch
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          title: 'chore: auto-update dependencies'
+          body: |
+            Auto-update dependencies.
+      - name: Print Results
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
