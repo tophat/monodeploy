@@ -2,10 +2,8 @@ import path from 'path'
 
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import {
-    Cache,
     Configuration,
     Project,
-    ThrowReport,
     Workspace,
 } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
@@ -48,11 +46,6 @@ const monodeploy = async (
         getPluginConfiguration(),
     )
     const { project, workspace } = await Project.find(configuration, cwd)
-
-    await project.install({
-        cache: await Cache.find(configuration),
-        report: new ThrowReport(),
-    })
     await project.restoreInstallState()
 
     const context: YarnContext = {
