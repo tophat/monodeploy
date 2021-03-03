@@ -24,9 +24,9 @@
     "@yarnpkg/core": "^2.4.0",
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0",
-    "monodeploy-io": "workspace:*",
-    "monodeploy-logging": "workspace:*",
-    "monodeploy-types": "workspace:*"
+    "monodeploy-io": "workspace:packages/io",
+    "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-types": "workspace:packages/types"
   },
   "devDependencies": {
     "@types/conventional-changelog-writer": "^4.0.0",

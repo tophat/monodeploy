@@ -27,11 +27,11 @@
     "@yarnpkg/plugin-npm": "^2.4.0",
     "@yarnpkg/plugin-pack": "^2.2.3",
     "conventional-commits-parser": "^3.2.0",
-    "monodeploy-dependencies": "workspace:*",
-    "monodeploy-git": "workspace:*",
-    "monodeploy-io": "workspace:*",
-    "monodeploy-logging": "workspace:*",
-    "monodeploy-types": "workspace:*",
+    "monodeploy-dependencies": "workspace:packages/dependencies",
+    "monodeploy-git": "workspace:packages/git",
+    "monodeploy-io": "workspace:packages/io",
+    "monodeploy-logging": "workspace:packages/logging",
+    "monodeploy-types": "workspace:packages/types",
     "semver": "^7.3.4"
   },
   "devDependencies": {

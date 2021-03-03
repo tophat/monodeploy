@@ -7598,7 +7598,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"monodeploy-changelog@workspace:*, monodeploy-changelog@workspace:packages/changelog":
+"monodeploy-changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "monodeploy-changelog@workspace:packages/changelog"
   dependencies:
@@ -7607,44 +7607,44 @@ fsevents@~2.1.2:
     "@yarnpkg/core": ^2.4.0
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
-    monodeploy-io: "workspace:*"
-    monodeploy-logging: "workspace:*"
-    monodeploy-types: "workspace:*"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
-"monodeploy-dependencies@workspace:*, monodeploy-dependencies@workspace:packages/dependencies":
+"monodeploy-dependencies@workspace:packages/dependencies":
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
   dependencies:
     "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
-    monodeploy-types: "workspace:*"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
-"monodeploy-git@workspace:*, monodeploy-git@workspace:packages/git":
+"monodeploy-git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "monodeploy-git@workspace:packages/git"
   dependencies:
     "@types/node": ^14.0.0
-    monodeploy-logging: "workspace:*"
-    monodeploy-types: "workspace:*"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
-"monodeploy-io@workspace:*, monodeploy-io@workspace:packages/io":
+"monodeploy-io@workspace:packages/io":
   version: 0.0.0-use.local
   resolution: "monodeploy-io@workspace:packages/io"
   dependencies:
     "@types/node": ^14.0.0
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
-    monodeploy-types: "workspace:*"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
-"monodeploy-logging@workspace:*, monodeploy-logging@workspace:packages/logging":
+"monodeploy-logging@workspace:packages/logging":
   version: 0.0.0-use.local
   resolution: "monodeploy-logging@workspace:packages/logging"
   dependencies:
@@ -7702,7 +7702,7 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
-"monodeploy-node@workspace:*, monodeploy-node@workspace:packages/node":
+"monodeploy-node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "monodeploy-node@workspace:packages/node"
   dependencies:
@@ -7712,18 +7712,18 @@ fsevents@~2.1.2:
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
     "@yarnpkg/plugin-pack": ^2.2.3
-    monodeploy-changelog: "workspace:*"
-    monodeploy-dependencies: "workspace:*"
-    monodeploy-git: "workspace:*"
-    monodeploy-io: "workspace:*"
-    monodeploy-logging: "workspace:*"
-    monodeploy-publish: "workspace:*"
-    monodeploy-types: "workspace:*"
-    monodeploy-versions: "workspace:*"
+    monodeploy-changelog: "workspace:packages/changelog"
+    monodeploy-dependencies: "workspace:packages/dependencies"
+    monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-publish: "workspace:packages/publish"
+    monodeploy-types: "workspace:packages/types"
+    monodeploy-versions: "workspace:packages/versions"
   languageName: unknown
   linkType: soft
 
-"monodeploy-publish@workspace:*, monodeploy-publish@workspace:packages/publish":
+"monodeploy-publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
   dependencies:
@@ -7732,10 +7732,10 @@ fsevents@~2.1.2:
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
     "@yarnpkg/plugin-pack": ^2.2.3
-    monodeploy-git: "workspace:*"
-    monodeploy-io: "workspace:*"
-    monodeploy-logging: "workspace:*"
-    monodeploy-types: "workspace:*"
+    monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
   languageName: unknown
   linkType: soft
 
@@ -7747,7 +7747,7 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
-"monodeploy-versions@workspace:*, monodeploy-versions@workspace:packages/versions":
+"monodeploy-versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "monodeploy-versions@workspace:packages/versions"
   dependencies:
@@ -7759,11 +7759,11 @@ fsevents@~2.1.2:
     "@yarnpkg/plugin-npm": ^2.4.0
     "@yarnpkg/plugin-pack": ^2.2.3
     conventional-commits-parser: ^3.2.0
-    monodeploy-dependencies: "workspace:*"
-    monodeploy-git: "workspace:*"
-    monodeploy-io: "workspace:*"
-    monodeploy-logging: "workspace:*"
-    monodeploy-types: "workspace:*"
+    monodeploy-dependencies: "workspace:packages/dependencies"
+    monodeploy-git: "workspace:packages/git"
+    monodeploy-io: "workspace:packages/io"
+    monodeploy-logging: "workspace:packages/logging"
+    monodeploy-types: "workspace:packages/types"
     semver: ^7.3.4
   languageName: unknown
   linkType: soft
@@ -7774,7 +7774,7 @@ fsevents@~2.1.2:
   dependencies:
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
-    monodeploy-node: "workspace:*"
+    monodeploy-node: "workspace:packages/node"
     yargs: ^16.2.0
   bin:
     monodeploy: ./lib/cli.js

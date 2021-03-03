@@ -23,7 +23,7 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "monodeploy-node": "workspace:*",
+    "monodeploy-node": "workspace:packages/node",
     "yargs": "^16.2.0"
   }
 }
