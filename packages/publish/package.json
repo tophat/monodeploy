@@ -25,9 +25,9 @@
     "@yarnpkg/fslib": "^2.4.0",
     "@yarnpkg/plugin-npm": "^2.4.0",
     "@yarnpkg/plugin-pack": "^2.2.3",
-    "monodeploy-git": "workspace:packages/git",
-    "monodeploy-io": "workspace:packages/io",
-    "monodeploy-logging": "workspace:packages/logging",
-    "monodeploy-types": "workspace:packages/types"
+    "monodeploy-git": "workspace:*",
+    "monodeploy-io": "workspace:*",
+    "monodeploy-logging": "workspace:*",
+    "monodeploy-types": "workspace:*"
   }
 }

@@ -11,6 +11,6 @@
     "postpublish": "touch .postpublish.test.tmp"
   },
   "dependencies": {
-    "pkg-4": "workspace:packages/pkg-4"
+    "pkg-4": "workspace:*"
   }
 }

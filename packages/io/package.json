@@ -25,6 +25,6 @@
   "dependencies": {
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/fslib": "^2.4.0",
-    "monodeploy-types": "workspace:packages/types"
+    "monodeploy-types": "workspace:*"
   }
 }
