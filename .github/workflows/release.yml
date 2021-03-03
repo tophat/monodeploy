@@ -8,14 +8,61 @@ env:
   ARTIFACT_DIR: ./artifacts
 
 jobs:
-  release:
-    name: Publish Monodeploy
+  pre-release-check:
+    name: Publish Monodeploy (Precheck)
     runs-on: ubuntu-20.04
     steps:
         - uses: actions/checkout@v2
           with:
-            ref: 'master'
             token: ${{ secrets.GH_TOKEN }}
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+            cd example-monorepo && yarn
+        - name: Build
+          run: yarn build
+        - name: Configure Git
+          run: |
+            git config --global user.name tophat-opensource-bot
+            git config --global user.email opensource-leads+bot@tophatmonocle.com
+            git config --global init.defaultBranch master
+        - name: Tests
+          run: yarn test:ci
+        - name: Publish via Monodeploy (Dry Run)
+          if: github.ref != 'refs/heads/master'
+          run: |
+            yarn ts-node ./packages/cli/src/cli.ts \
+              --dry-run \
+              --log-level 0 \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
+              --prepend-changelog ./CHANGELOG.md
+            git status
+            git --no-pager diff
+  release:
+    name: Publish Monodeploy
+    runs-on: ubuntu-20.04
+    needs: [pre-release-check]
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            token: ${{ secrets.GH_TOKEN }}
+            fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
           uses: actions/setup-node@v1
@@ -37,21 +84,30 @@ jobs:
           run: yarn build
         - name: Configure Git
           run: |
-            git config user.name tophat-opensource-bot
-            git config user.email opensource-leads+bot@tophatmonocle.com
-        - name: Tests
-          run: yarn test:ci
+            git config --global user.name tophat-opensource-bot
+            git config --global user.email opensource-leads+bot@tophatmonocle.com
+            git config --global init.defaultBranch master
         - name: Publish via Monodeploy
+          if: github.ref == 'refs/heads/master'
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           run: |
-            yarn node ./packages/cli/lib/cli.js \
-              --dry-run \
+            yarn ts-node ./packages/cli/src/cli.ts \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
               --prepend-changelog ./CHANGELOG.md \
               --persist-versions
         - name: Update Git Repository
+          if: github.ref == 'refs/heads/master'
           run: |
-            git status
-            git --no-pager diff
+            if ! git diff-index --quiet HEAD -- CHANGELOG.md; then
+              git push --tags \
+                && git add CHANGELOG.md "packages/**/package.json" \
+                && git commit -m "chore: release monodeploy [skip ci]" \
+                && git push
+            fi
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: build-artifacts
+            path: ${{ env.ARTIFACT_DIR }}
