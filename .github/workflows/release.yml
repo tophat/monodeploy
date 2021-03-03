@@ -14,7 +14,6 @@ jobs:
     steps:
         - uses: actions/checkout@v2
           with:
-            ref: 'master'
             token: ${{ secrets.GH_TOKEN }}
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
@@ -32,7 +31,9 @@ jobs:
               .pnp.*
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
-          run: yarn install --immutable
+          run: |
+            yarn install --immutable
+            cd example-monorepo && yarn
         - name: Build
           run: yarn build
         - name: Configure Git
@@ -41,17 +42,28 @@ jobs:
             git config user.email opensource-leads+bot@tophatmonocle.com
         - name: Tests
           run: yarn test:ci
-        - name: Publish via Monodeploy
-          env:
-            NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+        - name: Publish via Monodeploy (Dry Run)
+          if: github.ref != 'refs/heads/master'
           run: |
             yarn node ./packages/cli/lib/cli.js \
               --dry-run \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
+              --prepend-changelog ./CHANGELOG.md
+            git status
+            git --no-pager diff
+        - name: Publish via Monodeploy
+          if: github.ref == 'refs/heads/master'
+          env:
+            NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          run: |
+            yarn node ./packages/cli/lib/cli.js \
+              --log-level 0 \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
               --prepend-changelog ./CHANGELOG.md \
               --persist-versions
         - name: Update Git Repository
+          if: github.ref == 'refs/heads/master'
           run: |
             git status
             git --no-pager diff
