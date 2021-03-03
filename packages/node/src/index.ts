@@ -5,7 +5,11 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
-import { backupPackageJsons, restorePackageJsons } from 'monodeploy-io'
+import {
+    backupPackageJsons,
+    clearBackupCache,
+    restorePackageJsons,
+} from 'monodeploy-io'
 import logging from 'monodeploy-logging'
 import { getWorkspacesToPublish, publishPackages } from 'monodeploy-publish'
 import type {
@@ -124,11 +128,14 @@ const monodeploy = async (
         logging.error(`Monodeploy failed`)
         throw err
     } finally {
-        // Restore workspace package.jsons
-        logging.debug(
-            `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
-        )
-        await restorePackageJsons(config, context, backupKey)
+        if (!config.persistVersions) {
+            // Restore workspace package.jsons
+            logging.debug(
+                `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
+            )
+            await restorePackageJsons(config, context, backupKey)
+        }
+        await clearBackupCache([backupKey])
     }
 
     return result

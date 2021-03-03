@@ -55,7 +55,7 @@ const fetchLatestTag = async ({ ident, configuration }) => {
                 if (descriptor.scope !== 'yarnpkg') continue
 
                 const range = structUtils.parseRange(descriptor.range, { parseSelector: true })
-                const ident = structUtils.makeIdent(descriptor.scope, descriptor.name)
+                const ident = structUtils.convertToIdent(descriptor)
 
                 if (isVersion) {
                     const latestVersion = await fetchLatestTag({ ident, configuration })

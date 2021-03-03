@@ -6,9 +6,6 @@ import type {
     YarnContext,
 } from 'monodeploy-types'
 
-const identPartsToPackageName = (scope: string | null, name: string): string =>
-    scope ? `@${scope}/${name}` : name
-
 const patchPackageJsons = async (
     config: MonodeployConfiguration,
     context: YarnContext,
@@ -20,28 +17,26 @@ const patchPackageJsons = async (
             const ident = workspace.manifest.name
             if (!ident) return
 
-            const pkgName = identPartsToPackageName(ident.scope, ident.name)
+            const pkgName = structUtils.stringifyIdent(ident)
             const version = registryTags.get(pkgName)
             if (!version) return
 
             workspace.manifest.version = version
             for (const dependentSetKey of Manifest.allDependencies) {
-                const dependencySet = workspace.manifest[dependentSetKey]
+                const dependencySet = workspace.manifest.getForScope(
+                    dependentSetKey,
+                )
                 if (!dependencySet) continue
 
-                for (const [, descriptor] of dependencySet.entries()) {
-                    const depPackageName = identPartsToPackageName(
-                        descriptor.scope,
-                        descriptor.name,
+                for (const descriptor of dependencySet.values()) {
+                    const depPackageName = structUtils.stringifyDescriptor(
+                        descriptor,
                     )
 
                     if (!registryTags.get(depPackageName)) continue
                     const range = `^${registryTags.get(depPackageName)}`
                     const updatedDescriptor = structUtils.makeDescriptor(
-                        structUtils.makeIdent(
-                            descriptor.scope,
-                            descriptor.name,
-                        ),
+                        structUtils.convertToIdent(descriptor),
                         range,
                     )
                     dependencySet.set(

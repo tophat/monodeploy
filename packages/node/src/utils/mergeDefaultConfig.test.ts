@@ -64,6 +64,7 @@ describe('Config Merging', () => {
             changesetFilename: '/tmp/changeset.json',
             changelogFilename: '/tmp/changelog.md',
             access: 'public',
+            persistVersions: true,
         }
 
         const merged = await mergeDefaultConfig(config)
