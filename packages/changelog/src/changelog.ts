@@ -1,7 +1,7 @@
 import { Readable } from 'stream'
 import url from 'url'
 
-import { Workspace } from '@yarnpkg/core'
+import { Workspace, structUtils } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
@@ -11,8 +11,6 @@ import type {
     MonodeployConfiguration,
     YarnContext,
 } from 'monodeploy-types'
-
-import getIdentFromName from './getIdentFromName'
 
 type RepositoryInfo = {
     host: string | null
@@ -72,7 +70,7 @@ const generateChangelogEntry = async (
         return null
     }
 
-    const ident = getIdentFromName(packageName)
+    const ident = structUtils.parseIdent(packageName)
     const workspace = context.project.getWorkspaceByIdent(ident)
 
     const conventionalConfig = await require(require.resolve(

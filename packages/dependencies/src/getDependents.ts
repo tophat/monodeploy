@@ -4,9 +4,10 @@ import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
     for (const dependencySetKey of Manifest.allDependencies) {
-        for (const descriptor of workspace.manifest[
-            dependencySetKey
-        ].values()) {
+        const dependencies = workspace.manifest.getForScope(dependencySetKey)
+        if (!dependencies) continue
+
+        for (const descriptor of dependencies.values()) {
             const workspace = context.project.tryWorkspaceByDescriptor(
                 descriptor,
             )

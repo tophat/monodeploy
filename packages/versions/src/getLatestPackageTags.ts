@@ -1,4 +1,4 @@
-import { Workspace } from '@yarnpkg/core'
+import { Workspace, structUtils } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
 import logging from 'monodeploy-logging'
@@ -25,9 +25,7 @@ const getLatestPackageTags = async (
             if (ident) {
                 const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
                 const distTagUrl = `/-/package${identUrl}/dist-tags`
-                const pkgName = ident.scope
-                    ? `@${ident.scope}/${ident.name}`
-                    : ident.name
+                const pkgName = structUtils.stringifyIdent(ident)
 
                 try {
                     const result = await pluginNPM.npmHttpUtils.get(
