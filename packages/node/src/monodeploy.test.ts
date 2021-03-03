@@ -2,11 +2,19 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
+import { getPluginConfiguration } from '@yarnpkg/cli'
+import { Configuration, Project, Workspace } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import * as git from 'monodeploy-git'
+import {
+    backupPackageJsons,
+    clearBackupCache,
+    restorePackageJsons,
+} from 'monodeploy-io'
 import logger, { LOG_LEVELS } from 'monodeploy-logging'
-import type { MonodeployConfiguration } from 'monodeploy-types'
+import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
 
 import monodeploy from '.'
 
@@ -39,6 +47,7 @@ describe('Monodeploy (Dry Run)', () => {
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
+        persistVersions: false,
     }
 
     beforeAll(async () => {
@@ -169,6 +178,7 @@ describe('Monodeploy', () => {
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
+        persistVersions: false,
     }
 
     beforeAll(async () => {
@@ -388,6 +398,70 @@ describe('Monodeploy', () => {
             }
         }
     })
+
+    it('does not restore package.jsons if persist versions is true', async () => {
+        const config = { ...monodeployConfig, persistVersions: true }
+        const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
+        const configuration = await Configuration.find(
+            cwd,
+            getPluginConfiguration(),
+        )
+        const { project, workspace } = await Project.find(configuration, cwd)
+        await project.restoreInstallState()
+        const context: YarnContext = {
+            configuration,
+            project,
+            workspace: workspace as Workspace,
+        }
+
+        const testBackupKey = await backupPackageJsons(config, context)
+
+        try {
+            mockNPM._setTag_('pkg-1', '0.0.1')
+            mockNPM._setTag_('pkg-2', '0.0.1')
+            mockNPM._setTag_('pkg-3', '0.0.1')
+            mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+                './packages/pkg-1/README.md',
+            ])
+
+            const result = await monodeploy(config)
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].changelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // pkg-2 and pkg-3 not in dependency graph
+            expect(result['pkg-2']).toBeUndefined()
+            expect(result['pkg-3']).toBeUndefined()
+
+            expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+
+            const readPackageVersion = async pkg => {
+                const packageJsonPath = path.join(
+                    config.cwd,
+                    'packages',
+                    pkg,
+                    'package.json',
+                )
+                return JSON.parse(
+                    await fs.readFile(packageJsonPath, { encoding: 'utf-8' }),
+                )
+            }
+
+            // check package.jsons, and then restore the
+            const pkg1 = await readPackageVersion('pkg-1')
+            expect(pkg1.version).toEqual(result['pkg-1'].version)
+
+            // unchanged packages don't need to be updated
+            const pkg2 = await readPackageVersion('pkg-2')
+            expect(pkg2.version).toEqual('0.0.0')
+        } finally {
+            await restorePackageJsons(config, context, testBackupKey)
+            await clearBackupCache([testBackupKey])
+        }
+    })
 })
 
 describe('Monodeploy Lifecycle Scripts', () => {
@@ -402,6 +476,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
+        persistVersions: false,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

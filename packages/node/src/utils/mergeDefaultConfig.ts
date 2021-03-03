@@ -28,6 +28,7 @@ const mergeDefaultConfig = async (
         changesetFilename: baseConfig.changesetFilename ?? undefined,
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         access: baseConfig.access ?? 'public',
+        persistVersions: baseConfig.persistVersions ?? false,
     }
 }
 

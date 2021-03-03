@@ -142,6 +142,7 @@ try {
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
+        persistVersions: false,
     }
     const changeset = await monodeploy(config)
 } catch (err) {

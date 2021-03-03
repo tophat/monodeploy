@@ -20,6 +20,7 @@ export interface MonodeployConfiguration {
     changesetFilename?: string
     changelogFilename?: string
     access: string
+    persistVersions: boolean
 }
 
 export interface YarnContext {

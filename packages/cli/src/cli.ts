@@ -15,6 +15,7 @@ interface ArgOutput {
     prependChangelog?: string
     access?: string
     push?: boolean
+    persistVersions?: boolean
 }
 
 const { argv } = yargs
@@ -64,6 +65,11 @@ const { argv } = yargs
         description: 'Whether to push git changes to remote',
         default: false,
     })
+    .option('persist-versions', {
+        type: 'boolean',
+        description: 'Whether to persist package.json changes after publish',
+        default: false,
+    })
     .option('access', {
         type: 'string',
         description:
@@ -94,6 +100,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         changesetFilename: argv.changesetFilename ?? undefined,
         changelogFilename: argv.prependChangelog ?? undefined,
         access: argv.access ?? undefined,
+        persistVersions: argv.persistVersions ?? undefined,
     }
 
     try {
