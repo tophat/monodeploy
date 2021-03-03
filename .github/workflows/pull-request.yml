@@ -76,6 +76,7 @@ jobs:
           run: |
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch master
         - name: Tests
           run: yarn test:ci
         - name: Upload Coverage Report
