@@ -4,11 +4,12 @@
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "main": "./lib/index.js",
+    "registry": "https://registry.npmjs.org/",
+    "types": "./lib/index.d.ts"
   },
+  "main": "./src/index.ts",
   "files": [
     "lib"
   ],

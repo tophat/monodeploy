@@ -14,7 +14,7 @@
     ],
     "scripts": {
         "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -p run clean",
-        "build": "yarn workspaces foreach -pt run prepack",
+        "build": "yarn workspaces foreach -pi --topological-dev run prepack",
         "contrib:add": "all-contributors add",
         "contrib:check": "all-contributors check",
         "contrib:generate": "all-contributors generate",
