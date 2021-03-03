@@ -40,6 +40,7 @@ jobs:
           run: |
             git config user.name tophat-opensource-bot
             git config user.email opensource-leads+bot@tophatmonocle.com
+            git config --global init.defaultBranch master
         - name: Tests
           run: yarn test:ci
         - name: Publish via Monodeploy (Dry Run)
