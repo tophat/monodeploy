@@ -24,6 +24,6 @@
     "monodeploy-types": "workspace:packages/types"
   },
   "devDependencies": {
-    "@yarnpkg/cli": "^2.4.0"
+    "@yarnpkg/cli": "^2.4.1"
   }
 }

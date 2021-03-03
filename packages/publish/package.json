@@ -20,7 +20,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@yarnpkg/cli": "^2.4.0",
+    "@yarnpkg/cli": "^2.4.1",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/fslib": "^2.4.0",
     "@yarnpkg/plugin-npm": "^2.4.0",
