@@ -1,9 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
 
 env:
   CI: 1
@@ -15,6 +13,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
         - uses: actions/checkout@v2
+          with:
+            ref: 'master'
+            token: ${{ secrets.GH_TOKEN }}
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
           uses: actions/setup-node@v1
@@ -32,14 +33,25 @@ jobs:
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: yarn install --immutable
-        - name: Publish Package
+        - name: Build
+          run: yarn build
+        - name: Configure Git
+          run: |
+            git config user.name tophat-opensource-bot
+            git config user.email opensource-leads+bot@tophatmonocle.com
+        - name: Tests
+          run: yarn test:ci
+        - name: Publish via Monodeploy
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          run: yarn npm publish --access public
-        - name: Upload Artifacts
-          if: ${{ always() }}
-          uses: actions/upload-artifact@v2
-          with:
-            name: reports-and-build-artifacts
-            path: |
-                ${{ env.ARTIFACT_DIR }}
+          run: |
+            yarn node ./packages/cli/lib/cli.js \
+              --dry-run \
+              --log-level 0 \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
+              --prepend-changelog ./CHANGELOG.md \
+              --persist-versions
+        - name: Update Git Repository
+          run: |
+            git status
+            git --no-pager diff
