@@ -1,11 +1,7 @@
 import path from 'path'
 
 import { getPluginConfiguration } from '@yarnpkg/cli'
-import {
-    Configuration,
-    Project,
-    Workspace,
-} from '@yarnpkg/core'
+import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
