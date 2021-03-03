@@ -5,10 +5,11 @@
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "main": "./lib/index.js",
+    "registry": "https://registry.npmjs.org/",
+    "types": "./lib/index.d.ts"
   },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./src/index.ts",
   "files": [
     "lib"
   ],
@@ -24,6 +25,6 @@
     "monodeploy-types": "workspace:packages/types"
   },
   "devDependencies": {
-    "@yarnpkg/cli": "^2.4.0"
+    "@yarnpkg/cli": "^2.4.1"
   }
 }

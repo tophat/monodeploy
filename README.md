@@ -46,6 +46,12 @@ For help:
 yarn monodeploy --help
 ```
 
+Although we don't recommend it in production, you can use monodeploy directly from the git repository:
+
+```sh
+yarn add -D monodeploy@tophat/monodeploy#workspace=monodeploy
+```
+
 ### Migrating From Lerna
 
 If migrating from lerna, you'll need to make some changes to your monorepo's root package.json:

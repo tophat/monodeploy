@@ -1992,10 +1992,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.14, @types/node@npm:^14.14.25":
-  version: 14.14.25
-  resolution: "@types/node@npm:14.14.25"
-  checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
+"@types/node@npm:*, @types/node@npm:^14.0.0":
+  version: 14.14.31
+  resolution: "@types/node@npm:14.14.31"
+  checksum: 635dc8a0898a923621e02ca179e17baa39fdfa44f0096fcc1b7046c9b32317e74a99956a7b45ca0e8069874f51f4e7873a418239a318a4b6e7936f6510ac5992
   languageName: node
   linkType: hard
 
@@ -2182,15 +2182,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/cli@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@yarnpkg/cli@npm:2.4.0"
+"@yarnpkg/cli@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@yarnpkg/cli@npm:2.4.1"
   dependencies:
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/libzip": ^2.2.1
     "@yarnpkg/parsers": ^2.3.0
-    "@yarnpkg/plugin-compat": ^2.2.0
+    "@yarnpkg/plugin-compat": ^2.2.1
     "@yarnpkg/plugin-dlx": ^2.1.4
     "@yarnpkg/plugin-essentials": ^2.4.0
     "@yarnpkg/plugin-file": ^2.2.0
@@ -2215,7 +2215,7 @@ __metadata:
     yup: ^0.27.0
   peerDependencies:
     "@yarnpkg/core": ^2.4.0
-  checksum: 7a0e0573d74c2d77eedc4ee5e019df5c96125fb82c12e2944b4e2d1802841c6686563ae7b0991a0eb8a8055da4763397f4189513a09723637cccde5836c91464
+  checksum: 1b50c39a2037a67116027d97188406496889cd60880c55df697cbf3daa9fc0e0701cb69cc0ac35c1fd74b078f578711add0c7ee72a81ccb831a4b16e8d9195ae
   languageName: node
   linkType: hard
 
@@ -2298,13 +2298,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/plugin-compat@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@yarnpkg/plugin-compat@npm:2.2.0"
+"@yarnpkg/plugin-compat@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@yarnpkg/plugin-compat@npm:2.2.1"
   peerDependencies:
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/plugin-patch": ^2.1.2
-  checksum: 661f83450518a267a67db0dc0728b34f92bc4e5c656478d69df244b9eaaab6b4da0d70a6ba5348769467cedc1248fcb23161b1263690c4c34d80dc016e1c19c7
+  checksum: 04aaee547e517629758cfdca78d475c9f390996cc3e423ae6f0887d17fff6dba2b34a6dab09336b617a81a46de4da66f1ebf089945bdb1b9a42e2d09a57d4b35
   languageName: node
   linkType: hard
 
@@ -7617,7 +7617,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
   dependencies:
-    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
@@ -7627,7 +7627,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-git@workspace:packages/git"
   dependencies:
-    "@types/node": ^14.14.25
+    "@types/node": ^14.0.0
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
   languageName: unknown
@@ -7637,7 +7637,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-io@workspace:packages/io"
   dependencies:
-    "@types/node": ^14.14.25
+    "@types/node": ^14.0.0
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     monodeploy-types: "workspace:packages/types"
@@ -7648,7 +7648,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-logging@workspace:packages/logging"
   dependencies:
-    "@types/node": ^14.14.25
+    "@types/node": ^14.0.0
     chalk: ^4.1.0
   languageName: unknown
   linkType: soft
@@ -7668,10 +7668,10 @@ fsevents@~2.1.2:
     "@tophat/conventional-changelog-config": ^0.0.9
     "@tophat/eslint-config": ^0.7.0
     "@types/jest": ^26.0.20
-    "@types/node": ^14.14.14
+    "@types/node": ^14.0.0
     "@typescript-eslint/eslint-plugin": ^4.10.0
     "@typescript-eslint/parser": ^4.10.0
-    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
@@ -7706,8 +7706,8 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-node@workspace:packages/node"
   dependencies:
-    "@types/node": ^14.14.14
-    "@yarnpkg/cli": ^2.4.0
+    "@types/node": ^14.0.0
+    "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
@@ -7727,7 +7727,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
   dependencies:
-    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
@@ -7753,7 +7753,7 @@ fsevents@~2.1.2:
   dependencies:
     "@types/conventional-commits-parser": ^3.0.1
     "@types/semver": ^7.3.4
-    "@yarnpkg/cli": ^2.4.0
+    "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
@@ -7772,10 +7772,9 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@types/node": ^14.14.25
+    "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
     monodeploy-node: "workspace:packages/node"
-    monodeploy-types: "workspace:packages/types"
     yargs: ^16.2.0
   bin:
     monodeploy: ./lib/cli.js

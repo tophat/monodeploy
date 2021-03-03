@@ -10,7 +10,7 @@
     "postpublish": "touch .postpublish.test.tmp"
   },
   "dependencies": {
-    "pkg-3": "workspace:packages/pkg-3",
-    "pkg-7": "workspace:packages/pkg-7"
+    "pkg-3": "workspace:*",
+    "pkg-7": "workspace:*"
   }
 }
