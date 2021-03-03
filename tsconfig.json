@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "emitDeclarationOnly": false,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["./packages"],
+    "exclude": ["./packages/**/*.test.ts", "./packages/**/*.mock.ts", "./packages/**/__mocks__/**/*.ts"]
+}

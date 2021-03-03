@@ -47,7 +47,7 @@ jobs:
         - name: Publish via Monodeploy (Dry Run)
           if: github.ref != 'refs/heads/master'
           run: |
-            yarn node ./packages/cli/lib/cli.js \
+            yarn ts-node ./packages/cli/src/cli.ts \
               --dry-run \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
@@ -59,7 +59,7 @@ jobs:
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           run: |
-            yarn node ./packages/cli/lib/cli.js \
+            yarn ts-node ./packages/cli/src/cli.ts \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
               --prepend-changelog ./CHANGELOG.md \
