@@ -100,9 +100,10 @@ jobs:
         - name: Update Git Repository
           if: github.ref == 'refs/heads/master'
           run: |
+            yarn dedupe
             if ! git diff-index --quiet HEAD -- CHANGELOG.md; then
               git push --tags \
-                && git add CHANGELOG.md "packages/**/package.json" \
+                && git add yarn.lock CHANGELOG.md "packages/**/package.json" \
                 && git commit -m "chore: release monodeploy [skip ci]" \
                 && git push
             fi
