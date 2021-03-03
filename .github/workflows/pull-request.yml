@@ -65,7 +65,9 @@ jobs:
               .pnp.*
             key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
-          run: yarn install --immutable
+          run: |
+            yarn install --immutable
+            cd example-monorepo && yarn
         - name: Build
           run: yarn build
         - name: Linting
