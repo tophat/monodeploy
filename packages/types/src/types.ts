@@ -21,6 +21,7 @@ export interface MonodeployConfiguration {
     changelogFilename?: string
     access: string
     persistVersions: boolean
+    topologicalSort: boolean
 }
 
 export interface YarnContext {

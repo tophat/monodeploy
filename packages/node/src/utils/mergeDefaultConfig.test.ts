@@ -65,6 +65,7 @@ describe('Config Merging', () => {
             changelogFilename: '/tmp/changelog.md',
             access: 'public',
             persistVersions: true,
+            topologicalSort: true,
         }
 
         const merged = await mergeDefaultConfig(config)

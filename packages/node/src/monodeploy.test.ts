@@ -48,6 +48,7 @@ describe('Monodeploy (Dry Run)', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topologicalSort: false,
     }
 
     beforeAll(async () => {
@@ -179,6 +180,7 @@ describe('Monodeploy', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topologicalSort: false,
     }
 
     beforeAll(async () => {
@@ -477,6 +479,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topologicalSort: false,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

@@ -16,6 +16,7 @@ interface ArgOutput {
     access?: string
     push?: boolean
     persistVersions?: boolean
+    topologicalSort?: boolean
 }
 
 const { argv } = yargs
@@ -75,6 +76,10 @@ const { argv } = yargs
         description:
             'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
     })
+    .option('topological-sort', {
+        type: 'boolean',
+        description: 'Whether to prepare workspaces in topological order',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -101,6 +106,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         changelogFilename: argv.prependChangelog ?? undefined,
         access: argv.access ?? undefined,
         persistVersions: argv.persistVersions ?? undefined,
+        topologicalSort: argv.topologicalSort ?? undefined,
     }
 
     try {

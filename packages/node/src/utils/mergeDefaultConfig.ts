@@ -29,6 +29,7 @@ const mergeDefaultConfig = async (
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         access: baseConfig.access ?? 'public',
         persistVersions: baseConfig.persistVersions ?? false,
+        topologicalSort: baseConfig.topologicalSort ?? false,
     }
 }
 

@@ -7754,6 +7754,7 @@ fsevents@~2.1.2:
     "@yarnpkg/fslib": ^2.4.0
     "@yarnpkg/plugin-npm": ^2.4.0
     "@yarnpkg/plugin-pack": ^2.2.3
+    monodeploy-dependencies: "workspace:packages/dependencies"
     monodeploy-git: "workspace:packages/git"
     monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"

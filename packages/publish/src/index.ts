@@ -2,6 +2,7 @@ import { Workspace, miscUtils } from '@yarnpkg/core'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 
+import { getTopologicalSort } from 'monodeploy-dependencies'
 import logging, { assertProductionOrTest } from 'monodeploy-logging'
 import type {
     MonodeployConfiguration,
@@ -70,7 +71,20 @@ export const publishPackages = async (
         })
     }
 
-    await Promise.all([...workspacesToPublish].map(prepareWorkspace))
+    if (config.topologicalSort) {
+        const sortedGroups = await getTopologicalSort(workspacesToPublish)
+        const promiseChain = sortedGroups.reduce<Promise<void>>(
+            (chain, group) =>
+                chain.then(
+                    async () =>
+                        void (await Promise.all(group.map(prepareWorkspace))),
+                ),
+            Promise.resolve(),
+        )
+        await promiseChain
+    } else {
+        await Promise.all([...workspacesToPublish].map(prepareWorkspace))
+    }
 
     // Push git tags
     await pushTags(config, context, newVersions)
