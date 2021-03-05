@@ -33,7 +33,7 @@
         "workspace:build:babel": "run babel --config-file ./babel.config.js $0/src --out-dir=$0/lib --no-copy-ignored --extensions '.ts' --ignore '$0/src/**/*.test.ts' --ignore '$0/src/**/*.mock.ts' --ignore '$0/src/**/__mocks__/**/*.ts'",
         "workspace:build": "rm -rf $0/lib && run workspace:build:babel $0 && run workspace:types:generate $0",
         "workspace:clean": "rm -rf $0/lib && find $0/src -name '*.js' -type f -delete",
-        "workspace:test:watch": "run workspace:test $0 --watch",
+        "workspace:test:watch": "run workspace:test --watch $0",
         "workspace:test": "jest $0",
         "workspace:types:generate": "tsc -p $0",
         "workspace:types:watch": "tsc -p $0 --pretty --watch",

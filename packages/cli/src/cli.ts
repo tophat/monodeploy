@@ -98,14 +98,14 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             baseBranch: argv.gitBaseBranch ?? undefined,
             commitSha: argv.gitCommitSha ?? undefined,
             remote: argv.gitRemote ?? undefined,
-            push: argv.push ?? undefined,
+            push: argv.push,
         },
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
         changelogFilename: argv.prependChangelog ?? undefined,
         access: argv.access ?? undefined,
-        persistVersions: argv.persistVersions ?? undefined,
+        persistVersions: argv.persistVersions,
         topologicalSort: argv.topologicalSort ?? undefined,
     }
 
@@ -113,6 +113,6 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         await monodeploy(config)
     } catch (err) {
         console.error(err)
-        process.exit(1)
+        process.exitCode = 1
     }
 })()
