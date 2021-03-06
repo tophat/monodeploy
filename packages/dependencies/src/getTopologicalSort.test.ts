@@ -99,4 +99,78 @@ describe('Topological Sort', () => {
                 ).rejects.toThrow('cycle')
             },
         ))
+
+    it('does not consider dev dependencies', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': { devDependencies: ['pkg-3'] },
+                'pkg-2': { devDependencies: ['pkg-1'] },
+                'pkg-3': { devDependencies: ['pkg-2'] },
+            },
+            async context => {
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                expect(
+                    await getTopologicalSort([
+                        workspace1,
+                        workspace2,
+                        workspace3,
+                    ]),
+                ).toEqual([[workspace1, workspace2, workspace3]])
+            },
+        ))
+})
+
+describe('Topological Sort, with Dev Dependencies', () => {
+    it('places dependencies before dependents', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': { devDependencies: ['pkg-3'] },
+                'pkg-2': { devDependencies: ['pkg-1'] },
+                'pkg-3': {},
+            },
+            async context => {
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                expect(
+                    await getTopologicalSort([
+                        workspace1,
+                        workspace2,
+                        workspace3,
+                    ]),
+                ).not.toEqual([[workspace3], [workspace1], [workspace2]])
+
+                expect(
+                    await getTopologicalSort(
+                        [workspace1, workspace2, workspace3],
+                        { dev: true },
+                    ),
+                ).toEqual([[workspace3], [workspace1], [workspace2]])
+            },
+        ))
+
+    it('traverses both dependencies and dev dependencies', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': { devDependencies: ['pkg-3'] },
+                'pkg-2': { dependencies: ['pkg-1'] },
+                'pkg-3': {},
+            },
+            async context => {
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                expect(
+                    await getTopologicalSort(
+                        [workspace1, workspace2, workspace3],
+                        { dev: true },
+                    ),
+                ).toEqual([[workspace3], [workspace1], [workspace2]])
+            },
+        ))
 })
