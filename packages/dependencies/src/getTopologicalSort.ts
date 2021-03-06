@@ -1,4 +1,4 @@
-import { Workspace } from '@yarnpkg/core'
+import { DescriptorHash, Workspace } from '@yarnpkg/core'
 
 type Level = number
 
@@ -9,23 +9,51 @@ type Level = number
 const getTopologicalSort = async (
     workspaces: Iterable<Workspace>,
 ): Promise<Array<Array<Workspace>>> => {
+    const possibleWorkspaces = new Map(
+        [...workspaces].map(workspace => [
+            workspace.anchoredDescriptor.descriptorHash,
+            workspace,
+        ]),
+    )
+    const maxPossibleVisits = possibleWorkspaces.size
+
     const ordered = new Map<Workspace, Level>()
-    for (const workspace of workspaces) {
+    const visited = new Map<DescriptorHash, number>()
+    const queue = [...possibleWorkspaces.values()]
+    while (queue.length) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const workspace = queue.shift()!
+        const workspaceHash = workspace.anchoredDescriptor.descriptorHash
+        const visitedCount = visited.get(workspaceHash) ?? 0
+        visited.set(workspaceHash, visitedCount + 1)
+
+        if (visitedCount > maxPossibleVisits) {
+            throw new Error(
+                'Unable to determine topological sort. There is likely a cycle.',
+            )
+        }
+
         const level = Math.max(ordered.get(workspace) ?? 0, 0)
         ordered.set(workspace, level)
 
-        const dependencyDescriptors = [
+        const dependencies = [
             ...workspace.manifest.dependencies.values(),
             ...workspace.manifest.devDependencies.values(),
         ]
-        for (const descriptor of dependencyDescriptors) {
+        for (const descriptor of dependencies) {
             const child = workspace.project.tryWorkspaceByDescriptor(descriptor)
-            if (child) {
-                ordered.set(
-                    child,
-                    Math.max(ordered.get(child) ?? level + 1, level + 1),
-                )
+            if (
+                !child ||
+                !possibleWorkspaces.has(child.anchoredDescriptor.descriptorHash)
+            ) {
+                continue
             }
+
+            ordered.set(
+                child,
+                Math.max(ordered.get(child) ?? level + 1, level + 1),
+            )
+            queue.unshift(child)
         }
     }
 
@@ -38,7 +66,7 @@ const getTopologicalSort = async (
     }, {})
 
     return Object.entries(grouped)
-        .sort((a, b) => Number(a[0]) - Number(b[0]))
+        .sort((a, b) => Number(b[0]) - Number(a[0]))
         .map(([, workspaceGroup]) => workspaceGroup)
 }
 

@@ -1,6 +1,10 @@
 import { execSync } from 'child_process'
 
-import { cleanUp, createFile, setupTestRepository } from '../../../testUtils'
+import {
+    cleanUp,
+    createFile,
+    setupTestRepository,
+} from '@monodeploy/test-utils'
 
 import {
     getCommitMessages,

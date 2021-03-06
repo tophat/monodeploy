@@ -1,6 +1,6 @@
 import { join, resolve } from 'path'
 
-import { setupContext } from '../../../testUtils'
+import { setupContext } from '@monodeploy/test-utils'
 
 import { getImplicitVersionStrategies } from '.'
 

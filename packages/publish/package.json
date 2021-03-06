@@ -31,5 +31,8 @@
     "monodeploy-io": "workspace:packages/io",
     "monodeploy-logging": "workspace:packages/logging",
     "monodeploy-types": "workspace:packages/types"
+  },
+  "devDependencies": {
+    "@monodeploy/test-utils": "link:../../testUtils"
   }
 }

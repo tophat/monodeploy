@@ -16,7 +16,9 @@ export async function setupTestRepository(): Promise<string> {
 }
 
 export async function cleanUp(paths: string[]): Promise<void> {
-    await Promise.all(paths.map(path => fs.rmdir(path, { recursive: true })))
+    await Promise.all(
+        paths.map(path => fs.rm(path, { recursive: true, force: true })),
+    )
 }
 
 export async function createCommit(

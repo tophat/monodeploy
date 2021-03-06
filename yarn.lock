@@ -1675,6 +1675,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-changelog%40workspace%3Apackages%2Fchangelog":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-changelog%40workspace%3Apackages%2Fchangelog"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-dependencies%40workspace%3Apackages%2Fdependencies":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-dependencies%40workspace%3Apackages%2Fdependencies"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-git%40workspace%3Apackages%2Fgit":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-git%40workspace%3Apackages%2Fgit"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-publish%40workspace%3Apackages%2Fpublish":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-publish%40workspace%3Apackages%2Fpublish"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-versions%40workspace%3Apackages%2Fversions":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-versions%40workspace%3Apackages%2Fversions"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:./testUtils::locator=monodeploy-monorepo%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:./testUtils::locator=monodeploy-monorepo%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents":
   version: 2.1.8-no-fsevents
   resolution: "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents"
@@ -7623,6 +7659,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-changelog@workspace:packages/changelog"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@types/conventional-changelog-writer": ^4.0.0
     "@types/conventional-commits-parser": ^3.0.1
     "@yarnpkg/core": ^2.4.0
@@ -7638,6 +7675,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-dependencies@workspace:packages/dependencies"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     monodeploy-types: "workspace:packages/types"
@@ -7648,6 +7686,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-git@workspace:packages/git"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@types/node": ^14.0.0
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
@@ -7684,6 +7723,7 @@ fsevents@~2.1.2:
     "@babel/preset-env": ^7.13.9
     "@babel/preset-typescript": ^7.13.0
     "@commitlint/cli": ^11.0.0
+    "@monodeploy/test-utils": "link:./testUtils"
     "@tophat/commitizen-adapter": ^0.0.11
     "@tophat/commitlint-config": ^0.1.2
     "@tophat/conventional-changelog-config": ^0.0.9
@@ -7749,6 +7789,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-publish@workspace:packages/publish"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
@@ -7774,6 +7815,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-versions@workspace:packages/versions"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@types/conventional-commits-parser": ^3.0.1
     "@types/semver": ^7.3.4
     "@yarnpkg/cli": ^2.4.1

@@ -6,7 +6,7 @@ import {
     getMonodeployConfig,
     setupContext,
     setupTestRepository,
-} from '../../../testUtils'
+} from '@monodeploy/test-utils'
 
 import { prependChangelogFile } from '.'
 

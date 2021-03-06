@@ -1,4 +1,8 @@
-import { cleanUp, setupContext, setupTestRepository } from '../../../testUtils'
+import {
+    cleanUp,
+    setupContext,
+    setupTestRepository,
+} from '@monodeploy/test-utils'
 
 import { getWorkspacesToPublish } from '.'
 

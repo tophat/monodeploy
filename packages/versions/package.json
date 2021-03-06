@@ -35,6 +35,7 @@
     "semver": "^7.3.4"
   },
   "devDependencies": {
+    "@monodeploy/test-utils": "link:../../testUtils",
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/semver": "^7.3.4",
     "@yarnpkg/cli": "^2.4.1"

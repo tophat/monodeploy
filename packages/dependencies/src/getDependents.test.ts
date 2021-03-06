@@ -1,6 +1,6 @@
 import { join, resolve } from 'path'
 
-import { getMonodeployConfig, setupContext } from '../../../testUtils'
+import { getMonodeployConfig, setupContext } from '@monodeploy/test-utils'
 
 import { getDependents } from '.'
 

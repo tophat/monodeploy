@@ -77,7 +77,7 @@ describe('Monodeploy (Dry Run)', () => {
             }).rejects.toThrow(/No project/)
         } finally {
             try {
-                await fs.rmdir(tmpDir)
+                await fs.rm(tmpDir, { recursive: true, force: true })
             } catch {
                 /* ignore */
             }
@@ -394,7 +394,9 @@ describe('Monodeploy', () => {
         } finally {
             try {
                 if (tempFile) await fs.unlink(tempFile)
-                if (tempDir) await fs.rmdir(tempDir)
+                if (tempDir) {
+                    await fs.rm(tempDir, { recursive: true, force: true })
+                }
             } catch {
                 /* ignore */
             }

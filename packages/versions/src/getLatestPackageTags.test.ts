@@ -2,7 +2,7 @@ import { join, resolve } from 'path'
 
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { setupContext } from '../../../testUtils'
+import { setupContext } from '@monodeploy/test-utils'
 
 import { getLatestPackageTags } from '.'
 
