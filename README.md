@@ -7,7 +7,7 @@
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)
 [![Maturity badge - level 2](https://img.shields.io/badge/Maturity-Level%202%20--%20First%20Release-yellowgreen.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
 [![GitHub license](https://img.shields.io/github/license/tophat/monodeploy)](https://github.com/tophat/monodeploy/blob/master/LICENSE)
-[![Slack workspace](https://slackinvite.dev.tophat.com/badge.svg)](https://opensource.tophat.com/slack) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![Discord](https://img.shields.io/discord/809577721751142410)](https://discord.gg/YhK3GFcZrk) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
