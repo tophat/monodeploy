@@ -8,6 +8,7 @@ type Level = number
  */
 const getTopologicalSort = async (
     workspaces: Iterable<Workspace>,
+    { dev }: { dev: boolean } = { dev: false },
 ): Promise<Array<Array<Workspace>>> => {
     const possibleWorkspaces = new Map(
         [...workspaces].map(workspace => [
@@ -38,7 +39,7 @@ const getTopologicalSort = async (
 
         const dependencies = [
             ...workspace.manifest.dependencies.values(),
-            ...workspace.manifest.devDependencies.values(),
+            ...(dev ? workspace.manifest.devDependencies.values() : []),
         ]
         for (const descriptor of dependencies) {
             const child = workspace.project.tryWorkspaceByDescriptor(descriptor)

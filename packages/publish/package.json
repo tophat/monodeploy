@@ -30,7 +30,8 @@
     "monodeploy-git": "workspace:packages/git",
     "monodeploy-io": "workspace:packages/io",
     "monodeploy-logging": "workspace:packages/logging",
-    "monodeploy-types": "workspace:packages/types"
+    "monodeploy-types": "workspace:packages/types",
+    "p-limit": "^3.1.0"
   },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils"

@@ -33,7 +33,7 @@ describe('CLI', () => {
                 '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
                 '--log-level 0 --conventional-changelog-config @my/config ' +
                 '--changeset-filename changes.json --prepend-changelog changelog.md ' +
-                '--push --persist-versions --access public --topological-sort',
+                '--push --persist-versions --access public --topological --topological-dev --jobs 6',
         )
         jest.isolateModules(() => {
             require('./cli')
@@ -55,9 +55,11 @@ describe('CLI', () => {
                 "push": true,
                 "remote": "origin",
               },
+              "jobs": 6,
               "persistVersions": true,
               "registryUrl": "http://example.com",
-              "topologicalSort": true,
+              "topological": true,
+              "topologicalDev": true,
             }
         `)
     })
@@ -84,9 +86,11 @@ describe('CLI', () => {
                 "push": false,
                 "remote": undefined,
               },
+              "jobs": 0,
               "persistVersions": false,
               "registryUrl": undefined,
-              "topologicalSort": undefined,
+              "topological": false,
+              "topologicalDev": false,
             }
         `)
     })

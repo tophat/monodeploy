@@ -1,6 +1,7 @@
 import { Workspace, miscUtils } from '@yarnpkg/core'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
+import pLimit from 'p-limit'
 
 import { getTopologicalSort } from 'monodeploy-dependencies'
 import logging, { assertProductionOrTest } from 'monodeploy-logging'
@@ -71,19 +72,30 @@ export const publishPackages = async (
         })
     }
 
-    if (config.topologicalSort) {
-        const sortedGroups = await getTopologicalSort(workspacesToPublish)
-        const promiseChain = sortedGroups.reduce<Promise<void>>(
+    const limit = pLimit(config.jobs || Infinity)
+    if (config.topological || config.topologicalDev) {
+        const groups = await getTopologicalSort(workspacesToPublish, {
+            dev: config.topologicalDev,
+        })
+        const promiseChain = groups.reduce<Promise<void>>(
             (chain, group) =>
                 chain.then(
                     async () =>
-                        void (await Promise.all(group.map(prepareWorkspace))),
+                        void (await Promise.all(
+                            group.map(workspace =>
+                                limit(() => prepareWorkspace(workspace)),
+                            ),
+                        )),
                 ),
             Promise.resolve(),
         )
         await promiseChain
     } else {
-        await Promise.all([...workspacesToPublish].map(prepareWorkspace))
+        await Promise.all(
+            [...workspacesToPublish].map(workspace =>
+                limit(() => prepareWorkspace(workspace)),
+            ),
+        )
     }
 
     // Push git tags

@@ -7800,6 +7800,7 @@ fsevents@~2.1.2:
     monodeploy-io: "workspace:packages/io"
     monodeploy-logging: "workspace:packages/logging"
     monodeploy-types: "workspace:packages/types"
+    p-limit: ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -8316,7 +8317,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"p-limit@npm:^3.0.2":
+"p-limit@npm:^3.0.2, p-limit@npm:^3.1.0":
   version: 3.1.0
   resolution: "p-limit@npm:3.1.0"
   dependencies:
