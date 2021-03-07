@@ -31,7 +31,7 @@ export const parseRepositoryProperty = async (
         repoUrl: null,
     }
 
-    let repositoryUrl =
+    let repositoryUrl: string =
         (typeof rawManifest?.repository === 'string'
             ? rawManifest?.repository
             : rawManifest?.repository?.url) ?? ''
@@ -51,14 +51,12 @@ export const parseRepositoryProperty = async (
         const repository = parts.pop()
         const owner = parts.pop()
 
-        data.repository = repository.substring(
-            0,
-            repository.length - '.git'.length,
-        )
-        data.owner = owner
+        data.repository =
+            repository?.substring(0, repository.length - '.git'.length) ?? null
+        data.owner = owner ?? null
     }
 
-    if (data.repoUrl?.startsWith('https://')) {
+    if (data.repoUrl.startsWith('https://')) {
         const parsedUrl = url.parse(data.repoUrl)
         if (parsedUrl?.hostname) {
             data.host = `${parsedUrl.protocol}//${parsedUrl.host}`
