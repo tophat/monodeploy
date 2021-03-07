@@ -30,7 +30,7 @@ describe('getImplicitVersionStrategies', () => {
 
     it('produces implicit strategies for the dependents of intentional updates', async () => {
         const mockIntentionalUpdates = new Map()
-        // Dependency: pkg-3 -> pkg-2
+        // Dependency: pkg-3 -> pkg-2, and pkg-6 -> pkg-3
         mockIntentionalUpdates.set('pkg-2', { type: 'major', commits: [] })
         const strategies = await getImplicitVersionStrategies(
             await getMonodeployConfig({
@@ -44,7 +44,10 @@ describe('getImplicitVersionStrategies', () => {
 
         expect(strategies).toEqual(
             new Map(
-                Object.entries({ 'pkg-3': { type: 'patch', commits: [] } }),
+                Object.entries({
+                    'pkg-3': { type: 'patch', commits: [] },
+                    'pkg-6': { type: 'patch', commits: [] },
+                }),
             ),
         )
     })

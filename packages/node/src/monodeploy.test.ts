@@ -316,6 +316,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
         mockGit._commitFiles_(
             'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
@@ -339,10 +340,17 @@ describe('Monodeploy', () => {
             expect.stringContaining('some new feature'),
         )
 
+        // pkg-6 depends on pkg-3, and is updated as a transitive dependent
+        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toEqual([
             'pkg-2@1.0.0',
             'pkg-3@0.0.2',
+            'pkg-6@0.0.2',
         ])
     })
 
@@ -350,6 +358,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
@@ -383,10 +392,17 @@ describe('Monodeploy', () => {
             expect.stringContaining('a different fix'),
         )
 
+        // pkg-6 depends on pkg-3, and is updated as a transitive dependent
+        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
         expect(mockGit._getPushedTags_()).toEqual([
             'pkg-1@0.1.0',
             'pkg-2@0.0.2',
             'pkg-3@0.0.2',
+            'pkg-6@0.0.2',
         ])
     })
 

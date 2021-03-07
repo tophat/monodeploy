@@ -30,7 +30,7 @@ describe('monodeploy-dependencies', () => {
     })
 
     it("Determines a package' dependents properly", async () => {
-        // pkg-3 depends on pkg-2
+        // pkg-3 depends on pkg-2, pkg-6 depends on pkg-3
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
             baseBranch: 'master',
@@ -42,7 +42,7 @@ describe('monodeploy-dependencies', () => {
             new Set(['pkg-2']),
         )
 
-        expect(dependents).toEqual(new Set(['pkg-3']))
+        expect(dependents).toEqual(new Set(['pkg-3', 'pkg-6']))
     })
 
     it('Does not include dependents that are in the package list', async () => {
@@ -60,22 +60,6 @@ describe('monodeploy-dependencies', () => {
         )
 
         expect(dependents).toEqual(new Set(['pkg-6']))
-    })
-
-    it('Errors if a dependency is unnamed', async () => {
-        const config = await getMonodeployConfig({
-            cwd: context.project.cwd,
-            baseBranch: 'master',
-            commitSha: 'shashasha',
-        })
-
-        // Stripping pkg-2 of its ident
-        const pkg2Cwd = path.resolve(path.join(config.cwd, 'packages/pkg-2'))
-        context.project.workspacesByCwd.get(pkg2Cwd).manifest.name = null
-        await expect(
-            async () =>
-                await getDependents(config, context, new Set(['pkg-2'])),
-        ).rejects.toEqual(new Error('Missing dependency identity.'))
     })
 
     it('Errors if a dependent is unnamed', async () => {

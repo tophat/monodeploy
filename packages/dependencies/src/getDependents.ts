@@ -1,9 +1,10 @@
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
+import { Descriptor, Workspace, structUtils } from '@yarnpkg/core'
 
+import logging from 'monodeploy-logging'
 import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
-    for (const dependencySetKey of Manifest.allDependencies) {
+    for (const dependencySetKey of ['dependencies', 'peerDependencies']) {
         const dependencies = workspace.manifest.getForScope(dependencySetKey)
         if (!dependencies) continue
 
@@ -22,47 +23,87 @@ const getDependents = async (
     context: YarnContext,
     packageNames: Set<string>,
 ): Promise<Set<string>> => {
-    // Every workspace needs any sort of update
-    const workspaceToDependents = new Map<Workspace, Set<Workspace>>()
+    // first populate with direct dependents
+    const workspaceToDependents = new Map<Descriptor, Set<Descriptor>>()
+    for (const workspace of context.project.workspaces) {
+        const workspaceDescriptor = workspace.anchoredDescriptor
 
-    for (const dependent of context.project.workspaces) {
-        for (const dependency of getDependencies(context, dependent)) {
-            if (!workspaceToDependents.has(dependency)) {
-                workspaceToDependents.set(dependency, new Set<Workspace>())
+        for (const dependency of getDependencies(context, workspace)) {
+            const dependentsSet =
+                workspaceToDependents.get(dependency.anchoredDescriptor) ??
+                new Set<Descriptor>()
+            dependentsSet.add(workspaceDescriptor)
+            workspaceToDependents.set(
+                dependency.anchoredDescriptor,
+                dependentsSet,
+            )
+        }
+    }
+
+    // We can propagate dependent relations via a transitive property:
+    // Given:
+    //  pkg-1: [pkg-2, pkg-3]
+    //  pkg-2: [pkg-4]
+    //  pkg-3: []
+    //  pkg-4: []
+    // Output:
+    //  pkg-1: [pk-2, pkg-3, pk-4]
+    //  pkg-n: [pkg-a, ...(dependents of pkg-a)]
+
+    const pending = [...workspaceToDependents.keys()]
+    while (pending.length) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const descriptor = pending.shift()!
+
+        const dependentsSet = workspaceToDependents.get(descriptor)
+        if (!dependentsSet) continue
+
+        const transitiveDependents = [...dependentsSet]
+            .map(dependent => [...(workspaceToDependents.get(dependent) ?? [])])
+            .flat()
+        for (const transitiveDependent of transitiveDependents) {
+            if (!transitiveDependent) continue
+            if (
+                structUtils.areDescriptorsEqual(descriptor, transitiveDependent)
+            ) {
+                logging.error('Cycle detected between workspaces.')
+                continue
             }
-
-            const dependents = workspaceToDependents.get(
-                dependency,
-            ) as Set<Workspace>
-            dependents.add(dependent)
+            if (!dependentsSet.has(transitiveDependent)) {
+                pending.push(transitiveDependent)
+                dependentsSet.add(transitiveDependent)
+            }
         }
     }
 
     const discoveredDependents = new Set<string>()
-    const pending = [...workspaceToDependents.keys()]
 
-    while (pending.length) {
-        const dependency = pending.shift()
-        if (!dependency) continue
-        const dependents = workspaceToDependents.get(dependency)
-        if (!dependents || !dependents.size) continue
+    for (const pkgName of packageNames.values()) {
+        const pkgIdent = structUtils.parseIdent(pkgName)
+        const workspace = context.project.tryWorkspaceByIdent(pkgIdent)
+        if (!workspace) continue
 
-        // If the dependency does not have an intentional update,
-        // we can ignore the dependents
-        const dependencyIdent = dependency.manifest.name
-        if (!dependencyIdent) throw new Error('Missing dependency identity.')
-        const dependencyName = structUtils.stringifyIdent(dependencyIdent)
-        if (!packageNames.has(dependencyName)) continue
+        for (const dependentDescriptor of workspaceToDependents
+            .get(workspace.anchoredDescriptor)
+            ?.values() ?? []) {
+            const dependentWorkspace = context.project.tryWorkspaceByDescriptor(
+                dependentDescriptor,
+            )
 
-        for (const dependent of dependents) {
-            const ident = dependent?.manifest?.name
-            if (!ident) throw new Error('Missing workspace identity.')
-            if (dependent?.manifest?.private) continue
-            const name = structUtils.stringifyIdent(ident) as string
-            if (discoveredDependents.has(name)) continue
-            if (packageNames.has(name)) continue
-            pending.push(dependent)
-            discoveredDependents.add(name)
+            if (!dependentWorkspace || dependentWorkspace.manifest.private) {
+                continue
+            }
+
+            if (!dependentWorkspace.manifest.name) {
+                throw new Error('Missing workspace identity.')
+            }
+
+            const dependentName = structUtils.stringifyIdent(
+                dependentWorkspace.manifest.name,
+            )
+            if (packageNames.has(dependentName)) continue
+
+            discoveredDependents.add(dependentName)
         }
     }
 
