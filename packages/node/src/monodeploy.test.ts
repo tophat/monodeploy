@@ -7,7 +7,7 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
-import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
+import { setupMonorepo } from '@monodeploy/test-utils'
 import * as git from 'monodeploy-git'
 import {
     backupPackageJsons,
@@ -40,7 +40,7 @@ const setupExampleMonorepo = async (): Promise<YarnContext> => {
     const context = await setupMonorepo(
         {
             'pkg-1': {},
-            'pkg-2': {},
+            'pkg-2': { devDependencies: [] },
             'pkg-3': { dependencies: ['pkg-2'] },
             'pkg-4': {},
             'pkg-5': { dependencies: ['pkg-4'] },

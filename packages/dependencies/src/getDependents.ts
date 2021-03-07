@@ -6,7 +6,6 @@ import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
 function* getDependencies(context: YarnContext, workspace: Workspace) {
     for (const dependencySetKey of ['dependencies', 'peerDependencies']) {
         const dependencies = workspace.manifest.getForScope(dependencySetKey)
-        if (!dependencies) continue
 
         for (const descriptor of dependencies.values()) {
             const workspace = context.project.tryWorkspaceByDescriptor(
@@ -52,7 +51,6 @@ const getDependents = async (
 
     const pending = [...workspaceToDependents.keys()]
     while (pending.length) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const descriptor = pending.shift()!
 
         const dependentsSet = workspaceToDependents.get(descriptor)

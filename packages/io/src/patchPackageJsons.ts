@@ -14,27 +14,28 @@ const patchPackageJsons = async (
 ): Promise<void> => {
     await Promise.all(
         [...workspaces].map(async (workspace: Workspace) => {
-            const ident = workspace.manifest.name
-            if (!ident) return
-
+            const ident = workspace.manifest.name!
             const pkgName = structUtils.stringifyIdent(ident)
             const version = registryTags.get(pkgName)
-            if (!version) return
+
+            /* istanbul ignore next: unless invoked directly, all packages have a tag */
+            if (!version) throw new Error(`${pkgName} is missing a version`)
 
             workspace.manifest.version = version
             for (const dependentSetKey of Manifest.allDependencies) {
                 const dependencySet = workspace.manifest.getForScope(
                     dependentSetKey,
                 )
-                if (!dependencySet) continue
 
                 for (const descriptor of dependencySet.values()) {
-                    const depPackageName = structUtils.stringifyDescriptor(
+                    const depPackageName = structUtils.stringifyIdent(
                         descriptor,
                     )
 
-                    if (!registryTags.get(depPackageName)) continue
-                    const range = `^${registryTags.get(depPackageName)}`
+                    const dependencyVersion = registryTags.get(depPackageName)
+                    if (!dependencyVersion) continue
+
+                    const range = `^${dependencyVersion}`
                     const updatedDescriptor = structUtils.makeDescriptor(
                         structUtils.convertToIdent(descriptor),
                         range,

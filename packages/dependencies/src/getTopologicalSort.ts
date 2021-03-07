@@ -22,7 +22,6 @@ const getTopologicalSort = async (
     const visited = new Map<DescriptorHash, number>()
     const queue = [...possibleWorkspaces.values()]
     while (queue.length) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const workspace = queue.shift()!
         const workspaceHash = workspace.anchoredDescriptor.descriptorHash
         const visitedCount = visited.get(workspaceHash) ?? 0

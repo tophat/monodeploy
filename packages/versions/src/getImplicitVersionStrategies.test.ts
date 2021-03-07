@@ -1,7 +1,6 @@
 import { promises as fs } from 'fs'
 
-import { getMonodeployConfig } from '@monodeploy/test-utils'
-import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
+import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 
 import { getImplicitVersionStrategies } from '.'
 

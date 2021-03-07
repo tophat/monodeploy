@@ -1,8 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { getMonodeployConfig } from '@monodeploy/test-utils'
-import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
+import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 
 import { getDependents } from '.'
 
@@ -108,5 +107,48 @@ describe('monodeploy-dependencies', () => {
             new Set(['pkg-3', 'pkg-7']),
         )
         expect(dependents).toEqual(new Set(['pkg-6']))
+    })
+})
+
+describe('cycles', () => {
+    let context
+
+    beforeEach(async () => {
+        context = await setupMonorepo({
+            'pkg-1': { dependencies: ['pkg-2'] },
+            'pkg-2': { dependencies: ['pkg-3'] },
+            'pkg-3': { dependencies: ['pkg-1'] },
+        })
+    })
+
+    afterEach(async () => {
+        try {
+            await fs.rm(context.project.cwd, { recursive: true, force: true })
+        } catch {}
+        jest.restoreAllMocks()
+    })
+
+    it('handles cycles', async () => {
+        const consoleSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {
+                /* ignore */
+            })
+
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
+        const dependents = await getDependents(
+            config,
+            context,
+            new Set(['pkg-2']),
+        )
+
+        expect(dependents).toEqual(new Set(['pkg-1', 'pkg-3']))
+        expect(consoleSpy).toHaveBeenCalledWith(
+            expect.stringMatching('Cycle detected'),
+        )
     })
 })

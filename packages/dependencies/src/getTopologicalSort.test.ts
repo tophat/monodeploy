@@ -1,6 +1,6 @@
 import { Workspace, structUtils } from '@yarnpkg/core'
 
-import { withMonorepoContext } from '@monodeploy/test-utils/setupMonorepo'
+import { withMonorepoContext } from '@monodeploy/test-utils'
 import { YarnContext } from 'monodeploy-types'
 
 import getTopologicalSort from './getTopologicalSort'

@@ -1693,6 +1693,12 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-io%40workspace%3Apackages%2Fio":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-io%40workspace%3Apackages%2Fio"
+  languageName: node
+  linkType: soft
+
 "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-node%40workspace%3Apackages%2Fnode":
   version: 0.0.0-use.local
   resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-node%40workspace%3Apackages%2Fnode"
@@ -7728,6 +7734,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-io@workspace:packages/io"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@types/node": ^14.0.0
     "@yarnpkg/core": ^2.4.0
     "@yarnpkg/fslib": ^2.4.0
