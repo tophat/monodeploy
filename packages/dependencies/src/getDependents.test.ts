@@ -108,6 +108,22 @@ describe('monodeploy-dependencies', () => {
         )
         expect(dependents).toEqual(new Set(['pkg-6']))
     })
+
+    it('skips unknown package names', async () => {
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
+
+        // pkg-6 is a dependent of both pkg-3 and pkg-7
+        const dependents = await getDependents(
+            config,
+            context,
+            new Set(['pkg-3', 'pkg-7', 'pkg-unknown']),
+        )
+        expect(dependents).toEqual(new Set(['pkg-6']))
+    })
 })
 
 describe('cycles', () => {

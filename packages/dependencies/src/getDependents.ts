@@ -60,7 +60,6 @@ const getDependents = async (
             .map(dependent => [...(workspaceToDependents.get(dependent) ?? [])])
             .flat()
         for (const transitiveDependent of transitiveDependents) {
-            if (!transitiveDependent) continue
             if (
                 structUtils.areDescriptorsEqual(descriptor, transitiveDependent)
             ) {
