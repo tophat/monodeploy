@@ -87,13 +87,15 @@ jobs:
           with:
             name: report-artifacts
             path: ${{ env.ARTIFACT_DIR }}
-  build:
-    name: Build
+  publish_preview:
+    name: Publish Preview
     runs-on: ubuntu-20.04
     needs: [tests]
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
         - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
           uses: actions/setup-node@v1
@@ -113,6 +115,43 @@ jobs:
           run: yarn install --immutable
         - name: Build
           run: yarn build
+        - name: Run Monodeploy in Dry Run Mode
+          id: run-monodeploy
+          run: |
+            echo "<!-- MONODEPLOY:BELOW -->" > ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
+
+            yarn ts-node ./packages/cli/src/cli.ts \
+              --dry-run \
+              --log-level 0 \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
+              --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
+
+            changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
+            changelog_body="${body//'%'/'%25'}"
+            changelog_body="${changelog_body//$'\n'/'%0A'}"
+            changelog_body="${changelog_body//$'\r'/'%0D'}"
+            echo ::set-output name=changelog::$changelog_body
+        - name: Check for Changelog Comment
+          uses: peter-evans/find-comment@v1
+          id: found-comment
+          with:
+            token: ${{ secrets.GH_TOKEN }}
+            issue-number: ${{ github.event.pull_request.number }}
+            comment-author: 'tophat-opensource-bot'
+            body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
+        - name: Post Changelog to PR
+          uses: peter-evans/create-or-update-comment@v1
+          with:
+            token: ${{ secrets.GH_TOKEN }}
+            comment-id: ${{ steps.found-comment.outputs.comment-id }}
+            issue-number: ${{ github.event.pull_request.number }}
+            comment-author: 'tophat-opensource-bot'
+            edit-mode: replace
+            body: |
+              <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
+              This Pull Request introduces the following changes:
+
+              ${{ steps.run-monodeploy.outputs.changelog }}
         - name: Upload Artifacts
           uses: actions/upload-artifact@v2
           with:
