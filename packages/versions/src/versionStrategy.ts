@@ -61,17 +61,28 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     }, STRATEGY.NONE)
 }
 
+type ConventionalStrategy = { level?: number | null }
+type ConventionalChangelogConfig = {
+    parserOpts: conventionalCommitsParser.Options
+    recommendedBumpOpts: {
+        whatBump: (
+            commits: conventionalCommitsParser.Commit[],
+        ) => ConventionalStrategy
+    }
+}
+
 export const createGetConventionalRecommendedStrategy = (
     config: MonodeployConfiguration,
 ): StrategyDeterminer => async (commits: string[]): Promise<number> => {
-    if (!config.conventionalChangelogConfig) {
+    const conventionalChangelogConfig = config.conventionalChangelogConfig
+
+    if (!conventionalChangelogConfig) {
         throw new Error('Invalid conventional changelog config')
     }
-
-    const conventionalConfig = await require(require.resolve(
-        config.conventionalChangelogConfig,
-        { paths: [config.cwd] },
-    ))
+    const configResolveId = require.resolve(conventionalChangelogConfig, {
+        paths: [config.cwd],
+    })
+    const conventionalConfig: ConventionalChangelogConfig = await require(configResolveId)
 
     const commitsStream = Readable.from(commits).pipe(
         conventionalCommitsParser(conventionalConfig.parserOpts),

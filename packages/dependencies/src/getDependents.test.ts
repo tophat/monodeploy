@@ -1,17 +1,38 @@
-import { join, resolve } from 'path'
+import { promises as fs } from 'fs'
+import path from 'path'
 
-import { getMonodeployConfig, setupContext } from '@monodeploy/test-utils'
+import { getMonodeployConfig } from '@monodeploy/test-utils'
+import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
 
 import { getDependents } from '.'
 
-const cwd = resolve('./example-monorepo')
-
 describe('monodeploy-dependencies', () => {
+    let context
+
+    beforeEach(async () => {
+        context = await setupMonorepo({
+            'pkg-1': {},
+            'pkg-2': {},
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': {},
+            'pkg-5': { private: true, dependencies: ['pkg-4'] },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+            },
+            'pkg-7': {},
+        })
+    })
+
+    afterEach(async () => {
+        try {
+            await fs.rm(context.project.cwd, { recursive: true, force: true })
+        } catch {}
+    })
+
     it("Determines a package' dependents properly", async () => {
         // pkg-3 depends on pkg-2
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })
@@ -26,9 +47,8 @@ describe('monodeploy-dependencies', () => {
 
     it('Does not include dependents that are in the package list', async () => {
         // pkg-3 depends on pkg-2
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })
@@ -43,15 +63,14 @@ describe('monodeploy-dependencies', () => {
     })
 
     it('Errors if a dependency is unnamed', async () => {
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })
 
         // Stripping pkg-2 of its ident
-        const pkg2Cwd = resolve(join(cwd, 'packages/pkg-2'))
+        const pkg2Cwd = path.resolve(path.join(config.cwd, 'packages/pkg-2'))
         context.project.workspacesByCwd.get(pkg2Cwd).manifest.name = null
         await expect(
             async () =>
@@ -60,15 +79,14 @@ describe('monodeploy-dependencies', () => {
     })
 
     it('Errors if a dependent is unnamed', async () => {
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })
 
         // Stripping pkg-3 of its ident
-        const pkg3Cwd = resolve(join(cwd, 'packages/pkg-3'))
+        const pkg3Cwd = path.resolve(path.join(config.cwd, 'packages/pkg-3'))
         context.project.workspacesByCwd.get(pkg3Cwd).manifest.name = null
         await expect(
             async () =>
@@ -77,9 +95,8 @@ describe('monodeploy-dependencies', () => {
     })
 
     it('Ignores private dependents', async () => {
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })
@@ -94,9 +111,8 @@ describe('monodeploy-dependencies', () => {
     })
 
     it('Only counts dependents once', async () => {
-        const context = await setupContext(cwd)
         const config = await getMonodeployConfig({
-            cwd,
+            cwd: context.project.cwd,
             baseBranch: 'master',
             commitSha: 'shashasha',
         })

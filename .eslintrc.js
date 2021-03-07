@@ -9,6 +9,7 @@ module.exports = {
         'prettier',
     ],
     rules: {
+        'no-empty': ['error', { allowEmptyCatch: true }],
         'no-unused-vars': 'off', // covered by typescript eslint
         'import/order': [
             'error',

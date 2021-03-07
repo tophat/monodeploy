@@ -67,7 +67,6 @@ jobs:
         - name: Install dependencies
           run: |
             yarn install --immutable
-            cd example-monorepo && yarn
         - name: Build
           run: yarn build
         - name: Linting

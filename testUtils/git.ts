@@ -1,14 +1,22 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
-import { tmpdir } from 'os'
-import { join, resolve } from 'path'
+
+import setupMonorepo from './setupMonorepo'
 
 export async function setupTestRepository(): Promise<string> {
-    const rootPath = await fs.mkdtemp(join(tmpdir(), 'test-repository-'))
+    const context = await setupMonorepo({
+        'pkg-1': {},
+        'pkg-2': {},
+        'pkg-3': { dependencies: ['pkg-2'] },
+        'pkg-4': {},
+        'pkg-5': { private: true, dependencies: ['pkg-4'] },
+        'pkg-6': {
+            dependencies: ['pkg-3', 'pkg-7'],
+        },
+        'pkg-7': {},
+    })
+    const rootPath = context.project.cwd
 
-    const exampleMonorepo = resolve(join(process.cwd(), './example-monorepo'))
-
-    execSync(`cp -r ${exampleMonorepo}/* ${rootPath}`)
     execSync('git init', { cwd: rootPath })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd: rootPath })

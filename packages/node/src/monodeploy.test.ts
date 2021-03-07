@@ -7,6 +7,7 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
+import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
 import * as git from 'monodeploy-git'
 import {
     backupPackageJsons,
@@ -35,9 +36,41 @@ const mockNPM = npm as jest.Mocked<
     }
 >
 
+const setupExampleMonorepo = async (): Promise<YarnContext> => {
+    const scripts = {
+        prepack: 'touch .prepack.test.tmp',
+        prepare: 'touch .prepare.test.tmp',
+        prepublish: 'touch .prepublish.test.tmp',
+        postpack: 'touch .postpack.test.tmp',
+        postpublish: 'touch .postpublish.test.tmp',
+    }
+    const context = await setupMonorepo(
+        {
+            'pkg-1': {},
+            'pkg-2': {},
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': { scripts },
+            'pkg-5': { dependencies: ['pkg-4'], scripts },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+                scripts,
+            },
+            'pkg-7': { scripts },
+        },
+        {
+            root: {
+                dependencies: {
+                    '@tophat/conventional-changelog-config': '^0.5.0',
+                },
+            },
+        },
+    )
+    return context
+}
+
 describe('Monodeploy (Dry Run)', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: true,
         git: {
             baseBranch: 'master',
@@ -57,9 +90,17 @@ describe('Monodeploy (Dry Run)', () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -80,9 +121,7 @@ describe('Monodeploy (Dry Run)', () => {
         } finally {
             try {
                 await fs.rm(tmpDir, { recursive: true, force: true })
-            } catch {
-                /* ignore */
-            }
+            } catch {}
         }
     })
 
@@ -171,7 +210,7 @@ describe('Monodeploy (Dry Run)', () => {
 
 describe('Monodeploy', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         git: {
             baseBranch: 'master',
@@ -191,9 +230,17 @@ describe('Monodeploy', () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -401,9 +448,7 @@ describe('Monodeploy', () => {
                 if (tempDir) {
                     await fs.rm(tempDir, { recursive: true, force: true })
                 }
-            } catch {
-                /* ignore */
-            }
+            } catch {}
         }
     })
 
@@ -474,7 +519,7 @@ describe('Monodeploy', () => {
 
 describe('Monodeploy Lifecycle Scripts', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         git: {
             baseBranch: 'master',
@@ -503,9 +548,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
             if (resolvedFile.endsWith('.tmp')) {
                 try {
                     await fs.unlink(resolvedFile)
-                } catch {
-                    /* ignore */
-                }
+                } catch {}
             }
         }
     }
@@ -514,9 +557,17 @@ describe('Monodeploy Lifecycle Scripts', () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -528,6 +579,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-4', '0.0.1')
+        mockNPM._setTag_('pkg-5', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-4/README.md',
         ])
@@ -541,7 +593,11 @@ describe('Monodeploy Lifecycle Scripts', () => {
                 expect.stringContaining('some new feature'),
             )
 
-            expect(mockGit._getPushedTags_()).toEqual(['pkg-4@0.1.0'])
+            // pkg-5 depends on pkg-4, so it'll be bumped as a dependant
+            expect(mockGit._getPushedTags_()).toEqual([
+                'pkg-4@0.1.0',
+                'pkg-5@0.0.2',
+            ])
 
             const filesToCheck = [
                 '.prepack.test.tmp',

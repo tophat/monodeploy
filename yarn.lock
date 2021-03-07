@@ -1693,6 +1693,12 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-node%40workspace%3Apackages%2Fnode":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-node%40workspace%3Apackages%2Fnode"
+  languageName: node
+  linkType: soft
+
 "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-publish%40workspace%3Apackages%2Fpublish":
   version: 0.0.0-use.local
   resolution: "@monodeploy/test-utils@link:../../testUtils::locator=monodeploy-publish%40workspace%3Apackages%2Fpublish"
@@ -1807,6 +1813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tophat/commit-utils-core@npm:*":
+  version: 0.5.0
+  resolution: "@tophat/commit-utils-core@npm:0.5.0"
+  checksum: 98204e9df172f2f72900fa6582f6ce9b1d5c754ed449d10aff1009d87f5e8bc2aca78c7aa12a0faa93d9e1c9ae471442ddc0a57fe2ed28b1d2ad5782a82c66a6
+  languageName: node
+  linkType: hard
+
 "@tophat/commit-utils-core@npm:^0.0.9":
   version: 0.0.9
   resolution: "@tophat/commit-utils-core@npm:0.0.9"
@@ -1835,12 +1848,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/conventional-changelog-config@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@tophat/conventional-changelog-config@npm:0.0.9"
+"@tophat/conventional-changelog-config@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@tophat/conventional-changelog-config@npm:0.5.0"
   dependencies:
-    "@tophat/commit-utils-core": ^0.0.9
-  checksum: 7def18383d86e39d6b07f99c218ff7edec67bc6fc71d02047c58791ef5a55b083e875e41cf0ef3194a1b56fa90f5773983dbaf76f12b97b681546b4a0cac3b4c
+    "@tophat/commit-utils-core": "*"
+    compare-func: ^2.0.0
+  checksum: b0b6fe88faf9138322934050c0e48bb157c8a16f6a51cce4ef3459dcf4e12e7e8e17fd79f57ab1b29807bd1bfab9c72089f7904a409d80d82b964d38be059482
   languageName: node
   linkType: hard
 
@@ -3798,7 +3812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compare-func@npm:*, compare-func@npm:^2.0.0":
+"compare-func@npm:^2.0.0":
   version: 2.0.0
   resolution: "compare-func@npm:2.0.0"
   dependencies:
@@ -6651,7 +6665,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-resolve@npm:26.6.2, jest-resolve@npm:^26.6.2":
+"jest-resolve@npm:26.6.2":
   version: 26.6.2
   resolution: "jest-resolve@npm:26.6.2"
   dependencies:
@@ -6664,6 +6678,22 @@ fsevents@~2.1.2:
     resolve: ^1.18.1
     slash: ^3.0.0
   checksum: 61e8884462b4bcdaa26dc8544b497f2e2dae0b0701c363d433afb482c7f2faa6d0ce691250ad64eddb7fff552dc025315c388e0449411c1522a4dd013cbe49ae
+  languageName: node
+  linkType: hard
+
+"jest-resolve@patch:jest-resolve@npm%3A26.6.2#./patches/jest-resolve+26.6.2.diff::version=26.6.2&hash=cb1e82&locator=monodeploy-monorepo%40workspace%3A., jest-resolve@patch:jest-resolve@npm:26.6.2#./patches/jest-resolve+26.6.2.diff::locator=monodeploy-monorepo%40workspace%3A.":
+  version: 26.6.2
+  resolution: "jest-resolve@patch:jest-resolve@npm%3A26.6.2#./patches/jest-resolve+26.6.2.diff::version=26.6.2&hash=cb1e82&locator=monodeploy-monorepo%40workspace%3A."
+  dependencies:
+    "@jest/types": ^26.6.2
+    chalk: ^4.0.0
+    graceful-fs: ^4.2.4
+    jest-pnp-resolver: ^1.2.2
+    jest-util: ^26.6.2
+    read-pkg-up: ^7.0.1
+    resolve: ^1.18.1
+    slash: ^3.0.0
+  checksum: 3b553583064375ee3c42a2f3cb1457bf26bf31d85ca002f494fb65c36846e957e5bb645ce770e481551600717494d051b60ad6f5de8d25bd3faa6e0be676c098
   languageName: node
   linkType: hard
 
@@ -7726,7 +7756,7 @@ fsevents@~2.1.2:
     "@monodeploy/test-utils": "link:./testUtils"
     "@tophat/commitizen-adapter": ^0.0.11
     "@tophat/commitlint-config": ^0.1.2
-    "@tophat/conventional-changelog-config": ^0.0.9
+    "@tophat/conventional-changelog-config": ^0.5.0
     "@tophat/eslint-config": ^0.7.0
     "@types/jest": ^26.0.20
     "@types/node": ^14.0.0
@@ -7768,6 +7798,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy-node@workspace:packages/node"
   dependencies:
+    "@monodeploy/test-utils": "link:../../testUtils"
     "@types/node": ^14.0.0
     "@yarnpkg/cli": ^2.4.1
     "@yarnpkg/core": ^2.4.0
@@ -10450,11 +10481,11 @@ typescript@^4.1.3:
 
 "typescript@patch:typescript@^4.1.3#builtin<compat/typescript>":
   version: 4.1.3
-  resolution: "typescript@patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=cc6730"
+  resolution: "typescript@patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 017af992148346e671d5b83b041773825888e9c94db8d2b9472cdbb6d6f0ee85927817473121524d319f8be6ffe5a6904d27ff6ef21356d2274fcadd52e17938
+  checksum: 28f0f616bf6284543bb14d4bfe0e1a74963e5df0396ebccfc6a57bfd4ab70b4284e51b3a2045ed2466151a4a58c8a549edb886a2f7a2232cf08fcf73496592e6
   languageName: node
   linkType: hard
 

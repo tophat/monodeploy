@@ -1,16 +1,12 @@
-import { join, resolve } from 'path'
+import { promises as fs } from 'fs'
+import path from 'path'
 
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { setupContext } from '@monodeploy/test-utils'
+import { getMonodeployConfig } from '@monodeploy/test-utils'
+import setupMonorepo from '@monodeploy/test-utils/setupMonorepo'
 
 import { getLatestPackageTags } from '.'
-
-const cwd = resolve(join(process.cwd(), './example-monorepo'))
-
-const defaultMonodeployConfig = {
-    cwd,
-}
 
 jest.mock('@yarnpkg/plugin-npm')
 
@@ -22,17 +18,38 @@ const mockNPM = npm as jest.Mocked<
 >
 
 describe('getLatestPackageTags', () => {
-    afterEach(() => {
+    let context
+
+    beforeEach(async () => {
+        context = await setupMonorepo({
+            'pkg-1': {},
+            'pkg-2': {},
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': {},
+            'pkg-5': { private: true, dependencies: ['pkg-4'] },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+            },
+            'pkg-7': {},
+        })
+    })
+
+    afterEach(async () => {
         jest.restoreAllMocks()
         mockNPM._reset_()
+        try {
+            await fs.rm(context.project.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     it('returns default tag 0.0.0 if no tags found', async () => {
-        const context = await setupContext(cwd)
-
         // Since we haven't set up any tags for any package, everything is 0.0.0
         const tags = await getLatestPackageTags(
-            defaultMonodeployConfig,
+            await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            }),
             context,
         )
         for (const tagPair of tags) {
@@ -42,8 +59,6 @@ describe('getLatestPackageTags', () => {
     })
 
     it('returns tags from the registry if they exist', async () => {
-        const context = await setupContext(cwd)
-
         const registryTags = new Map(
             Object.entries({
                 'pkg-1': '0.0.1',
@@ -55,7 +70,11 @@ describe('getLatestPackageTags', () => {
         for (const tagPair of registryTags) mockNPM._setTag_(...tagPair)
 
         const tags = await getLatestPackageTags(
-            defaultMonodeployConfig,
+            await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            }),
             context,
         )
 
@@ -70,7 +89,6 @@ describe('getLatestPackageTags', () => {
     })
 
     it('bubbles up error if not 404', async () => {
-        const context = await setupContext(cwd)
         const mockError = new Error('Oh blarg. Something bad happened.')
         const mockGet = mockNPM.npmHttpUtils.get
         mockNPM.npmHttpUtils.get = jest.fn().mockImplementation(() => {
@@ -78,21 +96,32 @@ describe('getLatestPackageTags', () => {
         })
 
         await expect(async () =>
-            getLatestPackageTags(defaultMonodeployConfig, context),
+            getLatestPackageTags(
+                await getMonodeployConfig({
+                    cwd: context.project.cwd,
+                    baseBranch: 'master',
+                    commitSha: 'shashasha',
+                }),
+                context,
+            ),
         ).rejects.toEqual(mockError)
 
         mockNPM.npmHttpUtils.get = mockGet
     })
 
     it('returns a null pair for malformed workspaces (missing ident)', async () => {
-        const context = await setupContext(cwd)
-
         // Stripping pkg-2 of its ident
-        const pkg2Cwd = resolve(join(cwd, 'packages/pkg-2'))
+        const pkg2Cwd = path.resolve(
+            path.join(context.project.cwd, 'packages/pkg-2'),
+        )
         context.project.workspacesByCwd.get(pkg2Cwd).manifest.name = null
 
         const tags = await getLatestPackageTags(
-            defaultMonodeployConfig,
+            await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            }),
             context,
         )
 

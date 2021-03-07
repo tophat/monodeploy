@@ -33,10 +33,14 @@ type PackageInitConfiguration = Partial<{
     devDependencies: Array<string>
     peerDependencies: Array<string>
     scripts: Record<string, string>
+    private: boolean
 }>
 
 export default async function setupMonorepo(
     monorepo: Record<string, PackageInitConfiguration>,
+    {
+        root,
+    }: { root?: Partial<{ dependencies?: Record<string, string> }> } = {},
 ): Promise<YarnContext> {
     const workingDir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
 
@@ -46,6 +50,7 @@ export default async function setupMonorepo(
         private: true,
         version: '1.0.0',
         workspaces: ['packages/*'],
+        dependencies: root?.dependencies ?? {},
     })
 
     // Generate children workspaces
@@ -60,6 +65,7 @@ export default async function setupMonorepo(
         await writeJSON(path.join(pkgDir, 'package.json'), {
             name: pkgName,
             version: '0.0.0',
+            private: pkgConfig.private || undefined,
             scripts: pkgConfig.scripts ?? {},
             dependencies: await makeDependencyMap(pkgConfig.dependencies ?? []),
             devDependencies: await makeDependencyMap(
@@ -74,10 +80,11 @@ export default async function setupMonorepo(
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-2.4.0.cjs'))
+    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-2.4.1.cjs'))
+    await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
-        `yarnPath: ${yarnBinary}`,
+        `yarnPath: ./run-yarn.cjs\nenableGlobalCache: false`,
         'utf-8',
     )
 
