@@ -40,7 +40,12 @@ export default async function setupMonorepo(
     monorepo: Record<string, PackageInitConfiguration>,
     {
         root,
-    }: { root?: Partial<{ dependencies?: Record<string, string> }> } = {},
+    }: {
+        root?: Partial<{
+            dependencies: Record<string, string>
+            repository: string
+        }>
+    } = {},
 ): Promise<YarnContext> {
     const workingDir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
 
@@ -51,6 +56,7 @@ export default async function setupMonorepo(
         version: '1.0.0',
         workspaces: ['packages/*'],
         dependencies: root?.dependencies ?? {},
+        repository: root?.repository,
     })
 
     // Generate children workspaces

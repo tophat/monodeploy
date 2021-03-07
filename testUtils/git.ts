@@ -3,6 +3,12 @@ import { promises as fs } from 'fs'
 
 import setupMonorepo from './setupMonorepo'
 
+export async function initGitRepository(cwd: string): Promise<void> {
+    execSync('git init', { cwd })
+    // This is needed to disable signing if set up by the host.
+    execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
+}
+
 export async function setupTestRepository(): Promise<string> {
     const context = await setupMonorepo({
         'pkg-1': {},
@@ -16,10 +22,7 @@ export async function setupTestRepository(): Promise<string> {
         'pkg-7': {},
     })
     const rootPath = context.project.cwd
-
-    execSync('git init', { cwd: rootPath })
-    // This is needed to disable signing if set up by the host.
-    execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd: rootPath })
+    await initGitRepository(rootPath)
     return rootPath
 }
 

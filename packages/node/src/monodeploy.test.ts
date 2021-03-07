@@ -406,7 +406,7 @@ describe('Monodeploy', () => {
         ])
     })
 
-    it('updates changelog', async () => {
+    it('updates changelog and changeset', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
@@ -415,7 +415,8 @@ describe('Monodeploy', () => {
         ])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const tempFile = await path.join(tempDir, 'changelog.md')
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
 
         try {
             const changelogTemplate = [
@@ -425,19 +426,20 @@ describe('Monodeploy', () => {
                 `## Old Versions`,
                 `Content`,
             ].join('\n')
-            await fs.writeFile(tempFile, changelogTemplate, {
+            await fs.writeFile(changelogFilename, changelogTemplate, {
                 encoding: 'utf-8',
             })
 
             const result = await monodeploy({
                 ...monodeployConfig,
-                changelogFilename: tempFile,
+                changelogFilename,
+                changesetFilename,
             })
 
             // pkg-1 is explicitly updated with minor bump
             expect(result['pkg-1'].version).toEqual('0.1.0')
 
-            const updatedChangelog = await fs.readFile(tempFile, {
+            const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
             })
 
@@ -450,12 +452,25 @@ describe('Monodeploy', () => {
             expect(updatedChangelog).toEqual(
                 expect.stringContaining('Old Versions'),
             )
+
+            const changeset = JSON.parse(
+                await fs.readFile(changesetFilename, {
+                    encoding: 'utf-8',
+                }),
+            )
+
+            expect(changeset).toEqual(
+                expect.objectContaining({
+                    'pkg-1': expect.objectContaining({
+                        version: '0.1.0',
+                        changelog: expect.stringContaining('some new feature'),
+                    }),
+                }),
+            )
         } finally {
             try {
-                if (tempFile) await fs.unlink(tempFile)
-                if (tempDir) {
-                    await fs.rm(tempDir, { recursive: true, force: true })
-                }
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
             } catch {}
         }
     })
@@ -538,9 +553,9 @@ describe('Monodeploy Lifecycle Scripts', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
-        topological: false,
-        topologicalDev: false,
-        jobs: 0,
+        topological: true,
+        topologicalDev: true,
+        jobs: 100,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

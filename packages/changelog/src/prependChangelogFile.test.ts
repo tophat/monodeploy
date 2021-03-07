@@ -1,4 +1,4 @@
-import { promises as fs, readFileSync } from 'fs'
+import { promises as fs } from 'fs'
 
 import {
     cleanUp,
@@ -18,8 +18,8 @@ describe('prependChangelogFile', () => {
     })
 
     afterEach(async () => {
-        await cleanUp([workspacePath])
         jest.restoreAllMocks()
+        await cleanUp([workspacePath])
     })
 
     it('returns early if no changelogFilename is defined', async () => {
@@ -132,11 +132,15 @@ describe('prependChangelogFile', () => {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
             },
+            'pkg-2': {
+                version: '1.1.0',
+                changelog: 'just a version bump',
+            },
         }
 
         await prependChangelogFile(config, context, changeset)
 
-        const changelogContents = readFileSync(
+        const changelogContents = await fs.readFile(
             `${cwd}/${mockChangelogFilename}`,
             { encoding: 'utf8' },
         )

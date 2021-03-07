@@ -19,7 +19,7 @@ type RepositoryInfo = {
     repoUrl: string | null
 }
 
-const parseRepositoryProperty = async (
+export const parseRepositoryProperty = async (
     workspace: Workspace,
 ): Promise<RepositoryInfo> => {
     const rawManifest = workspace.manifest.raw
@@ -31,13 +31,22 @@ const parseRepositoryProperty = async (
         repoUrl: null,
     }
 
-    const repositoryUrl = rawManifest?.repository?.url ?? ''
+    let repositoryUrl =
+        (typeof rawManifest?.repository === 'string'
+            ? rawManifest?.repository
+            : rawManifest?.repository?.url) ?? ''
+
     if (repositoryUrl.startsWith('git+')) {
-        data.repoUrl = repositoryUrl.substring('git+'.length)
+        repositoryUrl = repositoryUrl.substring('git+'.length)
     }
 
-    if (repositoryUrl.endsWith('.git')) {
-        const parts = repositoryUrl.split('/')
+    data.repoUrl = repositoryUrl
+
+    if (data.repoUrl.endsWith('.git')) {
+        const repo = data.repoUrl?.includes(':')
+            ? data.repoUrl.substring(data.repoUrl.indexOf(`:`) + 1)
+            : data.repoUrl
+        const parts = repo.split('/')
 
         const repository = parts.pop()
         const owner = parts.pop()
