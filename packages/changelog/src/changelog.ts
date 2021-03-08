@@ -99,7 +99,7 @@ const generateChangelogEntry = async (
 
     const templateContext = {
         version: newVersion,
-        title: `${packageName}@${newVersion}`,
+        title: packageName,
         host: host ?? '',
         owner: owner ?? workspace.manifest.raw?.author ?? '',
         repository: repository ?? '',
