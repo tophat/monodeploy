@@ -1,4 +1,4 @@
-import { Workspace, miscUtils } from '@yarnpkg/core'
+import { Workspace, miscUtils, structUtils } from '@yarnpkg/core'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 import pLimit from 'p-limit'
@@ -27,6 +27,8 @@ export const publishPackages = async (
     const prepareWorkspace = async (workspace: Workspace) => {
         const ident = workspace.manifest.name
         if (!ident) return
+
+        const pkgName = structUtils.stringifyIdent(ident)
 
         const cwd = workspace.cwd
         await prepareForPublish(workspace, { cwd }, async () => {
@@ -62,7 +64,7 @@ export const publishPackages = async (
                         })
                     }
                     logging.info(
-                        `[Publish] ${ident.name} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                        `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
                     )
                 } catch (e) {
                     logging.error(e)
