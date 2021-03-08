@@ -76,6 +76,7 @@ describe('Monodeploy (Dry Run)', () => {
         topological: false,
         topologicalDev: false,
         jobs: 0,
+        forceWriteChangeFiles: false,
     }
 
     beforeAll(async () => {
@@ -198,6 +199,76 @@ describe('Monodeploy (Dry Run)', () => {
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toHaveLength(0)
     })
+
+    it('updates changelog and changeset if forced', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
+
+        try {
+            const changelogTemplate = [
+                `# Changelog`,
+                `Some blurb`,
+                `<!-- MONODEPLOY:BELOW -->`,
+                `## Old Versions`,
+                `Content`,
+            ].join('\n')
+            await fs.writeFile(changelogFilename, changelogTemplate, {
+                encoding: 'utf-8',
+            })
+
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                changesetFilename,
+                forceWriteChangeFiles: true,
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // assert it contains the old entries
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('Old Versions'),
+            )
+
+            const changeset = JSON.parse(
+                await fs.readFile(changesetFilename, {
+                    encoding: 'utf-8',
+                }),
+            )
+
+            expect(changeset).toEqual(
+                expect.objectContaining({
+                    'pkg-1': expect.objectContaining({
+                        version: '0.1.0',
+                        changelog: expect.stringContaining('some new feature'),
+                    }),
+                }),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+    })
 })
 
 describe('Monodeploy', () => {
@@ -216,6 +287,7 @@ describe('Monodeploy', () => {
         topological: false,
         topologicalDev: false,
         jobs: 0,
+        forceWriteChangeFiles: false,
     }
 
     beforeAll(async () => {
@@ -556,6 +628,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         topological: true,
         topologicalDev: true,
         jobs: 100,
+        forceWriteChangeFiles: false,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

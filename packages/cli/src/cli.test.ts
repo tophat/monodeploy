@@ -32,7 +32,7 @@ describe('CLI', () => {
             '--registry-url http://example.com --cwd /tmp --dry-run ' +
                 '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
                 '--log-level 0 --conventional-changelog-config @my/config ' +
-                '--changeset-filename changes.json --prepend-changelog changelog.md ' +
+                '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                 '--push --persist-versions --access public --topological --topological-dev --jobs 6',
         )
         jest.isolateModules(() => {
@@ -49,6 +49,7 @@ describe('CLI', () => {
               "conventionalChangelogConfig": "@my/config",
               "cwd": "/tmp",
               "dryRun": true,
+              "forceWriteChangeFiles": true,
               "git": Object {
                 "baseBranch": "master",
                 "commitSha": "HEAD",
@@ -80,6 +81,7 @@ describe('CLI', () => {
               "conventionalChangelogConfig": undefined,
               "cwd": undefined,
               "dryRun": undefined,
+              "forceWriteChangeFiles": false,
               "git": Object {
                 "baseBranch": undefined,
                 "commitSha": undefined,

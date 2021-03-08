@@ -50,7 +50,7 @@ const prependChangelogFile = async (
 
     const dataToWrite = changelogContents.join('\n')
 
-    if (config.dryRun) {
+    if (config.dryRun && !config.forceWriteChangeFiles) {
         logging.debug(`[Changelog] Skipping changelog update.`)
     } else {
         await fs.writeFile(changelogFilename, dataToWrite, {

@@ -12,6 +12,7 @@ interface ArgOutput {
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    forceWriteChangeFiles?: boolean
     prependChangelog?: string
     access?: string
     push?: boolean
@@ -62,6 +63,12 @@ const { argv } = yargs
     .option('prepend-changelog', {
         type: 'string',
         description: 'Changelog file to prepend changelog entries',
+    })
+    .option('force-write-change-files', {
+        type: 'boolean',
+        description:
+            'Force changelog update and changeset writes even in dry run mode, good for previewing changes',
+        default: false,
     })
     .option('push', {
         type: 'boolean',
@@ -119,6 +126,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
         changelogFilename: argv.prependChangelog ?? undefined,
+        forceWriteChangeFiles: argv.forceWriteChangeFiles,
         access: argv.access ?? undefined,
         persistVersions: argv.persistVersions,
         topological: argv.topological,

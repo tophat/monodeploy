@@ -124,7 +124,8 @@ jobs:
               --dry-run \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
-              --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
+              --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
+              --force-write-change-files
 
             changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
             changelog_body="${body//'%'/'%25'}"
@@ -145,10 +146,11 @@ jobs:
             token: ${{ secrets.GH_TOKEN }}
             comment-id: ${{ steps.found-comment.outputs.comment-id }}
             issue-number: ${{ github.event.pull_request.number }}
-            comment-author: 'tophat-opensource-bot'
             edit-mode: replace
             body: |
               <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
+              # [Monodeploy Publish Preview](https://github.com/tophat/monodeploy)
+
               This Pull Request introduces the following changes:
 
               ${{ steps.run-monodeploy.outputs.changelog }}

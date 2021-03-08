@@ -63,6 +63,7 @@ describe('Config Merging', () => {
                 '@tophat/conventional-changelog-config',
             changesetFilename: '/tmp/changeset.json',
             changelogFilename: '/tmp/changelog.md',
+            forceWriteChangeFiles: false,
             access: 'public',
             persistVersions: true,
             topological: true,
