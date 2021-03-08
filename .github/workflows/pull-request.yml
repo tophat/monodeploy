@@ -120,7 +120,7 @@ jobs:
           run: |
             echo "<!-- MONODEPLOY:BELOW -->" > ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
 
-            yarn ts-node ./packages/cli/src/cli.ts \
+            yarn run-local \
               --dry-run \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \

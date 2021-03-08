@@ -37,7 +37,8 @@
         "workspace:test": "jest --detectOpenHandles $0",
         "workspace:types:generate": "tsc -p $0",
         "workspace:types:watch": "tsc -p $0 --pretty --watch",
-        "update:yarn": "node ./ci-scripts/update-yarn.js"
+        "update:yarn": "node ./ci-scripts/update-yarn.js",
+        "run-local": "ts-node ./packages/cli/src/cli.ts"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.0",

@@ -17,9 +17,10 @@ describe('parseRepositoryProperty', () => {
             )
             expect(await parseRepositoryProperty(workspace)).toEqual(
                 expect.objectContaining({
+                    host: 'https://github.com',
                     owner: 'tophat',
                     repository: 'monodeploy',
-                    repoUrl: 'git@github.com:tophat/monodeploy.git',
+                    repoUrl: 'https://github.com/tophat/monodeploy',
                 }),
             )
 
@@ -29,6 +30,7 @@ describe('parseRepositoryProperty', () => {
             )
             expect(await parseRepositoryProperty(workspace)).toEqual(
                 expect.objectContaining({
+                    host: 'https://github.com',
                     owner: 'tophat',
                     repository: 'monodeploy',
                     repoUrl: 'https://github.com/tophat/monodeploy.git',
@@ -41,9 +43,10 @@ describe('parseRepositoryProperty', () => {
             )
             expect(await parseRepositoryProperty(workspace)).toEqual(
                 expect.objectContaining({
+                    host: 'https://github.com',
                     owner: 'tophat',
                     repository: 'monodeploy',
-                    repoUrl: 'https://github.com/tophat/monodeploy.git',
+                    repoUrl: 'git+https://github.com/tophat/monodeploy.git',
                 }),
             )
         }))

@@ -1,5 +1,4 @@
 import { Readable } from 'stream'
-import url from 'url'
 
 import { Workspace, structUtils } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
@@ -19,6 +18,24 @@ type RepositoryInfo = {
     repoUrl: string | null
 }
 
+const REPOSITORY_PATTERNS: Array<
+    [RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]
+> = [
+    [
+        /(?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+)(?:\.git)?/,
+        m => ({ repoUrl: m[0], host: m[1], owner: m[2], repository: m[3] }),
+    ],
+    [
+        /(?:git@)?([^:]+):([^/]+)\/([^/.]+)(?:\.git)?/,
+        m => ({
+            repoUrl: `https://${m[1]}/${m[2]}/${m[3]}`,
+            host: `https://${m[1]}`,
+            owner: m[2],
+            repository: m[3],
+        }),
+    ],
+]
+
 export const parseRepositoryProperty = async (
     workspace: Workspace,
 ): Promise<RepositoryInfo> => {
@@ -31,36 +48,21 @@ export const parseRepositoryProperty = async (
         repoUrl: null,
     }
 
-    let repositoryUrl: string =
+    const repositoryUrl: string =
         (typeof rawManifest?.repository === 'string'
             ? rawManifest?.repository
             : rawManifest?.repository?.url) ?? ''
 
-    if (repositoryUrl.startsWith('git+')) {
-        repositoryUrl = repositoryUrl.substring('git+'.length)
-    }
-
-    data.repoUrl = repositoryUrl
-
-    if (data.repoUrl.endsWith('.git')) {
-        const repo = data.repoUrl?.includes(':')
-            ? data.repoUrl.substring(data.repoUrl.indexOf(`:`) + 1)
-            : data.repoUrl
-        const parts = repo.split('/')
-
-        const repository = parts.pop()
-        const owner = parts.pop()
-
-        data.repository =
-            repository?.substring(0, repository.length - '.git'.length) ?? null
-        data.owner = owner ?? null
-    }
-
-    if (data.repoUrl.startsWith('https://')) {
-        const parsedUrl = url.parse(data.repoUrl)
-        if (parsedUrl?.hostname) {
-            data.host = `${parsedUrl.protocol}//${parsedUrl.host}`
-        }
+    for (const [pattern, cb] of REPOSITORY_PATTERNS) {
+        const matches = repositoryUrl.match(pattern)
+        if (!matches) continue
+        try {
+            const result = cb(matches)
+            if (result) {
+                Object.assign(data, result)
+                break
+            }
+        } catch {}
     }
 
     return data
@@ -70,7 +72,8 @@ const generateChangelogEntry = async (
     config: MonodeployConfiguration,
     context: YarnContext,
     packageName: string,
-    version: string,
+    previousVersion: string | null,
+    newVersion: string,
     commits: CommitMessage[],
 ): Promise<string | null> => {
     if (!config.conventionalChangelogConfig) {
@@ -95,12 +98,17 @@ const generateChangelogEntry = async (
     )
 
     const templateContext = {
-        version,
-        title: `${packageName}@${version}`,
+        version: newVersion,
+        title: `${packageName}@${newVersion}`,
         host: host ?? '',
         owner: owner ?? workspace.manifest.raw?.author ?? '',
         repository: repository ?? '',
         repoUrl: repoUrl ?? '',
+        currentTag: `${packageName}@${newVersion}`,
+        previousTag: previousVersion
+            ? `${packageName}@${previousVersion}`
+            : undefined,
+        linkCompare: Boolean(previousVersion),
     }
 
     const changelogWriter = conventionalChangelogWriter(
