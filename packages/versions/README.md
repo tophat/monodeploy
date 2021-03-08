@@ -5,6 +5,6 @@ This package is responsible for determining semantic version bumps based on diff
 ## Installation
 
 ```sh
-yarn add monodeploy-versions
+yarn add @monodeploy/versions
 ```
 

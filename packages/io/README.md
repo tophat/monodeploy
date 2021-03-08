@@ -5,6 +5,6 @@ This package provides utilities for interacting with the file system. It is an i
 ## Installation
 
 ```sh
-yarn add monodeploy-io
+yarn add @monodeploy/io
 ```
 

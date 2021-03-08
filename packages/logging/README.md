@@ -5,6 +5,6 @@ This package exposes utilities for logging. It is an internal package, and not i
 ## Installation
 
 ```sh
-yarn add monodeploy-logging
+yarn add @monodeploy/logging
 ```
 
