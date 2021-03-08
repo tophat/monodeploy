@@ -4,7 +4,7 @@ import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 const patchPackageJsons = async (
     config: MonodeployConfiguration,

@@ -1,6 +1,6 @@
 import path from 'path'
 
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 const getPackageJsonPaths = async (
     config: MonodeployConfiguration,

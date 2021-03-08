@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import getPackageJsonPaths from './getPackageJsonPaths'
 

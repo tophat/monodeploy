@@ -7,20 +7,20 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { setupMonorepo } from '@monodeploy/test-utils'
-import * as git from 'monodeploy-git'
+import * as git from '@monodeploy/git'
 import {
     backupPackageJsons,
     clearBackupCache,
     restorePackageJsons,
-} from 'monodeploy-io'
-import logger, { LOG_LEVELS } from 'monodeploy-logging'
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+} from '@monodeploy/io'
+import logger, { LOG_LEVELS } from '@monodeploy/logging'
+import { setupMonorepo } from '@monodeploy/test-utils'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import monodeploy from '.'
 
 jest.mock('@yarnpkg/plugin-npm')
-jest.mock('monodeploy-git')
+jest.mock('@monodeploy/git')
 
 const mockGit = git as jest.Mocked<
     typeof git & {

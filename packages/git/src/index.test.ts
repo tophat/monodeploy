@@ -14,7 +14,7 @@ import {
     gitTag,
 } from '.'
 
-describe('monodeploy-git', () => {
+describe('@monodeploy/git', () => {
     let tempRepositoryRoot
 
     beforeEach(async () => {

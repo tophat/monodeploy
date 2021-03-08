@@ -1,5 +1,5 @@
 {
-  "name": "monodeploy-git",
+  "name": "@monodeploy/git",
   "version": "0.0.5",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
@@ -25,7 +25,7 @@
     "@types/node": "^14.0.0"
   },
   "dependencies": {
-    "monodeploy-logging": "workspace:packages/logging",
-    "monodeploy-types": "workspace:packages/types"
+    "@monodeploy/logging": "workspace:packages/logging",
+    "@monodeploy/types": "workspace:packages/types"
   }
 }

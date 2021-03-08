@@ -1,5 +1,5 @@
 {
-  "name": "monodeploy-node",
+  "name": "@monodeploy/node",
   "version": "0.1.1",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
@@ -25,18 +25,18 @@
     "@types/node": "^14.0.0"
   },
   "dependencies": {
+    "@monodeploy/changelog": "workspace:packages/changelog",
+    "@monodeploy/dependencies": "workspace:packages/dependencies",
+    "@monodeploy/git": "workspace:packages/git",
+    "@monodeploy/io": "workspace:packages/io",
+    "@monodeploy/logging": "workspace:packages/logging",
+    "@monodeploy/publish": "workspace:packages/publish",
+    "@monodeploy/types": "workspace:packages/types",
+    "@monodeploy/versions": "workspace:packages/versions",
     "@yarnpkg/cli": "^2.4.1",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/fslib": "^2.4.0",
     "@yarnpkg/plugin-npm": "^2.4.0",
-    "@yarnpkg/plugin-pack": "^2.2.3",
-    "monodeploy-changelog": "workspace:packages/changelog",
-    "monodeploy-dependencies": "workspace:packages/dependencies",
-    "monodeploy-git": "workspace:packages/git",
-    "monodeploy-io": "workspace:packages/io",
-    "monodeploy-logging": "workspace:packages/logging",
-    "monodeploy-publish": "workspace:packages/publish",
-    "monodeploy-types": "workspace:packages/types",
-    "monodeploy-versions": "workspace:packages/versions"
+    "@yarnpkg/plugin-pack": "^2.2.3"
   }
 }

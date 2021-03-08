@@ -1,7 +1,7 @@
 import { Descriptor, Workspace, structUtils } from '@yarnpkg/core'
 
-import logging from 'monodeploy-logging'
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+import logging from '@monodeploy/logging'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
     for (const dependencySetKey of ['dependencies', 'peerDependencies']) {

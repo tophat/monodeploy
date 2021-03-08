@@ -1,13 +1,13 @@
 import * as npm from '@yarnpkg/plugin-npm'
 
-import * as git from 'monodeploy-git'
-import { LOG_LEVELS } from 'monodeploy-logging'
-import { MonodeployConfiguration } from 'monodeploy-types'
+import * as git from '@monodeploy/git'
+import { LOG_LEVELS } from '@monodeploy/logging'
+import { MonodeployConfiguration } from '@monodeploy/types'
 
 import mergeDefaultConfig from './mergeDefaultConfig'
 
 jest.mock('@yarnpkg/plugin-npm')
-jest.mock('monodeploy-git')
+jest.mock('@monodeploy/git')
 
 const mockNPM = npm as jest.Mocked<
     typeof npm & {

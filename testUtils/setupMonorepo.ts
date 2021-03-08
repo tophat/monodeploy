@@ -5,7 +5,7 @@ import path from 'path'
 import { Cache, ThrowReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
-import { YarnContext } from 'monodeploy-types'
+import { YarnContext } from '@monodeploy/types'
 
 import { setupContext } from './misc'
 

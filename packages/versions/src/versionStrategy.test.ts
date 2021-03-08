@@ -1,6 +1,6 @@
 import path from 'path'
 
-import type { MonodeployConfiguration } from 'monodeploy-types'
+import type { MonodeployConfiguration } from '@monodeploy/types'
 
 import {
     STRATEGY,

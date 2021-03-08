@@ -1,7 +1,7 @@
 import { Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { maybeExecuteWorkspaceLifecycleScript } from 'monodeploy-io'
+import { maybeExecuteWorkspaceLifecycleScript } from '@monodeploy/io'
 
 export const prepareForPack = async (
     workspace: Workspace,

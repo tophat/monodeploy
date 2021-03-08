@@ -3,13 +3,13 @@ import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 import pLimit from 'p-limit'
 
-import { getTopologicalSort } from 'monodeploy-dependencies'
-import logging, { assertProductionOrTest } from 'monodeploy-logging'
+import { getTopologicalSort } from '@monodeploy/dependencies'
+import logging, { assertProductionOrTest } from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
