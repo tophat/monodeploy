@@ -7,6 +7,7 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
+import { setupMonorepo } from '@monodeploy/test-utils'
 import * as git from 'monodeploy-git'
 import {
     backupPackageJsons,
@@ -35,9 +36,33 @@ const mockNPM = npm as jest.Mocked<
     }
 >
 
+const setupExampleMonorepo = async (): Promise<YarnContext> => {
+    const context = await setupMonorepo(
+        {
+            'pkg-1': {},
+            'pkg-2': { devDependencies: [] },
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': {},
+            'pkg-5': { dependencies: ['pkg-4'] },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+            },
+            'pkg-7': {},
+        },
+        {
+            root: {
+                dependencies: {
+                    '@tophat/conventional-changelog-config': '^0.5.0',
+                },
+            },
+        },
+    )
+    return context
+}
+
 describe('Monodeploy (Dry Run)', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: true,
         git: {
             baseBranch: 'master',
@@ -48,15 +73,27 @@ describe('Monodeploy (Dry Run)', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topological: false,
+        topologicalDev: false,
+        jobs: 0,
+        forceWriteChangeFiles: false,
     }
 
     beforeAll(async () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -76,10 +113,8 @@ describe('Monodeploy (Dry Run)', () => {
             }).rejects.toThrow(/No project/)
         } finally {
             try {
-                await fs.rmdir(tmpDir)
-            } catch {
-                /* ignore */
-            }
+                await fs.rm(tmpDir, { recursive: true, force: true })
+            } catch {}
         }
     })
 
@@ -164,11 +199,81 @@ describe('Monodeploy (Dry Run)', () => {
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toHaveLength(0)
     })
+
+    it('updates changelog and changeset if forced', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
+
+        try {
+            const changelogTemplate = [
+                `# Changelog`,
+                `Some blurb`,
+                `<!-- MONODEPLOY:BELOW -->`,
+                `## Old Versions`,
+                `Content`,
+            ].join('\n')
+            await fs.writeFile(changelogFilename, changelogTemplate, {
+                encoding: 'utf-8',
+            })
+
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                changesetFilename,
+                forceWriteChangeFiles: true,
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // assert it contains the old entries
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('Old Versions'),
+            )
+
+            const changeset = JSON.parse(
+                await fs.readFile(changesetFilename, {
+                    encoding: 'utf-8',
+                }),
+            )
+
+            expect(changeset).toEqual(
+                expect.objectContaining({
+                    'pkg-1': expect.objectContaining({
+                        version: '0.1.0',
+                        changelog: expect.stringContaining('some new feature'),
+                    }),
+                }),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+    })
 })
 
 describe('Monodeploy', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         git: {
             baseBranch: 'master',
@@ -179,15 +284,27 @@ describe('Monodeploy', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topological: false,
+        topologicalDev: false,
+        jobs: 0,
+        forceWriteChangeFiles: false,
     }
 
     beforeAll(async () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -271,6 +388,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
         mockGit._commitFiles_(
             'sha1',
             'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
@@ -294,10 +412,17 @@ describe('Monodeploy', () => {
             expect.stringContaining('some new feature'),
         )
 
+        // pkg-6 depends on pkg-3, and is updated as a transitive dependent
+        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toEqual([
             'pkg-2@1.0.0',
             'pkg-3@0.0.2',
+            'pkg-6@0.0.2',
         ])
     })
 
@@ -305,6 +430,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
@@ -338,14 +464,21 @@ describe('Monodeploy', () => {
             expect.stringContaining('a different fix'),
         )
 
+        // pkg-6 depends on pkg-3, and is updated as a transitive dependent
+        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].changelog).not.toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
         expect(mockGit._getPushedTags_()).toEqual([
             'pkg-1@0.1.0',
             'pkg-2@0.0.2',
             'pkg-3@0.0.2',
+            'pkg-6@0.0.2',
         ])
     })
 
-    it('updates changelog', async () => {
+    it('updates changelog and changeset', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
@@ -354,7 +487,8 @@ describe('Monodeploy', () => {
         ])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const tempFile = await path.join(tempDir, 'changelog.md')
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
 
         try {
             const changelogTemplate = [
@@ -364,19 +498,20 @@ describe('Monodeploy', () => {
                 `## Old Versions`,
                 `Content`,
             ].join('\n')
-            await fs.writeFile(tempFile, changelogTemplate, {
+            await fs.writeFile(changelogFilename, changelogTemplate, {
                 encoding: 'utf-8',
             })
 
             const result = await monodeploy({
                 ...monodeployConfig,
-                changelogFilename: tempFile,
+                changelogFilename,
+                changesetFilename,
             })
 
             // pkg-1 is explicitly updated with minor bump
             expect(result['pkg-1'].version).toEqual('0.1.0')
 
-            const updatedChangelog = await fs.readFile(tempFile, {
+            const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
             })
 
@@ -389,13 +524,26 @@ describe('Monodeploy', () => {
             expect(updatedChangelog).toEqual(
                 expect.stringContaining('Old Versions'),
             )
+
+            const changeset = JSON.parse(
+                await fs.readFile(changesetFilename, {
+                    encoding: 'utf-8',
+                }),
+            )
+
+            expect(changeset).toEqual(
+                expect.objectContaining({
+                    'pkg-1': expect.objectContaining({
+                        version: '0.1.0',
+                        changelog: expect.stringContaining('some new feature'),
+                    }),
+                }),
+            )
         } finally {
             try {
-                if (tempFile) await fs.unlink(tempFile)
-                if (tempDir) await fs.rmdir(tempDir)
-            } catch {
-                /* ignore */
-            }
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
         }
     })
 
@@ -466,7 +614,7 @@ describe('Monodeploy', () => {
 
 describe('Monodeploy Lifecycle Scripts', () => {
     const monodeployConfig: MonodeployConfiguration = {
-        cwd: path.resolve(process.cwd(), 'example-monorepo'),
+        cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         git: {
             baseBranch: 'master',
@@ -477,6 +625,10 @@ describe('Monodeploy Lifecycle Scripts', () => {
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
         persistVersions: false,
+        topological: true,
+        topologicalDev: true,
+        jobs: 100,
+        forceWriteChangeFiles: false,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>
@@ -485,27 +637,51 @@ describe('Monodeploy Lifecycle Scripts', () => {
             filename,
         )
 
-    const cleanup = async pkgName => {
-        const pkgDir = path.join(monodeployConfig.cwd, 'packages', pkgName)
-        for (const tmpFile of await fs.readdir(pkgDir)) {
-            const resolvedFile = path.resolve(pkgDir, tmpFile)
-            if (resolvedFile.endsWith('.tmp')) {
-                try {
-                    await fs.unlink(resolvedFile)
-                } catch {
-                    /* ignore */
-                }
-            }
-        }
-    }
-
     beforeAll(async () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
     })
 
-    afterEach(() => {
+    beforeEach(async () => {
+        const scripts = {
+            prepack: 'node -p "process.hrtime.bigint()" > .prepack.test.tmp',
+            prepare: 'node -p "process.hrtime.bigint()" > .prepare.test.tmp',
+            prepublish:
+                'node -p "process.hrtime.bigint()" > .prepublish.test.tmp',
+            postpack: 'node -p "process.hrtime.bigint()" > .postpack.test.tmp',
+            postpublish:
+                'node -p "process.hrtime.bigint()" > .postpublish.test.tmp',
+        }
+        const context = await setupMonorepo(
+            {
+                'pkg-1': {},
+                'pkg-2': {},
+                'pkg-3': { dependencies: ['pkg-2'] },
+                'pkg-4': { scripts },
+                'pkg-5': { dependencies: ['pkg-4'], scripts },
+                'pkg-6': {
+                    dependencies: ['pkg-3', 'pkg-7'],
+                    devDependencies: ['pkg-1'],
+                    scripts,
+                },
+                'pkg-7': { scripts },
+            },
+            {
+                root: {
+                    dependencies: {
+                        '@tophat/conventional-changelog-config': '^0.5.0',
+                    },
+                },
+            },
+        )
+        monodeployConfig.cwd = context.project.cwd
+    })
+
+    afterEach(async () => {
         mockGit._reset_()
         mockNPM._reset_()
+        try {
+            await fs.rm(monodeployConfig.cwd, { recursive: true, force: true })
+        } catch {}
     })
 
     afterAll(() => {
@@ -514,40 +690,55 @@ describe('Monodeploy Lifecycle Scripts', () => {
 
     it('runs lifecycle scripts for changed workspaces', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
-        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.1.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-4', '0.0.1')
+        mockNPM._setTag_('pkg-5', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-4/README.md',
         ])
+        mockGit._commitFiles_('sha1', 'feat: some other feature!', [
+            './packages/pkg-2/README.md',
+        ])
 
-        try {
-            const result = await monodeploy(monodeployConfig)
+        const result = await monodeploy(monodeployConfig)
 
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-4'].version).toEqual('0.1.0')
-            expect(result['pkg-4'].changelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+        // pkg-4 is explicitly updated with minor bump
+        expect(result['pkg-4'].version).toEqual('0.1.0')
+        expect(result['pkg-4'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
 
-            expect(mockGit._getPushedTags_()).toEqual(['pkg-4@0.1.0'])
+        // pkg-2 is explicitly bumped with minor
+        expect(result['pkg-2'].version).toEqual('0.2.0')
+        expect(result['pkg-2'].changelog).toEqual(
+            expect.stringContaining('some other feature'),
+        )
 
-            const filesToCheck = [
-                '.prepack.test.tmp',
-                '.prepare.test.tmp',
-                '.prepublish.test.tmp',
-                '.postpack.test.tmp',
-                '.postpublish.test.tmp',
-            ]
+        // pkg-5 depends on pkg-4, so it'll be bumped as a dependant
+        // pkg-3 is bumped because it depends on pkg-2
+        // pkg-6 is bumped because it depends on pkg-3
+        expect(mockGit._getPushedTags_()).toEqual([
+            'pkg-2@0.2.0',
+            'pkg-3@0.0.2',
+            'pkg-4@0.1.0',
+            'pkg-5@0.0.2',
+            'pkg-6@0.0.2',
+        ])
 
-            for (const fileToCheck of filesToCheck) {
-                const filename = resolvePackagePath('pkg-4', fileToCheck)
-                const stat = await fs.stat(filename)
-                expect(stat).toBeDefined()
-            }
-        } finally {
-            // cleanup lifecycle artifacts
-            await cleanup('pkg-4')
+        const filesToCheck = [
+            '.prepack.test.tmp',
+            '.prepare.test.tmp',
+            '.prepublish.test.tmp',
+            '.postpack.test.tmp',
+            '.postpublish.test.tmp',
+        ]
+
+        for (const fileToCheck of filesToCheck) {
+            const filename = resolvePackagePath('pkg-4', fileToCheck)
+            const stat = await fs.stat(filename)
+            expect(stat).toBeDefined()
         }
     })
 })

@@ -15,21 +15,24 @@ import generateChangelogEntry from './changelog'
 const writeChangesetFile = async (
     config: MonodeployConfiguration,
     context: YarnContext,
-    registryTags: PackageTagMap,
+    previousTags: PackageTagMap,
+    newTags: PackageTagMap,
     versionStrategies: PackageStrategyMap,
 ): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
-    for (const [pkgName, version] of registryTags.entries()) {
+    for (const [pkgName, newVersion] of newTags.entries()) {
+        const previousVersion = previousTags.get(pkgName) ?? null
         const changelog = await generateChangelogEntry(
             config,
             context,
             pkgName,
-            version,
+            previousVersion,
+            newVersion,
             versionStrategies.get(pkgName)?.commits ?? [],
         )
         changesetData[pkgName] = {
-            version,
+            version: newVersion,
             changelog,
         }
     }

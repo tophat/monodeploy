@@ -22,9 +22,11 @@
   },
   "dependencies": {
     "@yarnpkg/core": "^2.4.0",
+    "monodeploy-logging": "workspace:packages/logging",
     "monodeploy-types": "workspace:packages/types"
   },
   "devDependencies": {
+    "@monodeploy/test-utils": "link:../../testUtils",
     "@yarnpkg/cli": "^2.4.1"
   }
 }

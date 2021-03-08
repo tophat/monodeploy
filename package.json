@@ -2,7 +2,7 @@
     "name": "monodeploy-monorepo",
     "version": "1.0.0",
     "description": "A small wrapper around yarn berry that makes it easier to use in CI",
-    "repository": "git@github.com:tophat/monodeploy.git",
+    "repository": "https://github.com/tophat/monodeploy.git",
     "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
     "license": "Apache-2.0",
     "private": true,
@@ -13,31 +13,32 @@
         "packages/*"
     ],
     "scripts": {
-        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -p run clean",
-        "build": "yarn workspaces foreach -pi --topological-dev run prepack",
+        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi run clean",
+        "build": "yarn workspaces foreach -vpi --topological-dev run prepack",
         "contrib:add": "all-contributors add",
         "contrib:check": "all-contributors check",
         "contrib:generate": "all-contributors generate",
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
         "lint:fix": "eslint . --fix",
         "lint": "eslint .",
-        "test:ci": "CI=1 run test --ci",
+        "test:ci": "CI=1 run test --ci --forceExit",
         "test:registry:build": "docker build -t monodeploy-test-registry .",
         "test:registry:logs": "docker container logs -f monodeploy-registry",
         "test:registry:start": "docker run -itd -p 4873:4873 --name monodeploy-registry monodeploy-test-registry",
         "test:registry:stop": "docker stop monodeploy-registry && docker container rm monodeploy-registry",
         "test:registry": "run test:registry:build && run test:registry:start",
-        "test:watch": "run test --watch",
-        "test": "jest",
+        "test:watch": "run test --detectOpenHandles --watch",
+        "test": "jest --detectOpenHandles",
         "workspace:build:babel:watch": "run workspace:build:babel $0 --watch",
         "workspace:build:babel": "run babel --config-file ./babel.config.js $0/src --out-dir=$0/lib --no-copy-ignored --extensions '.ts' --ignore '$0/src/**/*.test.ts' --ignore '$0/src/**/*.mock.ts' --ignore '$0/src/**/__mocks__/**/*.ts'",
         "workspace:build": "rm -rf $0/lib && run workspace:build:babel $0 && run workspace:types:generate $0",
         "workspace:clean": "rm -rf $0/lib && find $0/src -name '*.js' -type f -delete",
-        "workspace:test:watch": "run workspace:test $0 --watch",
-        "workspace:test": "jest $0",
+        "workspace:test:watch": "run workspace:test --watch $0",
+        "workspace:test": "jest --detectOpenHandles $0",
         "workspace:types:generate": "tsc -p $0",
         "workspace:types:watch": "tsc -p $0 --pretty --watch",
-        "update:yarn": "node ./ci-scripts/update-yarn.js"
+        "update:yarn": "node ./ci-scripts/update-yarn.js",
+        "run-local": "ts-node ./packages/cli/src/cli.ts"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.0",
@@ -46,9 +47,10 @@
         "@babel/preset-env": "^7.13.9",
         "@babel/preset-typescript": "^7.13.0",
         "@commitlint/cli": "^11.0.0",
+        "@monodeploy/test-utils": "link:./testUtils",
         "@tophat/commitizen-adapter": "^0.0.11",
         "@tophat/commitlint-config": "^0.1.2",
-        "@tophat/conventional-changelog-config": "^0.0.9",
+        "@tophat/conventional-changelog-config": "^0.5.0",
         "@tophat/eslint-config": "^0.7.0",
         "@types/jest": "^26.0.20",
         "@types/node": "^14.0.0",
@@ -98,5 +100,8 @@
     },
     "engines": {
         "node": ">=14.15.0"
+    },
+    "resolutions": {
+        "jest-resolve@^26.6.2": "patch:jest-resolve@npm:26.6.2#./patches/jest-resolve+26.6.2.diff"
     }
 }

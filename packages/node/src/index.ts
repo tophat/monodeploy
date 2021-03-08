@@ -118,6 +118,7 @@ const monodeploy = async (
         result = await writeChangesetFile(
             config,
             context,
+            registryTags, // old versions
             newVersions,
             versionStrategies,
         )

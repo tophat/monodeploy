@@ -19,8 +19,12 @@ export interface MonodeployConfiguration {
     conventionalChangelogConfig?: string
     changesetFilename?: string
     changelogFilename?: string
+    forceWriteChangeFiles: boolean
     access: string
     persistVersions: boolean
+    topological: boolean
+    topologicalDev: boolean
+    jobs: number
 }
 
 export interface YarnContext {

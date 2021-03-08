@@ -27,8 +27,12 @@ const mergeDefaultConfig = async (
             baseConfig.conventionalChangelogConfig ?? undefined,
         changesetFilename: baseConfig.changesetFilename ?? undefined,
         changelogFilename: baseConfig.changelogFilename ?? undefined,
+        forceWriteChangeFiles: baseConfig.forceWriteChangeFiles ?? false,
         access: baseConfig.access ?? 'public',
         persistVersions: baseConfig.persistVersions ?? false,
+        topological: baseConfig.topological ?? false,
+        topologicalDev: baseConfig.topologicalDev ?? false,
+        jobs: baseConfig.jobs ?? 0,
     }
 }
 

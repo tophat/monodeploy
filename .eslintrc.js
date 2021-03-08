@@ -9,6 +9,8 @@ module.exports = {
         'prettier',
     ],
     rules: {
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-empty': ['error', { allowEmptyCatch: true }],
         'no-unused-vars': 'off', // covered by typescript eslint
         'import/order': [
             'error',

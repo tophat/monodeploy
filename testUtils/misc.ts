@@ -32,7 +32,13 @@ export async function getMonodeployConfig({
     cwd,
     changelogFilename,
     dryRun,
-}: MonodeployConfiguration): Promise<MonodeployConfiguration> {
+}: Partial<{
+    baseBranch: string
+    commitSha: string
+    cwd: string
+    changelogFilename: string
+    dryRun: boolean
+}>): Promise<MonodeployConfiguration> {
     return await mergeDefaultConfig({
         cwd,
         git: { baseBranch, commitSha },

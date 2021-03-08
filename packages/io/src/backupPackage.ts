@@ -43,6 +43,8 @@ export const restorePackageJsons = async (
 
 export const clearBackupCache = async (keys: string[]): Promise<void> => {
     await Promise.all(
-        keys.map(async key => await fs.rmdir(key, { recursive: true })),
+        keys.map(
+            async key => await fs.rm(key, { recursive: true, force: true }),
+        ),
     )
 }

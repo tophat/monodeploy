@@ -12,10 +12,14 @@ interface ArgOutput {
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string
+    forceWriteChangeFiles?: boolean
     prependChangelog?: string
     access?: string
     push?: boolean
     persistVersions?: boolean
+    topological?: boolean
+    topologicalDev?: boolean
+    jobs?: number
 }
 
 const { argv } = yargs
@@ -60,6 +64,12 @@ const { argv } = yargs
         type: 'string',
         description: 'Changelog file to prepend changelog entries',
     })
+    .option('force-write-change-files', {
+        type: 'boolean',
+        description:
+            'Force changelog update and changeset writes even in dry run mode, good for previewing changes',
+        default: false,
+    })
     .option('push', {
         type: 'boolean',
         description: 'Whether to push git changes to remote',
@@ -74,6 +84,23 @@ const { argv } = yargs
         type: 'string',
         description:
             'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
+    })
+    .option('topological', {
+        type: 'boolean',
+        description: 'Whether to prepare workspaces in topological order',
+        default: false,
+    })
+    .option('topological-dev', {
+        type: 'boolean',
+        description:
+            'Whether to prepare workspaces in topological order (taking dev dependencies into account)',
+        default: false,
+    })
+    .option('jobs', {
+        type: 'number',
+        description:
+            'Maximum number of tasks to run in parallel (set to 0 for unbounded)',
+        default: 0,
     })
     .demandCommand(0, 0)
     .strict()
@@ -93,20 +120,24 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             baseBranch: argv.gitBaseBranch ?? undefined,
             commitSha: argv.gitCommitSha ?? undefined,
             remote: argv.gitRemote ?? undefined,
-            push: argv.push ?? undefined,
+            push: argv.push,
         },
         conventionalChangelogConfig:
             argv.conventionalChangelogConfig ?? undefined,
         changesetFilename: argv.changesetFilename ?? undefined,
         changelogFilename: argv.prependChangelog ?? undefined,
+        forceWriteChangeFiles: argv.forceWriteChangeFiles,
         access: argv.access ?? undefined,
-        persistVersions: argv.persistVersions ?? undefined,
+        persistVersions: argv.persistVersions,
+        topological: argv.topological,
+        topologicalDev: argv.topologicalDev,
+        jobs: argv.jobs,
     }
 
     try {
         await monodeploy(config)
     } catch (err) {
         console.error(err)
-        process.exit(1)
+        process.exitCode = 1
     }
 })()

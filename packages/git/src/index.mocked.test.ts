@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 
-import { cleanUp, setupTestRepository } from '../../../testUtils'
+import { cleanUp, setupTestRepository } from '@monodeploy/test-utils'
 
 import { gitLastTaggedCommit, gitPush, gitTag } from '.'
 

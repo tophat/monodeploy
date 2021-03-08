@@ -17,42 +17,39 @@ const getLatestPackageTags = async (
         ...context.project.topLevelWorkspace.workspacesCwds,
     ]
         .map(wCwd => context.project.workspacesByCwd.get(wCwd))
-        .filter(workspace => !workspace?.manifest.private)
+        .filter(
+            workspace =>
+                !workspace?.manifest.private && workspace?.manifest.name,
+        )
 
     const distTags = await Promise.all(
         (workspaces as Array<Workspace>).map(async workspace => {
-            const ident = workspace.manifest.name
-            if (ident) {
-                const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
-                const distTagUrl = `/-/package${identUrl}/dist-tags`
-                const pkgName = structUtils.stringifyIdent(ident)
+            const ident = workspace.manifest.name!
+            const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
+            const distTagUrl = `/-/package${identUrl}/dist-tags`
+            const pkgName = structUtils.stringifyIdent(ident)
 
-                try {
-                    const result = await pluginNPM.npmHttpUtils.get(
-                        distTagUrl,
-                        {
-                            configuration: context.configuration,
-                            ident,
-                            jsonResponse: true,
-                        },
+            try {
+                const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
+                    configuration: context.configuration,
+                    ident,
+                    jsonResponse: true,
+                })
+                return [pkgName, result.latest]
+            } catch (err) {
+                if (String(err).includes('404 (Not Found)')) {
+                    // Package has never been published before
+                    logging.warning(
+                        `[Get Tags] Cannot find ${pkgName} in registry (version: 0.0.0)`,
                     )
-                    return [pkgName, result.latest]
-                } catch (err) {
-                    if (String(err).includes('404 (Not Found)')) {
-                        // Package has never been published before
-                        logging.warning(
-                            `[Get Tags] Cannot find ${pkgName} in registry (version: 0.0.0)`,
-                        )
-                        return [pkgName, '0.0.0']
-                    }
-
-                    logging.error(
-                        `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
-                    )
-                    throw err
+                    return [pkgName, '0.0.0']
                 }
+
+                logging.error(
+                    `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
+                )
+                throw err
             }
-            return [null, null]
         }),
     )
 

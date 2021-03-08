@@ -21,6 +21,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
+    "@monodeploy/test-utils": "link:../../testUtils",
     "@types/node": "^14.0.0"
   },
   "dependencies": {

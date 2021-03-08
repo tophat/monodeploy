@@ -22,7 +22,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"pkg-3@workspace:packages/pkg-3":
+"pkg-3@workspace:*, pkg-3@workspace:packages/pkg-3":
   version: 0.0.0-use.local
   resolution: "pkg-3@workspace:packages/pkg-3"
   dependencies:
@@ -30,7 +30,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"pkg-4@workspace:packages/pkg-4":
+"pkg-4@workspace:*, pkg-4@workspace:packages/pkg-4":
   version: 0.0.0-use.local
   resolution: "pkg-4@workspace:packages/pkg-4"
   languageName: unknown
@@ -40,7 +40,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pkg-5@workspace:packages/pkg-5"
   dependencies:
-    pkg-4: "workspace:packages/pkg-4"
+    pkg-4: "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -48,12 +48,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pkg-6@workspace:packages/pkg-6"
   dependencies:
-    pkg-3: "workspace:packages/pkg-3"
-    pkg-7: "workspace:packages/pkg-7"
+    pkg-3: "workspace:*"
+    pkg-7: "workspace:*"
   languageName: unknown
   linkType: soft
 
-"pkg-7@workspace:packages/pkg-7":
+"pkg-7@workspace:*, pkg-7@workspace:packages/pkg-7":
   version: 0.0.0-use.local
   resolution: "pkg-7@workspace:packages/pkg-7"
   languageName: unknown
