@@ -1,3 +1,5 @@
+import { MessageName, ReportError, structUtils } from '@yarnpkg/core'
+
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 
 const registry = {
@@ -17,10 +19,13 @@ const _setTag_ = (
 }
 
 const npmHttpUtilsGet = (distTagUrl, { ident }) => {
-    const pkgName = ident.scope ? `@${ident.scope}/${ident.name}` : ident.name
+    const pkgName = structUtils.stringifyIdent(ident)
     const tags = registry.tags[pkgName]
     if (!tags) {
-        throw new Error('HTTPError: 404 (Not Found)')
+        throw new ReportError(
+            MessageName.AUTHENTICATION_INVALID,
+            `Cannot access ${pkgName}`,
+        )
     }
     return tags
 }
