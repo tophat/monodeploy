@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/logging",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
