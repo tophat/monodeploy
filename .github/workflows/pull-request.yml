@@ -135,6 +135,7 @@ jobs:
         - name: Check for Changelog Comment
           uses: peter-evans/find-comment@v1
           id: found-comment
+          if: github.event_name == 'pull_request'
           with:
             token: ${{ secrets.GH_TOKEN }}
             issue-number: ${{ github.event.pull_request.number }}
@@ -142,6 +143,7 @@ jobs:
             body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
         - name: Post Changelog to PR
           uses: peter-evans/create-or-update-comment@v1
+          if: github.event_name == 'pull_request'
           with:
             token: ${{ secrets.GH_TOKEN }}
             comment-id: ${{ steps.found-comment.outputs.comment-id }}
