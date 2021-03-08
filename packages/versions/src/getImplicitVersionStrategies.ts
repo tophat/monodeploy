@@ -1,9 +1,9 @@
-import { getDependents } from 'monodeploy-dependencies'
+import { getDependents } from '@monodeploy/dependencies'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 const getImplicitVersionStrategies = async (
     config: MonodeployConfiguration,

@@ -1,14 +1,14 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import logging from 'monodeploy-logging'
+import logging from '@monodeploy/logging'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 import generateChangelogEntry from './changelog'
 

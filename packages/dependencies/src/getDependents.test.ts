@@ -5,7 +5,7 @@ import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 
 import { getDependents } from '.'
 
-describe('monodeploy-dependencies', () => {
+describe('@monodeploy/dependencies', () => {
     let context
 
     beforeEach(async () => {

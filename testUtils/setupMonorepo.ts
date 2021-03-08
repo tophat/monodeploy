@@ -5,7 +5,7 @@ import path from 'path'
 import { Cache, ThrowReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
-import { YarnContext } from 'monodeploy-types'
+import { YarnContext } from '@monodeploy/types'
 
 import { setupContext } from './misc'
 
@@ -34,6 +34,7 @@ type PackageInitConfiguration = Partial<{
     peerDependencies: Array<string>
     scripts: Record<string, string>
     private: boolean
+    version: string
 }>
 
 export default async function setupMonorepo(
@@ -70,7 +71,7 @@ export default async function setupMonorepo(
 
         await writeJSON(path.join(pkgDir, 'package.json'), {
             name: pkgName,
-            version: '0.0.0',
+            version: pkgConfig.version ?? '0.0.0',
             private: pkgConfig.private || undefined,
             scripts: pkgConfig.scripts ?? {},
             dependencies: await makeDependencyMap(pkgConfig.dependencies ?? []),

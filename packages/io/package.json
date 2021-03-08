@@ -1,5 +1,5 @@
 {
-  "name": "monodeploy-io",
+  "name": "@monodeploy/io",
   "version": "0.1.1",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
@@ -25,8 +25,8 @@
     "@types/node": "^14.0.0"
   },
   "dependencies": {
+    "@monodeploy/types": "workspace:packages/types",
     "@yarnpkg/core": "^2.4.0",
-    "@yarnpkg/fslib": "^2.4.0",
-    "monodeploy-types": "workspace:packages/types"
+    "@yarnpkg/fslib": "^2.4.0"
   }
 }

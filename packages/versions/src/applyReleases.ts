@@ -1,14 +1,14 @@
 import { Workspace } from '@yarnpkg/core'
 import { inc as incrementSemver } from 'semver'
 
-import { patchPackageJsons } from 'monodeploy-io'
-import logging from 'monodeploy-logging'
+import { patchPackageJsons } from '@monodeploy/io'
+import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 const applyReleases = async (
     config: MonodeployConfiguration,

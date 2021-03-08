@@ -10,7 +10,7 @@ import {
 } from '@monodeploy/test-utils'
 
 // Skipping the git mock as we use a temp repository for these tests.
-jest.mock('monodeploy-git', () => jest.requireActual('monodeploy-git'))
+jest.mock('@monodeploy/git', () => jest.requireActual('@monodeploy/git'))
 
 import { getExplicitVersionStrategies } from '.'
 

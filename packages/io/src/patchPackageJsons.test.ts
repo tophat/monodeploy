@@ -7,7 +7,7 @@ import {
     getMonodeployConfig,
     withMonorepoContext,
 } from '@monodeploy/test-utils'
-import { YarnContext } from 'monodeploy-types'
+import { YarnContext } from '@monodeploy/types'
 
 import { patchPackageJsons } from '.'
 

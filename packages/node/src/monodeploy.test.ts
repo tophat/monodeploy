@@ -7,20 +7,20 @@ import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
-import { setupMonorepo } from '@monodeploy/test-utils'
-import * as git from 'monodeploy-git'
+import * as git from '@monodeploy/git'
 import {
     backupPackageJsons,
     clearBackupCache,
     restorePackageJsons,
-} from 'monodeploy-io'
-import logger, { LOG_LEVELS } from 'monodeploy-logging'
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+} from '@monodeploy/io'
+import logger, { LOG_LEVELS } from '@monodeploy/logging'
+import { setupMonorepo } from '@monodeploy/test-utils'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import monodeploy from '.'
 
 jest.mock('@yarnpkg/plugin-npm')
-jest.mock('monodeploy-git')
+jest.mock('@monodeploy/git')
 
 const mockGit = git as jest.Mocked<
     typeof git & {
@@ -48,6 +48,7 @@ const setupExampleMonorepo = async (): Promise<YarnContext> => {
                 dependencies: ['pkg-3', 'pkg-7'],
             },
             'pkg-7': {},
+            'pkg-8': { version: '3.1.0' },
         },
         {
             root: {
@@ -179,7 +180,7 @@ describe('Monodeploy (Dry Run)', () => {
         expect(mockGit._getPushedTags_()).toHaveLength(0)
     })
 
-    it('defaults to 0.0.0 as base version for first publish', async () => {
+    it('defaults to 0.0.0 as base version for first publish if no version found in manifest', async () => {
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
@@ -195,6 +196,23 @@ describe('Monodeploy (Dry Run)', () => {
         // pkg-2 and pkg-3 not in dependency graph
         expect(result['pkg-2']).toBeUndefined()
         expect(result['pkg-3']).toBeUndefined()
+
+        // Not tags pushed in dry run
+        expect(mockGit._getPushedTags_()).toHaveLength(0)
+    })
+
+    it('defaults to version from manifest if no version found in package registry', async () => {
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-8/README.md',
+        ])
+
+        const result = await monodeploy(monodeployConfig)
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-8'].version).toEqual('3.2.0')
+        expect(result['pkg-8'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
 
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toHaveLength(0)

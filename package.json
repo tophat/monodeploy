@@ -1,5 +1,5 @@
 {
-    "name": "monodeploy-monorepo",
+    "name": "@monodeploy/monorepo",
     "version": "1.0.0",
     "description": "A small wrapper around yarn berry that makes it easier to use in CI",
     "repository": "https://github.com/tophat/monodeploy.git",
@@ -48,6 +48,7 @@
         "@babel/preset-typescript": "^7.13.0",
         "@commitlint/cli": "^11.0.0",
         "@monodeploy/test-utils": "link:./testUtils",
+        "@monodeploy/types": "workspace:packages/types",
         "@tophat/commitizen-adapter": "^0.0.11",
         "@tophat/commitlint-config": "^0.1.2",
         "@tophat/conventional-changelog-config": "^0.5.0",
@@ -78,7 +79,6 @@
         "jest": "^26.6.3",
         "jest-junit": "^12.0.0",
         "lint-staged": "^10.5.3",
-        "monodeploy-types": "workspace:packages/types",
         "package-json": "^6.5.0",
         "prettier": "^2.2.1",
         "querystring": "^0.2.1",

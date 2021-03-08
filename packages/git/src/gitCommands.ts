@@ -1,6 +1,6 @@
 import childProcess from 'child_process'
 
-import logging, { assertProduction } from 'monodeploy-logging'
+import logging, { assertProduction } from '@monodeploy/logging'
 
 export const gitResolveSha = async (
     ref: string,

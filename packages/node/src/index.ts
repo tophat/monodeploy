@@ -4,27 +4,27 @@ import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { prependChangelogFile, writeChangesetFile } from 'monodeploy-changelog'
+import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
 import {
     backupPackageJsons,
     clearBackupCache,
     restorePackageJsons,
-} from 'monodeploy-io'
-import logging from 'monodeploy-logging'
-import { getWorkspacesToPublish, publishPackages } from 'monodeploy-publish'
+} from '@monodeploy/io'
+import logging from '@monodeploy/logging'
+import { getWorkspacesToPublish, publishPackages } from '@monodeploy/publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
     RecursivePartial,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 import {
     applyReleases,
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
     getLatestPackageTags,
-} from 'monodeploy-versions'
+} from '@monodeploy/versions'
 
 import getRegistryUrl from './utils/getRegistryUrl'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'

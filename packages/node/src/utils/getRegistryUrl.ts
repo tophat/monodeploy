@@ -1,6 +1,6 @@
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
-import type { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 const getRegistryUrl = async (
     config: MonodeployConfiguration,

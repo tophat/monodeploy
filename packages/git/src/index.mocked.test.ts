@@ -4,9 +4,9 @@ import { cleanUp, setupTestRepository } from '@monodeploy/test-utils'
 
 import { gitLastTaggedCommit, gitPush, gitTag } from '.'
 
-jest.mock('monodeploy-logging')
+jest.mock('@monodeploy/logging')
 
-describe('monodeploy-git (mocked invariants)', () => {
+describe('@monodeploy/git (mocked invariants)', () => {
     let tempRepositoryRoot
 
     beforeEach(async () => {

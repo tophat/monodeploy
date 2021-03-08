@@ -5,14 +5,14 @@ This package exposes a Node API for Monodeploy. It provides an alternative to th
 ## Installation
 
 ```sh
-yarn add monodeploy-node
+yarn add @monodeploy/node
 ```
 
 ## Usage
 
 ```ts
-import type { MonodeployConfiguration }  from 'monodeploy-types'
-import monodeploy from 'monodeploy-node'
+import type { MonodeployConfiguration }  from '@monodeploy/types'
+import monodeploy from '@monodeploy/node'
 
 try {
     const config: MonodeployConfiguration = {

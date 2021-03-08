@@ -127,8 +127,8 @@ The CLI provides a few sensible defaults, however if using the Node API, you wil
 To use the API:
 
 ```ts
-import type { MonodeployConfiguration }  from 'monodeploy-types'
-import monodeploy from 'monodeploy-node'
+import type { MonodeployConfiguration }  from '@monodeploy/types'
+import monodeploy from '@monodeploy/node'
 
 try {
     const config: MonodeployConfiguration = {
@@ -150,25 +150,9 @@ try {
 }
 ```
 
-### Note About Package Versioning
+### Note About Monodeploy Package Versioning
 
-This monorepo follows semantic versioning. That being said, the packages are divided into two categories: public & private.
-
-Public:
-- monodeploy
-- monodeploy-node
-- monodeploy-types
-
-Private:
-- monodeploy-git
-- monodeploy-logging
-- monodeploy-io
-- monodeploy-publish
-- monodeploy-changelog
-- monodeploy-versions
-- monodeploy-dependencies
-
-Public packages should have fairly stable APIs, whereas private packages are mainly intended as helpers for the private packages, and so can expect frequent API changes (still following semantic versioning though).
+Only the `monodeploy` package is "public" and follows strict semantic versioning. The other packages such as `@monodeploy/changelog` are meant for internal use and may change their APIs at any time.
 
 ## Contributing
 

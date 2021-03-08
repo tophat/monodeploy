@@ -2,7 +2,7 @@ import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { MonodeployConfiguration, YarnContext } from 'monodeploy-types'
+import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import mergeDefaultConfig from '../packages/node/src/utils/mergeDefaultConfig'
 

@@ -5,6 +5,6 @@ This package is responsible for generating changelog entries, updating changelog
 ## Installation
 
 ```sh
-yarn add monodeploy-changelog
+yarn add @monodeploy/changelog
 ```
 

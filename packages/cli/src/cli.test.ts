@@ -1,10 +1,10 @@
 import path from 'path'
 
-import monodeploy from 'monodeploy-node'
+import monodeploy from '@monodeploy/node'
 
 const scriptPath = path.join(__dirname, 'cli.ts')
 
-jest.mock('monodeploy-node', () => ({
+jest.mock('@monodeploy/node', () => ({
     __esModule: true,
     default: jest.fn(),
 }))

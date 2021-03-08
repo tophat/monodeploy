@@ -4,12 +4,12 @@ import { Workspace, structUtils } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
-import { readStream, readStreamString } from 'monodeploy-io'
+import { readStream, readStreamString } from '@monodeploy/io'
 import type {
     CommitMessage,
     MonodeployConfiguration,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 type RepositoryInfo = {
     host: string | null

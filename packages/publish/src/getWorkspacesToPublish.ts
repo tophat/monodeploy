@@ -1,6 +1,6 @@
 import { Workspace, structUtils } from '@yarnpkg/core'
 
-import type { PackageStrategyMap, YarnContext } from 'monodeploy-types'
+import type { PackageStrategyMap, YarnContext } from '@monodeploy/types'
 
 const getWorkspacesToPublish = (
     context: YarnContext,

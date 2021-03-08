@@ -1,12 +1,12 @@
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
-import logging from 'monodeploy-logging'
+import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
-} from 'monodeploy-types'
+} from '@monodeploy/types'
 
 const getLatestPackageTags = async (
     config: MonodeployConfiguration,
@@ -37,12 +37,20 @@ const getLatestPackageTags = async (
                 })
                 return [pkgName, result.latest]
             } catch (err) {
-                if (String(err).includes('404 (Not Found)')) {
-                    // Package has never been published before
+                if (
+                    (err instanceof ReportError &&
+                        err.reportCode ===
+                            MessageName.AUTHENTICATION_INVALID) ||
+                    err.response?.statusCode === 404
+                ) {
+                    // Assume package has never been published before.
+                    // If the issue was actually an auth issue, we'll find out
+                    // later when we attempt to publish.
+                    const version = workspace.manifest.version ?? '0.0.0'
                     logging.warning(
-                        `[Get Tags] Cannot find ${pkgName} in registry (version: 0.0.0)`,
+                        `[Get Tags] Cannot find ${pkgName} in registry (version: ${version})`,
                     )
-                    return [pkgName, '0.0.0']
+                    return [pkgName, version]
                 }
 
                 logging.error(
