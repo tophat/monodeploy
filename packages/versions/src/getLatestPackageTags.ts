@@ -39,10 +39,11 @@ const getLatestPackageTags = async (
             } catch (err) {
                 if (String(err).includes('404 (Not Found)')) {
                     // Package has never been published before
+                    const version = workspace.manifest.version ?? '0.0.0'
                     logging.warning(
-                        `[Get Tags] Cannot find ${pkgName} in registry (version: 0.0.0)`,
+                        `[Get Tags] Cannot find ${pkgName} in registry (version: ${version})`,
                     )
-                    return [pkgName, '0.0.0']
+                    return [pkgName, version]
                 }
 
                 logging.error(
