@@ -2,7 +2,7 @@
     "name": "monodeploy-monorepo",
     "version": "1.0.0",
     "description": "A small wrapper around yarn berry that makes it easier to use in CI",
-    "repository": "git@github.com:tophat/monodeploy.git",
+    "repository": "https://github.com/tophat/monodeploy.git",
     "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
     "license": "Apache-2.0",
     "private": true,
