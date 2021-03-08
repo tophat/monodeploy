@@ -128,7 +128,7 @@ jobs:
               --force-write-change-files
 
             changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
-            changelog_body="${body//'%'/'%25'}"
+            changelog_body="${changelog_body//'%'/'%25'}"
             changelog_body="${changelog_body//$'\n'/'%0A'}"
             changelog_body="${changelog_body//$'\r'/'%0D'}"
             echo ::set-output name=changelog::$changelog_body
@@ -149,7 +149,7 @@ jobs:
             edit-mode: replace
             body: |
               <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
-              # [Monodeploy Publish Preview](https://github.com/tophat/monodeploy)
+              # Monodeploy Publish Preview
 
               This Pull Request introduces the following changes:
 
