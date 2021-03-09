@@ -35,7 +35,15 @@ const applyReleases = async (
     }
 
     // Update newVersions to contain appropriate updates for dependents
-    await patchPackageJsons(config, context, workspaces, intendedRegistryTags)
+    await patchPackageJsons(
+        config,
+        context,
+        workspaces,
+        new Map([
+            ...registryTags.entries(),
+            ...intendedRegistryTags.entries(),
+        ]) as PackageTagMap,
+    )
 
     return intendedRegistryTags
 }
