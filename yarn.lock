@@ -1749,7 +1749,7 @@ __metadata:
     "@monodeploy/types": "workspace:packages/types"
     "@tophat/commitizen-adapter": ^0.0.11
     "@tophat/commitlint-config": ^0.1.2
-    "@tophat/conventional-changelog-config": ^0.5.0
+    "@tophat/conventional-changelog-config": ^0.5.1
     "@tophat/eslint-config": ^0.7.0
     "@types/jest": ^26.0.20
     "@types/node": ^14.0.0
@@ -2036,13 +2036,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/conventional-changelog-config@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@tophat/conventional-changelog-config@npm:0.5.0"
+"@tophat/conventional-changelog-config@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@tophat/conventional-changelog-config@npm:0.5.1"
   dependencies:
     "@tophat/commit-utils-core": "*"
     compare-func: ^2.0.0
-  checksum: b0b6fe88faf9138322934050c0e48bb157c8a16f6a51cce4ef3459dcf4e12e7e8e17fd79f57ab1b29807bd1bfab9c72089f7904a409d80d82b964d38be059482
+  checksum: 919ef85a361332eed922b17af0aa449668c165a0d330024102d27c8e63895f85e921f1b0d3a1339b903a6d387f28aba8543a8da7cb67ccf5eaf46e67ef5bff55
   languageName: node
   linkType: hard
 
