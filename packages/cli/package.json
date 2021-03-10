@@ -23,7 +23,7 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "@monodeploy/node": "^0.2.0",
+    "@monodeploy/node": "^0.2.1",
     "yargs": "^16.2.0"
   }
 }

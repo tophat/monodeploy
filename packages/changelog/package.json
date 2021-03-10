@@ -21,9 +21,9 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/io": "^0.2.0",
-    "@monodeploy/logging": "^0.1.0",
-    "@monodeploy/types": "^0.2.0",
+    "@monodeploy/io": "^0.2.1",
+    "@monodeploy/logging": "^0.1.1",
+    "@monodeploy/types": "^0.2.1",
     "@yarnpkg/core": "^2.4.0",
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0"

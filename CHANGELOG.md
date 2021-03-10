@@ -6,6 +6,81 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.0...@monodeploy/changelog@0.2.1) "@monodeploy/changelog" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.0...@monodeploy/dependencies@0.2.1) "@monodeploy/dependencies" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.1.1](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.0...@monodeploy/git@0.1.1) "@monodeploy/git" (2021-03-10)<a name="0.1.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.0...@monodeploy/io@0.2.1) "@monodeploy/io" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.1.1](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.0...@monodeploy/logging@0.1.1) "@monodeploy/logging" (2021-03-10)<a name="0.1.1"></a>
+
+## Bug Fixes
+
+* improve log readability ([#283](https://github.com/tophat/monodeploy/issues/283)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.2.0...@monodeploy/node@0.2.1) "@monodeploy/node" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* improve log readability ([#283](https://github.com/tophat/monodeploy/issues/283)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.1.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.1.0...@monodeploy/publish@0.1.1) "@monodeploy/publish" (2021-03-10)<a name="0.1.1"></a>
+
+## Bug Fixes
+
+* use scoped name in publish log message ([#278](https://github.com/tophat/monodeploy/issues/278)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+* improve log readability ([#283](https://github.com/tophat/monodeploy/issues/283)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.2.0...@monodeploy/types@0.2.1) "@monodeploy/types" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.2.0...@monodeploy/versions@0.2.1) "@monodeploy/versions" (2021-03-10)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* **publish:** default to registry tags, if no intended update ([#279](https://github.com/tophat/monodeploy/issues/279)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
+## [2.2.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.2.0...monodeploy@2.2.1) "monodeploy" (2021-03-10)<a name="2.2.1"></a>
+
+## Bug Fixes
+
+* bump versions to release ([#284](https://github.com/tophat/monodeploy/issues/284)) ([dc93dcf](https://github.com/tophat/monodeploy/commits/dc93dcf))
+
+
 # [0.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.1.1...@monodeploy/changelog@0.2.0) "@monodeploy/changelog" (2021-03-08)<a name="0.2.0"></a>
 
 ## Features
