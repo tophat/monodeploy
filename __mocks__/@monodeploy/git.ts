@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { CommitMessage, MonodeployConfiguration } from '@monodeploy/types'
+import type {
+    CommitMessage,
+    MonodeployConfiguration,
+    YarnContext,
+} from '@monodeploy/types'
 
 const registry: {
     commits: CommitMessage[]
@@ -36,14 +40,14 @@ const _getPushedTags_ = (): string[] => {
 
 const gitResolveSha = async (
     ref: string,
-    { cwd }: { cwd: string },
+    { cwd, context }: { cwd: string; context: YarnContext },
 ): Promise<string> => {
     return `sha:${ref}`
 }
 
 const gitDiffTree = async (
     ref: string,
-    { cwd }: { cwd: string },
+    { cwd, context }: { cwd: string; context: YarnContext },
 ): Promise<string> => {
     return (registry.filesModified.get(ref) ?? []).join('\n')
 }
@@ -51,14 +55,21 @@ const gitDiffTree = async (
 const gitLog = async (
     from: string,
     to: string,
-    { cwd, DELIMITER }: { cwd: string; DELIMITER: string },
+    {
+        cwd,
+        DELIMITER,
+        context,
+    }: { cwd: string; DELIMITER: string; context: YarnContext },
 ): Promise<string> => {
     return registry.commits
         .map(commit => `${commit.sha}\n${commit.body}`)
         .join(`${DELIMITER}\n`)
 }
 
-const gitTag = async (tag: string, { cwd }: { cwd: string }): Promise<void> => {
+const gitTag = async (
+    tag: string,
+    { cwd, context }: { cwd: string; context: YarnContext },
+): Promise<void> => {
     registry.tags.push(tag)
     registry.lastTaggedCommit =
         registry.commits[registry.commits.length - 1]?.sha
@@ -66,7 +77,11 @@ const gitTag = async (tag: string, { cwd }: { cwd: string }): Promise<void> => {
 
 const gitPush = async (
     tag: string,
-    { cwd, remote }: { cwd: string; remote: string },
+    {
+        cwd,
+        remote,
+        context,
+    }: { cwd: string; remote: string; context: YarnContext },
 ): Promise<void> => {
     if (!registry.tags.includes(tag)) {
         throw new Error(`Tag ${tag} does not exist.`)
@@ -76,8 +91,10 @@ const gitPush = async (
 
 const gitLastTaggedCommit = async ({
     cwd,
+    context,
 }: {
     cwd: string
+    context: YarnContext
 }): Promise<string> => {
     if (!registry.lastTaggedCommit) {
         throw new Error('No tagged commit.')
@@ -87,11 +104,16 @@ const gitLastTaggedCommit = async ({
 
 export const getCommitMessages = async (
     config: MonodeployConfiguration,
+    context: YarnContext,
 ): Promise<CommitMessage[]> => {
     const DELIMITER = '-----------------monodeploy-----------------'
     const from = config.git.baseBranch
     const to = config.git.commitSha
-    const logOutput = await gitLog(from, to, { cwd: config.cwd, DELIMITER })
+    const logOutput = await gitLog(from, to, {
+        cwd: config.cwd,
+        DELIMITER,
+        context,
+    })
     return logOutput
         .toString()
         .split(`${DELIMITER}\n`)

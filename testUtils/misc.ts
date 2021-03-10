@@ -21,6 +21,7 @@ export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
         configuration,
         project,
         workspace,
+        report: null,
     }
 
     return context

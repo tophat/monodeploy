@@ -21,7 +21,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "chalk": "^4.1.0"
+    "@yarnpkg/core": "^2.4.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.0"

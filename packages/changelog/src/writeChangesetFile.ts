@@ -38,10 +38,10 @@ const writeChangesetFile = async (
     }
 
     if (!config.changesetFilename) {
-        logging.debug(
-            `[Changeset] Data`,
-            JSON.stringify(changesetData, null, 2),
-        )
+        logging.debug(`[Changeset] Data`, {
+            extras: JSON.stringify(changesetData, null, 2),
+            report: context.report,
+        })
         return changesetData
     }
 
@@ -51,7 +51,9 @@ const writeChangesetFile = async (
     await fs.writeFile(changesetPath, JSON.stringify(changesetData, null, 2), {
         encoding: 'utf8',
     })
-    logging.info(`[Changeset] Written to: ${changesetPath}`)
+    logging.info(`[Changeset] Written to: ${changesetPath}`, {
+        report: context.report,
+    })
 
     return changesetData
 }

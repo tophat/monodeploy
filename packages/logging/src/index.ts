@@ -1,4 +1,6 @@
-import chalk from 'chalk'
+import { Writable } from 'stream'
+
+import { MessageName, Report, StreamReport, miscUtils } from '@yarnpkg/core'
 
 export * from './invariants'
 
@@ -11,18 +13,12 @@ export const LOG_LEVELS = {
 
 type LogLevelType = typeof LOG_LEVELS[keyof typeof LOG_LEVELS]
 
-type Logger = (...args: unknown[]) => void
+type Logger = (
+    message: string | Error,
+    { report, extras }: { report?: Report | null; extras?: string },
+) => void
 
-type Formatter = (arg: unknown) => string
-
-const levelToColour = {
-    [LOG_LEVELS.DEBUG]: chalk.magenta,
-    [LOG_LEVELS.INFO]: chalk.reset,
-    [LOG_LEVELS.WARNING]: chalk.yellow,
-    [LOG_LEVELS.ERROR]: chalk.red,
-}
-
-const loggerOpts = {
+const loggerOpts: { dryRun: boolean } = {
     dryRun: false,
 }
 
@@ -32,35 +28,63 @@ const getCurrentLogLevel = () => {
 }
 
 const createLogger = (level: LogLevelType): Logger => (
-    ...args: unknown[]
+    message,
+    { report, extras },
 ): void => {
     if (getCurrentLogLevel() > level) return
-    const date = new Date()
-    const timestamp = `[${String(date.getHours()).padStart(2, '0')}:${String(
-        date.getMinutes(),
-    ).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(
-        date.getMilliseconds(),
-    ).padStart(3, '0')}]`
-    const colour = levelToColour[level]
 
-    const line = [chalk.yellow(timestamp)]
-    if (loggerOpts.dryRun && level === LOG_LEVELS.INFO) {
-        line.push(chalk.grey('[Dry Run]'))
+    if (!report) {
+        console.log(message)
+        return
     }
-    line.push((colour as Formatter)(args[0]))
 
-    const logFn = level >= LOG_LEVELS.WARNING ? console.error : console.log
+    if (message instanceof Error) {
+        report.reportExceptionOnce(message)
+        return
+    }
 
-    logFn(line.join(' '))
-    if (args.length > 1) {
-        for (const arg of args.slice(1)) {
-            logFn((colour as Formatter)(arg))
-        }
+    if (level === LOG_LEVELS.ERROR) {
+        report.reportError(MessageName.UNNAMED, message)
+    } else if (level === LOG_LEVELS.WARNING) {
+        report.reportWarning(MessageName.UNNAMED, message)
+    } else if (level === LOG_LEVELS.INFO || level === LOG_LEVELS.DEBUG) {
+        report.reportInfo(
+            MessageName.UNNAMED,
+            loggerOpts.dryRun ? `[Dry Run] ${message}` : message,
+        )
+    }
+
+    if (extras) {
+        report.reportInfo(MessageName.UNNAMED, extras)
     }
 }
 
 const setDryRun = (value: boolean): void => {
     loggerOpts.dryRun = value
+}
+
+const createReportStream = ({
+    report,
+    prefix,
+}: {
+    report: StreamReport
+    prefix: string | null
+}): [Writable, Promise<boolean>] => {
+    const streamReporter = report.createStreamReporter(prefix)
+
+    const defaultStream = new miscUtils.DefaultStream()
+    defaultStream.pipe(streamReporter, { end: false })
+    defaultStream.on('finish', () => {
+        streamReporter.end()
+    })
+
+    const promise = new Promise<boolean>(resolve => {
+        streamReporter.on('finish', () => {
+            resolve(defaultStream.active)
+        })
+    })
+
+    return [defaultStream, promise]
 }
 
 const logger = {
@@ -69,6 +93,7 @@ const logger = {
     warning: createLogger(LOG_LEVELS.WARNING),
     error: createLogger(LOG_LEVELS.ERROR),
     setDryRun,
+    createReportStream,
 }
 
 export default logger

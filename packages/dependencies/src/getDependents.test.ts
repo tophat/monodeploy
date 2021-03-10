@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import logging from '@monodeploy/logging'
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 
 import { getDependents } from '.'
@@ -146,7 +147,7 @@ describe('cycles', () => {
 
     it('handles cycles', async () => {
         const consoleSpy = jest
-            .spyOn(console, 'error')
+            .spyOn(logging, 'error')
             .mockImplementation(() => {
                 /* ignore */
             })
@@ -163,8 +164,8 @@ describe('cycles', () => {
         )
 
         expect(dependents).toEqual(new Set(['pkg-1', 'pkg-3']))
-        expect(consoleSpy).toHaveBeenCalledWith(
-            expect.stringMatching('Cycle detected'),
-        )
+        expect(
+            consoleSpy.mock.calls[consoleSpy.mock.calls.length - 1][0],
+        ).toEqual(expect.stringMatching('Cycle detected'))
     })
 })

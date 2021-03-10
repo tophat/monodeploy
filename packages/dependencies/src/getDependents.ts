@@ -63,7 +63,9 @@ const getDependents = async (
             if (
                 structUtils.areDescriptorsEqual(descriptor, transitiveDependent)
             ) {
-                logging.error('Cycle detected between workspaces.')
+                logging.error('Cycle detected between workspaces.', {
+                    report: context.report,
+                })
                 continue
             }
             if (!dependentsSet.has(transitiveDependent)) {
