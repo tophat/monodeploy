@@ -105,7 +105,7 @@ const monodeploy = async (
 
             await report.startTimerPromise(
                 'Fetching Workspace Information',
-                { skipIfEmpty: true },
+                { skipIfEmpty: false },
                 async () => {
                     workspacesToPublish = await getWorkspacesToPublish(
                         context,
@@ -118,7 +118,7 @@ const monodeploy = async (
 
             await report.startTimerPromise(
                 'Patching Package Manifests',
-                { skipIfEmpty: true },
+                { skipIfEmpty: false },
                 async () => {
                     // Apply releases, and update package.jsons
                     newVersions = await applyReleases(
@@ -133,7 +133,7 @@ const monodeploy = async (
 
             await report.startTimerPromise(
                 'Publishing Packages',
-                { skipIfEmpty: true },
+                { skipIfEmpty: false },
                 async () => {
                     // Publish (+ Git Tags)
                     await publishPackages(
@@ -148,7 +148,7 @@ const monodeploy = async (
 
             await report.startTimerPromise(
                 'Updating Change Files',
-                { skipIfEmpty: true },
+                { skipIfEmpty: false },
                 async () => {
                     // Write changeset
                     result = await writeChangesetFile(
@@ -167,7 +167,7 @@ const monodeploy = async (
         } finally {
             await report.startTimerPromise(
                 'Cleaning Up',
-                { skipIfEmpty: true },
+                { skipIfEmpty: false },
                 async () => {
                     if (!config.persistVersions) {
                         // Restore workspace package.jsons
