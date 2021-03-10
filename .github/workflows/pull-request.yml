@@ -123,7 +123,7 @@ jobs:
             yarn run-local \
               --dry-run \
               --log-level 0 \
-              --git-base-branch ${{ github.base_ref }} \
+              --git-base-branch origin/${{ github.base_ref }} \
               --conventional-changelog-config @tophat/conventional-changelog-config \
               --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
               --force-write-change-files
