@@ -16,6 +16,7 @@ import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
+    PackageTagMap,
     RecursivePartial,
     YarnContext,
 } from '@monodeploy/types'
@@ -100,50 +101,85 @@ const monodeploy = async (
         })
 
         try {
-            const workspacesToPublish = getWorkspacesToPublish(
-                context,
-                versionStrategies,
+            let workspacesToPublish: Set<Workspace>
+
+            await report.startTimerPromise(
+                'Fetching Workspace Information',
+                { skipIfEmpty: true },
+                async () => {
+                    workspacesToPublish = await getWorkspacesToPublish(
+                        context,
+                        versionStrategies,
+                    )
+                },
             )
 
-            // Apply releases, and update package.jsons
-            const newVersions = await applyReleases(
-                config,
-                context,
-                workspacesToPublish,
-                registryTags,
-                versionStrategies,
+            let newVersions: PackageTagMap
+
+            await report.startTimerPromise(
+                'Patching Package Manifests',
+                { skipIfEmpty: true },
+                async () => {
+                    // Apply releases, and update package.jsons
+                    newVersions = await applyReleases(
+                        config,
+                        context,
+                        workspacesToPublish,
+                        registryTags,
+                        versionStrategies,
+                    )
+                },
             )
 
-            // Publish (+ Git Tags)
-            await publishPackages(
-                config,
-                context,
-                workspacesToPublish,
-                registryUrl,
-                newVersions,
+            await report.startTimerPromise(
+                'Publishing Packages',
+                { skipIfEmpty: true },
+                async () => {
+                    // Publish (+ Git Tags)
+                    await publishPackages(
+                        config,
+                        context,
+                        workspacesToPublish,
+                        registryUrl,
+                        newVersions,
+                    )
+                },
             )
 
-            // Write changeset
-            result = await writeChangesetFile(
-                config,
-                context,
-                registryTags, // old versions
-                newVersions,
-                versionStrategies,
+            await report.startTimerPromise(
+                'Updating Change Files',
+                { skipIfEmpty: true },
+                async () => {
+                    // Write changeset
+                    result = await writeChangesetFile(
+                        config,
+                        context,
+                        registryTags, // old versions
+                        newVersions,
+                        versionStrategies,
+                    )
+
+                    await prependChangelogFile(config, context, result)
+                },
             )
 
-            await prependChangelogFile(config, context, result)
             logging.info(`Monodeploy completed successfully`, { report })
         } finally {
-            if (!config.persistVersions) {
-                // Restore workspace package.jsons
-                logging.debug(
-                    `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
-                    { report },
-                )
-                await restorePackageJsons(config, context, backupKey)
-            }
-            await clearBackupCache([backupKey])
+            await report.startTimerPromise(
+                'Cleaning Up',
+                { skipIfEmpty: true },
+                async () => {
+                    if (!config.persistVersions) {
+                        // Restore workspace package.jsons
+                        logging.debug(
+                            `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
+                            { report },
+                        )
+                        await restorePackageJsons(config, context, backupKey)
+                    }
+                    await clearBackupCache([backupKey])
+                },
+            )
         }
     }
 
