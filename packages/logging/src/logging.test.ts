@@ -106,26 +106,26 @@ describe('Logging', () => {
         )
     })
 
-    it('defaults to log level warning', () => {
+    it('defaults to log level info', () => {
         delete process.env.MONODEPLOY_LOG_LEVEL
         logging.debug('m1', { report })
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
         expect(console.log).not.toBeCalledWith(expect.stringContaining('m1'))
-        expect(console.log).not.toBeCalledWith(expect.stringContaining('m2'))
+        expect(console.log).toBeCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toBeCalledWith(expect.stringContaining('m3'))
         expect(console.error).toBeCalledWith(expect.stringContaining('m4'))
     })
 
-    it('falls back to log level warning', () => {
+    it('falls back to log level info', () => {
         process.env.MONODEPLOY_LOG_LEVEL = 'not-a-number'
         logging.debug('m1', { report })
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
         expect(console.log).not.toBeCalledWith(expect.stringContaining('m1'))
-        expect(console.log).not.toBeCalledWith(expect.stringContaining('m2'))
+        expect(console.log).toBeCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toBeCalledWith(expect.stringContaining('m3'))
         expect(console.error).toBeCalledWith(expect.stringContaining('m4'))
     })

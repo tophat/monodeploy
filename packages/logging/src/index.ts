@@ -24,7 +24,7 @@ const loggerOpts: { dryRun: boolean } = {
 
 const getCurrentLogLevel = () => {
     const envLogLevel = Number(process.env.MONODEPLOY_LOG_LEVEL)
-    return isNaN(envLogLevel) ? LOG_LEVELS.WARNING : envLogLevel
+    return isNaN(envLogLevel) ? LOG_LEVELS.INFO : envLogLevel
 }
 
 const createLogger = (level: LogLevelType): Logger => (
