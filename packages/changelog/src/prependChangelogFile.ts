@@ -27,6 +27,7 @@ const prependChangelogFile = async (
     } catch (err) {
         logging.error(
             `[Changelog] Unable to read changelog contents at ${changelogFilename}`,
+            { report: context.report },
         )
         throw err
     }
@@ -35,7 +36,9 @@ const prependChangelogFile = async (
         value => value.trim() === MARKER,
     )
     if (changelogOffset === -1) {
-        logging.error(`[Changelog] Missing changelog marker: '${MARKER}'`)
+        logging.error(`[Changelog] Missing changelog marker: '${MARKER}'`, {
+            report: context.report,
+        })
         throw new Error('Unable to prepend changelog.')
     }
 
@@ -51,14 +54,18 @@ const prependChangelogFile = async (
     const dataToWrite = changelogContents.join('\n')
 
     if (config.dryRun && !config.forceWriteChangeFiles) {
-        logging.debug(`[Changelog] Skipping changelog update.`)
+        logging.debug(`[Changelog] Skipping changelog update.`, {
+            report: context.report,
+        })
     } else {
         await fs.writeFile(changelogFilename, dataToWrite, {
             encoding: 'utf-8',
         })
     }
 
-    logging.info(`[Changelog] Updated ${changelogFilename}`)
+    logging.info(`[Changelog] Updated ${changelogFilename}`, {
+        report: context.report,
+    })
 }
 
 export default prependChangelogFile

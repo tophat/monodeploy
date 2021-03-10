@@ -13,7 +13,7 @@ import {
     clearBackupCache,
     restorePackageJsons,
 } from '@monodeploy/io'
-import logger, { LOG_LEVELS } from '@monodeploy/logging'
+import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
@@ -99,6 +99,15 @@ describe('Monodeploy (Dry Run)', () => {
 
     afterAll(() => {
         delete process.env.MONODEPLOY_LOG_LEVEL
+    })
+
+    it('throws an error if invoked with invalid cwd', async () => {
+        await expect(async () => {
+            await monodeploy({
+                ...monodeployConfig,
+                cwd: String(undefined),
+            })
+        }).rejects.toThrow(/Invalid cwd/)
     })
 
     it('throws an error if invoked in a non-project', async () => {
@@ -330,11 +339,12 @@ describe('Monodeploy', () => {
     })
 
     it('logs an error if publishing fails', async () => {
-        const spyError = jest.spyOn(logger, 'error').mockImplementation()
         const spyPublish = jest
             .spyOn(npm.npmHttpUtils, 'put')
             .mockImplementation(() => {
-                throw new Error('Fail to publish!')
+                throw new Error(
+                    'Artificially induced error in a test! This is meant to fail! Ignore this.',
+                )
             })
 
         mockNPM._setTag_('pkg-1', '0.0.1')
@@ -346,10 +356,6 @@ describe('Monodeploy', () => {
             await monodeploy(monodeployConfig)
         }).rejects.toThrow()
 
-        expect(spyError).toHaveBeenCalledWith(
-            expect.stringContaining('Monodeploy failed'),
-        )
-        spyError.mockRestore()
         spyPublish.mockRestore()
     })
 
@@ -578,6 +584,7 @@ describe('Monodeploy', () => {
             configuration,
             project,
             workspace: workspace as Workspace,
+            report: null,
         }
 
         const testBackupKey = await backupPackageJsons(config, context)

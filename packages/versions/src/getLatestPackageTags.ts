@@ -49,12 +49,14 @@ const getLatestPackageTags = async (
                     const version = workspace.manifest.version ?? '0.0.0'
                     logging.warning(
                         `[Get Tags] Cannot find ${pkgName} in registry (version: ${version})`,
+                        { report: context.report },
                     )
                     return [pkgName, version]
                 }
 
                 logging.error(
                     `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
+                    { report: context.report },
                 )
                 throw err
             }

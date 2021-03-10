@@ -3,7 +3,9 @@ import { execSync } from 'child_process'
 import {
     cleanUp,
     createFile,
-    setupTestRepository,
+    getMonodeployConfig,
+    initGitRepository,
+    setupMonorepo,
 } from '@monodeploy/test-utils'
 
 import {
@@ -15,19 +17,31 @@ import {
 } from '.'
 
 describe('@monodeploy/git', () => {
-    let tempRepositoryRoot
+    let context
 
     beforeEach(async () => {
-        tempRepositoryRoot = await setupTestRepository()
+        context = await setupMonorepo({
+            'pkg-1': {},
+            'pkg-2': {},
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': {},
+            'pkg-5': { private: true, dependencies: ['pkg-4'] },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+            },
+            'pkg-7': {},
+        })
+        const rootPath = context.project.cwd
+        await initGitRepository(rootPath)
     })
 
     afterEach(async () => {
         jest.restoreAllMocks()
-        await cleanUp([tempRepositoryRoot])
+        await cleanUp([context.project.cwd])
     })
 
     it('gitDiffTree returns list of modified files', async () => {
-        const cwd = tempRepositoryRoot
+        const cwd = context.project.cwd
 
         await createFile({ filePath: 'test.txt', cwd })
         await createFile({ filePath: 'testDir/test.txt', cwd })
@@ -40,7 +54,7 @@ describe('@monodeploy/git', () => {
             encoding: 'utf8',
         })
 
-        const diffTreeOutput = await gitDiffTree(headSha, { cwd })
+        const diffTreeOutput = await gitDiffTree(headSha, { cwd, context })
 
         expect(diffTreeOutput.trim()).toEqual(
             expect.stringContaining(
@@ -50,7 +64,7 @@ describe('@monodeploy/git', () => {
     })
 
     it('gitResolveSha resolves HEAD properly', async () => {
-        const cwd = tempRepositoryRoot
+        const cwd = context.project.cwd
 
         await createFile({ filePath: 'test.txt', cwd })
         execSync('git add . && git commit -m "test: test file" -n', {
@@ -61,13 +75,13 @@ describe('@monodeploy/git', () => {
             encoding: 'utf8',
         })
 
-        const resolvedHead = await gitResolveSha('HEAD', { cwd })
+        const resolvedHead = await gitResolveSha('HEAD', { cwd, context })
 
         expect(resolvedHead).toEqual(headSha.trim())
     })
 
     it('getCommitMessages gets commit messages', async () => {
-        const cwd = tempRepositoryRoot
+        const cwd = context.project.cwd
 
         // Create some files and commit them to have a diff.
         await createFile({ filePath: 'test.txt', cwd })
@@ -84,10 +98,14 @@ describe('@monodeploy/git', () => {
             encoding: 'utf8',
         }).trim()
 
-        const messages = await getCommitMessages({
-            cwd,
-            git: { baseBranch: 'master', commitSha: headSha },
-        })
+        const messages = await getCommitMessages(
+            await getMonodeployConfig({
+                cwd,
+                baseBranch: 'master',
+                commitSha: headSha,
+            }),
+            context,
+        )
 
         expect(messages).toEqual([
             { sha: headSha, body: `${commitMessage}\n\n` },
@@ -95,24 +113,24 @@ describe('@monodeploy/git', () => {
     })
 
     it('gitTag fails if invariant not respected', async () => {
-        const cwd = tempRepositoryRoot
+        const cwd = context.project.cwd
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
         await expect(async () =>
-            gitTag('1.0.0', { cwd }),
+            gitTag('1.0.0', { cwd, context }),
         ).rejects.toMatchInlineSnapshot(
             `[Error: Invariant Violation: Invalid environment test !== production.]`,
         )
     })
 
     it('gitPush fails if invariant not respected', async () => {
-        const cwd = tempRepositoryRoot
+        const cwd = context.project.cwd
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
         await expect(async () =>
-            gitPush('1.0.0', { cwd }),
+            gitPush('1.0.0', { cwd, context, remote: 'origin' }),
         ).rejects.toMatchInlineSnapshot(
             `[Error: Invariant Violation: Invalid environment test !== production.]`,
         )

@@ -2,46 +2,69 @@ import { Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
 import { maybeExecuteWorkspaceLifecycleScript } from '@monodeploy/io'
+import { YarnContext } from '@monodeploy/types'
 
 export const prepareForPack = async (
+    context: YarnContext,
     workspace: Workspace,
     { cwd }: { cwd: PortablePath },
     cb: () => Promise<void>,
 ): Promise<void> => {
-    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepack', {
+    await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepack', {
         cwd,
     })
     try {
         await cb()
     } finally {
-        await maybeExecuteWorkspaceLifecycleScript(workspace, 'postpack', {
-            cwd,
-        })
+        await maybeExecuteWorkspaceLifecycleScript(
+            context,
+            workspace,
+            'postpack',
+            {
+                cwd,
+            },
+        )
     }
 }
 
 export const prepareForPublish = async (
+    context: YarnContext,
     workspace: Workspace,
     { cwd }: { cwd: PortablePath },
     cb: () => Promise<void>,
 ): Promise<void> => {
-    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepublishOnly', {
+    await maybeExecuteWorkspaceLifecycleScript(
+        context,
+        workspace,
+        'prepublishOnly',
+        {
+            cwd,
+        },
+    )
+
+    await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepare', {
         cwd,
     })
 
-    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepare', {
-        cwd,
-    })
-
-    await maybeExecuteWorkspaceLifecycleScript(workspace, 'prepublish', {
-        cwd,
-    })
+    await maybeExecuteWorkspaceLifecycleScript(
+        context,
+        workspace,
+        'prepublish',
+        {
+            cwd,
+        },
+    )
 
     try {
         await cb()
     } finally {
-        await maybeExecuteWorkspaceLifecycleScript(workspace, 'postpublish', {
-            cwd,
-        })
+        await maybeExecuteWorkspaceLifecycleScript(
+            context,
+            workspace,
+            'postpublish',
+            {
+                cwd,
+            },
+        )
     }
 }

@@ -1,4 +1,4 @@
-import { Configuration, Project, Workspace } from '@yarnpkg/core'
+import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Record<string, unknown>
@@ -31,6 +31,7 @@ export interface YarnContext {
     configuration: Configuration
     project: Project
     workspace: Workspace
+    report: StreamReport
 }
 
 export type CommitMessage = {

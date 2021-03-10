@@ -30,6 +30,7 @@ const applyReleases = async (
             intendedRegistryTags.set(packageName, nextPackageTag)
             logging.info(
                 `[Version Change] ${packageName}: ${packageTag} -> ${nextPackageTag} (${packageVersionStrategy})`,
+                { report: context.report },
             )
         }
     }

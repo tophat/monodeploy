@@ -31,8 +31,8 @@ export const publishPackages = async (
         const pkgName = structUtils.stringifyIdent(ident)
 
         const cwd = workspace.cwd
-        await prepareForPublish(workspace, { cwd }, async () => {
-            await prepareForPack(workspace, { cwd }, async () => {
+        await prepareForPublish(context, workspace, { cwd }, async () => {
+            await prepareForPack(context, workspace, { cwd }, async () => {
                 const filesToPack = await packUtils.genPackList(workspace)
                 const pack = await packUtils.genPackStream(
                     workspace,
@@ -65,9 +65,10 @@ export const publishPackages = async (
                     }
                     logging.info(
                         `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                        { report: context.report },
                     )
                 } catch (e) {
-                    logging.error(e)
+                    logging.error(e, { report: context.report })
                     throw e
                 }
             })

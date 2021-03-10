@@ -34,6 +34,7 @@ const getModifiedPackages = async (
 ): Promise<string[]> => {
     const diffOutput = await gitDiffTree(commitSha, {
         cwd: config.cwd,
+        context,
     })
     const paths = diffOutput.split('\n')
     const uniquePaths = paths.reduce(
@@ -57,7 +58,7 @@ const getModifiedPackages = async (
                     modifiedPackages.push(packageName)
                 }
             } catch (e) {
-                logging.error(e)
+                logging.error(e, { report: context.report })
             }
             return modifiedPackages
         },
@@ -75,7 +76,7 @@ const getExplicitVersionStrategies = async (
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
-    const commits = await getCommitMessages(config)
+    const commits = await getCommitMessages(config, context)
     for (const commit of commits) {
         const strategy = strategyLevelToType(
             await strategyDeterminer([commit.body]),

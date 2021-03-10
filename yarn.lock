@@ -1718,6 +1718,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/io@workspace:packages/io"
   dependencies:
+    "@monodeploy/logging": ^0.1.0
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": ^0.2.0
     "@types/node": ^14.0.0
@@ -1731,7 +1732,7 @@ __metadata:
   resolution: "@monodeploy/logging@workspace:packages/logging"
   dependencies:
     "@types/node": ^14.0.0
-    chalk: ^4.1.0
+    "@yarnpkg/core": ^2.4.0
   languageName: unknown
   linkType: soft
 
