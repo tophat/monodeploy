@@ -79,9 +79,12 @@ export const createGetConventionalRecommendedStrategy = (
     if (!conventionalChangelogConfig) {
         throw new Error('Invalid conventional changelog config')
     }
+
+    // ghost-imports-ignore-next-line
     const configResolveId = require.resolve(conventionalChangelogConfig, {
         paths: [config.cwd],
     })
+    // ghost-imports-ignore-next-line
     const conventionalConfig: ConventionalChangelogConfig = await require(configResolveId)
 
     const commitsStream = Readable.from(commits).pipe(

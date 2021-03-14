@@ -83,6 +83,7 @@ const generateChangelogEntry = async (
     const ident = structUtils.parseIdent(packageName)
     const workspace = context.project.getWorkspaceByIdent(ident)
 
+    // ghost-imports-ignore-next-line
     const conventionalConfig = await require(require.resolve(
         config.conventionalChangelogConfig,
         { paths: [config.cwd] },

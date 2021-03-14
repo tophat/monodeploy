@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@monodeploy/changelog": "^0.2.1",
-    "@monodeploy/dependencies": "^0.2.1",
     "@monodeploy/git": "^0.1.1",
     "@monodeploy/io": "^0.2.1",
     "@monodeploy/logging": "^0.1.1",
