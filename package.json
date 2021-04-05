@@ -41,10 +41,10 @@
         "run-local": "ts-node ./packages/cli/src/cli.ts"
     },
     "devDependencies": {
-        "@babel/cli": "^7.13.10",
-        "@babel/core": "^7.13.10",
+        "@babel/cli": "^7.13.14",
+        "@babel/core": "^7.13.14",
         "@babel/plugin-transform-runtime": "^7.13.10",
-        "@babel/preset-env": "^7.13.10",
+        "@babel/preset-env": "^7.13.12",
         "@babel/preset-typescript": "^7.13.0",
         "@commitlint/cli": "^11.0.0",
         "@monodeploy/test-utils": "link:./testUtils",
