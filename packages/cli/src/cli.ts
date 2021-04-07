@@ -15,6 +15,11 @@ const { argv } = yargs
         type: 'string',
         description: 'The URL of the registry to publish to',
     })
+    .option('registry', {
+        type: 'boolean',
+        default: true,
+        description: 'Whether to read and write to the npm-like registry',
+    })
     .option('cwd', {
         type: 'string',
         description: 'Working directory',
@@ -113,6 +118,8 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         const config: RecursivePartial<MonodeployConfiguration> = {
             registryUrl:
                 argv.registryUrl ?? configFromFile.registryUrl ?? undefined,
+            noRegistry:
+                (!argv.registry || configFromFile.noRegistry) ?? undefined,
             cwd: cwd ?? undefined,
             dryRun: argv.dryRun ?? configFromFile.dryRun ?? undefined,
             git: {

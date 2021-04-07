@@ -22,45 +22,49 @@ const getLatestPackageTags = async (
                 !workspace?.manifest.private && workspace?.manifest.name,
         )
 
-    const distTags = await Promise.all(
-        (workspaces as Array<Workspace>).map(async workspace => {
-            const ident = workspace.manifest.name!
-            const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
-            const distTagUrl = `/-/package${identUrl}/dist-tags`
-            const pkgName = structUtils.stringifyIdent(ident)
+    const fetchDistTag = async (workspace: Workspace) => {
+        const ident = workspace.manifest.name!
+        const pkgName = structUtils.stringifyIdent(ident)
+        const manifestVersion = workspace.manifest.version ?? '0.0.0'
 
-            try {
-                const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
-                    configuration: context.configuration,
-                    ident,
-                    jsonResponse: true,
-                })
-                return [pkgName, result.latest]
-            } catch (err) {
-                if (
-                    (err instanceof ReportError &&
-                        err.reportCode ===
-                            MessageName.AUTHENTICATION_INVALID) ||
-                    err.response?.statusCode === 404
-                ) {
-                    // Assume package has never been published before.
-                    // If the issue was actually an auth issue, we'll find out
-                    // later when we attempt to publish.
-                    const version = workspace.manifest.version ?? '0.0.0'
-                    logging.warning(
-                        `[Get Tags] Cannot find ${pkgName} in registry (version: ${version})`,
-                        { report: context.report },
-                    )
-                    return [pkgName, version]
-                }
+        if (config.noRegistry) return [pkgName, manifestVersion]
 
-                logging.error(
-                    `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
+        const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
+        const distTagUrl = `/-/package${identUrl}/dist-tags`
+
+        try {
+            const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
+                configuration: context.configuration,
+                ident,
+                jsonResponse: true,
+            })
+            return [pkgName, result.latest]
+        } catch (err) {
+            if (
+                (err instanceof ReportError &&
+                    err.reportCode === MessageName.AUTHENTICATION_INVALID) ||
+                err.response?.statusCode === 404
+            ) {
+                // Assume package has never been published before.
+                // If the issue was actually an auth issue, we'll find out
+                // later when we attempt to publish.
+                logging.warning(
+                    `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
                     { report: context.report },
                 )
-                throw err
+                return [pkgName, manifestVersion]
             }
-        }),
+
+            logging.error(
+                `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
+                { report: context.report },
+            )
+            throw err
+        }
+    }
+
+    const distTags = await Promise.all(
+        (workspaces as Array<Workspace>).map(fetchDistTag),
     )
 
     const tags: PackageTagMap = new Map()

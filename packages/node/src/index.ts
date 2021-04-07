@@ -65,8 +65,12 @@ const monodeploy = async (
         })
 
         // Determine registry
-        const registryUrl = await getRegistryUrl(config, context)
-        logging.debug(`[Config] Registry Url: ${registryUrl}`, { report })
+        const registryUrl = config.noRegistry
+            ? null
+            : await getRegistryUrl(config, context)
+        logging.debug(`[Config] Registry Url: ${String(registryUrl)}`, {
+            report,
+        })
 
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags(config, context)

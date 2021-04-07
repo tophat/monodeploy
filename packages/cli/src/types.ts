@@ -3,6 +3,7 @@ import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 export interface ArgOutput {
     configFile?: string
     registryUrl?: string
+    registry?: boolean
     cwd?: string
     dryRun?: boolean
     gitBaseBranch?: string
