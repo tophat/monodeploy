@@ -1,28 +1,16 @@
 import yargs from 'yargs'
 
 import monodeploy from '@monodeploy/node'
+import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 
-interface ArgOutput {
-    registryUrl?: string
-    cwd?: string
-    dryRun?: boolean
-    gitBaseBranch?: string
-    gitCommitSha?: string
-    gitRemote?: string
-    logLevel?: number
-    conventionalChangelogConfig?: string
-    changesetFilename?: string
-    forceWriteChangeFiles?: boolean
-    prependChangelog?: string
-    access?: string
-    push?: boolean
-    persistVersions?: boolean
-    topological?: boolean
-    topologicalDev?: boolean
-    jobs?: number
-}
+import readConfigFile from './readConfigFile'
+import { ArgOutput } from './types'
 
 const { argv } = yargs
+    .option('config-file', {
+        type: 'string',
+        description: 'Config file from which to read monodeploy options',
+    })
     .option('registry-url', {
         type: 'string',
         description: 'The URL of the registry to publish to',
@@ -112,29 +100,58 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
 
 // eslint-disable-next-line @typescript-eslint/no-extra-semi
 ;(async () => {
-    const config = {
-        registryUrl: argv.registryUrl ?? undefined,
-        cwd: argv.cwd ?? undefined,
-        dryRun: argv.dryRun ?? undefined,
-        git: {
-            baseBranch: argv.gitBaseBranch ?? undefined,
-            commitSha: argv.gitCommitSha ?? undefined,
-            remote: argv.gitRemote ?? undefined,
-            push: argv.push,
-        },
-        conventionalChangelogConfig:
-            argv.conventionalChangelogConfig ?? undefined,
-        changesetFilename: argv.changesetFilename ?? undefined,
-        changelogFilename: argv.prependChangelog ?? undefined,
-        forceWriteChangeFiles: argv.forceWriteChangeFiles,
-        access: argv.access ?? undefined,
-        persistVersions: argv.persistVersions,
-        topological: argv.topological,
-        topologicalDev: argv.topologicalDev,
-        jobs: argv.jobs,
-    }
-
     try {
+        const cwd = argv.cwd
+
+        const configFilename = argv.configFile
+        const configFromFile = configFilename
+            ? await readConfigFile(configFilename, {
+                  cwd: cwd ?? process.cwd(),
+              })
+            : {}
+
+        const config: RecursivePartial<MonodeployConfiguration> = {
+            registryUrl:
+                argv.registryUrl ?? configFromFile.registryUrl ?? undefined,
+            cwd: cwd ?? undefined,
+            dryRun: argv.dryRun ?? configFromFile.dryRun ?? undefined,
+            git: {
+                baseBranch:
+                    argv.gitBaseBranch ??
+                    configFromFile.git?.baseBranch ??
+                    undefined,
+                commitSha:
+                    argv.gitCommitSha ??
+                    configFromFile.git?.commitSha ??
+                    undefined,
+                remote:
+                    argv.gitRemote ?? configFromFile.git?.remote ?? undefined,
+                push: argv.push ?? configFromFile.git?.push,
+            },
+            conventionalChangelogConfig:
+                argv.conventionalChangelogConfig ??
+                configFromFile.conventionalChangelogConfig ??
+                undefined,
+            changesetFilename:
+                argv.changesetFilename ??
+                configFromFile.changesetFilename ??
+                undefined,
+            changelogFilename:
+                argv.prependChangelog ??
+                configFromFile.changelogFilename ??
+                undefined,
+            forceWriteChangeFiles:
+                argv.forceWriteChangeFiles ??
+                configFromFile.forceWriteChangeFiles,
+            access: argv.access ?? configFromFile.access ?? undefined,
+            persistVersions:
+                argv.persistVersions ?? configFromFile.persistVersions,
+            topological: argv.topological ?? configFromFile.topological,
+            topologicalDev:
+                argv.topologicalDev ?? configFromFile.topologicalDev,
+            jobs: argv.jobs ?? configFromFile.jobs,
+        }
+
         await monodeploy(config)
     } catch (err) {
         console.error(err)

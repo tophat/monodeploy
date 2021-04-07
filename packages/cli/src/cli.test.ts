@@ -1,3 +1,5 @@
+import { promises as fs } from 'fs'
+import os from 'os'
 import path from 'path'
 
 import monodeploy from '@monodeploy/node'
@@ -27,94 +29,266 @@ describe('CLI', () => {
             : ['node', scriptPath]
     }
 
-    it('passes cli flags to monodeploy', async () => {
-        setArgs(
-            '--registry-url http://example.com --cwd /tmp --dry-run ' +
-                '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
-                '--log-level 0 --conventional-changelog-config @my/config ' +
-                '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
-                '--push --persist-versions --access public --topological --topological-dev --jobs 6',
-        )
-        jest.isolateModules(() => {
-            require('./cli')
+    describe('CLI Args', () => {
+        it('passes cli flags to monodeploy', async () => {
+            setArgs(
+                '--registry-url http://example.com --cwd /tmp --dry-run ' +
+                    '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
+                    '--log-level 0 --conventional-changelog-config @my/config ' +
+                    '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
+                    '--push --persist-versions --access public --topological --topological-dev --jobs 6',
+            )
+            jest.isolateModules(() => {
+                require('./cli')
+            })
+            await new Promise(r => setTimeout(r))
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0],
+            ).toMatchInlineSnapshot(`
+                Object {
+                  "access": "public",
+                  "changelogFilename": "changelog.md",
+                  "changesetFilename": "changes.json",
+                  "conventionalChangelogConfig": "@my/config",
+                  "cwd": "/tmp",
+                  "dryRun": true,
+                  "forceWriteChangeFiles": true,
+                  "git": Object {
+                    "baseBranch": "master",
+                    "commitSha": "HEAD",
+                    "push": true,
+                    "remote": "origin",
+                  },
+                  "jobs": 6,
+                  "persistVersions": true,
+                  "registryUrl": "http://example.com",
+                  "topological": true,
+                  "topologicalDev": true,
+                }
+            `)
         })
-        expect(
-            (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                .calls[0][0],
-        ).toMatchInlineSnapshot(`
-            Object {
-              "access": "public",
-              "changelogFilename": "changelog.md",
-              "changesetFilename": "changes.json",
-              "conventionalChangelogConfig": "@my/config",
-              "cwd": "/tmp",
-              "dryRun": true,
-              "forceWriteChangeFiles": true,
-              "git": Object {
-                "baseBranch": "master",
-                "commitSha": "HEAD",
-                "push": true,
-                "remote": "origin",
-              },
-              "jobs": 6,
-              "persistVersions": true,
-              "registryUrl": "http://example.com",
-              "topological": true,
-              "topologicalDev": true,
-            }
-        `)
+
+        it('passes empty config if no cli flags set', async () => {
+            setArgs('')
+            jest.isolateModules(() => {
+                require('./cli')
+            })
+            await new Promise(r => setTimeout(r))
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0],
+            ).toMatchInlineSnapshot(`
+                Object {
+                  "access": undefined,
+                  "changelogFilename": undefined,
+                  "changesetFilename": undefined,
+                  "conventionalChangelogConfig": undefined,
+                  "cwd": undefined,
+                  "dryRun": undefined,
+                  "forceWriteChangeFiles": false,
+                  "git": Object {
+                    "baseBranch": undefined,
+                    "commitSha": undefined,
+                    "push": false,
+                    "remote": undefined,
+                  },
+                  "jobs": 0,
+                  "persistVersions": false,
+                  "registryUrl": undefined,
+                  "topological": false,
+                  "topologicalDev": false,
+                }
+            `)
+        })
+
+        it('sets exit code to error if monodeploy throws', async () => {
+            const prevExitCode = process.exitCode ?? 0
+            const spyError = jest
+                .spyOn(console, 'error')
+                .mockImplementation(() => {
+                    /* ignore */
+                })
+            const error = new Error('Monodeploy failed.')
+            ;(monodeploy as jest.MockedFunction<
+                typeof monodeploy
+            >).mockImplementation(() => {
+                throw error
+            })
+            setArgs('')
+            jest.isolateModules(() => {
+                require('./cli')
+            })
+            await new Promise(r => setTimeout(r))
+            expect(spyError).toHaveBeenCalledWith(error)
+            expect(process.exitCode).toEqual(1)
+            spyError.mockRestore()
+            process.exitCode = prevExitCode
+        })
     })
 
-    it('passes empty config if no cli flags set', async () => {
-        setArgs('')
-        jest.isolateModules(() => {
-            require('./cli')
-        })
-        expect(
-            (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                .calls[0][0],
-        ).toMatchInlineSnapshot(`
-            Object {
-              "access": undefined,
-              "changelogFilename": undefined,
-              "changesetFilename": undefined,
-              "conventionalChangelogConfig": undefined,
-              "cwd": undefined,
-              "dryRun": undefined,
-              "forceWriteChangeFiles": false,
-              "git": Object {
-                "baseBranch": undefined,
-                "commitSha": undefined,
-                "push": false,
-                "remote": undefined,
-              },
-              "jobs": 0,
-              "persistVersions": false,
-              "registryUrl": undefined,
-              "topological": false,
-              "topologicalDev": false,
-            }
-        `)
-    })
+    describe('Config File', () => {
+        it('throws an error if unable to read config file', async () => {
+            const prevExitCode = process.exitCode ?? 0
+            const spyError = jest
+                .spyOn(console, 'error')
+                .mockImplementation(() => {
+                    /* ignore */
+                })
 
-    it('sets exit code to error if monodeploy throws', async () => {
-        const prevExitCode = process.exitCode ?? 0
-        const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-            /* ignore */
+            const configFileContents = `
+                invalid_javascript{} = {
+                    invalid code
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ${configFilename}`)
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                expect(spyError).toHaveBeenCalled()
+                expect(process.exitCode).toEqual(1)
+                spyError.mockRestore()
+                process.exitCode = prevExitCode
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
         })
-        const error = new Error('Monodeploy failed.')
-        ;(monodeploy as jest.MockedFunction<
-            typeof monodeploy
-        >).mockImplementation(() => {
-            throw error
+
+        it('reads from specified config file', async () => {
+            const configFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    git: {
+                        baseBranch: 'master',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    topological: true,
+                    topologicalDev: true,
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ${configFilename}`)
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                        .calls[0][0],
+                ).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": undefined,
+                      "dryRun": true,
+                      "forceWriteChangeFiles": false,
+                      "git": Object {
+                        "baseBranch": "master",
+                        "commitSha": "HEAD",
+                        "push": false,
+                        "remote": "origin",
+                      },
+                      "jobs": 0,
+                      "persistVersions": false,
+                      "registryUrl": "http://example.com",
+                      "topological": false,
+                      "topologicalDev": false,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
         })
-        setArgs('')
-        jest.isolateModules(() => {
-            require('./cli')
+
+        it('gives precedence to cli flags over config file', async () => {
+            const configFileContents = `
+            module.exports = {
+                access: 'public',
+                changelogFilename: 'from_file.changelog.md',
+                changesetFilename: 'from_file.changes.json',
+                conventionalChangelogConfig: '@my/config-from-file',
+                dryRun: true,
+                forceWriteChangeFiles: true,
+                git: {
+                    baseBranch: 'master',
+                    commitSha: 'HEAD',
+                    push: true,
+                    remote: 'origin',
+                },
+                jobs: 6,
+                persistVersions: true,
+                registryUrl: 'http://example.com',
+                topological: true,
+                topologicalDev: true,
+            }
+        `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3`,
+                )
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                        .calls[0][0],
+                ).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": undefined,
+                      "dryRun": true,
+                      "forceWriteChangeFiles": false,
+                      "git": Object {
+                        "baseBranch": "next",
+                        "commitSha": "HEAD",
+                        "push": false,
+                        "remote": "origin",
+                      },
+                      "jobs": 3,
+                      "persistVersions": false,
+                      "registryUrl": "http://example.com",
+                      "topological": false,
+                      "topologicalDev": false,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
         })
-        expect(spyError).toHaveBeenCalledWith(error)
-        expect(process.exitCode).toEqual(1)
-        spyError.mockRestore()
-        process.exitCode = prevExitCode
     })
 })

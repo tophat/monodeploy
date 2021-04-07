@@ -122,6 +122,8 @@ yarn monodeploy --dry-run --log-level 0
 
 The CLI provides a few sensible defaults, however if using the Node API, you will have to provide all relevant information.
 
+You can also pass a `--config-file` flag to load options from a configuration file. The file should export an object matching the MonodeployConfiguration interface (with all properties as optional). CLI flags take precedence over the configuration file.
+
 ### Node API
 
 To use the API:
