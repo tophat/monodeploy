@@ -26,7 +26,6 @@
     "@yarnpkg/core": "^2.4.0"
   },
   "devDependencies": {
-    "@monodeploy/test-utils": "link:../../testUtils",
-    "@yarnpkg/cli": "^2.4.1"
+    "@monodeploy/test-utils": "link:../../testUtils"
   }
 }
