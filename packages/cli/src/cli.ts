@@ -126,7 +126,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     undefined,
                 remote:
                     argv.gitRemote ?? configFromFile.git?.remote ?? undefined,
-                push: argv.push ?? configFromFile.git?.push,
+                push: argv.push || configFromFile.git?.push,
             },
             conventionalChangelogConfig:
                 argv.conventionalChangelogConfig ??
@@ -141,15 +141,18 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 configFromFile.changelogFilename ??
                 undefined,
             forceWriteChangeFiles:
-                argv.forceWriteChangeFiles ??
+                argv.forceWriteChangeFiles ||
                 configFromFile.forceWriteChangeFiles,
             access: argv.access ?? configFromFile.access ?? undefined,
             persistVersions:
-                argv.persistVersions ?? configFromFile.persistVersions,
-            topological: argv.topological ?? configFromFile.topological,
+                argv.persistVersions || configFromFile.persistVersions,
+            topological: argv.topological || configFromFile.topological,
             topologicalDev:
-                argv.topologicalDev ?? configFromFile.topologicalDev,
-            jobs: argv.jobs ?? configFromFile.jobs,
+                argv.topologicalDev || configFromFile.topologicalDev,
+            jobs:
+                (argv.jobs && argv.jobs > 0
+                    ? argv.jobs
+                    : configFromFile.jobs) ?? 0,
         }
 
         await monodeploy(config)

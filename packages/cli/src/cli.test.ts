@@ -86,18 +86,18 @@ describe('CLI', () => {
                   "conventionalChangelogConfig": undefined,
                   "cwd": undefined,
                   "dryRun": undefined,
-                  "forceWriteChangeFiles": false,
+                  "forceWriteChangeFiles": undefined,
                   "git": Object {
                     "baseBranch": undefined,
                     "commitSha": undefined,
-                    "push": false,
+                    "push": undefined,
                     "remote": undefined,
                   },
                   "jobs": 0,
-                  "persistVersions": false,
+                  "persistVersions": undefined,
                   "registryUrl": undefined,
-                  "topological": false,
-                  "topologicalDev": false,
+                  "topological": undefined,
+                  "topologicalDev": undefined,
                 }
             `)
         })
@@ -206,18 +206,18 @@ describe('CLI', () => {
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
-                      "forceWriteChangeFiles": false,
+                      "forceWriteChangeFiles": true,
                       "git": Object {
                         "baseBranch": "master",
                         "commitSha": "HEAD",
-                        "push": false,
+                        "push": true,
                         "remote": "origin",
                       },
-                      "jobs": 0,
-                      "persistVersions": false,
+                      "jobs": 6,
+                      "persistVersions": true,
                       "registryUrl": "http://example.com",
-                      "topological": false,
-                      "topologicalDev": false,
+                      "topological": true,
+                      "topologicalDev": true,
                     }
                 `)
             } finally {
@@ -272,18 +272,18 @@ describe('CLI', () => {
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
-                      "forceWriteChangeFiles": false,
+                      "forceWriteChangeFiles": true,
                       "git": Object {
                         "baseBranch": "next",
                         "commitSha": "HEAD",
-                        "push": false,
+                        "push": true,
                         "remote": "origin",
                       },
                       "jobs": 3,
-                      "persistVersions": false,
+                      "persistVersions": true,
                       "registryUrl": "http://example.com",
-                      "topological": false,
-                      "topologicalDev": false,
+                      "topological": true,
+                      "topologicalDev": true,
                     }
                 `)
             } finally {
