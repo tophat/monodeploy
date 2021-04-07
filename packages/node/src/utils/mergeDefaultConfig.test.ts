@@ -53,6 +53,7 @@ describe('Config Merging', () => {
             cwd: '/tmp',
             registryUrl: 'https://registry.example/',
             dryRun: true,
+            noRegistry: false,
             git: {
                 baseBranch: 'master',
                 commitSha: 'HEAD',

@@ -21,7 +21,7 @@ export const publishPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
     workspacesToPublish: Set<Workspace>,
-    registryUrl: string,
+    registryUrl: string | null,
     newVersions: PackageTagMap,
 ): Promise<void> => {
     const prepareWorkspace = async (workspace: Workspace) => {
@@ -31,47 +31,55 @@ export const publishPackages = async (
         const pkgName = structUtils.stringifyIdent(ident)
 
         const cwd = workspace.cwd
-        await prepareForPublish(context, workspace, { cwd }, async () => {
-            await prepareForPack(context, workspace, { cwd }, async () => {
-                const filesToPack = await packUtils.genPackList(workspace)
-                const pack = await packUtils.genPackStream(
-                    workspace,
-                    filesToPack,
+
+        const pack = async () => {
+            if (!registryUrl || config.noRegistry) {
+                logging.info(
+                    `[Publish] ${pkgName} (latest: ${workspace.manifest.version}, skipping registry)`,
+                    { report: context.report },
                 )
+                return
+            }
 
-                const buffer = await miscUtils.bufferStream(pack)
+            const filesToPack = await packUtils.genPackList(workspace)
+            const pack = await packUtils.genPackStream(workspace, filesToPack)
 
-                const body = await npmPublishUtils.makePublishBody(
-                    workspace,
-                    buffer,
-                    {
-                        access: config.access,
-                        tag: 'latest',
+            const buffer = await miscUtils.bufferStream(pack)
+
+            const body = await npmPublishUtils.makePublishBody(
+                workspace,
+                buffer,
+                {
+                    access: config.access,
+                    tag: 'latest',
+                    registry: registryUrl,
+                },
+            )
+
+            try {
+                const identUrl = npmHttpUtils.getIdentUrl(ident)
+
+                if (!config.dryRun) {
+                    assertProductionOrTest()
+                    await npmHttpUtils.put(identUrl, body, {
+                        authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
+                        configuration: context.project.configuration,
+                        ident,
                         registry: registryUrl,
-                    },
-                )
-
-                try {
-                    const identUrl = npmHttpUtils.getIdentUrl(ident)
-
-                    if (!config.dryRun) {
-                        assertProductionOrTest()
-                        await npmHttpUtils.put(identUrl, body, {
-                            authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
-                            configuration: context.project.configuration,
-                            ident,
-                            registry: registryUrl,
-                        })
-                    }
-                    logging.info(
-                        `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
-                        { report: context.report },
-                    )
-                } catch (e) {
-                    logging.error(e, { report: context.report })
-                    throw e
+                    })
                 }
-            })
+                logging.info(
+                    `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                    { report: context.report },
+                )
+            } catch (e) {
+                logging.error(e, { report: context.report })
+                throw e
+            }
+        }
+
+        await prepareForPublish(context, workspace, { cwd }, async () => {
+            await prepareForPack(context, workspace, { cwd }, pack)
         })
     }
 

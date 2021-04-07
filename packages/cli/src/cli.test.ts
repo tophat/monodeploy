@@ -32,7 +32,7 @@ describe('CLI', () => {
     describe('CLI Args', () => {
         it('passes cli flags to monodeploy', async () => {
             setArgs(
-                '--registry-url http://example.com --cwd /tmp --dry-run ' +
+                '--registry-url http://example.com --no-registry --cwd /tmp --dry-run ' +
                     '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
@@ -61,6 +61,7 @@ describe('CLI', () => {
                     "remote": "origin",
                   },
                   "jobs": 6,
+                  "noRegistry": true,
                   "persistVersions": true,
                   "registryUrl": "http://example.com",
                   "topological": true,
@@ -94,6 +95,7 @@ describe('CLI', () => {
                     "remote": undefined,
                   },
                   "jobs": 0,
+                  "noRegistry": undefined,
                   "persistVersions": undefined,
                   "registryUrl": undefined,
                   "topological": undefined,
@@ -179,6 +181,7 @@ describe('CLI', () => {
                     jobs: 6,
                     persistVersions: true,
                     registryUrl: 'http://example.com',
+                    noRegistry: false,
                     topological: true,
                     topologicalDev: true,
                 }
@@ -214,6 +217,7 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 6,
+                      "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",
                       "topological": true,
@@ -234,6 +238,7 @@ describe('CLI', () => {
                 conventionalChangelogConfig: '@my/config-from-file',
                 dryRun: true,
                 forceWriteChangeFiles: true,
+                noRegistry: false,
                 git: {
                     baseBranch: 'master',
                     commitSha: 'HEAD',
@@ -280,6 +285,7 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 3,
+                      "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",
                       "topological": true,

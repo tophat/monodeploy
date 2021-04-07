@@ -9,6 +9,7 @@ export type RecursivePartial<T> = {
 export interface MonodeployConfiguration {
     cwd: string
     registryUrl?: string
+    noRegistry: boolean
     dryRun: boolean
     git: {
         baseBranch: string

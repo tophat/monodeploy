@@ -71,6 +71,12 @@ In your monorepo's root package.json, add:
 },
 ```
 
+#### "No Registry" mode
+
+Monodeploy is an all-in-one monorepo versioning & publishing system. Although designed for publishing to NPM, you can disable all npm interactions by passing in a `--no-registry` flag to the CLI or enabling `noRegistry` in your config file. Note that this is different than enabling dry-run, in that even reads from npm are disabled. This can be useful if using monodeploy to manage a non-javascript monorepo. Just keep in mind, you'll still need to setup your project using yarn workspaces.
+
+If using "No Registry" mode, you should also enable `--persistVersions` (`persistVersions`) and commit the modified package.json files to your repository, otherwise there's no proper reference for the package versions.
+
 #### Changelog
 
 If you choose to use the `--prepend-changelog CHANGELOG.md` flag or related API config property, in your CHANGELOG.md file you'll need to insert a marker to let monodeploy know where to insert the changelog entries. For example:

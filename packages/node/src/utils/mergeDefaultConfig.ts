@@ -11,6 +11,7 @@ const mergeDefaultConfig = async (
 
     return {
         registryUrl: baseConfig.registryUrl ?? undefined,
+        noRegistry: baseConfig.noRegistry ?? false,
         cwd,
         dryRun: baseConfig.dryRun ?? false,
         git: {

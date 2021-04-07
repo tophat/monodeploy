@@ -65,6 +65,7 @@ describe('Monodeploy (Dry Run)', () => {
     const monodeployConfig: MonodeployConfiguration = {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: true,
+        noRegistry: false,
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',
@@ -302,6 +303,7 @@ describe('Monodeploy', () => {
     const monodeployConfig: MonodeployConfiguration = {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
+        noRegistry: false,
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',
@@ -363,6 +365,27 @@ describe('Monodeploy', () => {
         const result = await monodeploy(monodeployConfig)
         expect(result).toEqual({})
         expect(mockGit._getPushedTags_()).toHaveLength(0)
+    })
+
+    it('does not use npm registry if in no registry mode', async () => {
+        mockNPM._setTag_('pkg-8', '0.2.3')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-8/README.md',
+        ])
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            noRegistry: true,
+        })
+
+        // pkg-8 is explicitly updated with minor bump
+        // pkg-8's manifest version is 3.1.0
+        expect(result['pkg-8'].version).toEqual('3.2.0')
+        expect(result['pkg-8'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-8@3.2.0'])
     })
 
     it('publishes only changed workspaces', async () => {
@@ -641,6 +664,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
     const monodeployConfig: MonodeployConfiguration = {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
+        noRegistry: false,
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',
