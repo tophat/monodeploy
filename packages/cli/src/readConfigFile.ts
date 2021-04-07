@@ -10,6 +10,7 @@ const readConfigFile = async (
         const config = require(configId) as ConfigFile
         return config
     } catch (err) {
+        /* istanbul ignore else */
         if (err?.message) {
             throw new Error(
                 `Unable to parse monodeploy config from: ${configFilename}.\n\n${err.message}`,
