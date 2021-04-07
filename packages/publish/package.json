@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/publish",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -21,11 +21,11 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/dependencies": "^0.2.1",
-    "@monodeploy/git": "^0.1.1",
-    "@monodeploy/io": "^0.2.1",
+    "@monodeploy/dependencies": "^0.2.2",
+    "@monodeploy/git": "^0.1.2",
+    "@monodeploy/io": "^0.2.2",
     "@monodeploy/logging": "^0.1.1",
-    "@monodeploy/types": "^0.2.1",
+    "@monodeploy/types": "^0.3.0",
     "@yarnpkg/cli": "^2.4.1",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/fslib": "^2.4.0",

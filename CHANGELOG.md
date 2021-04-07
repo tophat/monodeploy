@@ -6,6 +6,54 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.1...@monodeploy/changelog@0.2.2) "@monodeploy/changelog" (2021-04-07)<a name="0.2.2"></a>
+
+## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.1...@monodeploy/dependencies@0.2.2) "@monodeploy/dependencies" (2021-04-07)<a name="0.2.2"></a>
+
+## [0.1.2](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.1...@monodeploy/git@0.1.2) "@monodeploy/git" (2021-04-07)<a name="0.1.2"></a>
+
+## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.1...@monodeploy/io@0.2.2) "@monodeploy/io" (2021-04-07)<a name="0.2.2"></a>
+
+# [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.2.1...@monodeploy/node@0.3.0) "@monodeploy/node" (2021-04-07)<a name="0.3.0"></a>
+
+## Features
+
+* add config option to skip registry reads and writes ([#296](https://github.com/tophat/monodeploy/issues/296)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+
+# [0.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.1.1...@monodeploy/publish@0.2.0) "@monodeploy/publish" (2021-04-07)<a name="0.2.0"></a>
+
+## Features
+
+* add config option to skip registry reads and writes ([#296](https://github.com/tophat/monodeploy/issues/296)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+
+# [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.2.1...@monodeploy/types@0.3.0) "@monodeploy/types" (2021-04-07)<a name="0.3.0"></a>
+
+## Features
+
+* add config option to skip registry reads and writes ([#296](https://github.com/tophat/monodeploy/issues/296)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+
+# [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.2.1...@monodeploy/versions@0.3.0) "@monodeploy/versions" (2021-04-07)<a name="0.3.0"></a>
+
+## Features
+
+* add config option to skip registry reads and writes ([#296](https://github.com/tophat/monodeploy/issues/296)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+
+# [2.3.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.2.1...monodeploy@2.3.0) "monodeploy" (2021-04-07)<a name="2.3.0"></a>
+
+## Bug Fixes
+
+* **cli:** allow config file to override boolean flags ([#295](https://github.com/tophat/monodeploy/issues/295)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+## Features
+
+* **cli:** add configuration file support, close [#281](https://github.com/tophat/monodeploy/issues/281) ([#294](https://github.com/tophat/monodeploy/issues/294)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+* add config option to skip registry reads and writes ([#296](https://github.com/tophat/monodeploy/issues/296)) ([ad1fe9b](https://github.com/tophat/monodeploy/commits/ad1fe9b))
+
+
 ## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.0...@monodeploy/changelog@0.2.1) "@monodeploy/changelog" (2021-03-10)<a name="0.2.1"></a>
 
 ## Bug Fixes
