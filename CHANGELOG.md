@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.3.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.0...monodeploy@2.3.1) "monodeploy" (2021-04-08)<a name="2.3.1"></a>
+
+## Bug Fixes
+
+* **cli:** resolve config file relative to cwd, close [#297](https://github.com/tophat/monodeploy/issues/297) ([#298](https://github.com/tophat/monodeploy/issues/298)) ([b81ce4a](https://github.com/tophat/monodeploy/commits/b81ce4a))
+
+
 ## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.1...@monodeploy/changelog@0.2.2) "@monodeploy/changelog" (2021-04-07)<a name="0.2.2"></a>
 
 ## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.1...@monodeploy/dependencies@0.2.2) "@monodeploy/dependencies" (2021-04-07)<a name="0.2.2"></a>
