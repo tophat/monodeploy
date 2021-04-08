@@ -163,7 +163,7 @@ describe('CLI', () => {
             }
         })
 
-        it('reads from specified config file', async () => {
+        it('reads from specified config file using absolute path', async () => {
             const configFileContents = `
                 module.exports = {
                     access: 'public',
@@ -208,6 +208,140 @@ describe('CLI', () => {
                       "changesetFilename": "from_file.changes.json",
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "master",
+                        "commitSha": "HEAD",
+                        "push": true,
+                        "remote": "origin",
+                      },
+                      "jobs": 6,
+                      "noRegistry": false,
+                      "persistVersions": true,
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('reads from specified config file using path relative to cwd', async () => {
+            const configFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    git: {
+                        baseBranch: 'master',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file monodeploy.config.js --cwd ${dir}`)
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<
+                    typeof monodeploy
+                >).mock.calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
+                    .toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "master",
+                        "commitSha": "HEAD",
+                        "push": true,
+                        "remote": "origin",
+                      },
+                      "jobs": 6,
+                      "noRegistry": false,
+                      "persistVersions": true,
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('reads from specified config file using relative path', async () => {
+            const configFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    git: {
+                        baseBranch: 'master',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<
+                    typeof monodeploy
+                >).mock.calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
+                    .toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
                       "git": Object {
