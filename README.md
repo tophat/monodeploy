@@ -130,6 +130,23 @@ The CLI provides a few sensible defaults, however if using the Node API, you wil
 
 You can also pass a `--config-file` flag to load options from a configuration file. The file should export an object matching the MonodeployConfiguration interface (with all properties as optional). CLI flags take precedence over the configuration file.
 
+Example config file:
+
+```js
+module.exports = {
+    dryRun: false,
+    git: {
+        baseBranch: 'master',
+        commitSha: 'HEAD',
+        remote: 'origin',
+        push: true,
+    },
+    conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+    access: 'public',
+    persistVersions: false,
+}
+```
+
 ### Node API
 
 To use the API:
