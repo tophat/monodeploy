@@ -12,44 +12,50 @@ const patchPackageJsons = async (
     workspaces: Set<Workspace>,
     registryTags: PackageTagMap,
 ): Promise<void> => {
-    await Promise.all(
-        [...workspaces].map(async (workspace: Workspace) => {
-            const ident = workspace.manifest.name!
-            const pkgName = structUtils.stringifyIdent(ident)
-            const version = registryTags.get(pkgName)
+    const patchWorkspace = async (workspace: Workspace): Promise<void> => {
+        const ident = workspace.manifest.name!
+        const pkgName = structUtils.stringifyIdent(ident)
+        const version = registryTags.get(pkgName)
 
-            /* istanbul ignore next: unless invoked directly, all packages have a tag */
-            if (!version) throw new Error(`${pkgName} is missing a version`)
+        /* istanbul ignore next: unless invoked directly, all packages have a tag */
+        if (!version) throw new Error(`${pkgName} is missing a version`)
 
-            workspace.manifest.version = version
-            for (const dependentSetKey of Manifest.allDependencies) {
-                const dependencySet = workspace.manifest.getForScope(
-                    dependentSetKey,
+        workspace.manifest.version = version
+        for (const dependentSetKey of Manifest.allDependencies) {
+            const dependencySet = workspace.manifest.getForScope(
+                dependentSetKey,
+            )
+
+            for (const descriptor of dependencySet.values()) {
+                const depPackageName = structUtils.stringifyIdent(descriptor)
+
+                const dependencyVersion = registryTags.get(depPackageName)
+                if (!dependencyVersion) continue
+
+                const range = `^${dependencyVersion}`
+                const updatedDescriptor = structUtils.makeDescriptor(
+                    structUtils.convertToIdent(descriptor),
+                    range,
                 )
-
-                for (const descriptor of dependencySet.values()) {
-                    const depPackageName = structUtils.stringifyIdent(
-                        descriptor,
-                    )
-
-                    const dependencyVersion = registryTags.get(depPackageName)
-                    if (!dependencyVersion) continue
-
-                    const range = `^${dependencyVersion}`
-                    const updatedDescriptor = structUtils.makeDescriptor(
-                        structUtils.convertToIdent(descriptor),
-                        range,
-                    )
-                    dependencySet.set(
-                        updatedDescriptor.identHash,
-                        updatedDescriptor,
-                    )
-                }
+                dependencySet.set(
+                    updatedDescriptor.identHash,
+                    updatedDescriptor,
+                )
             }
+        }
 
-            await workspace.persistManifest()
-        }),
-    )
+        await workspace.persistManifest()
+    }
+
+    const reloadWorkspace = async (workspace: Workspace): Promise<void> => {
+        await workspace.setup()
+    }
+
+    await Promise.all([...workspaces].map(patchWorkspace))
+
+    // publishing uses `workspace.manifest.raw` which persistManifest does not update,
+    // so we need to reload the manifest object
+    await Promise.all([...workspaces].map(reloadWorkspace))
 }
 
 export default patchPackageJsons

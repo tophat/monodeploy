@@ -7,4 +7,3 @@ This package is responsible for determining semantic version bumps based on diff
 ```sh
 yarn add @monodeploy/versions
 ```
-

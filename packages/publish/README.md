@@ -7,4 +7,3 @@ This package is responsible for the publish stage of the monodeploy pipeline, ru
 ```sh
 yarn add @monodeploy/publish
 ```
-

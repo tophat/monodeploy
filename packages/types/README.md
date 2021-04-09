@@ -7,4 +7,3 @@ This package contains common types used across monodeploy packages.
 ```sh
 yarn add @monodeploy/types
 ```
-
