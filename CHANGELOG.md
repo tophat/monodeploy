@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.3...@monodeploy/changelog@0.2.4) "@monodeploy/changelog" (2021-04-09)<a name="0.2.4"></a>
+
+## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.3...@monodeploy/io@0.2.4) "@monodeploy/io" (2021-04-09)<a name="0.2.4"></a>
+
+## Bug Fixes
+
+* do not trigger unnecessary workspace setup ([#300](https://github.com/tophat/monodeploy/issues/300)) ([aad5925](https://github.com/tophat/monodeploy/commits/aad5925))
+
+
+## [0.3.2](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.3.1...@monodeploy/node@0.3.2) "@monodeploy/node" (2021-04-09)<a name="0.3.2"></a>
+
+## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.1...@monodeploy/publish@0.2.2) "@monodeploy/publish" (2021-04-09)<a name="0.2.2"></a>
+
+## [0.3.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.1...@monodeploy/versions@0.3.2) "@monodeploy/versions" (2021-04-09)<a name="0.3.2"></a>
+
+## [2.3.3](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.2...monodeploy@2.3.3) "monodeploy" (2021-04-09)<a name="2.3.3"></a>
+
+
 ## [0.2.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.2...@monodeploy/changelog@0.2.3) "@monodeploy/changelog" (2021-04-09)<a name="0.2.3"></a>
 
 ## Bug Fixes
