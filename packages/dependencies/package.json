@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/dependencies",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -21,8 +21,8 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/logging": "^0.1.1",
-    "@monodeploy/types": "^0.3.0",
+    "@monodeploy/logging": "^0.1.2",
+    "@monodeploy/types": "^0.3.1",
     "@yarnpkg/core": "^2.4.0"
   },
   "devDependencies": {

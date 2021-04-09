@@ -6,6 +6,76 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.2...@monodeploy/changelog@0.2.3) "@monodeploy/changelog" (2021-04-09)<a name="0.2.3"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.2.3](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.2...@monodeploy/dependencies@0.2.3) "@monodeploy/dependencies" (2021-04-09)<a name="0.2.3"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.1.3](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.2...@monodeploy/git@0.1.3) "@monodeploy/git" (2021-04-09)<a name="0.1.3"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.2.3](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.2...@monodeploy/io@0.2.3) "@monodeploy/io" (2021-04-09)<a name="0.2.3"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.1.2](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.1...@monodeploy/logging@0.1.2) "@monodeploy/logging" (2021-04-09)<a name="0.1.2"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.3.0...@monodeploy/node@0.3.1) "@monodeploy/node" (2021-04-09)<a name="0.3.1"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.2.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.0...@monodeploy/publish@0.2.1) "@monodeploy/publish" (2021-04-09)<a name="0.2.1"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.3.0...@monodeploy/types@0.3.1) "@monodeploy/types" (2021-04-09)<a name="0.3.1"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.0...@monodeploy/versions@0.3.1) "@monodeploy/versions" (2021-04-09)<a name="0.3.1"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
+## [2.3.2](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.1...monodeploy@2.3.2) "monodeploy" (2021-04-09)<a name="2.3.2"></a>
+
+## Bug Fixes
+
+* **publish:** upload to npm the most recent package manifest ([#299](https://github.com/tophat/monodeploy/issues/299)) ([4fb8f46](https://github.com/tophat/monodeploy/commits/4fb8f46))
+
+
 ## [2.3.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.0...monodeploy@2.3.1) "monodeploy" (2021-04-08)<a name="2.3.1"></a>
 
 ## Bug Fixes
