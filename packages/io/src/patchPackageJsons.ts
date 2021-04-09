@@ -12,6 +12,12 @@ const patchPackageJsons = async (
     workspaces: Set<Workspace>,
     registryTags: PackageTagMap,
 ): Promise<void> => {
+    const reloadWorkspace = async (workspace: Workspace): Promise<void> => {
+        const data = {}
+        workspace.manifest.exportTo(data)
+        workspace.manifest.raw = data
+    }
+
     const patchWorkspace = async (workspace: Workspace): Promise<void> => {
         const ident = workspace.manifest.name!
         const pkgName = structUtils.stringifyIdent(ident)
@@ -45,17 +51,13 @@ const patchPackageJsons = async (
         }
 
         await workspace.persistManifest()
-    }
 
-    const reloadWorkspace = async (workspace: Workspace): Promise<void> => {
-        await workspace.setup()
+        // publishing uses `workspace.manifest.raw` which persistManifest does not update,
+        // so we need to reload the manifest object
+        await reloadWorkspace(workspace)
     }
 
     await Promise.all([...workspaces].map(patchWorkspace))
-
-    // publishing uses `workspace.manifest.raw` which persistManifest does not update,
-    // so we need to reload the manifest object
-    await Promise.all([...workspaces].map(reloadWorkspace))
 }
 
 export default patchPackageJsons
