@@ -7,4 +7,3 @@ This package exposes utilities for logging. It is an internal package, and not i
 ```sh
 yarn add @monodeploy/logging
 ```
-

@@ -7,4 +7,3 @@ This package is responsible for generating changelog entries, updating changelog
 ```sh
 yarn add @monodeploy/changelog
 ```
-

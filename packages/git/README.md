@@ -7,4 +7,3 @@ This package is responsible for read/write interactions with git.
 ```sh
 yarn add @monodeploy/git
 ```
-
