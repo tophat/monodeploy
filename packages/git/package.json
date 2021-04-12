@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/git",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
     "@types/node": "^14.0.0"
   },
   "dependencies": {
-    "@monodeploy/logging": "^0.1.2",
-    "@monodeploy/types": "^0.3.1"
+    "@monodeploy/logging": "^0.1.3",
+    "@monodeploy/types": "^0.3.2"
   }
 }

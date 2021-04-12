@@ -6,6 +6,71 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.5](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.4...@monodeploy/changelog@0.2.5) "@monodeploy/changelog" (2021-04-12)<a name="0.2.5"></a>
+
+## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.3...@monodeploy/dependencies@0.2.4) "@monodeploy/dependencies" (2021-04-12)<a name="0.2.4"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.1.4](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.3...@monodeploy/git@0.1.4) "@monodeploy/git" (2021-04-12)<a name="0.1.4"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.2.5](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.4...@monodeploy/io@0.2.5) "@monodeploy/io" (2021-04-12)<a name="0.2.5"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.1.3](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.2...@monodeploy/logging@0.1.3) "@monodeploy/logging" (2021-04-12)<a name="0.1.3"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.3.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.3.2...@monodeploy/node@0.3.3) "@monodeploy/node" (2021-04-12)<a name="0.3.3"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.2.3](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.2...@monodeploy/publish@0.2.3) "@monodeploy/publish" (2021-04-12)<a name="0.2.3"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.3.2](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.3.1...@monodeploy/types@0.3.2) "@monodeploy/types" (2021-04-12)<a name="0.3.2"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [0.3.3](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.2...@monodeploy/versions@0.3.3) "@monodeploy/versions" (2021-04-12)<a name="0.3.3"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
+## [2.3.4](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.3...monodeploy@2.3.4) "monodeploy" (2021-04-12)<a name="2.3.4"></a>
+
+## Bug Fixes
+
+* **node:** skip incompatible plugins ([#303](https://github.com/tophat/monodeploy/issues/303)) ([ba80bae](https://github.com/tophat/monodeploy/commits/ba80bae))
+
+
 ## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.3...@monodeploy/changelog@0.2.4) "@monodeploy/changelog" (2021-04-09)<a name="0.2.4"></a>
 
 ## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.3...@monodeploy/io@0.2.4) "@monodeploy/io" (2021-04-09)<a name="0.2.4"></a>
