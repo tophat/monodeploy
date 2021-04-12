@@ -1,6 +1,5 @@
 import path from 'path'
 
-import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
@@ -27,6 +26,7 @@ import {
     getLatestPackageTags,
 } from '@monodeploy/versions'
 
+import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
 import getRegistryUrl from './utils/getRegistryUrl'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
@@ -42,7 +42,7 @@ const monodeploy = async (
     const cwd = npath.toPortablePath(path.resolve(process.cwd(), config.cwd))
     const configuration = await Configuration.find(
         cwd,
-        getPluginConfiguration(),
+        getCompatiblePluginConfiguration(),
     )
     const { project, workspace } = await Project.find(configuration, cwd)
     await project.restoreInstallState()

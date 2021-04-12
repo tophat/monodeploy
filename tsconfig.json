@@ -8,7 +8,8 @@
         "forceConsistentCasingInFileNames": true,
         "noImplicitAny": true,
         "emitDeclarationOnly": false,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true
     },
     "include": ["./packages"],
     "exclude": ["./packages/**/*.test.ts", "./packages/**/*.mock.ts", "./packages/**/__mocks__/**/*.ts"]
