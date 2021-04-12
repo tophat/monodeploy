@@ -11,6 +11,7 @@ import {
 import {
     getCommitMessages,
     gitDiffTree,
+    gitLastTaggedCommit,
     gitPush,
     gitResolveSha,
     gitTag,
@@ -134,5 +135,43 @@ describe('@monodeploy/git', () => {
         ).rejects.toMatchInlineSnapshot(
             `[Error: Invariant Violation: Invalid environment test !== production.]`,
         )
+    })
+
+    describe('gitLastTaggedCommit', () => {
+        it('defaults to HEAD if no tag exists', async () => {
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'test.txt', cwd })
+            execSync('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
+
+            const headSha = await gitResolveSha('HEAD', { cwd, context })
+            const commit = await gitLastTaggedCommit({ cwd, context })
+            expect(commit).toEqual(headSha)
+        })
+
+        it('gets the last tagged commit', async () => {
+            const prevNodeEnv = process.env.NODE_ENV
+            process.env.NODE_ENV = 'production'
+
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'test.txt', cwd })
+            execSync('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
+            const taggedSha = await gitResolveSha('HEAD', { cwd, context })
+            await gitTag('test-tag', { cwd, context })
+
+            await createFile({ filePath: 'test2.txt', cwd })
+            execSync('git add . && git commit -m "chore: non-tagged" -n', {
+                cwd,
+            })
+
+            expect(await gitLastTaggedCommit({ cwd, context })).toEqual(
+                taggedSha,
+            )
+
+            process.env.NODE_ENV = prevNodeEnv
+        })
     })
 })

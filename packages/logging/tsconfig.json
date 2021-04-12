@@ -10,7 +10,8 @@
         "declarationDir": "./lib",
         "noImplicitAny": true,
         "emitDeclarationOnly": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true
     },
     "include": ["./src"],
     "exclude": ["./src/**/*.test.ts", "./src/**/*.mock.ts", "./src/**/__mocks__/**/*.ts"]

@@ -20,6 +20,7 @@ module.exports = {
     coverageDirectory: `${ARTIFACT_DIR}/test_results/jest/`,
     collectCoverageFrom: [
         'packages/**/src/**/*.ts',
+        '!.yarn/**',
         '!packages/**/src/**/*.test.ts',
         '!packages/**/src/**/*.mock.ts',
         '!packages/**/src/**/__mocks__',

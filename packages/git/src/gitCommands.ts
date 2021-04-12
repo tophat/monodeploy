@@ -81,13 +81,22 @@ export const gitLastTaggedCommit = async ({
     const mostRecentTagCommand = `git describe --abbrev=0`
     logging.debug(`[Exec] ${mostRecentTagCommand}`, { report: context?.report })
 
-    const tag = childProcess
-        .execSync(mostRecentTagCommand, {
-            encoding: 'utf8',
-            cwd,
-        })
-        .toString()
-        .trim()
+    let tag = 'HEAD'
+
+    try {
+        tag = childProcess
+            .execSync(mostRecentTagCommand, {
+                encoding: 'utf8',
+                cwd,
+            })
+            .toString()
+            .trim()
+    } catch (err) {
+        logging.warning(
+            `[Exec] Fetching most recent tag failed, falling back to HEAD`,
+            { report: context?.report },
+        )
+    }
 
     const associatedShaCommand = `git rev-list -1 ${tag}`
     logging.debug(`[Exec] ${associatedShaCommand}`, { report: context?.report })
