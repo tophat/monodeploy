@@ -81,7 +81,7 @@ export const gitLastTaggedCommit = async ({
     const mostRecentTagCommand = `git describe --abbrev=0`
     logging.debug(`[Exec] ${mostRecentTagCommand}`, { report: context?.report })
 
-    let tag = 'HEAD'
+    let tag = 'HEAD^'
 
     try {
         tag = childProcess
@@ -93,7 +93,7 @@ export const gitLastTaggedCommit = async ({
             .trim()
     } catch (err) {
         logging.warning(
-            `[Exec] Fetching most recent tag failed, falling back to HEAD`,
+            `[Exec] Fetching most recent tag failed, falling back to HEAD^`,
             { report: context?.report },
         )
     }
