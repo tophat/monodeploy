@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.1.6](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.5...@monodeploy/git@0.1.6) "@monodeploy/git" (2021-04-13)<a name="0.1.6"></a>
+
+## Bug Fixes
+
+* **git:** default to HEAD^ if no tag exists on initial publish ([#305](https://github.com/tophat/monodeploy/issues/305)) ([49111ba](https://github.com/tophat/monodeploy/commits/49111ba))
+
+
+## [0.3.5](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.3.4...@monodeploy/node@0.3.5) "@monodeploy/node" (2021-04-13)<a name="0.3.5"></a>
+
+## [0.2.5](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.4...@monodeploy/publish@0.2.5) "@monodeploy/publish" (2021-04-13)<a name="0.2.5"></a>
+
+## [0.3.5](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.4...@monodeploy/versions@0.3.5) "@monodeploy/versions" (2021-04-13)<a name="0.3.5"></a>
+
+## [2.3.6](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.5...monodeploy@2.3.6) "monodeploy" (2021-04-13)<a name="2.3.6"></a>
+
+
 ## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.5...@monodeploy/changelog@0.2.6) "@monodeploy/changelog" (2021-04-12)<a name="0.2.6"></a>
 
 ## Bug Fixes
