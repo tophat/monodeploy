@@ -138,14 +138,19 @@ describe('@monodeploy/git', () => {
     })
 
     describe('gitLastTaggedCommit', () => {
-        it('defaults to HEAD if no tag exists', async () => {
+        it('defaults to HEAD^ if no tag exists', async () => {
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
             execSync('git add . && git commit -m "chore: initial commit" -n', {
                 cwd,
             })
 
-            const headSha = await gitResolveSha('HEAD', { cwd, context })
+            await createFile({ filePath: 'test1.txt', cwd })
+            execSync('git add . && git commit -m "chore: second commit" -n', {
+                cwd,
+            })
+
+            const headSha = await gitResolveSha('HEAD^', { cwd, context })
             const commit = await gitLastTaggedCommit({ cwd, context })
             expect(commit).toEqual(headSha)
         })
