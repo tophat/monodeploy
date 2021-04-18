@@ -14,7 +14,7 @@ jobs:
     steps:
         - uses: actions/checkout@v2
           with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
@@ -60,7 +60,7 @@ jobs:
     steps:
         - uses: actions/checkout@v2
           with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
