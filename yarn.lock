@@ -1784,10 +1784,10 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-react: ^7.22.0
     eslint-plugin-react-hooks: ^4.2.0
-    husky: ^5.0.6
+    husky: ^6.0.0
     jest: ^26.6.3
     jest-junit: ^12.0.0
-    lint-staged: ^10.5.3
+    lint-staged: ^10.5.4
     prettier: ^2.2.1
     querystring: ^0.2.1
     ts-node: ^9.1.1
@@ -5894,12 +5894,12 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"husky@npm:^5.0.6":
-  version: 5.0.6
-  resolution: "husky@npm:5.0.6"
+"husky@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "husky@npm:6.0.0"
   bin:
     husky: lib/bin.js
-  checksum: fdf13e3860505dac723a3c9f99a5caed7c1d121e9682243d5bbfbb95debda3801cade124d21b39dd702daf4c3fddab453cbf9494b5131627740f0394a14a21a5
+  checksum: db6da76a670b2cd1e967990decfd291e6f35a5aee4d362208a51771474d3b4896d526acb4bf0413c2d7154716e42a4d8b6cc19f2bb108e48d1f554624c723a00
   languageName: node
   linkType: hard
 
@@ -7304,9 +7304,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^10.5.3":
-  version: 10.5.3
-  resolution: "lint-staged@npm:10.5.3"
+"lint-staged@npm:^10.5.4":
+  version: 10.5.4
+  resolution: "lint-staged@npm:10.5.4"
   dependencies:
     chalk: ^4.1.0
     cli-truncate: ^2.1.0
@@ -7325,7 +7325,7 @@ fsevents@~2.1.2:
     stringify-object: ^3.3.0
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 106656c47e403a3d8038a225aa47d85d6923976efd2698a35252c7e4f8eb7109d5f7cbbacc42b5ec2684f1585566c349ca557f7fa7b4ac643e8cf9f745cb4d8f
+  checksum: 4cc65f6c0a22dc091d0bbdfa6c15cd6e9b7d0d1e7603f5441bf9ac62f3a760fa36b0bda2db4c31b4084f28ba47cd4d0a176c3c3b314a97de8326e050d20b1635
   languageName: node
   linkType: hard
 
