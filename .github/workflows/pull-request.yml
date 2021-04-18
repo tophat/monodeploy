@@ -30,7 +30,7 @@ jobs:
         - name: Run Commit Watch
           env:
             COMMIT_WATCH_OUTPUT_DIR: ${{ env.ARTIFACT_DIR }}/
-            COMMITWATCH_GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+            COMMITWATCH_GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
             CI_REPO_OWNER: ${{ github.repository_owner }}
             CI_REPO_NAME: ${{ github.event.repository.name }}
             CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
@@ -138,7 +138,7 @@ jobs:
           id: found-comment
           if: github.event_name == 'pull_request'
           with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
             issue-number: ${{ github.event.pull_request.number }}
             comment-author: 'tophat-opensource-bot'
             body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
@@ -146,7 +146,7 @@ jobs:
           uses: peter-evans/create-or-update-comment@v1
           if: github.event_name == 'pull_request'
           with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
             comment-id: ${{ steps.found-comment.outputs.comment-id }}
             issue-number: ${{ github.event.pull_request.number }}
             edit-mode: replace
