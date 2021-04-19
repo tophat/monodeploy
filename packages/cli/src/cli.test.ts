@@ -163,6 +163,38 @@ describe('CLI', () => {
             }
         })
 
+        it('throws an error if invalid configuration', async () => {
+            const prevExitCode = process.exitCode ?? 0
+            const spyError = jest
+                .spyOn(console, 'error')
+                .mockImplementation(() => {
+                    /* ignore */
+                })
+
+            const configFileContents = `
+                module.exports = { git: { baseBranch: true } }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ${configFilename}`)
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise(r => setTimeout(r))
+                expect(spyError).toHaveBeenCalled()
+                expect(process.exitCode).toEqual(1)
+                spyError.mockRestore()
+                process.exitCode = prevExitCode
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
         it('reads from specified config file using absolute path', async () => {
             const configFileContents = `
                 module.exports = {

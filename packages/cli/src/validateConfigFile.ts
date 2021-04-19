@@ -2,13 +2,7 @@ import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv'
 
 import type { ConfigFile } from './types'
 
-const ajv = new Ajv({
-    logger: {
-        log: console.log.bind(console),
-        warn: console.warn.bind(console),
-        error: console.error.bind(console),
-    },
-})
+const ajv = new Ajv()
 
 const schema: JSONSchemaType<ConfigFile> = {
     type: 'object',
