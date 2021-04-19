@@ -25,6 +25,7 @@
   "dependencies": {
     "@monodeploy/node": "^0.3.5",
     "@monodeploy/types": "^0.3.3",
+    "ajv": "^8.1.0",
     "yargs": "^16.2.0"
   }
 }
