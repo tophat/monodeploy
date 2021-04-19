@@ -1,6 +1,7 @@
 import path from 'path'
 
-import { ConfigFile } from './types'
+import type { ConfigFile } from './types'
+import validateConfigFile from './validateConfigFile'
 
 const resolvePath = (filename: string, cwd: string): string => {
     if (filename.startsWith(`.${path.sep}`) || filename.startsWith(path.sep)) {
@@ -16,8 +17,16 @@ const readConfigFile = async (
     try {
         const configId = resolvePath(configFilename, cwd)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const config = require(configId) as ConfigFile
-        return config
+        const config: unknown = require(configId)
+        const validate = validateConfigFile()
+        if (validate(config)) {
+            return config
+        }
+        throw new Error(
+            `Invalid configuration:\n${validate.errors?.map(
+                err => `  ${err.schemaPath} ${err.message}`,
+            )}\n`,
+        )
     } catch (err) {
         /* istanbul ignore else */
         if (err?.message) {

@@ -4,7 +4,7 @@ import monodeploy from '@monodeploy/node'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 
 import readConfigFile from './readConfigFile'
-import { ArgOutput } from './types'
+import { ArgOutput, ConfigFile } from './types'
 
 const { argv } = yargs
     .option('config-file', {
@@ -109,57 +109,57 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         const cwd = argv.cwd
 
         const configFilename = argv.configFile
-        const configFromFile = configFilename
+        const configFromFile: ConfigFile | null = configFilename
             ? await readConfigFile(configFilename, {
                   cwd: cwd ?? process.cwd(),
               })
-            : {}
+            : null
 
         const config: RecursivePartial<MonodeployConfiguration> = {
             registryUrl:
-                argv.registryUrl ?? configFromFile.registryUrl ?? undefined,
+                argv.registryUrl ?? configFromFile?.registryUrl ?? undefined,
             noRegistry:
-                (!argv.registry || configFromFile.noRegistry) ?? undefined,
+                (!argv.registry || configFromFile?.noRegistry) ?? undefined,
             cwd: cwd ?? undefined,
-            dryRun: argv.dryRun ?? configFromFile.dryRun ?? undefined,
+            dryRun: argv.dryRun ?? configFromFile?.dryRun ?? undefined,
             git: {
                 baseBranch:
                     argv.gitBaseBranch ??
-                    configFromFile.git?.baseBranch ??
+                    configFromFile?.git?.baseBranch ??
                     undefined,
                 commitSha:
                     argv.gitCommitSha ??
-                    configFromFile.git?.commitSha ??
+                    configFromFile?.git?.commitSha ??
                     undefined,
                 remote:
-                    argv.gitRemote ?? configFromFile.git?.remote ?? undefined,
-                push: argv.push || configFromFile.git?.push,
+                    argv.gitRemote ?? configFromFile?.git?.remote ?? undefined,
+                push: argv.push || configFromFile?.git?.push,
             },
             conventionalChangelogConfig:
                 argv.conventionalChangelogConfig ??
-                configFromFile.conventionalChangelogConfig ??
+                configFromFile?.conventionalChangelogConfig ??
                 undefined,
             changesetFilename:
                 argv.changesetFilename ??
-                configFromFile.changesetFilename ??
+                configFromFile?.changesetFilename ??
                 undefined,
             changelogFilename:
                 argv.prependChangelog ??
-                configFromFile.changelogFilename ??
+                configFromFile?.changelogFilename ??
                 undefined,
             forceWriteChangeFiles:
                 argv.forceWriteChangeFiles ||
-                configFromFile.forceWriteChangeFiles,
-            access: argv.access ?? configFromFile.access ?? undefined,
+                configFromFile?.forceWriteChangeFiles,
+            access: argv.access ?? configFromFile?.access ?? undefined,
             persistVersions:
-                argv.persistVersions || configFromFile.persistVersions,
-            topological: argv.topological || configFromFile.topological,
+                argv.persistVersions || configFromFile?.persistVersions,
+            topological: argv.topological || configFromFile?.topological,
             topologicalDev:
-                argv.topologicalDev || configFromFile.topologicalDev,
+                argv.topologicalDev || configFromFile?.topologicalDev,
             jobs:
                 (argv.jobs && argv.jobs > 0
                     ? argv.jobs
-                    : configFromFile.jobs) ?? 0,
+                    : configFromFile?.jobs) ?? 0,
         }
 
         await monodeploy(config)

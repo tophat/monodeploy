@@ -22,4 +22,4 @@ export interface ArgOutput {
     jobs?: number
 }
 
-export type ConfigFile = RecursivePartial<MonodeployConfiguration>
+export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>
