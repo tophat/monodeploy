@@ -1684,7 +1684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monodeploy/changelog@^0.2.6, @monodeploy/changelog@workspace:packages/changelog":
+"@monodeploy/changelog@^0.3.0, @monodeploy/changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
@@ -1794,11 +1794,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@^0.3.5, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@^0.4.0, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
-    "@monodeploy/changelog": ^0.2.6
+    "@monodeploy/changelog": ^0.3.0
     "@monodeploy/git": ^0.1.6
     "@monodeploy/io": ^0.2.6
     "@monodeploy/logging": ^0.1.4
@@ -7801,7 +7801,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": ^0.3.5
+    "@monodeploy/node": ^0.4.0
     "@monodeploy/types": ^0.3.3
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0

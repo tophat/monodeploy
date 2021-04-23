@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+# [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.6...@monodeploy/changelog@0.3.0) "@monodeploy/changelog" (2021-04-23)<a name="0.3.0"></a>
+
+## Features
+
+* **node:** add plumbing mode for changeset data ([#310](https://github.com/tophat/monodeploy/issues/310)) ([c768cf1](https://github.com/tophat/monodeploy/commits/c768cf1))
+
+
+# [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.3.5...@monodeploy/node@0.4.0) "@monodeploy/node" (2021-04-23)<a name="0.4.0"></a>
+
+## Features
+
+* **node:** add plumbing mode for changeset data ([#310](https://github.com/tophat/monodeploy/issues/310)) ([c768cf1](https://github.com/tophat/monodeploy/commits/c768cf1))
+
+
+## [2.3.7](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.6...monodeploy@2.3.7) "monodeploy" (2021-04-23)<a name="2.3.7"></a>
+
+## Bug Fixes
+
+* **cli:** add config file schema validation ([#308](https://github.com/tophat/monodeploy/issues/308)) ([c768cf1](https://github.com/tophat/monodeploy/commits/c768cf1))
+
+
 ## [0.1.6](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.5...@monodeploy/git@0.1.6) "@monodeploy/git" (2021-04-13)<a name="0.1.6"></a>
 
 ## Bug Fixes
