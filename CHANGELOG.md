@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.0...@monodeploy/node@0.4.1) "@monodeploy/node" (2021-04-23)<a name="0.4.1"></a>
+
+## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.5...@monodeploy/versions@0.3.6) "@monodeploy/versions" (2021-04-23)<a name="0.3.6"></a>
+
+## Bug Fixes
+
+* **versions:** respect registryUrl when fetching tags ([#313](https://github.com/tophat/monodeploy/issues/313)) ([9d91efd](https://github.com/tophat/monodeploy/commits/9d91efd))
+
+
+## [2.3.8](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.7...monodeploy@2.3.8) "monodeploy" (2021-04-23)<a name="2.3.8"></a>
+
+
 # [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.2.6...@monodeploy/changelog@0.3.0) "@monodeploy/changelog" (2021-04-23)<a name="0.3.0"></a>
 
 ## Features
