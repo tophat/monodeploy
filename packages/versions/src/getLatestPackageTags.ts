@@ -36,6 +36,7 @@ const getLatestPackageTags = async (
             const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
                 configuration: context.configuration,
                 ident,
+                registry: config.registryUrl,
                 jsonResponse: true,
             })
             return [pkgName, result.latest]

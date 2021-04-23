@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MessageName, ReportError, structUtils } from '@yarnpkg/core'
 
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 
-const registry = {
+const _registry = {
     tags: {},
 }
 
 const _reset_ = (): void => {
-    registry.tags = {}
+    _registry.tags = {}
 }
 
 const _setTag_ = (
@@ -15,12 +16,12 @@ const _setTag_ = (
     tagValue: string,
     tagKey = 'latest',
 ): void => {
-    registry.tags[pkgName] = { ...registry.tags[pkgName], [tagKey]: tagValue }
+    _registry.tags[pkgName] = { ..._registry.tags[pkgName], [tagKey]: tagValue }
 }
 
-const npmHttpUtilsGet = (distTagUrl, { ident }) => {
+const npmHttpUtilsGet = (distTagUrl, { ident, registry }) => {
     const pkgName = structUtils.stringifyIdent(ident)
-    const tags = registry.tags[pkgName]
+    const tags = _registry.tags[pkgName]
     if (!tags) {
         throw new ReportError(
             MessageName.AUTHENTICATION_INVALID,
