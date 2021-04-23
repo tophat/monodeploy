@@ -39,6 +39,12 @@ const monodeploy = async (
         throw new Error('Invalid cwd.')
     }
 
+    /**
+     * In plumbing mode, we don't want to print out any unusable logs,
+     * as it would interfere with the data intended for piping into other programs.
+     */
+    const plumbingMode = config.changesetFilename === '-'
+
     const cwd = npath.toPortablePath(path.resolve(process.cwd(), config.cwd))
     const configuration = await Configuration.find(
         cwd,
@@ -191,10 +197,10 @@ const monodeploy = async (
         {
             configuration,
             stdout: process.stdout,
-            includeLogs: true,
-            includeInfos: true,
-            includeWarnings: true,
-            includeFooter: true,
+            includeLogs: !plumbingMode,
+            includeInfos: !plumbingMode,
+            includeWarnings: !plumbingMode,
+            includeFooter: !plumbingMode,
         },
         pipeline,
     )
