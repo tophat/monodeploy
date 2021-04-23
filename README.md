@@ -147,6 +147,16 @@ module.exports = {
 }
 ```
 
+#### Preview Changes
+
+You can run:
+
+```sh
+yarn monodeploy --dry-run --changeset-filename=-
+```
+
+to implicitly disable logs and only output the changeset data. This is useful for previewing changes or determining which packages will be modified from a Pull Request.
+
 ### Node API
 
 To use the API:

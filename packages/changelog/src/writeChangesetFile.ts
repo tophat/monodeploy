@@ -45,15 +45,21 @@ const writeChangesetFile = async (
         return changesetData
     }
 
-    const changesetPath = path.resolve(config.cwd, config.changesetFilename)
-    await fs.mkdir(path.dirname(changesetPath), { recursive: true })
+    const serializedData = JSON.stringify(changesetData, null, 2)
 
-    await fs.writeFile(changesetPath, JSON.stringify(changesetData, null, 2), {
-        encoding: 'utf8',
-    })
-    logging.info(`[Changeset] Written to: ${changesetPath}`, {
-        report: context.report,
-    })
+    if (config.changesetFilename === '-') {
+        console.log(serializedData)
+    } else {
+        const changesetPath = path.resolve(config.cwd, config.changesetFilename)
+        await fs.mkdir(path.dirname(changesetPath), { recursive: true })
+
+        await fs.writeFile(changesetPath, serializedData, {
+            encoding: 'utf8',
+        })
+        logging.info(`[Changeset] Written to: ${changesetPath}`, {
+            report: context.report,
+        })
+    }
 
     return changesetData
 }

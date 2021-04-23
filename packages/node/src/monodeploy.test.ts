@@ -594,6 +594,51 @@ describe('Monodeploy', () => {
         }
     })
 
+    it('writes the changeset to standard out if - specified', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
+
+        const spyConsoleLog = jest.spyOn(console, 'log')
+
+        try {
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changesetFilename: '-',
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            // changeset file should not exist
+            await expect(fs.stat(changesetFilename)).rejects.toThrow()
+
+            // assert stdout is equal to the returned result
+            expect(JSON.parse(spyConsoleLog.mock.calls[0][0])).toEqual(result)
+
+            expect(result).toEqual(
+                expect.objectContaining({
+                    'pkg-1': expect.objectContaining({
+                        version: '0.1.0',
+                        changelog: expect.stringContaining('some new feature'),
+                    }),
+                }),
+            )
+        } finally {
+            try {
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+
+        spyConsoleLog.mockRestore()
+    })
+
     it('does not restore package.jsons if persist versions is true', async () => {
         const config = { ...monodeployConfig, persistVersions: true }
         const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
