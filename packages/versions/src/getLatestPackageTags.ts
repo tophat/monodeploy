@@ -44,7 +44,8 @@ const getLatestPackageTags = async (
             if (
                 (err instanceof ReportError &&
                     err.reportCode === MessageName.AUTHENTICATION_INVALID) ||
-                err.response?.statusCode === 404
+                err.response?.statusCode === 404 ||
+                err.originalError?.response?.statusCode === 404
             ) {
                 // Assume package has never been published before.
                 // If the issue was actually an auth issue, we'll find out
