@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.1.7](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.6...@monodeploy/git@0.1.7) "@monodeploy/git" (2021-04-26)<a name="0.1.7"></a>
+
+## Bug Fixes
+
+* **git:** use asymmetric diff for determining commits to process ([#315](https://github.com/tophat/monodeploy/issues/315)) ([838e8bc](https://github.com/tophat/monodeploy/commits/838e8bc))
+
+
+## [0.4.2](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.1...@monodeploy/node@0.4.2) "@monodeploy/node" (2021-04-26)<a name="0.4.2"></a>
+
+## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.5...@monodeploy/publish@0.2.6) "@monodeploy/publish" (2021-04-26)<a name="0.2.6"></a>
+
+## [0.3.7](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.6...@monodeploy/versions@0.3.7) "@monodeploy/versions" (2021-04-26)<a name="0.3.7"></a>
+
+## [2.3.9](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.8...monodeploy@2.3.9) "monodeploy" (2021-04-26)<a name="2.3.9"></a>
+
+
 ## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.0...@monodeploy/node@0.4.1) "@monodeploy/node" (2021-04-23)<a name="0.4.1"></a>
 
 ## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.5...@monodeploy/versions@0.3.6) "@monodeploy/versions" (2021-04-23)<a name="0.3.6"></a>
