@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.4](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.3...@monodeploy/node@0.4.4) "@monodeploy/node" (2021-04-27)<a name="0.4.4"></a>
+
+## Bug Fixes
+
+* **node:** write empty changeset if no packages updated ([#318](https://github.com/tophat/monodeploy/issues/318)) ([e937582](https://github.com/tophat/monodeploy/commits/e937582))
+
+
+## [2.3.11](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.10...monodeploy@2.3.11) "monodeploy" (2021-04-27)<a name="2.3.11"></a>
+
+
 ## [0.4.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.2...@monodeploy/node@0.4.3) "@monodeploy/node" (2021-04-26)<a name="0.4.3"></a>
 
 ## [0.3.8](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.7...@monodeploy/versions@0.3.8) "@monodeploy/versions" (2021-04-26)<a name="0.3.8"></a>

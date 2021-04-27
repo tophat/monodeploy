@@ -1794,7 +1794,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@^0.4.3, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@^0.4.4, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
@@ -7801,7 +7801,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": ^0.4.3
+    "@monodeploy/node": ^0.4.4
     "@monodeploy/types": ^0.3.3
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
