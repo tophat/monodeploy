@@ -101,7 +101,6 @@ const monodeploy = async (
 
         if (!versionStrategies.size) {
             logging.warning('No packages need to be updated.', { report })
-            return
         }
 
         // Backup workspace package.jsons
