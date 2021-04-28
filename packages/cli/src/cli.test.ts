@@ -36,7 +36,8 @@ describe('CLI', () => {
                     '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
-                    '--push --persist-versions --access public --topological --topological-dev --jobs 6',
+                    '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
+                    '--max-concurrent-reads 3 --max-concurrent-writes 4',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -61,6 +62,8 @@ describe('CLI', () => {
                     "remote": "origin",
                   },
                   "jobs": 6,
+                  "maxConcurrentReads": 3,
+                  "maxConcurrentWrites": 4,
                   "noRegistry": true,
                   "persistVersions": true,
                   "registryUrl": "http://example.com",
@@ -95,6 +98,8 @@ describe('CLI', () => {
                     "remote": undefined,
                   },
                   "jobs": 0,
+                  "maxConcurrentReads": 0,
+                  "maxConcurrentWrites": 0,
                   "noRegistry": undefined,
                   "persistVersions": undefined,
                   "registryUrl": undefined,
@@ -216,6 +221,8 @@ describe('CLI', () => {
                     noRegistry: false,
                     topological: true,
                     topologicalDev: true,
+                    maxConcurrentReads: 3,
+                    maxConcurrentWrites: 5,
                 }
             `
 
@@ -249,6 +256,8 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 6,
+                      "maxConcurrentReads": 3,
+                      "maxConcurrentWrites": 5,
                       "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",
@@ -282,6 +291,8 @@ describe('CLI', () => {
                     noRegistry: false,
                     topological: true,
                     topologicalDev: true,
+                    maxConcurrentReads: 6,
+                    maxConcurrentWrites: 2,
                 }
             `
 
@@ -316,6 +327,8 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 6,
+                      "maxConcurrentReads": 6,
+                      "maxConcurrentWrites": 2,
                       "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",
@@ -349,6 +362,8 @@ describe('CLI', () => {
                     noRegistry: false,
                     topological: true,
                     topologicalDev: true,
+                    maxConcurrentReads: 2,
+                    maxConcurrentWrites: 1,
                 }
             `
 
@@ -383,6 +398,8 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 6,
+                      "maxConcurrentReads": 2,
+                      "maxConcurrentWrites": 1,
                       "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",
@@ -416,6 +433,8 @@ describe('CLI', () => {
                 registryUrl: 'http://example.com',
                 topological: true,
                 topologicalDev: true,
+                maxConcurrentReads: 10,
+                maxConcurrentWrites: 11,
             }
         `
 
@@ -451,6 +470,8 @@ describe('CLI', () => {
                         "remote": "origin",
                       },
                       "jobs": 3,
+                      "maxConcurrentReads": 10,
+                      "maxConcurrentWrites": 11,
                       "noRegistry": false,
                       "persistVersions": true,
                       "registryUrl": "http://example.com",

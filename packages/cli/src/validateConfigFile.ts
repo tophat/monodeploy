@@ -19,6 +19,8 @@ const schema: JSONSchemaType<ConfigFile> = {
         topological: { type: 'boolean', nullable: true },
         topologicalDev: { type: 'boolean', nullable: true },
         jobs: { type: 'integer', nullable: true },
+        maxConcurrentReads: { type: 'integer', nullable: true },
+        maxConcurrentWrites: { type: 'integer', nullable: true },
         git: {
             type: 'object',
             properties: {

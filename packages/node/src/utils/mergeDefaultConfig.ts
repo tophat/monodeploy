@@ -34,6 +34,8 @@ const mergeDefaultConfig = async (
         topological: baseConfig.topological ?? false,
         topologicalDev: baseConfig.topologicalDev ?? false,
         jobs: baseConfig.jobs ?? 0,
+        maxConcurrentReads: baseConfig.maxConcurrentReads ?? 0,
+        maxConcurrentWrites: baseConfig.maxConcurrentWrites ?? 0,
     }
 }
 

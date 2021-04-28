@@ -79,6 +79,8 @@ describe('Monodeploy (Dry Run)', () => {
         topologicalDev: false,
         jobs: 0,
         forceWriteChangeFiles: false,
+        maxConcurrentReads: 2,
+        maxConcurrentWrites: 0,
     }
 
     beforeAll(async () => {
@@ -317,6 +319,8 @@ describe('Monodeploy', () => {
         topologicalDev: false,
         jobs: 0,
         forceWriteChangeFiles: false,
+        maxConcurrentReads: 2,
+        maxConcurrentWrites: 2,
     }
 
     beforeAll(async () => {
@@ -723,6 +727,8 @@ describe('Monodeploy Lifecycle Scripts', () => {
         topologicalDev: true,
         jobs: 100,
         forceWriteChangeFiles: false,
+        maxConcurrentReads: 4,
+        maxConcurrentWrites: 3,
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

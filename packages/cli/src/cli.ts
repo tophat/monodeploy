@@ -95,6 +95,18 @@ const { argv } = yargs
             'Maximum number of tasks to run in parallel (set to 0 for unbounded)',
         default: 0,
     })
+    .option('max-concurrent-writes', {
+        type: 'number',
+        description:
+            'Maximum number of concurrent requests to make when writing to the registry (set to 0 for default)',
+        defualt: 1,
+    })
+    .option('max-concurrent-reads', {
+        type: 'number',
+        description:
+            'Maximum number of concurrent requests to make when reading from the registry (set to 0 for default)',
+        defualt: 1,
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -160,6 +172,14 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 (argv.jobs && argv.jobs > 0
                     ? argv.jobs
                     : configFromFile?.jobs) ?? 0,
+            maxConcurrentReads:
+                (argv.maxConcurrentReads && argv.maxConcurrentReads > 0
+                    ? argv.maxConcurrentReads
+                    : configFromFile?.maxConcurrentReads) ?? 0,
+            maxConcurrentWrites:
+                (argv.maxConcurrentWrites && argv.maxConcurrentWrites > 0
+                    ? argv.maxConcurrentWrites
+                    : configFromFile?.maxConcurrentWrites) ?? 0,
         }
 
         await monodeploy(config)
