@@ -23,6 +23,7 @@ const mergeDefaultConfig = async (
                 (await gitResolveSha('HEAD', { cwd })),
             remote: baseConfig.git?.remote ?? 'origin',
             push: baseConfig.git?.push ?? false,
+            tag: baseConfig.git?.tag ?? true,
         },
         conventionalChangelogConfig:
             baseConfig.conventionalChangelogConfig ?? undefined,

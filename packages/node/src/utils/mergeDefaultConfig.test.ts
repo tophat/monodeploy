@@ -59,6 +59,7 @@ describe('Config Merging', () => {
                 commitSha: 'HEAD',
                 remote: 'origin',
                 push: true,
+                tag: true,
             },
             conventionalChangelogConfig:
                 '@tophat/conventional-changelog-config',

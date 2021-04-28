@@ -113,6 +113,8 @@ export const publishPackages = async (
         )
     }
 
-    // Push git tags
-    await pushTags(config, context, newVersions)
+    if (config.git.tag) {
+        // Push git tags
+        await pushTags(config, context, newVersions)
+    }
 }

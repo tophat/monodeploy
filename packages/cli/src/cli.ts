@@ -40,6 +40,12 @@ const { argv } = yargs
         type: 'string',
         description: 'Git remote name to publish release tags to',
     })
+    .option('git-tag', {
+        type: 'boolean',
+        default: true,
+        description:
+            'Whether to tag the commit with the published version using git',
+    })
     .option('log-level', {
         type: 'number',
         description: 'Log level',
@@ -146,6 +152,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 remote:
                     argv.gitRemote ?? configFromFile?.git?.remote ?? undefined,
                 push: argv.push || configFromFile?.git?.push,
+                tag:
+                    argv.gitTag === false
+                        ? argv.gitTag
+                        : configFromFile?.git?.tag ?? undefined,
             },
             conventionalChangelogConfig:
                 argv.conventionalChangelogConfig ??

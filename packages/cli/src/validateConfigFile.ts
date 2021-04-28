@@ -28,6 +28,7 @@ const schema: JSONSchemaType<ConfigFile> = {
                 commitSha: { type: 'string', nullable: true },
                 remote: { type: 'string', nullable: true },
                 push: { type: 'boolean', nullable: true },
+                tag: { type: 'boolean', nullable: true },
             },
             required: [],
             additionalProperties: false,

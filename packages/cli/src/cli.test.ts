@@ -37,7 +37,7 @@ describe('CLI', () => {
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
-                    '--max-concurrent-reads 3 --max-concurrent-writes 4',
+                    '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -60,6 +60,7 @@ describe('CLI', () => {
                     "commitSha": "HEAD",
                     "push": true,
                     "remote": "origin",
+                    "tag": false,
                   },
                   "jobs": 6,
                   "maxConcurrentReads": 3,
@@ -96,6 +97,7 @@ describe('CLI', () => {
                     "commitSha": undefined,
                     "push": undefined,
                     "remote": undefined,
+                    "tag": undefined,
                   },
                   "jobs": 0,
                   "maxConcurrentReads": 0,
@@ -214,6 +216,7 @@ describe('CLI', () => {
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
+                        tag: true,
                     },
                     jobs: 6,
                     persistVersions: true,
@@ -254,6 +257,7 @@ describe('CLI', () => {
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
+                        "tag": true,
                       },
                       "jobs": 6,
                       "maxConcurrentReads": 3,
@@ -284,6 +288,7 @@ describe('CLI', () => {
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
+                        tag: false,
                     },
                     jobs: 6,
                     persistVersions: true,
@@ -325,6 +330,7 @@ describe('CLI', () => {
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
+                        "tag": false,
                       },
                       "jobs": 6,
                       "maxConcurrentReads": 6,
@@ -355,6 +361,7 @@ describe('CLI', () => {
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
+                        tag: false,
                     },
                     jobs: 6,
                     persistVersions: true,
@@ -396,6 +403,7 @@ describe('CLI', () => {
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
+                        "tag": false,
                       },
                       "jobs": 6,
                       "maxConcurrentReads": 2,
@@ -427,6 +435,7 @@ describe('CLI', () => {
                     commitSha: 'HEAD',
                     push: true,
                     remote: 'origin',
+                    tag: false,
                 },
                 jobs: 6,
                 persistVersions: true,
@@ -468,6 +477,7 @@ describe('CLI', () => {
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
+                        "tag": false,
                       },
                       "jobs": 3,
                       "maxConcurrentReads": 10,
