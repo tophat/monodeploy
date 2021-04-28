@@ -1,5 +1,6 @@
 import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
+import pLimit from 'p-limit'
 
 import logging from '@monodeploy/logging'
 import type {
@@ -12,6 +13,8 @@ const getLatestPackageTags = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<PackageTagMap> => {
+    const limitFetch = pLimit(config.maxConcurrentReads || 10)
+
     const workspaces = [
         context.project.topLevelWorkspace.cwd,
         ...context.project.topLevelWorkspace.workspacesCwds,
@@ -33,12 +36,14 @@ const getLatestPackageTags = async (
         const distTagUrl = `/-/package${identUrl}/dist-tags`
 
         try {
-            const result = await pluginNPM.npmHttpUtils.get(distTagUrl, {
-                configuration: context.configuration,
-                ident,
-                registry: config.registryUrl,
-                jsonResponse: true,
-            })
+            const result = await limitFetch(() =>
+                pluginNPM.npmHttpUtils.get(distTagUrl, {
+                    configuration: context.configuration,
+                    ident,
+                    registry: config.registryUrl,
+                    jsonResponse: true,
+                }),
+            )
             return [pkgName, result.latest]
         } catch (err) {
             if (

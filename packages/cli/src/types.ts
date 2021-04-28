@@ -20,6 +20,8 @@ export interface ArgOutput {
     topological?: boolean
     topologicalDev?: boolean
     jobs?: number
+    maxConcurrentReads?: number
+    maxConcurrentWrites?: number
 }
 
 export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>

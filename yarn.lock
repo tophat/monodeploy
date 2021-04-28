@@ -1758,7 +1758,7 @@ __metadata:
     "@monodeploy/types": "workspace:packages/types"
     "@tophat/commitizen-adapter": ^0.0.11
     "@tophat/commitlint-config": ^0.1.2
-    "@tophat/conventional-changelog-config": ^0.5.1
+    "@tophat/conventional-changelog-config": ^0.5.6
     "@tophat/eslint-config": ^0.7.0
     "@types/jest": ^26.0.20
     "@types/node": ^14.0.0
@@ -1908,6 +1908,7 @@ __metadata:
     "@yarnpkg/plugin-npm": ^2.5.0-rc.2
     "@yarnpkg/plugin-pack": ^3.0.0-rc.2
     conventional-commits-parser: ^3.2.0
+    p-limit: ^3.1.0
     semver: ^7.3.4
   languageName: unknown
   linkType: soft
@@ -1992,17 +1993,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/commit-utils-core@npm:*":
-  version: 0.5.0
-  resolution: "@tophat/commit-utils-core@npm:0.5.0"
-  checksum: 9918cab8c9a095c96279aab32010948a08e1e72992e9f3dbe13042d1db053c3b599a65f10234e114d48feae7a85cfdfd1cbb39a60ca0dbf41b81e6631b5259cd
-  languageName: node
-  linkType: hard
-
 "@tophat/commit-utils-core@npm:^0.0.9":
   version: 0.0.9
   resolution: "@tophat/commit-utils-core@npm:0.0.9"
   checksum: 3b0c5dc3bbb894114d91ff0c6a4263f419b6f0c5e49c7a2fdeddd4cfe0ec19ccd9cfec8d66ec780a47ca406c2adcd626e7fbda46fa1b89a51742bd9180d9b673
+  languageName: node
+  linkType: hard
+
+"@tophat/commit-utils-core@npm:^0.5.4":
+  version: 0.5.4
+  resolution: "@tophat/commit-utils-core@npm:0.5.4"
+  checksum: 17a9825b7b991c83c66dfdc893e6c50fee9e6ba6f4ec46c521167dbc026762c9e387d637b74129d68db82ec3f4c846d48500cd1729b2190de3711b9502edf4bd
   languageName: node
   linkType: hard
 
@@ -2027,13 +2028,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/conventional-changelog-config@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "@tophat/conventional-changelog-config@npm:0.5.1"
+"@tophat/conventional-changelog-config@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "@tophat/conventional-changelog-config@npm:0.5.6"
   dependencies:
-    "@tophat/commit-utils-core": "*"
+    "@tophat/commit-utils-core": ^0.5.4
     compare-func: ^2.0.0
-  checksum: 2102e3203f555f7fc3da5991f8ffab41a489a7ef217d748a54b52fb5697d5c3045b10a0d2f273199e050b623e1ca89afc0021d257e1e095d15171015f8f5eb0e
+  checksum: 353366a57670519aeb00137da1601ffdf7434e47687001d243975e412fbd1ce343ffeea2349c666f33627d5be856c54c345cf4b8365860fe4e9549a2b6e2285d
   languageName: node
   linkType: hard
 

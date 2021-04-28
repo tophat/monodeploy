@@ -26,6 +26,8 @@ export interface MonodeployConfiguration {
     topological: boolean
     topologicalDev: boolean
     jobs: number
+    maxConcurrentReads: number
+    maxConcurrentWrites: number
 }
 
 export interface YarnContext {

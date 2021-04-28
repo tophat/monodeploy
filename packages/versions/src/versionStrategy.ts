@@ -23,7 +23,7 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
         conventionalCommitsParser(),
     )
     const conventionalCommits = await readStream<Commit>(commitsStream)
-    const pattern = new RegExp('^(\\w+)(\\([^:]+\\))?:.*', 'g')
+    const titlePattern = new RegExp('^(\\w+)(\\([^)]+\\))?$', 'g')
     const PATCH_TYPES = ['fix', 'perf']
     const FEATURE_TYPES = ['feat']
     const BREAKING_CHANGE = 'breaking change'
@@ -33,7 +33,7 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
                 return STRATEGY.MAJOR
             }
 
-            const matches = [...note.title.matchAll(pattern)]?.[0]
+            const matches = [...note.title.matchAll(titlePattern)]?.[0]
             const type = matches?.[1]
 
             if (FEATURE_TYPES.includes(type)) {
@@ -56,6 +56,10 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
             if (PATCH_TYPES.includes(commitType)) {
                 return Math.min(level, STRATEGY.PATCH)
             }
+        }
+
+        if (commit.revert) {
+            return Math.min(level, STRATEGY.PATCH)
         }
         return level
     }, STRATEGY.NONE)

@@ -24,6 +24,8 @@ export const publishPackages = async (
     registryUrl: string | null,
     newVersions: PackageTagMap,
 ): Promise<void> => {
+    const limitPublish = pLimit(config.maxConcurrentWrites || 1)
+
     const prepareWorkspace = async (workspace: Workspace) => {
         const ident = workspace.manifest.name
         if (!ident) return
@@ -61,12 +63,14 @@ export const publishPackages = async (
 
                 if (!config.dryRun) {
                     assertProductionOrTest()
-                    await npmHttpUtils.put(identUrl, body, {
-                        authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
-                        configuration: context.project.configuration,
-                        ident,
-                        registry: registryUrl,
-                    })
+                    await limitPublish(() =>
+                        npmHttpUtils.put(identUrl, body, {
+                            authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
+                            configuration: context.project.configuration,
+                            ident,
+                            registry: registryUrl,
+                        }),
+                    )
                 }
                 logging.info(
                     `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,

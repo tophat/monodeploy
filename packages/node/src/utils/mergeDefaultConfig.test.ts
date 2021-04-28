@@ -70,6 +70,8 @@ describe('Config Merging', () => {
             topological: true,
             topologicalDev: true,
             jobs: 5,
+            maxConcurrentReads: 3,
+            maxConcurrentWrites: 2,
         }
 
         const merged = await mergeDefaultConfig(config)
