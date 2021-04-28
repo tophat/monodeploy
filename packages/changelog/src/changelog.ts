@@ -122,11 +122,6 @@ const generateChangelogEntry = async (
             // NOTE: This mutates the commit.
             const mutableCommit = JSON.parse(JSON.stringify(commit))
 
-            await conventionalConfig.writerOpts?.transform?.(
-                mutableCommit,
-                templateContext,
-            )
-
             if (!mutableCommit.hash && config.git.commitSha) {
                 mutableCommit.hash = config.git.commitSha
             }
