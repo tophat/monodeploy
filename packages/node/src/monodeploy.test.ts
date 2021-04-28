@@ -27,6 +27,7 @@ const mockGit = git as jest.Mocked<
         _reset_: () => void
         _commitFiles_: (sha: string, commit: string, files: string[]) => void
         _getPushedTags_: () => string[]
+        _getTags_: () => string[]
     }
 >
 const mockNPM = npm as jest.Mocked<
@@ -71,6 +72,7 @@ describe('Monodeploy (Dry Run)', () => {
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,
+            tag: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
@@ -311,6 +313,7 @@ describe('Monodeploy', () => {
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,
+            tag: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',
@@ -396,6 +399,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
+
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
             './packages/pkg-1/README.md',
         ])
@@ -412,6 +416,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-2']).toBeUndefined()
         expect(result['pkg-3']).toBeUndefined()
 
+        expect(mockGit._getTags_()).toEqual(['pkg-1@0.1.0'])
         expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
     })
 
@@ -433,6 +438,27 @@ describe('Monodeploy', () => {
 
         // push is disabled, so no pushed tags
         expect(mockGit._getPushedTags_()).toEqual([])
+    })
+
+    it('does not create tags if git tag mode disabled', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            git: { ...monodeployConfig.git, push: true, tag: false },
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toEqual('0.1.0')
+
+        // push is enabled but tagging is disabled, so no pushed tags
+        expect(mockGit._getPushedTags_()).toEqual([])
+        expect(mockGit._getTags_()).toEqual([])
     })
 
     it('propagates dependant changes', async () => {
@@ -719,6 +745,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,
+            tag: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
         access: 'public',

@@ -16,6 +16,7 @@ export interface MonodeployConfiguration {
         commitSha: string
         remote: string
         push: boolean
+        tag: boolean
     }
     conventionalChangelogConfig?: string
     changesetFilename?: string

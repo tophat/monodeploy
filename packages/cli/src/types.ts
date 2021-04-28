@@ -9,6 +9,7 @@ export interface ArgOutput {
     gitBaseBranch?: string
     gitCommitSha?: string
     gitRemote?: string
+    gitTag?: boolean
     logLevel?: number
     conventionalChangelogConfig?: string
     changesetFilename?: string

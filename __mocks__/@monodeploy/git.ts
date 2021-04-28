@@ -38,6 +38,10 @@ const _getPushedTags_ = (): string[] => {
     return registry.pushedTags
 }
 
+const _getTags_ = (): string[] => {
+    return registry.tags
+}
+
 const gitResolveSha = async (
     ref: string,
     { cwd, context }: { cwd: string; context: YarnContext },
@@ -129,6 +133,7 @@ module.exports = {
     _reset_,
     _commitFiles_,
     _getPushedTags_,
+    _getTags_,
     gitResolveSha,
     gitDiffTree,
     gitLog,
