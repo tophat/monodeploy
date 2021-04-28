@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.3.0...@monodeploy/changelog@0.3.1) "@monodeploy/changelog" (2021-04-28)<a name="0.3.1"></a>
+
+## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.5...@monodeploy/dependencies@0.2.6) "@monodeploy/dependencies" (2021-04-28)<a name="0.2.6"></a>
+
+## [0.1.8](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.7...@monodeploy/git@0.1.8) "@monodeploy/git" (2021-04-28)<a name="0.1.8"></a>
+
+## [0.2.7](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.6...@monodeploy/io@0.2.7) "@monodeploy/io" (2021-04-28)<a name="0.2.7"></a>
+
+## [0.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.4...@monodeploy/node@0.5.0) "@monodeploy/node" (2021-04-28)<a name="0.5.0"></a>
+
+### Features
+
+* **cli**: add network concurrency options to limit concurrent publishes ([#319](https://github.com/tophat/monodeploy/issues/319)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+* **cli**: add no-git-tag option to disable git tagging ([#320](https://github.com/tophat/monodeploy/issues/320)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+
+
+## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.6...@monodeploy/publish@0.3.0) "@monodeploy/publish" (2021-04-28)<a name="0.3.0"></a>
+
+### Features
+
+* **cli**: add network concurrency options to limit concurrent publishes ([#319](https://github.com/tophat/monodeploy/issues/319)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+* **cli**: add no-git-tag option to disable git tagging ([#320](https://github.com/tophat/monodeploy/issues/320)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+
+
+## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.3.3...@monodeploy/types@0.4.0) "@monodeploy/types" (2021-04-28)<a name="0.4.0"></a>
+
+### Features
+
+* **cli**: add network concurrency options to limit concurrent publishes ([#319](https://github.com/tophat/monodeploy/issues/319)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+* **cli**: add no-git-tag option to disable git tagging ([#320](https://github.com/tophat/monodeploy/issues/320)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+
+
+## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.8...@monodeploy/versions@0.4.0) "@monodeploy/versions" (2021-04-28)<a name="0.4.0"></a>
+
+### Features
+
+* **cli**: add network concurrency options to limit concurrent publishes ([#319](https://github.com/tophat/monodeploy/issues/319)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+
+
+## [2.4.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.3.11...monodeploy@2.4.0) "monodeploy" (2021-04-28)<a name="2.4.0"></a>
+
+### Features
+
+* **cli**: add network concurrency options to limit concurrent publishes ([#319](https://github.com/tophat/monodeploy/issues/319)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+* **cli**: add no-git-tag option to disable git tagging ([#320](https://github.com/tophat/monodeploy/issues/320)) ([db84fc7](https://github.com/tophat/monodeploy/commits/db84fc7))
+
+
 ## [0.4.4](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.4.3...@monodeploy/node@0.4.4) "@monodeploy/node" (2021-04-27)<a name="0.4.4"></a>
 
 ## Bug Fixes

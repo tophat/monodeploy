@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/io",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/types": "^0.3.3",
+    "@monodeploy/types": "^0.4.0",
     "@yarnpkg/core": "^3.0.0-rc.2",
     "@yarnpkg/fslib": "^2.5.0-rc.2"
   }
