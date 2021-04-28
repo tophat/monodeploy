@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.2](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.3.1...@monodeploy/changelog@0.3.2) "@monodeploy/changelog" (2021-04-28)<a name="0.3.2"></a>
+
+### Bug Fixes
+
+* **changelog**: do not transform commits twice (#322) ([596da5c](https://github.com/tophat/monodeploy/commits/596da5c))
+
+
+## [0.5.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.5.0...@monodeploy/node@0.5.1) "@monodeploy/node" (2021-04-28)<a name="0.5.1"></a>
+
+## [2.4.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.4.0...monodeploy@2.4.1) "monodeploy" (2021-04-28)<a name="2.4.1"></a>
+
+
 ## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.3.0...@monodeploy/changelog@0.3.1) "@monodeploy/changelog" (2021-04-28)<a name="0.3.1"></a>
 
 ## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.5...@monodeploy/dependencies@0.2.6) "@monodeploy/dependencies" (2021-04-28)<a name="0.2.6"></a>
