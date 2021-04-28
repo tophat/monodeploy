@@ -95,6 +95,11 @@ Some entry.
 
 The marker `<!-- MONODEPLOY:BELOW -->` must match exactly. It is whitespace and case-sensitive.
 
+You can use the template variable `<packageDir>` to create individual changelogs per package, like so:
+
+```sh
+--prepend-changelog "<packageDir>/CHANGELOG.md"
+```
 
 ## API
 
