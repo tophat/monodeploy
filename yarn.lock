@@ -1695,8 +1695,10 @@ __metadata:
     "@types/conventional-changelog-writer": ^4.0.0
     "@types/conventional-commits-parser": ^3.0.1
     "@yarnpkg/core": ^3.0.0-rc.2
+    "@yarnpkg/fslib": ^2.5.0-rc.2
     conventional-changelog-writer: ^5.0.0
     conventional-commits-parser: ^3.2.0
+    p-limit: ^3.1.0
   languageName: unknown
   linkType: soft
 
