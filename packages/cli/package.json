@@ -27,5 +27,8 @@
     "@monodeploy/types": "^0.4.0",
     "ajv": "^8.1.0",
     "yargs": "^16.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
