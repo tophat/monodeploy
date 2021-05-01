@@ -1,6 +1,6 @@
 {
   "name": "monodeploy",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",

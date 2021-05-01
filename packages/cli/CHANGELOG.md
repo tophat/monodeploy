@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.4.4](https://github.com/tophat/monodeploy/compare/monodeploy@2.4.3...monodeploy@2.4.4) "monodeploy" (2021-05-01)<a name="2.4.4"></a>
+
+### Bug Fixes
+
+* specify minimum supported node version (#328) ([cd09870](https://github.com/tophat/monodeploy/commits/cd09870))
+
+
+
+
 ## [2.4.3](https://github.com/tophat/monodeploy/compare/monodeploy@2.4.2...monodeploy@2.4.3) "monodeploy" (2021-05-01)<a name="2.4.3"></a>
 
 
