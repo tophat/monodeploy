@@ -94,15 +94,15 @@ jobs:
             yarn run-local \
               --log-level 0 \
               --conventional-changelog-config @tophat/conventional-changelog-config \
-              --prepend-changelog ./CHANGELOG.md \
+              --prepend-changelog "<packageDir>/CHANGELOG.md" \
               --persist-versions
         - name: Update Git Repository
           if: github.ref == 'refs/heads/master'
           run: |
             yarn dedupe
-            if ! git diff-index --quiet HEAD -- CHANGELOG.md; then
+            if ! git diff-index --quiet HEAD -- "packages/**/package.json"; then
               git push --tags \
-                && git add yarn.lock CHANGELOG.md "packages/**/package.json" \
+                && git add yarn.lock "packages/**/CHANGELOG.md" "packages/**/package.json" \
                 && git commit -m "chore: release monodeploy [skip ci]" \
                 && git push
             fi
