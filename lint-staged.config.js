@@ -1,6 +1,9 @@
 module.exports = {
     '{package.json,yarn.lock}': () => 'yarn dedupe',
-    '*.{yml,yaml}': () => 'yarn yaml-validator',
+    '*.{yml,yaml}': (filenames) => {
+        const files = filenames.join(' ')
+        return `yarn yaml-validator ${files}`
+    },
     '*.ts': (filenames) => {
         const files = filenames.join(' ')
         return [

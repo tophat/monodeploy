@@ -87,6 +87,48 @@ jobs:
           with:
             name: report-artifacts
             path: ${{ env.ARTIFACT_DIR }}
+  tests_compatibility:
+    name: Test Compatibility - Node v${{ matrix.node_version }}
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    strategy:
+      matrix:
+        node_version: ['14', '15', '16']
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - name: Setup Node.js
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node_version }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ matrix.node_version }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Build
+          run: yarn build
+        - name: Set GitHub user for tests
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch master
+        - name: Tests
+          run: yarn test:ci
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: report-artifacts
+            path: ${{ env.ARTIFACT_DIR }}
   publish_preview:
     name: Publish Preview
     runs-on: ubuntu-20.04
