@@ -93,7 +93,7 @@ const prependChangelogFile = async (
                 npath.fromPortablePath(workspace.cwd),
             )
             const packageName = structUtils.stringifyIdent(
-                workspace.manifest.name,
+                workspace.manifest.name!,
             )
             const entry = changeset[packageName]?.changelog
             console.log(entry, packageName, changeset)
