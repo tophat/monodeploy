@@ -87,7 +87,7 @@
         "yaml-validator": "^3.0.0"
     },
     "engines": {
-        "node": ">=14.15.0"
+        "node": ">=14.0.0"
     },
     "resolutions": {
         "jest-resolve@^26.6.2": "patch:jest-resolve@npm:26.6.2#./patches/jest-resolve+26.6.2.diff"

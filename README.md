@@ -2,9 +2,8 @@
 
 <span><img align="right" width="200" height="200" src="./assets/monodeploy.svg" alt="monodeploy"></span>
 
-[![Continuous Integration](https://github.com/tophat/monodeploy/workflows/Continuous%20Integration/badge.svg?branch=next%2Fv2)](https://github.com/tophat/monodeploy/actions?query=workflow%3A%22Continuous+Integration%22)
+[![Continuous Integration](https://github.com/tophat/monodeploy/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/tophat/monodeploy/actions?query=workflow%3A%22Continuous+Integration%22)
 [![codecov](https://codecov.io/gh/tophat/monodeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/monodeploy)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=tophat/monodeploy)](https://dependabot.com)
 [![Maturity badge - level 2](https://img.shields.io/badge/Maturity-Level%202%20--%20First%20Release-yellowgreen.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
 [![GitHub license](https://img.shields.io/github/license/tophat/monodeploy)](https://github.com/tophat/monodeploy/blob/master/LICENSE)
 [![Discord](https://img.shields.io/discord/809577721751142410)](https://discord.gg/YhK3GFcZrk) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
