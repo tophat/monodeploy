@@ -168,7 +168,12 @@ const monodeploy = async (
                         versionStrategies,
                     )
 
-                    await prependChangelogFile(config, context, result)
+                    await prependChangelogFile(
+                        config,
+                        context,
+                        result,
+                        workspacesToPublish,
+                    )
                 },
             )
 
