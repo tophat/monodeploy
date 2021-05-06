@@ -46,17 +46,35 @@ const getLatestPackageTags = async (
             )
             return [pkgName, result.latest]
         } catch (err) {
+            const statusCode =
+                err.response?.statusCode ??
+                err.originalError?.response?.statusCode
+
             if (
                 (err instanceof ReportError &&
                     err.reportCode === MessageName.AUTHENTICATION_INVALID) ||
-                err.response?.statusCode === 404 ||
-                err.originalError?.response?.statusCode === 404
+                statusCode === 404
             ) {
                 // Assume package has never been published before.
                 // If the issue was actually an auth issue, we'll find out
                 // later when we attempt to publish.
                 logging.warning(
                     `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
+                    { report: context.report },
+                )
+                return [pkgName, manifestVersion]
+            }
+
+            if (
+                statusCode === 500 &&
+                config.registryUrl?.match(/\.jfrog\.io\//)
+            ) {
+                // There is a bug when using jfrog artifactory's virtual repo such that
+                // trying to fetch tags for non-published packages results in a 500 rather
+                // than a 404.
+                // See: https://www.jfrog.com/jira/browse/RTFACT-16518
+                logging.warning(
+                    `[Get Tags] [HTTP 500] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
                     { report: context.report },
                 )
                 return [pkgName, manifestVersion]
