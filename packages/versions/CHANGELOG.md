@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.4.0...@monodeploy/versions@0.4.1) "@monodeploy/versions" (2021-05-06)<a name="0.4.1"></a>
+
+### Bug Fixes
+
+* **versions**: handle jfrog 500s from new packages (#331) ([3b2f155](https://github.com/tophat/monodeploy/commits/3b2f155))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.3.8...@monodeploy/versions@0.4.0) "@monodeploy/versions" (2021-04-28)<a name="0.4.0"></a>
 
 ### Features

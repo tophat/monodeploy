@@ -2,6 +2,10 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.7.1...@monodeploy/node@0.7.2) "@monodeploy/node" (2021-05-06)<a name="0.7.2"></a>
+
+
+
 ## [0.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.7.0...@monodeploy/node@0.7.1) "@monodeploy/node" (2021-05-06)<a name="0.7.1"></a>
 
 
