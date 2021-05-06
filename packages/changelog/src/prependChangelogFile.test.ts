@@ -247,4 +247,36 @@ describe('prependChangelogFile', () => {
             expect.stringContaining(changeset['pkg-1'].changelog),
         )
     })
+
+    it('does not write to the changelog file if there are no changes', async () => {
+        const cwd = workspacePath
+        const mockChangelogFilename = 'changelog'
+        const config = await getMonodeployConfig({
+            baseBranch: 'master',
+            commitSha: 'sha-1',
+            cwd,
+            changelogFilename: mockChangelogFilename,
+        })
+        const context = await setupContext(cwd)
+        await createFile({
+            filePath: 'changelog',
+            cwd: workspacePath,
+            content: '<!-- MONODEPLOY:BELOW -->',
+        })
+        const changeset = {}
+
+        const contentsBefore = await fs.readFile(
+            path.join(cwd, mockChangelogFilename),
+            { encoding: 'utf8' },
+        )
+
+        await prependChangelogFile(config, context, changeset, new Set())
+
+        const contentsAfter = await fs.readFile(
+            path.join(cwd, mockChangelogFilename),
+            { encoding: 'utf8' },
+        )
+
+        expect(contentsBefore).toEqual(contentsAfter)
+    })
 })

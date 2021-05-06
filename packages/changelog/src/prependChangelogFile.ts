@@ -119,7 +119,7 @@ const prependChangelogFile = async (
         .join('\n')
         .trim()
 
-    await prependEntry({ config, context, filename, entry })
+    if (entry) await prependEntry({ config, context, filename, entry })
 }
 
 export default prependChangelogFile
