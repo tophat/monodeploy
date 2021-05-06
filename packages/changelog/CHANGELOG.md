@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.4.0...@monodeploy/changelog@0.4.1) "@monodeploy/changelog" (2021-05-06)<a name="0.4.1"></a>
+
+### Bug Fixes
+
+* **changelog**: only write to changelog file if there are changes (#330) ([22b5421](https://github.com/tophat/monodeploy/commits/22b5421))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.3.2...@monodeploy/changelog@0.4.0) "@monodeploy/changelog" (2021-05-01)<a name="0.4.0"></a>
 
 ### Features
