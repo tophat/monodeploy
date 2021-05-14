@@ -67,6 +67,8 @@ describe('Monodeploy (Dry Run)', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: true,
         noRegistry: false,
+        autoCommit: false,
+        autoCommitMessage: 'chore: release [skip ci]',
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',
@@ -308,6 +310,8 @@ describe('Monodeploy', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         noRegistry: false,
+        autoCommit: false,
+        autoCommitMessage: 'chore: release [skip ci]',
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',
@@ -740,6 +744,8 @@ describe('Monodeploy Lifecycle Scripts', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         noRegistry: false,
+        autoCommit: false,
+        autoCommitMessage: 'chore: release [skip ci]',
         git: {
             baseBranch: 'master',
             commitSha: 'HEAD',

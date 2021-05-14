@@ -84,6 +84,17 @@ const { argv } = yargs
         description:
             'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
     })
+    .option('auto-commit', {
+        type: 'boolean',
+        description:
+            'Whether the changelog, package.json and lockfile changes should be autocommited to the active branch',
+        default: false,
+    })
+    .option('auto-commit-message', {
+        type: 'string',
+        description:
+            'Message to use when autocommiting the changelog and associated changes',
+    })
     .option('topological', {
         type: 'boolean',
         description: 'Whether to prepare workspaces in topological order',
@@ -182,6 +193,12 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 (argv.jobs && argv.jobs > 0
                     ? argv.jobs
                     : configFromFile?.jobs) ?? 0,
+            autoCommit:
+                (argv.autoCommit || configFromFile?.autoCommit) ?? undefined,
+            autoCommitMessage:
+                argv.autoCommitMessage ??
+                configFromFile?.autoCommitMessage ??
+                undefined,
             maxConcurrentReads:
                 (argv.maxConcurrentReads && argv.maxConcurrentReads > 0
                     ? argv.maxConcurrentReads

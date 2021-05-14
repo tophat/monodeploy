@@ -11,6 +11,8 @@ export interface ArgOutput {
     gitRemote?: string
     gitTag?: boolean
     logLevel?: number
+    autoCommit?: boolean
+    autoCommitMessage?: string
     conventionalChangelogConfig?: string
     changesetFilename?: string
     forceWriteChangeFiles?: boolean

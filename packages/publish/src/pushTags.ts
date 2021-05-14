@@ -1,4 +1,4 @@
-import { gitPush, gitTag } from '@monodeploy/git'
+import { gitPushTag, gitTag } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
@@ -20,7 +20,7 @@ function pushTags(
                 if (!config.dryRun) {
                     await gitTag(tag, { cwd: config.cwd, context })
                     if (config.git.push) {
-                        await gitPush(tag, {
+                        await gitPushTag(tag, {
                             cwd: config.cwd,
                             remote: config.git.remote,
                             context,

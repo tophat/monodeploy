@@ -12,7 +12,7 @@ import {
     getCommitMessages,
     gitDiffTree,
     gitLastTaggedCommit,
-    gitPush,
+    gitPushTag,
     gitResolveSha,
     gitTag,
 } from '.'
@@ -125,13 +125,13 @@ describe('@monodeploy/git', () => {
         )
     })
 
-    it('gitPush fails if invariant not respected', async () => {
+    it('gitPushTag fails if invariant not respected', async () => {
         const cwd = context.project.cwd
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
         await expect(async () =>
-            gitPush('1.0.0', { cwd, context, remote: 'origin' }),
+            gitPushTag('1.0.0', { cwd, context, remote: 'origin' }),
         ).rejects.toMatchInlineSnapshot(
             `[Error: Invariant Violation: Invalid environment test !== production.]`,
         )

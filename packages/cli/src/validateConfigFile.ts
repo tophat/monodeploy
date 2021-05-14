@@ -21,6 +21,8 @@ const schema: JSONSchemaType<ConfigFile> = {
         jobs: { type: 'integer', nullable: true },
         maxConcurrentReads: { type: 'integer', nullable: true },
         maxConcurrentWrites: { type: 'integer', nullable: true },
+        autoCommit: { type: 'boolean', nullable: true },
+        autoCommitMessage: { type: 'string', nullable: true },
         git: {
             type: 'object',
             properties: {

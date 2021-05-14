@@ -12,12 +12,16 @@ const registry: {
     tags: string[]
     pushedTags: string[]
     lastTaggedCommit?: string
+    pushedCommits: string[]
+    stagedFiles: string[]
 } = {
     commits: [],
     filesModified: new Map(),
     tags: [],
     pushedTags: [],
+    pushedCommits: [],
     lastTaggedCommit: undefined,
+    stagedFiles: [],
 }
 
 const _reset_ = (): void => {
@@ -25,7 +29,9 @@ const _reset_ = (): void => {
     registry.filesModified = new Map()
     registry.tags = []
     registry.pushedTags = []
+    registry.pushedCommits = []
     registry.lastTaggedCommit = undefined
+    registry.stagedFiles = []
 }
 
 const _commitFiles_ = (sha: string, commit: string, files: string[]): void => {
@@ -79,7 +85,7 @@ const gitTag = async (
         registry.commits[registry.commits.length - 1]?.sha
 }
 
-const gitPush = async (
+const gitPushTag = async (
     tag: string,
     {
         cwd,
@@ -91,6 +97,36 @@ const gitPush = async (
         throw new Error(`Tag ${tag} does not exist.`)
     }
     registry.pushedTags.push(tag)
+}
+
+const gitPush = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context: YarnContext
+}): Promise<void> => {
+    for (const commit of registry.commits) {
+        registry.pushedCommits.push(commit.sha)
+    }
+}
+
+export const gitAdd = async (
+    paths: string[],
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    registry.stagedFiles.push(...paths)
+}
+
+export const gitCommit = async (
+    message: string,
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    const newSha = Math.random().toString(36).substr(2, 5)
+    _commitFiles_(newSha, message, registry.stagedFiles)
+    registry.stagedFiles = []
 }
 
 const gitLastTaggedCommit = async ({
@@ -130,15 +166,18 @@ export const getCommitMessages = async (
 
 module.exports = {
     __esModule: true,
-    _reset_,
     _commitFiles_,
     _getPushedTags_,
     _getTags_,
-    gitResolveSha,
-    gitDiffTree,
-    gitLog,
-    gitTag,
-    gitPush,
-    gitLastTaggedCommit,
+    _reset_,
     getCommitMessages,
+    gitAdd,
+    gitCommit,
+    gitDiffTree,
+    gitLastTaggedCommit,
+    gitLog,
+    gitPush,
+    gitPushTag,
+    gitResolveSha,
+    gitTag,
 }

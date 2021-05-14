@@ -10,7 +10,11 @@ import {
     restorePackageJsons,
 } from '@monodeploy/io'
 import logging from '@monodeploy/logging'
-import { getWorkspacesToPublish, publishPackages } from '@monodeploy/publish'
+import {
+    commitPublishChanges,
+    getWorkspacesToPublish,
+    publishPackages,
+} from '@monodeploy/publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -176,6 +180,16 @@ const monodeploy = async (
                     )
                 },
             )
+
+            if (config.autoCommit) {
+                await report.startTimerPromise(
+                    'Committing Changes',
+                    { skipIfEmpty: false },
+                    async () => {
+                        await commitPublishChanges(config, context)
+                    },
+                )
+            }
 
             logging.info(`Monodeploy completed successfully`, { report })
         } finally {

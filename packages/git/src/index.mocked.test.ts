@@ -6,7 +6,7 @@ import {
     setupMonorepo,
 } from '@monodeploy/test-utils'
 
-import { gitLastTaggedCommit, gitPush, gitTag } from '.'
+import { gitLastTaggedCommit, gitPushTag, gitTag } from '.'
 
 jest.mock('@monodeploy/logging')
 
@@ -69,7 +69,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
         expect(lastTaggedSha).toEqual(actualSha.trim())
     })
 
-    it('gitPush pushes to remote', async () => {
+    it('gitPushTag pushes to remote', async () => {
         const cwd = context.project.cwd
         const upstreamContext = await setupRepo()
 
@@ -79,7 +79,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
         })
 
         await gitTag('1.0.0', { cwd, context })
-        await gitPush('1.0.0', { cwd, remote: 'local', context })
+        await gitPushTag('1.0.0', { cwd, remote: 'local', context })
 
         const lastTaggedSha = await gitLastTaggedCommit({ cwd, context })
 

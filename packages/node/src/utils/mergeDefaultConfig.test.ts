@@ -68,6 +68,8 @@ describe('Config Merging', () => {
             forceWriteChangeFiles: false,
             access: 'public',
             persistVersions: true,
+            autoCommit: true,
+            autoCommitMessage: 'chore: release [skip ci]',
             topological: true,
             topologicalDev: true,
             jobs: 5,

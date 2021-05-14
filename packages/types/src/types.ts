@@ -24,6 +24,8 @@ export interface MonodeployConfiguration {
     forceWriteChangeFiles: boolean
     access: string
     persistVersions: boolean
+    autoCommit: boolean
+    autoCommitMessage: string
     topological: boolean
     topologicalDev: boolean
     jobs: number
