@@ -72,6 +72,24 @@ export const gitPushTags = async ({
     })
 }
 
+export const gitPull = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
+    assertProduction()
+    const gitCommand = `git pull --rebase --no-verify ${remote}`
+    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
+    childProcess.execSync(gitCommand, {
+        encoding: 'utf8',
+        cwd,
+    })
+}
+
 export const gitPush = async ({
     cwd,
     remote,

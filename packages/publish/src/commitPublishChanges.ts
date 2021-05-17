@@ -1,4 +1,10 @@
-import { gitAdd, gitCommit, gitPush, gitPushTags } from '@monodeploy/git'
+import {
+    gitAdd,
+    gitCommit,
+    gitPull,
+    gitPush,
+    gitPushTags,
+} from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
@@ -31,6 +37,11 @@ const commitPublishChanges = async (
         await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
 
         if (config.git.push) {
+            await gitPull({
+                cwd: config.cwd,
+                remote: config.git.remote,
+                context,
+            })
             await gitPush({
                 cwd: config.cwd,
                 remote: config.git.remote,

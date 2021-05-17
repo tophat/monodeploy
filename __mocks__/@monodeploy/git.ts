@@ -101,6 +101,18 @@ const gitPushTags = async ({
     )
 }
 
+const gitPull = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
+    /* do nothing */
+}
+
 const gitPush = async ({
     cwd,
     remote,
@@ -179,6 +191,7 @@ module.exports = {
     gitDiffTree,
     gitLastTaggedCommit,
     gitLog,
+    gitPull,
     gitPush,
     gitPushTags,
     gitResolveSha,
