@@ -54,16 +54,53 @@ export const gitTag = async (
     childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
 }
 
-export const gitPush = async (
-    tag: string,
-    {
-        cwd,
-        remote,
-        context,
-    }: { cwd: string; remote: string; context?: YarnContext },
-): Promise<void> => {
+export const gitPushTags = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
     assertProduction()
-    const gitCommand = `git push ${remote} ${tag}`
+    const gitCommand = `git push --tags ${remote}`
+    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
+    childProcess.execSync(gitCommand, {
+        encoding: 'utf8',
+        cwd,
+    })
+}
+
+export const gitPull = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
+    assertProduction()
+    const gitCommand = `git pull --rebase --no-verify ${remote}`
+    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
+    childProcess.execSync(gitCommand, {
+        encoding: 'utf8',
+        cwd,
+    })
+}
+
+export const gitPush = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
+    assertProduction()
+    const gitCommand = `git push -n ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
     childProcess.execSync(gitCommand, {
         encoding: 'utf8',
@@ -107,4 +144,24 @@ export const gitLastTaggedCommit = async ({
         })
         .toString()
         .trim()
+}
+
+export const gitAdd = async (
+    paths: string[],
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    assertProduction()
+    const gitCommand = `git add ${paths.join(' ')}`
+    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
+    childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
+}
+
+export const gitCommit = async (
+    message: string,
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    assertProduction()
+    const gitCommand = `git commit -m "${message}" -n`
+    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
+    childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
 }

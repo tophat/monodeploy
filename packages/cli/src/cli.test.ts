@@ -37,6 +37,7 @@ describe('CLI', () => {
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
+                    '--auto-commit --auto-commit-message release ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag',
             )
             jest.isolateModules(() => {
@@ -49,6 +50,8 @@ describe('CLI', () => {
             ).toMatchInlineSnapshot(`
                 Object {
                   "access": "public",
+                  "autoCommit": true,
+                  "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
                   "changesetFilename": "changes.json",
                   "conventionalChangelogConfig": "@my/config",
@@ -86,6 +89,8 @@ describe('CLI', () => {
             ).toMatchInlineSnapshot(`
                 Object {
                   "access": undefined,
+                  "autoCommit": undefined,
+                  "autoCommitMessage": undefined,
                   "changelogFilename": undefined,
                   "changesetFilename": undefined,
                   "conventionalChangelogConfig": undefined,
@@ -209,6 +214,8 @@ describe('CLI', () => {
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',
                     conventionalChangelogConfig: '@my/config-from-file',
+                    autoCommit: true,
+                    autoCommitMessage: 'chore: release',
                     dryRun: true,
                     forceWriteChangeFiles: true,
                     git: {
@@ -246,6 +253,8 @@ describe('CLI', () => {
                 ).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "autoCommit": true,
+                      "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "conventionalChangelogConfig": "@my/config-from-file",
@@ -319,6 +328,8 @@ describe('CLI', () => {
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "autoCommit": undefined,
+                      "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "conventionalChangelogConfig": "@my/config-from-file",
@@ -392,6 +403,8 @@ describe('CLI', () => {
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "autoCommit": undefined,
+                      "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "conventionalChangelogConfig": "@my/config-from-file",
@@ -430,6 +443,8 @@ describe('CLI', () => {
                 dryRun: true,
                 forceWriteChangeFiles: true,
                 noRegistry: false,
+                autoCommit: true,
+                autoCommitMessage: 'chore: release',
                 git: {
                     baseBranch: 'master',
                     commitSha: 'HEAD',
@@ -466,6 +481,8 @@ describe('CLI', () => {
                 ).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "autoCommit": true,
+                      "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "conventionalChangelogConfig": "@my/config-from-file",

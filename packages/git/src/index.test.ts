@@ -10,9 +10,11 @@ import {
 
 import {
     getCommitMessages,
+    gitAdd,
+    gitCommit,
     gitDiffTree,
     gitLastTaggedCommit,
-    gitPush,
+    gitPushTags,
     gitResolveSha,
     gitTag,
 } from '.'
@@ -125,13 +127,13 @@ describe('@monodeploy/git', () => {
         )
     })
 
-    it('gitPush fails if invariant not respected', async () => {
+    it('gitPushTags fails if invariant not respected', async () => {
         const cwd = context.project.cwd
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
         await expect(async () =>
-            gitPush('1.0.0', { cwd, context, remote: 'origin' }),
+            gitPushTags({ cwd, context, remote: 'origin' }),
         ).rejects.toMatchInlineSnapshot(
             `[Error: Invariant Violation: Invalid environment test !== production.]`,
         )
@@ -175,6 +177,37 @@ describe('@monodeploy/git', () => {
             expect(await gitLastTaggedCommit({ cwd, context })).toEqual(
                 taggedSha,
             )
+
+            process.env.NODE_ENV = prevNodeEnv
+        })
+    })
+
+    describe('gitAdd, gitCommit', () => {
+        it('adds files, commits changes', async () => {
+            const prevNodeEnv = process.env.NODE_ENV
+            process.env.NODE_ENV = 'production'
+
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'test.txt', cwd })
+            await gitAdd(['test.txt'], { cwd, context })
+
+            // assert added
+            expect(
+                execSync('git ls-files --error-unmatch test.txt', {
+                    encoding: 'utf8',
+                    cwd,
+                }).toString(),
+            ).toEqual(expect.stringContaining('test.txt'))
+
+            await gitCommit('chore: initial commit', { cwd, context })
+
+            // assert committed
+            expect(
+                execSync('git log -1 --format="%B"', {
+                    encoding: 'utf8',
+                    cwd,
+                }).toString(),
+            ).toEqual(expect.stringContaining('chore: initial commit'))
 
             process.env.NODE_ENV = prevNodeEnv
         })

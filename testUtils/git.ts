@@ -1,6 +1,8 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
 
+import { YarnContext } from '@monodeploy/types'
+
 import setupMonorepo from './setupMonorepo'
 
 export async function initGitRepository(cwd: string): Promise<void> {
@@ -9,18 +11,25 @@ export async function initGitRepository(cwd: string): Promise<void> {
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 }
 
-export async function setupTestRepository(): Promise<string> {
-    const context = await setupMonorepo({
-        'pkg-1': {},
-        'pkg-2': {},
-        'pkg-3': { dependencies: ['pkg-2'] },
-        'pkg-4': {},
-        'pkg-5': { private: true, dependencies: ['pkg-4'] },
-        'pkg-6': {
-            dependencies: ['pkg-3', 'pkg-7'],
-        },
-        'pkg-7': {},
-    })
+export async function setupTestRepository(
+    ...setupArgs: Parameters<typeof setupMonorepo>
+): Promise<string> {
+    let context: YarnContext
+    if (setupArgs.length) {
+        context = await setupMonorepo(...setupArgs)
+    } else {
+        context = await setupMonorepo({
+            'pkg-1': {},
+            'pkg-2': {},
+            'pkg-3': { dependencies: ['pkg-2'] },
+            'pkg-4': {},
+            'pkg-5': { private: true, dependencies: ['pkg-4'] },
+            'pkg-6': {
+                dependencies: ['pkg-3', 'pkg-7'],
+            },
+            'pkg-7': {},
+        })
+    }
     const rootPath = context.project.cwd
     await initGitRepository(rootPath)
     return rootPath

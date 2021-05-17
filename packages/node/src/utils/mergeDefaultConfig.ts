@@ -32,6 +32,9 @@ const mergeDefaultConfig = async (
         forceWriteChangeFiles: baseConfig.forceWriteChangeFiles ?? false,
         access: baseConfig.access ?? 'public',
         persistVersions: baseConfig.persistVersions ?? false,
+        autoCommit: baseConfig.autoCommit ?? false,
+        autoCommitMessage:
+            baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
         topological: baseConfig.topological ?? false,
         topologicalDev: baseConfig.topologicalDev ?? false,
         jobs: baseConfig.jobs ?? 0,

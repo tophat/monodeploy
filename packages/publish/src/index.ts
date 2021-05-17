@@ -11,11 +11,12 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
+import commitPublishChanges from './commitPublishChanges'
+import createReleaseGitTags from './createReleaseGitTags'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
-import pushTags from './pushTags'
 
-export { getWorkspacesToPublish }
+export { commitPublishChanges, getWorkspacesToPublish }
 
 export const publishPackages = async (
     config: MonodeployConfiguration,
@@ -114,7 +115,7 @@ export const publishPackages = async (
     }
 
     if (config.git.tag) {
-        // Push git tags
-        await pushTags(config, context, newVersions)
+        // Create tags
+        await createReleaseGitTags(config, context, newVersions)
     }
 }

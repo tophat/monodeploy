@@ -1,4 +1,4 @@
-import { gitPush, gitTag } from '@monodeploy/git'
+import { gitTag } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
@@ -6,7 +6,7 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-function pushTags(
+function createReleaseGitTags(
     config: MonodeployConfiguration,
     context: YarnContext,
     versions: PackageTagMap,
@@ -19,30 +19,18 @@ function pushTags(
             try {
                 if (!config.dryRun) {
                     await gitTag(tag, { cwd: config.cwd, context })
-                    if (config.git.push) {
-                        await gitPush(tag, {
-                            cwd: config.cwd,
-                            remote: config.git.remote,
-                            context,
-                        })
-                    }
                 }
 
                 logging.info(
-                    `[Push Tag]${
-                        config.git.push ? '' : ' [Skipped]'
-                    } ${tag} (remote: ${config.git.remote})`,
+                    `[Tag]${config.git.push ? '' : ' [Skipped]'} ${tag}`,
                     { report: context.report },
                 )
             } catch (e) {
-                logging.error(
-                    `[Push Tag] Failed ${tag} (remote: ${config.git.remote})`,
-                    { report: context.report },
-                )
+                logging.error(`[Tag] Failed ${tag}`, { report: context.report })
                 logging.error(e, { report: context.report })
             }
         }),
     )
 }
 
-export default pushTags
+export default createReleaseGitTags

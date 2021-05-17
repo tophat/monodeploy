@@ -10,7 +10,11 @@ import {
     restorePackageJsons,
 } from '@monodeploy/io'
 import logging from '@monodeploy/logging'
-import { getWorkspacesToPublish, publishPackages } from '@monodeploy/publish'
+import {
+    commitPublishChanges,
+    getWorkspacesToPublish,
+    publishPackages,
+} from '@monodeploy/publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -174,6 +178,14 @@ const monodeploy = async (
                         result,
                         workspacesToPublish,
                     )
+                },
+            )
+
+            await report.startTimerPromise(
+                'Committing Changes',
+                { skipIfEmpty: true },
+                async () => {
+                    await commitPublishChanges(config, context)
                 },
             )
 
