@@ -15,7 +15,11 @@ import {
 } from '@monodeploy/io'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import type {
+    CommitMessage,
+    MonodeployConfiguration,
+    YarnContext,
+} from '@monodeploy/types'
 
 import monodeploy from '..'
 
@@ -28,6 +32,15 @@ const mockGit = git as jest.Mocked<
         _commitFiles_: (sha: string, commit: string, files: string[]) => void
         _getPushedTags_: () => string[]
         _getTags_: () => string[]
+        _getRegistry_: () => {
+            commits: CommitMessage[]
+            filesModified: Map<string, string[]>
+            tags: string[]
+            pushedTags: string[]
+            lastTaggedCommit?: string
+            pushedCommits: string[]
+            stagedFiles: string[]
+        }
     }
 >
 const mockNPM = npm as jest.Mocked<
@@ -492,6 +505,131 @@ describe('Monodeploy', () => {
         } finally {
             await restorePackageJsons(config, context, testBackupKey)
             await clearBackupCache([testBackupKey])
+        }
+    })
+
+    it('autocommits changelog and package.json files', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+
+        try {
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                autoCommit: true,
+                autoCommitMessage: 'chore: some unique message',
+                git: {
+                    ...monodeployConfig.git,
+                    push: true,
+                },
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // assert tags pushed
+            expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+
+            // assert changelog committed
+            const autoCommit = mockGit._getRegistry_().commits[
+                mockGit._getRegistry_().commits.length - 1
+            ]
+            const autoCommitFiles = mockGit
+                ._getRegistry_()
+                .filesModified.get(autoCommit.sha)
+            expect(autoCommitFiles).toEqual(
+                expect.arrayContaining([
+                    changelogFilename,
+                    '"**/package.json"',
+                ]),
+            )
+
+            // assert commit pushed
+            expect(mockGit._getRegistry_().pushedCommits).toEqual(
+                expect.arrayContaining([autoCommit.sha]),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+    })
+
+    it('does not push autocommit if push set to false', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+
+        try {
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                autoCommit: true,
+                autoCommitMessage: 'chore: some unique message',
+                git: {
+                    ...monodeployConfig.git,
+                    push: false,
+                },
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toEqual('0.1.0')
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('some new feature'),
+            )
+
+            // assert changelog committed
+            const autoCommit = mockGit._getRegistry_().commits[
+                mockGit._getRegistry_().commits.length - 1
+            ]
+            const autoCommitFiles = mockGit
+                ._getRegistry_()
+                .filesModified.get(autoCommit.sha)
+            expect(autoCommitFiles).toEqual(
+                expect.arrayContaining([
+                    changelogFilename,
+                    '"**/package.json"',
+                ]),
+            )
+
+            // assert commit pushed
+            expect(mockGit._getRegistry_().pushedCommits).not.toEqual(
+                expect.arrayContaining([autoCommit.sha]),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
         }
     })
 })

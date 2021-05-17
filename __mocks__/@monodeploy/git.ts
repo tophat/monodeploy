@@ -48,6 +48,8 @@ const _getTags_ = (): string[] => {
     return registry.tags
 }
 
+const _getRegistry_ = (): typeof registry => registry
+
 const gitResolveSha = async (
     ref: string,
     { cwd, context }: { cwd: string; context: YarnContext },
@@ -170,6 +172,7 @@ module.exports = {
     _getPushedTags_,
     _getTags_,
     _reset_,
+    _getRegistry_,
     getCommitMessages,
     gitAdd,
     gitCommit,
