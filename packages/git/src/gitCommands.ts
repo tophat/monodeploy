@@ -54,16 +54,17 @@ export const gitTag = async (
     childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
 }
 
-export const gitPushTag = async (
-    tag: string,
-    {
-        cwd,
-        remote,
-        context,
-    }: { cwd: string; remote: string; context?: YarnContext },
-): Promise<void> => {
+export const gitPushTags = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<void> => {
     assertProduction()
-    const gitCommand = `git push ${remote} ${tag}`
+    const gitCommand = `git push --tags ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
     childProcess.execSync(gitCommand, {
         encoding: 'utf8',

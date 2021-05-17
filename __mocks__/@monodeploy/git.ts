@@ -87,18 +87,18 @@ const gitTag = async (
         registry.commits[registry.commits.length - 1]?.sha
 }
 
-const gitPushTag = async (
-    tag: string,
-    {
-        cwd,
-        remote,
-        context,
-    }: { cwd: string; remote: string; context: YarnContext },
-): Promise<void> => {
-    if (!registry.tags.includes(tag)) {
-        throw new Error(`Tag ${tag} does not exist.`)
-    }
-    registry.pushedTags.push(tag)
+const gitPushTags = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context: YarnContext
+}): Promise<void> => {
+    registry.pushedTags = Array.from(
+        new Set([...registry.pushedTags, ...registry.tags]),
+    )
 }
 
 const gitPush = async ({
@@ -180,7 +180,7 @@ module.exports = {
     gitLastTaggedCommit,
     gitLog,
     gitPush,
-    gitPushTag,
+    gitPushTags,
     gitResolveSha,
     gitTag,
 }

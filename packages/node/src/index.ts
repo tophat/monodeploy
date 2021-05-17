@@ -181,15 +181,13 @@ const monodeploy = async (
                 },
             )
 
-            if (config.autoCommit) {
-                await report.startTimerPromise(
-                    'Committing Changes',
-                    { skipIfEmpty: false },
-                    async () => {
-                        await commitPublishChanges(config, context)
-                    },
-                )
-            }
+            await report.startTimerPromise(
+                'Committing Changes',
+                { skipIfEmpty: true },
+                async () => {
+                    await commitPublishChanges(config, context)
+                },
+            )
 
             logging.info(`Monodeploy completed successfully`, { report })
         } finally {
