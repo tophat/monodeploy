@@ -82,7 +82,7 @@ export const gitPush = async ({
     context?: YarnContext
 }): Promise<void> => {
     assertProduction()
-    const gitCommand = `git push ${remote}`
+    const gitCommand = `git push -n ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
     childProcess.execSync(gitCommand, {
         encoding: 'utf8',
