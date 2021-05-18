@@ -3,7 +3,7 @@ import os from 'os'
 import path from 'path'
 
 import { getPluginConfiguration } from '@yarnpkg/cli'
-import { Configuration, Project, Workspace } from '@yarnpkg/core'
+import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
@@ -456,7 +456,7 @@ describe('Monodeploy', () => {
             configuration,
             project,
             workspace: workspace as Workspace,
-            report: null,
+            report: new StreamReport({ configuration, stdout: process.stdout }),
         }
 
         const testBackupKey = await backupPackageJsons(config, context)
@@ -483,7 +483,9 @@ describe('Monodeploy', () => {
 
             expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
-            const readPackageVersion = async pkg => {
+            const readPackageVersion = async (
+                pkg: string,
+            ): Promise<Record<string, unknown>> => {
                 const packageJsonPath = path.join(
                     config.cwd,
                     'packages',

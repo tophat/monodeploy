@@ -19,7 +19,7 @@ async function writeJSON(
 async function makeDependencyMap(
     packages: Array<string>,
 ): Promise<Record<string, string>> {
-    const dependencies = {}
+    const dependencies: Record<string, string> = {}
     for (const pkg of packages) {
         dependencies[pkg] = `workspace:packages/${
             structUtils.parseIdent(pkg).name

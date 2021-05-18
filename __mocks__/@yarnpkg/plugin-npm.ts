@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MessageName, ReportError, structUtils } from '@yarnpkg/core'
+import {
+    Configuration,
+    Ident,
+    MessageName,
+    ReportError,
+    structUtils,
+} from '@yarnpkg/core'
 
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 
-const _registry = {
+const _registry: { tags: Record<string, Record<string, string>> } = {
     tags: {},
 }
 
@@ -19,7 +25,10 @@ const _setTag_ = (
     _registry.tags[pkgName] = { ..._registry.tags[pkgName], [tagKey]: tagValue }
 }
 
-const npmHttpUtilsGet = (distTagUrl, { ident, registry }) => {
+const npmHttpUtilsGet = (
+    distTagUrl: string,
+    { ident, registry }: { ident: Ident; registry: string },
+): Record<string, string> => {
     const pkgName = structUtils.stringifyIdent(ident)
     const tags = _registry.tags[pkgName]
     if (!tags) {
@@ -32,7 +41,11 @@ const npmHttpUtilsGet = (distTagUrl, { ident, registry }) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const npmHttpUtilsPut = (identUrl, body, configuration) => {
+const npmHttpUtilsPut = (
+    identUrl: string,
+    body: Record<string, string>,
+    configuration: Configuration,
+) => {
     const pkgName = body.name
     for (const [key, version] of Object.entries(body['dist-tags'])) {
         _setTag_(pkgName, version as string, key)

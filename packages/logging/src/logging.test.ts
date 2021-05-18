@@ -23,7 +23,7 @@ class CollectReport extends ThrowReport {
 describe('Logging', () => {
     const origLogLevel = process.env.MONODEPLOY_LOG_LEVEL
 
-    let report
+    let report: CollectReport
 
     beforeAll(() => {
         jest.spyOn(console, 'log').mockImplementation()

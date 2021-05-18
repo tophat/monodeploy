@@ -1,3 +1,5 @@
+import { PortablePath } from '@yarnpkg/fslib'
+
 import {
     cleanUp,
     setupContext,
@@ -7,7 +9,7 @@ import {
 import { getWorkspacesToPublish } from '.'
 
 describe('getWorspacesToPublish', () => {
-    let workspacePath
+    let workspacePath: string
 
     beforeEach(async () => {
         workspacePath = await setupTestRepository()
@@ -20,7 +22,7 @@ describe('getWorspacesToPublish', () => {
     it("doesn't include private workspaces", async () => {
         const cwd = workspacePath
 
-        const context = await setupContext(cwd)
+        const context = await setupContext(cwd as PortablePath)
         const strategies = new Map()
         // pkg-5 is private
         strategies.set('pkg-5', { strategy: 'major', commits: [] })
@@ -35,7 +37,7 @@ describe('getWorspacesToPublish', () => {
 
     it('builds a map of workspaces that have an associated version strategy', async () => {
         const cwd = workspacePath
-        const context = await setupContext(cwd)
+        const context = await setupContext(cwd as PortablePath)
         const strategies = new Map()
         strategies.set('pkg-6', { strategy: 'major', commits: [] })
         const workspacesToRelease = await getWorkspacesToPublish(
@@ -44,6 +46,6 @@ describe('getWorspacesToPublish', () => {
         )
 
         expect(workspacesToRelease.size).toEqual(1)
-        expect([...workspacesToRelease][0].manifest.name.name).toEqual('pkg-6')
+        expect([...workspacesToRelease][0].manifest.name!.name).toEqual('pkg-6')
     })
 })

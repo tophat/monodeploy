@@ -24,7 +24,7 @@ and then install the git hooks:
 yarn husky install
 ```
 
-This project uses [Typescript](https://www.typescriptlang.org/), [Babel](https://babeljs.io/), and [Yarn Berry](https://yarnpkg.com/).
+This project uses [Typescript](https://www.typescriptlang.org/) and [Yarn Berry](https://yarnpkg.com/).
 
 ## Tests
 

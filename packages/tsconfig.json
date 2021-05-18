@@ -6,10 +6,10 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
+        "declaration": true,
         "noImplicitAny": true,
         "emitDeclarationOnly": false,
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true
-    },
-    "include": ["./packages", "./__mocks__", "./testUtils"]
+    }
 }

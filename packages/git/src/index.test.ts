@@ -7,6 +7,7 @@ import {
     initGitRepository,
     setupMonorepo,
 } from '@monodeploy/test-utils'
+import { YarnContext } from '@monodeploy/types'
 
 import {
     getCommitMessages,
@@ -20,7 +21,7 @@ import {
 } from '.'
 
 describe('@monodeploy/git', () => {
-    let context
+    let context: YarnContext
 
     beforeEach(async () => {
         context = await setupMonorepo({

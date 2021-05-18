@@ -37,7 +37,7 @@ const _reset_ = (): void => {
 const _commitFiles_ = (sha: string, commit: string, files: string[]): void => {
     registry.commits.push({ sha, body: commit })
     registry.filesModified.set(sha, registry.filesModified.get(sha) ?? [])
-    registry.filesModified.get(sha).push(...files)
+    registry.filesModified.get(sha)!.push(...files)
 }
 
 const _getPushedTags_ = (): string[] => {

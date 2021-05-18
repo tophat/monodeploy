@@ -1,9 +1,11 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { PortablePath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
+import { YarnContext } from '@monodeploy/types'
 
 import { getLatestPackageTags } from '.'
 
@@ -25,7 +27,7 @@ class NetworkError extends Error {
 }
 
 describe('getLatestPackageTags', () => {
-    let context
+    let context: YarnContext
 
     beforeEach(async () => {
         context = await setupMonorepo({
@@ -149,7 +151,9 @@ describe('getLatestPackageTags', () => {
         const pkg2Cwd = path.resolve(
             path.join(context.project.cwd, 'packages/pkg-2'),
         )
-        context.project.workspacesByCwd.get(pkg2Cwd).manifest.name = null
+        context.project.workspacesByCwd.get(
+            pkg2Cwd as PortablePath,
+        )!.manifest.name = null
 
         const tags = await getLatestPackageTags(
             await getMonodeployConfig({

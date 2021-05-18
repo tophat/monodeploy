@@ -12,11 +12,13 @@ export async function initGitRepository(cwd: string): Promise<void> {
 }
 
 export async function setupTestRepository(
-    ...setupArgs: Parameters<typeof setupMonorepo>
+    ...setupArgs: unknown[]
 ): Promise<string> {
     let context: YarnContext
     if (setupArgs.length) {
-        context = await setupMonorepo(...setupArgs)
+        context = await setupMonorepo(
+            ...(setupArgs as Parameters<typeof setupMonorepo> | never),
+        )
     } else {
         context = await setupMonorepo({
             'pkg-1': {},

@@ -1,13 +1,16 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { PortablePath } from '@yarnpkg/fslib'
+
 import logging from '@monodeploy/logging'
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
+import { YarnContext } from '@monodeploy/types'
 
 import { getDependents } from '.'
 
 describe('@monodeploy/dependencies', () => {
-    let context
+    let context: YarnContext
 
     beforeEach(async () => {
         context = await setupMonorepo({
@@ -71,7 +74,9 @@ describe('@monodeploy/dependencies', () => {
 
         // Stripping pkg-3 of its ident
         const pkg3Cwd = path.resolve(path.join(config.cwd, 'packages/pkg-3'))
-        context.project.workspacesByCwd.get(pkg3Cwd).manifest.name = null
+        context.project.workspacesByCwd.get(
+            pkg3Cwd as PortablePath,
+        )!.manifest.name = null
         await expect(
             async () =>
                 await getDependents(config, context, new Set(['pkg-2'])),
@@ -128,7 +133,7 @@ describe('@monodeploy/dependencies', () => {
 })
 
 describe('cycles', () => {
-    let context
+    let context: YarnContext
 
     beforeEach(async () => {
         context = await setupMonorepo({
