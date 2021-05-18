@@ -37,7 +37,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-3': {},
             },
             async context => {
-                const config = getMonodeployConfig({
+                const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
                     commitSha: 'shashasha',
@@ -67,14 +67,16 @@ describe('Patch Package Manifests', () => {
                 expect(manifest3.version).toEqual('3.0.0')
 
                 expect(
-                    manifest1.dependencies.get(manifest2.name.identHash).range,
+                    manifest1.dependencies.get(manifest2.name!.identHash)!
+                        .range,
                 ).toEqual(`^2.0.0`)
                 expect(
-                    manifest1.peerDependencies.get(manifest3.name.identHash)
+                    manifest1.peerDependencies.get(manifest3.name!.identHash)!
                         .range,
                 ).toEqual(`^3.0.0`)
                 expect(
-                    manifest2.dependencies.get(manifest3.name.identHash).range,
+                    manifest2.dependencies.get(manifest3.name!.identHash)!
+                        .range,
                 ).toEqual(`^3.0.0`)
             },
         ))
@@ -90,7 +92,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-3': {},
             },
             async context => {
-                const config = getMonodeployConfig({
+                const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
                     commitSha: 'shashasha',
@@ -125,7 +127,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-3': {},
             },
             async context => {
-                const config = getMonodeployConfig({
+                const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
                     commitSha: 'shashasha',
@@ -153,14 +155,16 @@ describe('Patch Package Manifests', () => {
                 expect(manifest3.version).toEqual('0.0.0')
 
                 expect(
-                    manifest1.dependencies.get(manifest2.name.identHash).range,
+                    manifest1.dependencies.get(manifest2.name!.identHash)!
+                        .range,
                 ).toEqual(`^2.0.0`)
                 expect(
-                    manifest1.peerDependencies.get(manifest3.name.identHash)
+                    manifest1.peerDependencies.get(manifest3.name!.identHash)!
                         .range,
                 ).toEqual(`*`)
                 expect(
-                    manifest2.dependencies.get(manifest3.name.identHash).range,
+                    manifest2.dependencies.get(manifest3.name!.identHash)!
+                        .range,
                 ).toEqual(`workspace:packages/pkg-3`)
             },
         ))

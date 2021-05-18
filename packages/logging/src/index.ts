@@ -1,6 +1,6 @@
 import { Writable } from 'stream'
 
-import { MessageName, Report, StreamReport, miscUtils } from '@yarnpkg/core'
+import { MessageName, Report, miscUtils } from '@yarnpkg/core'
 
 export * from './invariants'
 
@@ -67,7 +67,7 @@ const createReportStream = ({
     report,
     prefix,
 }: {
-    report: StreamReport
+    report: Report
     prefix: string | null
 }): [Writable, Promise<boolean>] => {
     const streamReporter = report.createStreamReporter(prefix)

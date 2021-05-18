@@ -72,11 +72,22 @@ describe('Custom Conventional Recommended Strategy', () => {
             commitSha: 'HEAD',
             remote: 'origin',
             push: false,
+            tag: false,
         },
         conventionalChangelogConfig: path.resolve(
             path.join(__dirname, '..', 'mocks', 'conventional-config.mock.ts'),
         ),
         access: 'public',
+        noRegistry: false,
+        autoCommit: false,
+        autoCommitMessage: '',
+        persistVersions: false,
+        forceWriteChangeFiles: false,
+        topological: false,
+        topologicalDev: false,
+        jobs: 0,
+        maxConcurrentReads: 1,
+        maxConcurrentWrites: 1,
     }
 
     afterEach(() => {

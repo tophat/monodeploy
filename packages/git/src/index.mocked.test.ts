@@ -5,6 +5,7 @@ import {
     initGitRepository,
     setupMonorepo,
 } from '@monodeploy/test-utils'
+import { YarnContext } from '@monodeploy/types'
 
 import { gitLastTaggedCommit, gitPushTags, gitTag } from '.'
 
@@ -27,7 +28,7 @@ const setupRepo = async () => {
 }
 
 describe('@monodeploy/git (mocked invariants)', () => {
-    let context
+    let context: YarnContext
 
     beforeEach(async () => {
         context = await setupRepo()

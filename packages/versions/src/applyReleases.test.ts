@@ -77,22 +77,22 @@ describe('applyReleases', () => {
                 // pkg-1 should be unchanged from registry tags
                 expect(
                     manifest2.dependencies.get(
-                        workspace1.manifest.name.identHash,
-                    ).range,
+                        workspace1.manifest.name!.identHash,
+                    )!.range,
                 ).toEqual(`^1.0.0`)
 
                 // pkg-2 should be the "new" version
                 expect(
                     manifest3.peerDependencies.get(
-                        workspace2.manifest.name.identHash,
-                    ).range,
+                        workspace2.manifest.name!.identHash,
+                    )!.range,
                 ).toEqual(`^2.1.0`)
 
                 // pkg-1 again should not be changed from registry tags
                 expect(
                     manifest3.devDependencies.get(
-                        workspace1.manifest.name.identHash,
-                    ).range,
+                        workspace1.manifest.name!.identHash,
+                    )!.range,
                 ).toEqual(`^1.0.0`)
             },
         ))

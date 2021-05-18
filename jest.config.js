@@ -16,6 +16,9 @@ module.exports = {
         ],
         collectCoverage: true,
     }),
+    transform: {
+        '^.+\\.[jt]sx?$': 'ts-jest',
+    },
     coverageReporters: CI ? ['lcov'] : ['text-summary', 'lcov'],
     coverageDirectory: `${ARTIFACT_DIR}/test_results/jest/`,
     collectCoverageFrom: [

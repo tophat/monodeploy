@@ -17,7 +17,7 @@
     "clean": "run workspace:clean \"$(pwd)\"",
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
-    "build:watch": "run workspace:build:babel:watch \"$(pwd)\"",
+    "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "@yarnpkg/core": "^3.0.0-rc.2"
   },
   "devDependencies": {
-    "@monodeploy/test-utils": "link:../../testUtils"
+    "@monodeploy/test-utils": "link:../../testUtils",
+    "@yarnpkg/fslib": "^2.5.0-rc.2"
   }
 }

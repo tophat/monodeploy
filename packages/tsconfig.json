@@ -9,6 +9,7 @@
         "declaration": true,
         "noImplicitAny": true,
         "emitDeclarationOnly": false,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true
     }
 }

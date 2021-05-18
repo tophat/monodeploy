@@ -11,6 +11,5 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true
     },
-    "include": ["./packages"],
-    "exclude": ["./packages/**/*.test.ts", "./packages/**/*.mock.ts", "./packages/**/__mocks__/**/*.ts"]
+    "include": ["./packages", "./__mocks__", "./testUtils"]
 }

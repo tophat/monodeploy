@@ -23,7 +23,7 @@ describe('CLI', () => {
         (monodeploy as jest.MockedFunction<typeof monodeploy>).mockClear();
     })
 
-    const setArgs = command => {
+    const setArgs = (command: string) => {
         process.argv = command
             ? ['node', scriptPath, ...command.split(' ')]
             : ['node', scriptPath]

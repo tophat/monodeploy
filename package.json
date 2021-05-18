@@ -29,7 +29,7 @@
         "test:registry": "run test:registry:build && run test:registry:start",
         "test:watch": "run test --detectOpenHandles --watch",
         "test": "jest --detectOpenHandles",
-        "types:watch": "yarn workspaces foreach --no-private -p run types:watch",
+        "types:watch": "yarn workspaces foreach --no-private -pi run types:watch",
         "workspace:build:watch": "tsc -p $0 --watch",
         "workspace:build": "rm -rf $0/lib && tsc -p $0",
         "workspace:clean": "rm -rf $0/lib && find $0/src -name '*.js' -type f -delete",

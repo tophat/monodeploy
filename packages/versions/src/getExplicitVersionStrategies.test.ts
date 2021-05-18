@@ -1,5 +1,7 @@
 import { execSync } from 'child_process'
 
+import { PortablePath } from '@yarnpkg/fslib'
+
 import {
     cleanUp,
     createCommit,
@@ -15,7 +17,7 @@ jest.mock('@monodeploy/git', () => jest.requireActual('@monodeploy/git'))
 import { getExplicitVersionStrategies } from '.'
 
 describe('getExplicitVersionStrategies', () => {
-    let tempRepositoryRoot
+    let tempRepositoryRoot: string
 
     beforeEach(async () => {
         tempRepositoryRoot = await setupTestRepository()
@@ -26,7 +28,7 @@ describe('getExplicitVersionStrategies', () => {
 
     it('produces strategies if a package has commited changes', async () => {
         const cwd = tempRepositoryRoot
-        const context = await setupContext(cwd)
+        const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
         execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
         await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
