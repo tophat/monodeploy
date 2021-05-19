@@ -2,7 +2,7 @@ import { structUtils } from '@yarnpkg/core'
 
 import { withMonorepoContext } from '@monodeploy/test-utils'
 
-import { parseRepositoryProperty } from './changelog'
+import { parseRepositoryProperty } from './parseRepositoryProperty'
 
 describe('parseRepositoryProperty', () => {
     it('parses repository from manifest url', async () =>

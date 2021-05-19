@@ -36,6 +36,7 @@ const schema: JSONSchemaType<ConfigFile> = {
             additionalProperties: false,
             nullable: true,
         },
+        plugins: { type: 'array', nullable: true, items: { type: 'string' } },
     },
     required: [],
     additionalProperties: false,

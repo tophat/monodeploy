@@ -2,6 +2,7 @@ import path from 'path'
 
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
+import { AsyncSeriesHook } from 'tapable'
 
 import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
 import {
@@ -12,6 +13,7 @@ import {
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
+    createReleaseGitTags,
     getWorkspacesToPublish,
     publishPackages,
 } from '@monodeploy/publish'
@@ -20,6 +22,7 @@ import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
+    PluginHooks,
     RecursivePartial,
     YarnContext,
 } from '@monodeploy/types'
@@ -57,6 +60,22 @@ const monodeploy = async (
     const { project, workspace } = await Project.find(configuration, cwd)
     await project.restoreInstallState()
 
+    /* Initialize plugins */
+    const hooks: PluginHooks = {
+        onReleaseAvailable: new AsyncSeriesHook([
+            'context',
+            'config',
+            'changeset',
+        ]),
+    }
+
+    if (config.plugins?.length) {
+        for (const plugin of config.plugins) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            require(require.resolve(plugin, { paths: [cwd] }))(hooks)
+        }
+    }
+
     let result: ChangesetSchema = {}
 
     const pipeline = async (report: StreamReport): Promise<void> => {
@@ -65,6 +84,7 @@ const monodeploy = async (
             project,
             workspace: workspace as Workspace,
             report,
+            hooks,
         }
 
         logging.setDryRun(config.dryRun)
@@ -144,6 +164,8 @@ const monodeploy = async (
                 },
             )
 
+            let createdGitTags: Map<string, string> | undefined
+
             await report.startTimerPromise(
                 'Publishing Packages',
                 { skipIfEmpty: false },
@@ -154,8 +176,16 @@ const monodeploy = async (
                         context,
                         workspacesToPublish,
                         registryUrl,
-                        newVersions,
                     )
+
+                    if (config.git.tag) {
+                        // Create tags
+                        createdGitTags = await createReleaseGitTags(
+                            config,
+                            context,
+                            newVersions,
+                        )
+                    }
                 },
             )
 
@@ -170,6 +200,7 @@ const monodeploy = async (
                         registryTags, // old versions
                         newVersions,
                         versionStrategies,
+                        createdGitTags,
                     )
 
                     await prependChangelogFile(
@@ -187,6 +218,17 @@ const monodeploy = async (
                 async () => {
                     await commitPublishChanges(config, context)
                 },
+            )
+
+            await report.startTimerPromise(
+                'Executing Release Hooks',
+                { skipIfEmpty: true },
+                async () =>
+                    await hooks.onReleaseAvailable.promise(
+                        context,
+                        config,
+                        result,
+                    ),
             )
 
             logging.info(`Monodeploy completed successfully`, { report })

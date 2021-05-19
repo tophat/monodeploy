@@ -1,4 +1,5 @@
 import { Configuration, Project, Report, Workspace } from '@yarnpkg/core'
+import { AsyncSeriesHook } from 'tapable'
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Record<string, unknown>
@@ -31,6 +32,7 @@ export interface MonodeployConfiguration {
     jobs: number
     maxConcurrentReads: number
     maxConcurrentWrites: number
+    plugins?: Array<string>
 }
 
 export interface YarnContext {
@@ -38,6 +40,18 @@ export interface YarnContext {
     project: Project
     workspace: Workspace
     report: Report
+    hooks?: PluginHooks
+}
+
+export interface PluginHooks {
+    onReleaseAvailable: AsyncSeriesHook<
+        [
+            Readonly<YarnContext>,
+            Readonly<MonodeployConfiguration>,
+            Readonly<ChangesetSchema>,
+        ],
+        void
+    >
 }
 
 export type CommitMessage = {
@@ -56,6 +70,12 @@ export type PackageStrategyMap = Map<
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>
 
+export interface ChangesetRecord {
+    version: string
+    changelog: string | null
+    tag: string | null
+}
+
 export interface ChangesetSchema {
-    [version: string]: { version: string; changelog: string | null }
+    [packageName: string]: ChangesetRecord
 }

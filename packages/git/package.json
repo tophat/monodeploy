@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/types": "^0.4.0"
+    "@monodeploy/types": "^0.4.0",
+    "@yarnpkg/core": "^3.0.0-rc.2"
   }
 }

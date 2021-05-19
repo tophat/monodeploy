@@ -25,6 +25,7 @@ export interface ArgOutput {
     jobs?: number
     maxConcurrentReads?: number
     maxConcurrentWrites?: number
+    plugins?: Array<string>
 }
 
 export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>

@@ -36,6 +36,7 @@
     "@yarnpkg/core": "^3.0.0-rc.2",
     "@yarnpkg/fslib": "^2.5.0-rc.2",
     "@yarnpkg/plugin-npm": "^2.5.0-rc.2",
-    "@yarnpkg/plugin-pack": "^3.0.0-rc.2"
+    "@yarnpkg/plugin-pack": "^3.0.0-rc.2",
+    "tapable": "^2.2.0"
   }
 }

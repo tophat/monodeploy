@@ -1,6 +1,6 @@
 {
-  "name": "@monodeploy/changelog",
-  "version": "0.4.1",
+  "name": "@monodeploy/plugin-github",
+  "version": "0.1.8",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -9,10 +9,10 @@
     "registry": "https://registry.npmjs.org/",
     "types": "./lib/index.d.ts"
   },
+  "main": "./src/index.ts",
   "files": [
     "lib"
   ],
-  "main": "./src/index.ts",
   "scripts": {
     "clean": "run workspace:clean \"$(pwd)\"",
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
@@ -20,20 +20,16 @@
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
-  "dependencies": {
-    "@monodeploy/git": "^0.1.8",
-    "@monodeploy/io": "^0.2.7",
-    "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/types": "^0.4.0",
-    "@yarnpkg/core": "^3.0.0-rc.2",
-    "@yarnpkg/fslib": "^2.5.0-rc.2",
-    "conventional-changelog-writer": "^5.0.0",
-    "conventional-commits-parser": "^3.2.0",
-    "p-limit": "^3.1.0"
-  },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
-    "@types/conventional-changelog-writer": "^4.0.0",
-    "@types/conventional-commits-parser": "^3.0.1"
+    "@types/node": "^14.0.0",
+    "tapable": "^2.2.0"
+  },
+  "dependencies": {
+    "@monodeploy/git": "^0.1.8",
+    "@monodeploy/logging": "^0.1.4",
+    "@monodeploy/types": "^0.4.0",
+    "@octokit/core": "^3.4.0",
+    "@octokit/plugin-throttling": "^3.4.1"
   }
 }

@@ -75,6 +75,7 @@ describe('Config Merging', () => {
             jobs: 5,
             maxConcurrentReads: 3,
             maxConcurrentWrites: 2,
+            plugins: [],
         }
 
         const merged = await mergeDefaultConfig(config)
