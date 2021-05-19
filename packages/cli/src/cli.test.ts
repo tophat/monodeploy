@@ -37,7 +37,7 @@ describe('CLI', () => {
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
-                    '--auto-commit --auto-commit-message release ' +
+                    '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag',
             )
             jest.isolateModules(() => {
@@ -70,6 +70,10 @@ describe('CLI', () => {
                   "maxConcurrentWrites": 4,
                   "noRegistry": true,
                   "persistVersions": true,
+                  "plugins": Array [
+                    "plugin-a",
+                    "plugin-b",
+                  ],
                   "registryUrl": "http://example.com",
                   "topological": true,
                   "topologicalDev": true,
@@ -109,6 +113,7 @@ describe('CLI', () => {
                   "maxConcurrentWrites": 0,
                   "noRegistry": undefined,
                   "persistVersions": undefined,
+                  "plugins": undefined,
                   "registryUrl": undefined,
                   "topological": undefined,
                   "topologicalDev": undefined,
@@ -233,6 +238,7 @@ describe('CLI', () => {
                     topologicalDev: true,
                     maxConcurrentReads: 3,
                     maxConcurrentWrites: 5,
+                    plugins: ['plugin-a', 'plugin-b'],
                 }
             `
 
@@ -273,6 +279,10 @@ describe('CLI', () => {
                       "maxConcurrentWrites": 5,
                       "noRegistry": false,
                       "persistVersions": true,
+                      "plugins": Array [
+                        "plugin-a",
+                        "plugin-b",
+                      ],
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -348,6 +358,7 @@ describe('CLI', () => {
                       "maxConcurrentWrites": 2,
                       "noRegistry": false,
                       "persistVersions": true,
+                      "plugins": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -423,6 +434,7 @@ describe('CLI', () => {
                       "maxConcurrentWrites": 1,
                       "noRegistry": false,
                       "persistVersions": true,
+                      "plugins": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -501,6 +513,7 @@ describe('CLI', () => {
                       "maxConcurrentWrites": 11,
                       "noRegistry": false,
                       "persistVersions": true,
+                      "plugins": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
