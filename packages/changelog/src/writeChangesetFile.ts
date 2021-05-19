@@ -29,20 +29,20 @@ const writeChangesetFile = async ({
 }): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
-    for (const [pkgName, newVersion] of nextTags.entries()) {
-        const previousVersion = previousTags.get(pkgName) ?? null
-        const changelog = await generateChangelogEntry(
+    for (const [packageName, newVersion] of nextTags.entries()) {
+        const previousVersion = previousTags.get(packageName) ?? null
+        const changelog = await generateChangelogEntry({
             config,
             context,
-            pkgName,
+            packageName,
             previousVersion,
             newVersion,
-            versionStrategies.get(pkgName)?.commits ?? [],
-        )
-        changesetData[pkgName] = {
+            commits: versionStrategies.get(packageName)?.commits ?? [],
+        })
+        changesetData[packageName] = {
             version: newVersion,
             changelog,
-            tag: createdGitTags?.get(pkgName) ?? null,
+            tag: createdGitTags?.get(packageName) ?? null,
         }
     }
 
