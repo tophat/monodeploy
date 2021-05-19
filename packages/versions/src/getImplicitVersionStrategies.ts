@@ -5,11 +5,15 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-const getImplicitVersionStrategies = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    intentionalStrategies: PackageStrategyMap,
-): Promise<PackageStrategyMap> => {
+const getImplicitVersionStrategies = async ({
+    config,
+    context,
+    intentionalStrategies,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    intentionalStrategies: PackageStrategyMap
+}): Promise<PackageStrategyMap> => {
     const dependents = await getDependents(
         config,
         context,
