@@ -18,6 +18,7 @@ const writeChangesetFile = async (
     previousTags: PackageTagMap,
     newTags: PackageTagMap,
     versionStrategies: PackageStrategyMap,
+    createdGitTags?: Map<string, string>,
 ): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
@@ -34,6 +35,7 @@ const writeChangesetFile = async (
         changesetData[pkgName] = {
             version: newVersion,
             changelog,
+            tag: createdGitTags?.get(pkgName) ?? null,
         }
     }
 

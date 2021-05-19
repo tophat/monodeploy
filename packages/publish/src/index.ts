@@ -5,25 +5,20 @@ import pLimit from 'p-limit'
 
 import { getTopologicalSort } from '@monodeploy/dependencies'
 import logging, { assertProductionOrTest } from '@monodeploy/logging'
-import type {
-    MonodeployConfiguration,
-    PackageTagMap,
-    YarnContext,
-} from '@monodeploy/types'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import commitPublishChanges from './commitPublishChanges'
 import createReleaseGitTags from './createReleaseGitTags'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
 
-export { commitPublishChanges, getWorkspacesToPublish }
+export { commitPublishChanges, getWorkspacesToPublish, createReleaseGitTags }
 
 export const publishPackages = async (
     config: MonodeployConfiguration,
     context: YarnContext,
     workspacesToPublish: Set<Workspace>,
     registryUrl: string | null,
-    newVersions: PackageTagMap,
 ): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
 
@@ -112,10 +107,5 @@ export const publishPackages = async (
                 limit(() => prepareWorkspace(workspace)),
             ),
         )
-    }
-
-    if (config.git.tag) {
-        // Create tags
-        await createReleaseGitTags(config, context, newVersions)
     }
 }

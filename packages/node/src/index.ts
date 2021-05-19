@@ -13,6 +13,7 @@ import {
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
+    createReleaseGitTags,
     getWorkspacesToPublish,
     publishPackages,
 } from '@monodeploy/publish'
@@ -159,6 +160,8 @@ const monodeploy = async (
                 },
             )
 
+            let createdGitTags: Map<string, string> | undefined
+
             await report.startTimerPromise(
                 'Publishing Packages',
                 { skipIfEmpty: false },
@@ -169,8 +172,16 @@ const monodeploy = async (
                         context,
                         workspacesToPublish,
                         registryUrl,
-                        newVersions,
                     )
+
+                    if (config.git.tag) {
+                        // Create tags
+                        createdGitTags = await createReleaseGitTags(
+                            config,
+                            context,
+                            newVersions,
+                        )
+                    }
                 },
             )
 
@@ -185,6 +196,7 @@ const monodeploy = async (
                         registryTags, // old versions
                         newVersions,
                         versionStrategies,
+                        createdGitTags,
                     )
 
                     await prependChangelogFile(
@@ -197,17 +209,17 @@ const monodeploy = async (
             )
 
             await report.startTimerPromise(
-                'Executing Release Hooks',
-                { skipIfEmpty: true },
-                async () => hooks.onReleaseAvailable.promise(context, result),
-            )
-
-            await report.startTimerPromise(
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
                     await commitPublishChanges(config, context)
                 },
+            )
+
+            await report.startTimerPromise(
+                'Executing Release Hooks',
+                { skipIfEmpty: true },
+                async () => hooks.onReleaseAvailable.promise(context, result),
             )
 
             logging.info(`Monodeploy completed successfully`, { report })

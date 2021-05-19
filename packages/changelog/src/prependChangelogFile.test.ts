@@ -43,7 +43,7 @@ describe('prependChangelogFile', () => {
         })
         const context = await setupContext(cwd as PortablePath)
         const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges' },
+            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
 
         // TODO: Better assertion.
@@ -66,7 +66,7 @@ describe('prependChangelogFile', () => {
         })
         const context = await setupContext(cwd as PortablePath)
         const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges' },
+            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
 
         // We'll grab a handle so prepend won't be able to write
@@ -93,7 +93,7 @@ describe('prependChangelogFile', () => {
         })
         const context = await setupContext(cwd as PortablePath)
         const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges' },
+            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
         await createFile({ filePath: 'changelog', cwd, content: 'wonomarker' })
         await expect(async () =>
@@ -118,7 +118,7 @@ describe('prependChangelogFile', () => {
         })
         const context = await setupContext(cwd as PortablePath)
         const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges' },
+            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
 
         // TODO: Better assertion.
@@ -147,10 +147,12 @@ describe('prependChangelogFile', () => {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
+                tag: null,
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
+                tag: null,
             },
         }
 
@@ -180,10 +182,12 @@ describe('prependChangelogFile', () => {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
+                tag: null,
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
+                tag: null,
             },
         }
 
@@ -212,10 +216,12 @@ describe('prependChangelogFile', () => {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
+                tag: null,
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
+                tag: null,
             },
         }
         const workspaces = new Set([

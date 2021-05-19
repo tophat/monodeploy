@@ -66,6 +66,7 @@ export type StrategyDeterminer = (commits: string[]) => Promise<number>
 export interface ChangesetRecord {
     version: string
     changelog: string | null
+    tag: string | null
 }
 
 export interface ChangesetSchema {
