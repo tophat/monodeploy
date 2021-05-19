@@ -967,6 +967,7 @@ __metadata:
     "@octokit/core": ^3.4.0
     "@octokit/plugin-throttling": ^3.4.1
     "@types/node": ^14.0.0
+    tapable: ^2.2.0
   languageName: unknown
   linkType: soft
 

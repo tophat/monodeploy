@@ -5,9 +5,13 @@ import { parseRepositoryProperty } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { PluginHooks } from '@monodeploy/types'
 
-const GitHubPlugin = ({ onReleaseAvailable }: PluginHooks): void => {
+export const PluginName = 'GitHub Plugin'
+
+const GitHubPlugin = ({
+    onReleaseAvailable,
+}: Pick<PluginHooks, 'onReleaseAvailable'>): void => {
     onReleaseAvailable.tapPromise(
-        'MonodeployGitHubPlugin',
+        PluginName,
         async (context, config, changeset): Promise<void> => {
             const personalAccessToken = process.env.GH_TOKEN
             if (!personalAccessToken) {
@@ -39,7 +43,7 @@ const GitHubPlugin = ({ onReleaseAvailable }: PluginHooks): void => {
                 }
 
                 logging.info(
-                    `[GitHub Plugin] Creating release for ${changeData.tag}`,
+                    `[${PluginName}] Creating release for ${changeData.tag}`,
                     {
                         report: context.report,
                     },

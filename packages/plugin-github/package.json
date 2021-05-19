@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
-    "@types/node": "^14.0.0"
+    "@types/node": "^14.0.0",
+    "tapable": "^2.2.0"
   },
   "dependencies": {
     "@monodeploy/git": "^0.1.8",
