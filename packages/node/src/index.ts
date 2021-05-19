@@ -107,7 +107,7 @@ const monodeploy = async (
         })
 
         // Fetch latest package versions for workspaces
-        const registryTags = await getLatestPackageTags(config, context)
+        const registryTags = await getLatestPackageTags({ config, context })
 
         // Determine version bumps via commit messages
         const explicitVersionStrategies = await getExplicitVersionStrategies(

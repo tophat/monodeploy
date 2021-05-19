@@ -9,10 +9,13 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-const getLatestPackageTags = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-): Promise<PackageTagMap> => {
+const getLatestPackageTags = async ({
+    config,
+    context,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+}): Promise<PackageTagMap> => {
     const limitFetch = pLimit(config.maxConcurrentReads || 10)
 
     const workspaces = [
