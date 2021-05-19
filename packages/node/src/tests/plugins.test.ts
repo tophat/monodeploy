@@ -135,7 +135,6 @@ describe('Monodeploy Plugins', () => {
                 const path = require('path');
                 module.exports = ({ onReleaseAvailable }) => {
                     onReleaseAvailable.tapPromise('CustomPlugin', async (context, config, changeset) => {
-                        console.log(context);
                         fs.writeFileSync(path.resolve(config.cwd, 'plugin-executed.txt'), 'Exists');
                     })
                 }
