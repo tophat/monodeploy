@@ -12,17 +12,24 @@ import type {
 
 import generateChangelogEntry from './changelog'
 
-const writeChangesetFile = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    previousTags: PackageTagMap,
-    newTags: PackageTagMap,
-    versionStrategies: PackageStrategyMap,
-    createdGitTags?: Map<string, string>,
-): Promise<ChangesetSchema> => {
+const writeChangesetFile = async ({
+    config,
+    context,
+    previousTags,
+    nextTags,
+    versionStrategies,
+    createdGitTags,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    previousTags: PackageTagMap
+    nextTags: PackageTagMap
+    versionStrategies: PackageStrategyMap
+    createdGitTags?: Map<string, string>
+}): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
-    for (const [pkgName, newVersion] of newTags.entries()) {
+    for (const [pkgName, newVersion] of nextTags.entries()) {
         const previousVersion = previousTags.get(pkgName) ?? null
         const changelog = await generateChangelogEntry(
             config,

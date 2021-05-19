@@ -14,12 +14,17 @@ import { prepareForPack, prepareForPublish } from './prepare'
 
 export { commitPublishChanges, getWorkspacesToPublish, createReleaseGitTags }
 
-export const publishPackages = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    workspacesToPublish: Set<Workspace>,
-    registryUrl: string | null,
-): Promise<void> => {
+export const publishPackages = async ({
+    config,
+    context,
+    workspacesToPublish,
+    registryUrl,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    workspacesToPublish: Set<Workspace>
+    registryUrl: string | null
+}): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
 
     const prepareWorkspace = async (workspace: Workspace) => {

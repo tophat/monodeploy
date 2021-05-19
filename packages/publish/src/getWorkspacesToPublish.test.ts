@@ -23,13 +23,13 @@ describe('getWorspacesToPublish', () => {
         const cwd = workspacePath
 
         const context = await setupContext(cwd as PortablePath)
-        const strategies = new Map()
+        const versionStrategies = new Map()
         // pkg-5 is private
-        strategies.set('pkg-5', { strategy: 'major', commits: [] })
-        const workspacesToRelease = await getWorkspacesToPublish(
+        versionStrategies.set('pkg-5', { strategy: 'major', commits: [] })
+        const workspacesToRelease = await getWorkspacesToPublish({
             context,
-            strategies,
-        )
+            versionStrategies,
+        })
 
         expect(workspacesToRelease.size).toEqual(0)
         //expect([...workspacesToRelease][0].manifest.name.name).toEqual('pkg-6')
@@ -38,12 +38,12 @@ describe('getWorspacesToPublish', () => {
     it('builds a map of workspaces that have an associated version strategy', async () => {
         const cwd = workspacePath
         const context = await setupContext(cwd as PortablePath)
-        const strategies = new Map()
-        strategies.set('pkg-6', { strategy: 'major', commits: [] })
-        const workspacesToRelease = await getWorkspacesToPublish(
+        const versionStrategies = new Map()
+        versionStrategies.set('pkg-6', { strategy: 'major', commits: [] })
+        const workspacesToRelease = await getWorkspacesToPublish({
             context,
-            strategies,
-        )
+            versionStrategies,
+        })
 
         expect(workspacesToRelease.size).toEqual(1)
         expect([...workspacesToRelease][0].manifest.name!.name).toEqual('pkg-6')

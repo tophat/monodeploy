@@ -6,10 +6,13 @@ import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import getPackageJsonPaths from './getPackageJsonPaths'
 
-export const backupPackageJsons = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-): Promise<string> => {
+export const backupPackageJsons = async ({
+    config,
+    context,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+}): Promise<string> => {
     const packageJsonPaths = await getPackageJsonPaths(config, context)
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'package-jsons-'))
     await Promise.all(
@@ -23,11 +26,11 @@ export const backupPackageJsons = async (
     return tmpDir
 }
 
-export const restorePackageJsons = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    key: string,
-): Promise<void> => {
+export const restorePackageJsons = async ({
+    key,
+}: {
+    key: string
+}): Promise<void> => {
     const map = JSON.parse(
         await fs.readFile(path.join(key, 'map.json'), 'utf-8'),
     )
@@ -41,7 +44,11 @@ export const restorePackageJsons = async (
     )
 }
 
-export const clearBackupCache = async (keys: string[]): Promise<void> => {
+export const clearBackupCache = async ({
+    keys,
+}: {
+    keys: string[]
+}): Promise<void> => {
     await Promise.all(
         keys.map(
             async key => await fs.rm(key, { recursive: true, force: true }),

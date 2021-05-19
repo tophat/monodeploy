@@ -10,13 +10,19 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-const applyReleases = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    workspaces: Set<Workspace>,
-    registryTags: PackageTagMap,
-    versionStrategies: PackageStrategyMap,
-): Promise<PackageTagMap> => {
+const applyReleases = async ({
+    config,
+    context,
+    workspaces,
+    registryTags,
+    versionStrategies,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    workspaces: Set<Workspace>
+    registryTags: PackageTagMap
+    versionStrategies: PackageStrategyMap
+}): Promise<PackageTagMap> => {
     // Registry tags from mono
     const intendedRegistryTags = new Map()
 

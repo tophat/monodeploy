@@ -2,10 +2,13 @@ import { Workspace, structUtils } from '@yarnpkg/core'
 
 import type { PackageStrategyMap, YarnContext } from '@monodeploy/types'
 
-const getWorkspacesToPublish = async (
-    context: YarnContext,
-    versionStrategies: PackageStrategyMap,
-): Promise<Set<Workspace>> => {
+const getWorkspacesToPublish = async ({
+    context,
+    versionStrategies,
+}: {
+    context: YarnContext
+    versionStrategies: PackageStrategyMap
+}): Promise<Set<Workspace>> => {
     const workspacesByIdent = context.project.workspaces.reduce(
         (workspacesMap: Map<string, Workspace>, current: Workspace) => {
             const manifestName = current.manifest.name

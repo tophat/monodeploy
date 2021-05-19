@@ -46,20 +46,20 @@ describe('applyReleases', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const intendedVersions = await applyReleases(
+                const intendedVersions = await applyReleases({
                     config,
                     context,
-                    new Set([workspace2, workspace3]),
-                    new Map([
+                    workspaces: new Set([workspace2, workspace3]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                         ['pkg-3', '3.3.0'],
                     ]),
-                    new Map([
+                    versionStrategies: new Map([
                         ['pkg-2', { type: 'minor', commits: [] }],
                         ['pkg-3', { type: 'patch', commits: [] }],
                     ]),
-                )
+                })
 
                 expect(intendedVersions.has('pkg-1')).toBeFalsy()
                 expect(intendedVersions.get('pkg-2')).toEqual('2.1.0')

@@ -459,7 +459,7 @@ describe('Monodeploy', () => {
             report: new StreamReport({ configuration, stdout: process.stdout }),
         }
 
-        const testBackupKey = await backupPackageJsons(config, context)
+        const testBackupKey = await backupPackageJsons({ config, context })
 
         try {
             mockNPM._setTag_('pkg-1', '0.0.1')
@@ -505,8 +505,8 @@ describe('Monodeploy', () => {
             const pkg2 = await readPackageVersion('pkg-2')
             expect(pkg2.version).toEqual('0.0.0')
         } finally {
-            await restorePackageJsons(config, context, testBackupKey)
-            await clearBackupCache([testBackupKey])
+            await restorePackageJsons({ key: testBackupKey })
+            await clearBackupCache({ keys: [testBackupKey] })
         }
     })
 
