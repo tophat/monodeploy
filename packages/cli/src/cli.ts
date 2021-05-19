@@ -209,6 +209,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 (argv.maxConcurrentWrites && argv.maxConcurrentWrites > 0
                     ? argv.maxConcurrentWrites
                     : configFromFile?.maxConcurrentWrites) ?? 0,
+            plugins: argv.plugins ?? configFromFile?.plugins ?? undefined,
         }
 
         await monodeploy(config)
