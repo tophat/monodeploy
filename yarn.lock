@@ -894,6 +894,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^11.0.0
     "@monodeploy/git": "workspace:packages/git"
+    "@monodeploy/plugin-github": "workspace:packages/plugin-github"
     "@monodeploy/test-utils": "link:./testUtils"
     "@monodeploy/types": "workspace:packages/types"
     "@tophat/commitizen-adapter": ^0.0.11
