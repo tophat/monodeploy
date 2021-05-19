@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/types": "^0.4.0"
+    "@monodeploy/types": "^0.4.0",
+    "@octokit/core": "^3.4.0"
   }
 }
