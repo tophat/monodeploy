@@ -30,10 +30,11 @@ const commitPublishChanges = async (
 
     if (config.autoCommit) {
         // Push artifacts (changelog, package.json changes)
-        await gitAdd(
-            ['yarn.lock', config?.changelogFilename ?? '', '"**/package.json"'],
-            { cwd: config.cwd },
-        )
+        const files = ['yarn.lock', '"**/package.json"']
+        if (config?.changelogFilename) {
+            files.push(config?.changelogFilename.replace('<packageDir>', '**'))
+        }
+        await gitAdd(files, { cwd: config.cwd })
         await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
 
         if (config.git.push) {
