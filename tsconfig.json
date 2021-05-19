@@ -9,7 +9,8 @@
         "noImplicitAny": true,
         "emitDeclarationOnly": false,
         "allowSyntheticDefaultImports": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "allowJs": true
     },
     "include": ["./packages", "./__mocks__", "./testUtils"]
 }
