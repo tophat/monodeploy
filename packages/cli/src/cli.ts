@@ -116,13 +116,17 @@ const { argv } = yargs
         type: 'number',
         description:
             'Maximum number of concurrent requests to make when writing to the registry (set to 0 for default)',
-        defualt: 1,
+        default: 1,
     })
     .option('max-concurrent-reads', {
         type: 'number',
         description:
             'Maximum number of concurrent requests to make when reading from the registry (set to 0 for default)',
-        defualt: 1,
+        default: 1,
+    })
+    .option('plugins', {
+        type: 'array',
+        description: 'Monodeploy plugins',
     })
     .demandCommand(0, 0)
     .strict()

@@ -949,6 +949,18 @@ __metadata:
     "@yarnpkg/fslib": ^2.5.0-rc.2
     "@yarnpkg/plugin-npm": ^2.5.0-rc.2
     "@yarnpkg/plugin-pack": ^3.0.0-rc.2
+    tapable: ^2.2.0
+  languageName: unknown
+  linkType: soft
+
+"@monodeploy/plugin-github@workspace:packages/plugin-github":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
+  dependencies:
+    "@monodeploy/logging": ^0.1.4
+    "@monodeploy/test-utils": "link:../../testUtils"
+    "@monodeploy/types": ^0.4.0
+    "@types/node": ^14.0.0
   languageName: unknown
   linkType: soft
 
@@ -1001,6 +1013,12 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fplugin-github%40workspace%3Apackages%2Fplugin-github":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fplugin-github%40workspace%3Apackages%2Fplugin-github"
+  languageName: node
+  linkType: soft
+
 "@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fpublish%40workspace%3Apackages%2Fpublish":
   version: 0.0.0-use.local
   resolution: "@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fpublish%40workspace%3Apackages%2Fpublish"
@@ -1024,6 +1042,7 @@ __metadata:
   resolution: "@monodeploy/types@workspace:packages/types"
   dependencies:
     "@yarnpkg/core": ^3.0.0-rc.2
+    tapable: ^2.2.0
   languageName: unknown
   linkType: soft
 
@@ -8790,6 +8809,13 @@ fsevents@^2.1.2:
     slice-ansi: ^4.0.0
     string-width: ^4.2.0
   checksum: 5cbc42454d9d2b8051aac77cdfa38b78e0ea00eeb1ef2bc50463f02ede9e9210bbb418a1f38c51f10dd34c5a01df50b05a32cb9222fb28b095d51fb557c5c21e
+  languageName: node
+  linkType: hard
+
+"tapable@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "tapable@npm:2.2.0"
+  checksum: 5a7e31ddd2400d524b68e7ba0373e492ba52b321b8e1eb15b65956e9c1b9ba90dd175210a1318b6752538cbe3b284f4a7218a714be942aeeb812623c243aea25
   languageName: node
   linkType: hard
 

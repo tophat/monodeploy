@@ -1,15 +1,15 @@
 {
-  "name": "@monodeploy/types",
-  "version": "0.4.0",
+  "name": "@monodeploy/plugin-github",
+  "version": "0.1.8",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
-  "main": "./src/types.ts",
   "publishConfig": {
-    "main": "./lib/types.js",
-    "types": "./lib/types.d.ts",
-    "registry": "https://registry.npmjs.org/"
+    "main": "./lib/index.js",
+    "registry": "https://registry.npmjs.org/",
+    "types": "./lib/index.d.ts"
   },
+  "main": "./src/index.ts",
   "files": [
     "lib"
   ],
@@ -20,8 +20,12 @@
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
+  "devDependencies": {
+    "@monodeploy/test-utils": "link:../../testUtils",
+    "@types/node": "^14.0.0"
+  },
   "dependencies": {
-    "@yarnpkg/core": "^3.0.0-rc.2",
-    "tapable": "^2.2.0"
+    "@monodeploy/logging": "^0.1.4",
+    "@monodeploy/types": "^0.4.0"
   }
 }

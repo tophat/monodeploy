@@ -2,6 +2,7 @@ import path from 'path'
 
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
+import { AsyncSeriesHook } from 'tapable'
 
 import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
 import {
@@ -20,6 +21,7 @@ import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
+    PluginHooks,
     RecursivePartial,
     YarnContext,
 } from '@monodeploy/types'
@@ -57,6 +59,18 @@ const monodeploy = async (
     const { project, workspace } = await Project.find(configuration, cwd)
     await project.restoreInstallState()
 
+    /* Initialize plugins */
+    const hooks: PluginHooks = {
+        onReleaseAvailable: new AsyncSeriesHook(),
+    }
+
+    if (config.plugins?.length) {
+        for (const plugin of config.plugins) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            require(require.resolve(plugin, { paths: [cwd] }))(hooks)
+        }
+    }
+
     let result: ChangesetSchema = {}
 
     const pipeline = async (report: StreamReport): Promise<void> => {
@@ -65,6 +79,7 @@ const monodeploy = async (
             project,
             workspace: workspace as Workspace,
             report,
+            hooks,
         }
 
         logging.setDryRun(config.dryRun)
@@ -179,6 +194,12 @@ const monodeploy = async (
                         workspacesToPublish,
                     )
                 },
+            )
+
+            await report.startTimerPromise(
+                'Executing Release Hooks',
+                { skipIfEmpty: true },
+                async () => hooks.onReleaseAvailable.promise(context, result),
             )
 
             await report.startTimerPromise(
