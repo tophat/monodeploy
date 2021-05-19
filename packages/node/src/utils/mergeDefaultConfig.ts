@@ -40,6 +40,7 @@ const mergeDefaultConfig = async (
         jobs: baseConfig.jobs ?? 0,
         maxConcurrentReads: baseConfig.maxConcurrentReads ?? 0,
         maxConcurrentWrites: baseConfig.maxConcurrentWrites ?? 0,
+        plugins: baseConfig.plugins ?? [],
     }
 }
 

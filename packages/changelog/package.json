@@ -21,6 +21,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
+    "@monodeploy/git": "^0.1.8",
     "@monodeploy/io": "^0.2.7",
     "@monodeploy/logging": "^0.1.4",
     "@monodeploy/types": "^0.4.0",

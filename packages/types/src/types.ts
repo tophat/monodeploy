@@ -63,6 +63,11 @@ export type PackageStrategyMap = Map<
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>
 
+export interface ChangesetRecord {
+    version: string
+    changelog: string | null
+}
+
 export interface ChangesetSchema {
-    [packageName: string]: { version: string; changelog: string | null }
+    [packageName: string]: ChangesetRecord
 }

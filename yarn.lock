@@ -827,6 +827,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
+    "@monodeploy/git": ^0.1.8
     "@monodeploy/io": ^0.2.7
     "@monodeploy/logging": ^0.1.4
     "@monodeploy/test-utils": "link:../../testUtils"
@@ -861,6 +862,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": ^0.4.0
     "@types/node": ^14.0.0
+    "@yarnpkg/core": ^3.0.0-rc.2
   languageName: unknown
   linkType: soft
 
@@ -891,6 +893,7 @@ __metadata:
   resolution: "@monodeploy/monorepo@workspace:."
   dependencies:
     "@commitlint/cli": ^11.0.0
+    "@monodeploy/git": "workspace:packages/git"
     "@monodeploy/test-utils": "link:./testUtils"
     "@monodeploy/types": "workspace:packages/types"
     "@tophat/commitizen-adapter": ^0.0.11
@@ -957,10 +960,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
   dependencies:
+    "@monodeploy/git": ^0.1.8
     "@monodeploy/logging": ^0.1.4
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": ^0.4.0
     "@octokit/core": ^3.4.0
+    "@octokit/plugin-throttling": ^3.4.1
     "@types/node": ^14.0.0
   languageName: unknown
   linkType: soft
@@ -1150,6 +1155,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/plugin-throttling@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "@octokit/plugin-throttling@npm:3.4.1"
+  dependencies:
+    "@octokit/types": ^6.0.1
+    bottleneck: ^2.15.3
+  peerDependencies:
+    "@octokit/core": ^3.0.0
+  checksum: 30008c49549f18c8edca759cde7667202edb6e0c987bf7baae1fd6865ce6ee6b2ee289ae88c4c75033900db0e73e096030d5ff52da5daed7c8cae0041769679a
+  languageName: node
+  linkType: hard
+
 "@octokit/request-error@npm:^2.0.0, @octokit/request-error@npm:^2.0.5":
   version: 2.0.5
   resolution: "@octokit/request-error@npm:2.0.5"
@@ -1175,7 +1192,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/types@npm:^6.0.3, @octokit/types@npm:^6.7.1":
+"@octokit/types@npm:^6.0.1, @octokit/types@npm:^6.0.3, @octokit/types@npm:^6.7.1":
   version: 6.14.2
   resolution: "@octokit/types@npm:6.14.2"
   dependencies:
@@ -2643,6 +2660,13 @@ __metadata:
     inherits: ^2.0.4
     readable-stream: ^3.4.0
   checksum: 4e011e5985ebecfc4ec2874f12e3d094b4e516610686caa26d93b07961c8053545e607d6fb1d6ba16559ac2b3dba3e8517a68380b377e58ab73fa09831319c29
+  languageName: node
+  linkType: hard
+
+"bottleneck@npm:^2.15.3":
+  version: 2.19.5
+  resolution: "bottleneck@npm:2.19.5"
+  checksum: c5eef1bbea12cef1f1405e7306e7d24860568b0f7ac5eeab706a86762b3fc65ef6d1c641c8a166e4db90f412fc5c948fc5ce8008a8cd3d28c7212ef9c3482bda
   languageName: node
   linkType: hard
 

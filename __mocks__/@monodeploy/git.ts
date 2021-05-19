@@ -6,6 +6,8 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
+const actualMonodeployGit = jest.requireActual('@monodeploy/git')
+
 const registry: {
     commits: CommitMessage[]
     filesModified: Map<string, string[]>
@@ -185,6 +187,7 @@ module.exports = {
     _getTags_,
     _reset_,
     _getRegistry_,
+    ...actualMonodeployGit,
     getCommitMessages,
     gitAdd,
     gitCommit,
