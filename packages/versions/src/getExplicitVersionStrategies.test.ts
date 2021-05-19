@@ -38,14 +38,14 @@ describe('getExplicitVersionStrategies', () => {
             cwd,
             encoding: 'utf8',
         }).trim()
-        const strategies = await getExplicitVersionStrategies(
-            await getMonodeployConfig({
+        const strategies = await getExplicitVersionStrategies({
+            config: await getMonodeployConfig({
                 cwd,
                 commitSha: headSha,
                 baseBranch: 'master',
             }),
             context,
-        )
+        })
 
         expect(strategies).toEqual(
             new Map([

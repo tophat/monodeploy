@@ -110,10 +110,10 @@ const monodeploy = async (
         const registryTags = await getLatestPackageTags({ config, context })
 
         // Determine version bumps via commit messages
-        const explicitVersionStrategies = await getExplicitVersionStrategies(
+        const explicitVersionStrategies = await getExplicitVersionStrategies({
             config,
             context,
-        )
+        })
 
         // Determine version bumps to dependent packages
         const implicitVersionStrategies = await getImplicitVersionStrategies(
