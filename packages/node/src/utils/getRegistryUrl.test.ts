@@ -17,7 +17,7 @@ describe('getRegistryUrl', () => {
                     baseBranch: 'master',
                 })
                 config.registryUrl = 'http://example.com'
-                const url = await getRegistryUrl(config, context)
+                const url = await getRegistryUrl({ config, context })
                 expect(url).toEqual(config.registryUrl)
             },
         ))

@@ -101,7 +101,7 @@ const monodeploy = async (
         // Determine registry
         const registryUrl = config.noRegistry
             ? null
-            : await getRegistryUrl(config, context)
+            : await getRegistryUrl({ config, context })
         logging.debug(`[Config] Registry Url: ${String(registryUrl)}`, {
             report,
         })
