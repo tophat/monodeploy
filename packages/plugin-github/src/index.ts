@@ -8,7 +8,7 @@ import { PluginHooks } from '@monodeploy/types'
 const GitHubPlugin = ({ onReleaseAvailable }: PluginHooks): void => {
     onReleaseAvailable.tapPromise(
         'MonodeployGitHubPlugin',
-        async (context, changeset): Promise<void> => {
+        async (context, config, changeset): Promise<void> => {
             const personalAccessToken = process.env.GH_TOKEN
             if (!personalAccessToken) {
                 throw new Error('Missing GitHub Personal Access Token')
@@ -34,19 +34,30 @@ const GitHubPlugin = ({ onReleaseAvailable }: PluginHooks): void => {
             }
 
             for (const [pkgName, changeData] of Object.entries(changeset)) {
-                const tag = `${pkgName}@${changeData.version}`
-                logging.info(`[GitHub Plugin] Creating release for ${tag}`, {
-                    report: context.report,
-                })
-                await octokit.request('POST /repos/{owner}/{repo}/releases', {
-                    owner,
-                    repo,
-                    tag_name: tag,
-                    name: tag,
-                    body: changeData.changelog ?? '',
-                    draft: false,
-                    prerelease: false,
-                })
+                if (!changeData.tag) {
+                    throw new Error(`Missing package git tag for ${pkgName}`)
+                }
+
+                logging.info(
+                    `[GitHub Plugin] Creating release for ${changeData.tag}`,
+                    {
+                        report: context.report,
+                    },
+                )
+                if (!config.dryRun) {
+                    await octokit.request(
+                        'POST /repos/{owner}/{repo}/releases',
+                        {
+                            owner,
+                            repo,
+                            tag_name: changeData.tag,
+                            name: changeData.tag,
+                            body: changeData.changelog ?? '',
+                            draft: false,
+                            prerelease: false,
+                        },
+                    )
+                }
             }
         },
     )

@@ -193,6 +193,27 @@ try {
 
 Only the `monodeploy` package is "public" and follows strict semantic versioning. The other packages such as `@monodeploy/changelog` are meant for internal use and may change their APIs at any time.
 
+
+### Plugins
+
+We use [tapable]() for an experimental plugin system. You can add a plugin via a config file or CLI:
+
+```
+plugins: ['@monodeploy/plugin-github']
+```
+
+```sh
+yarn monodeploy --plugins @monodeploy/plugin-github
+```
+
+A plugin is a module which exposes a function as the default. This function takes PluginHooks as an argument. You can then "tap" into the hooks.
+
+#### Hooks
+
+##### onReleaseAvailable
+
+This hook is triggered once a release is available, after publishing to npm, and after pushing any artifacts such as git tags to the repository (assuming running with autoCommit and push mode).
+
 ## Contributing
 
 See the [Contributing Guide](./CONTRIBUTING.md) for setup instructions, tips, and guidelines.

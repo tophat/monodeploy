@@ -44,7 +44,14 @@ export interface YarnContext {
 }
 
 export interface PluginHooks {
-    onReleaseAvailable: AsyncSeriesHook<[YarnContext, ChangesetSchema], void>
+    onReleaseAvailable: AsyncSeriesHook<
+        [
+            Readonly<YarnContext>,
+            Readonly<MonodeployConfiguration>,
+            Readonly<ChangesetSchema>,
+        ],
+        void
+    >
 }
 
 export type CommitMessage = {
