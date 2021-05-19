@@ -62,7 +62,11 @@ const monodeploy = async (
 
     /* Initialize plugins */
     const hooks: PluginHooks = {
-        onReleaseAvailable: new AsyncSeriesHook(),
+        onReleaseAvailable: new AsyncSeriesHook([
+            'context',
+            'config',
+            'changeset',
+        ]),
     }
 
     if (config.plugins?.length) {
@@ -220,7 +224,11 @@ const monodeploy = async (
                 'Executing Release Hooks',
                 { skipIfEmpty: true },
                 async () =>
-                    hooks.onReleaseAvailable.promise(context, config, result),
+                    await hooks.onReleaseAvailable.promise(
+                        context,
+                        config,
+                        result,
+                    ),
             )
 
             logging.info(`Monodeploy completed successfully`, { report })
