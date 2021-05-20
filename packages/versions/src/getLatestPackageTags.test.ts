@@ -53,14 +53,14 @@ describe('getLatestPackageTags', () => {
 
     it('returns default tag 0.0.0 if no tags found', async () => {
         // Since we haven't set up any tags for any package, everything is 0.0.0
-        const tags = await getLatestPackageTags(
-            await getMonodeployConfig({
+        const tags = await getLatestPackageTags({
+            config: await getMonodeployConfig({
                 cwd: context.project.cwd,
                 baseBranch: 'master',
                 commitSha: 'shashasha',
             }),
             context,
-        )
+        })
         for (const tagPair of tags) {
             const tag = tagPair[1]
             expect(tag).toEqual('0.0.0')
@@ -78,14 +78,14 @@ describe('getLatestPackageTags', () => {
 
         for (const tagPair of registryTags) mockNPM._setTag_(...tagPair)
 
-        const tags = await getLatestPackageTags(
-            await getMonodeployConfig({
+        const tags = await getLatestPackageTags({
+            config: await getMonodeployConfig({
                 cwd: context.project.cwd,
                 baseBranch: 'master',
                 commitSha: 'shashasha',
             }),
             context,
-        )
+        })
 
         const expectedTags = new Map([
             ...registryTags.entries(),
@@ -105,14 +105,14 @@ describe('getLatestPackageTags', () => {
         })
 
         await expect(async () =>
-            getLatestPackageTags(
-                await getMonodeployConfig({
+            getLatestPackageTags({
+                config: await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
                     commitSha: 'shashasha',
                 }),
                 context,
-            ),
+            }),
         ).rejects.toEqual(mockError)
 
         mockNPM.npmHttpUtils.get = mockGet
@@ -127,8 +127,8 @@ describe('getLatestPackageTags', () => {
         })
 
         // Since we haven't set up any tags for any package, everything is 0.0.0
-        const tags = await getLatestPackageTags(
-            {
+        const tags = await getLatestPackageTags({
+            config: {
                 ...(await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
@@ -137,7 +137,7 @@ describe('getLatestPackageTags', () => {
                 registryUrl: 'https://my.jfrog.io/my/api/npm/my-npm/',
             },
             context,
-        )
+        })
         for (const tagPair of tags) {
             const tag = tagPair[1]
             expect(tag).toEqual('0.0.0')
@@ -155,14 +155,14 @@ describe('getLatestPackageTags', () => {
             pkg2Cwd as PortablePath,
         )!.manifest.name = null
 
-        const tags = await getLatestPackageTags(
-            await getMonodeployConfig({
+        const tags = await getLatestPackageTags({
+            config: await getMonodeployConfig({
                 cwd: context.project.cwd,
                 baseBranch: 'master',
                 commitSha: 'shashasha',
             }),
             context,
-        )
+        })
 
         expect(tags.keys()).not.toContain('pkg-2')
     })

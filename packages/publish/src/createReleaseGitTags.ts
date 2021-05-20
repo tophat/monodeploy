@@ -6,11 +6,15 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-async function createReleaseGitTags(
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    versions: PackageTagMap,
-): Promise<Map<string, string>> {
+async function createReleaseGitTags({
+    config,
+    context,
+    versions,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    versions: PackageTagMap
+}): Promise<Map<string, string>> {
     const tags = await Promise.all(
         [...versions.entries()].map(async (packageVersionEntry: string[]) => {
             const [packageIdent, packageVersion] = packageVersionEntry

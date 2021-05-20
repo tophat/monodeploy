@@ -32,15 +32,15 @@ describe('getImplicitVersionStrategies', () => {
         const mockIntentionalUpdates = new Map()
         // Dependency: pkg-3 -> pkg-2, and pkg-6 -> pkg-3
         mockIntentionalUpdates.set('pkg-2', { type: 'major', commits: [] })
-        const strategies = await getImplicitVersionStrategies(
-            await getMonodeployConfig({
+        const strategies = await getImplicitVersionStrategies({
+            config: await getMonodeployConfig({
                 cwd: context.project.cwd,
                 baseBranch: 'master',
                 commitSha: 'shashasha',
             }),
             context,
-            mockIntentionalUpdates,
-        )
+            intentionalStrategies: mockIntentionalUpdates,
+        })
 
         expect(strategies).toEqual(
             new Map(

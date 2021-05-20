@@ -12,14 +12,21 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-const generateChangelogEntry = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    packageName: string,
-    previousVersion: string | null,
-    newVersion: string,
-    commits: CommitMessage[],
-): Promise<string | null> => {
+const generateChangelogEntry = async ({
+    config,
+    context,
+    packageName,
+    previousVersion,
+    newVersion,
+    commits,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    packageName: string
+    previousVersion: string | null
+    newVersion: string
+    commits: CommitMessage[]
+}): Promise<string | null> => {
     if (!config.conventionalChangelogConfig) {
         return null
     }

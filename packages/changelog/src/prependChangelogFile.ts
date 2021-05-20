@@ -76,12 +76,17 @@ const prependEntry = async ({
     })
 }
 
-const prependChangelogFile = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    changeset: ChangesetSchema,
-    workspaces: Set<Workspace>,
-): Promise<void> => {
+const prependChangelogFile = async ({
+    config,
+    context,
+    changeset,
+    workspaces,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    changeset: ChangesetSchema
+    workspaces: Set<Workspace>
+}): Promise<void> => {
     if (!config.changelogFilename) return
 
     if (config.changelogFilename.includes(TOKEN_PACKAGE_DIR)) {

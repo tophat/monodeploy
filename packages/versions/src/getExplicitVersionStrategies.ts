@@ -67,10 +67,13 @@ const getModifiedPackages = async (
     return [...new Set(modifiedPackages)]
 }
 
-const getExplicitVersionStrategies = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-): Promise<PackageStrategyMap> => {
+const getExplicitVersionStrategies = async ({
+    config,
+    context,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+}): Promise<PackageStrategyMap> => {
     const versionStrategies: PackageStrategyMap = new Map()
 
     const strategyDeterminer = config.conventionalChangelogConfig

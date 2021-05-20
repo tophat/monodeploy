@@ -101,29 +101,29 @@ const monodeploy = async (
         // Determine registry
         const registryUrl = config.noRegistry
             ? null
-            : await getRegistryUrl(config, context)
+            : await getRegistryUrl({ config, context })
         logging.debug(`[Config] Registry Url: ${String(registryUrl)}`, {
             report,
         })
 
         // Fetch latest package versions for workspaces
-        const registryTags = await getLatestPackageTags(config, context)
+        const registryTags = await getLatestPackageTags({ config, context })
 
         // Determine version bumps via commit messages
-        const explicitVersionStrategies = await getExplicitVersionStrategies(
+        const intentionalStrategies = await getExplicitVersionStrategies({
             config,
             context,
-        )
+        })
 
         // Determine version bumps to dependent packages
-        const implicitVersionStrategies = await getImplicitVersionStrategies(
+        const implicitVersionStrategies = await getImplicitVersionStrategies({
             config,
             context,
-            explicitVersionStrategies,
-        )
+            intentionalStrategies,
+        })
 
         const versionStrategies: PackageStrategyMap = new Map([
-            ...explicitVersionStrategies.entries(),
+            ...intentionalStrategies.entries(),
             ...implicitVersionStrategies.entries(),
         ])
 
@@ -132,7 +132,7 @@ const monodeploy = async (
         }
 
         // Backup workspace package.jsons
-        const backupKey = await backupPackageJsons(config, context)
+        const backupKey = await backupPackageJsons({ config, context })
         logging.debug(`[Savepoint] Saving working tree (key: ${backupKey})`, {
             report,
         })
@@ -144,10 +144,10 @@ const monodeploy = async (
                 'Fetching Workspace Information',
                 { skipIfEmpty: false },
                 async () => {
-                    workspacesToPublish = await getWorkspacesToPublish(
+                    workspacesToPublish = await getWorkspacesToPublish({
                         context,
                         versionStrategies,
-                    )
+                    })
                 },
             )
 
@@ -158,13 +158,13 @@ const monodeploy = async (
                 { skipIfEmpty: false },
                 async () => {
                     // Apply releases, and update package.jsons
-                    newVersions = await applyReleases(
+                    newVersions = await applyReleases({
                         config,
                         context,
-                        workspacesToPublish,
+                        workspaces: workspacesToPublish,
                         registryTags,
                         versionStrategies,
-                    )
+                    })
                 },
             )
 
@@ -175,20 +175,20 @@ const monodeploy = async (
                 { skipIfEmpty: false },
                 async () => {
                     // Publish (+ Git Tags)
-                    await publishPackages(
+                    await publishPackages({
                         config,
                         context,
                         workspacesToPublish,
                         registryUrl,
-                    )
+                    })
 
                     if (config.git.tag) {
                         // Create tags
-                        createdGitTags = await createReleaseGitTags(
+                        createdGitTags = await createReleaseGitTags({
                             config,
                             context,
-                            newVersions,
-                        )
+                            versions: newVersions,
+                        })
                     }
                 },
             )
@@ -198,21 +198,21 @@ const monodeploy = async (
                 { skipIfEmpty: false },
                 async () => {
                     // Write changeset
-                    result = await writeChangesetFile(
+                    result = await writeChangesetFile({
                         config,
                         context,
-                        registryTags, // old versions
-                        newVersions,
+                        previousTags: registryTags, // old versions
+                        nextTags: newVersions,
                         versionStrategies,
                         createdGitTags,
-                    )
+                    })
 
-                    await prependChangelogFile(
+                    await prependChangelogFile({
                         config,
                         context,
-                        result,
-                        workspacesToPublish,
-                    )
+                        changeset: result,
+                        workspaces: workspacesToPublish,
+                    })
                 },
             )
 
@@ -220,7 +220,7 @@ const monodeploy = async (
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
-                    await commitPublishChanges(config, context)
+                    await commitPublishChanges({ config, context })
                 },
             )
 
@@ -247,9 +247,9 @@ const monodeploy = async (
                             `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
                             { report },
                         )
-                        await restorePackageJsons(config, context, backupKey)
+                        await restorePackageJsons({ key: backupKey })
                     }
-                    await clearBackupCache([backupKey])
+                    await clearBackupCache({ keys: [backupKey] })
                 },
             )
         }

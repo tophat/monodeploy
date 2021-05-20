@@ -48,7 +48,12 @@ describe('prependChangelogFile', () => {
 
         // TODO: Better assertion.
         await expect(async () =>
-            prependChangelogFile(config, context, changeset, new Set()),
+            prependChangelogFile({
+                config,
+                context,
+                changeset,
+                workspaces: new Set(),
+            }),
         ).not.toThrow()
         expect(writeMock).not.toHaveBeenCalled()
         expect(readMock).not.toHaveBeenCalled()
@@ -76,7 +81,12 @@ describe('prependChangelogFile', () => {
         )
 
         await expect(async () =>
-            prependChangelogFile(config, context, changeset, new Set()),
+            prependChangelogFile({
+                config,
+                context,
+                changeset,
+                workspaces: new Set(),
+            }),
         ).rejects.toThrow()
 
         await handle.close()
@@ -97,7 +107,12 @@ describe('prependChangelogFile', () => {
         }
         await createFile({ filePath: 'changelog', cwd, content: 'wonomarker' })
         await expect(async () =>
-            prependChangelogFile(config, context, changeset, new Set()),
+            prependChangelogFile({
+                config,
+                context,
+                changeset,
+                workspaces: new Set(),
+            }),
         ).rejects.toThrow()
     })
 
@@ -123,7 +138,12 @@ describe('prependChangelogFile', () => {
 
         // TODO: Better assertion.
         await expect(async () =>
-            prependChangelogFile(config, context, changeset, new Set()),
+            prependChangelogFile({
+                config,
+                context,
+                changeset,
+                workspaces: new Set(),
+            }),
         ).not.toThrow()
         expect(writeMock).not.toHaveBeenCalled()
     })
@@ -156,7 +176,12 @@ describe('prependChangelogFile', () => {
             },
         }
 
-        await prependChangelogFile(config, context, changeset, new Set())
+        await prependChangelogFile({
+            config,
+            context,
+            changeset,
+            workspaces: new Set(),
+        })
 
         const changelogContents = await fs.readFile(
             path.join(cwd, mockChangelogFilename),
@@ -191,7 +216,12 @@ describe('prependChangelogFile', () => {
             },
         }
 
-        await prependChangelogFile(config, context, changeset, new Set())
+        await prependChangelogFile({
+            config,
+            context,
+            changeset,
+            workspaces: new Set(),
+        })
 
         const changelogContents = await fs.readFile(
             path.join(cwd, mockChangelogFilename),
@@ -229,7 +259,7 @@ describe('prependChangelogFile', () => {
             getWorkspace(context, 'pkg-2'),
         ])
 
-        await prependChangelogFile(config, context, changeset, workspaces)
+        await prependChangelogFile({ config, context, changeset, workspaces })
 
         const onDiskChangelogPkg1 = await fs.readFile(
             path.join(cwd, 'packages', 'pkg-1', 'CHANGELOG.md'),
@@ -278,7 +308,12 @@ describe('prependChangelogFile', () => {
             { encoding: 'utf8' },
         )
 
-        await prependChangelogFile(config, context, changeset, new Set())
+        await prependChangelogFile({
+            config,
+            context,
+            changeset,
+            workspaces: new Set(),
+        })
 
         const contentsAfter = await fs.readFile(
             path.join(cwd, mockChangelogFilename),
