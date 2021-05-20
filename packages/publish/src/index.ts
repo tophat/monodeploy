@@ -19,11 +19,13 @@ export const publishPackages = async ({
     context,
     workspacesToPublish,
     registryUrl,
+    npmDistTag = 'latest',
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     workspacesToPublish: Set<Workspace>
     registryUrl: string | null
+    npmDistTag: string
 }): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
 
@@ -38,7 +40,7 @@ export const publishPackages = async ({
         const pack = async () => {
             if (!registryUrl || config.noRegistry) {
                 logging.info(
-                    `[Publish] ${pkgName} (latest: ${workspace.manifest.version}, skipping registry)`,
+                    `[Publish] ${pkgName} (${npmDistTag}: ${workspace.manifest.version}, skipping registry)`,
                     { report: context.report },
                 )
                 return
@@ -54,7 +56,7 @@ export const publishPackages = async ({
                 buffer,
                 {
                     access: config.access,
-                    tag: 'latest',
+                    tag: npmDistTag,
                     registry: registryUrl,
                 },
             )
@@ -74,7 +76,7 @@ export const publishPackages = async ({
                     )
                 }
                 logging.info(
-                    `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                    `[Publish] ${pkgName} (${npmDistTag}: ${body['dist-tags']?.[npmDistTag]}, ${registryUrl})`,
                     { report: context.report },
                 )
             } catch (e) {

@@ -12,9 +12,11 @@ import type {
 const getLatestPackageTags = async ({
     config,
     context,
+    npmDistTag = 'latest',
 }: {
     config: MonodeployConfiguration
     context: YarnContext
+    npmDistTag: string
 }): Promise<PackageTagMap> => {
     const limitFetch = pLimit(config.maxConcurrentReads || 10)
 
@@ -47,7 +49,7 @@ const getLatestPackageTags = async ({
                     jsonResponse: true,
                 }),
             )
-            return [pkgName, result.latest]
+            return [pkgName, result[npmDistTag]]
         } catch (err) {
             const statusCode =
                 err.response?.statusCode ??
