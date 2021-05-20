@@ -220,7 +220,12 @@ const monodeploy = async (
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
-                    await commitPublishChanges({ config, context })
+                    if (versionStrategies.size) {
+                        await commitPublishChanges({
+                            config,
+                            context,
+                        })
+                    }
                 },
             )
 
