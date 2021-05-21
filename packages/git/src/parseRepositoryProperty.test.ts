@@ -50,4 +50,72 @@ describe('parseRepositoryProperty', () => {
                 }),
             )
         }))
+
+    it('falls back to project root manifest', async () =>
+        withMonorepoContext({ 'pkg-1': {} }, async context => {
+            const workspace = context.project.getWorkspaceByIdent(
+                structUtils.parseIdent('pkg-1'),
+            )
+            workspace.project.topLevelWorkspace.manifest.setRawField(
+                'repository',
+                'git@github.com:tophat/monodeploy.git',
+            )
+            workspace.manifest.setRawField('repository', '')
+            expect(await parseRepositoryProperty(workspace)).toEqual(
+                expect.objectContaining({
+                    host: 'https://github.com',
+                    owner: 'tophat',
+                    repository: 'monodeploy',
+                    repoUrl: 'https://github.com/tophat/monodeploy',
+                }),
+            )
+        }))
+
+    it('does not fallback to project root manifest if fallback option disabled', async () =>
+        withMonorepoContext({ 'pkg-1': {} }, async context => {
+            const workspace = context.project.getWorkspaceByIdent(
+                structUtils.parseIdent('pkg-1'),
+            )
+            workspace.project.topLevelWorkspace.manifest.setRawField(
+                'repository',
+                'git@github.com:tophat/monodeploy.git',
+            )
+            workspace.manifest.setRawField('repository', '')
+            expect(
+                await parseRepositoryProperty(workspace, {
+                    fallbackToTopLevel: false,
+                }),
+            ).toEqual(
+                expect.objectContaining({
+                    host: null,
+                    owner: null,
+                    repository: null,
+                    repoUrl: null,
+                }),
+            )
+        }))
+
+    it('fails gracefully if falling back and root does not have repository', async () =>
+        withMonorepoContext({ 'pkg-1': {} }, async context => {
+            const workspace = context.project.getWorkspaceByIdent(
+                structUtils.parseIdent('pkg-1'),
+            )
+            workspace.project.topLevelWorkspace.manifest.setRawField(
+                'repository',
+                '',
+            )
+            workspace.manifest.setRawField('repository', '')
+            expect(
+                await parseRepositoryProperty(workspace, {
+                    fallbackToTopLevel: true,
+                }),
+            ).toEqual(
+                expect.objectContaining({
+                    host: null,
+                    owner: null,
+                    repository: null,
+                    repoUrl: null,
+                }),
+            )
+        }))
 })
