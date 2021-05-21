@@ -1,4 +1,4 @@
-import { Workspace } from '@yarnpkg/core'
+import { Workspace, structUtils } from '@yarnpkg/core'
 
 export type RepositoryInfo = {
     host: string | null
@@ -27,6 +27,7 @@ const REPOSITORY_PATTERNS: Array<
 
 export const parseRepositoryProperty = async (
     workspace: Workspace,
+    { fallbackToTopLevel = true }: { fallbackToTopLevel?: boolean } = {},
 ): Promise<RepositoryInfo> => {
     const rawManifest = workspace.manifest.raw
 
@@ -52,6 +53,19 @@ export const parseRepositoryProperty = async (
                 break
             }
         } catch {}
+    }
+
+    if (
+        fallbackToTopLevel &&
+        !structUtils.areDescriptorsEqual(
+            workspace.anchoredDescriptor,
+            workspace.project.topLevelWorkspace.anchoredDescriptor,
+        ) &&
+        !data.repository
+    ) {
+        return await parseRepositoryProperty(
+            workspace.project.topLevelWorkspace,
+        )
     }
 
     return data
