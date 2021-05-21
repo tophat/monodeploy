@@ -148,6 +148,14 @@ describe('Monodeploy', () => {
         expect(mockGit._getPushedTags_()).toHaveLength(0)
     })
 
+    it('does not push tags if no changes detected', async () => {
+        const spyPush = jest.spyOn(mockGit, 'gitPushTags')
+        const result = await monodeploy(monodeployConfig)
+        expect(result).toEqual({})
+        expect(spyPush).not.toHaveBeenCalled()
+        expect(mockGit._getPushedTags_()).toHaveLength(0)
+    })
+
     it('does not use npm registry if in no registry mode', async () => {
         mockNPM._setTag_('pkg-8', '0.2.3')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', [
