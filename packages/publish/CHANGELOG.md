@@ -2,6 +2,10 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.4](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.4.3...@monodeploy/publish@0.4.4) "@monodeploy/publish" (2021-06-02)<a name="0.4.4"></a>
+
+
+
 ## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.2.6...@monodeploy/publish@0.3.0) "@monodeploy/publish" (2021-04-28)<a name="0.3.0"></a>
 
 ### Features

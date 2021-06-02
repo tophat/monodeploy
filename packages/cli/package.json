@@ -1,6 +1,6 @@
 {
   "name": "monodeploy",
-  "version": "2.4.6",
+  "version": "2.5.5",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -23,8 +23,8 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "@monodeploy/node": "^0.7.2",
-    "@monodeploy/types": "^0.4.0",
+    "@monodeploy/node": "^0.8.5",
+    "@monodeploy/types": "^0.5.0",
     "ajv": "^8.1.0",
     "yargs": "^16.2.0"
   },

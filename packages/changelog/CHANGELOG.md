@@ -2,6 +2,10 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.5.2...@monodeploy/changelog@0.5.3) "@monodeploy/changelog" (2021-06-02)<a name="0.5.3"></a>
+
+
+
 ## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.4.0...@monodeploy/changelog@0.4.1) "@monodeploy/changelog" (2021-05-06)<a name="0.4.1"></a>
 
 ### Bug Fixes

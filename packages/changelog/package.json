@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/changelog",
-  "version": "0.4.1",
+  "version": "0.5.3",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -21,10 +21,10 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/git": "^0.1.8",
-    "@monodeploy/io": "^0.2.7",
+    "@monodeploy/git": "^0.2.2",
+    "@monodeploy/io": "^0.2.9",
     "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/types": "^0.4.0",
+    "@monodeploy/types": "^0.5.0",
     "@yarnpkg/core": "^3.0.0-rc.2",
     "@yarnpkg/fslib": "^2.5.0-rc.2",
     "conventional-changelog-writer": "^5.0.0",

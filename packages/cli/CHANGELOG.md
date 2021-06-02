@@ -2,6 +2,10 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.5.5](https://github.com/tophat/monodeploy/compare/monodeploy@2.5.4...monodeploy@2.5.5) "monodeploy" (2021-06-02)<a name="2.5.5"></a>
+
+
+
 ## [2.4.6](https://github.com/tophat/monodeploy/compare/monodeploy@2.4.5...monodeploy@2.4.6) "monodeploy" (2021-05-06)<a name="2.4.6"></a>
 
 

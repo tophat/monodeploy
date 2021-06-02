@@ -2,6 +2,10 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.5](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.4.4...@monodeploy/versions@0.4.5) "@monodeploy/versions" (2021-06-02)<a name="0.4.5"></a>
+
+
+
 ## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.4.0...@monodeploy/versions@0.4.1) "@monodeploy/versions" (2021-05-06)<a name="0.4.1"></a>
 
 ### Bug Fixes

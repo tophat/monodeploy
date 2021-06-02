@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.2](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.2.1...@monodeploy/git@0.2.2) "@monodeploy/git" (2021-06-02)<a name="0.2.2"></a>
+
+### Bug Fixes
+
+* package.json and changelog modifications were not being pushed (#347) ([17b6ea8](https://github.com/tophat/monodeploy/commits/17b6ea8))
+
+
+
+
 ## [0.1.8](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.1.7...@monodeploy/git@0.1.8) "@monodeploy/git" (2021-04-28)<a name="0.1.8"></a>
 
 
