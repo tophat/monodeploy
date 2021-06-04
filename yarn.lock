@@ -892,6 +892,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monodeploy/e2e-tests@workspace:e2e-tests":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/e2e-tests@workspace:e2e-tests"
+  dependencies:
+    "@monodeploy/test-utils": "link:../testUtils"
+    "@types/node": ^14.0.0
+  languageName: unknown
+  linkType: soft
+
 "@monodeploy/git@^0.2.2, @monodeploy/git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "@monodeploy/git@workspace:packages/git"
@@ -1087,6 +1096,12 @@ __metadata:
 "@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fversions%40workspace%3Apackages%2Fversions":
   version: 0.0.0-use.local
   resolution: "@monodeploy/test-utils@link:../../testUtils::locator=%40monodeploy%2Fversions%40workspace%3Apackages%2Fversions"
+  languageName: node
+  linkType: soft
+
+"@monodeploy/test-utils@link:../testUtils::locator=%40monodeploy%2Fe2e-tests%40workspace%3Ae2e-tests":
+  version: 0.0.0-use.local
+  resolution: "@monodeploy/test-utils@link:../testUtils::locator=%40monodeploy%2Fe2e-tests%40workspace%3Ae2e-tests"
   languageName: node
   linkType: soft
 

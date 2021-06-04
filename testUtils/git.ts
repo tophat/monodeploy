@@ -11,6 +11,15 @@ export async function initGitRepository(cwd: string): Promise<void> {
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 }
 
+export async function addGitRemote(
+    cwd: string,
+    remoteCwd: string,
+    remoteName = 'origin',
+): Promise<void> {
+    execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
+    execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
+}
+
 export async function setupTestRepository(
     ...setupArgs: unknown[]
 ): Promise<string> {

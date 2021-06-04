@@ -17,21 +17,25 @@ async function writeJSON(
 }
 
 async function makeDependencyMap(
-    packages: Array<string>,
+    packages: Array<string | [string, string]>,
 ): Promise<Record<string, string>> {
     const dependencies: Record<string, string> = {}
     for (const pkg of packages) {
-        dependencies[pkg] = `workspace:packages/${
-            structUtils.parseIdent(pkg).name
-        }`
+        if (Array.isArray(pkg)) {
+            dependencies[pkg[0]] = pkg[1]
+        } else {
+            dependencies[pkg] = `workspace:packages/${
+                structUtils.parseIdent(pkg).name
+            }`
+        }
     }
     return dependencies
 }
 
 type PackageInitConfiguration = Partial<{
-    dependencies: Array<string>
-    devDependencies: Array<string>
-    peerDependencies: Array<string>
+    dependencies: Array<string | [string, string]>
+    devDependencies: Array<string | [string, string]>
+    peerDependencies: Array<string | [string, string]>
     scripts: Record<string, string>
     private: boolean
     version: string
@@ -43,7 +47,7 @@ export default async function setupMonorepo(
         root,
     }: {
         root?: Partial<{
-            dependencies: Record<string, string>
+            dependencies: Record<string, string | [string, string]>
             repository: string
         }>
     } = {},

@@ -10,7 +10,8 @@
         "registry": "https://registry.npmjs.org/"
     },
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "e2e-tests"
     ],
     "scripts": {
         "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi run clean",
@@ -22,19 +23,14 @@
         "lint:fix": "eslint . --fix",
         "lint": "eslint .",
         "test:ci": "CI=1 run test --ci",
-        "test:registry:build": "docker build -t monodeploy-test-registry .",
-        "test:registry:logs": "docker container logs -f monodeploy-registry",
-        "test:registry:start": "docker run -itd -p 4873:4873 --name monodeploy-registry monodeploy-test-registry",
-        "test:registry:stop": "docker stop monodeploy-registry && docker container rm monodeploy-registry",
-        "test:registry": "run test:registry:build && run test:registry:start",
         "test:watch": "run test --detectOpenHandles --watch",
-        "test": "jest",
+        "test": "jest ./packages",
         "types:watch": "yarn workspaces foreach --no-private -pi run types:watch",
         "workspace:build:watch": "tsc -p $0 --watch",
         "workspace:build": "rm -rf $0/lib && tsc -p $0",
         "workspace:clean": "rm -rf $0/lib && find $0/src -name '*.js' -type f -delete",
         "workspace:test:watch": "run workspace:test --watch $0",
-        "workspace:test": "jest --detectOpenHandles $0",
+        "workspace:test": "jest $0",
         "workspace:types:watch": "tsc -p $0 --noEmit --pretty --watch",
         "update:yarn": "node ./ci-scripts/update-yarn.js",
         "run-local": "ts-node ./packages/cli/src/cli.ts"

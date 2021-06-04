@@ -1,0 +1,15 @@
+{
+    "name": "@monodeploy/e2e-tests",
+    "scripts": {
+        "test:registry:build": "docker build -t monodeploy-test-registry .",
+        "test:registry:logs": "docker container logs -f monodeploy-registry",
+        "test:registry:start": "docker run -itd -p 4873:4873 --name monodeploy-registry monodeploy-test-registry",
+        "test:registry:stop": "docker stop monodeploy-registry && docker container rm monodeploy-registry",
+        "test:registry": "run test:registry:build && run test:registry:start",
+        "test": "run workspace:test $(pwd)"
+    },
+    "devDependencies": {
+        "@monodeploy/test-utils": "link:../testUtils",
+        "@types/node": "^14.0.0"
+    }
+}
