@@ -1,13 +1,12 @@
-import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
-import * as pluginNPM from '@yarnpkg/plugin-npm'
-import pLimit from 'p-limit'
-
 import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
 } from '@monodeploy/types'
+import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
+import * as pluginNPM from '@yarnpkg/plugin-npm'
+import pLimit from 'p-limit'
 
 const getLatestPackageTags = async ({
     config,
@@ -22,9 +21,9 @@ const getLatestPackageTags = async ({
         context.project.topLevelWorkspace.cwd,
         ...context.project.topLevelWorkspace.workspacesCwds,
     ]
-        .map(wCwd => context.project.workspacesByCwd.get(wCwd))
+        .map((wCwd) => context.project.workspacesByCwd.get(wCwd))
         .filter(
-            workspace =>
+            (workspace) =>
                 !workspace?.manifest.private && workspace?.manifest.name,
         )
 

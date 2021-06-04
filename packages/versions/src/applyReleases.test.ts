@@ -1,13 +1,12 @@
 import path from 'path'
 
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
-
 import {
     getMonodeployConfig,
     withMonorepoContext,
 } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
+import { npath } from '@yarnpkg/fslib'
 
 import applyReleases from './applyReleases'
 
@@ -36,7 +35,7 @@ describe('applyReleases', () => {
                     devDependencies: ['pkg-1'],
                 },
             },
-            async context => {
+            async (context) => {
                 const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',

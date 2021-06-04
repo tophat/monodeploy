@@ -1,8 +1,5 @@
 import path from 'path'
 
-import { structUtils } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
-
 import { getCommitMessages, gitDiffTree } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import type {
@@ -11,6 +8,8 @@ import type {
     PackageStrategyType,
     YarnContext,
 } from '@monodeploy/types'
+import { structUtils } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 
 import {
     STRATEGY,

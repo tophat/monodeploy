@@ -1,13 +1,12 @@
 import { Readable } from 'stream'
 
-import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
-
 import { readStream } from '@monodeploy/io'
 import type {
     MonodeployConfiguration,
     PackageStrategyType,
     StrategyDeterminer,
 } from '@monodeploy/types'
+import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
 export const STRATEGY = {
     MAJOR: 0,
@@ -75,33 +74,35 @@ type ConventionalChangelogConfig = {
     }
 }
 
-export const createGetConventionalRecommendedStrategy = (
-    config: MonodeployConfiguration,
-): StrategyDeterminer => async (commits: string[]): Promise<number> => {
-    const conventionalChangelogConfig = config.conventionalChangelogConfig
+export const createGetConventionalRecommendedStrategy =
+    (config: MonodeployConfiguration): StrategyDeterminer =>
+    async (commits: string[]): Promise<number> => {
+        const conventionalChangelogConfig = config.conventionalChangelogConfig
 
-    if (!conventionalChangelogConfig) {
-        throw new Error('Invalid conventional changelog config')
+        if (!conventionalChangelogConfig) {
+            throw new Error('Invalid conventional changelog config')
+        }
+
+        // ghost-imports-ignore-next-line
+        const configResolveId = require.resolve(conventionalChangelogConfig, {
+            paths: [config.cwd],
+        })
+        // ghost-imports-ignore-next-line
+        const conventionalConfig: ConventionalChangelogConfig =
+            await require(configResolveId)
+
+        const commitsStream = Readable.from(commits).pipe(
+            conventionalCommitsParser(conventionalConfig.parserOpts),
+        )
+        const conventionalCommits = await readStream<Commit>(commitsStream)
+
+        const conventionalStrategy =
+            await conventionalConfig.recommendedBumpOpts.whatBump(
+                conventionalCommits,
+            )
+
+        return conventionalStrategy?.level ?? STRATEGY.NONE
     }
-
-    // ghost-imports-ignore-next-line
-    const configResolveId = require.resolve(conventionalChangelogConfig, {
-        paths: [config.cwd],
-    })
-    // ghost-imports-ignore-next-line
-    const conventionalConfig: ConventionalChangelogConfig = await require(configResolveId)
-
-    const commitsStream = Readable.from(commits).pipe(
-        conventionalCommitsParser(conventionalConfig.parserOpts),
-    )
-    const conventionalCommits = await readStream<Commit>(commitsStream)
-
-    const conventionalStrategy = await conventionalConfig.recommendedBumpOpts.whatBump(
-        conventionalCommits,
-    )
-
-    return conventionalStrategy?.level ?? STRATEGY.NONE
-}
 
 export const maxStrategy = async (
     strategyA?: PackageStrategyType,

@@ -1,12 +1,11 @@
-import { structUtils } from '@yarnpkg/core'
-
 import { withMonorepoContext } from '@monodeploy/test-utils'
+import { structUtils } from '@yarnpkg/core'
 
 import { parseRepositoryProperty } from './parseRepositoryProperty'
 
 describe('parseRepositoryProperty', () => {
     it('parses repository from manifest url', async () =>
-        withMonorepoContext({ 'pkg-1': {} }, async context => {
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(
                 structUtils.parseIdent('pkg-1'),
             )
@@ -52,7 +51,7 @@ describe('parseRepositoryProperty', () => {
         }))
 
     it('falls back to project root manifest', async () =>
-        withMonorepoContext({ 'pkg-1': {} }, async context => {
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(
                 structUtils.parseIdent('pkg-1'),
             )
@@ -72,7 +71,7 @@ describe('parseRepositoryProperty', () => {
         }))
 
     it('does not fallback to project root manifest if fallback option disabled', async () =>
-        withMonorepoContext({ 'pkg-1': {} }, async context => {
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(
                 structUtils.parseIdent('pkg-1'),
             )
@@ -96,7 +95,7 @@ describe('parseRepositoryProperty', () => {
         }))
 
     it('fails gracefully if falling back and root does not have repository', async () =>
-        withMonorepoContext({ 'pkg-1': {} }, async context => {
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(
                 structUtils.parseIdent('pkg-1'),
             )

@@ -1,6 +1,5 @@
-import { AsyncSeriesHook } from 'tapable'
-
 import { PluginHooks } from '@monodeploy/types'
+import { AsyncSeriesHook } from 'tapable'
 
 import GitHubPlugin, { PluginName } from '.'
 
@@ -10,10 +9,10 @@ describe('GitHub Plugin', () => {
             onReleaseAvailable: new AsyncSeriesHook(),
         }
 
-        const info: Record<string, unknown> = await new Promise(r => {
+        const info: Record<string, unknown> = await new Promise((r) => {
             hooks.onReleaseAvailable.intercept({
-                register: tapInfo => {
-                    r((tapInfo as unknown) as Record<string, unknown>)
+                register: (tapInfo) => {
+                    r(tapInfo as unknown as Record<string, unknown>)
                     return tapInfo
                 },
             })

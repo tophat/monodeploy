@@ -76,7 +76,7 @@ const gitLog = async (
     }: { cwd: string; DELIMITER: string; context: YarnContext },
 ): Promise<string> => {
     return registry.commits
-        .map(commit => `${commit.sha}\n${commit.body}`)
+        .map((commit) => `${commit.sha}\n${commit.body}`)
         .join(`${DELIMITER}\n`)
 }
 
@@ -173,11 +173,11 @@ export const getCommitMessages = async (
     return logOutput
         .toString()
         .split(`${DELIMITER}\n`)
-        .map(logEntry => {
+        .map((logEntry) => {
             const [sha, ...msg] = logEntry.split('\n')
             return { sha, body: msg.join('\n') }
         })
-        .filter(msg => msg.body)
+        .filter((msg) => msg.body)
 }
 
 module.exports = {

@@ -1,11 +1,10 @@
+import { getTopologicalSort } from '@monodeploy/dependencies'
+import logging, { assertProductionOrTest } from '@monodeploy/logging'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { Workspace, miscUtils, structUtils } from '@yarnpkg/core'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 import pLimit from 'p-limit'
-
-import { getTopologicalSort } from '@monodeploy/dependencies'
-import logging, { assertProductionOrTest } from '@monodeploy/logging'
-import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import commitPublishChanges from './commitPublishChanges'
 import createReleaseGitTags from './createReleaseGitTags'
@@ -98,7 +97,7 @@ export const publishPackages = async ({
                 chain.then(
                     async () =>
                         void (await Promise.all(
-                            group.map(workspace =>
+                            group.map((workspace) =>
                                 limit(() => prepareWorkspace(workspace)),
                             ),
                         )),
@@ -108,7 +107,7 @@ export const publishPackages = async ({
         await promiseChain
     } else {
         await Promise.all(
-            [...workspacesToPublish].map(workspace =>
+            [...workspacesToPublish].map((workspace) =>
                 limit(() => prepareWorkspace(workspace)),
             ),
         )

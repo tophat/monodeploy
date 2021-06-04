@@ -97,9 +97,8 @@ describe('Custom Conventional Recommended Strategy', () => {
     })
 
     it('chooses none if strategy or level is not defined', async () => {
-        const strategyDeterminer = createGetConventionalRecommendedStrategy(
-            monodeployConfig,
-        )
+        const strategyDeterminer =
+            createGetConventionalRecommendedStrategy(monodeployConfig)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = ''
         expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
@@ -114,9 +113,8 @@ describe('Custom Conventional Recommended Strategy', () => {
     })
 
     it('chooses strategy based on custom config', async () => {
-        const strategyDeterminer = createGetConventionalRecommendedStrategy(
-            monodeployConfig,
-        )
+        const strategyDeterminer =
+            createGetConventionalRecommendedStrategy(monodeployConfig)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
         expect(await strategyDeterminer(['feat: a feature!'])).toEqual(

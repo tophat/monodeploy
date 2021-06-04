@@ -43,7 +43,7 @@ describe('CLI', () => {
             jest.isolateModules(() => {
                 require('./cli')
             })
-            await new Promise(r => setTimeout(r))
+            await new Promise((r) => setTimeout(r))
             expect(
                 (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0],
@@ -86,7 +86,7 @@ describe('CLI', () => {
             jest.isolateModules(() => {
                 require('./cli')
             })
-            await new Promise(r => setTimeout(r))
+            await new Promise((r) => setTimeout(r))
             expect(
                 (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0],
@@ -129,16 +129,16 @@ describe('CLI', () => {
                     /* ignore */
                 })
             const error = new Error('Monodeploy failed.')
-            ;(monodeploy as jest.MockedFunction<
-                typeof monodeploy
-            >).mockImplementation(() => {
+            ;(
+                monodeploy as jest.MockedFunction<typeof monodeploy>
+            ).mockImplementation(() => {
                 throw error
             })
             setArgs('')
             jest.isolateModules(() => {
                 require('./cli')
             })
-            await new Promise(r => setTimeout(r))
+            await new Promise((r) => setTimeout(r))
             expect(spyError).toHaveBeenCalledWith(error)
             expect(process.exitCode).toEqual(1)
             spyError.mockRestore()
@@ -170,7 +170,7 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
+                await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toEqual(1)
                 spyError.mockRestore()
@@ -202,7 +202,7 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
+                await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toEqual(1)
                 spyError.mockRestore()
@@ -252,7 +252,7 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
+                await new Promise((r) => setTimeout(r))
                 expect(
                     (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                         .calls[0][0],
@@ -330,10 +330,10 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<
-                    typeof monodeploy
-                >).mock.calls[0][0]
+                await new Promise((r) => setTimeout(r))
+                const config = (
+                    monodeploy as jest.MockedFunction<typeof monodeploy>
+                ).mock.calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
                     .toMatchInlineSnapshot(`
                     Object {
@@ -406,10 +406,10 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<
-                    typeof monodeploy
-                >).mock.calls[0][0]
+                await new Promise((r) => setTimeout(r))
+                const config = (
+                    monodeploy as jest.MockedFunction<typeof monodeploy>
+                ).mock.calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
                     .toMatchInlineSnapshot(`
                     Object {
@@ -486,7 +486,7 @@ describe('CLI', () => {
                 jest.isolateModules(() => {
                     require('./cli')
                 })
-                await new Promise(r => setTimeout(r))
+                await new Promise((r) => setTimeout(r))
                 expect(
                     (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                         .calls[0][0],

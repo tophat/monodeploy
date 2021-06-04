@@ -2,12 +2,11 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import * as npm from '@yarnpkg/plugin-npm'
-
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
 

@@ -12,11 +12,11 @@ const REPOSITORY_PATTERNS: Array<
 > = [
     [
         /(?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+)(?:\.git)?/,
-        m => ({ repoUrl: m[0], host: m[1], owner: m[2], repository: m[3] }),
+        (m) => ({ repoUrl: m[0], host: m[1], owner: m[2], repository: m[3] }),
     ],
     [
         /(?:git@)?([^:]+):([^/]+)\/([^/.]+)(?:\.git)?/,
-        m => ({
+        (m) => ({
             repoUrl: `https://${m[1]}/${m[2]}/${m[3]}`,
             host: `https://${m[1]}`,
             owner: m[2],

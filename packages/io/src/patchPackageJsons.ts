@@ -1,10 +1,9 @@
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
-
 import type {
     MonodeployConfiguration,
     PackageTagMap,
     YarnContext,
 } from '@monodeploy/types'
+import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 
 const patchPackageJsons = async (
     config: MonodeployConfiguration,
@@ -28,9 +27,8 @@ const patchPackageJsons = async (
 
         workspace.manifest.version = version
         for (const dependentSetKey of Manifest.allDependencies) {
-            const dependencySet = workspace.manifest.getForScope(
-                dependentSetKey,
-            )
+            const dependencySet =
+                workspace.manifest.getForScope(dependentSetKey)
 
             for (const descriptor of dependencySet.values()) {
                 const depPackageName = structUtils.stringifyIdent(descriptor)

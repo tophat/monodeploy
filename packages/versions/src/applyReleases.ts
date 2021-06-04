@@ -1,6 +1,3 @@
-import { Workspace } from '@yarnpkg/core'
-import { inc as incrementSemver } from 'semver'
-
 import { patchPackageJsons } from '@monodeploy/io'
 import logging from '@monodeploy/logging'
 import type {
@@ -9,6 +6,8 @@ import type {
     PackageTagMap,
     YarnContext,
 } from '@monodeploy/types'
+import { Workspace } from '@yarnpkg/core'
+import { inc as incrementSemver } from 'semver'
 
 const applyReleases = async ({
     config,

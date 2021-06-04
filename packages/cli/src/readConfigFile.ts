@@ -24,7 +24,7 @@ const readConfigFile = async (
         }
         throw new Error(
             `Invalid configuration:\n${validate.errors?.map(
-                err => `  ${err.schemaPath} ${err.message}`,
+                (err) => `  ${err.schemaPath} ${err.message}`,
             )}\n`,
         )
     } catch (err) {

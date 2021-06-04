@@ -51,7 +51,7 @@ export const clearBackupCache = async ({
 }): Promise<void> => {
     await Promise.all(
         keys.map(
-            async key => await fs.rm(key, { recursive: true, force: true }),
+            async (key) => await fs.rm(key, { recursive: true, force: true }),
         ),
     )
 }

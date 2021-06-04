@@ -27,37 +27,36 @@ const getCurrentLogLevel = () => {
     return isNaN(envLogLevel) ? LOG_LEVELS.INFO : envLogLevel
 }
 
-const createLogger = (level: LogLevelType): Logger => (
-    message,
-    { report, extras },
-): void => {
-    if (getCurrentLogLevel() > level) return
+const createLogger =
+    (level: LogLevelType): Logger =>
+    (message, { report, extras }): void => {
+        if (getCurrentLogLevel() > level) return
 
-    if (!report) {
-        console.log(message)
-        return
-    }
+        if (!report) {
+            console.log(message)
+            return
+        }
 
-    if (message instanceof Error) {
-        report.reportExceptionOnce(message)
-        return
-    }
+        if (message instanceof Error) {
+            report.reportExceptionOnce(message)
+            return
+        }
 
-    if (level === LOG_LEVELS.ERROR) {
-        report.reportError(MessageName.UNNAMED, message)
-    } else if (level === LOG_LEVELS.WARNING) {
-        report.reportWarning(MessageName.UNNAMED, message)
-    } else if (level === LOG_LEVELS.INFO || level === LOG_LEVELS.DEBUG) {
-        report.reportInfo(
-            MessageName.UNNAMED,
-            loggerOpts.dryRun ? `[Dry Run] ${message}` : message,
-        )
-    }
+        if (level === LOG_LEVELS.ERROR) {
+            report.reportError(MessageName.UNNAMED, message)
+        } else if (level === LOG_LEVELS.WARNING) {
+            report.reportWarning(MessageName.UNNAMED, message)
+        } else if (level === LOG_LEVELS.INFO || level === LOG_LEVELS.DEBUG) {
+            report.reportInfo(
+                MessageName.UNNAMED,
+                loggerOpts.dryRun ? `[Dry Run] ${message}` : message,
+            )
+        }
 
-    if (extras) {
-        report.reportInfo(MessageName.UNNAMED, extras)
+        if (extras) {
+            report.reportInfo(MessageName.UNNAMED, extras)
+        }
     }
-}
 
 const setDryRun = (value: boolean): void => {
     loggerOpts.dryRun = value
@@ -78,7 +77,7 @@ const createReportStream = ({
         streamReporter.end()
     })
 
-    const promise = new Promise<boolean>(resolve => {
+    const promise = new Promise<boolean>((resolve) => {
         streamReporter.on('finish', () => {
             resolve(defaultStream.active)
         })
