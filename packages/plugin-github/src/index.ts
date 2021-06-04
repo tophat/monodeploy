@@ -1,9 +1,8 @@
-import { Octokit } from '@octokit/core'
-import { throttling } from '@octokit/plugin-throttling'
-
 import { parseRepositoryProperty } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { PluginHooks } from '@monodeploy/types'
+import { Octokit } from '@octokit/core'
+import { throttling } from '@octokit/plugin-throttling'
 
 export const PluginName = 'GitHub Plugin'
 

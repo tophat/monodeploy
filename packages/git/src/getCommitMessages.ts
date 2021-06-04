@@ -22,9 +22,9 @@ export const getCommitMessages = async (
     return logOutput
         .toString()
         .split(`${DELIMITER}\n`)
-        .map(logEntry => {
+        .map((logEntry) => {
             const [sha, ...msg] = logEntry.split('\n')
             return { sha, body: msg.join('\n') }
         })
-        .filter(msg => msg.body)
+        .filter((msg) => msg.body)
 }

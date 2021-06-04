@@ -1,16 +1,14 @@
-import { Descriptor, Workspace, structUtils } from '@yarnpkg/core'
-
 import logging from '@monodeploy/logging'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import { Descriptor, Workspace, structUtils } from '@yarnpkg/core'
 
 function* getDependencies(context: YarnContext, workspace: Workspace) {
     for (const dependencySetKey of ['dependencies', 'peerDependencies']) {
         const dependencies = workspace.manifest.getForScope(dependencySetKey)
 
         for (const descriptor of dependencies.values()) {
-            const workspace = context.project.tryWorkspaceByDescriptor(
-                descriptor,
-            )
+            const workspace =
+                context.project.tryWorkspaceByDescriptor(descriptor)
             if (workspace === null) continue
             yield workspace
         }
@@ -57,7 +55,9 @@ const getDependents = async (
         if (!dependentsSet) continue
 
         const transitiveDependents = [...dependentsSet]
-            .map(dependent => [...(workspaceToDependents.get(dependent) ?? [])])
+            .map((dependent) => [
+                ...(workspaceToDependents.get(dependent) ?? []),
+            ])
             .flat()
         for (const transitiveDependent of transitiveDependents) {
             if (
@@ -85,9 +85,8 @@ const getDependents = async (
         for (const dependentDescriptor of workspaceToDependents
             .get(workspace.anchoredDescriptor)
             ?.values() ?? []) {
-            const dependentWorkspace = context.project.tryWorkspaceByDescriptor(
-                dependentDescriptor,
-            )
+            const dependentWorkspace =
+                context.project.tryWorkspaceByDescriptor(dependentDescriptor)
 
             if (!dependentWorkspace || dependentWorkspace.manifest.private) {
                 continue

@@ -1,11 +1,10 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { PortablePath } from '@yarnpkg/fslib'
-
 import logging from '@monodeploy/logging'
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { PortablePath } from '@yarnpkg/fslib'
 
 import { getDependents } from '.'
 

@@ -2,11 +2,6 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { getPluginConfiguration } from '@yarnpkg/cli'
-import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
-import * as npm from '@yarnpkg/plugin-npm'
-
 import * as git from '@monodeploy/git'
 import {
     backupPackageJsons,
@@ -20,6 +15,10 @@ import type {
     MonodeployConfiguration,
     YarnContext,
 } from '@monodeploy/types'
+import { getPluginConfiguration } from '@yarnpkg/cli'
+import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
+import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
 
@@ -557,9 +556,10 @@ describe('Monodeploy', () => {
             expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
             // assert changelog committed
-            const autoCommit = mockGit._getRegistry_().commits[
-                mockGit._getRegistry_().commits.length - 1
-            ]
+            const autoCommit =
+                mockGit._getRegistry_().commits[
+                    mockGit._getRegistry_().commits.length - 1
+                ]
             const autoCommitFiles = mockGit
                 ._getRegistry_()
                 .filesModified.get(autoCommit.sha)
@@ -618,9 +618,10 @@ describe('Monodeploy', () => {
             )
 
             // assert changelog committed
-            const autoCommit = mockGit._getRegistry_().commits[
-                mockGit._getRegistry_().commits.length - 1
-            ]
+            const autoCommit =
+                mockGit._getRegistry_().commits[
+                    mockGit._getRegistry_().commits.length - 1
+                ]
             const autoCommitFiles = mockGit
                 ._getRegistry_()
                 .filesModified.get(autoCommit.sha)

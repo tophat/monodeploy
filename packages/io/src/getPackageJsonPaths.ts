@@ -6,7 +6,7 @@ const getPackageJsonPaths = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    return [...context.project.topLevelWorkspace.workspacesCwds].map(wCwd =>
+    return [...context.project.topLevelWorkspace.workspacesCwds].map((wCwd) =>
         path.join(path.resolve(config.cwd, wCwd), 'package.json'),
     )
 }

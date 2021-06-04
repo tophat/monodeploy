@@ -8,7 +8,7 @@ describe('Invariants', () => {
     })
 
     describe('assertProduction', () => {
-        it.each(['test', 'development'])('raises violation in %s', env => {
+        it.each(['test', 'development'])('raises violation in %s', (env) => {
             process.env.NODE_ENV = env
             expect(() => assertProduction()).toThrow(/Invariant Violation/)
         })
@@ -34,7 +34,7 @@ describe('Invariants', () => {
 
         it.each(['test', 'production'])(
             'does not raise violation in %s',
-            env => {
+            (env) => {
                 process.env.NODE_ENV = env
                 expect(() => assertProductionOrTest()).not.toThrow(
                     /Invariant Violation/,

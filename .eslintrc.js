@@ -35,6 +35,7 @@ module.exports = {
     },
     ignorePatterns: ['.*', '**/*.js', '**/lib'],
     settings: {
+        'import/external-module-folders': ['node_modules', '.yarn'],
         'import/parsers': {
             '@typescript-eslint/parser': ['.ts', '.js'],
         },
@@ -42,6 +43,7 @@ module.exports = {
             typescript: {
                 alwaysTryTypes: true,
             },
+            '@tophat/eslint-import-resolver-require': {},
         },
     },
 }

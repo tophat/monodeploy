@@ -1,9 +1,5 @@
 import { Readable } from 'stream'
 
-import { structUtils } from '@yarnpkg/core'
-import conventionalChangelogWriter from 'conventional-changelog-writer'
-import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
-
 import { parseRepositoryProperty } from '@monodeploy/git'
 import { readStream, readStreamString } from '@monodeploy/io'
 import type {
@@ -11,6 +7,9 @@ import type {
     MonodeployConfiguration,
     YarnContext,
 } from '@monodeploy/types'
+import { structUtils } from '@yarnpkg/core'
+import conventionalChangelogWriter from 'conventional-changelog-writer'
+import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
 const generateChangelogEntry = async ({
     config,
@@ -41,7 +40,7 @@ const generateChangelogEntry = async ({
     ))
 
     const commitsStream = Readable.from(
-        commits.map(commit => commit.body),
+        commits.map((commit) => commit.body),
     ).pipe(conventionalCommitsParser(conventionalConfig.parserOpts))
     const conventionalCommits = await readStream<Commit>(commitsStream)
 

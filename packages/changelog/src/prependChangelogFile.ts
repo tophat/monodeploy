@@ -1,16 +1,15 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { Workspace, structUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
-import pLimit from 'p-limit'
-
 import logging from '@monodeploy/logging'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
     YarnContext,
 } from '@monodeploy/types'
+import { Workspace, structUtils } from '@yarnpkg/core'
+import { npath } from '@yarnpkg/fslib'
+import pLimit from 'p-limit'
 
 const MARKER = '<!-- MONODEPLOY:BELOW -->'
 const TOKEN_PACKAGE_DIR = '<packageDir>'
@@ -48,7 +47,7 @@ const prependEntry = async ({
     }
 
     const changelogOffset = changelogContents.findIndex(
-        value => value.trim() === MARKER,
+        (value) => value.trim() === MARKER,
     )
     if (changelogOffset === -1) {
         logging.error(`[Changelog] Missing changelog marker: '${MARKER}'`, {
@@ -107,7 +106,7 @@ const prependChangelogFile = async ({
 
         const limit = pLimit(config.jobs || Infinity)
         await Promise.all(
-            [...workspaces].map(workspace =>
+            [...workspaces].map((workspace) =>
                 limit(() => prependForWorkspace(workspace)),
             ),
         )
@@ -120,7 +119,7 @@ const prependChangelogFile = async ({
     const entry = Object.entries(changeset)
         .sort(([pkgNameA], [pkgNameB]) => pkgNameA.localeCompare(pkgNameB))
         .map(([, changesetValue]) => changesetValue.changelog)
-        .filter(value => value)
+        .filter((value) => value)
         .join('\n')
         .trim()
 

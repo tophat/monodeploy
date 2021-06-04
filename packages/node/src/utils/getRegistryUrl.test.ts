@@ -11,7 +11,7 @@ describe('getRegistryUrl', () => {
             {
                 'pkg-1': {},
             },
-            async context => {
+            async (context) => {
                 const config = await getMonodeployConfig({
                     commitSha: 'shashasha',
                     baseBranch: 'master',

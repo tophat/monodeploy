@@ -1,9 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { Workspace, structUtils } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
-
 import {
     cleanUp,
     createFile,
@@ -12,6 +9,8 @@ import {
     setupTestRepository,
 } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { Workspace, structUtils } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile } from '.'
 

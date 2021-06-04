@@ -1,7 +1,6 @@
-import yargs from 'yargs'
-
 import monodeploy from '@monodeploy/node'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import yargs from 'yargs'
 
 import readConfigFile from './readConfigFile'
 import { ArgOutput, ConfigFile } from './types'

@@ -1,13 +1,12 @@
 import path from 'path'
 
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
-
 import {
     getMonodeployConfig,
     withMonorepoContext,
 } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
+import { npath } from '@yarnpkg/fslib'
 
 import { patchPackageJsons } from '.'
 
@@ -36,7 +35,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-2': { dependencies: ['pkg-3'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
@@ -91,7 +90,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-2': { dependencies: ['pkg-3'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',
@@ -126,7 +125,7 @@ describe('Patch Package Manifests', () => {
                 'pkg-2': { dependencies: ['pkg-3'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const config = await getMonodeployConfig({
                     cwd: context.project.cwd,
                     baseBranch: 'master',

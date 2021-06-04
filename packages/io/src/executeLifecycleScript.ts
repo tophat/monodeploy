@@ -1,8 +1,7 @@
-import { Workspace, scriptUtils, structUtils } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
-
 import logging from '@monodeploy/logging'
 import { YarnContext } from '@monodeploy/types'
+import { Workspace, scriptUtils, structUtils } from '@yarnpkg/core'
+import { PortablePath } from '@yarnpkg/fslib'
 
 export const maybeExecuteWorkspaceLifecycleScript = async (
     context: YarnContext,

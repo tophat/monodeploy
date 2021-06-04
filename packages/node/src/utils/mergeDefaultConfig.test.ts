@@ -1,8 +1,7 @@
-import * as npm from '@yarnpkg/plugin-npm'
-
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { MonodeployConfiguration } from '@monodeploy/types'
+import * as npm from '@yarnpkg/plugin-npm'
 
 import mergeDefaultConfig from './mergeDefaultConfig'
 

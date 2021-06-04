@@ -1,7 +1,6 @@
-import { Workspace, structUtils } from '@yarnpkg/core'
-
 import { withMonorepoContext } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { Workspace, structUtils } from '@yarnpkg/core'
 
 import getTopologicalSort from './getTopologicalSort'
 
@@ -14,7 +13,7 @@ describe('Topological Sort', () => {
             {
                 'pkg-1': {},
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const sorted = await getTopologicalSort([workspace1])
 
@@ -29,7 +28,7 @@ describe('Topological Sort', () => {
                 'pkg-2': {},
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -60,7 +59,7 @@ describe('Topological Sort', () => {
                 'pkg-2': { dependencies: ['pkg-1'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -85,7 +84,7 @@ describe('Topological Sort', () => {
                 'pkg-2': { dependencies: ['pkg-1'] },
                 'pkg-3': { dependencies: ['pkg-2'] },
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -107,7 +106,7 @@ describe('Topological Sort', () => {
                 'pkg-2': { devDependencies: ['pkg-1'] },
                 'pkg-3': { devDependencies: ['pkg-2'] },
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -131,7 +130,7 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 'pkg-2': { devDependencies: ['pkg-1'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -160,7 +159,7 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 'pkg-2': { dependencies: ['pkg-1'] },
                 'pkg-3': {},
             },
-            async context => {
+            async (context) => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')

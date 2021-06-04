@@ -25,8 +25,8 @@
     "@monodeploy/io": "^0.2.9",
     "@monodeploy/logging": "^0.1.4",
     "@monodeploy/types": "^0.5.0",
-    "@yarnpkg/core": "^3.0.0-rc.2",
-    "@yarnpkg/fslib": "^2.5.0-rc.2",
+    "@yarnpkg/core": "^3.0.0-rc.5",
+    "@yarnpkg/fslib": "^2.5.0-rc.5",
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0",
     "p-limit": "^3.1.0"

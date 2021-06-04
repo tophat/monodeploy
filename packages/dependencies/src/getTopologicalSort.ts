@@ -11,7 +11,7 @@ const getTopologicalSort = async (
     { dev }: { dev: boolean } = { dev: false },
 ): Promise<Array<Array<Workspace>>> => {
     const possibleWorkspaces = new Map(
-        [...workspaces].map(workspace => [
+        [...workspaces].map((workspace) => [
             workspace.anchoredDescriptor.descriptorHash,
             workspace,
         ]),

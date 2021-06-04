@@ -1,9 +1,5 @@
 import path from 'path'
 
-import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
-import { AsyncSeriesHook } from 'tapable'
-
 import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
 import {
     backupPackageJsons,
@@ -32,6 +28,9 @@ import {
     getImplicitVersionStrategies,
     getLatestPackageTags,
 } from '@monodeploy/versions'
+import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import { npath } from '@yarnpkg/fslib'
+import { AsyncSeriesHook } from 'tapable'
 
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
 import getRegistryUrl from './utils/getRegistryUrl'

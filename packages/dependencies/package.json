@@ -23,10 +23,10 @@
   "dependencies": {
     "@monodeploy/logging": "^0.1.4",
     "@monodeploy/types": "^0.4.0",
-    "@yarnpkg/core": "^3.0.0-rc.2"
+    "@yarnpkg/core": "^3.0.0-rc.5"
   },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
-    "@yarnpkg/fslib": "^2.5.0-rc.2"
+    "@yarnpkg/fslib": "^2.5.0-rc.5"
   }
 }
