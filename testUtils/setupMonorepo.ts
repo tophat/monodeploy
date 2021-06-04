@@ -95,7 +95,11 @@ export default async function setupMonorepo(
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
-        `yarnPath: ./run-yarn.cjs\nenableGlobalCache: false`,
+        [
+            `yarnPath: ./run-yarn.cjs`,
+            `enableGlobalCache: false`,
+            `unsafeHttpWhitelist: ['localhost']`,
+        ].join('\n'),
         'utf-8',
     )
 

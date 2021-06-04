@@ -5,9 +5,12 @@
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "bin": "./lib/cli.js",
+    "main": "./lib/cli.js"
   },
-  "bin": "./lib/cli.js",
+  "bin": "./src/cli.ts",
+  "main": "./src/cli.ts",
   "files": [
     "lib"
   ],

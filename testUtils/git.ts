@@ -16,8 +16,10 @@ export async function addGitRemote(
     remoteCwd: string,
     remoteName = 'origin',
 ): Promise<void> {
+    execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
+    execSync(`git branch -m master`, { cwd })
 }
 
 export async function setupTestRepository(
