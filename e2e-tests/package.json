@@ -12,6 +12,7 @@
         "@monodeploy/test-utils": "link:../testUtils",
         "@monodeploy/types": "workspace:packages/types",
         "@types/node": "^14.0.0",
+        "helpers": "link:./helpers",
         "monodeploy": "workspace:packages/cli"
     }
 }

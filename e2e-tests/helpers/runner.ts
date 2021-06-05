@@ -1,4 +1,4 @@
-import childProcess from 'child_process'
+import childProcess, { ExecException } from 'child_process'
 import path from 'path'
 import util from 'util'
 
@@ -15,7 +15,7 @@ export default async function run({
 }): Promise<{
     stdout: string
     stderr: string
-    error?: Error & { stdout?: string; stderr?: string }
+    error?: ExecException
 }> {
     // add cov to ts-node?
 
@@ -25,7 +25,7 @@ export default async function run({
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
     })
-    const nycConfig = require.resolve('./nyc.config.js')
+    const nycConfig = require.resolve('../nyc.config.js')
 
     const tsconfig = path.join(process.cwd(), 'tsconfig.json')
 

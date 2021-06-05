@@ -899,6 +899,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../testUtils"
     "@monodeploy/types": "workspace:packages/types"
     "@types/node": ^14.0.0
+    helpers: "link:./helpers"
     monodeploy: "workspace:packages/cli"
   languageName: unknown
   linkType: soft
@@ -4924,6 +4925,12 @@ fsevents@^2.3.2:
   checksum: 06cc474bed246761ff61c19d629977eb5f53fa817be4313a255a64ae0f433e831a29e83acb6555e3f4592b348497596f1d1653751008dda4f21c9c21ca60ac5a
   languageName: node
   linkType: hard
+
+"helpers@link:./helpers::locator=%40monodeploy%2Fe2e-tests%40workspace%3Ae2e-tests":
+  version: 0.0.0-use.local
+  resolution: "helpers@link:./helpers::locator=%40monodeploy%2Fe2e-tests%40workspace%3Ae2e-tests"
+  languageName: node
+  linkType: soft
 
 "homedir-polyfill@npm:^1.0.1":
   version: 1.0.3

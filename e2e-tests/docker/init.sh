@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yarn dlx verdaccio --listen http://0.0.0.0:4873 &
+yarn dlx verdaccio --listen http://0.0.0.0:4873 --config /home/node/config.yaml &
 
 sleep 1;
 

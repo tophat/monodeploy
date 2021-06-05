@@ -1,0 +1,5 @@
+packages:
+  "**":
+     access: $all
+     publish: $authenticated
+     proxy: NONE
