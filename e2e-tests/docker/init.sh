@@ -1,10 +1,15 @@
 #!/bin/bash
 
-yarn dlx verdaccio --listen http://0.0.0.0:4873 --config /home/node/config.yaml &
+tmp_registry_log=`mktemp`
+yarn dlx verdaccio --listen $LOCAL_REGISTRY --config ~/config.yaml | tee $tmp_registry_log &
 
-sleep 1;
+grep -q 'http address' <(tail -f $tmp_registry_log);
 
-npm config set registry http://localhost:4873;
-npm adduser < /home/node/docker-context.txt;
+yarn dlx npm-cli-login \
+        -u test-user \
+        -p test-password \
+        -e test@example.com \
+        -r $LOCAL_REGISTRY \
+    && npm config set registry $LOCAL_REGISTRY
 
 tail -f /dev/null
