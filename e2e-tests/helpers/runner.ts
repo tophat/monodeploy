@@ -35,6 +35,7 @@ export default async function run({
                 env: {
                     ...process.env,
                     TS_NODE_PROJECT: tsconfig,
+                    NODE_ENV: 'production',
                 },
             },
         )

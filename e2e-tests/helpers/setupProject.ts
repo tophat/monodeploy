@@ -27,12 +27,15 @@ type RunFn = () => Promise<{
     error?: ExecException
 }>
 
+type ExecFn = (cmd: string) => ReturnType<typeof exec>
+
 type ReadFile = (filepath: string) => Promise<string>
 
 type TestCase = (params: {
     cwd: string
     run: RunFn
     readFile: ReadFile
+    exec: ExecFn
 }) => Promise<void>
 
 export default function setupProject({
@@ -72,12 +75,18 @@ export default function setupProject({
             })
 
             // initial commit
+            await exec('git pull --rebase --no-verify origin master', {
+                cwd: project,
+            })
             await exec(
-                `git add . && git commit -n -m "initial commit" && git tag initial -m initial && git push -u origin master`,
+                'git add . && git commit -n -m "initial commit" && git tag initial -m initial',
                 {
                     cwd: project,
                 },
             )
+            await exec(`git push -u origin master`, {
+                cwd: project,
+            })
 
             await testCase({
                 cwd: project,
@@ -93,6 +102,10 @@ export default function setupProject({
                     return fs.readFile(path.resolve(project, filename), {
                         encoding: 'utf8',
                     })
+                },
+                exec: (command: string) => {
+                    if (!project) throw new Error('Missing project path.')
+                    return exec(command, { cwd: project })
                 },
             })
         } finally {

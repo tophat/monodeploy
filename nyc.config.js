@@ -1,3 +1,4 @@
+const CI = process.env.CI === '1'
 const ARTIFACT_DIR = process.env.ARTIFACT_DIR || 'artifacts'
 
 module.exports = {
@@ -9,9 +10,12 @@ module.exports = {
         'packages/**/src/**/__mocks__',
     ],
     reportDir: `${ARTIFACT_DIR}/test_results/tests-report/`,
-    reporter: ['text-summary'],
+    reporter: ['text-summary', ...(CI ? [] : ['html'])],
     tempDir: `raw-coverage/jest-e2es/`,
     require: [
         require.resolve('ts-node/register'),
-    ]
+    ],
+    extension: ['.ts'],
+    instrument: true,
+    all: true,
 }
