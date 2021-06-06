@@ -6,12 +6,15 @@ node_modules
 !.yarn/versions
 !.yarn/sdks
 .pnp.*
-*.tmp
+
 # transient files
+*.tmp
 *.log
 
 # build artifacts
+.nyc_output
 coverage
+raw-coverage
 lib
 artifacts
 *.junit.xml

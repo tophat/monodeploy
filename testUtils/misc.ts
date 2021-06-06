@@ -1,8 +1,15 @@
+import { promises as fs } from 'fs'
+import path from 'path'
+
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import {
+    MonodeployConfiguration,
+    RecursivePartial,
+    YarnContext,
+} from '@monodeploy/types'
 
 import mergeDefaultConfig from '../packages/node/src/utils/mergeDefaultConfig'
 
@@ -46,4 +53,19 @@ export async function getMonodeployConfig({
         changelogFilename,
         dryRun,
     })
+}
+
+export async function writeConfig({
+    cwd,
+    config,
+}: {
+    cwd: string
+    config: RecursivePartial<MonodeployConfiguration>
+}): Promise<string> {
+    const monodeployConfigFilename = path.resolve(cwd, 'monodeploy.config.js')
+    const configFile = `module.exports = ${JSON.stringify(config)}`
+    await fs.writeFile(monodeployConfigFilename, configFile, {
+        encoding: 'utf8',
+    })
+    return monodeployConfigFilename
 }

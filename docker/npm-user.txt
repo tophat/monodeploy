@@ -1,3 +1,0 @@
-test-user
-test-password
-test-user@example.com

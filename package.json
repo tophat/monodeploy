@@ -10,7 +10,8 @@
         "registry": "https://registry.npmjs.org/"
     },
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "e2e-tests"
     ],
     "scripts": {
         "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi run clean",
@@ -22,19 +23,18 @@
         "lint:fix": "eslint . --fix",
         "lint": "eslint .",
         "test:ci": "CI=1 run test --ci",
-        "test:registry:build": "docker build -t monodeploy-test-registry .",
-        "test:registry:logs": "docker container logs -f monodeploy-registry",
-        "test:registry:start": "docker run -itd -p 4873:4873 --name monodeploy-registry monodeploy-test-registry",
-        "test:registry:stop": "docker stop monodeploy-registry && docker container rm monodeploy-registry",
-        "test:registry": "run test:registry:build && run test:registry:start",
         "test:watch": "run test --detectOpenHandles --watch",
-        "test": "jest",
+        "test": "jest ./packages",
+        "test:all": "yarn test:ci && yarn test:e2e && yarn test:coverage:merge && yarn test:coverage:report",
+        "test:e2e": "E2E=1 yarn workspace @monodeploy/e2e-tests run test",
+        "test:coverage:merge": "cp ./raw-coverage/jest-e2es/*.json ./raw-coverage/ && cp ./raw-coverage/jest/*.json ./raw-coverage/ && nyc --nycrc-path nyc.config.js merge ./raw-coverage ${ARTIFACT_DIR:-artifacts}/test-coverage.json",
+        "test:coverage:report": "nyc --nycrc-path nyc.config.js report -t ${ARTIFACT_DIR:-artifacts}/",
         "types:watch": "yarn workspaces foreach --no-private -pi run types:watch",
         "workspace:build:watch": "tsc -p $0 --watch",
         "workspace:build": "rm -rf $0/lib && tsc -p $0",
         "workspace:clean": "rm -rf $0/lib && find $0/src -name '*.js' -type f -delete",
         "workspace:test:watch": "run workspace:test --watch $0",
-        "workspace:test": "jest --detectOpenHandles $0",
+        "workspace:test": "jest $0",
         "workspace:types:watch": "tsc -p $0 --noEmit --pretty --watch",
         "update:yarn": "node ./ci-scripts/update-yarn.js",
         "run-local": "ts-node ./packages/cli/src/cli.ts"
@@ -75,6 +75,7 @@
         "jest": "^27.0.4",
         "jest-junit": "^12.1.0",
         "lint-staged": "^11.0.0",
+        "nyc": "^15.1.0",
         "prettier": "^2.3.0",
         "querystring": "^0.2.1",
         "ts-jest": "^27.0.2",

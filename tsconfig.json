@@ -12,5 +12,5 @@
         "resolveJsonModule": true,
         "allowJs": true
     },
-    "include": ["./packages", "./__mocks__", "./testUtils"]
+    "include": ["./packages", "./e2e-tests", "./__mocks__", "./testUtils"]
 }

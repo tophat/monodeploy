@@ -17,21 +17,25 @@ async function writeJSON(
 }
 
 async function makeDependencyMap(
-    packages: Array<string>,
+    packages: Array<string | [string, string]>,
 ): Promise<Record<string, string>> {
     const dependencies: Record<string, string> = {}
     for (const pkg of packages) {
-        dependencies[pkg] = `workspace:packages/${
-            structUtils.parseIdent(pkg).name
-        }`
+        if (Array.isArray(pkg)) {
+            dependencies[pkg[0]] = pkg[1]
+        } else {
+            dependencies[pkg] = `workspace:packages/${
+                structUtils.parseIdent(pkg).name
+            }`
+        }
     }
     return dependencies
 }
 
 type PackageInitConfiguration = Partial<{
-    dependencies: Array<string>
-    devDependencies: Array<string>
-    peerDependencies: Array<string>
+    dependencies: Array<string | [string, string]>
+    devDependencies: Array<string | [string, string]>
+    peerDependencies: Array<string | [string, string]>
     scripts: Record<string, string>
     private: boolean
     version: string
@@ -43,7 +47,7 @@ export default async function setupMonorepo(
         root,
     }: {
         root?: Partial<{
-            dependencies: Record<string, string>
+            dependencies: Record<string, string | [string, string]>
             repository: string
         }>
     } = {},
@@ -87,11 +91,26 @@ export default async function setupMonorepo(
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-2.4.1.cjs'))
+    const yarnBinary = path.resolve(
+        path.join(releasesDir, 'yarn-3.0.0-rc.2.cjs'),
+    )
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
+
+    const authIdent = Buffer.from('test-user:test-password').toString('base64')
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
-        `yarnPath: ./run-yarn.cjs\nenableGlobalCache: false`,
+        [
+            `yarnPath: ./run-yarn.cjs`,
+            `enableGlobalCache: false`,
+            ...(process.env.E2E === '1'
+                ? [
+                      `unsafeHttpWhitelist: ['localhost']`,
+                      `npmAlwaysAuth: true`,
+                      `npmRegistryServer: "http://localhost:4873"`,
+                      `npmRegistries:\n  "//localhost:4873":\n    npmAuthIdent: "${authIdent}"\n    npmAlwaysAuth: true`,
+                  ]
+                : []),
+        ].join('\n'),
         'utf-8',
     )
 

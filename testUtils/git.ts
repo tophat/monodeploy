@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
+import path from 'path'
 
 import { YarnContext } from '@monodeploy/types'
 
@@ -9,6 +10,26 @@ export async function initGitRepository(cwd: string): Promise<void> {
     execSync('git init', { cwd })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
+
+    await fs.writeFile(
+        path.resolve(cwd, '.gitignore'),
+        ['.yarn', '*.tmp'].join('\n'),
+        {
+            encoding: 'utf8',
+        },
+    )
+    execSync(`git add .gitignore && git commit -n -m "gitignore"`, { cwd })
+}
+
+export async function addGitRemote(
+    cwd: string,
+    remoteCwd: string,
+    remoteName = 'origin',
+): Promise<void> {
+    execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
+    execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
+    execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
+    execSync(`git branch -m master`, { cwd })
 }
 
 export async function setupTestRepository(
