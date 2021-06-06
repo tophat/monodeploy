@@ -162,6 +162,10 @@ jobs:
         with:
           name: coverage-e2e-tests
           path: ./raw-coverage/jest-e2es
+      - name: Log Coverage Files (Jest Unit)
+        run: ls -la ./raw-coverage/jest
+      - name: Log Coverage Files (Jest E2Es)
+        run: ls -la ./raw-coverage/jest-e2es
       - name: Merge Coverage
         run: yarn test:coverage:merge
       - name: Generate Report

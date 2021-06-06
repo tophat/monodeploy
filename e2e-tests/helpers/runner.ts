@@ -32,8 +32,14 @@ export default async function run({
 
     try {
         const { stdout, stderr } = await exec(
-            `node ${nycBin} --nycrc-path ${nycConfig} --cwd ${process.cwd()} node ${tsNode} --project ${tsconfig} ${scriptPath} ${args}`,
-            { cwd },
+            `node ${nycBin} --nycrc-path ${nycConfig} --cwd ${process.cwd()} node ${scriptPath} ${args}`,
+            {
+                cwd,
+                env: {
+                    ...process.env,
+                    TS_NODE_PROJECT: tsconfig,
+                },
+            },
         )
         return { stdout, stderr }
     } catch (error) {

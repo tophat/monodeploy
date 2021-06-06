@@ -10,5 +10,8 @@ module.exports = {
     ],
     reportDir: `${ARTIFACT_DIR}/test_results/tests-report/`,
     reporter: ['text-summary', 'lcov'],
-    tempDir: `raw-coverage/jest-e2es/`
+    tempDir: `raw-coverage/jest-e2es/`,
+    require: [
+        require.resolve('ts-node/register'),
+    ]
 }
