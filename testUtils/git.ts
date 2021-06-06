@@ -11,9 +11,13 @@ export async function initGitRepository(cwd: string): Promise<void> {
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
-    await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn'].join('\n'), {
-        encoding: 'utf8',
-    })
+    await fs.writeFile(
+        path.resolve(cwd, '.gitignore'),
+        ['.yarn', '*.tmp'].join('\n'),
+        {
+            encoding: 'utf8',
+        },
+    )
     execSync(`git add .gitignore && git commit -n -m "gitignore"`, { cwd })
 }
 

@@ -32,11 +32,10 @@ export async function waitForRegistry(timeout = 20000): Promise<boolean> {
     const startTime = Date.now()
     while (Date.now() - startTime < timeout) {
         try {
-            console.log('Pinging registry...')
             await isUp()
             return true
         } catch {}
-        console.log(`Registry container is not running, waiting ${DELAY}...`)
+        console.log(`Registry container is not running, waiting ${DELAY} ms...`)
         await new Promise((r) => setTimeout(r, DELAY))
     }
 

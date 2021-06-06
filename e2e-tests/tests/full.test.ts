@@ -1,6 +1,6 @@
 import setupProject from 'helpers/setupProject'
 
-const TIMEOUT = 120000 // we need time for docker interactions
+const TIMEOUT = 180000 // we need time for docker interactions
 
 describe('Full E2E', () => {
     it(
@@ -20,7 +20,7 @@ describe('Full E2E', () => {
             config: {
                 access: 'public',
                 changelogFilename: 'changelog.md',
-                changesetFilename: 'changes.json',
+                changesetFilename: 'changes.json.tmp',
                 dryRun: false,
                 autoCommit: true,
                 autoCommitMessage: 'chore: release',
@@ -53,8 +53,8 @@ describe('Full E2E', () => {
                 expect(error).toBeUndefined()
 
                 // Locally
-                const localChangeset = JSON.parse(
-                    await readFile('changes.json'),
+                let localChangeset = JSON.parse(
+                    await readFile('changes.json.tmp'),
                 )
                 expect(localChangeset).toEqual({
                     'pkg-1': expect.objectContaining({
@@ -76,7 +76,7 @@ describe('Full E2E', () => {
                     }),
                 })
 
-                const localChangelog = await readFile('changelog.md')
+                let localChangelog = await readFile('changelog.md')
                 expect(localChangelog).toEqual(
                     expect.stringContaining('some fancy addition'),
                 )
@@ -102,14 +102,60 @@ describe('Full E2E', () => {
                 // -----
 
                 // Make another semantic change
-                // TODO: run again
+                await exec(`echo "Modification." >> packages/pkg-2/README.md`)
+                await exec(
+                    `git add . && git commit -n -m "feat: some breaking feat addition" ` +
+                        `-m "BREAKING CHANGE: This is a breaking change" && git push`,
+                )
 
-                // Locally
-                //  TODO: snapshot changeset
+                const { error: error2 } = await run()
+
+                if (error2) console.error(error2)
+                expect(error2).toBeUndefined()
+
+                // ---
+
+                localChangeset = JSON.parse(await readFile('changes.json.tmp'))
+                expect(localChangeset).toEqual({
+                    'pkg-2': expect.objectContaining({
+                        changelog: expect.stringContaining('breaking'),
+                        tag: 'pkg-2@1.0.0',
+                        version: '1.0.0',
+                    }),
+                    'pkg-3': expect.objectContaining({
+                        changelog: expect.not.stringContaining('breaking'),
+                        tag: 'pkg-3@0.0.2',
+                        version: '0.0.2',
+                    }),
+                    'pkg-4': expect.objectContaining({
+                        changelog: expect.not.stringContaining('breaking'),
+                        tag: 'pkg-4@0.0.1',
+                        version: '0.0.1',
+                    }),
+                })
+
+                localChangelog = await readFile('changelog.md')
+                expect(localChangelog).toEqual(
+                    expect.stringContaining('fancy'), // should have old entry
+                )
+                expect(localChangelog).toEqual(
+                    expect.stringContaining('breaking'), // should have new entry
+                )
 
                 // On Remote:
-                //  TODO: assert git tags
-                //  TODO: assert changelog updated
+                // Assert tags pushed
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-2@1.0.0`,
+                )
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.2`,
+                )
+
+                // Assert changelog updated on remote
+                expect(
+                    (await exec(`git cat-file blob origin/master:changelog.md`))
+                        .stdout,
+                ).toEqual(expect.stringContaining('breaking'))
             },
         }),
         TIMEOUT,
