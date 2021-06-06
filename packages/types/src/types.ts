@@ -22,6 +22,7 @@ export interface MonodeployConfiguration {
     conventionalChangelogConfig?: string
     changesetFilename?: string
     changelogFilename?: string
+    changesetIgnorePatterns?: Array<string>
     forceWriteChangeFiles: boolean
     access: string
     persistVersions: boolean
