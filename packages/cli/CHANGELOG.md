@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.6.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.5.6...monodeploy@2.6.0) "monodeploy" (2021-06-06)<a name="2.6.0"></a>
+
+### Features
+
+* add changeset ignore patterns support (#353) ([9f5fec6](https://github.com/tophat/monodeploy/commits/9f5fec6))
+
+
+
+
 ## [2.5.6](https://github.com/tophat/monodeploy/compare/monodeploy@2.5.5...monodeploy@2.5.6) "monodeploy" (2021-06-06)<a name="2.5.6"></a>
 
 ### Performance Improvements
