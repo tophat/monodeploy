@@ -111,6 +111,11 @@ jobs:
         - name: Install dependencies
           run: |
             yarn install --immutable
+        - name: Set GitHub user for tests
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch master
         - name: Build Registry Dockerfile
           run: yarn workspace @monodeploy/e2e-tests test:registry:build
         - name: Run Tests
