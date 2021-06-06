@@ -148,6 +148,7 @@ module.exports = {
     conventionalChangelogConfig: '@tophat/conventional-changelog-config',
     access: 'public',
     persistVersions: false,
+    changesetIgnorePatterns: ['**/*.test.js'],
 }
 ```
 

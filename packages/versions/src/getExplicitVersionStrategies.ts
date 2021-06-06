@@ -10,6 +10,7 @@ import type {
 } from '@monodeploy/types'
 import { structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
+import micromatch from 'micromatch'
 
 import {
     STRATEGY,
@@ -26,11 +27,15 @@ const strategyLevelToType = (level: number): PackageStrategyType | null => {
     return (name as PackageStrategyType | null) ?? null
 }
 
-const getModifiedPackages = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    commitSha: string,
-): Promise<string[]> => {
+const getModifiedPackages = async ({
+    config,
+    context,
+    commitSha,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    commitSha: string
+}): Promise<string[]> => {
     const diffOutput = await gitDiffTree(commitSha, {
         cwd: config.cwd,
         context,
@@ -44,20 +49,24 @@ const getModifiedPackages = async (
         new Set(),
     )
 
+    const ignorePatterns = config.changesetIgnorePatterns ?? []
+
     const modifiedPackages = [...uniquePaths].reduce(
         (modifiedPackages: string[], currentPath: string): string[] => {
-            try {
-                const workspace = context.project.getWorkspaceByFilePath(
-                    path.resolve(config.cwd, currentPath) as PortablePath,
-                )
-                const ident = workspace?.manifest?.name
-                if (!ident) throw new Error('Missing workspace identity.')
-                const packageName = structUtils.stringifyIdent(ident)
-                if (packageName && !workspace.manifest.private) {
-                    modifiedPackages.push(packageName)
+            if (!micromatch([currentPath], ignorePatterns).length) {
+                try {
+                    const workspace = context.project.getWorkspaceByFilePath(
+                        path.resolve(config.cwd, currentPath) as PortablePath,
+                    )
+                    const ident = workspace?.manifest?.name
+                    if (!ident) throw new Error('Missing workspace identity.')
+                    const packageName = structUtils.stringifyIdent(ident)
+                    if (packageName && !workspace.manifest.private) {
+                        modifiedPackages.push(packageName)
+                    }
+                } catch (e) {
+                    logging.error(e, { report: context.report })
                 }
-            } catch (e) {
-                logging.error(e, { report: context.report })
             }
             return modifiedPackages
         },
@@ -83,11 +92,11 @@ const getExplicitVersionStrategies = async ({
         const strategy = strategyLevelToType(
             await strategyDeterminer([commit.body]),
         )
-        const packageNames = await getModifiedPackages(
+        const packageNames = await getModifiedPackages({
             config,
             context,
-            commit.sha,
-        )
+            commitSha: commit.sha,
+        })
 
         for (const pkgName of packageNames) {
             if (!strategy) continue
