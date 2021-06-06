@@ -91,14 +91,25 @@ export default async function setupMonorepo(
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-2.4.1.cjs'))
+    const yarnBinary = path.resolve(
+        path.join(releasesDir, 'yarn-3.0.0-rc.2.cjs'),
+    )
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
+
+    const authIdent = Buffer.from('test-user:test-password').toString('base64')
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
         [
             `yarnPath: ./run-yarn.cjs`,
             `enableGlobalCache: false`,
-            `unsafeHttpWhitelist: ['localhost']`,
+            ...(process.env.E2E === '1'
+                ? [
+                      `unsafeHttpWhitelist: ['localhost']`,
+                      `npmAlwaysAuth: true`,
+                      `npmRegistryServer: "http://localhost:4873"`,
+                      `npmRegistries:\n  "//localhost:4873":\n    npmAuthIdent: "${authIdent}"\n    npmAlwaysAuth: true`,
+                  ]
+                : []),
         ].join('\n'),
         'utf-8',
     )

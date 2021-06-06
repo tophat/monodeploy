@@ -61,7 +61,7 @@ const getLatestPackageTags = async ({
                 // If the issue was actually an auth issue, we'll find out
                 // later when we attempt to publish.
                 logging.warning(
-                    `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
+                    `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion}, ${config.registryUrl})`,
                     { report: context.report },
                 )
                 return [pkgName, manifestVersion]

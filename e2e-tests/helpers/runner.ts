@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import childProcess, { ExecException } from 'child_process'
 import path from 'path'
 import util from 'util'
@@ -17,15 +18,15 @@ export default async function run({
     stderr: string
     error?: ExecException
 }> {
-    // add cov to ts-node?
-
     const tsNode = require.resolve('ts-node/dist/bin', {
         paths: [process.cwd()],
     })
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
     })
-    const nycConfig = require.resolve('../nyc.config.js')
+    const nycConfig = require.resolve('nyc.config.js', {
+        paths: [process.cwd()],
+    })
 
     const tsconfig = path.join(process.cwd(), 'tsconfig.json')
 

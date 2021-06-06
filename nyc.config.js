@@ -8,5 +8,7 @@ module.exports = {
         'packages/**/src/**/*.mock.ts',
         'packages/**/src/**/__mocks__',
     ],
-    reportDir: `${ARTIFACT_DIR}/test_results/jest-e2es/`
+    reportDir: `${ARTIFACT_DIR}/test_results/tests-report/`,
+    reporter: ['text-summary', 'lcov'],
+    tempDir: `raw-coverage/jest-e2es/`
 }

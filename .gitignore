@@ -14,6 +14,7 @@ node_modules
 # build artifacts
 .nyc_output
 coverage
+raw-coverage
 lib
 artifacts
 *.junit.xml

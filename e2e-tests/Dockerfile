@@ -16,6 +16,8 @@ USER node
 RUN npm i -g yarn \
     && yarn set version berry \
     && yarn set version 3.0.0-rc.2
+RUN yarn dlx -p verdaccio@5.1.0 binarydoesntexist || true
+RUN yarn dlx -p npm-cli-login binarydoesntexist || true
 
 COPY ./docker/ /home/node/
 

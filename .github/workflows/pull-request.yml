@@ -78,15 +78,93 @@ jobs:
             git config --global init.defaultBranch master
         - name: Tests
           run: yarn test:ci
-        - name: Upload Coverage Report
-          run: ./.github/codecov.sh $GITHUB_EVENT_PATH
-          env:
-            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         - name: Upload Artifacts
           uses: actions/upload-artifact@v2
           with:
-            name: report-artifacts
-            path: ${{ env.ARTIFACT_DIR }}
+            name: coverage-unit-tests
+            path: ./raw-coverage/jest
+  tests_e2es:
+    name: Tests - End to End
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      E2E: 1
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Build Registry Dockerfile
+          run: yarn workspace @monodeploy/e2e-tests test:registry:build
+        - name: Run Tests
+          run: yarn test:e2e
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-e2e-tests
+            path: ./raw-coverage/jest-e2es
+  test_report:
+    name: Test Report
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs: ['tests_e2es', 'tests']
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/detect-env
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Create artifacts directory
+        run: mkdir -p ${{ env.ARTIFACT_DIR }}
+      - name: Restore yarn cache
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./.yarn
+            .pnp.*
+          key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+      - name: Download Unit Test Coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-unit-tests
+          path: ./raw-coverage/jest
+      - name: Download E2E Coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-e2e-tests
+          path: ./raw-coverage/jest-e2es
+      - name: Merge Coverage
+        run: yarn test:coverage:merge
+      - name: Generate Report
+        run: yarn test:coverage:report
+      - name: Upload Coverage Report
+        run: ./.github/codecov.sh $GITHUB_EVENT_PATH
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   tests_compatibility:
     name: Test Compatibility - Node v${{ matrix.node_version }}
     runs-on: ubuntu-20.04
@@ -132,7 +210,7 @@ jobs:
   publish_preview:
     name: Publish Preview
     runs-on: ubuntu-20.04
-    needs: [tests]
+    needs: [test_report]
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
         - uses: actions/checkout@v2

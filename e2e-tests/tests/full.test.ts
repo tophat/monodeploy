@@ -5,6 +5,8 @@ const exec = util.promisify(childProcess.exec)
 
 import setupProject from 'helpers/setupProject'
 
+const TIMEOUT = 120000 // we need time for docker interactions
+
 describe('Full E2E', () => {
     it(
         'runs the full monodeploy pipeline',
@@ -40,7 +42,7 @@ describe('Full E2E', () => {
                 maxConcurrentReads: 1,
                 maxConcurrentWrites: 1,
             },
-            testCase: async ({ cwd, run }) => {
+            testCase: async ({ cwd, run, readFile }) => {
                 // First semantic commit
                 await exec(`echo "Modification." >> packages/pkg-1/README.md`, {
                     cwd,
@@ -53,8 +55,12 @@ describe('Full E2E', () => {
                 const { stdout, stderr, error } = await run()
 
                 expect(error).toBeUndefined()
-
+                console.log(stdout)
                 // Locally
+                const localChangeset = JSON.parse(
+                    await readFile('changes.json'),
+                )
+                expect(localChangeset).toMatchSnapshot()
                 //  TODO: snapshot changeset
 
                 // On Remote:
@@ -74,6 +80,6 @@ describe('Full E2E', () => {
                 //  TODO: assert changelog updated
             },
         }),
-        30000,
+        TIMEOUT,
     )
 })

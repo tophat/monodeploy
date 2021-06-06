@@ -16,6 +16,7 @@ import {
 } from '@monodeploy/test-utils'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 
+import { startRegistry, stopRegistry, waitForRegistry } from './docker'
 import run from './runner'
 
 const registryUrl = 'http://localhost:4873'
@@ -26,7 +27,13 @@ type RunFn = () => Promise<{
     error?: ExecException
 }>
 
-type TestCase = (params: { cwd: string; run: RunFn }) => Promise<void>
+type ReadFile = (filepath: string) => Promise<string>
+
+type TestCase = (params: {
+    cwd: string
+    run: RunFn
+    readFile: ReadFile
+}) => Promise<void>
 
 export default function setupProject({
     repository,
@@ -38,6 +45,12 @@ export default function setupProject({
     testCase: TestCase
 }): () => Promise<void> {
     return async (): Promise<void> => {
+        try {
+            await stopRegistry()
+        } catch {}
+        await startRegistry()
+        await waitForRegistry(25000)
+
         let project: string | null = null
         let remotePath: string | null = null
 
@@ -75,11 +88,18 @@ export default function setupProject({
                         args: `--config-file ${configFilename}`,
                     })
                 },
+                readFile: (filename: string) => {
+                    if (!project) throw new Error('Missing project path.')
+                    return fs.readFile(path.resolve(project, filename), {
+                        encoding: 'utf8',
+                    })
+                },
             })
         } finally {
             await cleanUp(
                 [project, remotePath].filter((v): v is string => v !== null),
             )
+            await stopRegistry()
         }
     }
 }

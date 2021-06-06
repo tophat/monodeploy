@@ -19,8 +19,8 @@ module.exports = {
     transform: {
         '^.+\\.[jt]sx?$': 'ts-jest',
     },
-    coverageReporters: CI ? ['lcov'] : ['text-summary', 'lcov'],
-    coverageDirectory: `${ARTIFACT_DIR}/test_results/jest/`,
+    coverageReporters: CI ? ['json'] : ['text-summary', 'json'],
+    coverageDirectory: `raw-coverage/jest/`,
     collectCoverageFrom: [
         'packages/**/src/**/*.ts',
         '!.yarn/**',

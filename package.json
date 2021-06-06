@@ -25,7 +25,9 @@
         "test:ci": "CI=1 run test --ci",
         "test:watch": "run test --detectOpenHandles --watch",
         "test": "jest ./packages",
-        "test:e2e": "yarn workspace @monodeploy/e2e-tests run test",
+        "test:e2e": "E2E=1 yarn workspace @monodeploy/e2e-tests run test",
+        "test:coverage:merge": "cp ./raw-coverage/jest-e2es/*.json ./raw-coverage/ && cp ./raw-coverage/jest/*.json ./raw-coverage/ && nyc --nycrc-path nyc.config.js merge ./raw-coverage ${ARTIFACT_DIR:-artifacts}/test-coverage.json",
+        "test:coverage:report": "nyc --nycrc-path nyc.config.js report -t ${ARTIFACT_DIR:-artifacts}/",
         "types:watch": "yarn workspaces foreach --no-private -pi run types:watch",
         "workspace:build:watch": "tsc -p $0 --watch",
         "workspace:build": "rm -rf $0/lib && tsc -p $0",
@@ -82,5 +84,13 @@
     },
     "engines": {
         "node": ">=14.0.0"
+    },
+    "dependenciesMeta": {
+        "@yarnpkg/core@3.0.0-rc.5": {
+            "unplugged": true
+        },
+        "@yarnpkg/plugin-npm@2.5.0-rc.5": {
+            "unplugged": true
+        }
     }
 }
