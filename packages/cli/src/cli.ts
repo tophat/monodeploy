@@ -125,6 +125,11 @@ const { argv } = yargs
         type: 'array',
         description: 'Monodeploy plugins',
     })
+    .option('changeset-ignore-patterns', {
+        type: 'array',
+        description:
+            'Globs to use in filtering out files when determining version bumps',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -176,6 +181,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             changesetFilename:
                 argv.changesetFilename ??
                 configFromFile?.changesetFilename ??
+                undefined,
+            changesetIgnorePatterns:
+                argv.changesetIgnorePatterns ??
+                configFromFile?.changesetIgnorePatterns ??
                 undefined,
             changelogFilename:
                 argv.prependChangelog ??

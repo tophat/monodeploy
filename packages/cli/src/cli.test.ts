@@ -38,7 +38,8 @@ describe('CLI', () => {
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
                     '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
-                    '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag',
+                    '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
+                    '--changeset-ignore-patterns "*.test.js"',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -54,6 +55,9 @@ describe('CLI', () => {
                   "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
                   "changesetFilename": "changes.json",
+                  "changesetIgnorePatterns": Array [
+                    "*.test.js",
+                  ],
                   "conventionalChangelogConfig": "@my/config",
                   "cwd": "/tmp",
                   "dryRun": true,
@@ -97,6 +101,7 @@ describe('CLI', () => {
                   "autoCommitMessage": undefined,
                   "changelogFilename": undefined,
                   "changesetFilename": undefined,
+                  "changesetIgnorePatterns": undefined,
                   "conventionalChangelogConfig": undefined,
                   "cwd": undefined,
                   "dryRun": undefined,
@@ -263,6 +268,7 @@ describe('CLI', () => {
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": undefined,
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
@@ -342,6 +348,7 @@ describe('CLI', () => {
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": undefined,
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
@@ -378,6 +385,7 @@ describe('CLI', () => {
                     conventionalChangelogConfig: '@my/config-from-file',
                     dryRun: true,
                     forceWriteChangeFiles: true,
+                    changesetIgnorePatterns: ['*.test.js', '*.snap'],
                     git: {
                         baseBranch: 'master',
                         commitSha: 'HEAD',
@@ -418,6 +426,10 @@ describe('CLI', () => {
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": Array [
+                        "*.test.js",
+                        "*.snap",
+                      ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
@@ -497,6 +509,7 @@ describe('CLI', () => {
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": undefined,
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,

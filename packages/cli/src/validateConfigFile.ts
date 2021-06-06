@@ -13,6 +13,11 @@ const schema: JSONSchemaType<ConfigFile> = {
         conventionalChangelogConfig: { type: 'string', nullable: true },
         changesetFilename: { type: 'string', nullable: true },
         changelogFilename: { type: 'string', nullable: true },
+        changesetIgnorePatterns: {
+            type: 'array',
+            nullable: true,
+            items: { type: 'string' },
+        },
         forceWriteChangeFiles: { type: 'boolean', nullable: true },
         access: { type: 'string', nullable: true },
         persistVersions: { type: 'boolean', nullable: true },
