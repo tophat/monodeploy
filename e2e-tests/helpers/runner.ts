@@ -18,9 +18,6 @@ export default async function run({
     stderr: string
     error?: ExecException
 }> {
-    const tsNode = require.resolve('ts-node/dist/bin', {
-        paths: [process.cwd()],
-    })
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
     })

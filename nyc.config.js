@@ -9,7 +9,7 @@ module.exports = {
         'packages/**/src/**/__mocks__',
     ],
     reportDir: `${ARTIFACT_DIR}/test_results/tests-report/`,
-    reporter: ['text-summary', 'lcov'],
+    reporter: ['text-summary'],
     tempDir: `raw-coverage/jest-e2es/`,
     require: [
         require.resolve('ts-node/register'),
