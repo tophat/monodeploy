@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/node",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -25,13 +25,13 @@
     "@types/node": "^14.0.0"
   },
   "dependencies": {
-    "@monodeploy/changelog": "^0.5.3",
-    "@monodeploy/git": "^0.2.2",
-    "@monodeploy/io": "^0.2.9",
-    "@monodeploy/logging": "^0.1.4",
-    "@monodeploy/publish": "^0.4.4",
-    "@monodeploy/types": "^0.5.0",
-    "@monodeploy/versions": "^0.4.5",
+    "@monodeploy/changelog": "^0.5.4",
+    "@monodeploy/git": "^0.2.3",
+    "@monodeploy/io": "^0.2.10",
+    "@monodeploy/logging": "^0.1.5",
+    "@monodeploy/publish": "^0.4.5",
+    "@monodeploy/types": "^0.6.0",
+    "@monodeploy/versions": "^0.4.6",
     "@yarnpkg/cli": "^3.0.0-rc.5",
     "@yarnpkg/core": "^3.0.0-rc.5",
     "@yarnpkg/fslib": "^2.5.0-rc.5",

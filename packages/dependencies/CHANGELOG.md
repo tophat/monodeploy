@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.8](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.7...@monodeploy/dependencies@0.2.8) "@monodeploy/dependencies" (2021-06-06)<a name="0.2.8"></a>
+
+### Performance Improvements
+
+* update yarn dependencies ([ef6f096](https://github.com/tophat/monodeploy/commits/ef6f096))
+* update yarn dependencies (#348) ([ef6f096](https://github.com/tophat/monodeploy/commits/ef6f096))
+
+
+
+
 ## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.5...@monodeploy/dependencies@0.2.6) "@monodeploy/dependencies" (2021-04-28)<a name="0.2.6"></a>
 
 

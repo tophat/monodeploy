@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.5.0...@monodeploy/types@0.6.0) "@monodeploy/types" (2021-06-06)<a name="0.6.0"></a>
+
+### Features
+
+* **types**: add changeset ignore patterns (#352) ([ef6f096](https://github.com/tophat/monodeploy/commits/ef6f096))
+
+### Performance Improvements
+
+* update yarn dependencies ([ef6f096](https://github.com/tophat/monodeploy/commits/ef6f096))
+* update yarn dependencies (#348) ([ef6f096](https://github.com/tophat/monodeploy/commits/ef6f096))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.3.3...@monodeploy/types@0.4.0) "@monodeploy/types" (2021-04-28)<a name="0.4.0"></a>
 
 ### Features
