@@ -30,6 +30,10 @@ const generateChangelogEntry = async ({
         return null
     }
 
+    if (!commits.length) {
+        return null
+    }
+
     const ident = structUtils.parseIdent(packageName)
     const workspace = context.project.getWorkspaceByIdent(ident)
 
