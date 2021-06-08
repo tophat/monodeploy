@@ -850,7 +850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monodeploy/changelog@^0.5.4, @monodeploy/changelog@workspace:packages/changelog":
+"@monodeploy/changelog@^0.5.5, @monodeploy/changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
@@ -970,18 +970,18 @@ __metadata:
     nyc: ^15.1.0
     prettier: ^2.3.0
     querystring: ^0.2.1
-    ts-jest: ^27.0.2
+    ts-jest: ^27.0.3
     ts-node: ^10.0.0
     typescript: ~4.2.4
     yaml-validator: ^3.0.1
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@^0.9.0, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@^0.9.1, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
-    "@monodeploy/changelog": ^0.5.4
+    "@monodeploy/changelog": ^0.5.5
     "@monodeploy/git": ^0.2.3
     "@monodeploy/io": ^0.2.10
     "@monodeploy/logging": ^0.1.5
@@ -6784,7 +6784,7 @@ fsevents@^2.3.2:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": ^0.9.0
+    "@monodeploy/node": ^0.9.1
     "@monodeploy/types": ^0.6.0
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
@@ -8886,9 +8886,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^27.0.2":
-  version: 27.0.2
-  resolution: "ts-jest@npm:27.0.2"
+"ts-jest@npm:^27.0.3":
+  version: 27.0.3
+  resolution: "ts-jest@npm:27.0.3"
   dependencies:
     bs-logger: 0.x
     buffer-from: 1.x
@@ -8905,7 +8905,7 @@ resolve@^2.0.0-next.3:
     typescript: ">=3.8 <5.0"
   bin:
     ts-jest: cli.js
-  checksum: dbc3fb1e61b6fc4c4063c32e8637bd2a255e8e54f0388ddd67064b712c796e9523697ec9d74a7563ce04117f4771f29e3b2a87cd5a455645808af877a7fba96a
+  checksum: 197f6722e3182de40223d6c7a87fbee06dec5e20748365497f081179bf00e4d95ed5e479d1d9b006752701f0353cb0cc1e16b8b54ffdf83335e5010f642d28b5
   languageName: node
   linkType: hard
 

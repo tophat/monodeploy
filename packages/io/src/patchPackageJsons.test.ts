@@ -167,4 +167,47 @@ describe('Patch Package Manifests', () => {
                 ).toEqual(`workspace:packages/pkg-3`)
             },
         ))
+
+    it('does not update devDependencies', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {
+                    devDependencies: ['pkg-2'],
+                    peerDependencies: ['pkg-3'],
+                },
+                'pkg-2': { dependencies: ['pkg-3'] },
+                'pkg-3': {},
+            },
+            async (context) => {
+                const config = await getMonodeployConfig({
+                    cwd: context.project.cwd,
+                    baseBranch: 'master',
+                    commitSha: 'shashasha',
+                })
+
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+
+                await patchPackageJsons(
+                    config,
+                    context,
+                    new Set([workspace1, workspace2]),
+                    new Map([
+                        ['pkg-1', '1.0.0'],
+                        ['pkg-2', '2.0.0'],
+                    ]),
+                )
+
+                const manifest1 = await loadManifest(context, 'pkg-1')
+                const manifest2 = await loadManifest(context, 'pkg-2')
+
+                expect(manifest1.version).toEqual('1.0.0')
+                expect(manifest2.version).toEqual('2.0.0')
+                expect(
+                    manifest1.devDependencies
+                        .get(manifest2.name!.identHash)!
+                        .range.startsWith('workspace:'),
+                ).toBe(true)
+            },
+        ))
 })

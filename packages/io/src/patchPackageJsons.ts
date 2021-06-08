@@ -26,7 +26,7 @@ const patchPackageJsons = async (
         if (!version) throw new Error(`${pkgName} is missing a version`)
 
         workspace.manifest.version = version
-        for (const dependentSetKey of Manifest.allDependencies) {
+        for (const dependentSetKey of ['dependencies', 'peerDependencies']) {
             const dependencySet =
                 workspace.manifest.getForScope(dependentSetKey)
 

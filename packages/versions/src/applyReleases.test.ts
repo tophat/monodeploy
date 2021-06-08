@@ -32,7 +32,7 @@ describe('applyReleases', () => {
                 'pkg-2': { dependencies: ['pkg-1'] },
                 'pkg-3': {
                     peerDependencies: ['pkg-2'],
-                    devDependencies: ['pkg-1'],
+                    dependencies: ['pkg-1'],
                 },
             },
             async (context) => {
@@ -89,7 +89,7 @@ describe('applyReleases', () => {
 
                 // pkg-1 again should not be changed from registry tags
                 expect(
-                    manifest3.devDependencies.get(
+                    manifest3.dependencies.get(
                         workspace1.manifest.name!.identHash,
                     )!.range,
                 ).toEqual(`^1.0.0`)
