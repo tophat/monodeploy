@@ -41,6 +41,16 @@ const GitHubPlugin = ({
                     throw new Error(`Missing package git tag for ${pkgName}`)
                 }
 
+                if (!changeData.changelog) {
+                    logging.info(
+                        `[${PluginName}] Skipping release for ${changeData.tag} as there's no changelog.`,
+                        {
+                            report: context.report,
+                        },
+                    )
+                    continue
+                }
+
                 logging.info(
                     `[${PluginName}] Creating release for ${changeData.tag}`,
                     {

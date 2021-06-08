@@ -977,7 +977,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@^0.8.6, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@^0.9.0, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
@@ -988,7 +988,7 @@ __metadata:
     "@monodeploy/publish": ^0.4.5
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": ^0.6.0
-    "@monodeploy/versions": ^0.4.6
+    "@monodeploy/versions": ^0.5.0
     "@types/node": ^14.0.0
     "@yarnpkg/cli": ^3.0.0-rc.5
     "@yarnpkg/core": ^3.0.0-rc.5
@@ -1102,7 +1102,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/versions@^0.4.6, @monodeploy/versions@workspace:packages/versions":
+"@monodeploy/versions@^0.5.0, @monodeploy/versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "@monodeploy/versions@workspace:packages/versions"
   dependencies:
@@ -6784,7 +6784,7 @@ fsevents@^2.3.2:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": ^0.8.6
+    "@monodeploy/node": ^0.9.0
     "@monodeploy/types": ^0.6.0
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
