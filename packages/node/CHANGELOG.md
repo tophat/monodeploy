@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.9.0...@monodeploy/node@0.9.1) "@monodeploy/node" (2021-06-08)<a name="0.9.1"></a>
+
+### Bug Fixes
+
+* do not generate changelog for dependent packages (#357) ([48ed33a](https://github.com/tophat/monodeploy/commits/48ed33a))
+
+
+
+
 ## [0.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.8.6...@monodeploy/node@0.9.0) "@monodeploy/node" (2021-06-06)<a name="0.9.0"></a>
 
 ### Features

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.5](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.5.4...@monodeploy/changelog@0.5.5) "@monodeploy/changelog" (2021-06-08)<a name="0.5.5"></a>
+
+### Bug Fixes
+
+* do not generate changelog for dependent packages (#357) ([48ed33a](https://github.com/tophat/monodeploy/commits/48ed33a))
+
+
+
+
 ## [0.5.4](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.5.3...@monodeploy/changelog@0.5.4) "@monodeploy/changelog" (2021-06-06)<a name="0.5.4"></a>
 
 ### Performance Improvements
