@@ -266,15 +266,11 @@ describe('Monodeploy', () => {
 
         // pkg-3 depends on pkg-2, and is updated as dependent
         expect(result['pkg-3'].version).toEqual('0.0.2')
-        expect(result['pkg-3'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-3'].changelog).toBeNull()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
         expect(result['pkg-6'].version).toEqual('0.0.2')
-        expect(result['pkg-6'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-6'].changelog).toBeNull()
 
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toEqual([
@@ -315,18 +311,11 @@ describe('Monodeploy', () => {
 
         // pkg-3 depends on pkg-2
         expect(result['pkg-3'].version).toEqual('0.0.2')
-        expect(result['pkg-3'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
-        expect(result['pkg-3'].changelog).not.toEqual(
-            expect.stringContaining('a different fix'),
-        )
+        expect(result['pkg-3'].changelog).toBeNull()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
         expect(result['pkg-6'].version).toEqual('0.0.2')
-        expect(result['pkg-6'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-6'].changelog).toBeNull()
 
         expect(mockGit._getPushedTags_()).toEqual([
             'pkg-1@0.1.0',

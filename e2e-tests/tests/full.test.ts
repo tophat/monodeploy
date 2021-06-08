@@ -65,12 +65,12 @@ describe('Full E2E', () => {
                         version: '0.1.0',
                     }),
                     'pkg-2': expect.objectContaining({
-                        changelog: expect.not.stringContaining('fancy'),
+                        changelog: null,
                         tag: 'pkg-2@0.0.1',
                         version: '0.0.1',
                     }),
                     'pkg-3': expect.objectContaining({
-                        changelog: expect.not.stringContaining('fancy'),
+                        changelog: null,
                         tag: 'pkg-3@0.0.1',
                         version: '0.0.1',
                     }),
@@ -123,12 +123,12 @@ describe('Full E2E', () => {
                         version: '1.0.0',
                     }),
                     'pkg-3': expect.objectContaining({
-                        changelog: expect.not.stringContaining('breaking'),
+                        changelog: null,
                         tag: 'pkg-3@0.0.2',
                         version: '0.0.2',
                     }),
                     'pkg-4': expect.objectContaining({
-                        changelog: expect.not.stringContaining('breaking'),
+                        changelog: null,
                         tag: 'pkg-4@0.0.1',
                         version: '0.0.1',
                     }),
