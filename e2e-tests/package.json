@@ -1,5 +1,6 @@
 {
     "name": "@monodeploy/e2e-tests",
+    "private": true,
     "scripts": {
         "test:registry:build": "docker build -t monodeploy-test-registry .",
         "test:registry:logs": "docker container logs -f monodeploy-registry",
