@@ -67,6 +67,8 @@ jobs:
         - name: Install dependencies
           run: |
             yarn install --immutable
+        - name: Validate Constraints
+          run: yarn constraints
         - name: Build
           run: yarn build
         - name: Linting

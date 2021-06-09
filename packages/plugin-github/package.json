@@ -21,15 +21,20 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
+    "@monodeploy/types": "workspace:*",
     "@types/node": "^14.0.0",
     "tapable": "^2.2.0"
   },
   "dependencies": {
-    "@monodeploy/git": "^0.2.3",
-    "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0",
     "@octokit/core": "^3.4.0",
     "@octokit/plugin-throttling": "^3.4.1"
+  },
+  "peerDependencies": {
+    "@monodeploy/git": "^0.2.3",
+    "@monodeploy/logging": "^0.1.5",
+    "@monodeploy/types": "^0.6.0"
   }
 }

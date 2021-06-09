@@ -21,11 +21,6 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/dependencies": "^0.2.8",
-    "@monodeploy/git": "^0.2.3",
-    "@monodeploy/io": "^0.2.10",
-    "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0",
     "@yarnpkg/cli": "^3.0.0-rc.5",
     "@yarnpkg/core": "^3.0.0-rc.5",
     "@yarnpkg/fslib": "^2.5.0-rc.5",
@@ -37,10 +32,22 @@
     "semver": "^7.3.4"
   },
   "devDependencies": {
+    "@monodeploy/dependencies": "workspace:*",
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
+    "@monodeploy/types": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/micromatch": "^4",
     "@types/semver": "^7.3.4",
     "@yarnpkg/cli": "^3.0.0-rc.5"
+  },
+  "peerDependencies": {
+    "@monodeploy/dependencies": "^0.2.8",
+    "@monodeploy/git": "^0.2.3",
+    "@monodeploy/io": "^0.2.10",
+    "@monodeploy/logging": "^0.1.5",
+    "@monodeploy/types": "^0.6.0"
   }
 }

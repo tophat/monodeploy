@@ -21,12 +21,16 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0",
     "@yarnpkg/core": "^3.0.0-rc.5"
   },
+  "peerDependencies": {
+    "@monodeploy/logging": "^0.1.5",
+    "@monodeploy/types": "^0.6.0"
+  },
   "devDependencies": {
+    "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
+    "@monodeploy/types": "workspace:*",
     "@yarnpkg/fslib": "^2.5.0-rc.5"
   }
 }

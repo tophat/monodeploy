@@ -11,10 +11,10 @@
     },
     "devDependencies": {
         "@monodeploy/test-utils": "link:../testUtils",
-        "@monodeploy/types": "workspace:packages/types",
+        "@monodeploy/types": "workspace:*",
         "@tophat/conventional-changelog-config": "^0.5.8",
         "@types/node": "^14.0.0",
         "helpers": "link:./helpers",
-        "monodeploy": "workspace:packages/cli"
+        "monodeploy": "workspace:*"
     }
 }

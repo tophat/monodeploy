@@ -21,17 +21,28 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
+    "@monodeploy/changelog": "workspace:*",
+    "@monodeploy/dependencies": "workspace:*",
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/publish": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
+    "@monodeploy/types": "workspace:*",
+    "@monodeploy/versions": "workspace:*",
     "@types/node": "^14.0.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@monodeploy/changelog": "^0.5.5",
+    "@monodeploy/dependencies": "^0.2.8",
     "@monodeploy/git": "^0.2.3",
     "@monodeploy/io": "^0.2.10",
     "@monodeploy/logging": "^0.1.5",
     "@monodeploy/publish": "^0.4.5",
     "@monodeploy/types": "^0.6.0",
-    "@monodeploy/versions": "^0.5.0",
+    "@monodeploy/versions": "^0.5.0"
+  },
+  "dependencies": {
     "@yarnpkg/cli": "^3.0.0-rc.5",
     "@yarnpkg/core": "^3.0.0-rc.5",
     "@yarnpkg/fslib": "^2.5.0-rc.5",

@@ -10,6 +10,7 @@ node_modules
 # transient files
 *.tmp
 *.log
+.nyc_cache
 
 # build artifacts
 .nyc_output
