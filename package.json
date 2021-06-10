@@ -87,16 +87,6 @@
         "node": ">=14.0.0"
     },
     "resolutions": {
-        "@monodeploy/changelog": "link:packages/changelog",
-        "monodeploy": "link:packages/cli",
-        "@monodeploy/dependencies": "link:packages/dependencies",
-        "@monodeploy/git": "link:packages/git",
-        "@monodeploy/io": "link:packages/io",
-        "@monodeploy/logging": "link:packages/logging",
-        "@monodeploy/node": "link:packages/node",
-        "@monodeploy/plugin-github": "link:packages/plugin-github",
-        "@monodeploy/publish": "link:packages/publish",
-        "@monodeploy/types": "link:packages/types",
-        "@monodeploy/versions": "link:packages/versions"
+        "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d"
     }
 }

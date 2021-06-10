@@ -850,13 +850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monodeploy/changelog@link:packages/changelog::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/changelog@link:packages/changelog::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/changelog@workspace:packages/changelog":
+"@monodeploy/changelog@workspace:*, @monodeploy/changelog@workspace:^0.5.5, @monodeploy/changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
@@ -880,13 +874,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/dependencies@link:packages/dependencies::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/dependencies@link:packages/dependencies::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/dependencies@workspace:packages/dependencies":
+"@monodeploy/dependencies@workspace:*, @monodeploy/dependencies@workspace:^0.2.8, @monodeploy/dependencies@workspace:packages/dependencies":
   version: 0.0.0-use.local
   resolution: "@monodeploy/dependencies@workspace:packages/dependencies"
   dependencies:
@@ -914,13 +902,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/git@link:packages/git::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/git@link:packages/git::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/git@workspace:packages/git":
+"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.2.3, @monodeploy/git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "@monodeploy/git@workspace:packages/git"
   dependencies:
@@ -935,13 +917,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/io@link:packages/io::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/io@link:packages/io::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/io@workspace:packages/io":
+"@monodeploy/io@workspace:*, @monodeploy/io@workspace:^0.2.10, @monodeploy/io@workspace:packages/io":
   version: 0.0.0-use.local
   resolution: "@monodeploy/io@workspace:packages/io"
   dependencies:
@@ -957,13 +933,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/logging@link:packages/logging::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/logging@link:packages/logging::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/logging@workspace:packages/logging":
+"@monodeploy/logging@workspace:*, @monodeploy/logging@workspace:^0.1.5, @monodeploy/logging@workspace:packages/logging":
   version: 0.0.0-use.local
   resolution: "@monodeploy/logging@workspace:packages/logging"
   dependencies:
@@ -1021,13 +991,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@link:packages/node::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/node@link:packages/node::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/node@workspace:packages/node":
+"@monodeploy/node@workspace:^0.9.1, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
@@ -1059,13 +1023,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/plugin-github@link:packages/plugin-github::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/plugin-github@link:packages/plugin-github::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/plugin-github@workspace:packages/plugin-github":
+"@monodeploy/plugin-github@workspace:*, @monodeploy/plugin-github@workspace:packages/plugin-github":
   version: 0.0.0-use.local
   resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
   dependencies:
@@ -1084,13 +1042,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/publish@link:packages/publish::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/publish@link:packages/publish::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/publish@workspace:packages/publish":
+"@monodeploy/publish@workspace:*, @monodeploy/publish@workspace:^0.4.5, @monodeploy/publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "@monodeploy/publish@workspace:packages/publish"
   dependencies:
@@ -1175,13 +1127,7 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@monodeploy/types@link:packages/types::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/types@link:packages/types::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/types@workspace:packages/types":
+"@monodeploy/types@workspace:*, @monodeploy/types@workspace:^0.6.0, @monodeploy/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@monodeploy/types@workspace:packages/types"
   dependencies:
@@ -1190,13 +1136,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/versions@link:packages/versions::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@monodeploy/versions@link:packages/versions::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"@monodeploy/versions@workspace:packages/versions":
+"@monodeploy/versions@workspace:*, @monodeploy/versions@workspace:^0.5.0, @monodeploy/versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "@monodeploy/versions@workspace:packages/versions"
   dependencies:
@@ -5540,10 +5480,17 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"istanbul-lib-coverage@npm:^3.0.0, istanbul-lib-coverage@npm:^3.0.0-alpha.1":
+"istanbul-lib-coverage@npm:3.0.0":
   version: 3.0.0
   resolution: "istanbul-lib-coverage@npm:3.0.0"
   checksum: ea57c2428858cc5d1e04c0e28b362950bbf6415e8ba1235cdd6f4c8dc3c57cb950db8b4e8a4f7e33abc240aa1eb816dba0d7285bdb8b70bda22bb2082492dbfc
+  languageName: node
+  linkType: hard
+
+"istanbul-lib-coverage@patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
+  version: 3.0.0
+  resolution: "istanbul-lib-coverage@patch:istanbul-lib-coverage@npm%3A3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d::version=3.0.0&hash=34767a&locator=%40monodeploy%2Fmonorepo%40workspace%3A."
+  checksum: 62c2841723f1a02493301daa3681f8429dae43186f9b19a5951e159cebb779d42c3ab5372de16bc0ee5b4d622a5f8f2b0b2eaa08579c00736ed639d0ac5796fa
   languageName: node
   linkType: hard
 
@@ -6880,13 +6827,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"monodeploy@link:packages/cli::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "monodeploy@link:packages/cli::locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  languageName: node
-  linkType: soft
-
-"monodeploy@workspace:packages/cli":
+"monodeploy@workspace:*, monodeploy@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:

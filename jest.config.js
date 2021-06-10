@@ -24,10 +24,13 @@ module.exports = {
     coverageDirectory: `raw-coverage/jest/`,
     collectCoverageFrom: [
         'packages/**/src/**/*.ts',
-        '!.yarn/**',
-        '!packages/**/src/**/*.test.ts',
-        '!packages/**/src/**/*.mock.ts',
-        '!packages/**/src/**/__mocks__',
+        '.yarn/__virtual__/**/packages/**/*.ts',
+    ],
+    coveragePathIgnorePatterns: [
+        '/node_modules/',
+        '/__mocks__/',
+        '\\.test.ts$',
+        '\\.mock.ts$'
     ],
     watchPathIgnorePatterns: [
         '<rootDir>/example-monorepo',
@@ -36,6 +39,8 @@ module.exports = {
         '<rootDir>/packages/.*/.*\\.js'
     ],
     testPathIgnorePatterns: [
+        '/node_modules/',
+        '/.yarn/',
         '<rootDir>/.*\\.js',
         '<rootDir>/.*/lib/',
         ...(IS_E2E ? ['<rootDir>/packages'] : ['<rootDir>/e2e-tests']),
