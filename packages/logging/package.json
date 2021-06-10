@@ -20,10 +20,11 @@
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
-  "dependencies": {
+  "devDependencies": {
+    "@types/node": "^14.0.0",
     "@yarnpkg/core": "^3.0.0-rc.5"
   },
-  "devDependencies": {
-    "@types/node": "^14.0.0"
+  "peerDependencies": {
+    "@yarnpkg/core": "^3.0.0-rc.5"
   }
 }

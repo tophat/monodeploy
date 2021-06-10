@@ -24,13 +24,12 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/node": "^14.0.0"
+    "@types/node": "^14.0.0",
+    "@yarnpkg/core": "^3.0.0-rc.5"
   },
   "peerDependencies": {
     "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0"
-  },
-  "dependencies": {
+    "@monodeploy/types": "^0.6.0",
     "@yarnpkg/core": "^3.0.0-rc.5"
   }
 }

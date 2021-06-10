@@ -21,11 +21,6 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "@yarnpkg/cli": "^3.0.0-rc.5",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-npm": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-pack": "^3.0.0-rc.5",
     "conventional-commits-parser": "^3.2.0",
     "micromatch": "^4.0.4",
     "p-limit": "^3.1.0",
@@ -41,13 +36,22 @@
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/micromatch": "^4",
     "@types/semver": "^7.3.4",
-    "@yarnpkg/cli": "^3.0.0-rc.5"
+    "@yarnpkg/cli": "^3.0.0-rc.5",
+    "@yarnpkg/core": "^3.0.0-rc.5",
+    "@yarnpkg/fslib": "^2.5.0-rc.5",
+    "@yarnpkg/plugin-npm": "^2.5.0-rc.5",
+    "@yarnpkg/plugin-pack": "^3.0.0-rc.5"
   },
   "peerDependencies": {
     "@monodeploy/dependencies": "^0.2.8",
     "@monodeploy/git": "^0.2.3",
     "@monodeploy/io": "^0.2.10",
     "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0"
+    "@monodeploy/types": "^0.6.0",
+    "@yarnpkg/cli": "^3.0.0-rc.5",
+    "@yarnpkg/core": "^3.0.0-rc.5",
+    "@yarnpkg/fslib": "^2.5.0-rc.5",
+    "@yarnpkg/plugin-npm": "^2.5.0-rc.5",
+    "@yarnpkg/plugin-pack": "^3.0.0-rc.5"
   }
 }

@@ -871,6 +871,8 @@ __metadata:
     "@monodeploy/io": ^0.2.10
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/core": ^3.0.0-rc.5
+    "@yarnpkg/fslib": ^2.5.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -886,6 +888,7 @@ __metadata:
   peerDependencies:
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/core": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -914,6 +917,7 @@ __metadata:
   peerDependencies:
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/core": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -930,6 +934,8 @@ __metadata:
   peerDependencies:
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/core": ^3.0.0-rc.5
+    "@yarnpkg/fslib": ^2.5.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -938,6 +944,8 @@ __metadata:
   resolution: "@monodeploy/logging@workspace:packages/logging"
   dependencies:
     "@types/node": ^14.0.0
+    "@yarnpkg/core": ^3.0.0-rc.5
+  peerDependencies:
     "@yarnpkg/core": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
@@ -1055,6 +1063,11 @@ __metadata:
     "@monodeploy/io": ^0.2.10
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/cli": ^3.0.0-rc.5
+    "@yarnpkg/core": ^3.0.0-rc.5
+    "@yarnpkg/fslib": ^2.5.0-rc.5
+    "@yarnpkg/plugin-npm": ^2.5.0-rc.5
+    "@yarnpkg/plugin-pack": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -1124,6 +1137,8 @@ __metadata:
   dependencies:
     "@yarnpkg/core": ^3.0.0-rc.5
     tapable: ^2.2.0
+  peerDependencies:
+    "@yarnpkg/core": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -1155,6 +1170,11 @@ __metadata:
     "@monodeploy/io": ^0.2.10
     "@monodeploy/logging": ^0.1.5
     "@monodeploy/types": ^0.6.0
+    "@yarnpkg/cli": ^3.0.0-rc.5
+    "@yarnpkg/core": ^3.0.0-rc.5
+    "@yarnpkg/fslib": ^2.5.0-rc.5
+    "@yarnpkg/plugin-npm": ^2.5.0-rc.5
+    "@yarnpkg/plugin-pack": ^3.0.0-rc.5
   languageName: unknown
   linkType: soft
 
@@ -6826,6 +6846,7 @@ fsevents@^2.3.2:
     "@monodeploy/types": "workspace:^0.6.0"
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
+    "@yarnpkg/core": ^3.0.0-rc.5
     ajv: ^8.1.0
     yargs: ^16.2.0
   bin:
