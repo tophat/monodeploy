@@ -2,10 +2,9 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
+import { YarnContext } from '@monodeploy/types'
 import { Cache, ThrowReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
-
-import { YarnContext } from '@monodeploy/types'
 
 import { setupContext } from './misc'
 
