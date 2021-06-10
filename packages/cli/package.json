@@ -26,15 +26,8 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "@monodeploy/changelog": "workspace:^0.5.5",
-    "@monodeploy/dependencies": "workspace:^0.2.8",
-    "@monodeploy/git": "workspace:^0.2.3",
-    "@monodeploy/io": "workspace:^0.2.10",
-    "@monodeploy/logging": "workspace:^0.1.5",
     "@monodeploy/node": "workspace:^0.9.1",
-    "@monodeploy/publish": "workspace:^0.4.5",
     "@monodeploy/types": "workspace:^0.6.0",
-    "@monodeploy/versions": "workspace:^0.5.0",
     "ajv": "^8.1.0",
     "yargs": "^16.2.0"
   },

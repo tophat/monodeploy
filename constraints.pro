@@ -9,7 +9,10 @@ gen_enforced_dependency(WorkspaceCwd, DependencyIdent, 'workspace:*', 'devDepend
 % Monodeploy (cli) should satisfy all dependency's peers
 gen_enforced_dependency(WorkspaceCwd, DependencyIdent, PrefixedDependencyRange, 'dependencies') :-
   % Only target the CLI
-  workspace_field(WorkspaceCwd, 'name', 'monodeploy'),
+  (
+      workspace_field(WorkspaceCwd, 'name', 'monodeploy');
+      workspace_field(WorkspaceCwd, 'name', '@monodeploy/node')
+  ),
   % Iterates over all dependencies from all workspaces
   workspace_has_dependency(WorkspaceCwd, PackageDependency, _, 'dependencies'),
   % Filter out external packages (PackageDependency must be a yarn workspace in this package)
