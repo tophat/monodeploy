@@ -2,6 +2,17 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.5](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.4...@monodeploy/plugin-github@0.2.5) "@monodeploy/plugin-github" (2021-06-11)<a name="0.2.5"></a>
+
+### Bug Fixes
+
+* preserve workspace protocol when persisting package.json to disk ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* preserve workspace protocol when persisting package.json to disk (#359) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* plugin-github should declare monodeploy dependencies (#365) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+
+
+
+
 ## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.3...@monodeploy/plugin-github@0.2.4) "@monodeploy/plugin-github" (2021-06-08)<a name="0.2.4"></a>
 
 ### Bug Fixes

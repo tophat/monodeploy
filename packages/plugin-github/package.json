@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/plugin-github",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -26,9 +26,9 @@
     "tapable": "^2.2.0"
   },
   "dependencies": {
-    "@monodeploy/git": "^0.2.3",
-    "@monodeploy/logging": "^0.1.5",
-    "@monodeploy/types": "^0.6.0",
+    "@monodeploy/git": "^0.2.4",
+    "@monodeploy/logging": "^0.1.6",
+    "@monodeploy/types": "^0.6.1",
     "@octokit/core": "^3.4.0",
     "@octokit/plugin-throttling": "^3.4.1"
   }

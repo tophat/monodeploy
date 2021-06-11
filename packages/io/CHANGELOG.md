@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.12](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.11...@monodeploy/io@0.2.12) "@monodeploy/io" (2021-06-11)<a name="0.2.12"></a>
+
+### Bug Fixes
+
+* do not update devDependencies when patching package.jsons
+
+devDependencies do not need to be updated as they are not used externally, and therefore have no impact on the public API and behaviour ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* do not update devDependencies when patching package.jsons (#358) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* preserve workspace protocol when persisting package.json to disk ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* preserve workspace protocol when persisting package.json to disk (#359) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+
+
+
+
 ## [0.2.10](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.9...@monodeploy/io@0.2.10) "@monodeploy/io" (2021-06-06)<a name="0.2.10"></a>
 
 ### Performance Improvements

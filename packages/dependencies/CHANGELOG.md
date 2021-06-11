@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.9](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.8...@monodeploy/dependencies@0.2.9) "@monodeploy/dependencies" (2021-06-11)<a name="0.2.9"></a>
+
+### Bug Fixes
+
+* preserve workspace protocol when persisting package.json to disk ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* preserve workspace protocol when persisting package.json to disk (#359) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+
+
+
+
 ## [0.2.8](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.7...@monodeploy/dependencies@0.2.8) "@monodeploy/dependencies" (2021-06-06)<a name="0.2.8"></a>
 
 ### Performance Improvements

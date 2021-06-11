@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.6.0...@monodeploy/types@0.6.1) "@monodeploy/types" (2021-06-11)<a name="0.6.1"></a>
+
+### Bug Fixes
+
+* preserve workspace protocol when persisting package.json to disk ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+* preserve workspace protocol when persisting package.json to disk (#359) ([b2d532d](https://github.com/tophat/monodeploy/commits/b2d532d))
+
+
+
+
 ## [0.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.5.0...@monodeploy/types@0.6.0) "@monodeploy/types" (2021-06-06)<a name="0.6.0"></a>
 
 ### Features
