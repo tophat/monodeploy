@@ -6,6 +6,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
+        "declaration": true,
         "noImplicitAny": true,
         "emitDeclarationOnly": false,
         "allowSyntheticDefaultImports": true,
@@ -13,5 +14,5 @@
         "allowJs": true,
         "jsx": "preserve"
     },
-    "include": ["./packages", "./e2e-tests", "./__mocks__", "./testUtils"]
+    "include": ["./src"]
 }

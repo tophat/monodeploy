@@ -20,7 +20,6 @@ raw-coverage
 lib
 artifacts
 *.junit.xml
-website/build
 
 # this is configured via bootstrap script
 .vscode
