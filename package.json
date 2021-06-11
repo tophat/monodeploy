@@ -11,7 +11,8 @@
     },
     "workspaces": [
         "packages/*",
-        "e2e-tests"
+        "e2e-tests",
+        "gatsby"
     ],
     "scripts": {
         "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi run clean",
