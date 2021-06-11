@@ -89,5 +89,10 @@
     },
     "resolutions": {
         "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d"
+    },
+    "dependenciesMeta": {
+        "core-js-pure": {
+            "built": false
+        }
     }
 }
