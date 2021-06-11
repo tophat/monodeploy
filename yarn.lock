@@ -905,7 +905,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.2.3, @monodeploy/git@workspace:packages/git":
+"@monodeploy/git@^0.2.3, @monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.2.3, @monodeploy/git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "@monodeploy/git@workspace:packages/git"
   dependencies:
@@ -939,7 +939,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/logging@workspace:*, @monodeploy/logging@workspace:^0.1.5, @monodeploy/logging@workspace:packages/logging":
+"@monodeploy/logging@^0.1.5, @monodeploy/logging@workspace:*, @monodeploy/logging@workspace:^0.1.5, @monodeploy/logging@workspace:packages/logging":
   version: 0.0.0-use.local
   resolution: "@monodeploy/logging@workspace:packages/logging"
   dependencies:
@@ -1027,18 +1027,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
   dependencies:
-    "@monodeploy/git": "workspace:*"
-    "@monodeploy/logging": "workspace:*"
+    "@monodeploy/git": ^0.2.3
+    "@monodeploy/logging": ^0.1.5
     "@monodeploy/test-utils": "link:../../testUtils"
-    "@monodeploy/types": "workspace:*"
+    "@monodeploy/types": ^0.6.0
     "@octokit/core": ^3.4.0
     "@octokit/plugin-throttling": ^3.4.1
     "@types/node": ^14.0.0
     tapable: ^2.2.0
-  peerDependencies:
-    "@monodeploy/git": ^0.2.3
-    "@monodeploy/logging": ^0.1.5
-    "@monodeploy/types": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1132,7 +1128,7 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@monodeploy/types@workspace:*, @monodeploy/types@workspace:^0.6.0, @monodeploy/types@workspace:packages/types":
+"@monodeploy/types@^0.6.0, @monodeploy/types@workspace:*, @monodeploy/types@workspace:^0.6.0, @monodeploy/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@monodeploy/types@workspace:packages/types"
   dependencies:
