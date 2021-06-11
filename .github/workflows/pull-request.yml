@@ -327,6 +327,9 @@ jobs:
             git config --global user.email "opensource@tophat.com"
             git config --global user.name "Top Hat Open Source"
             git config --global init.defaultBranch master
+        - name: Build Website
+          if: "github.event_name == 'pull_request'"
+          run: yarn docs
         - name: Build & Deploy Website
           if: "github.event_name == 'push' && github.ref == 'refs/heads/master'"
           run: |
