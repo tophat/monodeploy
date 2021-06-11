@@ -20,20 +20,28 @@
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
-  "dependencies": {
+  "peerDependencies": {
     "@monodeploy/git": "^0.2.3",
     "@monodeploy/io": "^0.2.10",
     "@monodeploy/logging": "^0.1.5",
     "@monodeploy/types": "^0.6.0",
     "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5",
+    "@yarnpkg/fslib": "^2.5.0-rc.5"
+  },
+  "dependencies": {
     "conventional-changelog-writer": "^5.0.0",
     "conventional-commits-parser": "^3.2.0",
     "p-limit": "^3.1.0"
   },
   "devDependencies": {
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
+    "@monodeploy/types": "workspace:*",
     "@types/conventional-changelog-writer": "^4.0.0",
-    "@types/conventional-commits-parser": "^3.0.1"
+    "@types/conventional-commits-parser": "^3.0.1",
+    "@yarnpkg/core": "^3.0.0-rc.5",
+    "@yarnpkg/fslib": "^2.5.0-rc.5"
   }
 }

@@ -1,0 +1,36 @@
+diff --git a/lib/coverage-map.js b/lib/coverage-map.js
+index 0a1ebd0a90f958cabf94481fc6ea2dff206bfeb2..36c26a7c423c6db22d2cf1a433d6775a7c0346ce 100644
+--- a/lib/coverage-map.js
++++ b/lib/coverage-map.js
+@@ -41,6 +41,16 @@ class CoverageMap {
+         } else {
+             this.data = loadMap(obj);
+         }
++
++        if (process.versions.pnp && this.data) {
++            const pnpapi = require('pnpapi');
++            this.data = Object.fromEntries(Object.entries(this.data).map(([k, data]) => {
++                if (k.includes('/__virtual__/')) {
++                    return [pnpapi.resolveVirtual(k), data];
++                }
++                return [k, data];
++            }));
++        }
+     }
+ 
+     /**
+diff --git a/lib/file-coverage.js b/lib/file-coverage.js
+index ed056a6f3bd7eaa7bd38b2778c029be5b422648f..2b7d43454f0e3e83a479237fdff60cc48f0601a1 100644
+--- a/lib/file-coverage.js
++++ b/lib/file-coverage.js
+@@ -76,6 +76,10 @@ class FileCoverage {
+             throw new Error('Invalid argument to coverage constructor');
+         }
+         assertValidObject(this.data);
++
++        if (process.versions.pnp && this.data.path && this.data.path.includes('/__virtual__/')) {
++            this.data.path = require('pnpapi').resolveVirtual(this.data.path);
++        }
+     }
+ 
+     /**

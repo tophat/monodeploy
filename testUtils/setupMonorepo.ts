@@ -2,10 +2,9 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
+import { YarnContext } from '@monodeploy/types'
 import { Cache, ThrowReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
-
-import { YarnContext } from '@monodeploy/types'
 
 import { setupContext } from './misc'
 
@@ -41,15 +40,17 @@ type PackageInitConfiguration = Partial<{
     version: string
 }>
 
+type ProjectRootInitConfiguration = Partial<{
+    dependencies: Record<string, string | [string, string]>
+    repository: string
+}>
+
 export default async function setupMonorepo(
     monorepo: Record<string, PackageInitConfiguration>,
     {
         root,
     }: {
-        root?: Partial<{
-            dependencies: Record<string, string | [string, string]>
-            repository: string
-        }>
+        root?: ProjectRootInitConfiguration
     } = {},
 ): Promise<YarnContext> {
     const workingDir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
@@ -128,9 +129,12 @@ export default async function setupMonorepo(
 export async function withMonorepoContext(
     monorepo: Record<string, PackageInitConfiguration>,
     cb: (context: YarnContext) => Promise<void>,
-    debug = false,
+    {
+        root,
+        debug,
+    }: { root?: ProjectRootInitConfiguration; debug?: boolean } = {},
 ): Promise<void> {
-    const context = await setupMonorepo(monorepo)
+    const context = await setupMonorepo(monorepo, { root })
     const cwd = context.project.cwd
     try {
         await cb(context)

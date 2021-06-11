@@ -36,11 +36,14 @@ describe('applyReleases', () => {
                 },
             },
             async (context) => {
-                const config = await getMonodeployConfig({
-                    cwd: context.project.cwd,
-                    baseBranch: 'master',
-                    commitSha: 'shashasha',
-                })
+                const config = {
+                    ...(await getMonodeployConfig({
+                        cwd: context.project.cwd,
+                        baseBranch: 'master',
+                        commitSha: 'shashasha',
+                    })),
+                    persistVersions: true,
+                }
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
@@ -78,9 +81,10 @@ describe('applyReleases', () => {
                     manifest2.dependencies.get(
                         workspace1.manifest.name!.identHash,
                     )!.range,
-                ).toEqual(`^1.0.0`)
+                ).toEqual(`workspace:^1.0.0`)
 
                 // pkg-2 should be the "new" version
+                // note: the workspace: protocol is stripped by yarn for peers
                 expect(
                     manifest3.peerDependencies.get(
                         workspace2.manifest.name!.identHash,
@@ -92,7 +96,7 @@ describe('applyReleases', () => {
                     manifest3.dependencies.get(
                         workspace1.manifest.name!.identHash,
                     )!.range,
-                ).toEqual(`^1.0.0`)
+                ).toEqual(`workspace:^1.0.0`)
             },
         ))
 })

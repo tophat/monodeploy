@@ -26,8 +26,9 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "@monodeploy/node": "^0.9.1",
-    "@monodeploy/types": "^0.6.0",
+    "@monodeploy/node": "workspace:^0.9.1",
+    "@monodeploy/types": "workspace:^0.6.0",
+    "@yarnpkg/core": "^3.0.0-rc.5",
     "ajv": "^8.1.0",
     "yargs": "^16.2.0"
   },

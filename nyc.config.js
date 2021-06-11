@@ -18,4 +18,5 @@ module.exports = {
     extension: ['.ts'],
     instrument: true,
     all: true,
+    cacheDir: './.nyc_cache',
 }
