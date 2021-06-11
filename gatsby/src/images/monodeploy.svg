@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Mono-Deploy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#9770AC" offset="0%"></stop>
+            <stop stop-color="#518DE4" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Mono-Deploy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-Copy-2" transform="translate(2.000000, 4.000000)">
+            <path d="M41.5769231,30.3829787 L41.5769231,24.7841278 C41.5769231,21.5064609 38.8306889,18.8661181 35.4215706,18.8661181 L25.0048202,18.8661181 L25.0048202,7.87550514 L27.4669612,7.87550514 C28.6980317,7.87550514 29.4082647,6.5098106 28.6506829,5.55382443 L24.6260293,0.546277813 C24.0104941,-0.182092604 22.8741213,-0.182092604 22.2585861,0.546277813 L18.2339325,5.55382443 C17.4763507,6.5098106 18.1865837,7.87550514 19.4176541,7.87550514 L21.8797951,7.87550514 L21.8797951,18.8661181 L11.4630448,18.8661181 C8.05392649,18.8661181 5.30769231,21.5064609 5.30769231,24.7841278 L5.30769231,29.3702128 L8.43271741,29.3246896 L8.43271741,24.7386046 C8.43271741,23.1452943 9.8058345,21.8251229 11.4630448,21.8251229 L21.8797951,21.8251229 L21.8797951,29.3246896 L25.0048202,29.3246896 L25.0048202,21.8251229 L35.4215706,21.8251229 C37.0787809,21.8251229 38.451898,23.0997712 38.451898,24.7386046 L38.451898,30.3374556 L41.5769231,30.3829787 Z" id="Shape-Copy-2" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+            <ellipse id="Oval" stroke="#9770AC" stroke-width="3" cx="5.75" cy="36.1914894" rx="5.75" ry="5.80851064"></ellipse>
+            <ellipse id="Oval-Copy" stroke="#9770AC" stroke-width="3" cx="22.5576923" cy="36.1914894" rx="5.75" ry="5.80851064"></ellipse>
+            <ellipse id="Oval-Copy-2" stroke="#9770AC" stroke-width="3" cx="40.25" cy="36.1914894" rx="5.75" ry="5.80851064"></ellipse>
+        </g>
+    </g>
+</svg>

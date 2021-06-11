@@ -294,3 +294,45 @@ jobs:
           with:
             name: build-artifacts
             path: ${{ env.ARTIFACT_DIR }}
+  website:
+    name: Website
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs: [test_report]
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Configure Git
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch master
+        - name: Build & Deploy Website
+          if: "github.event_name == 'push' && github.ref == 'refs/heads/master'"
+          run: |
+            git checkout gh-pages
+            git reset --hard master
+            yarn docs
+            git add docs
+            git commit -m "chore: update website" -n
+            git push --force origin gh-pages
