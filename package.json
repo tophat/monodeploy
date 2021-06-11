@@ -37,7 +37,7 @@
         "workspace:test": "jest --config=jest.config.js $0",
         "workspace:types:watch": "tsc -p $0 --noEmit --pretty --watch",
         "update:yarn": "node ./ci-scripts/update-yarn.js",
-        "run-local": "ts-node ./packages/cli/src/cli.ts"
+        "run-local": "ts-node $(yarn bin monodeploy)"
     },
     "devDependencies": {
         "@commitlint/cli": "^12.1.4",
@@ -75,6 +75,7 @@
         "jest": "^27.0.4",
         "jest-junit": "^12.1.0",
         "lint-staged": "^11.0.0",
+        "monodeploy": "workspace:*",
         "nyc": "^15.1.0",
         "prettier": "^2.3.0",
         "querystring": "^0.2.1",
