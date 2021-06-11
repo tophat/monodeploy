@@ -53,7 +53,7 @@ jobs:
               --persist-versions \
               --auto-commit \
               --auto-commit-message "chore: release monodeploy [skip ci]" \
-              --plugins "@monodeploy/plugin-github" \
+              --plugins "@monodeploy/plugin-github/lib/index.js" \
               --push \
               --changeset-ignore-patterns '**/*.test.ts'
         - name: Upload Artifacts
