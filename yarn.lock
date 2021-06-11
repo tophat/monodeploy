@@ -989,6 +989,7 @@ __metadata:
     jest: ^27.0.4
     jest-junit: ^12.1.0
     lint-staged: ^11.0.0
+    monodeploy: "workspace:*"
     nyc: ^15.1.0
     prettier: ^2.3.0
     querystring: ^0.2.1
