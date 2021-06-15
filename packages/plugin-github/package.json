@@ -27,9 +27,10 @@
   },
   "dependencies": {
     "@monodeploy/git": "^0.2.4",
-    "@monodeploy/logging": "^0.1.6",
-    "@monodeploy/types": "^0.6.1",
+    "@monodeploy/logging": "workspace:^0.1.6",
+    "@monodeploy/types": "workspace:^0.6.1",
     "@octokit/core": "^3.4.0",
-    "@octokit/plugin-throttling": "^3.4.1"
+    "@octokit/plugin-throttling": "^3.4.1",
+    "@yarnpkg/core": "^3.0.0-rc.5"
   }
 }
