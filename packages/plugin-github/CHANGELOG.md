@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.5...@monodeploy/plugin-github@0.2.6) "@monodeploy/plugin-github" (2021-06-15)<a name="0.2.6"></a>
+
+### Bug Fixes
+
+* correctly declare dependencies (#370) ([8d61875](https://github.com/tophat/monodeploy/commits/8d61875))
+
+
+
+
 ## [0.2.5](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.4...@monodeploy/plugin-github@0.2.5) "@monodeploy/plugin-github" (2021-06-11)<a name="0.2.5"></a>
 
 ### Bug Fixes
