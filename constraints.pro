@@ -8,10 +8,11 @@ gen_enforced_dependency(WorkspaceCwd, DependencyIdent, 'workspace:*', 'devDepend
 
 % Monodeploy (cli) should satisfy all dependency's peers
 gen_enforced_dependency(WorkspaceCwd, DependencyIdent, PrefixedDependencyRange, 'dependencies') :-
-  % Only target the CLI
+  % Only target the CLI & plugin (independent packages)
   (
       workspace_field(WorkspaceCwd, 'name', 'monodeploy');
-      workspace_field(WorkspaceCwd, 'name', '@monodeploy/node')
+      workspace_field(WorkspaceCwd, 'name', '@monodeploy/node');
+      workspace_field(WorkspaceCwd, 'name', '@monodeploy/plugin-github')
   ),
   % Iterates over all dependencies from all workspaces
   workspace_has_dependency(WorkspaceCwd, PackageDependency, _, 'dependencies'),
@@ -29,7 +30,7 @@ gen_enforced_dependency(WorkspaceCwd, DependencyIdent, PrefixedDependencyRange, 
   % Check WorkspaceCwd doesn't already provide DependencyIdent directly
   \+ workspace_has_dependency(WorkspaceCwd, DependencyIdent, _, 'peerDependencies').
 
-% @yarnpkg/* should be peer and dev dependencies for all workspaces except monodeploy & @monodeploy/node
+% @yarnpkg/* should be peer and dev dependencies for all workspaces except for some exceptions
 gen_enforced_dependency(WorkspaceCwd, YarnDependencyIdent, YarnRange, TargetDependencyType) :-
     % ignore private workspaces
     \+ workspace_field(WorkspaceCwd, 'private', 'true'),
@@ -47,7 +48,8 @@ gen_enforced_dependency(WorkspaceCwd, YarnDependencyIdent, YarnRange, TargetDepe
     atom_concat('@yarnpkg/', _, YarnDependencyIdent),
     \+ (
       workspace_field(WorkspaceCwd, 'name', 'monodeploy');
-      workspace_field(WorkspaceCwd, 'name', '@monodeploy/node')
+      workspace_field(WorkspaceCwd, 'name', '@monodeploy/node');
+      workspace_field(WorkspaceCwd, 'name', '@monodeploy/plugin-github')
     ).
 
 % @yarnpkg/* should NOT be in dependencies
