@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.4](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.9.3...@monodeploy/node@0.9.4) "@monodeploy/node" (2021-06-15)<a name="0.9.4"></a>
+
+### Bug Fixes
+
+* normalize registry url (#369) ([824b062](https://github.com/tophat/monodeploy/commits/824b062))
+
+
+
+
 ## [0.9.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.9.2...@monodeploy/node@0.9.3) "@monodeploy/node" (2021-06-11)<a name="0.9.3"></a>
 
 ### Bug Fixes
