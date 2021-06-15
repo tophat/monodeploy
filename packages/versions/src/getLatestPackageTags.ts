@@ -11,9 +11,11 @@ import pLimit from 'p-limit'
 const getLatestPackageTags = async ({
     config,
     context,
+    registryUrl,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
+    registryUrl?: string | null
 }): Promise<PackageTagMap> => {
     const limitFetch = pLimit(config.maxConcurrentReads || 10)
 
@@ -32,7 +34,9 @@ const getLatestPackageTags = async ({
         const pkgName = structUtils.stringifyIdent(ident)
         const manifestVersion = workspace.manifest.version ?? '0.0.0'
 
-        if (config.noRegistry) return [pkgName, manifestVersion]
+        if (config.noRegistry || !registryUrl) {
+            return [pkgName, manifestVersion]
+        }
 
         const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
         const distTagUrl = `/-/package${identUrl}/dist-tags`
@@ -42,7 +46,7 @@ const getLatestPackageTags = async ({
                 pluginNPM.npmHttpUtils.get(distTagUrl, {
                     configuration: context.configuration,
                     ident,
-                    registry: config.registryUrl,
+                    registry: registryUrl,
                     jsonResponse: true,
                 }),
             )

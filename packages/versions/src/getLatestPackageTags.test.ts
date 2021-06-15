@@ -52,13 +52,15 @@ describe('getLatestPackageTags', () => {
 
     it('returns default tag 0.0.0 if no tags found', async () => {
         // Since we haven't set up any tags for any package, everything is 0.0.0
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
         const tags = await getLatestPackageTags({
-            config: await getMonodeployConfig({
-                cwd: context.project.cwd,
-                baseBranch: 'master',
-                commitSha: 'shashasha',
-            }),
+            config,
             context,
+            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
@@ -77,13 +79,15 @@ describe('getLatestPackageTags', () => {
 
         for (const tagPair of registryTags) mockNPM._setTag_(...tagPair)
 
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
         const tags = await getLatestPackageTags({
-            config: await getMonodeployConfig({
-                cwd: context.project.cwd,
-                baseBranch: 'master',
-                commitSha: 'shashasha',
-            }),
+            config,
             context,
+            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
 
         const expectedTags = new Map([
@@ -103,15 +107,19 @@ describe('getLatestPackageTags', () => {
             throw mockError
         })
 
-        await expect(async () =>
-            getLatestPackageTags({
-                config: await getMonodeployConfig({
-                    cwd: context.project.cwd,
-                    baseBranch: 'master',
-                    commitSha: 'shashasha',
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
+
+        await expect(
+            async () =>
+                await getLatestPackageTags({
+                    config,
+                    context,
+                    registryUrl: config.registryUrl ?? 'https://example.org/',
                 }),
-                context,
-            }),
         ).rejects.toEqual(mockError)
 
         mockNPM.npmHttpUtils.get = mockGet
@@ -126,16 +134,18 @@ describe('getLatestPackageTags', () => {
         })
 
         // Since we haven't set up any tags for any package, everything is 0.0.0
+        const config = {
+            ...(await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            })),
+            registryUrl: 'https://my.jfrog.io/my/api/npm/my-npm/',
+        }
         const tags = await getLatestPackageTags({
-            config: {
-                ...(await getMonodeployConfig({
-                    cwd: context.project.cwd,
-                    baseBranch: 'master',
-                    commitSha: 'shashasha',
-                })),
-                registryUrl: 'https://my.jfrog.io/my/api/npm/my-npm/',
-            },
+            config,
             context,
+            registryUrl: config.registryUrl,
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
@@ -154,13 +164,15 @@ describe('getLatestPackageTags', () => {
             pkg2Cwd as PortablePath,
         )!.manifest.name = null
 
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'master',
+            commitSha: 'shashasha',
+        })
         const tags = await getLatestPackageTags({
-            config: await getMonodeployConfig({
-                cwd: context.project.cwd,
-                baseBranch: 'master',
-                commitSha: 'shashasha',
-            }),
+            config,
             context,
+            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
 
         expect(tags.keys()).not.toContain('pkg-2')

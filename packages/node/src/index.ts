@@ -33,7 +33,10 @@ import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
-import getRegistryUrl from './utils/getRegistryUrl'
+import {
+    getFetchRegistryUrl,
+    getPublishRegistryUrl,
+} from './utils/getRegistryUrl'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 const monodeploy = async (
@@ -92,21 +95,34 @@ const monodeploy = async (
 
         logging.setDryRun(config.dryRun)
 
-        logging.debug(`Starting monodeploy with config:`, {
+        logging.debug(`[Config] Using:`, {
             extras: JSON.stringify(config, null, 2),
             report,
         })
 
-        // Determine registry
-        const registryUrl = config.noRegistry
-            ? null
-            : await getRegistryUrl({ config, context })
-        logging.debug(`[Config] Registry Url: ${String(registryUrl)}`, {
-            report,
+        const defaultPublishRegistryUrl = await getPublishRegistryUrl({
+            config,
+            context,
         })
+        const defaultFetchRegistryUrl = await getFetchRegistryUrl({
+            config,
+            context,
+        })
+        logging.debug(
+            `[Config] Default Registry Publish Url: ${defaultPublishRegistryUrl}`,
+            { report },
+        )
+        logging.debug(
+            `[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`,
+            { report },
+        )
 
         // Fetch latest package versions for workspaces
-        const registryTags = await getLatestPackageTags({ config, context })
+        const registryTags = await getLatestPackageTags({
+            config,
+            context,
+            registryUrl: defaultFetchRegistryUrl,
+        })
 
         // Determine version bumps via commit messages
         const intentionalStrategies = await getExplicitVersionStrategies({
@@ -178,7 +194,7 @@ const monodeploy = async (
                         config,
                         context,
                         workspacesToPublish,
-                        registryUrl,
+                        registryUrl: defaultPublishRegistryUrl,
                     })
 
                     if (config.git.tag) {
