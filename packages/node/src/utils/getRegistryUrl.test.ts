@@ -3,9 +3,28 @@ import {
     withMonorepoContext,
 } from '@monodeploy/test-utils'
 
-import getRegistryUrl from './getRegistryUrl'
+import { getFetchRegistryUrl, getPublishRegistryUrl } from './getRegistryUrl'
 
-describe('getRegistryUrl', () => {
+describe('getPublishRegistryUrl', () => {
+    it(`returns null if in no registry mode`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+            },
+            async (context) => {
+                const config = {
+                    ...(await getMonodeployConfig({
+                        commitSha: 'shashasha',
+                        baseBranch: 'master',
+                    })),
+                    noRegistry: true,
+                }
+                config.registryUrl = 'http://example.com'
+                const url = await getPublishRegistryUrl({ config, context })
+                expect(url).toBeNull()
+            },
+        ))
+
     it(`overrides project's registry url with config option`, async () =>
         withMonorepoContext(
             {
@@ -17,8 +36,81 @@ describe('getRegistryUrl', () => {
                     baseBranch: 'master',
                 })
                 config.registryUrl = 'http://example.com'
-                const url = await getRegistryUrl({ config, context })
+                const url = await getPublishRegistryUrl({ config, context })
                 expect(url).toEqual(config.registryUrl)
+            },
+        ))
+
+    it(`defaults to yarn config if no registry provided`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+            },
+            async (context) => {
+                const config = await getMonodeployConfig({
+                    commitSha: 'shashasha',
+                    baseBranch: 'master',
+                })
+                config.registryUrl = undefined
+                const url = await getPublishRegistryUrl({ config, context })
+                expect(url).toMatchInlineSnapshot(
+                    `"https://registry.yarnpkg.com"`,
+                )
+            },
+        ))
+})
+
+describe('getFetchRegistryUrl', () => {
+    it(`returns null if in no registry mode`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+            },
+            async (context) => {
+                const config = {
+                    ...(await getMonodeployConfig({
+                        commitSha: 'shashasha',
+                        baseBranch: 'master',
+                    })),
+                    noRegistry: true,
+                }
+                config.registryUrl = 'http://example.com'
+                const url = await getFetchRegistryUrl({ config, context })
+                expect(url).toBeNull()
+            },
+        ))
+
+    it(`overrides project's registry url with config option`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+            },
+            async (context) => {
+                const config = await getMonodeployConfig({
+                    commitSha: 'shashasha',
+                    baseBranch: 'master',
+                })
+                config.registryUrl = 'http://example.com'
+                const url = await getFetchRegistryUrl({ config, context })
+                expect(url).toEqual(config.registryUrl)
+            },
+        ))
+
+    it(`defaults to yarn config if no registry provided`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+            },
+            async (context) => {
+                const config = await getMonodeployConfig({
+                    commitSha: 'shashasha',
+                    baseBranch: 'master',
+                })
+                config.registryUrl = undefined
+                const url = await getFetchRegistryUrl({ config, context })
+                expect(url).toMatchInlineSnapshot(
+                    `"https://registry.yarnpkg.com"`,
+                )
             },
         ))
 })
