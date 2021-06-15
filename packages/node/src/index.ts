@@ -95,7 +95,7 @@ const monodeploy = async (
 
         logging.setDryRun(config.dryRun)
 
-        logging.debug(`Starting monodeploy with config:`, {
+        logging.debug(`[Config] Using:`, {
             extras: JSON.stringify(config, null, 2),
             report,
         })
@@ -108,6 +108,14 @@ const monodeploy = async (
             config,
             context,
         })
+        logging.debug(
+            `[Config] Default Registry Publish Url: ${defaultPublishRegistryUrl}`,
+            { report },
+        )
+        logging.debug(
+            `[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`,
+            { report },
+        )
 
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags({
