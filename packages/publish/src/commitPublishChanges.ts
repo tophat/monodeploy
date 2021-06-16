@@ -33,7 +33,7 @@ const commitPublishChanges = async ({
 
     if (config.autoCommit) {
         // Push artifacts (changelog, package.json changes)
-        const files = ['yarn.lock', '"**/package.json"']
+        const files = ['yarn.lock', 'package.json', '"**/package.json"']
         if (config?.changelogFilename) {
             files.push(config?.changelogFilename.replace('<packageDir>', '**'))
         }
