@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/node",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "repository": "git@github.com:tophat/monodeploy.git",
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
@@ -30,7 +30,7 @@
     "@monodeploy/git": "workspace:^0.2.4",
     "@monodeploy/io": "workspace:^0.2.12",
     "@monodeploy/logging": "workspace:^0.1.6",
-    "@monodeploy/publish": "workspace:^0.4.7",
+    "@monodeploy/publish": "workspace:^0.4.8",
     "@monodeploy/types": "workspace:^0.6.1",
     "@monodeploy/versions": "workspace:^0.5.3",
     "@yarnpkg/cli": "^3.0.0-rc.5",

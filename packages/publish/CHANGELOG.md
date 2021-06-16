@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.8](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.4.7...@monodeploy/publish@0.4.8) "@monodeploy/publish" (2021-06-16)<a name="0.4.8"></a>
+
+### Bug Fixes
+
+* auto commit top level package.json changes (#372) ([41f1360](https://github.com/tophat/monodeploy/commits/41f1360))
+
+
+
+
 ## [0.4.7](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.4.6...@monodeploy/publish@0.4.7) "@monodeploy/publish" (2021-06-11)<a name="0.4.7"></a>
 
 ### Bug Fixes
