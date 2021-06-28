@@ -76,6 +76,8 @@ describe('Config Merging', () => {
             maxConcurrentReads: 3,
             maxConcurrentWrites: 2,
             plugins: [],
+            prerelease: true,
+            prereleaseId: 'rc',
         }
 
         const merged = await mergeDefaultConfig(config)

@@ -34,6 +34,8 @@ export interface MonodeployConfiguration {
     maxConcurrentReads: number
     maxConcurrentWrites: number
     plugins?: Array<string>
+    prerelease: boolean
+    prereleaseId?: string
 }
 
 export interface YarnContext {

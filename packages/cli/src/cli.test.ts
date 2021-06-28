@@ -39,7 +39,7 @@ describe('CLI', () => {
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
                     '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
-                    '--changeset-ignore-patterns "*.test.js"',
+                    '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -78,6 +78,8 @@ describe('CLI', () => {
                     "plugin-a",
                     "plugin-b",
                   ],
+                  "prerelease": true,
+                  "prereleaseId": "rc",
                   "registryUrl": "http://example.com",
                   "topological": true,
                   "topologicalDev": true,
@@ -119,6 +121,8 @@ describe('CLI', () => {
                   "noRegistry": undefined,
                   "persistVersions": undefined,
                   "plugins": undefined,
+                  "prerelease": false,
+                  "prereleaseId": undefined,
                   "registryUrl": undefined,
                   "topological": undefined,
                   "topologicalDev": undefined,
@@ -244,6 +248,8 @@ describe('CLI', () => {
                     maxConcurrentReads: 3,
                     maxConcurrentWrites: 5,
                     plugins: ['plugin-a', 'plugin-b'],
+                    prerelease: true,
+                    prereleaseId: 'alpha',
                 }
             `
 
@@ -289,6 +295,8 @@ describe('CLI', () => {
                         "plugin-a",
                         "plugin-b",
                       ],
+                      "prerelease": false,
+                      "prereleaseId": "alpha",
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -323,6 +331,7 @@ describe('CLI', () => {
                     topologicalDev: true,
                     maxConcurrentReads: 6,
                     maxConcurrentWrites: 2,
+                    prerelease: false,
                 }
             `
 
@@ -366,6 +375,8 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "persistVersions": true,
                       "plugins": undefined,
+                      "prerelease": false,
+                      "prereleaseId": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -447,6 +458,8 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "persistVersions": true,
                       "plugins": undefined,
+                      "prerelease": false,
+                      "prereleaseId": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -483,6 +496,8 @@ describe('CLI', () => {
                 topologicalDev: true,
                 maxConcurrentReads: 10,
                 maxConcurrentWrites: 11,
+                prerelease: true,
+                prereleaseId: 'beta',
             }
         `
 
@@ -527,6 +542,8 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "persistVersions": true,
                       "plugins": undefined,
+                      "prerelease": false,
+                      "prereleaseId": "beta",
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,

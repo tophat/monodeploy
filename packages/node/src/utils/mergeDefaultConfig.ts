@@ -42,6 +42,8 @@ const mergeDefaultConfig = async (
         maxConcurrentReads: baseConfig.maxConcurrentReads ?? 0,
         maxConcurrentWrites: baseConfig.maxConcurrentWrites ?? 0,
         plugins: baseConfig.plugins ?? [],
+        prerelease: baseConfig.prerelease ?? false,
+        prereleaseId: baseConfig.prereleaseId ?? 'rc',
     }
 }
 

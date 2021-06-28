@@ -42,6 +42,8 @@ const schema: JSONSchemaType<ConfigFile> = {
             nullable: true,
         },
         plugins: { type: 'array', nullable: true, items: { type: 'string' } },
+        prerelease: { type: 'boolean', nullable: true },
+        prereleaseId: { type: 'string', nullable: true },
     },
     required: [],
     additionalProperties: false,
