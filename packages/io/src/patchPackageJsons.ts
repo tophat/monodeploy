@@ -1,6 +1,6 @@
 import type {
     MonodeployConfiguration,
-    PackageTagMap,
+    PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
 import { Descriptor, Manifest, Workspace, structUtils } from '@yarnpkg/core'
@@ -10,7 +10,7 @@ const patchPackageJsons = async (
     config: MonodeployConfiguration,
     context: YarnContext,
     workspaces: Set<Workspace>,
-    registryTags: PackageTagMap,
+    registryTags: PackageVersionMap,
 ): Promise<void> => {
     const regenerateManifestRaw = async (
         workspace: Workspace,

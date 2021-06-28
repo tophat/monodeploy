@@ -6,7 +6,7 @@ import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
-    PackageTagMap,
+    PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
 
@@ -22,8 +22,8 @@ const writeChangesetFile = async ({
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    previousTags: PackageTagMap
-    nextTags: PackageTagMap
+    previousTags: PackageVersionMap
+    nextTags: PackageVersionMap
     versionStrategies: PackageStrategyMap
     createdGitTags?: Map<string, string>
 }): Promise<ChangesetSchema> => {

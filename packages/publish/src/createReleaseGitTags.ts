@@ -2,7 +2,7 @@ import { gitTag } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
-    PackageTagMap,
+    PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
 
@@ -13,7 +13,7 @@ async function createReleaseGitTags({
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    versions: PackageTagMap
+    versions: PackageVersionMap
 }): Promise<Map<string, string>> {
     const tags = await Promise.all(
         [...versions.entries()].map(async (packageVersionEntry: string[]) => {
