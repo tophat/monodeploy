@@ -4,6 +4,7 @@ import type {
     MonodeployConfiguration,
     PackageStrategyMap,
     PackageTagMap,
+    PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
 import { Workspace } from '@yarnpkg/core'
@@ -21,37 +22,38 @@ const applyReleases = async ({
     workspaces: Set<Workspace>
     registryTags: PackageTagMap
     versionStrategies: PackageStrategyMap
-}): Promise<PackageTagMap> => {
-    // Registry tags from mono
-    const intendedRegistryTags = new Map()
+}): Promise<PackageVersionMap> => {
+    const updatedRegistryTags = new Map<string, string>()
+    const nonupdatedRegistryTags = new Map<string, string>()
 
     for (const [packageName, packageTag] of registryTags.entries()) {
         const packageVersionStrategy = versionStrategies.get(packageName)?.type
         const nextPackageTag = packageVersionStrategy
-            ? incrementSemver(packageTag, packageVersionStrategy)
-            : packageTag
+            ? incrementSemver(packageTag.latest, packageVersionStrategy)
+            : packageTag.latest
 
-        if (packageTag !== nextPackageTag) {
-            intendedRegistryTags.set(packageName, nextPackageTag)
+        if (nextPackageTag && packageTag.latest !== nextPackageTag) {
+            updatedRegistryTags.set(packageName, nextPackageTag)
             logging.info(
-                `[Version Change] ${packageName}: ${packageTag} -> ${nextPackageTag} (${packageVersionStrategy})`,
+                `[Version Change] ${packageName}: ${packageTag.latest} -> ${nextPackageTag} (${packageVersionStrategy})`,
                 { report: context.report },
             )
+        } else {
+            nonupdatedRegistryTags.set(packageName, packageTag.latest)
         }
     }
 
-    // Update newVersions to contain appropriate updates for dependents
     await patchPackageJsons(
         config,
         context,
         workspaces,
         new Map([
-            ...registryTags.entries(),
-            ...intendedRegistryTags.entries(),
-        ]) as PackageTagMap,
+            ...nonupdatedRegistryTags.entries(),
+            ...updatedRegistryTags.entries(),
+        ]),
     )
 
-    return intendedRegistryTags
+    return updatedRegistryTags
 }
 
 export default applyReleases

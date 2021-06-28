@@ -64,20 +64,22 @@ describe('getLatestPackageTags', () => {
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
-            expect(tag).toEqual('0.0.0')
+            expect(tag.latest).toEqual('0.0.0')
         }
     })
 
     it('returns tags from the registry if they exist', async () => {
         const registryTags = new Map(
             Object.entries({
-                'pkg-1': '0.0.1',
-                'pkg-2': '0.1.0',
-                'pkg-3': '1.0.0',
+                'pkg-1': { latest: '0.0.1' },
+                'pkg-2': { latest: '0.1.0' },
+                'pkg-3': { latest: '1.0.0' },
             }),
         )
 
-        for (const tagPair of registryTags) mockNPM._setTag_(...tagPair)
+        for (const [pkgName, map] of registryTags) {
+            mockNPM._setTag_(pkgName, map.latest)
+        }
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
@@ -92,9 +94,9 @@ describe('getLatestPackageTags', () => {
 
         const expectedTags = new Map([
             ...registryTags.entries(),
-            ['pkg-4', '0.0.0'],
-            ['pkg-6', '0.0.0'],
-            ['pkg-7', '0.0.0'],
+            ['pkg-4', { latest: '0.0.0' }],
+            ['pkg-6', { latest: '0.0.0' }],
+            ['pkg-7', { latest: '0.0.0' }],
         ])
 
         expect(tags).toEqual(expectedTags)
@@ -149,7 +151,7 @@ describe('getLatestPackageTags', () => {
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
-            expect(tag).toEqual('0.0.0')
+            expect(tag.latest).toEqual('0.0.0')
         }
 
         mockNPM.npmHttpUtils.get = mockGet

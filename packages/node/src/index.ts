@@ -17,7 +17,7 @@ import type {
     ChangesetSchema,
     MonodeployConfiguration,
     PackageStrategyMap,
-    PackageTagMap,
+    PackageVersionMap,
     PluginHooks,
     RecursivePartial,
     YarnContext,
@@ -32,6 +32,7 @@ import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
+import { convertTagMapToVersions } from './utils/convert'
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
 import {
     getFetchRegistryUrl,
@@ -166,7 +167,7 @@ const monodeploy = async (
                 },
             )
 
-            let newVersions: PackageTagMap
+            let newVersions: PackageVersionMap
 
             await report.startTimerPromise(
                 'Patching Package Manifests',
@@ -216,7 +217,9 @@ const monodeploy = async (
                     result = await writeChangesetFile({
                         config,
                         context,
-                        previousTags: registryTags, // old versions
+                        previousTags: convertTagMapToVersions(registryTags, {
+                            tag: 'latest',
+                        }), // old versions
                         nextTags: newVersions,
                         versionStrategies,
                         createdGitTags,

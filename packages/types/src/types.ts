@@ -60,7 +60,12 @@ export type CommitMessage = {
     body: string
 }
 
-export type PackageTagMap = Map<string, string>
+export type PackageTagMap = Map<
+    string,
+    Record<string, string> & { latest: string }
+>
+
+export type PackageVersionMap = Map<string, string>
 
 export type PackageStrategyType = 'major' | 'minor' | 'patch'
 

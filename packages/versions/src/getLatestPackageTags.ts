@@ -29,13 +29,15 @@ const getLatestPackageTags = async ({
                 !workspace?.manifest.private && workspace?.manifest.name,
         )
 
-    const fetchDistTag = async (workspace: Workspace) => {
+    const fetchDistTag = async (
+        workspace: Workspace,
+    ): Promise<[string, Record<string, string> & { latest: string }]> => {
         const ident = workspace.manifest.name!
         const pkgName = structUtils.stringifyIdent(ident)
         const manifestVersion = workspace.manifest.version ?? '0.0.0'
 
         if (config.noRegistry || !registryUrl) {
-            return [pkgName, manifestVersion]
+            return [pkgName, { latest: manifestVersion }]
         }
 
         const identUrl = pluginNPM.npmHttpUtils.getIdentUrl(ident)
@@ -50,7 +52,8 @@ const getLatestPackageTags = async ({
                     jsonResponse: true,
                 }),
             )
-            return [pkgName, result.latest]
+
+            return [pkgName, { latest: manifestVersion, ...result }]
         } catch (err) {
             const statusCode =
                 err.response?.statusCode ??
@@ -68,7 +71,7 @@ const getLatestPackageTags = async ({
                     `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion}, ${config.registryUrl})`,
                     { report: context.report },
                 )
-                return [pkgName, manifestVersion]
+                return [pkgName, { latest: manifestVersion }]
             }
 
             if (
@@ -83,7 +86,7 @@ const getLatestPackageTags = async ({
                     `[Get Tags] [HTTP 500] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
                     { report: context.report },
                 )
-                return [pkgName, manifestVersion]
+                return [pkgName, { latest: manifestVersion }]
             }
 
             logging.error(

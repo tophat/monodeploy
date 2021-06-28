@@ -53,9 +53,9 @@ describe('applyReleases', () => {
                     context,
                     workspaces: new Set([workspace2, workspace3]),
                     registryTags: new Map([
-                        ['pkg-1', '1.0.0'],
-                        ['pkg-2', '2.0.0'],
-                        ['pkg-3', '3.3.0'],
+                        ['pkg-1', { latest: '1.0.0' }],
+                        ['pkg-2', { latest: '2.0.0' }],
+                        ['pkg-3', { latest: '3.3.0' }],
                     ]),
                     versionStrategies: new Map([
                         ['pkg-2', { type: 'minor', commits: [] }],
