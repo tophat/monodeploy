@@ -148,9 +148,11 @@ export const gitCommit = async (
 const gitLastTaggedCommit = async ({
     cwd,
     context,
+    prerelease = false,
 }: {
     cwd: string
     context: YarnContext
+    prerelease?: boolean
 }): Promise<string> => {
     if (!registry.lastTaggedCommit) {
         throw new Error('No tagged commit.')

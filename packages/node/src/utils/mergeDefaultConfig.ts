@@ -8,6 +8,7 @@ const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<MonodeployConfiguration> => {
     const cwd = baseConfig.cwd ?? process.cwd()
+    const prerelease = baseConfig.prerelease ?? false
 
     return {
         registryUrl: baseConfig.registryUrl ?? undefined,
@@ -17,7 +18,7 @@ const mergeDefaultConfig = async (
         git: {
             baseBranch:
                 baseConfig.git?.baseBranch ??
-                (await gitLastTaggedCommit({ cwd })),
+                (await gitLastTaggedCommit({ cwd, prerelease })),
             commitSha:
                 baseConfig.git?.commitSha ??
                 (await gitResolveSha('HEAD', { cwd })),
@@ -42,7 +43,7 @@ const mergeDefaultConfig = async (
         maxConcurrentReads: baseConfig.maxConcurrentReads ?? 0,
         maxConcurrentWrites: baseConfig.maxConcurrentWrites ?? 0,
         plugins: baseConfig.plugins ?? [],
-        prerelease: baseConfig.prerelease ?? false,
+        prerelease,
         prereleaseId: baseConfig.prereleaseId ?? 'rc',
     }
 }

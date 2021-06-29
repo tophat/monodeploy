@@ -6,7 +6,12 @@ import { YarnContext } from '@monodeploy/types'
 
 import setupMonorepo from './setupMonorepo'
 
-export async function initGitRepository(cwd: string): Promise<void> {
+export async function initGitRepository(
+    cwd: string,
+    {
+        allowScaffoldingCommits = true,
+    }: { allowScaffoldingCommits?: boolean } = {},
+): Promise<void> {
     execSync('git init', { cwd })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
@@ -18,7 +23,9 @@ export async function initGitRepository(cwd: string): Promise<void> {
             encoding: 'utf8',
         },
     )
-    execSync(`git add .gitignore && git commit -n -m "gitignore"`, { cwd })
+    if (allowScaffoldingCommits) {
+        execSync(`git add .gitignore && git commit -n -m "gitignore"`, { cwd })
+    }
 }
 
 export async function addGitRemote(
