@@ -12,7 +12,12 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "allowJs": true,
-        "jsx": "preserve"
+        "jsx": "preserve",
+        "lib": [
+            "ES2020",
+            "dom",
+            "dom.iterable"
+        ]
     },
     "include": ["./src"]
 }

@@ -2681,6 +2681,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/gatsby@workspace:gatsby"
   dependencies:
+    "@types/prismjs": ^1
     "@types/react": ^17.0.11
     "@types/react-dom": ^17.0.8
     "@types/react-helmet": ^6.1.1
@@ -2696,6 +2697,7 @@ __metadata:
     gatsby-transformer-remark: ^4.5.0
     gatsby-transformer-sharp: ^3.8.0
     prettier: ^2.3.2
+    prismjs: ^1.24.0
     prop-types: ^15.7.2
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -3801,6 +3803,13 @@ __metadata:
   version: 2.2.3
   resolution: "@types/prettier@npm:2.2.3"
   checksum: 78f1d731f9db92467596d3e2116efc402343a72ee69fa6444368317a2caf7d21ffe7d748637656ebef97ab65087867375089e743f0b9a378557cf979e5a9ac29
+  languageName: node
+  linkType: hard
+
+"@types/prismjs@npm:^1":
+  version: 1.16.5
+  resolution: "@types/prismjs@npm:1.16.5"
+  checksum: 048ee571955d6b3027cd640a48579d3707c0bf57d52d646dd19a081a1fde5e728db499395967ff31c2009341454895b39b8196fb7fae49fb07855a18c5bd8c0f
   languageName: node
   linkType: hard
 
@@ -17994,6 +18003,13 @@ fsevents@^1.2.7:
     ansi-styles: ^5.0.0
     react-is: ^17.0.1
   checksum: 26a454f1daebcb9b605a56aadc68364728114b2cada38c0647e745accf02e89ba8e098ceef102abb01e9df00cb0d78dd8c1cf4756e21aa560f054069e97646e3
+  languageName: node
+  linkType: hard
+
+"prismjs@npm:^1.24.0":
+  version: 1.24.0
+  resolution: "prismjs@npm:1.24.0"
+  checksum: 8456d08274c78bb4ce48ab9b3cbc5a82837fd683afe2bda7554526d9234f8ac48c9922c92a39bd3230e0bc8b0bf2cce18c9b563678b1c08f88f5f2a78a5fd174
   languageName: node
   linkType: hard
 

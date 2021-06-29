@@ -69,10 +69,19 @@ const IndexPage: React.FC = () => (
             Monodeploy only supports projects using Yarn Berry with the minimum
             node version set to Node v14.0.0.
         </p>
+        <h2>Usage</h2>
+        <Code
+            language="sh"
+            code={`
+                yarn add -D monodeploy
+                yarn monodeploy --dry-run
+            `}
+        />
+        <br />
         <h2>Getting Started</h2>
-        <Code>yarn add -D monodeploy</Code>
-        <p style={{ marginBottom: 0 }}>For help &amp; usage:</p>
-        <Code>yarn monodeploy --help</Code>
+        <p>
+            Please see the <a href="/getting-started">Getting Started Guide</a>.
+        </p>
     </Layout>
 )
 

@@ -14,12 +14,14 @@
     "gatsby-plugin-sharp": "^3.8.0",
     "gatsby-source-filesystem": "^3.8.0",
     "gatsby-transformer-sharp": "^3.8.0",
+    "prismjs": "^1.24.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "@types/prismjs": "^1",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "@types/react-helmet": "^6.1.1",

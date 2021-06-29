@@ -521,6 +521,7 @@ li > p {
 code {
   font-size: 0.85rem;
   line-height: 1.45rem;
+  margin-bottom: 1.45rem;
 }
 kbd {
   font-size: 0.85rem;
