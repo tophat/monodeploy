@@ -233,7 +233,92 @@ describe('@monodeploy/git', () => {
             )
         })
 
-        it.todo('skips prerelease tags if not in prerelease mode')
+        it('skips prerelease tags if not in prerelease mode', async () => {
+            process.env.NODE_ENV = 'production'
+            const cwd = context.project.cwd
+
+            await createFile({ filePath: 'test.txt', cwd })
+            await exec(
+                'git add . && git commit -m "chore: initial commit" -n',
+                {
+                    cwd,
+                },
+            )
+            const releaseTagSha = await gitResolveSha('HEAD', { cwd, context })
+
+            const nonPrereleaseTags = [
+                'test-tag@0.0.1',
+                'test-tag@v0.0.1',
+                'test-tag@pkg-name-dash.1', // only support semantic versions
+                '@scope-with-hyphen/name.with.dot-and-hyphen',
+            ]
+            for (const tag of nonPrereleaseTags) {
+                await gitTag(tag, { cwd, context })
+            }
+
+            await createFile({ filePath: 'test1.txt', cwd })
+            await exec('git add . && git commit -m "chore: second commit" -n', {
+                cwd,
+            })
+            const prereleaseTagSha = await gitResolveSha('HEAD', {
+                cwd,
+                context,
+            })
+            await gitTag('test-tag@0.0.2-rc.1', { cwd, context })
+
+            await createFile({ filePath: 'test2.txt', cwd })
+            await exec('git add . && git commit -m "chore: non-tagged" -n', {
+                cwd,
+            })
+
+            const detectedCommit = await gitLastTaggedCommit({
+                cwd,
+                context,
+                prerelease: false,
+            })
+
+            expect(detectedCommit).not.toEqual(prereleaseTagSha)
+            expect(detectedCommit).toEqual(releaseTagSha)
+        })
+
+        it('includes prerelease tags when in prerelease mode', async () => {
+            process.env.NODE_ENV = 'production'
+            const cwd = context.project.cwd
+
+            await createFile({ filePath: 'test.txt', cwd })
+            await exec(
+                'git add . && git commit -m "chore: initial commit" -n',
+                {
+                    cwd,
+                },
+            )
+            const releaseTagSha = await gitResolveSha('HEAD', { cwd, context })
+            await gitTag('test-tag@0.0.1', { cwd, context })
+
+            await createFile({ filePath: 'test1.txt', cwd })
+            await exec('git add . && git commit -m "chore: second commit" -n', {
+                cwd,
+            })
+            const prereleaseTagSha = await gitResolveSha('HEAD', {
+                cwd,
+                context,
+            })
+            await gitTag('test-tag@0.0.2-rc.1', { cwd, context })
+
+            await createFile({ filePath: 'test2.txt', cwd })
+            await exec('git add . && git commit -m "chore: non-tagged" -n', {
+                cwd,
+            })
+
+            const detectedCommit = await gitLastTaggedCommit({
+                cwd,
+                context,
+                prerelease: true,
+            })
+
+            expect(detectedCommit).toEqual(prereleaseTagSha)
+            expect(detectedCommit).not.toEqual(releaseTagSha)
+        })
     })
 
     describe('gitLog', () => {

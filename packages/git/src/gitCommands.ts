@@ -122,14 +122,21 @@ export const gitPush = async ({
 export const gitLastTaggedCommit = async ({
     cwd,
     context,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     prerelease = false,
 }: {
     cwd: string
     context?: YarnContext
     prerelease?: boolean
 }): Promise<string> => {
-    const mostRecentTagCommand = `git describe --abbrev=0`
+    let mostRecentTagCommand = `git describe --abbrev=0`
+
+    if (!prerelease) {
+        // The glob matches prerelease ranges. The 'complexity' comes from not wanting
+        // to be overeager in producing a false positive for a tag such as
+        // `@scope-with-hyphen/name.with.dot-and-hyphen`
+        mostRecentTagCommand = `${mostRecentTagCommand} --exclude '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*-*'`
+    }
+
     logging.debug(`[Exec] ${mostRecentTagCommand}`, { report: context?.report })
 
     let tag = 'HEAD'
