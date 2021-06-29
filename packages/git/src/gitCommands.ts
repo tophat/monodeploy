@@ -1,7 +1,10 @@
 import childProcess from 'child_process'
+import util from 'util'
 
 import logging, { assertProduction } from '@monodeploy/logging'
 import { YarnContext } from '@monodeploy/types'
+
+const exec = util.promisify(childProcess.exec)
 
 export const gitResolveSha = async (
     ref: string,
@@ -9,8 +12,7 @@ export const gitResolveSha = async (
 ): Promise<string> => {
     const gitCommand = `git log --format="%H" -n 1 ${ref}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return childProcess
-        .execSync(gitCommand, { encoding: 'utf8', cwd })
+    return (await exec(gitCommand, { encoding: 'utf8', cwd })).stdout
         .toString()
         .trim()
 }
@@ -21,10 +23,12 @@ export const gitDiffTree = async (
 ): Promise<string> => {
     const gitCommand = `git diff-tree --no-commit-id --name-only -r --root ${ref}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return childProcess.execSync(gitCommand, {
-        encoding: 'utf8',
-        cwd,
-    })
+    return (
+        await exec(gitCommand, {
+            encoding: 'utf8',
+            cwd,
+        })
+    ).stdout
 }
 
 export const gitLog = async (
@@ -36,12 +40,19 @@ export const gitLog = async (
         context,
     }: { cwd: string; DELIMITER: string; context?: YarnContext },
 ): Promise<string> => {
-    const gitCommand = `git log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
+    let gitCommand = `git log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
+    if (from === to) {
+        /* Special case where we'll just return a single log entry for "to". */
+        gitCommand = `git log -1 ${to} --format=%H%n%B%n${DELIMITER}`
+    }
+
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return childProcess.execSync(gitCommand, {
-        encoding: 'utf8',
-        cwd,
-    })
+    return (
+        await exec(gitCommand, {
+            encoding: 'utf8',
+            cwd,
+        })
+    ).stdout
 }
 
 export const gitTag = async (
@@ -51,7 +62,7 @@ export const gitTag = async (
     assertProduction()
     const gitCommand = `git tag ${tag} -m ${tag}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
+    await exec(gitCommand, { encoding: 'utf8', cwd })
 }
 
 export const gitPushTags = async ({
@@ -66,7 +77,7 @@ export const gitPushTags = async ({
     assertProduction()
     const gitCommand = `git push --tags ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, {
+    await exec(gitCommand, {
         encoding: 'utf8',
         cwd,
     })
@@ -84,7 +95,7 @@ export const gitPull = async ({
     assertProduction()
     const gitCommand = `git pull --rebase --no-verify ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, {
+    await exec(gitCommand, {
         encoding: 'utf8',
         cwd,
     })
@@ -102,7 +113,7 @@ export const gitPush = async ({
     assertProduction()
     const gitCommand = `git push --no-verify ${remote}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, {
+    await exec(gitCommand, {
         encoding: 'utf8',
         cwd,
     })
@@ -111,37 +122,42 @@ export const gitPush = async ({
 export const gitLastTaggedCommit = async ({
     cwd,
     context,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    prerelease = false,
 }: {
     cwd: string
     context?: YarnContext
+    prerelease?: boolean
 }): Promise<string> => {
     const mostRecentTagCommand = `git describe --abbrev=0`
     logging.debug(`[Exec] ${mostRecentTagCommand}`, { report: context?.report })
 
-    let tag = 'HEAD^'
+    let tag = 'HEAD'
 
     try {
-        tag = childProcess
-            .execSync(mostRecentTagCommand, {
+        tag = (
+            await exec(mostRecentTagCommand, {
                 encoding: 'utf8',
                 cwd,
             })
+        ).stdout
             .toString()
             .trim()
     } catch (err) {
         logging.warning(
-            `[Exec] Fetching most recent tag failed, falling back to HEAD^`,
+            `[Exec] Fetching most recent tag failed, falling back to HEAD`,
             { report: context?.report },
         )
     }
 
     const associatedShaCommand = `git rev-list -1 ${tag}`
     logging.debug(`[Exec] ${associatedShaCommand}`, { report: context?.report })
-    return childProcess
-        .execSync(associatedShaCommand, {
+    return (
+        await exec(associatedShaCommand, {
             encoding: 'utf8',
             cwd,
         })
+    ).stdout
         .toString()
         .trim()
 }
@@ -153,7 +169,7 @@ export const gitAdd = async (
     assertProduction()
     const gitCommand = `git add ${paths.join(' ')}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
+    await exec(gitCommand, { encoding: 'utf8', cwd })
 }
 
 export const gitCommit = async (
@@ -163,5 +179,5 @@ export const gitCommit = async (
     assertProduction()
     const gitCommand = `git commit -m "${message}" -n`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    childProcess.execSync(gitCommand, { encoding: 'utf8', cwd })
+    await exec(gitCommand, { encoding: 'utf8', cwd })
 }
