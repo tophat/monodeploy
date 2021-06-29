@@ -138,7 +138,7 @@ describe('@monodeploy/git', () => {
                 cwd,
             })
             await expect(async () =>
-                gitTag('1.0.0', { cwd, context }),
+                gitTag('pkg@1.0.0', { cwd, context }),
             ).rejects.toMatchInlineSnapshot(
                 `[Error: Invariant Violation: Invalid environment test !== production.]`,
             )
@@ -153,7 +153,7 @@ describe('@monodeploy/git', () => {
                 cwd,
             })
 
-            await gitTag('1.0.0', { cwd, context })
+            await gitTag('pkg@1.0.0', { cwd, context })
 
             const { stdout } = await exec('git describe --abbrev=0', { cwd })
             expect(stdout).toEqual(expect.stringContaining('1.0.0'))
@@ -221,7 +221,7 @@ describe('@monodeploy/git', () => {
                 },
             )
             const taggedSha = await gitResolveSha('HEAD', { cwd, context })
-            await gitTag('test-tag', { cwd, context })
+            await gitTag('test-tag@0.0.1', { cwd, context })
 
             await createFile({ filePath: 'test2.txt', cwd })
             await exec('git add . && git commit -m "chore: non-tagged" -n', {

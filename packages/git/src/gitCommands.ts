@@ -128,7 +128,7 @@ export const gitLastTaggedCommit = async ({
     context?: YarnContext
     prerelease?: boolean
 }): Promise<string> => {
-    let mostRecentTagCommand = `git describe --abbrev=0`
+    let mostRecentTagCommand = `git describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'`
 
     if (!prerelease) {
         // The glob matches prerelease ranges. The 'complexity' comes from not wanting

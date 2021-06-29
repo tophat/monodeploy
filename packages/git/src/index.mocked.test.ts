@@ -44,7 +44,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
-        const newTag = '1.0.0'
+        const newTag = 'pkg@1.0.0'
         await gitTag(newTag, { cwd, context })
         const tagList = execSync('git tag -l', {
             cwd,
@@ -59,7 +59,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
         execSync('git commit -m "test: base" --allow-empty', {
             cwd,
         })
-        const tag = '1.0.0'
+        const tag = 'pkg@1.0.0'
         await gitTag(tag, { cwd, context })
         const lastTaggedSha = await gitLastTaggedCommit({ cwd, context })
         const actualSha = execSync(`git log ${tag} -1 --pretty=%H`, {
@@ -79,7 +79,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
             cwd,
         })
 
-        await gitTag('1.0.0', { cwd, context })
+        await gitTag('pkg@1.0.0', { cwd, context })
         await gitPushTags({ cwd, remote: 'local', context })
 
         const lastTaggedSha = await gitLastTaggedCommit({ cwd, context })
