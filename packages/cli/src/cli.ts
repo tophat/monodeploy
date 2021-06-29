@@ -130,6 +130,15 @@ const { argv } = yargs
         description:
             'Globs to use in filtering out files when determining version bumps',
     })
+    .option('prerelease', {
+        type: 'boolean',
+        description: 'Whether to publish using a prerelease strategy',
+        default: false,
+    })
+    .option('prerelease-id', {
+        type: 'string',
+        description: 'The prerelease identifier when in prerelease mode.',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -218,6 +227,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     ? argv.maxConcurrentWrites
                     : configFromFile?.maxConcurrentWrites) ?? 0,
             plugins: argv.plugins ?? configFromFile?.plugins ?? undefined,
+            prerelease:
+                argv.prerelease ?? configFromFile?.prerelease ?? undefined,
+            prereleaseId:
+                argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
         }
 
         await monodeploy(config)

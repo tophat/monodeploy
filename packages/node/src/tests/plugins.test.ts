@@ -88,6 +88,8 @@ describe('Monodeploy Plugins', () => {
         forceWriteChangeFiles: false,
         maxConcurrentReads: 2,
         maxConcurrentWrites: 2,
+        prerelease: false,
+        prereleaseId: 'rc',
     }
 
     beforeAll(async () => {

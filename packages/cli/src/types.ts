@@ -27,6 +27,8 @@ export interface ArgOutput {
     maxConcurrentWrites?: number
     plugins?: Array<string>
     changesetIgnorePatterns?: Array<string>
+    prerelease?: boolean
+    prereleaseId?: string
 }
 
 export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>

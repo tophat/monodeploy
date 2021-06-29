@@ -88,6 +88,8 @@ describe('Custom Conventional Recommended Strategy', () => {
         jobs: 0,
         maxConcurrentReads: 1,
         maxConcurrentWrites: 1,
+        prerelease: false,
+        prereleaseId: 'rc',
     }
 
     afterEach(() => {

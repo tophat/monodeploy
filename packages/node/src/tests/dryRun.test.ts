@@ -76,6 +76,8 @@ describe('Monodeploy (Dry Run)', () => {
         forceWriteChangeFiles: false,
         maxConcurrentReads: 2,
         maxConcurrentWrites: 0,
+        prerelease: false,
+        prereleaseId: 'rc',
     }
 
     beforeAll(async () => {
