@@ -80,7 +80,7 @@ const IndexPage: React.FC = () => (
         <br />
         <h2>Getting Started</h2>
         <p>
-            Please see the <a href="/getting-started">Getting Started Guide</a>.
+            Please see the <a href="getting-started">Getting Started Guide</a>.
         </p>
     </Layout>
 )
