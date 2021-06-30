@@ -173,3 +173,44 @@ describe('cycles', () => {
         ).toEqual(expect.stringMatching('Cycle detected'))
     })
 })
+
+describe('complex', () => {
+    it('handles transitive dependents', async () => {
+        let context: YarnContext | undefined = undefined
+        try {
+            context = await setupMonorepo({
+                'pkg-1': {},
+                'pkg-2': {
+                    dependencies: ['pkg-1'],
+                },
+                'pkg-3': { dependencies: ['pkg-2'] },
+                'pkg-4': { dependencies: ['pkg-3'] },
+                'pkg-5': { dependencies: ['pkg-4'] },
+                'pkg-isolated': {},
+            })
+
+            const config = await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            })
+            const dependents = await getDependents(
+                config,
+                context,
+                new Set(['pkg-1']),
+            )
+            expect(dependents).toEqual(
+                new Set(['pkg-2', 'pkg-3', 'pkg-4', 'pkg-5']),
+            )
+        } finally {
+            try {
+                if (context) {
+                    await fs.rm(context.project.cwd, {
+                        recursive: true,
+                        force: true,
+                    })
+                }
+            } catch {}
+        }
+    })
+})
