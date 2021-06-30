@@ -65,7 +65,7 @@ export type CommitMessage = {
 
 export type PackageTagMap = Map<
     string,
-    Record<string, string> & { latest: string }
+    Record<string, string | undefined> & { latest: string }
 >
 
 export type PackageVersionMap = Map<string, string>

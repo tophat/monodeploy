@@ -4,11 +4,15 @@ import {
     getMonodeployConfig,
     withMonorepoContext,
 } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
+import {
+    MonodeployConfiguration,
+    PackageStrategyType,
+    YarnContext,
+} from '@monodeploy/types'
 import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
-import applyReleases from './applyReleases'
+import applyReleases, { incrementVersion } from './applyReleases'
 
 const identToWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
@@ -99,4 +103,141 @@ describe('applyReleases', () => {
                 ).toEqual(`workspace:^1.0.0`)
             },
         ))
+
+    it(`applies a prerelease version in prerelease mode`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {},
+                'pkg-2': { dependencies: ['pkg-1'] },
+                'pkg-3': {
+                    peerDependencies: ['pkg-2'],
+                    dependencies: ['pkg-1'],
+                },
+            },
+            async (context) => {
+                const config: MonodeployConfiguration = {
+                    ...(await getMonodeployConfig({
+                        cwd: context.project.cwd,
+                        baseBranch: 'master',
+                        commitSha: 'shashasha',
+                    })),
+                    persistVersions: true,
+                    prerelease: true,
+                    prereleaseNPMTag: 'next',
+                    prereleaseId: 'rc',
+                }
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                const intendedVersions = await applyReleases({
+                    config,
+                    context,
+                    workspaces: new Set([workspace1, workspace2, workspace3]),
+                    registryTags: new Map([
+                        ['pkg-1', { latest: '1.0.0' }],
+                        ['pkg-2', { latest: '2.0.0', next: '2.1.0-rc.3' }],
+                        ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
+                    ]),
+                    versionStrategies: new Map([
+                        ['pkg-1', { type: 'minor', commits: [] }],
+                        ['pkg-2', { type: 'minor', commits: [] }],
+                        ['pkg-3', { type: 'major', commits: [] }],
+                    ]),
+                })
+
+                expect(intendedVersions.get('pkg-1')).toEqual('1.1.0-rc.0')
+                expect(intendedVersions.get('pkg-2')).toEqual('2.1.0-rc.4')
+                expect(intendedVersions.get('pkg-3')).toEqual('4.0.0-rc.2')
+
+                const manifest1 = await loadManifest(context, 'pkg-1')
+                const manifest2 = await loadManifest(context, 'pkg-2')
+                const manifest3 = await loadManifest(context, 'pkg-3')
+
+                expect(manifest1.version).toEqual('1.1.0-rc.0')
+                expect(manifest2.version).toEqual('2.1.0-rc.4')
+                expect(manifest3.version).toEqual('4.0.0-rc.2')
+            },
+        ))
+})
+
+describe('applyReleases prereleases', () => {
+    it.each([
+        // Applying "patch" to a "prepatch" gives us a "prepatch"
+        ['2.0.1-rc.0', 'patch', '2.0.1-rc.1'],
+        // Applying "minor" to a "prepatch" gives us a "preminor"
+        ['2.0.1-rc.0', 'minor', '2.1.0-rc.0'],
+        // Applying "major" to a "prepatch" gives us a "premajor"
+        ['2.0.1-rc.0', 'major', '3.0.0-rc.0'],
+
+        // Applying "patch" to a "preminor" gives us a "preminor"
+        ['2.1.0-rc.0', 'patch', '2.1.0-rc.1'],
+        // Applying "minor" to a "preminor" gives us a "preminor"
+        ['2.1.0-rc.0', 'minor', '2.1.0-rc.1'],
+        // Applying "major" to a "preminor" gives us a "premajor"
+        ['2.1.0-rc.0', 'major', '3.0.0-rc.0'],
+
+        // Applying "patch" to a "premajor" gives us a "premajor"
+        ['2.0.0-rc.0', 'patch', '2.0.0-rc.1'],
+        // Applying "minor" to a "premajor" gives us a "premajor"
+        ['2.0.0-rc.0', 'minor', '2.0.0-rc.1'],
+        // Applying "major" to a "premajor" gives us a "premajor"
+        ['2.0.0-rc.0', 'major', '2.0.0-rc.1'],
+
+        // Applying "S" to a "pre<S>" gives us a "pre<S>"
+        ['2.0.3-rc.4', 'patch', '2.0.3-rc.5'],
+        ['2.7.0-rc.6', 'minor', '2.7.0-rc.7'],
+        ['2.0.0-rc.9', 'major', '2.0.0-rc.10'],
+    ])(
+        `bumps pre-release %s with %s to %s`,
+        (fromVersion, strategy, toVersion) => {
+            const actualVersion = incrementVersion({
+                currentLatestVersion: '1.0.0',
+                currentPrereleaseVersion: fromVersion,
+                strategy: strategy as PackageStrategyType,
+                prerelease: true,
+                prereleaseId: 'rc',
+            })
+            expect(actualVersion).toEqual(toVersion)
+        },
+    )
+
+    it.each([
+        // Applying "patch" to a "patch" gives us a "prepatch"
+        ['2.0.1', 'patch', '2.0.2-rc.0'],
+        // Applying "minor" to a "patch" gives us a "preminor"
+        ['2.0.1', 'minor', '2.1.0-rc.0'],
+        // Applying "major" to a "patch" gives us a "premajor"
+        ['2.0.1', 'major', '3.0.0-rc.0'],
+
+        // Applying "patch" to a "minor" gives us a "prepatch"
+        ['2.1.0', 'patch', '2.1.1-rc.0'],
+        // Applying "minor" to a "minor" gives us a "preminor"
+        ['2.1.0', 'minor', '2.2.0-rc.0'],
+        // Applying "major" to a "minor" gives us a "premajor"
+        ['2.1.0', 'major', '3.0.0-rc.0'],
+
+        // Applying "patch" to a "major" gives us a "prepatch"
+        ['2.0.0', 'patch', '2.0.1-rc.0'],
+        // Applying "minor" to a "major" gives us a "preminor"
+        ['2.0.0', 'minor', '2.1.0-rc.0'],
+        // Applying "major" to a "major" gives us a "premajor"
+        ['2.0.0', 'major', '3.0.0-rc.0'],
+
+        // Applying a "patch" to "unpublished" gives us a "prepatch"
+        ['0.0.0', 'patch', '0.0.1-rc.0'],
+        // Applying a "minor" to "unpublished" gives us a "preminor"
+        ['0.0.0', 'minor', '0.1.0-rc.0'],
+        // Applying a "major" to "unpublished" gives us a "premajor"
+        ['0.0.0', 'major', '1.0.0-rc.0'],
+    ])(`bumps %s with %s to %s`, (fromVersion, strategy, toVersion) => {
+        const actualVersion = incrementVersion({
+            currentLatestVersion: fromVersion,
+            currentPrereleaseVersion: null,
+            strategy: strategy as PackageStrategyType,
+            prerelease: true,
+            prereleaseId: 'rc',
+        })
+        expect(actualVersion).toEqual(toVersion)
+    })
 })

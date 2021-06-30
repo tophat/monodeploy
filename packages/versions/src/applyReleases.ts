@@ -11,7 +11,7 @@ import type {
 import { Workspace } from '@yarnpkg/core'
 import * as semver from 'semver'
 
-const incrementVersion = ({
+export const incrementVersion = ({
     currentLatestVersion,
     currentPrereleaseVersion,
     strategy,
