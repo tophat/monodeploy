@@ -45,6 +45,7 @@ const mergeDefaultConfig = async (
         plugins: baseConfig.plugins ?? [],
         prerelease,
         prereleaseId: baseConfig.prereleaseId ?? 'rc',
+        prereleaseNPMTag: baseConfig.prereleaseNPMTag ?? 'next',
     }
 }
 

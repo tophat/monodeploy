@@ -29,6 +29,7 @@ export interface ArgOutput {
     changesetIgnorePatterns?: Array<string>
     prerelease?: boolean
     prereleaseId?: string
+    prereleaseNPMTag?: string
 }
 
 export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>

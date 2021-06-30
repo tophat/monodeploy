@@ -78,6 +78,7 @@ describe('Config Merging', () => {
             plugins: [],
             prerelease: true,
             prereleaseId: 'rc',
+            prereleaseNPMTag: 'beta',
         }
 
         const merged = await mergeDefaultConfig(config)

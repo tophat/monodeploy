@@ -25,6 +25,7 @@ export const publishPackages = async ({
     registryUrl: string | null
 }): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
+    const publishTag = config.prerelease ? config.prereleaseNPMTag : 'latest'
 
     const prepareWorkspace = async (workspace: Workspace) => {
         const ident = workspace.manifest.name
@@ -37,7 +38,7 @@ export const publishPackages = async ({
         const pack = async () => {
             if (!registryUrl || config.noRegistry) {
                 logging.info(
-                    `[Publish] ${pkgName} (latest: ${workspace.manifest.version}, skipping registry)`,
+                    `[Publish] ${pkgName} (${publishTag}: ${workspace.manifest.version}, skipping registry)`,
                     { report: context.report },
                 )
                 return
@@ -53,7 +54,7 @@ export const publishPackages = async ({
                 buffer,
                 {
                     access: config.access,
-                    tag: 'latest',
+                    tag: publishTag,
                     registry: registryUrl,
                 },
             )
@@ -73,7 +74,7 @@ export const publishPackages = async ({
                     )
                 }
                 logging.info(
-                    `[Publish] ${pkgName} (latest: ${body['dist-tags']?.latest}, ${registryUrl})`,
+                    `[Publish] ${pkgName} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl})`,
                     { report: context.report },
                 )
             } catch (e) {

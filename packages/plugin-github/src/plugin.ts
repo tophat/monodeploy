@@ -65,7 +65,7 @@ export const PluginInternals = async (
                 name: changeData.tag,
                 body: changeData.changelog ?? '',
                 draft: false,
-                prerelease: false,
+                prerelease: config.prerelease,
             })
         }
     }

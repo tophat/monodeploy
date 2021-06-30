@@ -139,6 +139,10 @@ const { argv } = yargs
         type: 'string',
         description: 'The prerelease identifier when in prerelease mode.',
     })
+    .option('prerelease-npm-tag', {
+        type: 'string',
+        description: 'NPM dist tag to use for pre-release versions',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -231,6 +235,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 argv.prerelease ?? configFromFile?.prerelease ?? undefined,
             prereleaseId:
                 argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
+            prereleaseNPMTag:
+                argv.prereleaseNPMTag ??
+                configFromFile?.prereleaseNPMTag ??
+                undefined,
         }
 
         await monodeploy(config)

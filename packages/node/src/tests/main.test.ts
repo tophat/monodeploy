@@ -99,6 +99,7 @@ describe('Monodeploy', () => {
         maxConcurrentWrites: 2,
         prerelease: false,
         prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
     }
 
     beforeAll(async () => {
