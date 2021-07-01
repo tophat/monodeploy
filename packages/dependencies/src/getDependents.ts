@@ -1,111 +1,70 @@
-import logging from '@monodeploy/logging'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Descriptor, Workspace, structUtils } from '@yarnpkg/core'
-
-function* getDependencies(context: YarnContext, workspace: Workspace) {
-    for (const dependencySetKey of ['dependencies', 'peerDependencies']) {
-        const dependencies = workspace.manifest.getForScope(dependencySetKey)
-
-        for (const descriptor of dependencies.values()) {
-            const workspace =
-                context.project.tryWorkspaceByDescriptor(descriptor)
-            if (workspace === null) continue
-            yield workspace
-        }
-    }
-}
+import { Workspace, structUtils } from '@yarnpkg/core'
 
 const getDependents = async (
     config: MonodeployConfiguration,
     context: YarnContext,
     packageNames: Set<string>,
 ): Promise<Set<string>> => {
-    // first populate with direct dependents
-    const workspaceToDependents = new Map<Descriptor, Set<Descriptor>>()
+    const identToWorkspace = new Map<string, Workspace>()
+
+    // Enable easy lookup of workspace name to workspace
     for (const workspace of context.project.workspaces) {
-        const workspaceDescriptor = workspace.anchoredDescriptor
-
-        for (const dependency of getDependencies(context, workspace)) {
-            const dependentsSet =
-                workspaceToDependents.get(dependency.anchoredDescriptor) ??
-                new Set<Descriptor>()
-            dependentsSet.add(workspaceDescriptor)
-            workspaceToDependents.set(
-                dependency.anchoredDescriptor,
-                dependentsSet,
-            )
-        }
+        if (workspace.manifest.private || !workspace.manifest.name) continue
+        const ident = structUtils.stringifyIdent(workspace.manifest.name)
+        identToWorkspace.set(ident, workspace)
     }
 
-    // We can propagate dependent relations via a transitive property:
-    // Given:
-    //  pkg-1: [pkg-2, pkg-3]
-    //  pkg-2: [pkg-4]
-    //  pkg-3: []
-    //  pkg-4: []
-    // Output:
-    //  pkg-1: [pk-2, pkg-3, pk-4]
-    //  pkg-n: [pkg-a, ...(dependents of pkg-a)]
-
-    const pending = [...workspaceToDependents.keys()]
-    while (pending.length) {
-        const descriptor = pending.shift()!
-
-        const dependentsSet = workspaceToDependents.get(descriptor)
-        if (!dependentsSet) continue
-
-        const transitiveDependents = [...dependentsSet]
-            .map((dependent) => [
-                ...(workspaceToDependents.get(dependent) ?? []),
-            ])
-            .flat()
-        for (const transitiveDependent of transitiveDependents) {
-            if (
-                structUtils.areDescriptorsEqual(descriptor, transitiveDependent)
-            ) {
-                logging.error('Cycle detected between workspaces.', {
-                    report: context.report,
-                })
-                continue
-            }
-            if (!dependentsSet.has(transitiveDependent)) {
-                pending.push(transitiveDependent)
-                dependentsSet.add(transitiveDependent)
-            }
-        }
-    }
-
-    const discoveredDependents = new Set<string>()
-
-    for (const pkgName of packageNames.values()) {
-        const pkgIdent = structUtils.parseIdent(pkgName)
-        const workspace = context.project.tryWorkspaceByIdent(pkgIdent)
+    // Enable O(1) lookup of Workspace -> Direct Dependents
+    const identToDirectDependents = new Map<string, Set<string>>()
+    for (const ident of identToWorkspace.keys()) {
+        const workspace = identToWorkspace.get(ident)
         if (!workspace) continue
+        for (const key of ['dependencies', 'peerDependencies']) {
+            const dependencies = workspace.manifest.getForScope(key)
+            for (const dependency of dependencies.values()) {
+                const dependecyIdent = structUtils.stringifyIdent(dependency)
 
-        for (const dependentDescriptor of workspaceToDependents
-            .get(workspace.anchoredDescriptor)
-            ?.values() ?? []) {
-            const dependentWorkspace =
-                context.project.tryWorkspaceByDescriptor(dependentDescriptor)
+                // Prune invalid workspace candidates (e.g. private)
+                if (!identToWorkspace.has(dependecyIdent)) continue
 
-            if (!dependentWorkspace || dependentWorkspace.manifest.private) {
-                continue
+                const dependents =
+                    identToDirectDependents.get(dependecyIdent) ??
+                    new Set<string>()
+                dependents.add(ident)
+                identToDirectDependents.set(dependecyIdent, dependents)
             }
-
-            if (!dependentWorkspace.manifest.name) {
-                throw new Error('Missing workspace identity.')
-            }
-
-            const dependentName = structUtils.stringifyIdent(
-                dependentWorkspace.manifest.name,
-            )
-            if (packageNames.has(dependentName)) continue
-
-            discoveredDependents.add(dependentName)
         }
     }
 
-    return discoveredDependents
+    const allDependents = new Set<string>()
+
+    const queue = [...packageNames]
+    while (queue.length) {
+        const pkgName = queue.shift()
+        if (!pkgName) continue
+
+        if (allDependents.has(pkgName)) {
+            // Already visited.
+            continue
+        }
+
+        allDependents.add(pkgName)
+
+        const pkgDependents = identToDirectDependents.get(pkgName)
+        if (pkgDependents?.size) {
+            for (const pkgDependent of pkgDependents) {
+                queue.unshift(pkgDependent)
+            }
+        }
+    }
+
+    // Cleanup: Remove starting nodes as expected by the consumers of getDependents
+    for (const pkgName of packageNames) {
+        allDependents.delete(pkgName)
+    }
+
+    return allDependents
 }
 
 export default getDependents

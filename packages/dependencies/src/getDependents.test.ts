@@ -1,10 +1,7 @@
 import { promises as fs } from 'fs'
-import path from 'path'
 
-import logging from '@monodeploy/logging'
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
-import { PortablePath } from '@yarnpkg/fslib'
 
 import { getDependents } from '.'
 
@@ -62,24 +59,6 @@ describe('@monodeploy/dependencies', () => {
         )
 
         expect(dependents).toEqual(new Set(['pkg-6']))
-    })
-
-    it('Errors if a dependent is unnamed', async () => {
-        const config = await getMonodeployConfig({
-            cwd: context.project.cwd,
-            baseBranch: 'master',
-            commitSha: 'shashasha',
-        })
-
-        // Stripping pkg-3 of its ident
-        const pkg3Cwd = path.resolve(path.join(config.cwd, 'packages/pkg-3'))
-        context.project.workspacesByCwd.get(
-            pkg3Cwd as PortablePath,
-        )!.manifest.name = null
-        await expect(
-            async () =>
-                await getDependents(config, context, new Set(['pkg-2'])),
-        ).rejects.toEqual(new Error('Missing workspace identity.'))
     })
 
     it('Ignores private dependents', async () => {
@@ -150,12 +129,6 @@ describe('cycles', () => {
     })
 
     it('handles cycles', async () => {
-        const consoleSpy = jest
-            .spyOn(logging, 'error')
-            .mockImplementation(() => {
-                /* ignore */
-            })
-
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
             baseBranch: 'master',
@@ -168,14 +141,11 @@ describe('cycles', () => {
         )
 
         expect(dependents).toEqual(new Set(['pkg-1', 'pkg-3']))
-        expect(
-            consoleSpy.mock.calls[consoleSpy.mock.calls.length - 1][0],
-        ).toEqual(expect.stringMatching('Cycle detected'))
     })
 })
 
 describe('complex', () => {
-    it('handles transitive dependents', async () => {
+    it('handles transitive dependents 1', async () => {
         let context: YarnContext | undefined = undefined
         try {
             context = await setupMonorepo({
@@ -202,6 +172,43 @@ describe('complex', () => {
             expect(dependents).toEqual(
                 new Set(['pkg-2', 'pkg-3', 'pkg-4', 'pkg-5']),
             )
+        } finally {
+            try {
+                if (context) {
+                    await fs.rm(context.project.cwd, {
+                        recursive: true,
+                        force: true,
+                    })
+                }
+            } catch {}
+        }
+    })
+
+    it('handles transitive dependents 2', async () => {
+        let context: YarnContext | undefined = undefined
+        try {
+            context = await setupMonorepo({
+                'pkg-1': {},
+                'pkg-2': {
+                    dependencies: ['pkg-1'],
+                },
+                'pkg-3': { dependencies: ['pkg-2', 'pkg-6'] },
+                'pkg-4': { dependencies: ['pkg-2'] },
+                'pkg-5': { dependencies: ['pkg-2', 'pkg-3'] },
+                'pkg-6': {},
+            })
+
+            const config = await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'master',
+                commitSha: 'shashasha',
+            })
+            const dependents = await getDependents(
+                config,
+                context,
+                new Set(['pkg-2', 'pkg-3']),
+            )
+            expect(dependents).toEqual(new Set(['pkg-4', 'pkg-5']))
         } finally {
             try {
                 if (context) {

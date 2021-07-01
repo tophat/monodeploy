@@ -74,6 +74,11 @@ describe('Full E2E', () => {
                         tag: 'pkg-3@0.0.1',
                         version: '0.0.1',
                     }),
+                    'pkg-4': expect.objectContaining({
+                        changelog: null,
+                        tag: 'pkg-4@0.0.1',
+                        version: '0.0.1',
+                    }),
                 })
 
                 let localChangelog = await readFile('changelog.md')
@@ -129,8 +134,8 @@ describe('Full E2E', () => {
                     }),
                     'pkg-4': expect.objectContaining({
                         changelog: null,
-                        tag: 'pkg-4@0.0.1',
-                        version: '0.0.1',
+                        tag: 'pkg-4@0.0.2',
+                        version: '0.0.2',
                     }),
                 })
 
@@ -161,7 +166,7 @@ describe('Full E2E', () => {
         TIMEOUT,
     )
 
-    it.todo(
+    it(
         'runs the full monodeploy pipeline for pre-release',
         setupProject({
             repository: [
@@ -233,6 +238,12 @@ describe('Full E2E', () => {
 
                 // -----
 
+                // Create & switch to "next" branch
+                await exec(`git checkout -b next`)
+                await exec(`git push --set-upstream origin next`)
+
+                // -----
+
                 // Make another semantic change
                 await exec(`echo "Modification." >> packages/pkg-1/README.md`)
                 await exec(
@@ -246,7 +257,7 @@ describe('Full E2E', () => {
 
                 // ---
 
-                const localChangeset = JSON.parse(
+                let localChangeset = JSON.parse(
                     await readFile('changes.json.tmp'),
                 )
                 expect(localChangeset).toEqual({
@@ -290,7 +301,7 @@ describe('Full E2E', () => {
 
                 // Assert changelog updated on remote
                 expect(
-                    (await exec(`git cat-file blob origin/master:changelog.md`))
+                    (await exec(`git cat-file blob origin/next:changelog.md`))
                         .stdout,
                 ).toEqual(expect.stringContaining('exciting'))
 
@@ -300,13 +311,69 @@ describe('Full E2E', () => {
                 await exec(`git add . && git commit -n -m "fix: bugfix"`)
                 const { error: error3 } = await run(['--prerelease'])
 
-                if (error3) console.error(error2)
+                if (error3) console.error(error3)
                 expect(error3).toBeUndefined()
 
                 // On Remote:
                 // Assert tags pushed
                 await exec(
                     `git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.2.0-alpha.1`,
+                )
+
+                // ----
+
+                // Now we'll test merging "next" into "master"
+
+                await exec(`git checkout master`)
+                await exec(`git merge next --no-verify --no-edit`)
+
+                // Run non-prerelease. We expect all the pre-release versions to be squashed.
+                // No additional file modifications required, as the previous pre-release tags
+                // are ignored.
+                const { error: error4 } = await run()
+
+                if (error4) console.error(error4)
+                expect(error4).toBeUndefined()
+
+                localChangeset = JSON.parse(await readFile('changes.json.tmp'))
+                expect(localChangeset).toEqual({
+                    'pkg-1': expect.objectContaining({
+                        changelog: expect.stringContaining(
+                            'some exciting addition',
+                        ),
+                        tag: 'pkg-1@0.2.0',
+                        version: '0.2.0',
+                    }),
+                    'pkg-2': expect.objectContaining({
+                        changelog: null,
+                        tag: 'pkg-2@0.0.2',
+                        version: '0.0.2',
+                    }),
+                    'pkg-3': expect.objectContaining({
+                        changelog: null,
+                        tag: 'pkg-3@0.0.2',
+                        version: '0.0.2',
+                    }),
+                    'pkg-4': expect.objectContaining({
+                        changelog: null,
+                        tag: 'pkg-4@0.0.2',
+                        version: '0.0.2',
+                    }),
+                })
+
+                // On Remote:
+                // Assert tags pushed
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.2.0`,
+                )
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-2@0.0.2`,
+                )
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.2`,
+                )
+                await exec(
+                    `git ls-remote --exit-code --tags origin refs/tags/pkg-4@0.0.2`,
                 )
             },
         }),
