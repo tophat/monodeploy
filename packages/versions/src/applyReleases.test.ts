@@ -240,4 +240,22 @@ describe('applyReleases prereleases', () => {
         })
         expect(actualVersion).toEqual(toVersion)
     })
+
+    it.each([
+        ['2.6.3', '2.0.1-rc.4', 'patch', '2.6.4-rc.0'],
+        ['2.6.3', '2.2.0-rc.2', 'minor', '2.7.0-rc.0'],
+        ['3.0.0', '3.0.0-rc.0', 'major', '4.0.0-rc.0'],
+    ])(
+        `handles outdated prerelease with latest %s, prerelease %s, strategy %s`,
+        (fromLatest, fromPrerelease, strategy, toVersion) => {
+            const actualVersion = incrementVersion({
+                currentLatestVersion: fromLatest,
+                currentPrereleaseVersion: fromPrerelease,
+                strategy: strategy as PackageStrategyType,
+                prerelease: true,
+                prereleaseId: 'rc',
+            })
+            expect(actualVersion).toEqual(toVersion)
+        },
+    )
 })

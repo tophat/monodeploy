@@ -23,16 +23,16 @@ const getDependents = async (
         for (const key of ['dependencies', 'peerDependencies']) {
             const dependencies = workspace.manifest.getForScope(key)
             for (const dependency of dependencies.values()) {
-                const dependecyIdent = structUtils.stringifyIdent(dependency)
+                const dependencyIdent = structUtils.stringifyIdent(dependency)
 
                 // Prune invalid workspace candidates (e.g. private)
-                if (!identToWorkspace.has(dependecyIdent)) continue
+                if (!identToWorkspace.has(dependencyIdent)) continue
 
                 const dependents =
-                    identToDirectDependents.get(dependecyIdent) ??
+                    identToDirectDependents.get(dependencyIdent) ??
                     new Set<string>()
                 dependents.add(ident)
-                identToDirectDependents.set(dependecyIdent, dependents)
+                identToDirectDependents.set(dependencyIdent, dependents)
             }
         }
     }

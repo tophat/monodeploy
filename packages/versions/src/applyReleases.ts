@@ -32,7 +32,12 @@ export const incrementVersion = ({
         ? semver.parse(currentPrereleaseVersion)
         : null
 
-    if (!currentPrereleaseVersion || !semverInfo) {
+    if (
+        !currentPrereleaseVersion ||
+        !semverInfo ||
+        // the prerelease version is outdated relative to latest
+        semverInfo.compare(currentLatestVersion) <= 0
+    ) {
         const releaseType: `pre${PackageStrategyType}` = `pre${strategy}`
         return semver.inc(currentLatestVersion, releaseType, prereleaseId)
     }
