@@ -52,6 +52,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         maxConcurrentWrites: 3,
         prerelease: false,
         prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>

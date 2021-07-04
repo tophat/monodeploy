@@ -35,7 +35,8 @@ export interface MonodeployConfiguration {
     maxConcurrentWrites: number
     plugins?: Array<string>
     prerelease: boolean
-    prereleaseId?: string
+    prereleaseId: string
+    prereleaseNPMTag: string
 }
 
 export interface YarnContext {
@@ -64,7 +65,7 @@ export type CommitMessage = {
 
 export type PackageTagMap = Map<
     string,
-    Record<string, string> & { latest: string }
+    Record<string, string | undefined> & { latest: string }
 >
 
 export type PackageVersionMap = Map<string, string>

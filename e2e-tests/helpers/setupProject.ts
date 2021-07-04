@@ -21,7 +21,7 @@ import run from './runner'
 
 const registryUrl = 'http://localhost:4873'
 
-type RunFn = () => Promise<{
+type RunFn = (args?: Array<string>) => Promise<{
     stdout: string
     stderr: string
     error?: ExecException
@@ -87,11 +87,16 @@ export default function setupProject({
 
             await testCase({
                 cwd: project,
-                run: () => {
+                run: (args?: Array<string>) => {
                     if (!project) throw new Error('Missing project path.')
+                    console.log(`Temporary Project: ${project}`)
+
                     return run({
                         cwd: project,
-                        args: `--config-file ${configFilename}`,
+                        args: [
+                            `--config-file ${configFilename}`,
+                            ...(args ? args : []),
+                        ].join(' '),
                     })
                 },
                 readFile: (filename: string) => {

@@ -1,9 +1,6 @@
 {
   "name": "@monodeploy/gatsby",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "gatsby": "^3.8.1",
     "gatsby-plugin-gatsby-cloud": "^2.8.1",
@@ -18,21 +15,17 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "sanitize.css": "^12.0.1"
   },
   "devDependencies": {
     "@types/prismjs": "^1",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "@types/react-helmet": "^6.1.1",
-    "gatsby-remark-code-buttons": "^2.0.7",
     "gatsby-transformer-remark": "^4.5.0",
     "prettier": "^2.3.2"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "0BSD",
   "scripts": {
     "build": "rm -rf .cache public && gatsby build --prefix-paths \"$@\" && rsync -rtuc --delete public/ ../docs/",
     "develop": "gatsby develop",

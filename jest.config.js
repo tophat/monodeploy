@@ -51,5 +51,5 @@ module.exports = {
     modulePathIgnorePatterns: [
         "<rootDir>/.*/lib"
     ],
-    testTimeout: 10000,
+    testTimeout: 30000,
 }

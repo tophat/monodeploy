@@ -99,6 +99,7 @@ describe('Monodeploy', () => {
         maxConcurrentWrites: 2,
         prerelease: false,
         prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
     }
 
     beforeAll(async () => {
@@ -633,5 +634,48 @@ describe('Monodeploy', () => {
                 await fs.rm(tempDir, { recursive: true, force: true })
             } catch {}
         }
+    })
+
+    it('supports prereleases', async () => {
+        mockNPM._setTag_('pkg-1', '1.0.1', 'latest')
+        mockNPM._setTag_('pkg-2', '2.3.0', 'latest')
+        mockNPM._setTag_('pkg-2', '2.4.0-alpha.3', 'canary')
+        mockNPM._setTag_('pkg-3', '6.0.0', 'latest')
+        mockNPM._setTag_('pkg-3', '7.0.0-alpha.0', 'canary')
+        mockNPM._setTag_('pkg-6', '0.0.4', 'latest')
+
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-2/README.md',
+        ])
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            prerelease: true,
+            prereleaseId: 'alpha',
+            prereleaseNPMTag: 'canary',
+        })
+
+        // pkg-1 is not in modified dependency graph
+        expect(result['pkg-1']).toBeUndefined()
+
+        // pkg-2 is the one explicitly updated with feature change
+        expect(result['pkg-2'].version).toEqual('2.4.0-alpha.4')
+        expect(result['pkg-2'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
+        // pkg-3 depends on pkg-2, and is updated as dependent
+        expect(result['pkg-3'].version).toEqual('7.0.0-alpha.1')
+        expect(result['pkg-3'].changelog).toBeNull()
+
+        // pkg-6 depends on pkg-3, and is updated as a transitive dependent
+        expect(result['pkg-6'].version).toEqual('0.0.5-alpha.0')
+        expect(result['pkg-6'].changelog).toBeNull()
+
+        expect(mockGit._getPushedTags_()).toEqual([
+            'pkg-2@2.4.0-alpha.4',
+            'pkg-3@7.0.0-alpha.1',
+            'pkg-6@0.0.5-alpha.0',
+        ])
     })
 })

@@ -1,42 +1,47 @@
-# Contributing to Monodeploy
+---
+slug: "/contributing"
+title: "Contributing - Monodeploy"
+---
 
-## Quick Setup (Optional)
+## Contributing to Monodeploy
+
+### Quick Setup (Optional)
 
 Just for initial setup.
 
-```sh
+```bash
 . script/bootstrap
 ```
 
-## Getting Started
+### Getting Started
 
 Optionally install nvm to ensure you're using the correct version of node. You can find the node version in the `.nvmrc` file.
 
 Install dependencies.
 
-```sh
+```bash
 yarn
 ```
 
 and then install the git hooks:
 
-```sh
+```bash
 yarn husky install
 ```
 
 This project uses [Typescript](https://www.typescriptlang.org/) and [Yarn Berry](https://yarnpkg.com/).
 
-## Tests
+### Tests
 
 Start the mock registry:
 
-```sh
+```bash
 yarn test:registry
 ```
 
 and then run the tests:
 
-```sh
+```bash
 yarn test
 ```
 
@@ -44,11 +49,11 @@ You can run `yarn test:registry:logs` to see a live stream of the registry logs.
 
 During development, you can usue the watch mode to have tests autorun on file changes:
 
-```sh
+```bash
 yarn test:watch
 ```
 
-## Build
+### Build
 
 You can execute `yarn build` to generate the build assets that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
 
@@ -56,35 +61,35 @@ You can use `yarn workspaces foreach -p build:watch` to rebuild the lib director
 
 To regenerate typescript definition files (and to catch type violations):
 
-```sh
+```bash
 yarn workspaces foreach -p types:watch
 ```
 
-## Using Example Monorepo
+### Using Example Monorepo
 
 After building the code (via above watch commands), run:
 
-```sh
+```bash
 yarn node packages/cli/lib/cli.js --cwd <PATH_TO_EXAMPLE_MONOREPO> \
     --dry-run --log-level 0 \
     --conventional-changelog-config @tophat/conventional-changelog-config
 ```
 
-## Tips
+### Tips
 
-### Configuring Your IDE
+#### Configuring Your IDE
 
-#### VSCode
+##### VSCode
 
 You'll need to download the [ZipFS](https://marketplace.visualstudio.com/items?itemName=arcanis.vscode-zipfs) extension to be able to use functionality such as "Go To Definition" with the zipped npm packages.
 
 In a Typescript file, <kbd>Cmd + Shift + P</kbd> will open the command menu. Select "TypeScript: Select Typescript Version..." and use the version from the workspace.
 
-### Debugging Yarn API Packages
+#### Debugging Yarn API Packages
 
 You can unpack all yarn zips via:
 
-```sh
+```bash
 yarn unplug @yarnpkg/*
 ```
 

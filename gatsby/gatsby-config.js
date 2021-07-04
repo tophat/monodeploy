@@ -14,6 +14,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+        resolve: `gatsby-source-filesystem`,
+        options: {
+          name: `pages-md`,
+          path: `${__dirname}/src/pages-md`,
+        },
+      },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -32,7 +39,7 @@ module.exports = {
         resolve: 'gatsby-transformer-remark',
         options: {
             gfm: true,
-            plugins: ['gatsby-remark-code-buttons']
+            plugins: []
         }
     },
     `gatsby-plugin-gatsby-cloud`,

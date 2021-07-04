@@ -90,6 +90,7 @@ describe('Monodeploy Plugins', () => {
         maxConcurrentWrites: 2,
         prerelease: false,
         prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
     }
 
     beforeAll(async () => {

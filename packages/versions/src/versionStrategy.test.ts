@@ -90,6 +90,7 @@ describe('Custom Conventional Recommended Strategy', () => {
         maxConcurrentWrites: 1,
         prerelease: false,
         prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
     }
 
     afterEach(() => {
