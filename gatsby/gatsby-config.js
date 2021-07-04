@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: '/monodeploy',
   siteMetadata: {
     title: `Monodeploy`,
     description: `The all-in-one monorepo publishing framework.`,
