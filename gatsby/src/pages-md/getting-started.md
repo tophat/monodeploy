@@ -1,0 +1,138 @@
+---
+slug: "/getting-started"
+title: "Getting Started - Monodeploy"
+---
+
+## Getting Started
+
+Install `monodeploy`:
+
+```bash
+yarn add -D monodeploy
+yarn monodeploy --dry-run
+```
+
+Edit your project's root `package.json`:
+
+1. Set `"private": true`
+2. Set "workspaces": ["packages/*"] (you can use a different glob to match your monorepo layout)
+3. Create a `monodeploy.config.js` file and set it to:
+
+  ```js
+  module.exports = {}
+  ```
+
+  You'll be extending this file as you make changes to your project's publish configuration.
+
+For help with the CLI options:
+
+```bash
+yarn monodeploy --help
+```
+
+or see the [Configuration](./configuration) page for more details.
+
+### API
+
+Monodeploy supports both a Command Line Interface, as well as a Node API.
+
+#### CLI
+
+For the CLI, use the `--help` flag for a list of options.
+
+```bash
+yarn monodeploy --help
+```
+
+If you are okay with the defaults, you can go ahead and add a call to monodeploy to your CI's publish stage:
+
+```bash
+yarn monodeploy --push
+```
+
+If you omit `--push`, you can manually push the tags on success:
+
+```bash
+yarn monodeploy && git push --tags
+```
+
+Or to give things a try first, run monodeploy in dry run mode with verbose logging. Dry run mode won't modify the remote registry, or git.
+
+```bash
+yarn monodeploy --dry-run --log-level 0
+```
+
+The CLI provides a few sensible defaults, however if using the Node API, you will have to provide all relevant information.
+
+You can also pass a `--config-file` flag to load options from a configuration file. The file should export an object matching the MonodeployConfiguration interface (with all properties as optional). CLI flags take precedence over the configuration file.
+
+Example config file:
+
+```js
+module.exports = {
+    dryRun: false,
+    git: {
+        baseBranch: 'master',
+        commitSha: 'HEAD',
+        remote: 'origin',
+        push: true,
+    },
+    conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+    access: 'public',
+    persistVersions: false,
+    changesetIgnorePatterns: ['**/*.test.js'],
+}
+```
+
+#### Node API
+
+To use the API:
+
+```ts
+import type { MonodeployConfiguration }  from '@monodeploy/types'
+import monodeploy from '@monodeploy/node'
+
+try {
+    const config: MonodeployConfiguration = {
+        cwd: process.cwd(),
+        dryRun: false,
+        git: {
+            baseBranch: 'master',
+            commitSha: 'HEAD',
+            remote: 'origin',
+            push: true,
+        },
+        conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+        access: 'public',
+        persistVersions: false,
+    }
+    const changeset = await monodeploy(config)
+} catch (err) {
+    console.error(err)
+}
+```
+
+### Changelog
+
+
+If you choose to use the `--prepend-changelog CHANGELOG.md` flag or related API config property, in your CHANGELOG.md file you'll need to insert a marker to let monodeploy know where to insert the changelog entries. For example:
+
+```md
+# My Example Changelog
+
+Some blurb here.
+
+<!-- MONODEPLOY:BELOW -->
+
+## v1.0.0
+
+Some entry.
+```
+
+The marker `<!-- MONODEPLOY:BELOW -->` must match exactly. It is whitespace and case-sensitive.
+
+You can use the template variable `<packageDir>` to create individual changelogs per package, like so:
+
+```bash
+--prepend-changelog "<packageDir>/CHANGELOG.md"
+```

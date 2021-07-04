@@ -1,14 +1,13 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
 import { graphql, useStaticQuery } from 'gatsby'
+import Prism from 'prismjs'
 import * as React from 'react'
 
 import Header from './header'
+import 'sanitize.css'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-bash'
+import 'prismjs/themes/prism-tomorrow.css'
 import './layout.css'
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -21,6 +20,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             }
         }
     `)
+
+    React.useEffect(() => {
+        Prism.highlightAll()
+    }, [])
 
     return (
         <>

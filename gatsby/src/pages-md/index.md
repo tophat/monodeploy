@@ -1,0 +1,52 @@
+---
+slug: "/"
+title: "Monodeploy"
+---
+
+## What is Monodeploy?
+
+[![Continuous Integration](https://github.com/tophat/monodeploy/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/tophat/monodeploy/actions?query=workflow%3A%22Continuous+Integration%22)
+[![codecov](https://codecov.io/gh/tophat/monodeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/monodeploy)
+[![Maturity badge - level 2](https://img.shields.io/badge/Maturity-Level%202%20--%20First%20Release-yellowgreen.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
+[![GitHub license](https://img.shields.io/github/license/tophat/monodeploy)](https://github.com/tophat/monodeploy/blob/master/LICENSE)
+[![Discord](https://img.shields.io/discord/809577721751142410)](https://discord.gg/YhK3GFcZrk)
+[![node-current](https://img.shields.io/node/v/monodeploy)](https://github.com/tophat/monodeploy)
+[![npm](https://img.shields.io/npm/v/monodeploy.svg)](https://www.npmjs.com/package/monodeploy)
+[![npm downloads](https://img.shields.io/npm/dm/monodeploy.svg)](https://npm-stat.com/charts.html?package=monodeploy)
+
+Monodeploy is a powerful tool which aims to simplify the package publishing process for monorepos. It leverages [Yarn Berry workspaces](https://yarnpkg.com/features/workspaces) to do the heavy lifting, and is a direct replacement for tools such as [Lerna](https://github.com/lerna/lerna) and [Semantic Release](https://github.com/semantic-release/semantic-release).
+
+Monodeploy only supports projects using Yarn Berry with the minimum node version set to Node v14.0.0.
+
+## Usage
+
+```bash
+yarn add -D monodeploy
+yarn monodeploy --dry-run
+```
+
+Although we don't recommend it in production, you can use monodeploy directly from the git repository:
+
+```bash
+yarn add -D monodeploy@tophat/monodeploy#workspace=monodeploy
+```
+
+## Getting Started
+
+Please see the [Getting Started Guide](./getting-started).
+
+You can also check out the [Frequently Asked Questions](./faq) for some information around dealing with various edge cases and more advanced configuration.
+
+## Configuration
+
+For information on how to fine-tune Monodeploy, see [Configuration](./configuration).
+
+For available plugins, as well as plugin development, see [Plugins](./plugins).
+
+### Note About Monodeploy Package Versioning
+
+Only the `monodeploy` package is "public" and follows strict semantic versioning. The other packages such as `@monodeploy/changelog` are meant for internal use and may change their APIs at any time.
+
+## Contributing
+
+Please give the [Architecture](./architecture) page a read and then check out the [Contributing Guide](./contributing).
