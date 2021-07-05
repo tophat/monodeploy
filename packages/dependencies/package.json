@@ -27,13 +27,13 @@
   "peerDependencies": {
     "@monodeploy/logging": "^0.1.7",
     "@monodeploy/types": "^0.7.0",
-    "@yarnpkg/core": "^3.0.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9"
   },
   "devDependencies": {
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "@yarnpkg/fslib": "^2.5.0-rc.9"
   }
 }

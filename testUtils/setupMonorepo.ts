@@ -93,7 +93,7 @@ export default async function setupMonorepo(
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
     const yarnBinary = path.resolve(
-        path.join(releasesDir, 'yarn-3.0.0-rc.6.cjs'),
+        path.join(releasesDir, 'yarn-3.0.0-rc.9.cjs'),
     )
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
 
