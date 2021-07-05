@@ -1,5 +1,6 @@
 module.exports = {
-  pathPrefix: 'https://tophat.github.io/monodeploy',
+  pathPrefix: '/',
+  assetPrefix: 'https://tophat.github.io/monodeploy',
   siteMetadata: {
     title: `Monodeploy`,
     description: `The all-in-one monorepo publishing framework.`,
