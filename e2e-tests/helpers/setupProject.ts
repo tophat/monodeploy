@@ -75,13 +75,13 @@ export default function setupProject({
             })
 
             // initial commit
-            await exec('git pull --rebase --no-verify origin master', {
+            await exec('git pull --rebase --no-verify origin main', {
                 cwd: project,
             })
             await exec('git add . && git commit -n -m "initial commit"', {
                 cwd: project,
             })
-            await exec(`git push -u origin master`, {
+            await exec(`git push -u origin main`, {
                 cwd: project,
             })
 

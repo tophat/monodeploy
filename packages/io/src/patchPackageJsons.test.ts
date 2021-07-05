@@ -39,7 +39,7 @@ describe('Patch Package Manifests', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,
@@ -97,7 +97,7 @@ describe('Patch Package Manifests', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,
@@ -135,7 +135,7 @@ describe('Patch Package Manifests', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,
@@ -191,7 +191,7 @@ describe('Patch Package Manifests', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,
@@ -236,7 +236,7 @@ describe('Patch Package Manifests', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,

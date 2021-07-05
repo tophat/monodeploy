@@ -119,7 +119,7 @@ describe('@monodeploy/git', () => {
             const messages = await getCommitMessages(
                 await getMonodeployConfig({
                     cwd,
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                     commitSha: headSha,
                 }),
                 context,

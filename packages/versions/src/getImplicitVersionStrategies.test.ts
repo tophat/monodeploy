@@ -35,7 +35,7 @@ describe('getImplicitVersionStrategies', () => {
         const strategies = await getImplicitVersionStrategies({
             config: await getMonodeployConfig({
                 cwd: context.project.cwd,
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'shashasha',
             }),
             context,

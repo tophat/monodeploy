@@ -72,7 +72,7 @@ Example config file:
 module.exports = {
     dryRun: false,
     git: {
-        baseBranch: 'master',
+        baseBranch: 'main',
         commitSha: 'HEAD',
         remote: 'origin',
         push: true,
@@ -97,7 +97,7 @@ try {
         cwd: process.cwd(),
         dryRun: false,
         git: {
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,

@@ -35,7 +35,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',
         git: {
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,

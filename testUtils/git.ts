@@ -36,7 +36,7 @@ export async function addGitRemote(
     execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
-    execSync(`git branch -m master`, { cwd })
+    execSync(`git branch -m main`, { cwd })
 }
 
 export async function setupTestRepository(

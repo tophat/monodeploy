@@ -43,7 +43,7 @@ describe('applyReleases', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,
@@ -118,7 +118,7 @@ describe('applyReleases', () => {
                 const config: MonodeployConfiguration = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                     persistVersions: true,

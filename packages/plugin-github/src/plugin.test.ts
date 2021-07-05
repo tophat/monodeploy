@@ -39,7 +39,7 @@ describe('GitHub Plugin', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                 }
@@ -65,7 +65,7 @@ describe('GitHub Plugin', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         cwd: context.project.cwd,
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'shashasha',
                     })),
                 }
