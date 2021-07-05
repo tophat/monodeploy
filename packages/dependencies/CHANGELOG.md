@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.9...@monodeploy/dependencies@0.3.0) "@monodeploy/dependencies" (2021-07-05)<a name="0.3.0"></a>
+
+### Bug Fixes
+
+* dependents algorithm missing dependents ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Features
+
+* support resetting pre-release version if out of date ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.2.9](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.2.8...@monodeploy/dependencies@0.2.9) "@monodeploy/dependencies" (2021-06-11)<a name="0.2.9"></a>
 
 ### Bug Fixes

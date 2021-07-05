@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.6...@monodeploy/plugin-github@0.3.0) "@monodeploy/plugin-github" (2021-07-05)<a name="0.3.0"></a>
+
+### Bug Fixes
+
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Features
+
+* pre-release support, close #292 ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.2.6](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.2.5...@monodeploy/plugin-github@0.2.6) "@monodeploy/plugin-github" (2021-06-15)<a name="0.2.6"></a>
 
 ### Bug Fixes

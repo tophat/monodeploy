@@ -2,6 +2,24 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.2.4...@monodeploy/git@0.3.0) "@monodeploy/git" (2021-07-05)<a name="0.3.0"></a>
+
+### Bug Fixes
+
+* only consider release tags ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Features
+
+* prerelease tags should be ignored in non-prerelease mode ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Performance Improvements
+
+* use async exec in git commands ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.2.4](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.2.3...@monodeploy/git@0.2.4) "@monodeploy/git" (2021-06-11)<a name="0.2.4"></a>
 
 ### Bug Fixes

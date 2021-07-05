@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.1.7](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.6...@monodeploy/logging@0.1.7) "@monodeploy/logging" (2021-07-05)<a name="0.1.7"></a>
+
+### Bug Fixes
+
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.1.6](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.5...@monodeploy/logging@0.1.6) "@monodeploy/logging" (2021-06-11)<a name="0.1.6"></a>
 
 ### Bug Fixes

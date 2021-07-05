@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.13](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.12...@monodeploy/io@0.2.13) "@monodeploy/io" (2021-07-05)<a name="0.2.13"></a>
+
+### Bug Fixes
+
+* refactor APIs to support non-latest dist tag (#374) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.2.12](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.11...@monodeploy/io@0.2.12) "@monodeploy/io" (2021-06-11)<a name="0.2.12"></a>
 
 ### Bug Fixes

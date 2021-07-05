@@ -2,6 +2,21 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.7.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.6.5...monodeploy@2.7.0) "monodeploy" (2021-07-05)<a name="2.7.0"></a>
+
+### Bug Fixes
+
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Features
+
+* add prerelease config options ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* add prerelease config options (#375) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* pre-release support, close #292 ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [2.6.3](https://github.com/tophat/monodeploy/compare/monodeploy@2.6.2...monodeploy@2.6.3) "monodeploy" (2021-06-11)<a name="2.6.3"></a>
 
 ### Bug Fixes

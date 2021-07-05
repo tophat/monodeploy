@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.4.8...@monodeploy/publish@0.5.0) "@monodeploy/publish" (2021-07-05)<a name="0.5.0"></a>
+
+### Bug Fixes
+
+* refactor APIs to support non-latest dist tag (#374) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+* use and support repository url with subdirectories (#384) ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+### Features
+
+* pre-release support, close #292 ([a5c703e](https://github.com/tophat/monodeploy/commits/a5c703e))
+
+
+
+
 ## [0.4.8](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.4.7...@monodeploy/publish@0.4.8) "@monodeploy/publish" (2021-06-16)<a name="0.4.8"></a>
 
 ### Bug Fixes
