@@ -1,7 +1,11 @@
 {
   "name": "@monodeploy/types",
   "version": "0.6.1",
-  "repository": "git@github.com:tophat/monodeploy.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tophat/monodeploy.git",
+    "directory": "packages/types"
+  },
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
   "main": "./src/types.ts",

@@ -1,7 +1,11 @@
 {
   "name": "@monodeploy/io",
   "version": "0.2.12",
-  "repository": "git@github.com:tophat/monodeploy.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tophat/monodeploy.git",
+    "directory": "packages/io"
+  },
   "author": "Top Hat Monocle Corp. <opensource@tophat.com>",
   "license": "Apache-2.0",
   "publishConfig": {
