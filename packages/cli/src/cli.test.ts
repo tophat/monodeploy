@@ -33,7 +33,7 @@ describe('CLI', () => {
         it('passes cli flags to monodeploy', async () => {
             setArgs(
                 '--registry-url http://example.com --no-registry --cwd /tmp --dry-run ' +
-                    '--git-base-branch master --git-commit-sha HEAD --git-remote origin ' +
+                    '--git-base-branch main --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
@@ -63,7 +63,7 @@ describe('CLI', () => {
                   "dryRun": true,
                   "forceWriteChangeFiles": true,
                   "git": Object {
-                    "baseBranch": "master",
+                    "baseBranch": "main",
                     "commitSha": "HEAD",
                     "push": true,
                     "remote": "origin",
@@ -235,7 +235,7 @@ describe('CLI', () => {
                     dryRun: true,
                     forceWriteChangeFiles: true,
                     git: {
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
@@ -283,7 +283,7 @@ describe('CLI', () => {
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
                       "git": Object {
-                        "baseBranch": "master",
+                        "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
@@ -321,7 +321,7 @@ describe('CLI', () => {
                     dryRun: true,
                     forceWriteChangeFiles: true,
                     git: {
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
@@ -368,7 +368,7 @@ describe('CLI', () => {
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
                       "git": Object {
-                        "baseBranch": "master",
+                        "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
@@ -404,7 +404,7 @@ describe('CLI', () => {
                     forceWriteChangeFiles: true,
                     changesetIgnorePatterns: ['*.test.js', '*.snap'],
                     git: {
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                         commitSha: 'HEAD',
                         push: true,
                         remote: 'origin',
@@ -452,7 +452,7 @@ describe('CLI', () => {
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
                       "git": Object {
-                        "baseBranch": "master",
+                        "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
                         "remote": "origin",
@@ -490,7 +490,7 @@ describe('CLI', () => {
                 autoCommit: true,
                 autoCommitMessage: 'chore: release',
                 git: {
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                     commitSha: 'HEAD',
                     push: true,
                     remote: 'origin',

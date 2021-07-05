@@ -15,7 +15,7 @@ describe('getPublishRegistryUrl', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         commitSha: 'shashasha',
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                     })),
                     noRegistry: true,
                 }
@@ -33,7 +33,7 @@ describe('getPublishRegistryUrl', () => {
             async (context) => {
                 const config = await getMonodeployConfig({
                     commitSha: 'shashasha',
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                 })
                 config.registryUrl = 'http://example.com'
                 const url = await getPublishRegistryUrl({ config, context })
@@ -49,7 +49,7 @@ describe('getPublishRegistryUrl', () => {
             async (context) => {
                 const config = await getMonodeployConfig({
                     commitSha: 'shashasha',
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                 })
                 config.registryUrl = undefined
                 const url = await getPublishRegistryUrl({ config, context })
@@ -70,7 +70,7 @@ describe('getFetchRegistryUrl', () => {
                 const config = {
                     ...(await getMonodeployConfig({
                         commitSha: 'shashasha',
-                        baseBranch: 'master',
+                        baseBranch: 'main',
                     })),
                     noRegistry: true,
                 }
@@ -88,7 +88,7 @@ describe('getFetchRegistryUrl', () => {
             async (context) => {
                 const config = await getMonodeployConfig({
                     commitSha: 'shashasha',
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                 })
                 config.registryUrl = 'http://example.com'
                 const url = await getFetchRegistryUrl({ config, context })
@@ -104,7 +104,7 @@ describe('getFetchRegistryUrl', () => {
             async (context) => {
                 const config = await getMonodeployConfig({
                     commitSha: 'shashasha',
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                 })
                 config.registryUrl = undefined
                 const url = await getFetchRegistryUrl({ config, context })

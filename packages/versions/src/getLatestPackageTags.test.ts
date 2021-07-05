@@ -54,7 +54,7 @@ describe('getLatestPackageTags', () => {
         // Since we haven't set up any tags for any package, everything is 0.0.0
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
         const tags = await getLatestPackageTags({
@@ -83,7 +83,7 @@ describe('getLatestPackageTags', () => {
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
         const tags = await getLatestPackageTags({
@@ -111,7 +111,7 @@ describe('getLatestPackageTags', () => {
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
 
@@ -139,7 +139,7 @@ describe('getLatestPackageTags', () => {
         const config = {
             ...(await getMonodeployConfig({
                 cwd: context.project.cwd,
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'shashasha',
             })),
             registryUrl: 'https://my.jfrog.io/my/api/npm/my-npm/',
@@ -168,7 +168,7 @@ describe('getLatestPackageTags', () => {
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
         const tags = await getLatestPackageTags({

@@ -32,7 +32,7 @@ describe('@monodeploy/dependencies', () => {
         // pkg-3 depends on pkg-2, pkg-6 depends on pkg-3
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
         const dependents = await getDependents(
@@ -48,7 +48,7 @@ describe('@monodeploy/dependencies', () => {
         // pkg-3 depends on pkg-2
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
 
@@ -64,7 +64,7 @@ describe('@monodeploy/dependencies', () => {
     it('Ignores private dependents', async () => {
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
 
@@ -80,7 +80,7 @@ describe('@monodeploy/dependencies', () => {
     it('Only counts dependents once', async () => {
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
 
@@ -96,7 +96,7 @@ describe('@monodeploy/dependencies', () => {
     it('skips unknown package names', async () => {
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
 
@@ -131,7 +131,7 @@ describe('cycles', () => {
     it('handles cycles', async () => {
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'shashasha',
         })
         const dependents = await getDependents(
@@ -160,7 +160,7 @@ describe('complex', () => {
 
             const config = await getMonodeployConfig({
                 cwd: context.project.cwd,
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'shashasha',
             })
             const dependents = await getDependents(
@@ -197,7 +197,7 @@ describe('complex', () => {
 
             const config = await getMonodeployConfig({
                 cwd: context.project.cwd,
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'shashasha',
             })
             const dependents = await getDependents(
@@ -236,7 +236,7 @@ describe('complex', () => {
 
             const config = await getMonodeployConfig({
                 cwd: context.project.cwd,
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'shashasha',
             })
             const dependents = await getDependents(

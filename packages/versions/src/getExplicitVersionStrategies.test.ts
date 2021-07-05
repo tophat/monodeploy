@@ -41,7 +41,7 @@ describe('getExplicitVersionStrategies', () => {
             config: await getMonodeployConfig({
                 cwd,
                 commitSha: headSha,
-                baseBranch: 'master',
+                baseBranch: 'main',
             }),
             context,
         })
@@ -80,7 +80,7 @@ describe('getExplicitVersionStrategies', () => {
                 ...(await getMonodeployConfig({
                     cwd,
                     commitSha: headSha,
-                    baseBranch: 'master',
+                    baseBranch: 'main',
                 })),
                 changesetIgnorePatterns: ['**/*.test.js', '**/*.md'],
             },

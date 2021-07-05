@@ -35,7 +35,7 @@ describe('prependChangelogFile', () => {
         const readMock = jest.spyOn(fs, 'readFile')
 
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: undefined,
@@ -63,7 +63,7 @@ describe('prependChangelogFile', () => {
 
         const mockChangelogFilename = 'changelog'
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: mockChangelogFilename,
@@ -95,7 +95,7 @@ describe('prependChangelogFile', () => {
         const cwd = workspacePath
 
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: 'changelog',
@@ -124,7 +124,7 @@ describe('prependChangelogFile', () => {
         })
         const writeMock = jest.spyOn(fs, 'writeFile')
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: 'changelog',
@@ -151,7 +151,7 @@ describe('prependChangelogFile', () => {
         const cwd = workspacePath
         const mockChangelogFilename = 'changelog'
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: mockChangelogFilename,
@@ -196,7 +196,7 @@ describe('prependChangelogFile', () => {
         const cwd = workspacePath
         const mockChangelogFilename = 'changelog'
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: mockChangelogFilename,
@@ -235,7 +235,7 @@ describe('prependChangelogFile', () => {
     it('writes changelogs for each package if token present', async () => {
         const cwd = workspacePath
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: '<packageDir>/CHANGELOG.md',
@@ -289,7 +289,7 @@ describe('prependChangelogFile', () => {
         const cwd = workspacePath
         const mockChangelogFilename = 'changelog'
         const config = await getMonodeployConfig({
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'sha-1',
             cwd,
             changelogFilename: mockChangelogFilename,

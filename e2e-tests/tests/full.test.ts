@@ -1,6 +1,6 @@
 import setupProject from 'helpers/setupProject'
 
-const TIMEOUT = 180000 // we need time for docker interactions
+const TIMEOUT = 200000 // we need time for docker interactions
 
 describe('Full E2E', () => {
     it(
@@ -100,7 +100,7 @@ describe('Full E2E', () => {
 
                 // Assert changelog updated on remote
                 expect(
-                    (await exec(`git cat-file blob origin/master:changelog.md`))
+                    (await exec(`git cat-file blob origin/main:changelog.md`))
                         .stdout,
                 ).toEqual(expect.stringContaining('fancy'))
 
@@ -158,7 +158,7 @@ describe('Full E2E', () => {
 
                 // Assert changelog updated on remote
                 expect(
-                    (await exec(`git cat-file blob origin/master:changelog.md`))
+                    (await exec(`git cat-file blob origin/main:changelog.md`))
                         .stdout,
                 ).toEqual(expect.stringContaining('breaking'))
             },
@@ -232,7 +232,7 @@ describe('Full E2E', () => {
 
                 // Assert changelog updated on remote
                 expect(
-                    (await exec(`git cat-file blob origin/master:changelog.md`))
+                    (await exec(`git cat-file blob origin/main:changelog.md`))
                         .stdout,
                 ).toEqual(expect.stringContaining('fancy'))
 
@@ -322,9 +322,9 @@ describe('Full E2E', () => {
 
                 // ----
 
-                // Now we'll test merging "next" into "master"
+                // Now we'll test merging "next" into "main"
 
-                await exec(`git checkout master`)
+                await exec(`git checkout main`)
                 await exec(`git merge next --no-verify --no-edit`)
 
                 // Run non-prerelease. We expect all the pre-release versions to be squashed.

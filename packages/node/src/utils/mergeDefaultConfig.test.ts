@@ -54,7 +54,7 @@ describe('Config Merging', () => {
             dryRun: true,
             noRegistry: false,
             git: {
-                baseBranch: 'master',
+                baseBranch: 'main',
                 commitSha: 'HEAD',
                 remote: 'origin',
                 push: true,

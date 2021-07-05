@@ -13,6 +13,7 @@ export async function initGitRepository(
     }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
     execSync('git init', { cwd })
+    execSync(`git branch -m main`, { cwd })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
@@ -36,7 +37,7 @@ export async function addGitRemote(
     execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
-    execSync(`git branch -m master`, { cwd })
+    execSync(`git branch -m main`, { cwd })
 }
 
 export async function setupTestRepository(

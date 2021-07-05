@@ -19,7 +19,7 @@ try {
         cwd: process.cwd(),
         dryRun: false,
         git: {
-            baseBranch: 'master',
+            baseBranch: 'main',
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,
