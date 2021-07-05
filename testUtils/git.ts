@@ -13,6 +13,7 @@ export async function initGitRepository(
     }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
     execSync('git init', { cwd })
+    execSync(`git branch -m main`, { cwd })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
