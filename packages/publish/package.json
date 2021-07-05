@@ -34,11 +34,11 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@yarnpkg/cli": "^3.0.0-rc.5",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-npm": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-pack": "^3.0.0-rc.5"
+    "@yarnpkg/cli": "^3.0.0-rc.9",
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "@yarnpkg/fslib": "^2.5.0-rc.9",
+    "@yarnpkg/plugin-npm": "^2.5.0-rc.9",
+    "@yarnpkg/plugin-pack": "^3.0.0-rc.9"
   },
   "peerDependencies": {
     "@monodeploy/dependencies": "^0.3.0",
@@ -46,10 +46,10 @@
     "@monodeploy/io": "^0.2.13",
     "@monodeploy/logging": "^0.1.7",
     "@monodeploy/types": "^0.7.0",
-    "@yarnpkg/cli": "^3.0.0-rc.5",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-npm": "^2.5.0-rc.5",
-    "@yarnpkg/plugin-pack": "^3.0.0-rc.5"
+    "@yarnpkg/cli": "^3.0.0-rc.9",
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "@yarnpkg/fslib": "^2.5.0-rc.9",
+    "@yarnpkg/plugin-npm": "^2.5.0-rc.9",
+    "@yarnpkg/plugin-pack": "^3.0.0-rc.9"
   }
 }

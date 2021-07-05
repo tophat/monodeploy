@@ -29,8 +29,8 @@
     "@monodeploy/io": "^0.2.13",
     "@monodeploy/logging": "^0.1.7",
     "@monodeploy/types": "^0.7.0",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "@yarnpkg/fslib": "^2.5.0-rc.9"
   },
   "dependencies": {
     "conventional-changelog-writer": "^5.0.0",
@@ -45,7 +45,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/conventional-changelog-writer": "^4.0.0",
     "@types/conventional-commits-parser": "^3.0.1",
-    "@yarnpkg/core": "^3.0.0-rc.5",
-    "@yarnpkg/fslib": "^2.5.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "@yarnpkg/fslib": "^2.5.0-rc.9"
   }
 }

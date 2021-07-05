@@ -32,7 +32,7 @@
   "dependencies": {
     "@monodeploy/node": "workspace:^0.10.0",
     "@monodeploy/types": "workspace:^0.7.0",
-    "@yarnpkg/core": "^3.0.0-rc.5",
+    "@yarnpkg/core": "^3.0.0-rc.9",
     "ajv": "^8.1.0",
     "yargs": "^16.2.0"
   },

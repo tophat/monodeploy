@@ -28,9 +28,9 @@
     "tapable": "^2.2.0"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.0.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9"
   },
   "devDependencies": {
-    "@yarnpkg/core": "^3.0.0-rc.5"
+    "@yarnpkg/core": "^3.0.0-rc.9"
   }
 }
