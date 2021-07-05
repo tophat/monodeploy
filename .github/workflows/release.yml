@@ -43,17 +43,7 @@ jobs:
             git config --global init.defaultBranch master
         - name: Tests
           run: yarn test:ci
-        - name: Publish via Monodeploy (Dry Run)
-          if: github.ref != 'refs/heads/master'
-          run: |
-            yarn run-local \
-              --dry-run \
-              --log-level 0 \
-              --conventional-changelog-config @tophat/conventional-changelog-config \
-              --prepend-changelog ./CHANGELOG.md \
-              --changeset-ignore-patterns '**/*.test.ts'
-            git status
-            git --no-pager diff
+
   release:
     name: Publish Monodeploy
     runs-on: ubuntu-20.04
@@ -87,6 +77,18 @@ jobs:
             git config --global user.name tophat-opensource-bot
             git config --global user.email opensource-leads+bot@tophatmonocle.com
             git config --global init.defaultBranch master
+        - name: Publish via Monodeploy (Pre-release)
+          if: github.ref != 'refs/heads/master'
+          env:
+            NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+            GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          run: |
+            yarn run-local \
+              --log-level 0 \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
+              --push \
+              --changeset-ignore-patterns '**/*.test.ts' \
+              --prerelease
         - name: Publish via Monodeploy
           if: github.ref == 'refs/heads/master'
           env:
