@@ -11,8 +11,8 @@ const REPOSITORY_PATTERNS: Array<
     [RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]
 > = [
     [
-        /(?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+)(?:\.git)?/,
-        (m) => ({ repoUrl: m[0], host: m[1], owner: m[2], repository: m[3] }),
+        /((?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+))(?:\.git)?/,
+        (m) => ({ repoUrl: m[1], host: m[2], owner: m[3], repository: m[4] }),
     ],
     [
         /(?:git@)?([^:]+):([^/]+)\/([^/.]+)(?:\.git)?/,

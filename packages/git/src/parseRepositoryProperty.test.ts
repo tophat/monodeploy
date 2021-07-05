@@ -4,7 +4,7 @@ import { structUtils } from '@yarnpkg/core'
 import { parseRepositoryProperty } from './parseRepositoryProperty'
 
 describe('parseRepositoryProperty', () => {
-    it('parses repository from manifest url', async () =>
+    it('parses repository from manifest url as string', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(
                 structUtils.parseIdent('pkg-1'),
@@ -32,7 +32,7 @@ describe('parseRepositoryProperty', () => {
                     host: 'https://github.com',
                     owner: 'tophat',
                     repository: 'monodeploy',
-                    repoUrl: 'https://github.com/tophat/monodeploy.git',
+                    repoUrl: 'https://github.com/tophat/monodeploy',
                 }),
             )
 
@@ -45,7 +45,28 @@ describe('parseRepositoryProperty', () => {
                     host: 'https://github.com',
                     owner: 'tophat',
                     repository: 'monodeploy',
-                    repoUrl: 'git+https://github.com/tophat/monodeploy.git',
+                    repoUrl: 'git+https://github.com/tophat/monodeploy',
+                }),
+            )
+        }))
+
+    it('parses repository from manifest url as object', async () =>
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
+            const workspace = context.project.getWorkspaceByIdent(
+                structUtils.parseIdent('pkg-1'),
+            )
+
+            workspace.manifest.setRawField('repository', {
+                type: 'git',
+                url: 'https://github.com/tophat/monodeploy.git',
+                directory: 'packages/pkg-1',
+            })
+            expect(await parseRepositoryProperty(workspace)).toEqual(
+                expect.objectContaining({
+                    host: 'https://github.com',
+                    owner: 'tophat',
+                    repository: 'monodeploy',
+                    repoUrl: 'https://github.com/tophat/monodeploy',
                 }),
             )
         }))
