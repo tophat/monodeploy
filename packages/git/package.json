@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/git",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -32,8 +32,8 @@
     "@yarnpkg/core": "^3.0.0-rc.9"
   },
   "peerDependencies": {
-    "@monodeploy/logging": "^0.1.7",
-    "@monodeploy/types": "^0.7.0",
+    "@monodeploy/logging": "^0.1.8",
+    "@monodeploy/types": "^0.7.1",
     "@yarnpkg/core": "^3.0.0-rc.9"
   }
 }

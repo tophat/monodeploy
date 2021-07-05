@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.14](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.13...@monodeploy/io@0.2.14) "@monodeploy/io" (2021-07-05)<a name="0.2.14"></a>
+
+### Bug Fixes
+
+* update yarn to 3.0.0-rc.9 (#386) ([fcfc63a](https://github.com/tophat/monodeploy/commits/fcfc63a))
+
+
+
+
 ## [0.2.13](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.12...@monodeploy/io@0.2.13) "@monodeploy/io" (2021-07-05)<a name="0.2.13"></a>
 
 ### Bug Fixes
