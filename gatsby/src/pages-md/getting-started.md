@@ -30,7 +30,7 @@ For help with the CLI options:
 yarn monodeploy --help
 ```
 
-or see the [Configuration](./configuration) page for more details.
+or see the [Configuration](../configuration) page for more details.
 
 ### API
 
