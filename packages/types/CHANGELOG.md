@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.7.1...@monodeploy/types@0.8.0) "@monodeploy/types" (2021-07-06)<a name="0.8.0"></a>
+
+### Features
+
+* expose strategy and previous version in changeset file (#387) ([f2e506b](https://github.com/tophat/monodeploy/commits/f2e506b))
+
+
+
+
 ## [0.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.7.0...@monodeploy/types@0.7.1) "@monodeploy/types" (2021-07-05)<a name="0.7.1"></a>
 
 ### Bug Fixes

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.5.9...@monodeploy/changelog@0.6.0) "@monodeploy/changelog" (2021-07-06)<a name="0.6.0"></a>
+
+### Features
+
+* expose strategy and previous version in changeset file (#387) ([f2e506b](https://github.com/tophat/monodeploy/commits/f2e506b))
+
+
+
+
 ## [0.5.9](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.5.8...@monodeploy/changelog@0.5.9) "@monodeploy/changelog" (2021-07-05)<a name="0.5.9"></a>
 
 ### Bug Fixes
