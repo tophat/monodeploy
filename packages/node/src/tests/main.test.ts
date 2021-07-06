@@ -386,6 +386,8 @@ describe('Monodeploy', () => {
                     'pkg-1': expect.objectContaining({
                         version: '0.1.0',
                         changelog: expect.stringContaining('some new feature'),
+                        strategy: 'minor',
+                        previousVersion: '0.0.1',
                     }),
                 }),
             )

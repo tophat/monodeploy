@@ -31,18 +31,21 @@ const writeChangesetFile = async ({
 
     for (const [packageName, newVersion] of nextTags.entries()) {
         const previousVersion = previousTags.get(packageName) ?? null
+        const versionStrategy = versionStrategies.get(packageName)
         const changelog = await generateChangelogEntry({
             config,
             context,
             packageName,
             previousVersion,
             newVersion,
-            commits: versionStrategies.get(packageName)?.commits ?? [],
+            commits: versionStrategy?.commits ?? [],
         })
         changesetData[packageName] = {
             version: newVersion,
+            previousVersion: previousVersion,
             changelog,
             tag: createdGitTags?.get(packageName) ?? null,
+            strategy: versionStrategy?.type ?? null,
         }
     }
 

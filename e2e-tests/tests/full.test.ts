@@ -63,21 +63,25 @@ describe('Full E2E', () => {
                         ),
                         tag: 'pkg-1@0.1.0',
                         version: '0.1.0',
+                        strategy: 'minor',
                     }),
                     'pkg-2': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-2@0.0.1',
                         version: '0.0.1',
+                        strategy: 'patch',
                     }),
                     'pkg-3': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-3@0.0.1',
                         version: '0.0.1',
+                        strategy: 'patch',
                     }),
                     'pkg-4': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-4@0.0.1',
                         version: '0.0.1',
+                        strategy: 'patch',
                     }),
                 })
 
@@ -126,16 +130,19 @@ describe('Full E2E', () => {
                         changelog: expect.stringContaining('breaking'),
                         tag: 'pkg-2@1.0.0',
                         version: '1.0.0',
+                        strategy: 'major',
                     }),
                     'pkg-3': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-3@0.0.2',
                         version: '0.0.2',
+                        strategy: 'patch',
                     }),
                     'pkg-4': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-4@0.0.2',
                         version: '0.0.2',
+                        strategy: 'patch',
                     }),
                 })
 
@@ -267,21 +274,25 @@ describe('Full E2E', () => {
                         ),
                         tag: 'pkg-1@0.2.0-alpha.0',
                         version: '0.2.0-alpha.0',
+                        strategy: 'minor',
                     }),
                     'pkg-2': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-2@0.0.2-alpha.0',
                         version: '0.0.2-alpha.0',
+                        strategy: 'patch',
                     }),
                     'pkg-3': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-3@0.0.2-alpha.0',
                         version: '0.0.2-alpha.0',
+                        strategy: 'patch',
                     }),
                     'pkg-4': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-4@0.0.2-alpha.0',
                         version: '0.0.2-alpha.0',
+                        strategy: 'patch',
                     }),
                 })
 
@@ -343,21 +354,29 @@ describe('Full E2E', () => {
                         ),
                         tag: 'pkg-1@0.2.0',
                         version: '0.2.0',
+                        previousVersion: '0.1.0',
+                        strategy: 'minor',
                     }),
                     'pkg-2': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-2@0.0.2',
                         version: '0.0.2',
+                        previousVersion: '0.0.1',
+                        strategy: 'patch',
                     }),
                     'pkg-3': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-3@0.0.2',
                         version: '0.0.2',
+                        previousVersion: '0.0.1',
+                        strategy: 'patch',
                     }),
                     'pkg-4': expect.objectContaining({
                         changelog: null,
                         tag: 'pkg-4@0.0.2',
                         version: '0.0.2',
+                        previousVersion: '0.0.1',
+                        strategy: 'patch',
                     }),
                 })
 
