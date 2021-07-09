@@ -122,7 +122,7 @@ describe('CLI', () => {
                   "noRegistry": undefined,
                   "persistVersions": undefined,
                   "plugins": undefined,
-                  "prerelease": false,
+                  "prerelease": undefined,
                   "prereleaseId": undefined,
                   "prereleaseNPMTag": undefined,
                   "registryUrl": undefined,
@@ -298,7 +298,7 @@ describe('CLI', () => {
                         "plugin-a",
                         "plugin-b",
                       ],
-                      "prerelease": false,
+                      "prerelease": true,
                       "prereleaseId": "alpha",
                       "prereleaseNPMTag": "beta",
                       "registryUrl": "http://example.com",
@@ -464,7 +464,7 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "persistVersions": true,
                       "plugins": undefined,
-                      "prerelease": false,
+                      "prerelease": undefined,
                       "prereleaseId": undefined,
                       "prereleaseNPMTag": undefined,
                       "registryUrl": "http://example.com",
@@ -549,12 +549,98 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "persistVersions": true,
                       "plugins": undefined,
-                      "prerelease": false,
+                      "prerelease": true,
                       "prereleaseId": "beta",
                       "prereleaseNPMTag": undefined,
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('gives precedence to cli flags over config file with negated flags', async () => {
+            const configFileContents = `
+            module.exports = {
+                access: 'public',
+                changelogFilename: 'from_file.changelog.md',
+                changesetFilename: 'from_file.changes.json',
+                conventionalChangelogConfig: '@my/config-from-file',
+                dryRun: true,
+                forceWriteChangeFiles: true,
+                noRegistry: false,
+                autoCommit: true,
+                autoCommitMessage: 'chore: release',
+                git: {
+                    baseBranch: 'main',
+                    commitSha: 'HEAD',
+                    push: true,
+                    remote: 'origin',
+                    tag: false,
+                },
+                jobs: 6,
+                persistVersions: true,
+                registryUrl: 'http://example.com',
+                topological: true,
+                topologicalDev: true,
+                maxConcurrentReads: 10,
+                maxConcurrentWrites: 11,
+                prerelease: true,
+                prereleaseId: 'beta',
+            }
+        `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(
+                    path.join(dir, 'monodeploy.config.js'),
+                )
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --no-prerelease ` +
+                        `--no-topological --no-topological-dev --no-persist-versions`,
+                )
+                jest.isolateModules(() => {
+                    require('./cli')
+                })
+                await new Promise((r) => setTimeout(r))
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                        .calls[0][0],
+                ).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "autoCommit": true,
+                      "autoCommitMessage": "chore: release",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": undefined,
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": undefined,
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "next",
+                        "commitSha": "HEAD",
+                        "push": true,
+                        "remote": "origin",
+                        "tag": false,
+                      },
+                      "jobs": 3,
+                      "maxConcurrentReads": 10,
+                      "maxConcurrentWrites": 11,
+                      "noRegistry": false,
+                      "persistVersions": false,
+                      "plugins": undefined,
+                      "prerelease": false,
+                      "prereleaseId": "beta",
+                      "prereleaseNPMTag": undefined,
+                      "registryUrl": "http://example.com",
+                      "topological": false,
+                      "topologicalDev": false,
                     }
                 `)
             } finally {
