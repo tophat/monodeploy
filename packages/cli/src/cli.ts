@@ -232,7 +232,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     : configFromFile?.maxConcurrentWrites) ?? 0,
             plugins: argv.plugins ?? configFromFile?.plugins ?? undefined,
             prerelease:
-                argv.prerelease ?? configFromFile?.prerelease ?? undefined,
+                (argv.prerelease || configFromFile?.prerelease) ?? undefined,
             prereleaseId:
                 argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
             prereleaseNPMTag:
