@@ -105,6 +105,16 @@
         "code",
         "infra"
       ]
+    },
+    {
+      "login": "fmal",
+      "name": "Filip Malinowski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/927591?v=4",
+      "profile": "https://github.com/fmal",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
