@@ -161,8 +161,57 @@ describe('Monodeploy Lifecycle Scripts', () => {
 
         for (const fileToCheck of filesToCheck) {
             const filename = resolvePackagePath('pkg-4', fileToCheck)
-            const stat = await fs.stat(filename)
-            expect(stat).toBeDefined()
+            const exists = await fs
+                .stat(filename)
+                .then(() => true)
+                .catch(() => false)
+            expect(exists).toBe(true)
+        }
+    })
+
+    it('does not run lifecycle scripts in dry run mode', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.1.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-4', '0.0.1')
+        mockNPM._setTag_('pkg-5', '0.0.1')
+        mockNPM._setTag_('pkg-6', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-4/README.md',
+        ])
+        mockGit._commitFiles_('sha1', 'feat: some other feature!', [
+            './packages/pkg-2/README.md',
+        ])
+
+        const result = await monodeploy({ ...monodeployConfig, dryRun: true })
+
+        // pkg-4 is explicitly updated with minor bump
+        expect(result['pkg-4'].version).toEqual('0.1.0')
+        expect(result['pkg-4'].changelog).toEqual(
+            expect.stringContaining('some new feature'),
+        )
+
+        // pkg-2 is explicitly bumped with minor
+        expect(result['pkg-2'].version).toEqual('0.2.0')
+        expect(result['pkg-2'].changelog).toEqual(
+            expect.stringContaining('some other feature'),
+        )
+
+        const filesToCheck = [
+            '.prepack.test.tmp',
+            '.prepare.test.tmp',
+            '.prepublish.test.tmp',
+            '.postpack.test.tmp',
+            '.postpublish.test.tmp',
+        ]
+
+        for (const fileToCheck of filesToCheck) {
+            const filename = resolvePackagePath('pkg-4', fileToCheck)
+            const exists = await fs
+                .stat(filename)
+                .then(() => true)
+                .catch(() => false)
+            expect(exists).toBe(false)
         }
     })
 })

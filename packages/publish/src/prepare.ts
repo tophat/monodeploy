@@ -6,11 +6,12 @@ import { PortablePath } from '@yarnpkg/fslib'
 export const prepareForPack = async (
     context: YarnContext,
     workspace: Workspace,
-    { cwd }: { cwd: PortablePath },
+    { cwd, dryRun }: { cwd: PortablePath; dryRun: boolean },
     cb: () => Promise<void>,
 ): Promise<void> => {
     await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepack', {
         cwd,
+        dryRun,
     })
     try {
         await cb()
@@ -21,6 +22,7 @@ export const prepareForPack = async (
             'postpack',
             {
                 cwd,
+                dryRun,
             },
         )
     }
@@ -29,7 +31,7 @@ export const prepareForPack = async (
 export const prepareForPublish = async (
     context: YarnContext,
     workspace: Workspace,
-    { cwd }: { cwd: PortablePath },
+    { cwd, dryRun }: { cwd: PortablePath; dryRun: boolean },
     cb: () => Promise<void>,
 ): Promise<void> => {
     await maybeExecuteWorkspaceLifecycleScript(
@@ -38,11 +40,13 @@ export const prepareForPublish = async (
         'prepublishOnly',
         {
             cwd,
+            dryRun,
         },
     )
 
     await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepare', {
         cwd,
+        dryRun,
     })
 
     await maybeExecuteWorkspaceLifecycleScript(
@@ -51,6 +55,7 @@ export const prepareForPublish = async (
         'prepublish',
         {
             cwd,
+            dryRun,
         },
     )
 
@@ -63,6 +68,7 @@ export const prepareForPublish = async (
             'postpublish',
             {
                 cwd,
+                dryRun,
             },
         )
     }

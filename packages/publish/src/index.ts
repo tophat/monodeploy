@@ -83,9 +83,19 @@ export const publishPackages = async ({
             }
         }
 
-        await prepareForPublish(context, workspace, { cwd }, async () => {
-            await prepareForPack(context, workspace, { cwd }, pack)
-        })
+        await prepareForPublish(
+            context,
+            workspace,
+            { cwd, dryRun: config.dryRun },
+            async () => {
+                await prepareForPack(
+                    context,
+                    workspace,
+                    { cwd, dryRun: config.dryRun },
+                    pack,
+                )
+            },
+        )
     }
 
     const limit = pLimit(config.jobs || Infinity)

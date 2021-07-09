@@ -7,7 +7,7 @@ export const maybeExecuteWorkspaceLifecycleScript = async (
     context: YarnContext,
     workspace: Workspace,
     scriptName: string,
-    { cwd }: { cwd: PortablePath },
+    { cwd, dryRun }: { cwd: PortablePath; dryRun: boolean },
 ): Promise<void> => {
     if (!workspace.manifest.scripts.has(scriptName)) return
 
@@ -19,7 +19,17 @@ export const maybeExecuteWorkspaceLifecycleScript = async (
         stderr: process.stderr,
     }
 
+    const pkgName = structUtils.stringifyIdent(workspace.manifest.name!)
+    const prefix = `[${pkgName}]`
+
     const exec = async () => {
+        if (dryRun) {
+            logging.info(`${prefix} [Exec] '${scriptName}'`, {
+                report: context.report,
+            })
+            return
+        }
+
         await scriptUtils.executePackageScript(
             workspace.anchoredLocator,
             scriptName,
@@ -27,9 +37,6 @@ export const maybeExecuteWorkspaceLifecycleScript = async (
             opts,
         )
     }
-
-    const pkgName = structUtils.stringifyIdent(workspace.manifest.name!)
-    const prefix = `[${pkgName}]`
 
     const [stdout, endStdout] = logging.createReportStream({
         prefix,
