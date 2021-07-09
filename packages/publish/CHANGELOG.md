@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.3](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.2...@monodeploy/publish@0.5.3) "@monodeploy/publish" (2021-07-09)<a name="0.5.3"></a>
+
+### Bug Fixes
+
+* do not execute lifecycle scripts in dry run ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+
+
+
 ## [0.5.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.0...@monodeploy/publish@0.5.1) "@monodeploy/publish" (2021-07-05)<a name="0.5.1"></a>
 
 ### Bug Fixes

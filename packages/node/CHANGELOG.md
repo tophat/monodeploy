@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.2...@monodeploy/node@0.10.3) "@monodeploy/node" (2021-07-09)<a name="0.10.3"></a>
+
+### Bug Fixes
+
+* do not modify any files in dry run mode ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+### Performance Improvements
+
+* minor logging changes ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+
+
+
 ## [0.10.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.0...@monodeploy/node@0.10.1) "@monodeploy/node" (2021-07-05)<a name="0.10.1"></a>
 
 ### Bug Fixes

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.3](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.6.2...@monodeploy/versions@0.6.3) "@monodeploy/versions" (2021-07-09)<a name="0.6.3"></a>
+
+### Bug Fixes
+
+* support conventional changelog config factory functions (#396) ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+
+
+
 ## [0.6.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.6.0...@monodeploy/versions@0.6.1) "@monodeploy/versions" (2021-07-05)<a name="0.6.1"></a>
 
 ### Bug Fixes

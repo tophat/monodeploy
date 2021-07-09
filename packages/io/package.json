@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/io",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",

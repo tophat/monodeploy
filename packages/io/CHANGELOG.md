@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.2.16](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.15...@monodeploy/io@0.2.16) "@monodeploy/io" (2021-07-09)<a name="0.2.16"></a>
+
+### Bug Fixes
+
+* do not modify any files in dry run mode ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+* do not execute lifecycle scripts in dry run ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+### Performance Improvements
+
+* minor logging changes ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+
+
+
 ## [0.2.14](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.13...@monodeploy/io@0.2.14) "@monodeploy/io" (2021-07-05)<a name="0.2.14"></a>
 
 ### Bug Fixes

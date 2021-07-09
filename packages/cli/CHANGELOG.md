@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.7.3](https://github.com/tophat/monodeploy/compare/monodeploy@2.7.2...monodeploy@2.7.3) "monodeploy" (2021-07-09)<a name="2.7.3"></a>
+
+### Bug Fixes
+
+* consider `prerelease` flag from config file ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+* handle cli and config file precedence correctly ([13a2904](https://github.com/tophat/monodeploy/commits/13a2904))
+
+
+
+
 ## [2.7.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.7.0...monodeploy@2.7.1) "monodeploy" (2021-07-05)<a name="2.7.1"></a>
 
 ### Bug Fixes
