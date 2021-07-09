@@ -83,13 +83,16 @@ export const createGetConventionalRecommendedStrategy =
             throw new Error('Invalid conventional changelog config')
         }
 
-        // ghost-imports-ignore-next-line
         const configResolveId = require.resolve(conventionalChangelogConfig, {
             paths: [config.cwd],
         })
         // ghost-imports-ignore-next-line
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const conventionalConfigModule = require(configResolveId)
         const conventionalConfig: ConventionalChangelogConfig =
-            await require(configResolveId)
+            await (typeof conventionalConfigModule === 'function'
+                ? conventionalConfigModule()
+                : conventionalConfigModule)
 
         const commitsStream = Readable.from(commits).pipe(
             conventionalCommitsParser(conventionalConfig.parserOpts),

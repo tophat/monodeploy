@@ -38,10 +38,15 @@ const generateChangelogEntry = async ({
     const workspace = context.project.getWorkspaceByIdent(ident)
 
     // ghost-imports-ignore-next-line
-    const conventionalConfig = await require(require.resolve(
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const conventionalConfigModule = require(require.resolve(
         config.conventionalChangelogConfig,
         { paths: [config.cwd] },
     ))
+    const conventionalConfig = await (typeof conventionalConfigModule ===
+    'function'
+        ? conventionalConfigModule()
+        : conventionalConfigModule)
 
     const commitsStream = Readable.from(
         commits.map((commit) => commit.body),
