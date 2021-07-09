@@ -148,10 +148,17 @@ const monodeploy = async (
         }
 
         // Backup workspace package.jsons
-        const backupKey = await backupPackageJsons({ config, context })
-        logging.debug(`[Savepoint] Saving working tree (key: ${backupKey})`, {
-            report,
-        })
+        let backupKey: string | undefined
+
+        if (!config.dryRun) {
+            backupKey = await backupPackageJsons({ config, context })
+            logging.debug(
+                `[Savepoint] Saving working tree (key: ${backupKey})`,
+                {
+                    report,
+                },
+            )
+        }
 
         try {
             let workspacesToPublish: Set<Workspace>
@@ -264,6 +271,10 @@ const monodeploy = async (
                 'Cleaning Up',
                 { skipIfEmpty: false },
                 async () => {
+                    // Nothing to clean up in dry run mode
+                    // (marked by backup key never being created)
+                    if (!backupKey) return
+
                     if (!config.persistVersions) {
                         // Restore workspace package.jsons
                         logging.debug(

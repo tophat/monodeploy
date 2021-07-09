@@ -108,9 +108,11 @@ const patchPackageJsons = async (
             workspace.manifest.indent,
         )}\n`
 
-        await xfs.changeFilePromise(path, content, {
-            automaticNewlines: true,
-        })
+        if (!config.dryRun) {
+            await xfs.changeFilePromise(path, content, {
+                automaticNewlines: true,
+            })
+        }
     }
 
     await Promise.all([...workspaces].map(patchWorkspace))
