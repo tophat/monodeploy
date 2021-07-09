@@ -282,4 +282,54 @@ describe('Patch Package Manifests', () => {
                 ).toEqual('workspace:^2.0.0')
             },
         ))
+
+    it('does not modify disk in dry run mode', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {
+                    dependencies: ['pkg-2'],
+                    peerDependencies: ['pkg-3'],
+                },
+                'pkg-2': { dependencies: ['pkg-3'] },
+                'pkg-3': {},
+            },
+            async (context) => {
+                const config = {
+                    ...(await getMonodeployConfig({
+                        cwd: context.project.cwd,
+                        baseBranch: 'main',
+                        commitSha: 'shashasha',
+                    })),
+                    persistVersions: true,
+                    dryRun: true,
+                }
+
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                await patchPackageJsons(
+                    config,
+                    context,
+                    new Set([workspace1, workspace2, workspace3]),
+                    new Map([
+                        ['pkg-1', '1.0.0'],
+                        ['pkg-2', '2.0.0'],
+                        ['pkg-3', '3.0.0'],
+                    ]),
+                )
+
+                const manifest1 = await loadManifest(context, 'pkg-1')
+                const manifest2 = await loadManifest(context, 'pkg-2')
+                const manifest3 = await loadManifest(context, 'pkg-3')
+
+                expect(manifest1.version).not.toEqual('1.0.0')
+                expect(manifest2.version).not.toEqual('2.0.0')
+                expect(manifest3.version).not.toEqual('3.0.0')
+
+                expect(workspace1.manifest.version).toEqual('1.0.0')
+                expect(workspace2.manifest.version).toEqual('2.0.0')
+                expect(workspace3.manifest.version).toEqual('3.0.0')
+            },
+        ))
 })
