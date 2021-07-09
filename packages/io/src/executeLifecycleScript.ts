@@ -24,7 +24,7 @@ export const maybeExecuteWorkspaceLifecycleScript = async (
 
     const exec = async () => {
         if (dryRun) {
-            logging.info(`${prefix} [Exec] '${scriptName}'`, {
+            logging.debug(`${prefix} [Exec] '${scriptName}'`, {
                 report: context.report,
             })
             return
