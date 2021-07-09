@@ -152,7 +152,7 @@ const monodeploy = async (
 
         if (!config.dryRun) {
             backupKey = await backupPackageJsons({ config, context })
-            logging.debug(
+            logging.info(
                 `[Savepoint] Saving working tree (key: ${backupKey})`,
                 {
                     report,
@@ -277,7 +277,7 @@ const monodeploy = async (
 
                     if (!config.persistVersions) {
                         // Restore workspace package.jsons
-                        logging.debug(
+                        logging.info(
                             `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
                             { report },
                         )
