@@ -66,17 +66,14 @@ const { argv } = yargs
         type: 'boolean',
         description:
             'Force changelog update and changeset writes even in dry run mode, good for previewing changes',
-        default: false,
     })
     .option('push', {
         type: 'boolean',
         description: 'Whether to push git changes to remote',
-        default: false,
     })
     .option('persist-versions', {
         type: 'boolean',
         description: 'Whether to persist package.json changes after publish',
-        default: false,
     })
     .option('access', {
         type: 'string',
@@ -87,7 +84,6 @@ const { argv } = yargs
         type: 'boolean',
         description:
             'Whether the changelog, package.json and lockfile changes should be autocommited to the active branch',
-        default: false,
     })
     .option('auto-commit-message', {
         type: 'string',
@@ -97,13 +93,11 @@ const { argv } = yargs
     .option('topological', {
         type: 'boolean',
         description: 'Whether to prepare workspaces in topological order',
-        default: false,
     })
     .option('topological-dev', {
         type: 'boolean',
         description:
             'Whether to prepare workspaces in topological order (taking dev dependencies into account)',
-        default: false,
     })
     .option('jobs', {
         type: 'number',
@@ -133,7 +127,6 @@ const { argv } = yargs
     .option('prerelease', {
         type: 'boolean',
         description: 'Whether to publish using a prerelease strategy',
-        default: false,
     })
     .option('prerelease-id', {
         type: 'string',
@@ -181,7 +174,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     undefined,
                 remote:
                     argv.gitRemote ?? configFromFile?.git?.remote ?? undefined,
-                push: argv.push || configFromFile?.git?.push,
+                push: argv.push ?? configFromFile?.git?.push,
                 tag:
                     argv.gitTag === false
                         ? argv.gitTag
@@ -204,20 +197,20 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                 configFromFile?.changelogFilename ??
                 undefined,
             forceWriteChangeFiles:
-                argv.forceWriteChangeFiles ||
+                argv.forceWriteChangeFiles ??
                 configFromFile?.forceWriteChangeFiles,
             access: argv.access ?? configFromFile?.access ?? undefined,
             persistVersions:
-                argv.persistVersions || configFromFile?.persistVersions,
-            topological: argv.topological || configFromFile?.topological,
+                argv.persistVersions ?? configFromFile?.persistVersions,
+            topological: argv.topological ?? configFromFile?.topological,
             topologicalDev:
-                argv.topologicalDev || configFromFile?.topologicalDev,
+                argv.topologicalDev ?? configFromFile?.topologicalDev,
             jobs:
                 (argv.jobs && argv.jobs > 0
                     ? argv.jobs
                     : configFromFile?.jobs) ?? 0,
             autoCommit:
-                (argv.autoCommit || configFromFile?.autoCommit) ?? undefined,
+                argv.autoCommit ?? configFromFile?.autoCommit ?? undefined,
             autoCommitMessage:
                 argv.autoCommitMessage ??
                 configFromFile?.autoCommitMessage ??
@@ -232,7 +225,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     : configFromFile?.maxConcurrentWrites) ?? 0,
             plugins: argv.plugins ?? configFromFile?.plugins ?? undefined,
             prerelease:
-                (argv.prerelease || configFromFile?.prerelease) ?? undefined,
+                argv.prerelease ?? configFromFile?.prerelease ?? undefined,
             prereleaseId:
                 argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
             prereleaseNPMTag:
