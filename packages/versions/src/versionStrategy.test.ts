@@ -8,6 +8,35 @@ import {
     getDefaultRecommendedStrategy,
 } from './versionStrategy'
 
+const monodeployConfig: MonodeployConfiguration = {
+    cwd: process.cwd(),
+    dryRun: false,
+    git: {
+        baseBranch: 'main',
+        commitSha: 'HEAD',
+        remote: 'origin',
+        push: false,
+        tag: false,
+    },
+    conventionalChangelogConfig: path.resolve(
+        path.join(__dirname, '..', 'mocks', 'conventional-config.mock.ts'),
+    ),
+    access: 'public',
+    noRegistry: false,
+    autoCommit: false,
+    autoCommitMessage: '',
+    persistVersions: false,
+    forceWriteChangeFiles: false,
+    topological: false,
+    topologicalDev: false,
+    jobs: 0,
+    maxConcurrentReads: 1,
+    maxConcurrentWrites: 1,
+    prerelease: false,
+    prereleaseId: 'rc',
+    prereleaseNPMTag: 'next',
+}
+
 describe('Default Recommended Strategy', () => {
     it.each([
         [
@@ -64,35 +93,6 @@ describe('Default Recommended Strategy', () => {
 })
 
 describe('Custom Conventional Recommended Strategy', () => {
-    const monodeployConfig: MonodeployConfiguration = {
-        cwd: process.cwd(),
-        dryRun: false,
-        git: {
-            baseBranch: 'main',
-            commitSha: 'HEAD',
-            remote: 'origin',
-            push: false,
-            tag: false,
-        },
-        conventionalChangelogConfig: path.resolve(
-            path.join(__dirname, '..', 'mocks', 'conventional-config.mock.ts'),
-        ),
-        access: 'public',
-        noRegistry: false,
-        autoCommit: false,
-        autoCommitMessage: '',
-        persistVersions: false,
-        forceWriteChangeFiles: false,
-        topological: false,
-        topologicalDev: false,
-        jobs: 0,
-        maxConcurrentReads: 1,
-        maxConcurrentWrites: 1,
-        prerelease: false,
-        prereleaseId: 'rc',
-        prereleaseNPMTag: 'next',
-    }
-
     afterEach(() => {
         // the mock config takes the value from an env variable
         delete process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_
@@ -118,6 +118,38 @@ describe('Custom Conventional Recommended Strategy', () => {
     it('chooses strategy based on custom config', async () => {
         const strategyDeterminer =
             createGetConventionalRecommendedStrategy(monodeployConfig)
+
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
+            STRATEGY.MINOR,
+        )
+
+        process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MAJOR)
+        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(
+            STRATEGY.MAJOR,
+        )
+    })
+})
+
+describe('Custom Conventional Recommended Strategy (Function Format)', () => {
+    afterEach(() => {
+        // the mock config takes the value from an env variable
+        delete process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_
+        delete process.env._TEST_VERSION_RETURN_NULL_
+    })
+
+    it('chooses strategy based on custom config', async () => {
+        const strategyDeterminer = createGetConventionalRecommendedStrategy({
+            ...monodeployConfig,
+            conventionalChangelogConfig: path.resolve(
+                path.join(
+                    __dirname,
+                    '..',
+                    'mocks',
+                    'conventional-config-fn.mock.ts',
+                ),
+            ),
+        })
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
         expect(await strategyDeterminer(['feat: a feature!'])).toEqual(

@@ -14,5 +14,5 @@ module.exports = (() => {
         },
     })
 
-    return config()
+    return config
 })()
