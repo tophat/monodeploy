@@ -11,6 +11,8 @@ import { structUtils } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
 
+import resolveConventionalConfig from './resolveConventionalConfig'
+
 const generateChangelogEntry = async ({
     config,
     context,
@@ -37,16 +39,7 @@ const generateChangelogEntry = async ({
     const ident = structUtils.parseIdent(packageName)
     const workspace = context.project.getWorkspaceByIdent(ident)
 
-    // ghost-imports-ignore-next-line
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const conventionalConfigModule = require(require.resolve(
-        config.conventionalChangelogConfig,
-        { paths: [config.cwd] },
-    ))
-    const conventionalConfig = await (typeof conventionalConfigModule ===
-    'function'
-        ? conventionalConfigModule()
-        : conventionalConfigModule)
+    const conventionalConfig = await resolveConventionalConfig(config)
 
     const commitsStream = Readable.from(
         commits.map((commit) => commit.body),

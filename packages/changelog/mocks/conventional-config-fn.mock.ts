@@ -1,5 +1,6 @@
 module.exports = (() => {
-    const config = () => ({
+    const config = (options = {}) => ({
+        parserOpts: options,
         recommendedBumpOpts: {
             whatBump: () => {
                 const pinnedLevel =

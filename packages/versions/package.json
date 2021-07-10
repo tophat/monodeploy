@@ -31,6 +31,7 @@
     "semver": "^7.3.4"
   },
   "devDependencies": {
+    "@monodeploy/changelog": "workspace:*",
     "@monodeploy/dependencies": "workspace:*",
     "@monodeploy/git": "workspace:*",
     "@monodeploy/io": "workspace:*",
