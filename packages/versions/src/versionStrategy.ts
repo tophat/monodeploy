@@ -74,7 +74,7 @@ export const createGetConventionalRecommendedStrategy =
             throw new Error('Invalid conventional changelog config')
         }
 
-        const conventionalConfig = await resolveConventionalConfig(config)
+        const conventionalConfig = await resolveConventionalConfig({ config })
 
         const commitsStream = Readable.from(commits).pipe(
             conventionalCommitsParser(conventionalConfig.parserOpts),

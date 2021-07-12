@@ -39,7 +39,7 @@ const generateChangelogEntry = async ({
     const ident = structUtils.parseIdent(packageName)
     const workspace = context.project.getWorkspaceByIdent(ident)
 
-    const conventionalConfig = await resolveConventionalConfig(config)
+    const conventionalConfig = await resolveConventionalConfig({ config })
 
     const commitsStream = Readable.from(
         commits.map((commit) => commit.body),

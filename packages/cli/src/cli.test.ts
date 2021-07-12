@@ -317,7 +317,10 @@ describe('CLI', () => {
                     access: 'public',
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',
-                    conventionalChangelogConfig: '@my/config-from-file',
+                    conventionalChangelogConfig: {
+                        name: '@my/config-from-file',
+                        someData: 123,
+                    },
                     dryRun: true,
                     forceWriteChangeFiles: true,
                     git: {
@@ -363,7 +366,10 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "conventionalChangelogConfig": Object {
+                        "name": "@my/config-from-file",
+                        "someData": 123,
+                      },
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,

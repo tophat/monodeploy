@@ -7,7 +7,9 @@ import { resolveConventionalConfig } from '.'
 describe('resolveConventionalConfig', () => {
     it('throw when no conventional changelog config provided', async () => {
         await expect(
-            resolveConventionalConfig({} as MonodeployConfiguration),
+            resolveConventionalConfig({
+                config: {} as MonodeployConfiguration,
+            }),
         ).rejects.toThrow()
     })
 
@@ -27,18 +29,18 @@ describe('resolveConventionalConfig', () => {
             ),
         }
 
-        const config = await resolveConventionalConfig(
-            monodeployConfig as MonodeployConfiguration,
-        )
+        const config = await resolveConventionalConfig({
+            config: monodeployConfig as MonodeployConfiguration,
+        })
 
-        expect(config).toMatchInlineSnapshot(`
-            Object {
-              "parserOpts": Object {},
-              "recommendedBumpOpts": Object {
-                "whatBump": [Function],
-              },
-            }
-        `)
+        expect(config).toEqual({
+            parserOpts: {
+                name: expect.stringContaining('conventional-config-fn'),
+            },
+            recommendedBumpOpts: expect.objectContaining({
+                whatBump: expect.any(Function),
+            }),
+        })
     })
 
     it('supports custom conventional config preset with additional configuration', async () => {
@@ -61,9 +63,9 @@ describe('resolveConventionalConfig', () => {
             },
         }
 
-        const config = await resolveConventionalConfig(
-            monodeployConfig as MonodeployConfiguration,
-        )
+        const config = await resolveConventionalConfig({
+            config: monodeployConfig as MonodeployConfiguration,
+        })
 
         expect(config).toMatchObject({
             parserOpts: {

@@ -4818,15 +4818,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.0.1, ajv@npm:^8.1.0":
-  version: 8.5.0
-  resolution: "ajv@npm:8.5.0"
+"ajv@npm:^8.0.1, ajv@npm:^8.6.1":
+  version: 8.6.1
+  resolution: "ajv@npm:8.6.1"
   dependencies:
     fast-deep-equal: ^3.1.1
     json-schema-traverse: ^1.0.0
     require-from-string: ^2.0.2
     uri-js: ^4.2.2
-  checksum: 0115531d0fd8314867d21b4748f3a91f82b464ca92855ac0702bbe9fc6fb6202b032af7f2849da92fd8e23a7ea2ba91cbae3dde64f05a804dd1bd32809ba0f73
+  checksum: e091264ff6c8134d9072e804f6f1d56e8dacc143537852d9afb456f0bb6c4eff98307e152da2faf7afef2ebf665278316aa5cf30f7d81ccecc9654c11629e2a6
   languageName: node
   linkType: hard
 
@@ -15719,7 +15719,7 @@ fsevents@^1.2.7:
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
     "@yarnpkg/core": ^3.0.0-rc.9
-    ajv: ^8.1.0
+    ajv: ^8.6.1
     yargs: ^16.2.0
   bin:
     monodeploy: ./src/cli.ts

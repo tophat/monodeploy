@@ -33,7 +33,7 @@
     "@monodeploy/node": "workspace:^0.10.3",
     "@monodeploy/types": "workspace:^0.8.0",
     "@yarnpkg/core": "^3.0.0-rc.9",
-    "ajv": "^8.1.0",
+    "ajv": "^8.6.1",
     "yargs": "^16.2.0"
   },
   "engines": {
