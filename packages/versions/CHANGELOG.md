@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.7.0...@monodeploy/versions@0.7.1) "@monodeploy/versions" (2021-07-12)<a name="0.7.1"></a>
+
+### Bug Fixes
+
+* add missing changelog dependency (#400) ([ff94e0c](https://github.com/tophat/monodeploy/commits/ff94e0c))
+
+
+
+
 ## [0.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.6.3...@monodeploy/versions@0.7.0) "@monodeploy/versions" (2021-07-12)<a name="0.7.0"></a>
 
 ### Features
