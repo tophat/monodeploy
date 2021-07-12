@@ -1,5 +1,6 @@
 import { Readable } from 'stream'
 
+import { resolveConventionalConfig } from '@monodeploy/changelog'
 import { readStream } from '@monodeploy/io'
 import type {
     MonodeployConfiguration,
@@ -64,16 +65,6 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     }, STRATEGY.NONE)
 }
 
-type ConventionalStrategy = { level?: number | null }
-type ConventionalChangelogConfig = {
-    parserOpts: conventionalCommitsParser.Options
-    recommendedBumpOpts: {
-        whatBump: (
-            commits: conventionalCommitsParser.Commit[],
-        ) => ConventionalStrategy
-    }
-}
-
 export const createGetConventionalRecommendedStrategy =
     (config: MonodeployConfiguration): StrategyDeterminer =>
     async (commits: string[]): Promise<number> => {
@@ -83,16 +74,7 @@ export const createGetConventionalRecommendedStrategy =
             throw new Error('Invalid conventional changelog config')
         }
 
-        const configResolveId = require.resolve(conventionalChangelogConfig, {
-            paths: [config.cwd],
-        })
-        // ghost-imports-ignore-next-line
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const conventionalConfigModule = require(configResolveId)
-        const conventionalConfig: ConventionalChangelogConfig =
-            await (typeof conventionalConfigModule === 'function'
-                ? conventionalConfigModule()
-                : conventionalConfigModule)
+        const conventionalConfig = await resolveConventionalConfig({ config })
 
         const commitsStream = Readable.from(commits).pipe(
             conventionalCommitsParser(conventionalConfig.parserOpts),

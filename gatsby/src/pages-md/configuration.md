@@ -32,6 +32,7 @@ module.exports = {
 
 ```ts
 export interface MonodeployConfiguration {
+    cwd: string
     registryUrl?: string
     noRegistry: boolean
     dryRun: boolean
@@ -42,7 +43,12 @@ export interface MonodeployConfiguration {
         push: boolean
         tag: boolean
     }
-    conventionalChangelogConfig?: string
+    conventionalChangelogConfig?:
+        | string
+        | {
+              name: string
+              [key: string]: unknown
+          }
     changesetFilename?: string
     changelogFilename?: string
     changesetIgnorePatterns?: Array<string>
