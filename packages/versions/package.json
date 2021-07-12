@@ -48,6 +48,7 @@
     "@yarnpkg/plugin-pack": "^3.0.0-rc.9"
   },
   "peerDependencies": {
+    "@monodeploy/changelog": "^0.7.0",
     "@monodeploy/dependencies": "^0.3.3",
     "@monodeploy/git": "^0.3.3",
     "@monodeploy/io": "^0.2.17",
