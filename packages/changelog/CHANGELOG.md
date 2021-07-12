@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.6.1...@monodeploy/changelog@0.7.0) "@monodeploy/changelog" (2021-07-12)<a name="0.7.0"></a>
+
+### Features
+
+* support custom configuration for conventional changelog config ([5312462](https://github.com/tophat/monodeploy/commits/5312462))
+
+
+
+
 ## [0.6.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.6.0...@monodeploy/changelog@0.6.1) "@monodeploy/changelog" (2021-07-09)<a name="0.6.1"></a>
 
 ### Bug Fixes

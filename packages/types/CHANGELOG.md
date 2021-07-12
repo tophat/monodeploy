@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.8.0...@monodeploy/types@0.9.0) "@monodeploy/types" (2021-07-12)<a name="0.9.0"></a>
+
+### Features
+
+* support custom configuration for conventional changelog config ([5312462](https://github.com/tophat/monodeploy/commits/5312462))
+
+
+
+
 ## [0.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.7.1...@monodeploy/types@0.8.0) "@monodeploy/types" (2021-07-06)<a name="0.8.0"></a>
 
 ### Features
