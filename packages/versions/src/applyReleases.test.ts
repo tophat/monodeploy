@@ -52,7 +52,7 @@ describe('applyReleases', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const intendedVersions = await applyReleases({
+                const { next: intendedVersions } = await applyReleases({
                     config,
                     context,
                     workspaces: new Set([workspace2, workspace3]),
@@ -130,7 +130,7 @@ describe('applyReleases', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const intendedVersions = await applyReleases({
+                const { next: intendedVersions } = await applyReleases({
                     config,
                     context,
                     workspaces: new Set([workspace1, workspace2, workspace3]),
@@ -191,7 +191,7 @@ describe('applyReleases prereleases', () => {
     ])(
         `bumps pre-release %s with %s to %s`,
         (fromVersion, strategy, toVersion) => {
-            const actualVersion = incrementVersion({
+            const { next: actualVersion } = incrementVersion({
                 currentLatestVersion: '1.0.0',
                 currentPrereleaseVersion: fromVersion,
                 strategy: strategy as PackageStrategyType,
@@ -231,7 +231,7 @@ describe('applyReleases prereleases', () => {
         // Applying a "major" to "unpublished" gives us a "premajor"
         ['0.0.0', 'major', '1.0.0-rc.0'],
     ])(`bumps %s with %s to %s`, (fromVersion, strategy, toVersion) => {
-        const actualVersion = incrementVersion({
+        const { previous, next: actualVersion } = incrementVersion({
             currentLatestVersion: fromVersion,
             currentPrereleaseVersion: null,
             strategy: strategy as PackageStrategyType,
@@ -239,6 +239,7 @@ describe('applyReleases prereleases', () => {
             prereleaseId: 'rc',
         })
         expect(actualVersion).toEqual(toVersion)
+        expect(previous).toEqual(fromVersion)
     })
 
     it.each([
@@ -248,7 +249,7 @@ describe('applyReleases prereleases', () => {
     ])(
         `handles outdated prerelease with latest %s, prerelease %s, strategy %s`,
         (fromLatest, fromPrerelease, strategy, toVersion) => {
-            const actualVersion = incrementVersion({
+            const { previous, next: actualVersion } = incrementVersion({
                 currentLatestVersion: fromLatest,
                 currentPrereleaseVersion: fromPrerelease,
                 strategy: strategy as PackageStrategyType,
@@ -256,6 +257,7 @@ describe('applyReleases prereleases', () => {
                 prereleaseId: 'rc',
             })
             expect(actualVersion).toEqual(toVersion)
+            expect(previous).toEqual(fromLatest)
         },
     )
 })
