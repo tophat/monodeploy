@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.7.8](https://github.com/tophat/monodeploy/compare/monodeploy@2.7.7...monodeploy@2.7.8) "monodeploy" (2021-07-15)<a name="2.7.8"></a>
+
+### Bug Fixes
+
+* add 'infer' access option to provide backwards compatibility (#407) ([3f466ee](https://github.com/tophat/monodeploy/commits/3f466ee))
+
+
+
+
 ## [2.7.3](https://github.com/tophat/monodeploy/compare/monodeploy@2.7.2...monodeploy@2.7.3) "monodeploy" (2021-07-09)<a name="2.7.3"></a>
 
 ### Bug Fixes

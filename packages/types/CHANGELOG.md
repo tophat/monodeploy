@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.9.0...@monodeploy/types@0.9.1) "@monodeploy/types" (2021-07-15)<a name="0.9.1"></a>
+
+### Bug Fixes
+
+* respect access and registry url per workspace, close #398 (#405) ([3f466ee](https://github.com/tophat/monodeploy/commits/3f466ee))
+* add 'infer' access option to provide backwards compatibility (#407) ([3f466ee](https://github.com/tophat/monodeploy/commits/3f466ee))
+
+
+
+
 ## [0.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.8.0...@monodeploy/types@0.9.0) "@monodeploy/types" (2021-07-12)<a name="0.9.0"></a>
 
 ### Features

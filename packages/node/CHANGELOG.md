@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.7](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.6...@monodeploy/node@0.10.7) "@monodeploy/node" (2021-07-15)<a name="0.10.7"></a>
+
+### Bug Fixes
+
+* respect access and registry url per workspace, close #398 (#405) ([3f466ee](https://github.com/tophat/monodeploy/commits/3f466ee))
+* add 'infer' access option to provide backwards compatibility (#407) ([3f466ee](https://github.com/tophat/monodeploy/commits/3f466ee))
+
+
+
+
 ## [0.10.6](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.5...@monodeploy/node@0.10.6) "@monodeploy/node" (2021-07-15)<a name="0.10.6"></a>
 
 ### Bug Fixes
