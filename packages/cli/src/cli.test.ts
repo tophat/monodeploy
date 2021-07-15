@@ -36,7 +36,7 @@ describe('CLI', () => {
                     '--git-base-branch main --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
-                    '--push --persist-versions --access public --topological --topological-dev --jobs 6 ' +
+                    '--push --persist-versions --access infer --topological --topological-dev --jobs 6 ' +
                     '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
                     '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta',
@@ -50,7 +50,7 @@ describe('CLI', () => {
                     .calls[0][0],
             ).toMatchInlineSnapshot(`
                 Object {
-                  "access": "public",
+                  "access": "infer",
                   "autoCommit": true,
                   "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
@@ -314,7 +314,7 @@ describe('CLI', () => {
         it('reads from specified config file using path relative to cwd', async () => {
             const configFileContents = `
                 module.exports = {
-                    access: 'public',
+                    access: 'restricted',
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',
                     conventionalChangelogConfig: {
@@ -360,7 +360,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
                     .toMatchInlineSnapshot(`
                     Object {
-                      "access": "public",
+                      "access": "restricted",
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",

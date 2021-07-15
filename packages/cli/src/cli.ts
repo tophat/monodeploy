@@ -79,6 +79,7 @@ const { argv } = yargs
         type: 'string',
         description:
             'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
+        choices: ['infer', 'public', 'restricted'],
     })
     .option('auto-commit', {
         type: 'boolean',

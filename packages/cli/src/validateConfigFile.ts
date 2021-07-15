@@ -31,7 +31,11 @@ const schema: SchemaObject = {
             items: { type: 'string' },
         },
         forceWriteChangeFiles: { type: 'boolean', nullable: true },
-        access: { type: 'string', nullable: true },
+        access: {
+            type: 'string',
+            nullable: true,
+            enum: ['infer', 'public', 'restricted'],
+        },
         persistVersions: { type: 'boolean', nullable: true },
         topological: { type: 'boolean', nullable: true },
         topologicalDev: { type: 'boolean', nullable: true },

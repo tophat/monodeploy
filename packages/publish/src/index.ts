@@ -54,11 +54,14 @@ export const publishPackages = async ({
 
             const buffer = await miscUtils.bufferStream(pack)
 
+            const globalAccess = config.access
+            const access = globalAccess === 'infer' ? undefined : globalAccess
+
             const body = await npmPublishUtils.makePublishBody(
                 workspace,
                 buffer,
                 {
-                    access: config.access ?? undefined,
+                    access,
                     tag: publishTag,
                     registry: registryUrl,
                 },
@@ -79,7 +82,7 @@ export const publishPackages = async ({
                     )
                 }
                 logging.info(
-                    `[Publish] ${pkgName} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl})`,
+                    `[Publish] ${pkgName} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl}; ${body.access})`,
                     { report: context.report },
                 )
             } catch (e) {
