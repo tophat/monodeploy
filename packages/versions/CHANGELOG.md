@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.7.1...@monodeploy/versions@0.7.2) "@monodeploy/versions" (2021-07-15)<a name="0.7.2"></a>
+
+### Bug Fixes
+
+* use accurate from version in changeset and logging (#404) ([45a1a74](https://github.com/tophat/monodeploy/commits/45a1a74))
+
+
+
+
 ## [0.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.7.0...@monodeploy/versions@0.7.1) "@monodeploy/versions" (2021-07-12)<a name="0.7.1"></a>
 
 ### Bug Fixes

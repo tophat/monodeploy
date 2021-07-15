@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.6](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.5...@monodeploy/node@0.10.6) "@monodeploy/node" (2021-07-15)<a name="0.10.6"></a>
+
+### Bug Fixes
+
+* use accurate from version in changeset and logging (#404) ([45a1a74](https://github.com/tophat/monodeploy/commits/45a1a74))
+
+
+
+
 ## [0.10.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.10.2...@monodeploy/node@0.10.3) "@monodeploy/node" (2021-07-09)<a name="0.10.3"></a>
 
 ### Bug Fixes
