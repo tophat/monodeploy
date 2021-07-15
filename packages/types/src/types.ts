@@ -29,7 +29,7 @@ export interface MonodeployConfiguration {
     changelogFilename?: string
     changesetIgnorePatterns?: Array<string>
     forceWriteChangeFiles: boolean
-    access: string
+    access?: string
     persistVersions: boolean
     autoCommit: boolean
     autoCommitMessage: string

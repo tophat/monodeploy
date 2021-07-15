@@ -8,6 +8,7 @@ import pLimit from 'p-limit'
 
 import commitPublishChanges from './commitPublishChanges'
 import createReleaseGitTags from './createReleaseGitTags'
+import { getPublishRegistryUrl } from './getPublishConfig'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
 
@@ -17,12 +18,10 @@ export const publishPackages = async ({
     config,
     context,
     workspacesToPublish,
-    registryUrl,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     workspacesToPublish: Set<Workspace>
-    registryUrl: string | null
 }): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
     const publishTag = config.prerelease ? config.prereleaseNPMTag : 'latest'
@@ -36,7 +35,13 @@ export const publishPackages = async ({
         const cwd = workspace.cwd
 
         const pack = async () => {
-            if (!registryUrl || config.noRegistry) {
+            const registryUrl = await getPublishRegistryUrl({
+                config,
+                context,
+                workspace,
+            })
+
+            if (!registryUrl) {
                 logging.info(
                     `[Publish] ${pkgName} (${publishTag}: ${workspace.manifest.version}, skipping registry)`,
                     { report: context.report },
@@ -53,7 +58,7 @@ export const publishPackages = async ({
                 workspace,
                 buffer,
                 {
-                    access: config.access,
+                    access: config.access ?? undefined,
                     tag: publishTag,
                     registry: registryUrl,
                 },
