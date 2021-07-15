@@ -33,10 +33,7 @@ import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
-import {
-    getFetchRegistryUrl,
-    getPublishRegistryUrl,
-} from './utils/getRegistryUrl'
+import { getFetchRegistryUrl } from './utils/getRegistryUrl'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 const monodeploy = async (
@@ -100,18 +97,10 @@ const monodeploy = async (
             report,
         })
 
-        const defaultPublishRegistryUrl = await getPublishRegistryUrl({
-            config,
-            context,
-        })
         const defaultFetchRegistryUrl = await getFetchRegistryUrl({
             config,
             context,
         })
-        logging.debug(
-            `[Config] Default Registry Publish Url: ${defaultPublishRegistryUrl}`,
-            { report },
-        )
         logging.debug(
             `[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`,
             { report },
@@ -204,7 +193,6 @@ const monodeploy = async (
                         config,
                         context,
                         workspacesToPublish,
-                        registryUrl: defaultPublishRegistryUrl,
                     })
 
                     if (config.git.tag) {

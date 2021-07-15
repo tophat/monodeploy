@@ -32,7 +32,7 @@ const mergeDefaultConfig = async (
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         changesetIgnorePatterns: baseConfig.changesetIgnorePatterns ?? [],
         forceWriteChangeFiles: baseConfig.forceWriteChangeFiles ?? false,
-        access: baseConfig.access ?? 'public',
+        access: baseConfig.access ?? undefined,
         persistVersions: baseConfig.persistVersions ?? false,
         autoCommit: baseConfig.autoCommit ?? false,
         autoCommitMessage:

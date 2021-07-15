@@ -3,9 +3,9 @@ import {
     withMonorepoContext,
 } from '@monodeploy/test-utils'
 
-import { getFetchRegistryUrl } from './getRegistryUrl'
+import { getPublishRegistryUrl } from './getPublishConfig'
 
-describe('getFetchRegistryUrl', () => {
+describe('getPublishRegistryUrl', () => {
     it(`returns null if in no registry mode`, async () =>
         withMonorepoContext(
             {
@@ -20,7 +20,11 @@ describe('getFetchRegistryUrl', () => {
                     noRegistry: true,
                 }
                 config.registryUrl = 'http://example.com'
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getPublishRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toBeNull()
             },
         ))
@@ -36,7 +40,11 @@ describe('getFetchRegistryUrl', () => {
                     baseBranch: 'main',
                 })
                 config.registryUrl = 'http://example.com'
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getPublishRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toEqual(config.registryUrl)
             },
         ))
@@ -52,7 +60,11 @@ describe('getFetchRegistryUrl', () => {
                     baseBranch: 'main',
                 })
                 config.registryUrl = undefined
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getPublishRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toMatchInlineSnapshot(
                     `"https://registry.yarnpkg.com"`,
                 )
