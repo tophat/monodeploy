@@ -32,7 +32,6 @@ import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
-import { convertTagMapToVersions } from './utils/convert'
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
 import {
     getFetchRegistryUrl,
@@ -174,14 +173,17 @@ const monodeploy = async (
                 },
             )
 
-            let newVersions: PackageVersionMap
+            let versionChanges: {
+                next: PackageVersionMap
+                previous: PackageVersionMap
+            }
 
             await report.startTimerPromise(
                 'Patching Package Manifests',
                 { skipIfEmpty: false },
                 async () => {
                     // Apply releases, and update package.jsons
-                    newVersions = await applyReleases({
+                    versionChanges = await applyReleases({
                         config,
                         context,
                         workspaces: workspacesToPublish,
@@ -210,7 +212,7 @@ const monodeploy = async (
                         createdGitTags = await createReleaseGitTags({
                             config,
                             context,
-                            versions: newVersions,
+                            versions: versionChanges.next,
                         })
                     }
                 },
@@ -224,10 +226,8 @@ const monodeploy = async (
                     result = await writeChangesetFile({
                         config,
                         context,
-                        previousTags: convertTagMapToVersions(registryTags, {
-                            tag: 'latest',
-                        }), // old versions
-                        nextTags: newVersions,
+                        previousTags: versionChanges.previous,
+                        nextTags: versionChanges.next,
                         versionStrategies,
                         createdGitTags,
                     })

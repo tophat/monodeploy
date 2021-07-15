@@ -11,6 +11,17 @@ import type {
 import { Workspace } from '@yarnpkg/core'
 import * as semver from 'semver'
 
+const maxVersion = (a: string | null, b: string | null): string | null => {
+    if (!a) return b
+    if (!b) return a
+
+    const semverInfo = semver.parse(a)
+    if (!semverInfo || semverInfo?.compare(b) <= 0) {
+        return b
+    }
+    return a
+}
+
 export const incrementVersion = ({
     currentLatestVersion,
     currentPrereleaseVersion,
@@ -23,9 +34,12 @@ export const incrementVersion = ({
     strategy: PackageStrategyType
     prerelease: boolean
     prereleaseId: string
-}): string | null => {
+}): { previous: string; next: string | null } => {
     if (!prerelease) {
-        return semver.inc(currentLatestVersion, strategy)
+        return {
+            previous: currentLatestVersion,
+            next: semver.inc(currentLatestVersion, strategy),
+        }
     }
 
     const semverInfo = currentPrereleaseVersion
@@ -39,23 +53,45 @@ export const incrementVersion = ({
         semverInfo.compare(currentLatestVersion) <= 0
     ) {
         const releaseType: `pre${PackageStrategyType}` = `pre${strategy}`
-        return semver.inc(currentLatestVersion, releaseType, prereleaseId)
+        return {
+            previous: currentLatestVersion,
+            next: semver.inc(currentLatestVersion, releaseType, prereleaseId),
+        }
     }
 
     // if bumping to major, but not already on major
     const isPreleaseVersionMajor =
         semverInfo.major > 0 && semverInfo.minor === 0 && semverInfo.patch === 0
     if (strategy === 'major' && !isPreleaseVersionMajor) {
-        return semver.inc(currentPrereleaseVersion, 'premajor', prereleaseId)
+        return {
+            previous: currentPrereleaseVersion,
+            next: semver.inc(
+                currentPrereleaseVersion,
+                'premajor',
+                prereleaseId,
+            ),
+        }
     }
 
     // if bumping to minor, but not already on major or patch
     if (strategy === 'minor' && semverInfo.patch !== 0) {
-        return semver.inc(currentPrereleaseVersion, 'preminor', prereleaseId)
+        return {
+            previous: currentPrereleaseVersion,
+            next: semver.inc(
+                currentPrereleaseVersion,
+                'preminor',
+                prereleaseId,
+            ),
+        }
     }
 
-    return semver.inc(currentPrereleaseVersion, 'prerelease', prereleaseId)
+    return {
+        previous: currentPrereleaseVersion,
+        next: semver.inc(currentPrereleaseVersion, 'prerelease', prereleaseId),
+    }
 }
+
+type VersionChange = { previous: string; next: string }
 
 const applyReleases = async ({
     config,
@@ -69,9 +105,9 @@ const applyReleases = async ({
     workspaces: Set<Workspace>
     registryTags: PackageTagMap
     versionStrategies: PackageStrategyMap
-}): Promise<PackageVersionMap> => {
-    const updatedRegistryTags = new Map<string, string>()
-    const nonupdatedRegistryTags = new Map<string, string>()
+}): Promise<{ previous: PackageVersionMap; next: PackageVersionMap }> => {
+    const updatedRegistryTags = new Map<string, VersionChange>()
+    const nonupdatedRegistryTags = new Map<string, VersionChange>()
 
     for (const [packageName, packageTag] of registryTags.entries()) {
         const packageVersionStrategy = versionStrategies.get(packageName)?.type
@@ -80,39 +116,53 @@ const applyReleases = async ({
         const currentPrereleaseVersion =
             packageTag[config.prereleaseNPMTag] ?? null
 
-        let nextPackageVersion: string | null = currentLatestVersion
-        if (packageVersionStrategy) {
-            nextPackageVersion = incrementVersion({
-                strategy: packageVersionStrategy,
-                currentLatestVersion,
-                currentPrereleaseVersion,
-                prerelease: config.prerelease,
-                prereleaseId: config.prereleaseId,
+        const { previous, next } = packageVersionStrategy
+            ? incrementVersion({
+                  strategy: packageVersionStrategy,
+                  currentLatestVersion,
+                  currentPrereleaseVersion,
+                  prerelease: config.prerelease,
+                  prereleaseId: config.prereleaseId,
+              })
+            : { previous: null, next: null }
+
+        if (!next || !previous || previous === next) {
+            const version = config.prerelease
+                ? maxVersion(currentLatestVersion, currentPrereleaseVersion) ??
+                  currentLatestVersion
+                : currentLatestVersion
+            nonupdatedRegistryTags.set(packageName, {
+                previous: version,
+                next: version,
             })
+            continue
         }
 
-        if (nextPackageVersion && currentLatestVersion !== nextPackageVersion) {
-            updatedRegistryTags.set(packageName, nextPackageVersion)
-            logging.info(
-                `[Version Change] ${packageName}: ${currentLatestVersion} -> ${nextPackageVersion} (${packageVersionStrategy})`,
-                { report: context.report },
-            )
-        } else {
-            nonupdatedRegistryTags.set(packageName, currentLatestVersion)
-        }
+        updatedRegistryTags.set(packageName, { previous, next })
+        logging.info(
+            `[Version Change] ${packageName}: ${previous} -> ${next} (${packageVersionStrategy})`,
+            { report: context.report },
+        )
     }
 
-    await patchPackageJsons(
-        config,
-        context,
-        workspaces,
-        new Map([
-            ...nonupdatedRegistryTags.entries(),
-            ...updatedRegistryTags.entries(),
-        ]),
-    )
+    const patchVersions: PackageVersionMap = new Map()
+    for (const [pkg, info] of [
+        ...nonupdatedRegistryTags.entries(),
+        ...updatedRegistryTags.entries(),
+    ]) {
+        patchVersions.set(pkg, info.next)
+    }
 
-    return updatedRegistryTags
+    await patchPackageJsons(config, context, workspaces, patchVersions)
+
+    const next: PackageVersionMap = new Map()
+    const previous: PackageVersionMap = new Map()
+    for (const [pkg, info] of updatedRegistryTags.entries()) {
+        next.set(pkg, info.next)
+        previous.set(pkg, info.previous)
+    }
+
+    return { next, previous }
 }
 
 export default applyReleases

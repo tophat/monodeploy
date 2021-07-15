@@ -52,7 +52,7 @@ describe('applyReleases', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const intendedVersions = await applyReleases({
+                const { next: intendedVersions } = await applyReleases({
                     config,
                     context,
                     workspaces: new Set([workspace2, workspace3]),
@@ -130,7 +130,7 @@ describe('applyReleases', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const intendedVersions = await applyReleases({
+                const { next: intendedVersions } = await applyReleases({
                     config,
                     context,
                     workspaces: new Set([workspace1, workspace2, workspace3]),
@@ -157,6 +157,69 @@ describe('applyReleases', () => {
                 expect(manifest1.version).toEqual('1.1.0-rc.0')
                 expect(manifest2.version).toEqual('2.1.0-rc.4')
                 expect(manifest3.version).toEqual('4.0.0-rc.2')
+            },
+        ))
+
+    it(`patches non-updated versions correctly in prerelease mode`, async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': { dependencies: ['pkg-2', 'pkg-3', 'pkg-4'] },
+                'pkg-2': {},
+                'pkg-3': {},
+                'pkg-4': {},
+            },
+            async (context) => {
+                const config: MonodeployConfiguration = {
+                    ...(await getMonodeployConfig({
+                        cwd: context.project.cwd,
+                        baseBranch: 'main',
+                        commitSha: 'shashasha',
+                    })),
+                    persistVersions: true,
+                    prerelease: true,
+                    prereleaseNPMTag: 'next',
+                    prereleaseId: 'rc',
+                }
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+                const workspace3 = identToWorkspace(context, 'pkg-3')
+                const workspace4 = identToWorkspace(context, 'pkg-4')
+
+                const { next: intendedVersions } = await applyReleases({
+                    config,
+                    context,
+                    workspaces: new Set([workspace1, workspace2, workspace3]),
+                    registryTags: new Map([
+                        ['pkg-1', { latest: '1.0.0' }],
+                        ['pkg-2', { latest: '1.2.0', next: '0.5.0-rc.1' }],
+                        ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
+                        ['pkg-4', { latest: '0.1.0' }],
+                    ]),
+                    versionStrategies: new Map([
+                        ['pkg-1', { type: 'minor', commits: [] }],
+                    ]),
+                })
+                expect(intendedVersions.get('pkg-1')).toEqual('1.1.0-rc.0')
+
+                const manifest1 = await loadManifest(context, 'pkg-1')
+                expect(manifest1.version).toEqual('1.1.0-rc.0')
+
+                // Use the greaatest version out of latest & prerelease for non-updated packages
+                expect(
+                    manifest1.dependencies.get(
+                        workspace2.manifest.name!.identHash,
+                    )!.range,
+                ).toEqual('workspace:^1.2.0')
+                expect(
+                    manifest1.dependencies.get(
+                        workspace3.manifest.name!.identHash,
+                    )!.range,
+                ).toEqual('workspace:^4.0.0-rc.1')
+                expect(
+                    manifest1.dependencies.get(
+                        workspace4.manifest.name!.identHash,
+                    )!.range,
+                ).toEqual('workspace:^0.1.0')
             },
         ))
 })
@@ -191,7 +254,7 @@ describe('applyReleases prereleases', () => {
     ])(
         `bumps pre-release %s with %s to %s`,
         (fromVersion, strategy, toVersion) => {
-            const actualVersion = incrementVersion({
+            const { next: actualVersion } = incrementVersion({
                 currentLatestVersion: '1.0.0',
                 currentPrereleaseVersion: fromVersion,
                 strategy: strategy as PackageStrategyType,
@@ -231,7 +294,7 @@ describe('applyReleases prereleases', () => {
         // Applying a "major" to "unpublished" gives us a "premajor"
         ['0.0.0', 'major', '1.0.0-rc.0'],
     ])(`bumps %s with %s to %s`, (fromVersion, strategy, toVersion) => {
-        const actualVersion = incrementVersion({
+        const { previous, next: actualVersion } = incrementVersion({
             currentLatestVersion: fromVersion,
             currentPrereleaseVersion: null,
             strategy: strategy as PackageStrategyType,
@@ -239,6 +302,7 @@ describe('applyReleases prereleases', () => {
             prereleaseId: 'rc',
         })
         expect(actualVersion).toEqual(toVersion)
+        expect(previous).toEqual(fromVersion)
     })
 
     it.each([
@@ -248,7 +312,7 @@ describe('applyReleases prereleases', () => {
     ])(
         `handles outdated prerelease with latest %s, prerelease %s, strategy %s`,
         (fromLatest, fromPrerelease, strategy, toVersion) => {
-            const actualVersion = incrementVersion({
+            const { previous, next: actualVersion } = incrementVersion({
                 currentLatestVersion: fromLatest,
                 currentPrereleaseVersion: fromPrerelease,
                 strategy: strategy as PackageStrategyType,
@@ -256,6 +320,7 @@ describe('applyReleases prereleases', () => {
                 prereleaseId: 'rc',
             })
             expect(actualVersion).toEqual(toVersion)
+            expect(previous).toEqual(fromLatest)
         },
     )
 })
