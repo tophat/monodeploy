@@ -17,7 +17,7 @@ export interface ArgOutput {
     changesetFilename?: string
     forceWriteChangeFiles?: boolean
     prependChangelog?: string
-    access?: string
+    access?: 'infer' | 'public' | 'restricted'
     push?: boolean
     persistVersions?: boolean
     topological?: boolean

@@ -53,7 +53,15 @@ export interface MonodeployConfiguration {
     changelogFilename?: string
     changesetIgnorePatterns?: Array<string>
     forceWriteChangeFiles: boolean
-    access: string
+
+    /**
+     * Name: access
+     * Default: public
+     *
+     * This overrides the access defined in the publishConfig of individual
+     * workspaces. Set this to 'infer' to respect individual workspace configurations.
+     */
+    access?: 'infer' | 'public' | 'restricted'
     persistVersions: boolean
     autoCommit: boolean
     autoCommitMessage: string

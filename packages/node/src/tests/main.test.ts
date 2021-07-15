@@ -123,6 +123,51 @@ describe('Monodeploy', () => {
         delete process.env.MONODEPLOY_LOG_LEVEL
     })
 
+    it('passes correct access when publishing by default', async () => {
+        const spyPublish = jest.spyOn(npm.npmPublishUtils, 'makePublishBody')
+
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
+            './packages/pkg-1/README.md',
+        ])
+
+        await monodeploy({
+            ...monodeployConfig,
+            access: undefined,
+        })
+
+        expect(spyPublish.mock.calls[0][2]).toEqual(
+            expect.objectContaining({
+                access: 'public',
+            }),
+        )
+        spyPublish.mockClear()
+
+        await monodeploy({
+            ...monodeployConfig,
+            access: 'restricted',
+        })
+
+        expect(spyPublish.mock.calls[0][2]).toEqual(
+            expect.objectContaining({
+                access: 'restricted',
+            }),
+        )
+        spyPublish.mockClear()
+
+        await monodeploy({
+            ...monodeployConfig,
+            access: 'infer',
+        })
+
+        expect(spyPublish.mock.calls[0][2]).toEqual(
+            expect.objectContaining({
+                access: undefined,
+            }),
+        )
+        spyPublish.mockClear()
+    })
+
     it('logs an error if publishing fails', async () => {
         const spyPublish = jest
             .spyOn(npm.npmHttpUtils, 'put')
