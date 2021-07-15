@@ -32,7 +32,6 @@ import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
-import { convertTagMapToVersions } from './utils/convert'
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
 import {
     getFetchRegistryUrl,
