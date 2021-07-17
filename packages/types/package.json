@@ -22,7 +22,8 @@
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
-    "prepack": "run workspace:build \"$(pwd)\""
+    "prepack": "run workspace:build \"$(pwd)\"",
+    "docs": "node ./generateDocs.js"
   },
   "dependencies": {
     "tapable": "^2.2.0"
@@ -31,6 +32,7 @@
     "@yarnpkg/core": "^3.0.0-rc.9"
   },
   "devDependencies": {
-    "@yarnpkg/core": "^3.0.0-rc.9"
+    "@yarnpkg/core": "^3.0.0-rc.9",
+    "typedoc": "^0.21.4"
   }
 }

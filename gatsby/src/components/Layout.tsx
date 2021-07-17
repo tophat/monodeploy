@@ -1,16 +1,28 @@
+import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'gatsby'
-import Prism from 'prismjs'
 import * as React from 'react'
 
-import Header from './header'
+import CodeBlock from './CodeBlock'
+import Header from './Header'
+import Seo from './Seo'
 import 'sanitize.css'
-import 'prismjs/components/prism-typescript'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/components/prism-bash'
-import 'prismjs/themes/prism-tomorrow.css'
 import './layout.css'
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const components = {
+    code: CodeBlock,
+}
+
+interface PageContext {
+    frontmatter: {
+        path: string
+        title: string
+    }
+}
+
+const Layout: React.FC<{
+    children: React.ReactNode
+    pageContext: PageContext
+}> = ({ children, pageContext }) => {
     const data = useStaticQuery(graphql`
         query SiteTitleQuery {
             site {
@@ -21,13 +33,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }
     `)
 
-    React.useEffect(() => {
-        Prism.highlightAll()
-    }, [])
-
     return (
-        <>
-            <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+        <MDXProvider components={components}>
+            <Seo title={pageContext?.frontmatter?.title} />
+            <Header siteTitle={data.site.siteMetadata?.title} />
             <div
                 style={{
                     margin: `0 auto`,
@@ -52,7 +61,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     © {new Date().getFullYear()}
                 </footer>
             </div>
-        </>
+        </MDXProvider>
     )
 }
 
