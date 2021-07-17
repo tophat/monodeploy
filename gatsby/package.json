@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build:gatsby": "rm -rf .cache public && gatsby build --prefix-paths \"$@\" && rsync -rtuc --delete public/ ../docs/",
-    "build": "yarn @monodeploy/types docs && yarn build:gatsby",
+    "build": "yarn workspace @monodeploy/types docs && yarn build:gatsby",
     "develop": "gatsby develop",
     "start": "yarn run develop",
     "serve": "gatsby serve",
