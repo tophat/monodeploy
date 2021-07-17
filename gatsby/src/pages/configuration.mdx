@@ -1,0 +1,36 @@
+---
+path: "/configuration"
+title: "Configuration"
+---
+
+import TypeDocInterface from '../components/TypeDocInterface'
+import MonodeployTypesDocs from '../../../packages/types/docs/documentation.json'
+
+## Configuring Monodeploy
+
+For a full list of CLI arguments, run:
+
+```bash
+yarn monodeploy --help
+```
+
+To fine-tune monodeploy, create a `monodeploy.config.js` file and invoke monodeploy via:
+
+```bash
+yarn monodeploy --config-file monodeploy.config.js
+```
+
+## Configuration File
+
+If you omit a property, a reasonable default will be used. Note that setting a property to `null` is not always the same as omitting the property (or setting it to `undefined`).
+
+```js
+module.exports = {
+    autoCommit: true,
+    changelogFilename: 'CHANGELOG.md',
+}
+```
+
+## Schema
+
+<TypeDocInterface schema={MonodeployTypesDocs} interfaceName="MonodeployConfiguration" />

@@ -3,3 +3,68 @@
 html, body {
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+
+table.typedoc-schema {
+    color: #ffffff;
+    padding: 20px;
+    background: #803ed7;
+    text-align: left;
+    font-size: 1.1em;
+}
+
+table.typedoc-schema th {
+    font-size: 1.4em;
+    padding: 0.4em 1em 0.4em 0.6em;
+}
+
+table.typedoc-schema tr {
+    background: #1E1E1E;
+}
+
+table.typedoc-schema tr:nth-child(2n+1) {
+    background: #383838;
+}
+
+table.typedoc-schema td {
+    padding: 0.4em 1em 0.4em;
+    line-height: 1.5;
+}
+
+table.typedoc-schema td:first-child {
+    white-space: nowrap;
+}
+
+nav.header-nav {
+    display: block;
+    width: 100%;
+    background: #6727bb;
+}
+nav.header-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+nav.header-nav a:hover {
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+nav.header-nav a.active {
+    text-decoration: underline;
+}
+nav.header-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+nav.header-nav li {
+    padding: 0;
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.75em 1.5em;
+}

@@ -40,9 +40,9 @@
         "workspace:test:watch": "run workspace:test --watch $0",
         "workspace:test": "jest --config=jest.config.js $0",
         "workspace:types:watch": "tsc -p $0 --noEmit --pretty --watch",
-        "update:yarn": "node ./ci-scripts/update-yarn.js",
         "run-local": "ts-node $(yarn bin monodeploy)",
-        "docs": "yarn workspace @monodeploy/gatsby build"
+        "docs": "yarn workspace @monodeploy/gatsby build",
+        "docs:dev": "yarn workspace @monodeploy/gatsby develop"
     },
     "devDependencies": {
         "@commitlint/cli": "^12.1.4",

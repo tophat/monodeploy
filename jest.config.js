@@ -30,13 +30,13 @@ module.exports = {
         '/node_modules/',
         '/__mocks__/',
         '\\.test.ts$',
-        '\\.mock.ts$'
+        '\\.mock.ts$',
     ],
     watchPathIgnorePatterns: [
         '<rootDir>/example-monorepo',
         '<rootDir>/artifacts',
         '<rootDir>/packages/.*/lib',
-        '<rootDir>/packages/.*/.*\\.js'
+        '<rootDir>/packages/.*/.*\\.js',
     ],
     testPathIgnorePatterns: [
         '/node_modules/',
@@ -48,8 +48,6 @@ module.exports = {
     haste: {
         throwOnModuleCollision: true,
     },
-    modulePathIgnorePatterns: [
-        "<rootDir>/.*/lib"
-    ],
+    modulePathIgnorePatterns: ['<rootDir>/.*/lib'],
     testTimeout: 30000,
 }

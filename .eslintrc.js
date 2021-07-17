@@ -33,7 +33,7 @@ module.exports = {
             { additionalTestBlockFunctions: ['teste2e'] },
         ],
     },
-    ignorePatterns: ['.*', '**/*.js', '**/lib'],
+    ignorePatterns: ['**/.*', 'packages/**/*.js', '**/lib', 'gatsby/public'],
     settings: {
         'import/external-module-folders': ['node_modules', '.yarn'],
         'import/parsers': {
