@@ -40,7 +40,7 @@ jobs:
           run: |
             git config --global user.name tophat-opensource-bot
             git config --global user.email opensource-leads+bot@tophatmonocle.com
-            git config --global init.defaultBranch master
+            git config --global init.defaultBranch main
         - name: Tests
           run: yarn test:ci
 
@@ -76,9 +76,9 @@ jobs:
           run: |
             git config --global user.name tophat-opensource-bot
             git config --global user.email opensource-leads+bot@tophatmonocle.com
-            git config --global init.defaultBranch master
+            git config --global init.defaultBranch main
         - name: Publish via Monodeploy (Pre-release)
-          if: github.ref != 'refs/heads/master'
+          if: github.ref != 'refs/heads/main'
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
             GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
@@ -90,7 +90,7 @@ jobs:
               --changeset-ignore-patterns '**/*.test.ts' \
               --prerelease
         - name: Publish via Monodeploy
-          if: github.ref == 'refs/heads/master'
+          if: github.ref == 'refs/heads/main'
           env:
             NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
             GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}

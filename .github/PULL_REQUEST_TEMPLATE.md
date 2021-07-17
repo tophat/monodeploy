@@ -14,7 +14,7 @@ e.g. This PR refactors the X logic, applying Y's algorithm to improve Z by K per
 
 <!-- Please mark items as completed where appropriate. e.g. [x]. -->
 
-- [ ] I agree to abide by the [Code of Conduct](https://github.com/tophat/monodeploy/blob/master/CODE_OF_CONDUCT.md).
+- [ ] I agree to abide by the [Code of Conduct](https://github.com/tophat/monodeploy/blob/main/CODE_OF_CONDUCT.md).
 - [ ] I have updated the relevant gatsby files (documentation).
 - [ ] This PR has sufficient test coverage.
 - [ ] This PR title satisfies semantic [convention](https://www.conventionalcommits.org/en/v1.0.0/#summary).
