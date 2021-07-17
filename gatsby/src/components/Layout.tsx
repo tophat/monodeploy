@@ -35,7 +35,7 @@ const Layout: React.FC<{
 
     return (
         <MDXProvider components={components}>
-            <Seo title={pageContext.frontmatter.title} />
+            <Seo title={pageContext?.frontmatter?.title} />
             <Header siteTitle={data.site.siteMetadata?.title} />
             <div
                 style={{
