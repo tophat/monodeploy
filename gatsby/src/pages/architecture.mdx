@@ -5,4 +5,28 @@ title: "Architecture"
 
 ## Architecture
 
-This page is a work in progress.
+### Code Organization
+
+The Monodeploy codebase is organized as a monorepo, and ultimately uses monodeploy to publish itself.
+
+The `packages/cli` directory contains the root `monodeploy` package, which is a loose wrapper around `@monodeploy/node`. The `@monodeploy/node` package houses the pipeline logic and acts similar to the `@private/core` package of other popular monorepo based projects.
+
+### Publish Pipeline
+
+![Architecture Diagram](../images/architecture.png)
+
+The high-level of the pipeline aims to be simple, with most complexities abstracted away.
+
+In the first stage of the pipeline, after initialization, we use the loaded conventional changelog config to determine the packages which have been explicitly bumped via commit messages. An explicitly bumped package is always directly included in the commits ranging from the base commit to the publish commit. The conventional changelog configuration is ultimately responsible for correct parsing of the commit messages, and for the correctness of the version strategy determiner algorithm.
+
+The determination of the version strategies by package is the beginning of the creation of Monodeploy's "changeset". This changeset is enhanced a few times throughout the pipeline before ultimately being written out to the changeset file.
+
+Once we have the explicit version strategies, we determine the implicit strategies. This is accomplished by traversing the dependencies graph and finding all dependents of the explicitly bumped packages, excluding dependents which themselves are explicitly bumped. These dependent packages are automatically given a patch version strategy. This is to ensure downstream consumers of the explicitly bumped packages receive updates.
+
+With a collection of version strategies associated with the individual packages, are now read to apply the version strategy (e.g. "minor") to the latest version of each package. Package manifests (`package.json` files) are updated so the `version` of the manifest, and the versions listed in the `dependencies`, `peerDependencies`, and `devDependencies` fields reflect the latest versions we are about to publish.
+
+Once the manifests of all packages we will be publishing are updated, we trigger a publish to the specified NPM registry. Before and after publishing each package, the appropriate npm lifecycle hooks are executed. These hooks are guaranteed to be executed in topological order, if the topological configuration option is enabled. After updating the remote registry, the release git tags are created.
+
+At this point, the changeset information for each published package is piped through the loaded conventional changelog config, and changelog files are written. Depending on configuration options, the created git tags, the changelog files, and the modified package manifests are committed and pushed to the remote git repository.
+
+At various steps throughout the pipepline, Monodeploy plugin hooks will be triggered.

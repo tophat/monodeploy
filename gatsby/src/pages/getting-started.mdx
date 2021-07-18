@@ -5,6 +5,8 @@ title: "Getting Started"
 
 ## Getting Started
 
+A minimum Node version of v14.0.0 and Yarn Berry is required.
+
 Install `monodeploy`:
 
 ```bash
@@ -31,6 +33,8 @@ yarn monodeploy --help
 ```
 
 or see the [Configuration](../configuration) page for more details.
+
+**Private Packages**: If using Monodeploy in a project with a mix of private and public packages, you will want to set the config option `access` to "infer" to prevent accidentally publishing your private packages with public access. See the documentation for [access](../configuration#schema-option-access).
 
 ### API
 
@@ -72,13 +76,12 @@ Example config file:
 module.exports = {
     dryRun: false,
     git: {
-        baseBranch: 'main',
         commitSha: 'HEAD',
         remote: 'origin',
         push: true,
     },
     conventionalChangelogConfig: '@tophat/conventional-changelog-config',
-    access: 'public',
+    access: 'infer',
     persistVersions: false,
     changesetIgnorePatterns: ['**/*.test.js'],
 }
@@ -97,13 +100,12 @@ try {
         cwd: process.cwd(),
         dryRun: false,
         git: {
-            baseBranch: 'main',
             commitSha: 'HEAD',
             remote: 'origin',
             push: true,
         },
         conventionalChangelogConfig: '@tophat/conventional-changelog-config',
-        access: 'public',
+        access: 'infer',
         persistVersions: false,
     }
     const changeset = await monodeploy(config)

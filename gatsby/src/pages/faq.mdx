@@ -5,6 +5,10 @@ title: 'Frequently Asked Questions'
 
 ## FAQ
 
+### Can Monodeploy be used without Yarn Berry?
+
+No. Monodeploy uses Yarn Berry's public API to do most of the heavy lifting in reading and writing to your project.
+
 ### Can I use monodeploy for non-JavaScript projects?
 
 Yes. The only requirement is that you organize your project using Yarn Berry (i.e. Yarn v2+). You can create a minimal Yarn project by creating a root `package.json` and then one `package.json` per package/workspace. In this scenario, you likely want to use the "No Registry" mode.
@@ -20,3 +24,21 @@ yarn monodeploy --dry-run --changeset-filename=-
 ```
 
 to implicitly disable logs and only output the changeset data. This is useful for previewing changes or determining which packages will be modified from a Pull Request.
+
+### Packages I haven't modified are being published with a patch version bump, what's going on?
+
+In addition to the version strategies associated with packages explicitly modified via your commits, what we call the _explicit version strategies_, Monodeploy will also perform a patch version strategy bump to all dependent packages, what we call _implicit version strategies_. The idea behind this is that when you run tests and do development in your monorepo, you are always working with the _latest_ packages. Therefore if Package-A depends on Package-B and Package-B has been modified, we also want to release a version of Package-A where Package-A's version range for Package-B has been increased. This Package-A that a downstream project consumes will then be guaranteed to be using the same version of Package-B that is used in the monorepo itself.
+
+As an added benefit, downstream projects using systems like Renovate or Dependabot, will also receive updates for Package-A that will bring in the updated Package-B.
+
+If there is a use case where you believe this behaviour is unwarranted, please open an issue and we'll be glad to discuss.
+
+### How does Monodeploy differ from:
+
+#### Lerna
+
+Unlike Lerna, Monodeploy was designed with Yarn Berry support from the ground up and is optimized for Yarn monorepos. In terms of raw functionality, Monodeploy supports a workflow where versions are _not_ committed back to the git repository. This is useful when it is not feasible to commit back to a repository in CI (for example when using a tool such as Jenkins with many concurrent developers working in a project).
+
+#### Yarn's Version Plugin
+
+At a high level, Monodeploy is meant for entirely automated workflows, whereas Yarn's version plugin takes a more hands on approach. Monodeploy started out as a Lerna replacement to solve some issues we were having internally with Lerna, and so Lerna's features were the ones we were striving to attain parity with. Read through the Yarn Version Plugin documentation and decide which workflow you prefer, there will be pros and cons to either.
