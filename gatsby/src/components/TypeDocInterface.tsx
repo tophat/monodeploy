@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
+import RemarkExternalLinks from 'remark-external-links'
 
 const stringifyType = (data: any): string => {
     if (data.type === 'literal') {
@@ -38,7 +40,7 @@ const stringifyType = (data: any): string => {
 }
 
 const stringifyComment = (data: any): string => {
-    return data?.shortText ?? ''
+    return `${data?.shortText ?? ''}\n\n${data?.text ?? ''}`.trim()
 }
 
 const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
@@ -50,16 +52,24 @@ const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
         ))
     }
 
+    const rowId = `schema-option-${data.name}`
+
     return (
-        <tr>
-            <td>{data.name}</td>
+        <tr id={rowId}>
             <td>
-                <code>{stringifyType(data.type)}</code>
+                <a href={`#${rowId}`} className="name">
+                    {data.name}
+                </a>
+                <div className="type">{stringifyType(data.type)}</div>
             </td>
             <td>
-                {data.comment
-                    ? stringifyComment(data.comment)
-                    : 'No description.'}
+                <div className="description">
+                    <ReactMarkdown plugins={[RemarkExternalLinks]}>
+                        {data.comment
+                            ? stringifyComment(data.comment)
+                            : 'No description.'}
+                    </ReactMarkdown>
+                </div>
             </td>
         </tr>
     )
@@ -74,9 +84,10 @@ const TypeDocInterface: React.FC<{ schema: any; interfaceName: string }> = ({
     return (
         <table className="typedoc-schema">
             <thead>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Description</th>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
             </thead>
             <tbody>
                 {interfaceData?.children?.map((data) => (

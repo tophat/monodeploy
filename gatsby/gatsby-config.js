@@ -46,6 +46,10 @@ module.exports = {
                             'gatsby-remark-autolink-headers',
                         ),
                     },
+                    {
+                        resolve: require.resolve('gatsby-remark-images'),
+                        options: { maxWidth: 1000 },
+                    },
                 ],
                 defaultLayouts: {
                     default: require.resolve('./src/components/Layout.tsx'),

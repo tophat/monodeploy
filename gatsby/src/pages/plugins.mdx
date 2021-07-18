@@ -17,6 +17,14 @@ yarn monodeploy --plugins @monodeploy/plugin-github
 
 A plugin is a module which exposes a function as the default. This function takes PluginHooks as an argument. You can then "tap" into the hooks.
 
+## Available Plugins
+
+### GitHub
+
+Plugin: `@monodeploy/plugin-github`.
+
+The GitHub plugin creates GitHub releases. It requires a `GH_TOKEN` environment variable which should be set to a Personal Access Token with write access to GitHub releases.
+
 ## Plugin Development
 
 We use [tapable](https://github.com/webpack/tapable) for an experimental plugin system.
