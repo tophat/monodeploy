@@ -37,11 +37,11 @@
     "@monodeploy/publish": "workspace:^0.5.6",
     "@monodeploy/types": "workspace:^0.10.0",
     "@monodeploy/versions": "workspace:^0.8.0",
-    "@yarnpkg/cli": "^3.0.0-rc.9",
-    "@yarnpkg/core": "^3.0.0-rc.9",
-    "@yarnpkg/fslib": "^2.5.0-rc.9",
-    "@yarnpkg/plugin-npm": "^2.5.0-rc.9",
-    "@yarnpkg/plugin-pack": "^3.0.0-rc.9",
+    "@yarnpkg/cli": "^3.0.0",
+    "@yarnpkg/core": "^3.0.0",
+    "@yarnpkg/fslib": "^2.5.0",
+    "@yarnpkg/plugin-npm": "^2.5.0",
+    "@yarnpkg/plugin-pack": "^3.0.0",
     "tapable": "^2.2.0"
   }
 }
