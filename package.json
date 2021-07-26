@@ -64,7 +64,7 @@
         "@yarnpkg/fslib": "^2.5.0",
         "@yarnpkg/plugin-npm": "^2.5.0",
         "@yarnpkg/plugin-pack": "^3.0.0",
-        "@yarnpkg/pnpify": "^3.0.0",
+        "@yarnpkg/sdks": "^2.4.1-rc.4",
         "all-contributors-cli": "^6.19.0",
         "commitizen": "^4.2.4",
         "eslint": "^7.27.0",
