@@ -125,6 +125,11 @@ const { argv } = yargs
         description:
             'Globs to use in filtering out files when determining version bumps',
     })
+    .option('commit-ignore-patterns', {
+        type: 'array',
+        description:
+            'Regular expression patterns to filter out commits from version strategy consideration',
+    })
     .option('prerelease', {
         type: 'boolean',
         description: 'Whether to publish using a prerelease strategy',
@@ -192,6 +197,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             changesetIgnorePatterns:
                 argv.changesetIgnorePatterns ??
                 configFromFile?.changesetIgnorePatterns ??
+                undefined,
+            commitIgnorePatterns:
+                argv.commitIgnorePatterns ??
+                configFromFile?.commitIgnorePatterns ??
                 undefined,
             changelogFilename:
                 argv.prependChangelog ??

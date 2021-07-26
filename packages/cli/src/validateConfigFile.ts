@@ -30,6 +30,11 @@ const schema: SchemaObject = {
             nullable: true,
             items: { type: 'string' },
         },
+        commitIgnorePatterns: {
+            type: 'array',
+            nullable: true,
+            items: { type: 'string' },
+        },
         forceWriteChangeFiles: { type: 'boolean', nullable: true },
         access: {
             type: 'string',

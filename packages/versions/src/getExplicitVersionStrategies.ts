@@ -87,8 +87,27 @@ const getExplicitVersionStrategies = async ({
     const strategyDeterminer = config.conventionalChangelogConfig
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
+
+    const commitIgnorePatterns: Array<RegExp> = [
+        ...(config.commitIgnorePatterns ?? []),
+    ].map((pattern) =>
+        pattern instanceof RegExp ? pattern : new RegExp(pattern, 'm'),
+    )
+
     const commits = await getCommitMessages(config, context)
     for (const commit of commits) {
+        if (
+            commitIgnorePatterns.some((pattern) =>
+                pattern.test(`${commit.sha}\n${commit.body}`),
+            )
+        ) {
+            logging.debug(
+                `[Explicit Version Strategies] Skipping commit ${commit.sha} for matching a commit ignore pattern.`,
+                { report: context.report },
+            )
+            continue
+        }
+
         const strategy = strategyLevelToType(
             await strategyDeterminer([commit.body]),
         )

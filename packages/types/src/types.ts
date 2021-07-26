@@ -171,6 +171,15 @@ export interface MonodeployConfiguration {
     autoCommitMessage: string
 
     /**
+     * Default: []
+     *
+     * An array of regular expressions which will be used to filter out commits from the
+     * explicit package bump detection. The patterns are matched against commits of the form:
+     * <sha> <newline> <body>
+     */
+    commitIgnorePatterns?: Array<string | RegExp>
+
+    /**
      * Default: false
      *
      * Whether to run the lifecycle scripts of the packages to publish in topological order,
