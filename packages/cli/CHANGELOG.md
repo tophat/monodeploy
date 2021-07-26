@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.8.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.0...monodeploy@2.8.1) "monodeploy" (2021-07-26)<a name="2.8.1"></a>
+
+### Bug Fixes
+
+* update to yarn v3.0.0 ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+* update to yarn v3.0.0 (#414) ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+
+
+
+
 ## [2.8.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.7.8...monodeploy@2.8.0) "monodeploy" (2021-07-26)<a name="2.8.0"></a>
 
 ### Features

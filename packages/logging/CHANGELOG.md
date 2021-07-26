@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.1.9](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.8...@monodeploy/logging@0.1.9) "@monodeploy/logging" (2021-07-26)<a name="0.1.9"></a>
+
+### Bug Fixes
+
+* update to yarn v3.0.0 ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+* update to yarn v3.0.0 (#414) ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+
+
+
+
 ## [0.1.8](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.7...@monodeploy/logging@0.1.8) "@monodeploy/logging" (2021-07-05)<a name="0.1.8"></a>
 
 ### Bug Fixes

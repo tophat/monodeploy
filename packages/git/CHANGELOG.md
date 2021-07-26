@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.5...@monodeploy/git@0.3.6) "@monodeploy/git" (2021-07-26)<a name="0.3.6"></a>
+
+### Bug Fixes
+
+* update to yarn v3.0.0 ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+* update to yarn v3.0.0 (#414) ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+
+
+
+
 ## [0.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.0...@monodeploy/git@0.3.1) "@monodeploy/git" (2021-07-05)<a name="0.3.1"></a>
 
 ### Bug Fixes

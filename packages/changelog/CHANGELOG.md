@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.7.2...@monodeploy/changelog@0.7.3) "@monodeploy/changelog" (2021-07-26)<a name="0.7.3"></a>
+
+### Bug Fixes
+
+* update to yarn v3.0.0 ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+* update to yarn v3.0.0 (#414) ([c40a226](https://github.com/tophat/monodeploy/commits/c40a226))
+
+
+
+
 ## [0.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.6.1...@monodeploy/changelog@0.7.0) "@monodeploy/changelog" (2021-07-12)<a name="0.7.0"></a>
 
 ### Features
