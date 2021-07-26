@@ -29,11 +29,11 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/node": "^14.0.0",
-    "@yarnpkg/core": "^3.0.0-rc.9"
+    "@yarnpkg/core": "^3.0.0"
   },
   "peerDependencies": {
     "@monodeploy/logging": "^0.1.8",
     "@monodeploy/types": "^0.10.0",
-    "@yarnpkg/core": "^3.0.0-rc.9"
+    "@yarnpkg/core": "^3.0.0"
   }
 }

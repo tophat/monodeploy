@@ -35,6 +35,6 @@
     "@monodeploy/types": "workspace:^0.10.0",
     "@octokit/core": "^3.4.0",
     "@octokit/plugin-throttling": "^3.4.1",
-    "@yarnpkg/core": "^3.0.0-rc.9"
+    "@yarnpkg/core": "^3.0.0"
   }
 }
