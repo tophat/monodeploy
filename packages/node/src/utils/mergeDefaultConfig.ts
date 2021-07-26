@@ -37,6 +37,7 @@ const mergeDefaultConfig = async (
         autoCommit: baseConfig.autoCommit ?? false,
         autoCommitMessage:
             baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
+        commitIgnorePatterns: baseConfig.commitIgnorePatterns ?? undefined,
         topological: baseConfig.topological ?? false,
         topologicalDev: baseConfig.topologicalDev ?? false,
         jobs: baseConfig.jobs ?? 0,

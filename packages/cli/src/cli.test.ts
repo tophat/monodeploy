@@ -39,7 +39,8 @@ describe('CLI', () => {
                     '--push --persist-versions --access infer --topological --topological-dev --jobs 6 ' +
                     '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
-                    '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta',
+                    '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
+                    '--commit-ignore-patterns "skip-ci"',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -57,6 +58,9 @@ describe('CLI', () => {
                   "changesetFilename": "changes.json",
                   "changesetIgnorePatterns": Array [
                     "*.test.js",
+                  ],
+                  "commitIgnorePatterns": Array [
+                    "skip-ci",
                   ],
                   "conventionalChangelogConfig": "@my/config",
                   "cwd": "/tmp",
@@ -105,6 +109,7 @@ describe('CLI', () => {
                   "changelogFilename": undefined,
                   "changesetFilename": undefined,
                   "changesetIgnorePatterns": undefined,
+                  "commitIgnorePatterns": undefined,
                   "conventionalChangelogConfig": undefined,
                   "cwd": undefined,
                   "dryRun": undefined,
@@ -253,6 +258,7 @@ describe('CLI', () => {
                     prerelease: true,
                     prereleaseId: 'alpha',
                     prereleaseNPMTag: 'beta',
+                    commitIgnorePatterns: ['skip-ci'],
                 }
             `
 
@@ -278,6 +284,9 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
+                      "commitIgnorePatterns": Array [
+                        "skip-ci",
+                      ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
@@ -366,6 +375,7 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
+                      "commitIgnorePatterns": undefined,
                       "conventionalChangelogConfig": Object {
                         "name": "@my/config-from-file",
                         "someData": 123,
@@ -453,6 +463,7 @@ describe('CLI', () => {
                         "*.test.js",
                         "*.snap",
                       ],
+                      "commitIgnorePatterns": undefined,
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
@@ -511,6 +522,7 @@ describe('CLI', () => {
                 maxConcurrentWrites: 11,
                 prerelease: true,
                 prereleaseId: 'beta',
+                commitIgnorePatterns: ['skip-ci'],
             }
         `
 
@@ -521,7 +533,7 @@ describe('CLI', () => {
                 )
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3`,
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns "ignore-me"`,
                 )
                 jest.isolateModules(() => {
                     require('./cli')
@@ -538,6 +550,9 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
+                      "commitIgnorePatterns": Array [
+                        "ignore-me",
+                      ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
@@ -624,6 +639,7 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
+                      "commitIgnorePatterns": undefined,
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,

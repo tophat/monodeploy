@@ -59,6 +59,50 @@ describe('getExplicitVersionStrategies', () => {
         )
     })
 
+    it('ignores ignored commits based on ignore patterns', async () => {
+        const cwd = tempRepositoryRoot
+        const context = await setupContext(cwd as PortablePath)
+        await createCommit('feat: initial commit', cwd)
+        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
+
+        await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
+        await createCommit('feat: ignore-me!', cwd)
+
+        await createFile({ filePath: `packages/pkg-2/test.js`, cwd })
+        const mockMessage = 'feat: pick me!'
+        await createCommit(mockMessage, cwd)
+
+        const headSha = execSync('git rev-parse HEAD', {
+            cwd,
+            encoding: 'utf8',
+        }).trim()
+
+        const strategies = await getExplicitVersionStrategies({
+            config: {
+                ...(await getMonodeployConfig({
+                    cwd,
+                    commitSha: headSha,
+                    baseBranch: 'main',
+                })),
+                commitIgnorePatterns: ['ignore-me'],
+            },
+            context,
+        })
+
+        expect(strategies.has('pkg-1')).toBe(false)
+        expect(strategies).toEqual(
+            new Map([
+                [
+                    'pkg-2',
+                    {
+                        commits: [{ body: `${mockMessage}\n\n`, sha: headSha }],
+                        type: 'minor',
+                    },
+                ],
+            ]),
+        )
+    })
+
     it('ignores ignored files', async () => {
         const cwd = tempRepositoryRoot
         const context = await setupContext(cwd as PortablePath)
