@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.9.1...@monodeploy/types@0.10.0) "@monodeploy/types" (2021-07-26)<a name="0.10.0"></a>
+
+### Features
+
+* add commit ignore patterns config option (#413) ([7f503c4](https://github.com/tophat/monodeploy/commits/7f503c4))
+
+
+
+
 ## [0.9.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.9.0...@monodeploy/types@0.9.1) "@monodeploy/types" (2021-07-15)<a name="0.9.1"></a>
 
 ### Bug Fixes

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.7.3...@monodeploy/versions@0.8.0) "@monodeploy/versions" (2021-07-26)<a name="0.8.0"></a>
+
+### Features
+
+* add commit ignore patterns config option (#413) ([7f503c4](https://github.com/tophat/monodeploy/commits/7f503c4))
+
+
+
+
 ## [0.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.7.1...@monodeploy/versions@0.7.2) "@monodeploy/versions" (2021-07-15)<a name="0.7.2"></a>
 
 ### Bug Fixes
