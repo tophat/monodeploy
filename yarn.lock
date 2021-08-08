@@ -2913,7 +2913,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@workspace:^0.11.1, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@workspace:^0.11.3, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
@@ -16143,7 +16143,7 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": "workspace:^0.11.1"
+    "@monodeploy/node": "workspace:^0.11.3"
     "@monodeploy/types": "workspace:^0.10.1"
     "@types/node": ^14.0.0
     "@types/yargs": ^16.0.0
