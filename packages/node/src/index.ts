@@ -28,7 +28,13 @@ import {
     getImplicitVersionStrategies,
     getLatestPackageTags,
 } from '@monodeploy/versions'
-import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import {
+    Cache,
+    Configuration,
+    Project,
+    StreamReport,
+    Workspace,
+} from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
@@ -57,6 +63,7 @@ const monodeploy = async (
         getCompatiblePluginConfiguration(),
     )
     const { project, workspace } = await Project.find(configuration, cwd)
+    const cache = await Cache.find(configuration)
     await project.restoreInstallState()
 
     /* Initialize plugins */
@@ -205,6 +212,22 @@ const monodeploy = async (
                     }
                 },
             )
+
+            if (config.persistVersions) {
+                await report.startTimerPromise(
+                    'Updating Project State',
+                    { skipIfEmpty: false },
+                    async () => {
+                        logging.debug(
+                            'Re-installing project to update lock file.',
+                            { report },
+                        )
+                        if (!config.dryRun) {
+                            await project.install({ cache, report })
+                        }
+                    },
+                )
+            }
 
             await report.startTimerPromise(
                 'Updating Change Files',
