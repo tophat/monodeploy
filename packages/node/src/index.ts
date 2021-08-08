@@ -223,7 +223,11 @@ const monodeploy = async (
                             { report },
                         )
                         if (!config.dryRun) {
-                            await project.install({ cache, report })
+                            await project.install({
+                                cache,
+                                report,
+                                immutable: false,
+                            })
                         }
                     },
                 )
