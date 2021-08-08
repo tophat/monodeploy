@@ -12,7 +12,7 @@ describe('Full E2E', () => {
                     'pkg-2': {
                         dependencies: ['pkg-1'],
                     },
-                    'pkg-3': { dependencies: [['pkg-2', 'workspace:*']] },
+                    'pkg-3': { dependencies: ['pkg-2'] },
                     'pkg-4': { dependencies: ['pkg-3'] },
                     'pkg-isolated': {},
                 },
@@ -51,9 +51,6 @@ describe('Full E2E', () => {
 
                 if (error) console.error(error)
                 expect(error).toBeUndefined()
-
-                // verify yarn.lock is not staged with modifications
-                await exec('yarn && git diff --quiet --exit-code yarn.lock')
 
                 // Locally
                 let localChangeset = JSON.parse(
@@ -126,9 +123,6 @@ describe('Full E2E', () => {
                 expect(error2).toBeUndefined()
 
                 // ---
-
-                // verify yarn.lock is not staged with modifications
-                await exec('yarn && git diff --quiet --exit-code yarn.lock')
 
                 localChangeset = JSON.parse(await readFile('changes.json.tmp'))
                 expect(localChangeset).toEqual({
