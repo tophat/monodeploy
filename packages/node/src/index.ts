@@ -210,7 +210,6 @@ const monodeploy = async (
                 'Updating Change Files',
                 { skipIfEmpty: false },
                 async () => {
-                    // Write changeset
                     result = await writeChangesetFile({
                         config,
                         context,
