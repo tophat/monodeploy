@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.11.4](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.3...@monodeploy/node@0.11.4) "@monodeploy/node" (2021-08-11)<a name="0.11.4"></a>
+
+### Bug Fixes
+
+* re-install project when persisting versions (#417) ([d431e76](https://github.com/tophat/monodeploy/commits/d431e76))
+
+
+
+
 ## [0.11.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.2...@monodeploy/node@0.11.3) "@monodeploy/node" (2021-08-08)<a name="0.11.3"></a>
 
 ### Bug Fixes
