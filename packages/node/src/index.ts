@@ -28,7 +28,13 @@ import {
     getImplicitVersionStrategies,
     getLatestPackageTags,
 } from '@monodeploy/versions'
-import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import {
+    Cache,
+    Configuration,
+    Project,
+    StreamReport,
+    Workspace,
+} from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
@@ -56,7 +62,9 @@ const monodeploy = async (
         cwd,
         getCompatiblePluginConfiguration(),
     )
-    const { project, workspace } = await Project.find(configuration, cwd)
+    const foundProject = await Project.find(configuration, cwd)
+    let { project } = foundProject
+    const cache = await Cache.find(configuration)
     await project.restoreInstallState()
 
     /* Initialize plugins */
@@ -85,7 +93,7 @@ const monodeploy = async (
         const context: YarnContext = {
             configuration,
             project,
-            workspace: workspace as Workspace,
+            workspace: foundProject.workspace as Workspace,
             report,
             hooks,
         }
@@ -227,6 +235,31 @@ const monodeploy = async (
                     })
                 },
             )
+
+            // After patching the manifests, there may be an inconsistency between what's on
+            // disk and what's in memory. We need to re-sync these states.
+            project = (await Project.find(configuration, cwd)).project
+            await project.restoreInstallState()
+
+            if (config.persistVersions) {
+                await report.startTimerPromise(
+                    'Updating Project State',
+                    { skipIfEmpty: false },
+                    async () => {
+                        logging.debug(
+                            'Re-installing project to update lock file.',
+                            { report },
+                        )
+                        if (!config.dryRun) {
+                            await project.install({
+                                cache,
+                                report,
+                                immutable: false,
+                            })
+                        }
+                    },
+                )
+            }
 
             await report.startTimerPromise(
                 'Committing Changes',
