@@ -41,7 +41,7 @@ const getTopologicalSort = async (
             ...(dev ? workspace.manifest.devDependencies.values() : []),
         ]
         for (const descriptor of dependencies) {
-            const child = workspace.project.tryWorkspaceByDescriptor(descriptor)
+            const child = workspace.project.tryWorkspaceByIdent(descriptor)
             if (
                 !child ||
                 !possibleWorkspaces.has(child.anchoredDescriptor.descriptorHash)
