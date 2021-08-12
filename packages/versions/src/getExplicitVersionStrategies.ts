@@ -9,7 +9,7 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 import { structUtils } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
+import { npath } from '@yarnpkg/fslib'
 import micromatch from 'micromatch'
 
 import {
@@ -56,7 +56,9 @@ const getModifiedPackages = async ({
             if (!micromatch([currentPath], ignorePatterns).length) {
                 try {
                     const workspace = context.project.getWorkspaceByFilePath(
-                        path.resolve(config.cwd, currentPath) as PortablePath,
+                        npath.toPortablePath(
+                            path.resolve(config.cwd, currentPath),
+                        ),
                     )
                     const ident = workspace?.manifest?.name
                     if (!ident) throw new Error('Missing workspace identity.')
