@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.8.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.1...@monodeploy/versions@0.8.2) "@monodeploy/versions" (2021-08-12)<a name="0.8.2"></a>
+
+### Bug Fixes
+
+* use a portable path when determining modified files ([3b01f93](https://github.com/tophat/monodeploy/commits/3b01f93))
+
+
+
+
 ## [0.8.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.0...@monodeploy/versions@0.8.1) "@monodeploy/versions" (2021-07-26)<a name="0.8.1"></a>
 
 ### Bug Fixes
