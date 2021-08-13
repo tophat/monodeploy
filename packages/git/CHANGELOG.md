@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.7](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.6...@monodeploy/git@0.3.7) "@monodeploy/git" (2021-08-13)<a name="0.3.7"></a>
+
+### Bug Fixes
+
+* limit discovered commits to ancestry path to improve merge parsing ([742122d](https://github.com/tophat/monodeploy/commits/742122d))
+
+
+
+
 ## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.5...@monodeploy/git@0.3.6) "@monodeploy/git" (2021-07-26)<a name="0.3.6"></a>
 
 ### Bug Fixes
