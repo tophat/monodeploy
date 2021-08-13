@@ -77,6 +77,29 @@ describe('Topological Sort', () => {
             },
         ))
 
+    it('correctly groups packages with dependents using `workspace:` protocol', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {
+                    version: '1.0.0',
+                    dependencies: [['pkg-2', 'workspace:^2.0.0']],
+                },
+                'pkg-2': {
+                    version: '2.0.0',
+                },
+            },
+            async (context) => {
+                const workspace1 = identToWorkspace(context, 'pkg-1')
+                const workspace2 = identToWorkspace(context, 'pkg-2')
+
+                const sorted = await getTopologicalSort([
+                    workspace1,
+                    workspace2,
+                ])
+                expect(sorted).toEqual([[workspace2], [workspace1]])
+            },
+        ))
+
     it('detects a cycle', async () =>
         withMonorepoContext(
             {
