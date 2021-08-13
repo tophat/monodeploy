@@ -42,7 +42,7 @@ const generateChangelogEntry = async ({
     const conventionalConfig = await resolveConventionalConfig({ config })
 
     const commitsStream = Readable.from(
-        commits.map((commit) => commit.body),
+        commits.map((commit) => `${commit.body}\n-hash-\n${commit.sha}`),
     ).pipe(conventionalCommitsParser(conventionalConfig.parserOpts))
     const conventionalCommits = await readStream<Commit>(commitsStream)
 
