@@ -444,6 +444,64 @@ describe('Monodeploy', () => {
         }
     })
 
+    it('uses correct sha for each entry in changelog', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('<sha1>', 'feat: first', [
+            './packages/pkg-1/README.md',
+        ])
+        mockGit._commitFiles_('<sha2>', 'feat: second', [
+            './packages/pkg-1/README.md',
+        ])
+        mockGit._commitFiles_('<sha3>', 'feat: third', [
+            './packages/pkg-1/README.md',
+        ])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changesetFilename = await path.join(tempDir, 'changeset.json')
+
+        try {
+            const changelogTemplate = [
+                `# Changelog`,
+                `Some blurb`,
+                `<!-- MONODEPLOY:BELOW -->`,
+                `## Old Versions`,
+                `Content`,
+            ].join('\n')
+            await fs.writeFile(changelogFilename, changelogTemplate, {
+                encoding: 'utf-8',
+            })
+
+            await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                changesetFilename,
+            })
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('first <sha1>'),
+            )
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('second <sha2>'),
+            )
+            expect(updatedChangelog).toEqual(
+                expect.stringContaining('third <sha3>'),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+    })
+
     it('writes the changeset to standard out if - specified', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
