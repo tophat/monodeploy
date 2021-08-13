@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.4](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.7.3...@monodeploy/changelog@0.7.4) "@monodeploy/changelog" (2021-08-13)<a name="0.7.4"></a>
+
+### Bug Fixes
+
+* bug where only the latest sha was being written in the changelog (#424) ([e7355fe](https://github.com/tophat/monodeploy/commits/e7355fe))
+
+
+
+
 ## [0.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.7.2...@monodeploy/changelog@0.7.3) "@monodeploy/changelog" (2021-07-26)<a name="0.7.3"></a>
 
 ### Bug Fixes
