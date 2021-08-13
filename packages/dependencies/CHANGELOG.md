@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.7](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.6...@monodeploy/dependencies@0.3.7) "@monodeploy/dependencies" (2021-08-13)<a name="0.3.7"></a>
+
+### Bug Fixes
+
+* use `tryWorkspaceByIdent` instead of `tryWorkspaceByDescriptor` ([3aa83af](https://github.com/tophat/monodeploy/commits/3aa83af))
+
+
+
+
 ## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.5...@monodeploy/dependencies@0.3.6) "@monodeploy/dependencies" (2021-07-26)<a name="0.3.6"></a>
 
 ### Bug Fixes
