@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.8](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.7...@monodeploy/git@0.3.8) "@monodeploy/git" (2021-08-13)<a name="0.3.8"></a>
+
+### Reverts
+
+* Revert [742122d](https://github.com/tophat/monodeploy/commits/742122d): "Merge pull request #425 from tophat/use_ancestry_path" ([a81faf0](https://github.com/tophat/monodeploy/commits/a81faf0))
+
+
+
+
 ## [0.3.7](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.6...@monodeploy/git@0.3.7) "@monodeploy/git" (2021-08-13)<a name="0.3.7"></a>
 
 ### Bug Fixes
