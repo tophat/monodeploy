@@ -40,7 +40,7 @@ export const gitLog = async (
         context,
     }: { cwd: string; DELIMITER: string; context?: YarnContext },
 ): Promise<string> => {
-    let gitCommand = `git log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
+    let gitCommand = `git log ${from}..${to} --ancestry-path --format=%H%n%B%n${DELIMITER}`
     if (from === to) {
         /* Special case where we'll just return a single log entry for "to". */
         gitCommand = `git log -1 ${to} --format=%H%n%B%n${DELIMITER}`
