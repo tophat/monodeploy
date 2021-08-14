@@ -26,32 +26,16 @@ export const backupPackageJsons = async ({
     return tmpDir
 }
 
-export const restorePackageJsons = async ({
-    key,
-}: {
-    key: string
-}): Promise<void> => {
-    const map = JSON.parse(
-        await fs.readFile(path.join(key, 'map.json'), 'utf-8'),
-    )
+export const restorePackageJsons = async ({ key }: { key: string }): Promise<void> => {
+    const map = JSON.parse(await fs.readFile(path.join(key, 'map.json'), 'utf-8'))
     await Promise.all(
-        (Object.entries(map) as [string, string][]).map(
-            async ([index, filename]) => {
-                const src = path.join(key, index)
-                await fs.copyFile(src, filename)
-            },
-        ),
+        (Object.entries(map) as [string, string][]).map(async ([index, filename]) => {
+            const src = path.join(key, index)
+            await fs.copyFile(src, filename)
+        }),
     )
 }
 
-export const clearBackupCache = async ({
-    keys,
-}: {
-    keys: string[]
-}): Promise<void> => {
-    await Promise.all(
-        keys.map(
-            async (key) => await fs.rm(key, { recursive: true, force: true }),
-        ),
-    )
+export const clearBackupCache = async ({ keys }: { keys: string[] }): Promise<void> => {
+    await Promise.all(keys.map(async (key) => await fs.rm(key, { recursive: true, force: true })))
 }

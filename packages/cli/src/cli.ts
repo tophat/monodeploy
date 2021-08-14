@@ -42,8 +42,7 @@ const { argv } = yargs
     .option('git-tag', {
         type: 'boolean',
         default: true,
-        description:
-            'Whether to tag the commit with the published version using git',
+        description: 'Whether to tag the commit with the published version using git',
     })
     .option('log-level', {
         type: 'number',
@@ -51,8 +50,7 @@ const { argv } = yargs
     })
     .option('conventional-changelog-config', {
         type: 'string',
-        description:
-            'Conventional changelog configuration to use to determine version strategies',
+        description: 'Conventional changelog configuration to use to determine version strategies',
     })
     .option('changeset-filename', {
         type: 'string',
@@ -88,8 +86,7 @@ const { argv } = yargs
     })
     .option('auto-commit-message', {
         type: 'string',
-        description:
-            'Message to use when autocommiting the changelog and associated changes',
+        description: 'Message to use when autocommiting the changelog and associated changes',
     })
     .option('topological', {
         type: 'boolean',
@@ -102,8 +99,7 @@ const { argv } = yargs
     })
     .option('jobs', {
         type: 'number',
-        description:
-            'Maximum number of tasks to run in parallel (set to 0 for unbounded)',
+        description: 'Maximum number of tasks to run in parallel (set to 0 for unbounded)',
         default: 0,
     })
     .option('max-concurrent-writes', {
@@ -122,8 +118,7 @@ const { argv } = yargs
     })
     .option('changeset-ignore-patterns', {
         type: 'array',
-        description:
-            'Globs to use in filtering out files when determining version bumps',
+        description: 'Globs to use in filtering out files when determining version bumps',
     })
     .option('commit-ignore-patterns', {
         type: 'array',
@@ -163,68 +158,41 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             : null
 
         const config: RecursivePartial<MonodeployConfiguration> = {
-            registryUrl:
-                argv.registryUrl ?? configFromFile?.registryUrl ?? undefined,
-            noRegistry:
-                (!argv.registry || configFromFile?.noRegistry) ?? undefined,
+            registryUrl: argv.registryUrl ?? configFromFile?.registryUrl ?? undefined,
+            noRegistry: (!argv.registry || configFromFile?.noRegistry) ?? undefined,
             cwd: cwd ?? undefined,
             dryRun: argv.dryRun ?? configFromFile?.dryRun ?? undefined,
             git: {
-                baseBranch:
-                    argv.gitBaseBranch ??
-                    configFromFile?.git?.baseBranch ??
-                    undefined,
-                commitSha:
-                    argv.gitCommitSha ??
-                    configFromFile?.git?.commitSha ??
-                    undefined,
-                remote:
-                    argv.gitRemote ?? configFromFile?.git?.remote ?? undefined,
+                baseBranch: argv.gitBaseBranch ?? configFromFile?.git?.baseBranch ?? undefined,
+                commitSha: argv.gitCommitSha ?? configFromFile?.git?.commitSha ?? undefined,
+                remote: argv.gitRemote ?? configFromFile?.git?.remote ?? undefined,
                 push: argv.push ?? configFromFile?.git?.push,
-                tag:
-                    argv.gitTag === false
-                        ? argv.gitTag
-                        : configFromFile?.git?.tag ?? undefined,
+                tag: argv.gitTag === false ? argv.gitTag : configFromFile?.git?.tag ?? undefined,
             },
             conventionalChangelogConfig:
                 argv.conventionalChangelogConfig ??
                 configFromFile?.conventionalChangelogConfig ??
                 undefined,
             changesetFilename:
-                argv.changesetFilename ??
-                configFromFile?.changesetFilename ??
-                undefined,
+                argv.changesetFilename ?? configFromFile?.changesetFilename ?? undefined,
             changesetIgnorePatterns:
                 argv.changesetIgnorePatterns ??
                 configFromFile?.changesetIgnorePatterns ??
                 undefined,
             commitIgnorePatterns:
-                argv.commitIgnorePatterns ??
-                configFromFile?.commitIgnorePatterns ??
-                undefined,
+                argv.commitIgnorePatterns ?? configFromFile?.commitIgnorePatterns ?? undefined,
             changelogFilename:
-                argv.prependChangelog ??
-                configFromFile?.changelogFilename ??
-                undefined,
+                argv.prependChangelog ?? configFromFile?.changelogFilename ?? undefined,
             forceWriteChangeFiles:
-                argv.forceWriteChangeFiles ??
-                configFromFile?.forceWriteChangeFiles,
+                argv.forceWriteChangeFiles ?? configFromFile?.forceWriteChangeFiles,
             access: argv.access ?? configFromFile?.access ?? undefined,
-            persistVersions:
-                argv.persistVersions ?? configFromFile?.persistVersions,
+            persistVersions: argv.persistVersions ?? configFromFile?.persistVersions,
             topological: argv.topological ?? configFromFile?.topological,
-            topologicalDev:
-                argv.topologicalDev ?? configFromFile?.topologicalDev,
-            jobs:
-                (argv.jobs && argv.jobs > 0
-                    ? argv.jobs
-                    : configFromFile?.jobs) ?? 0,
-            autoCommit:
-                argv.autoCommit ?? configFromFile?.autoCommit ?? undefined,
+            topologicalDev: argv.topologicalDev ?? configFromFile?.topologicalDev,
+            jobs: (argv.jobs && argv.jobs > 0 ? argv.jobs : configFromFile?.jobs) ?? 0,
+            autoCommit: argv.autoCommit ?? configFromFile?.autoCommit ?? undefined,
             autoCommitMessage:
-                argv.autoCommitMessage ??
-                configFromFile?.autoCommitMessage ??
-                undefined,
+                argv.autoCommitMessage ?? configFromFile?.autoCommitMessage ?? undefined,
             maxConcurrentReads:
                 (argv.maxConcurrentReads && argv.maxConcurrentReads > 0
                     ? argv.maxConcurrentReads
@@ -234,14 +202,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
                     ? argv.maxConcurrentWrites
                     : configFromFile?.maxConcurrentWrites) ?? 0,
             plugins: argv.plugins ?? configFromFile?.plugins ?? undefined,
-            prerelease:
-                argv.prerelease ?? configFromFile?.prerelease ?? undefined,
-            prereleaseId:
-                argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
+            prerelease: argv.prerelease ?? configFromFile?.prerelease ?? undefined,
+            prereleaseId: argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
             prereleaseNPMTag:
-                argv.prereleaseNPMTag ??
-                configFromFile?.prereleaseNPMTag ??
-                undefined,
+                argv.prereleaseNPMTag ?? configFromFile?.prereleaseNPMTag ?? undefined,
         }
 
         await monodeploy(config)

@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-    Configuration,
-    Ident,
-    MessageName,
-    ReportError,
-    structUtils,
-} from '@yarnpkg/core'
+import { Configuration, Ident, MessageName, ReportError, structUtils } from '@yarnpkg/core'
 
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 
@@ -17,11 +11,7 @@ const _reset_ = (): void => {
     _registry.tags = {}
 }
 
-const _setTag_ = (
-    pkgName: string,
-    tagValue: string,
-    tagKey = 'latest',
-): void => {
+const _setTag_ = (pkgName: string, tagValue: string, tagKey = 'latest'): void => {
     _registry.tags[pkgName] = { ..._registry.tags[pkgName], [tagKey]: tagValue }
 }
 
@@ -32,10 +22,7 @@ const npmHttpUtilsGet = (
     const pkgName = structUtils.stringifyIdent(ident)
     const tags = _registry.tags[pkgName]
     if (!tags) {
-        throw new ReportError(
-            MessageName.AUTHENTICATION_INVALID,
-            `Cannot access ${pkgName}`,
-        )
+        throw new ReportError(MessageName.AUTHENTICATION_INVALID, `Cannot access ${pkgName}`)
     }
     return tags
 }

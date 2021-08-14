@@ -1,8 +1,4 @@
-import type {
-    CommitMessage,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import { gitLog } from './gitCommands'
 

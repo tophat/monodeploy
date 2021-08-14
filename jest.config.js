@@ -21,17 +21,9 @@ module.exports = {
         '^.+\\.[jt]sx?$': 'ts-jest',
     },
     coverageReporters: CI ? ['json'] : ['text', 'json'],
-    coverageDirectory: `raw-coverage/jest/`,
-    collectCoverageFrom: [
-        'packages/**/src/**/*.ts',
-        '.yarn/__virtual__/**/packages/**/*.ts',
-    ],
-    coveragePathIgnorePatterns: [
-        '/node_modules/',
-        '/__mocks__/',
-        '\\.test.ts$',
-        '\\.mock.ts$',
-    ],
+    coverageDirectory: 'raw-coverage/jest/',
+    collectCoverageFrom: ['packages/**/src/**/*.ts', '.yarn/__virtual__/**/packages/**/*.ts'],
+    coveragePathIgnorePatterns: ['/node_modules/', '/__mocks__/', '\\.test.ts$', '\\.mock.ts$'],
     watchPathIgnorePatterns: [
         '<rootDir>/example-monorepo',
         '<rootDir>/artifacts',

@@ -3,18 +3,10 @@ import os from 'os'
 import path from 'path'
 
 import * as git from '@monodeploy/git'
-import {
-    backupPackageJsons,
-    clearBackupCache,
-    restorePackageJsons,
-} from '@monodeploy/io'
+import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type {
-    CommitMessage,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
@@ -127,9 +119,7 @@ describe('Monodeploy', () => {
         const spyPublish = jest.spyOn(npm.npmPublishUtils, 'makePublishBody')
 
         mockNPM._setTag_('pkg-1', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         await monodeploy({
             ...monodeployConfig,
@@ -169,18 +159,14 @@ describe('Monodeploy', () => {
     })
 
     it('logs an error if publishing fails', async () => {
-        const spyPublish = jest
-            .spyOn(npm.npmHttpUtils, 'put')
-            .mockImplementation(() => {
-                throw new Error(
-                    'Artificially induced error in a test! This is meant to fail! Ignore this.',
-                )
-            })
+        const spyPublish = jest.spyOn(npm.npmHttpUtils, 'put').mockImplementation(() => {
+            throw new Error(
+                'Artificially induced error in a test! This is meant to fail! Ignore this.',
+            )
+        })
 
         mockNPM._setTag_('pkg-1', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         await expect(async () => {
             await monodeploy(monodeployConfig)
@@ -205,9 +191,7 @@ describe('Monodeploy', () => {
 
     it('does not use npm registry if in no registry mode', async () => {
         mockNPM._setTag_('pkg-8', '0.2.3')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-8/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-8/README.md'])
 
         const result = await monodeploy({
             ...monodeployConfig,
@@ -217,9 +201,7 @@ describe('Monodeploy', () => {
         // pkg-8 is explicitly updated with minor bump
         // pkg-8's manifest version is 3.1.0
         expect(result['pkg-8'].version).toEqual('3.2.0')
-        expect(result['pkg-8'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-8'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         expect(mockGit._getPushedTags_()).toEqual(['pkg-8@3.2.0'])
     })
@@ -229,17 +211,13 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
 
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
         expect(result['pkg-1'].version).toEqual('0.1.0')
-        expect(result['pkg-1'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 and pkg-3 not in dependency graph
         expect(result['pkg-2']).toBeUndefined()
@@ -253,9 +231,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const result = await monodeploy({
             ...monodeployConfig,
@@ -273,9 +249,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const result = await monodeploy({
             ...monodeployConfig,
@@ -295,11 +269,9 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-6', '0.0.1')
-        mockGit._commitFiles_(
-            'sha1',
-            'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
-            ['./packages/pkg-2/README.md'],
-        )
+        mockGit._commitFiles_('sha1', 'feat: some new feature!\n\nBREAKING CHANGE: major bump!', [
+            './packages/pkg-2/README.md',
+        ])
 
         const result = await monodeploy(monodeployConfig)
 
@@ -308,9 +280,7 @@ describe('Monodeploy', () => {
 
         // pkg-2 is the one explicitly updated with breaking change
         expect(result['pkg-2'].version).toEqual('1.0.0')
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent
         expect(result['pkg-3'].version).toEqual('0.0.2')
@@ -321,11 +291,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-6'].changelog).toBeNull()
 
         // Not tags pushed in dry run
-        expect(mockGit._getPushedTags_()).toEqual([
-            'pkg-2@1.0.0',
-            'pkg-3@0.0.2',
-            'pkg-6@0.0.2',
-        ])
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-2@1.0.0', 'pkg-3@0.0.2', 'pkg-6@0.0.2'])
     })
 
     it('publishes changed workspaces with distinct version stategies and commits', async () => {
@@ -333,29 +299,19 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-6', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
-        mockGit._commitFiles_('sha2', 'fix: a different fix!', [
-            './packages/pkg-2/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+        mockGit._commitFiles_('sha2', 'fix: a different fix!', ['./packages/pkg-2/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
         expect(result['pkg-1'].version).toEqual('0.1.0')
-        expect(result['pkg-1'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly updated with patch bump
         expect(result['pkg-2'].version).toEqual('0.0.2')
-        expect(result['pkg-2'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('a different fix'),
-        )
+        expect(result['pkg-2'].changelog).not.toEqual(expect.stringContaining('some new feature'))
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('a different fix'))
 
         // pkg-3 depends on pkg-2
         expect(result['pkg-3'].version).toEqual('0.0.2')
@@ -377,9 +333,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changelogFilename = await path.join(tempDir, 'changelog.md')
@@ -387,11 +341,11 @@ describe('Monodeploy', () => {
 
         try {
             const changelogTemplate = [
-                `# Changelog`,
-                `Some blurb`,
-                `<!-- MONODEPLOY:BELOW -->`,
-                `## Old Versions`,
-                `Content`,
+                '# Changelog',
+                'Some blurb',
+                '<!-- MONODEPLOY:BELOW -->',
+                '## Old Versions',
+                'Content',
             ].join('\n')
             await fs.writeFile(changelogFilename, changelogTemplate, {
                 encoding: 'utf-8',
@@ -411,14 +365,10 @@ describe('Monodeploy', () => {
             })
 
             // assert it contains the new entry
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
             // assert it contains the old entries
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('Old Versions'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
 
             const changeset = JSON.parse(
                 await fs.readFile(changesetFilename, {
@@ -448,15 +398,9 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('<sha1>', 'feat: first', [
-            './packages/pkg-1/README.md',
-        ])
-        mockGit._commitFiles_('<sha2>', 'feat: second', [
-            './packages/pkg-1/README.md',
-        ])
-        mockGit._commitFiles_('<sha3>', 'feat: third', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('<sha1>', 'feat: first', ['./packages/pkg-1/README.md'])
+        mockGit._commitFiles_('<sha2>', 'feat: second', ['./packages/pkg-1/README.md'])
+        mockGit._commitFiles_('<sha3>', 'feat: third', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changelogFilename = await path.join(tempDir, 'changelog.md')
@@ -464,11 +408,11 @@ describe('Monodeploy', () => {
 
         try {
             const changelogTemplate = [
-                `# Changelog`,
-                `Some blurb`,
-                `<!-- MONODEPLOY:BELOW -->`,
-                `## Old Versions`,
-                `Content`,
+                '# Changelog',
+                'Some blurb',
+                '<!-- MONODEPLOY:BELOW -->',
+                '## Old Versions',
+                'Content',
             ].join('\n')
             await fs.writeFile(changelogFilename, changelogTemplate, {
                 encoding: 'utf-8',
@@ -485,15 +429,9 @@ describe('Monodeploy', () => {
             })
 
             // assert it contains the new entry
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('first <sha1>'),
-            )
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('second <sha2>'),
-            )
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('third <sha3>'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('first <sha1>'))
+            expect(updatedChangelog).toEqual(expect.stringContaining('second <sha2>'))
+            expect(updatedChangelog).toEqual(expect.stringContaining('third <sha3>'))
         } finally {
             try {
                 await fs.unlink(changelogFilename)
@@ -506,9 +444,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changesetFilename = await path.join(tempDir, 'changeset.json')
@@ -550,10 +486,7 @@ describe('Monodeploy', () => {
     it('does not restore package.jsons if persist versions is true', async () => {
         const config = { ...monodeployConfig, persistVersions: true }
         const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
-        const configuration = await Configuration.find(
-            cwd,
-            getPluginConfiguration(),
-        )
+        const configuration = await Configuration.find(cwd, getPluginConfiguration())
         const { project, workspace } = await Project.find(configuration, cwd)
         await project.restoreInstallState()
         const context: YarnContext = {
@@ -569,17 +502,13 @@ describe('Monodeploy', () => {
             mockNPM._setTag_('pkg-1', '0.0.1')
             mockNPM._setTag_('pkg-2', '0.0.1')
             mockNPM._setTag_('pkg-3', '0.0.1')
-            mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-                './packages/pkg-1/README.md',
-            ])
+            mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
             const result = await monodeploy(config)
 
             // pkg-1 is explicitly updated with minor bump
             expect(result['pkg-1'].version).toEqual('0.1.0')
-            expect(result['pkg-1'].changelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+            expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
             // pkg-2 and pkg-3 not in dependency graph
             expect(result['pkg-2']).toBeUndefined()
@@ -587,18 +516,9 @@ describe('Monodeploy', () => {
 
             expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
-            const readPackageVersion = async (
-                pkg: string,
-            ): Promise<Record<string, unknown>> => {
-                const packageJsonPath = path.join(
-                    config.cwd,
-                    'packages',
-                    pkg,
-                    'package.json',
-                )
-                return JSON.parse(
-                    await fs.readFile(packageJsonPath, { encoding: 'utf-8' }),
-                )
+            const readPackageVersion = async (pkg: string): Promise<Record<string, unknown>> => {
+                const packageJsonPath = path.join(config.cwd, 'packages', pkg, 'package.json')
+                return JSON.parse(await fs.readFile(packageJsonPath, { encoding: 'utf-8' }))
             }
 
             // check package.jsons, and then restore the
@@ -618,9 +538,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changelogFilename = await path.join(tempDir, 'changelog.md')
@@ -645,26 +563,17 @@ describe('Monodeploy', () => {
             })
 
             // assert it contains the new entry
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
             // assert tags pushed
             expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
             // assert changelog committed
             const autoCommit =
-                mockGit._getRegistry_().commits[
-                    mockGit._getRegistry_().commits.length - 1
-                ]
-            const autoCommitFiles = mockGit
-                ._getRegistry_()
-                .filesModified.get(autoCommit.sha)
+                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
             expect(autoCommitFiles).toEqual(
-                expect.arrayContaining([
-                    changelogFilename,
-                    '"**/package.json"',
-                ]),
+                expect.arrayContaining([`"${changelogFilename}"`, '"**/package.json"']),
             )
 
             // assert commit pushed
@@ -683,9 +592,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changelogFilename = await path.join(tempDir, 'changelog.md')
@@ -710,23 +617,14 @@ describe('Monodeploy', () => {
             })
 
             // assert it contains the new entry
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
             // assert changelog committed
             const autoCommit =
-                mockGit._getRegistry_().commits[
-                    mockGit._getRegistry_().commits.length - 1
-                ]
-            const autoCommitFiles = mockGit
-                ._getRegistry_()
-                .filesModified.get(autoCommit.sha)
+                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
             expect(autoCommitFiles).toEqual(
-                expect.arrayContaining([
-                    changelogFilename,
-                    '"**/package.json"',
-                ]),
+                expect.arrayContaining([`"${changelogFilename}"`, '"**/package.json"']),
             )
 
             // assert commit pushed
@@ -749,9 +647,7 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '7.0.0-alpha.0', 'canary')
         mockNPM._setTag_('pkg-6', '0.0.4', 'latest')
 
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-2/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-2/README.md'])
 
         const result = await monodeploy({
             ...monodeployConfig,
@@ -765,9 +661,7 @@ describe('Monodeploy', () => {
 
         // pkg-2 is the one explicitly updated with feature change
         expect(result['pkg-2'].version).toEqual('2.4.0-alpha.4')
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent
         expect(result['pkg-3'].version).toEqual('7.0.0-alpha.1')

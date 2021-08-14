@@ -33,21 +33,9 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(await getTopologicalSort([workspace1])).toEqual([
-                    [workspace1],
-                ])
-                expect(
-                    await getTopologicalSort([
-                        workspace1,
-                        workspace2,
-                        workspace3,
-                    ]),
-                ).toEqual([
-                    expect.arrayContaining([
-                        workspace1,
-                        workspace2,
-                        workspace3,
-                    ]),
+                expect(await getTopologicalSort([workspace1])).toEqual([[workspace1]])
+                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).toEqual([
+                    expect.arrayContaining([workspace1, workspace2, workspace3]),
                 ])
             },
         ))
@@ -64,16 +52,8 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                const sorted = await getTopologicalSort([
-                    workspace1,
-                    workspace2,
-                    workspace3,
-                ])
-                expect(sorted).toEqual([
-                    [workspace3],
-                    [workspace1],
-                    [workspace2],
-                ])
+                const sorted = await getTopologicalSort([workspace1, workspace2, workspace3])
+                expect(sorted).toEqual([[workspace3], [workspace1], [workspace2]])
             },
         ))
 
@@ -92,10 +72,7 @@ describe('Topological Sort', () => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
 
-                const sorted = await getTopologicalSort([
-                    workspace1,
-                    workspace2,
-                ])
+                const sorted = await getTopologicalSort([workspace1, workspace2])
                 expect(sorted).toEqual([[workspace2], [workspace1]])
             },
         ))
@@ -112,9 +89,10 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(
-                    await getTopologicalSort([workspace1, workspace3]),
-                ).toEqual([[workspace3], [workspace1]])
+                expect(await getTopologicalSort([workspace1, workspace3])).toEqual([
+                    [workspace3],
+                    [workspace1],
+                ])
 
                 await expect(async () =>
                     getTopologicalSort([workspace1, workspace2, workspace3]),
@@ -134,13 +112,9 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(
-                    await getTopologicalSort([
-                        workspace1,
-                        workspace2,
-                        workspace3,
-                    ]),
-                ).toEqual([[workspace1, workspace2, workspace3]])
+                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).toEqual([
+                    [workspace1, workspace2, workspace3],
+                ])
             },
         ))
 })
@@ -158,19 +132,14 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(
-                    await getTopologicalSort([
-                        workspace1,
-                        workspace2,
-                        workspace3,
-                    ]),
-                ).not.toEqual([[workspace3], [workspace1], [workspace2]])
+                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).not.toEqual([
+                    [workspace3],
+                    [workspace1],
+                    [workspace2],
+                ])
 
                 expect(
-                    await getTopologicalSort(
-                        [workspace1, workspace2, workspace3],
-                        { dev: true },
-                    ),
+                    await getTopologicalSort([workspace1, workspace2, workspace3], { dev: true }),
                 ).toEqual([[workspace3], [workspace1], [workspace2]])
             },
         ))
@@ -188,10 +157,7 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
                 expect(
-                    await getTopologicalSort(
-                        [workspace1, workspace2, workspace3],
-                        { dev: true },
-                    ),
+                    await getTopologicalSort([workspace1, workspace2, workspace3], { dev: true }),
                 ).toEqual([[workspace3], [workspace1], [workspace2]])
             },
         ))

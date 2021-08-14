@@ -1,11 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import {
-    MonodeployConfiguration,
-    RecursivePartial,
-    YarnContext,
-} from '@monodeploy/types'
+import { MonodeployConfiguration, RecursivePartial, YarnContext } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
@@ -13,10 +9,7 @@ import { PortablePath } from '@yarnpkg/fslib'
 import mergeDefaultConfig from '../packages/node/src/utils/mergeDefaultConfig'
 
 export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
-    const configuration = await Configuration.find(
-        cwd,
-        getPluginConfiguration(),
-    )
+    const configuration = await Configuration.find(cwd, getPluginConfiguration())
     const { project, workspace } = await Project.find(configuration, cwd)
 
     if (!workspace) {

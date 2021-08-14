@@ -12,9 +12,7 @@ export const gitResolveSha = async (
 ): Promise<string> => {
     const gitCommand = `git log --format="%H" -n 1 ${ref}`
     logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return (await exec(gitCommand, { encoding: 'utf8', cwd })).stdout
-        .toString()
-        .trim()
+    return (await exec(gitCommand, { encoding: 'utf8', cwd })).stdout.toString().trim()
 }
 
 export const gitDiffTree = async (
@@ -34,11 +32,7 @@ export const gitDiffTree = async (
 export const gitLog = async (
     from: string,
     to: string,
-    {
-        cwd,
-        DELIMITER,
-        context,
-    }: { cwd: string; DELIMITER: string; context?: YarnContext },
+    { cwd, DELIMITER, context }: { cwd: string; DELIMITER: string; context?: YarnContext },
 ): Promise<string> => {
     let gitCommand = `git log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
     if (from === to) {
@@ -128,7 +122,8 @@ export const gitLastTaggedCommit = async ({
     context?: YarnContext
     prerelease?: boolean
 }): Promise<string> => {
-    let mostRecentTagCommand = `git describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'`
+    let mostRecentTagCommand =
+        "git describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'"
 
     if (!prerelease) {
         // The glob matches prerelease ranges. The 'complexity' comes from not wanting
@@ -151,10 +146,9 @@ export const gitLastTaggedCommit = async ({
             .toString()
             .trim()
     } catch (err) {
-        logging.warning(
-            `[Exec] Fetching most recent tag failed, falling back to HEAD`,
-            { report: context?.report },
-        )
+        logging.warning('[Exec] Fetching most recent tag failed, falling back to HEAD', {
+            report: context?.report,
+        })
     }
 
     const associatedShaCommand = `git rev-list -1 ${tag}`

@@ -1,12 +1,9 @@
-import {
-    getMonodeployConfig,
-    withMonorepoContext,
-} from '@monodeploy/test-utils'
+import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
 
 import { getPublishRegistryUrl } from './getPublishConfig'
 
 describe('getPublishRegistryUrl', () => {
-    it(`returns null if in no registry mode`, async () =>
+    it('returns null if in no registry mode', async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -29,7 +26,7 @@ describe('getPublishRegistryUrl', () => {
             },
         ))
 
-    it(`overrides project's registry url with config option`, async () =>
+    it("overrides project's registry url with config option", async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -49,7 +46,7 @@ describe('getPublishRegistryUrl', () => {
             },
         ))
 
-    it(`defaults to yarn config if no registry provided`, async () =>
+    it('defaults to yarn config if no registry provided', async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -65,9 +62,7 @@ describe('getPublishRegistryUrl', () => {
                     context,
                     workspace: context.workspace,
                 })
-                expect(url).toMatchInlineSnapshot(
-                    `"https://registry.yarnpkg.com"`,
-                )
+                expect(url).toMatchInlineSnapshot('"https://registry.yarnpkg.com"')
             },
         ))
 })

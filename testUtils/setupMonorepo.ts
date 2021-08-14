@@ -8,10 +8,7 @@ import { npath } from '@yarnpkg/fslib'
 
 import { setupContext } from './misc'
 
-async function writeJSON(
-    filename: string,
-    data: Record<string, unknown>,
-): Promise<void> {
+async function writeJSON(filename: string, data: Record<string, unknown>): Promise<void> {
     await fs.writeFile(filename, JSON.stringify(data), 'utf-8')
 }
 
@@ -23,9 +20,7 @@ async function makeDependencyMap(
         if (Array.isArray(pkg)) {
             dependencies[pkg[0]] = pkg[1]
         } else {
-            dependencies[pkg] = `workspace:packages/${
-                structUtils.parseIdent(pkg).name
-            }`
+            dependencies[pkg] = `workspace:packages/${structUtils.parseIdent(pkg).name}`
         }
     }
     return dependencies
@@ -67,11 +62,7 @@ export default async function setupMonorepo(
 
     // Generate children workspaces
     for (const [pkgName, pkgConfig] of Object.entries(monorepo)) {
-        const pkgDir = path.join(
-            workingDir,
-            'packages',
-            structUtils.parseIdent(pkgName).name,
-        )
+        const pkgDir = path.join(workingDir, 'packages', structUtils.parseIdent(pkgName).name)
         await fs.mkdir(pkgDir, { recursive: true })
 
         await writeJSON(path.join(pkgDir, 'package.json'), {
@@ -80,12 +71,8 @@ export default async function setupMonorepo(
             private: pkgConfig.private || undefined,
             scripts: pkgConfig.scripts ?? {},
             dependencies: await makeDependencyMap(pkgConfig.dependencies ?? []),
-            devDependencies: await makeDependencyMap(
-                pkgConfig.devDependencies ?? [],
-            ),
-            peerDependencies: await makeDependencyMap(
-                pkgConfig.peerDependencies ?? [],
-            ),
+            devDependencies: await makeDependencyMap(pkgConfig.devDependencies ?? []),
+            peerDependencies: await makeDependencyMap(pkgConfig.peerDependencies ?? []),
         })
     }
 
@@ -99,13 +86,13 @@ export default async function setupMonorepo(
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
         [
-            `yarnPath: ./run-yarn.cjs`,
-            `enableGlobalCache: false`,
+            'yarnPath: ./run-yarn.cjs',
+            'enableGlobalCache: false',
             ...(process.env.E2E === '1'
                 ? [
-                      `unsafeHttpWhitelist: ['localhost']`,
-                      `npmAlwaysAuth: true`,
-                      `npmRegistryServer: "http://localhost:4873"`,
+                      "unsafeHttpWhitelist: ['localhost']",
+                      'npmAlwaysAuth: true',
+                      'npmRegistryServer: "http://localhost:4873"',
                       `npmRegistries:\n  "//localhost:4873":\n    npmAuthIdent: "${authIdent}"\n    npmAlwaysAuth: true`,
                   ]
                 : []),
@@ -127,10 +114,7 @@ export default async function setupMonorepo(
 export async function withMonorepoContext(
     monorepo: Record<string, PackageInitConfiguration>,
     cb: (context: YarnContext) => Promise<void>,
-    {
-        root,
-        debug,
-    }: { root?: ProjectRootInitConfiguration; debug?: boolean } = {},
+    { root, debug }: { root?: ProjectRootInitConfiguration; debug?: boolean } = {},
 ): Promise<void> {
     const context = await setupMonorepo(monorepo, { root })
     const cwd = context.project.cwd

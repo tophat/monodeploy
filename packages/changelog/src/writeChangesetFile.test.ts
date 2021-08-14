@@ -32,12 +32,7 @@ describe('writeChangesetFile', () => {
             })),
             changesetFilename: undefined,
             conventionalChangelogConfig: path.resolve(
-                path.join(
-                    __dirname,
-                    '..',
-                    'mocks',
-                    'conventional-config-fn.mock.ts',
-                ),
+                path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         }
         const context = await setupContext(cwd as PortablePath)
@@ -70,9 +65,7 @@ describe('writeChangesetFile', () => {
                     'pkg-2',
                     {
                         type: 'minor',
-                        commits: [
-                            { sha: 'bca', body: 'feat: some fancy change' },
-                        ],
+                        commits: [{ sha: 'bca', body: 'feat: some fancy change' }],
                     },
                 ],
             ]),

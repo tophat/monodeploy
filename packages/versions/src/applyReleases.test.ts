@@ -1,14 +1,7 @@
 import path from 'path'
 
-import {
-    getMonodeployConfig,
-    withMonorepoContext,
-} from '@monodeploy/test-utils'
-import {
-    MonodeployConfiguration,
-    PackageStrategyType,
-    YarnContext,
-} from '@monodeploy/types'
+import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
+import { MonodeployConfiguration, PackageStrategyType, YarnContext } from '@monodeploy/types'
 import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
@@ -17,19 +10,14 @@ import applyReleases, { incrementVersion } from './applyReleases'
 const identToWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
 
-const loadManifest = async (
-    context: YarnContext,
-    pkgName: string,
-): Promise<Manifest> => {
+const loadManifest = async (context: YarnContext, pkgName: string): Promise<Manifest> => {
     return await Manifest.fromFile(
-        npath.toPortablePath(
-            path.join(context.project.cwd, 'packages', pkgName, 'package.json'),
-        ),
+        npath.toPortablePath(path.join(context.project.cwd, 'packages', pkgName, 'package.json')),
     )
 }
 
 describe('applyReleases', () => {
-    it(`rewrites dependency versions in package.jsons, including dependencies we're not updating`, async () =>
+    it("rewrites dependency versions in package.jsons, including dependencies we're not updating", async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -82,29 +70,23 @@ describe('applyReleases', () => {
 
                 // pkg-1 should be unchanged from registry tags
                 expect(
-                    manifest2.dependencies.get(
-                        workspace1.manifest.name!.identHash,
-                    )!.range,
-                ).toEqual(`workspace:^1.0.0`)
+                    manifest2.dependencies.get(workspace1.manifest.name!.identHash)!.range,
+                ).toEqual('workspace:^1.0.0')
 
                 // pkg-2 should be the "new" version
                 // note: the workspace: protocol is stripped by yarn for peers
                 expect(
-                    manifest3.peerDependencies.get(
-                        workspace2.manifest.name!.identHash,
-                    )!.range,
-                ).toEqual(`^2.1.0`)
+                    manifest3.peerDependencies.get(workspace2.manifest.name!.identHash)!.range,
+                ).toEqual('^2.1.0')
 
                 // pkg-1 again should not be changed from registry tags
                 expect(
-                    manifest3.dependencies.get(
-                        workspace1.manifest.name!.identHash,
-                    )!.range,
-                ).toEqual(`workspace:^1.0.0`)
+                    manifest3.dependencies.get(workspace1.manifest.name!.identHash)!.range,
+                ).toEqual('workspace:^1.0.0')
             },
         ))
 
-    it(`applies a prerelease version in prerelease mode`, async () =>
+    it('applies a prerelease version in prerelease mode', async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -160,7 +142,7 @@ describe('applyReleases', () => {
             },
         ))
 
-    it(`patches non-updated versions correctly in prerelease mode`, async () =>
+    it('patches non-updated versions correctly in prerelease mode', async () =>
         withMonorepoContext(
             {
                 'pkg-1': { dependencies: ['pkg-2', 'pkg-3', 'pkg-4'] },
@@ -195,9 +177,7 @@ describe('applyReleases', () => {
                         ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
                         ['pkg-4', { latest: '0.1.0' }],
                     ]),
-                    versionStrategies: new Map([
-                        ['pkg-1', { type: 'minor', commits: [] }],
-                    ]),
+                    versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
                 })
                 expect(intendedVersions.get('pkg-1')).toEqual('1.1.0-rc.0')
 
@@ -206,19 +186,13 @@ describe('applyReleases', () => {
 
                 // Use the greaatest version out of latest & prerelease for non-updated packages
                 expect(
-                    manifest1.dependencies.get(
-                        workspace2.manifest.name!.identHash,
-                    )!.range,
+                    manifest1.dependencies.get(workspace2.manifest.name!.identHash)!.range,
                 ).toEqual('workspace:^1.2.0')
                 expect(
-                    manifest1.dependencies.get(
-                        workspace3.manifest.name!.identHash,
-                    )!.range,
+                    manifest1.dependencies.get(workspace3.manifest.name!.identHash)!.range,
                 ).toEqual('workspace:^4.0.0-rc.1')
                 expect(
-                    manifest1.dependencies.get(
-                        workspace4.manifest.name!.identHash,
-                    )!.range,
+                    manifest1.dependencies.get(workspace4.manifest.name!.identHash)!.range,
                 ).toEqual('workspace:^0.1.0')
             },
         ))
@@ -251,19 +225,16 @@ describe('applyReleases prereleases', () => {
         ['2.0.3-rc.4', 'patch', '2.0.3-rc.5'],
         ['2.7.0-rc.6', 'minor', '2.7.0-rc.7'],
         ['2.0.0-rc.9', 'major', '2.0.0-rc.10'],
-    ])(
-        `bumps pre-release %s with %s to %s`,
-        (fromVersion, strategy, toVersion) => {
-            const { next: actualVersion } = incrementVersion({
-                currentLatestVersion: '1.0.0',
-                currentPrereleaseVersion: fromVersion,
-                strategy: strategy as PackageStrategyType,
-                prerelease: true,
-                prereleaseId: 'rc',
-            })
-            expect(actualVersion).toEqual(toVersion)
-        },
-    )
+    ])('bumps pre-release %s with %s to %s', (fromVersion, strategy, toVersion) => {
+        const { next: actualVersion } = incrementVersion({
+            currentLatestVersion: '1.0.0',
+            currentPrereleaseVersion: fromVersion,
+            strategy: strategy as PackageStrategyType,
+            prerelease: true,
+            prereleaseId: 'rc',
+        })
+        expect(actualVersion).toEqual(toVersion)
+    })
 
     it.each([
         // Applying "patch" to a "patch" gives us a "prepatch"
@@ -293,7 +264,7 @@ describe('applyReleases prereleases', () => {
         ['0.0.0', 'minor', '0.1.0-rc.0'],
         // Applying a "major" to "unpublished" gives us a "premajor"
         ['0.0.0', 'major', '1.0.0-rc.0'],
-    ])(`bumps %s with %s to %s`, (fromVersion, strategy, toVersion) => {
+    ])('bumps %s with %s to %s', (fromVersion, strategy, toVersion) => {
         const { previous, next: actualVersion } = incrementVersion({
             currentLatestVersion: fromVersion,
             currentPrereleaseVersion: null,
@@ -310,7 +281,7 @@ describe('applyReleases prereleases', () => {
         ['2.6.3', '2.2.0-rc.2', 'minor', '2.7.0-rc.0'],
         ['3.0.0', '3.0.0-rc.0', 'major', '4.0.0-rc.0'],
     ])(
-        `handles outdated prerelease with latest %s, prerelease %s, strategy %s`,
+        'handles outdated prerelease with latest %s, prerelease %s, strategy %s',
         (fromLatest, fromPrerelease, strategy, toVersion) => {
             const { previous, next: actualVersion } = incrementVersion({
                 currentLatestVersion: fromLatest,

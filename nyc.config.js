@@ -11,7 +11,7 @@ module.exports = {
     ],
     reportDir: `${ARTIFACT_DIR}/test_results/tests-report/`,
     reporter: ['text-summary', ...(CI ? [] : ['html'])],
-    tempDir: `raw-coverage/jest-e2es/`,
+    tempDir: 'raw-coverage/jest-e2es/',
     require: [require.resolve('ts-node/register')],
     extension: ['.ts'],
     instrument: true,

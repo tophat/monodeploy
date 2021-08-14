@@ -13,8 +13,7 @@ const requireForCLI = createRequire(require.resolve('@yarnpkg/cli'))
  */
 const getCompatiblePluginConfiguration = (): PluginConfiguration => {
     const plugins = new Set<string>()
-    for (const dependencyName of packageJson['@yarnpkg/builder'].bundles
-        .standard) {
+    for (const dependencyName of packageJson['@yarnpkg/builder'].bundles.standard) {
         plugins.add(dependencyName)
     }
 
@@ -26,17 +25,16 @@ const getCompatiblePluginConfiguration = (): PluginConfiguration => {
             modules.set(plugin, requireForCLI(plugin).default)
         } catch {
             incompatibility = true
-            logging.warning(
-                `[Configuration] Unable to configure '${plugin}', skipping.`,
-                { report: null },
-            )
+            logging.warning(`[Configuration] Unable to configure '${plugin}', skipping.`, {
+                report: null,
+            })
         }
     }
     if (incompatibility) {
         logging.warning(
-            `[Configuration] Some plugins could not be configured. This is likely due to ` +
-                `an incompatibility with the Yarn version you are using in your project and ` +
-                `the Yarn API versions used in Monodeploy. See: https://github.com/tophat/monodeploy/issues/302`,
+            '[Configuration] Some plugins could not be configured. This is likely due to ' +
+                'an incompatibility with the Yarn version you are using in your project and ' +
+                'the Yarn API versions used in Monodeploy. See: https://github.com/tophat/monodeploy/issues/302',
             { report: null },
         )
     }

@@ -7,23 +7,13 @@ const exec = util.promisify(childProcess.exec)
 
 const scriptPath = require.resolve('monodeploy')
 
-export default async function run({
-    cwd,
-    args = '',
-}: {
-    cwd: string
-    args: string
-}): Promise<{
+export default async function run({ cwd, args = '' }: { cwd: string; args: string }): Promise<{
     stdout: string
     stderr: string
     error?: ExecException
 }> {
-    const nycBin = require.resolve('nyc/bin/nyc', {
-        paths: [process.cwd()],
-    })
-    const nycConfig = require.resolve('nyc.config.js', {
-        paths: [process.cwd()],
-    })
+    const nycBin = require.resolve('nyc/bin/nyc', { paths: [process.cwd()] })
+    const nycConfig = require.resolve('nyc.config.js', { paths: [process.cwd()] })
 
     const tsconfig = path.join(process.cwd(), 'tsconfig.json')
 

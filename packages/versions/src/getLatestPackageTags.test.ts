@@ -159,12 +159,8 @@ describe('getLatestPackageTags', () => {
 
     it('returns a null pair for malformed workspaces (missing ident)', async () => {
         // Stripping pkg-2 of its ident
-        const pkg2Cwd = path.resolve(
-            path.join(context.project.cwd, 'packages/pkg-2'),
-        )
-        context.project.workspacesByCwd.get(
-            pkg2Cwd as PortablePath,
-        )!.manifest.name = null
+        const pkg2Cwd = path.resolve(path.join(context.project.cwd, 'packages/pkg-2'))
+        context.project.workspacesByCwd.get(pkg2Cwd as PortablePath)!.manifest.name = null
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,

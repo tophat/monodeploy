@@ -30,7 +30,7 @@ describe('getExplicitVersionStrategies', () => {
         const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
         execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
-        await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
+        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)
         const headSha = execSync('git rev-parse HEAD', {
@@ -65,10 +65,10 @@ describe('getExplicitVersionStrategies', () => {
         await createCommit('feat: initial commit', cwd)
         execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
 
-        await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
+        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
         await createCommit('feat: ignore-me!', cwd)
 
-        await createFile({ filePath: `packages/pkg-2/test.js`, cwd })
+        await createFile({ filePath: 'packages/pkg-2/test.js', cwd })
         const mockMessage = 'feat: pick me!'
         await createCommit(mockMessage, cwd)
 
@@ -109,8 +109,8 @@ describe('getExplicitVersionStrategies', () => {
         await createCommit('feat: initial commit', cwd)
         execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
 
-        await createFile({ filePath: `packages/pkg-1/test.js`, cwd })
-        await createFile({ filePath: `packages/pkg-2/test.test.js`, cwd })
+        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
+        await createFile({ filePath: 'packages/pkg-2/test.test.js', cwd })
 
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)

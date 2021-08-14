@@ -8,24 +8,18 @@ import setupMonorepo from './setupMonorepo'
 
 export async function initGitRepository(
     cwd: string,
-    {
-        allowScaffoldingCommits = true,
-    }: { allowScaffoldingCommits?: boolean } = {},
+    { allowScaffoldingCommits = true }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
     execSync('git init', { cwd })
-    execSync(`git branch -m main`, { cwd })
+    execSync('git branch -m main', { cwd })
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
-    await fs.writeFile(
-        path.resolve(cwd, '.gitignore'),
-        ['.yarn', '*.tmp'].join('\n'),
-        {
-            encoding: 'utf8',
-        },
-    )
+    await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp'].join('\n'), {
+        encoding: 'utf8',
+    })
     if (allowScaffoldingCommits) {
-        execSync(`git add .gitignore && git commit -n -m "gitignore"`, { cwd })
+        execSync('git add .gitignore && git commit -n -m "gitignore"', { cwd })
     }
 }
 
@@ -37,17 +31,13 @@ export async function addGitRemote(
     execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
     execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
-    execSync(`git branch -m main`, { cwd })
+    execSync('git branch -m main', { cwd })
 }
 
-export async function setupTestRepository(
-    ...setupArgs: unknown[]
-): Promise<string> {
+export async function setupTestRepository(...setupArgs: unknown[]): Promise<string> {
     let context: YarnContext
     if (setupArgs.length) {
-        context = await setupMonorepo(
-            ...(setupArgs as Parameters<typeof setupMonorepo> | never),
-        )
+        context = await setupMonorepo(...(setupArgs as Parameters<typeof setupMonorepo> | never))
     } else {
         context = await setupMonorepo({
             'pkg-1': {},
@@ -67,14 +57,9 @@ export async function setupTestRepository(
 }
 
 export async function cleanUp(paths: string[]): Promise<void> {
-    await Promise.all(
-        paths.map((path) => fs.rm(path, { recursive: true, force: true })),
-    )
+    await Promise.all(paths.map((path) => fs.rm(path, { recursive: true, force: true })))
 }
 
-export async function createCommit(
-    message: string,
-    cwd: string,
-): Promise<void> {
+export async function createCommit(message: string, cwd: string): Promise<void> {
     execSync(`git add . && git commit -m "${message}"`, { cwd })
 }

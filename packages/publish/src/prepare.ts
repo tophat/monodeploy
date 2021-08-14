@@ -16,15 +16,10 @@ export const prepareForPack = async (
     try {
         await cb()
     } finally {
-        await maybeExecuteWorkspaceLifecycleScript(
-            context,
-            workspace,
-            'postpack',
-            {
-                cwd,
-                dryRun,
-            },
-        )
+        await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'postpack', {
+            cwd,
+            dryRun,
+        })
     }
 }
 
@@ -34,42 +29,27 @@ export const prepareForPublish = async (
     { cwd, dryRun }: { cwd: PortablePath; dryRun: boolean },
     cb: () => Promise<void>,
 ): Promise<void> => {
-    await maybeExecuteWorkspaceLifecycleScript(
-        context,
-        workspace,
-        'prepublishOnly',
-        {
-            cwd,
-            dryRun,
-        },
-    )
+    await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepublishOnly', {
+        cwd,
+        dryRun,
+    })
 
     await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepare', {
         cwd,
         dryRun,
     })
 
-    await maybeExecuteWorkspaceLifecycleScript(
-        context,
-        workspace,
-        'prepublish',
-        {
-            cwd,
-            dryRun,
-        },
-    )
+    await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'prepublish', {
+        cwd,
+        dryRun,
+    })
 
     try {
         await cb()
     } finally {
-        await maybeExecuteWorkspaceLifecycleScript(
-            context,
-            workspace,
-            'postpublish',
-            {
-                cwd,
-                dryRun,
-            },
-        )
+        await maybeExecuteWorkspaceLifecycleScript(context, workspace, 'postpublish', {
+            cwd,
+            dryRun,
+        })
     }
 }

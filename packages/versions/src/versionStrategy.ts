@@ -19,9 +19,7 @@ export const STRATEGY = {
 export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     commits: string[],
 ): Promise<number> => {
-    const commitsStream = Readable.from(commits).pipe(
-        conventionalCommitsParser(),
-    )
+    const commitsStream = Readable.from(commits).pipe(conventionalCommitsParser())
     const conventionalCommits = await readStream<Commit>(commitsStream)
     const titlePattern = new RegExp('^(\\w+)(\\([^)]+\\))?$', 'g')
     const PATCH_TYPES = ['fix', 'perf']
@@ -81,10 +79,9 @@ export const createGetConventionalRecommendedStrategy =
         )
         const conventionalCommits = await readStream<Commit>(commitsStream)
 
-        const conventionalStrategy =
-            await conventionalConfig.recommendedBumpOpts.whatBump(
-                conventionalCommits,
-            )
+        const conventionalStrategy = await conventionalConfig.recommendedBumpOpts.whatBump(
+            conventionalCommits,
+        )
 
         return conventionalStrategy?.level ?? STRATEGY.NONE
     }
