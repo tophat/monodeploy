@@ -101,7 +101,7 @@ describe('@monodeploy/git', () => {
 
             // Create some files and commit them to have a diff.
             await createFile({ filePath: 'test.txt', cwd })
-            await exec('git commit -m "test: base" --allow-empty', {
+            await exec('git commit -m "test: base" --allow-empty -n', {
                 cwd,
             })
             await exec('git checkout -b test-branch', { cwd })
@@ -128,6 +128,68 @@ describe('@monodeploy/git', () => {
             expect(messages).toEqual([
                 { sha: headSha, body: `${commitMessage}\n\n` },
             ])
+        })
+
+        it('includes all commits from parents of merge', async () => {
+            const cwd = context.project.cwd
+
+            const commit = (msg: string) =>
+                exec(`git commit -m "${msg}" --allow-empty -n`, { cwd })
+
+            // add some commits to "main"
+            await commit('initial')
+            await commit('1')
+            await commit('2')
+
+            // branch off to "feature", and add some commits to new branch
+            await exec('git checkout -b feature', { cwd })
+
+            // switch back to main, cause it to diverge immediately
+            await exec('git checkout main', { cwd })
+            await commit('3')
+
+            // add our first feature commit
+            await exec('git checkout feature', { cwd })
+            await commit('4')
+
+            // At this point, the common ancestor of feature and main is "commit 2"
+
+            // back to "main", and cause it to diverge
+            await exec('git checkout main', { cwd })
+            await commit('5')
+
+            // add another commit to "feature"
+            await exec('git checkout feature', { cwd })
+            const fromSha = (
+                await exec('git rev-parse HEAD', {
+                    cwd,
+                    encoding: 'utf8',
+                })
+            ).stdout.trim()
+            await commit('6')
+
+            // merge main into feature
+            await exec('git merge main --no-edit', { cwd })
+            await commit('7')
+
+            const messages = await getCommitMessages(
+                await getMonodeployConfig({
+                    cwd,
+                    baseBranch: fromSha,
+                    commitSha: 'HEAD',
+                }),
+                context,
+            )
+
+            // We expect "6" and "7" that are on "feature", but also any commits
+            // from "main" that were only introduced to feature after the merge. This
+            // includes "3" (from right when we branched feature off main, and "5" from later on).
+            expect(
+                messages
+                    .filter((m) => !m.body.includes('Merge branch'))
+                    .map((c) => Number(c.body.trim()))
+                    .sort(),
+            ).toEqual([3, 5, 6, 7])
         })
     })
 
