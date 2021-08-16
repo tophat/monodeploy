@@ -662,7 +662,7 @@ describe('Monodeploy', () => {
                 .filesModified.get(autoCommit.sha)
             expect(autoCommitFiles).toEqual(
                 expect.arrayContaining([
-                    changelogFilename,
+                    `"${changelogFilename}"`,
                     '"**/package.json"',
                 ]),
             )
@@ -724,7 +724,7 @@ describe('Monodeploy', () => {
                 .filesModified.get(autoCommit.sha)
             expect(autoCommitFiles).toEqual(
                 expect.arrayContaining([
-                    changelogFilename,
+                    `"${changelogFilename}"`,
                     '"**/package.json"',
                 ]),
             )
