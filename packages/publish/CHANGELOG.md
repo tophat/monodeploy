@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.11](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.10...@monodeploy/publish@0.5.11) "@monodeploy/publish" (2021-08-16)<a name="0.5.11"></a>
+
+### Bug Fixes
+
+* wrap changelog filename in quotes to perform globbing by git ([b8ca828](https://github.com/tophat/monodeploy/commits/b8ca828))
+
+
+
+
 ## [0.5.7](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.6...@monodeploy/publish@0.5.7) "@monodeploy/publish" (2021-07-26)<a name="0.5.7"></a>
 
 ### Bug Fixes
