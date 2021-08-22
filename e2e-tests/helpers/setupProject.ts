@@ -22,9 +22,9 @@ import run from './runner'
 const registryUrl = 'http://localhost:4873'
 
 type RunFn = (args?: Array<string>) => Promise<{
-    stdout: string
-    stderr: string
-    error?: ExecException
+    stdout: string | undefined
+    stderr: string | undefined
+    error?: Error | (ExecException & { stdout?: string; stderr?: string })
 }>
 
 type ExecFn = (cmd: string) => ReturnType<typeof exec>

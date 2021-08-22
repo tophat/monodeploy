@@ -25,10 +25,10 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
-    "@yarnpkg/core": "^3.0.0"
+    "@types/node": "^14.17.14",
+    "@yarnpkg/core": "^3.1.0-rc.3"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.0.0"
+    "@yarnpkg/core": "^3.1.0-rc.3"
   }
 }

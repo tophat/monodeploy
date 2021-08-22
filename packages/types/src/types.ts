@@ -293,3 +293,7 @@ export interface ChangesetRecord {
 export interface ChangesetSchema {
     [packageName: string]: ChangesetRecord
 }
+
+export function isNodeError<T = NodeJS.ErrnoException>(error: unknown): error is T {
+    return error instanceof Error || (error as any)?.code !== undefined
+}

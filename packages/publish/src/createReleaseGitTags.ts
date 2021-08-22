@@ -24,9 +24,9 @@ async function createReleaseGitTags({
                 logging.info(`[Tag] ${tag}`, { report: context.report })
 
                 return [packageIdent, tag]
-            } catch (e) {
+            } catch (err) {
                 logging.error(`[Tag] Failed ${tag}`, { report: context.report })
-                logging.error(e, { report: context.report })
+                logging.error(err, { report: context.report })
             }
             return null
         }),

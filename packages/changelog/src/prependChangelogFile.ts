@@ -2,7 +2,12 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import logging from '@monodeploy/logging'
-import type { ChangesetSchema, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import {
+    ChangesetSchema,
+    MonodeployConfiguration,
+    YarnContext,
+    isNodeError,
+} from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import pLimit from 'p-limit'
@@ -25,7 +30,7 @@ const prependEntry = async ({
     try {
         changelogContents = (await fs.readFile(filename, { encoding: 'utf-8' })).split('\n')
     } catch (err) {
-        if (err.code === 'ENOENT') {
+        if (isNodeError(err) && err.code === 'ENOENT') {
             logging.info(`[Changelog] Changelog ${filename} does not exist, creating.`, {
                 report: context.report,
             })
