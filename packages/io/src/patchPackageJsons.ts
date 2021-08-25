@@ -1,8 +1,4 @@
-import type {
-    MonodeployConfiguration,
-    PackageVersionMap,
-    YarnContext,
-} from '@monodeploy/types'
+import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
 import { Descriptor, Manifest, Workspace, structUtils } from '@yarnpkg/core'
 import { ppath, xfs } from '@yarnpkg/fslib'
 
@@ -12,9 +8,7 @@ const patchPackageJsons = async (
     workspaces: Set<Workspace>,
     registryTags: PackageVersionMap,
 ): Promise<void> => {
-    const regenerateManifestRaw = async (
-        workspace: Workspace,
-    ): Promise<void> => {
+    const regenerateManifestRaw = async (workspace: Workspace): Promise<void> => {
         const data = {}
         workspace.manifest.exportTo(data)
         workspace.manifest.raw = data
@@ -37,12 +31,8 @@ const patchPackageJsons = async (
         }
 
         workspace.manifest.version = version
-        for (const dependentSetKey of [
-            'dependencies',
-            'peerDependencies',
-        ] as const) {
-            const dependencySet =
-                workspace.manifest.getForScope(dependentSetKey)
+        for (const dependentSetKey of ['dependencies', 'peerDependencies'] as const) {
+            const dependencySet = workspace.manifest.getForScope(dependentSetKey)
 
             for (const descriptor of dependencySet.values()) {
                 const depPackageName = structUtils.stringifyIdent(descriptor)
@@ -67,10 +57,7 @@ const patchPackageJsons = async (
                     dependencyIdent,
                     `^${dependencyVersion}`,
                 )
-                dependencySet.set(
-                    updatedDescriptor.identHash,
-                    updatedDescriptor,
-                )
+                dependencySet.set(updatedDescriptor.identHash, updatedDescriptor)
             }
         }
 
@@ -88,13 +75,10 @@ const patchPackageJsons = async (
         // Restore "workspace" protocols where used.
         // Note: only really need to do this if the user wants the manifest persisted
         if (config.persistVersions) {
-            for (const [dependentSetKey, descriptors] of Object.entries(
-                workspaceProtocols,
-            )) {
+            for (const [dependentSetKey, descriptors] of Object.entries(workspaceProtocols)) {
                 for (const descriptor of descriptors) {
                     const identString = structUtils.stringifyIdent(descriptor)
-                    const dependencySet = (data[dependentSetKey] ??
-                        {}) as Record<string, string>
+                    const dependencySet = (data[dependentSetKey] ?? {}) as Record<string, string>
                     dependencySet[identString] = descriptor.range
                     data[dependentSetKey] = dependencySet
                 }
@@ -102,11 +86,7 @@ const patchPackageJsons = async (
         }
 
         const path = ppath.join(workspace.cwd, Manifest.fileName)
-        const content = `${JSON.stringify(
-            data,
-            null,
-            workspace.manifest.indent,
-        )}\n`
+        const content = `${JSON.stringify(data, null, workspace.manifest.indent)}\n`
 
         if (!config.dryRun) {
             await xfs.changeFilePromise(path, content, {

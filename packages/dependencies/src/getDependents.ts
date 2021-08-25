@@ -28,9 +28,7 @@ const getDependents = async (
                 // Prune invalid workspace candidates (e.g. private)
                 if (!identToWorkspace.has(dependencyIdent)) continue
 
-                const dependents =
-                    identToDirectDependents.get(dependencyIdent) ??
-                    new Set<string>()
+                const dependents = identToDirectDependents.get(dependencyIdent) ?? new Set<string>()
                 dependents.add(ident)
                 identToDirectDependents.set(dependencyIdent, dependents)
             }

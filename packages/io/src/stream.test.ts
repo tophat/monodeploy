@@ -18,10 +18,7 @@ describe('Stream to String', () => {
     it('flushes a stream to a string', async () => {
         const original = 'this is a sentence'
 
-        const stream = Readable.from([
-            original.substring(0, 5),
-            original.substring(5),
-        ])
+        const stream = Readable.from([original.substring(0, 5), original.substring(5)])
         expect(stream).not.toEqual(original)
 
         const transformed = await readStreamString(stream)

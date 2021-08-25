@@ -37,9 +37,7 @@ describe('Config Merging', () => {
     })
 
     it('resolves git base branch and sha', async () => {
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
         mockGit.gitTag('v1.0.0', { cwd: '/tmp' })
 
         const merged = await mergeDefaultConfig({ cwd: '/tmp' })
@@ -60,8 +58,7 @@ describe('Config Merging', () => {
                 push: true,
                 tag: true,
             },
-            conventionalChangelogConfig:
-                '@tophat/conventional-changelog-config',
+            conventionalChangelogConfig: '@tophat/conventional-changelog-config',
             changesetFilename: '/tmp/changeset.json',
             changelogFilename: '/tmp/changelog.md',
             changesetIgnorePatterns: ['*.md'],

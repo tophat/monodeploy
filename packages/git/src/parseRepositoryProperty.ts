@@ -7,9 +7,7 @@ export type RepositoryInfo = {
     repoUrl: string | null
 }
 
-const REPOSITORY_PATTERNS: Array<
-    [RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]
-> = [
+const REPOSITORY_PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]> = [
     [
         /((?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+))(?:\.git)?/,
         (m) => ({ repoUrl: m[1], host: m[2], owner: m[3], repository: m[4] }),
@@ -63,9 +61,7 @@ export const parseRepositoryProperty = async (
         ) &&
         !data.repository
     ) {
-        return await parseRepositoryProperty(
-            workspace.project.topLevelWorkspace,
-        )
+        return await parseRepositoryProperty(workspace.project.topLevelWorkspace)
     }
 
     return data

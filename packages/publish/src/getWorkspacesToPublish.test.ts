@@ -1,8 +1,4 @@
-import {
-    cleanUp,
-    setupContext,
-    setupTestRepository,
-} from '@monodeploy/test-utils'
+import { cleanUp, setupContext, setupTestRepository } from '@monodeploy/test-utils'
 import { PortablePath } from '@yarnpkg/fslib'
 
 import { getWorkspacesToPublish } from '.'

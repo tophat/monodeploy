@@ -24,9 +24,7 @@ describe('CLI', () => {
     })
 
     const setArgs = (command: string) => {
-        process.argv = command
-            ? ['node', scriptPath, ...command.split(' ')]
-            : ['node', scriptPath]
+        process.argv = command ? ['node', scriptPath, ...command.split(' ')] : ['node', scriptPath]
     }
 
     describe('CLI Args', () => {
@@ -46,10 +44,8 @@ describe('CLI', () => {
                 require('./cli')
             })
             await new Promise((r) => setTimeout(r))
-            expect(
-                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0],
-            ).toMatchInlineSnapshot(`
+            expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
+                .toMatchInlineSnapshot(`
                 Object {
                   "access": "infer",
                   "autoCommit": true,
@@ -98,10 +94,8 @@ describe('CLI', () => {
                 require('./cli')
             })
             await new Promise((r) => setTimeout(r))
-            expect(
-                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0],
-            ).toMatchInlineSnapshot(`
+            expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
+                .toMatchInlineSnapshot(`
                 Object {
                   "access": undefined,
                   "autoCommit": undefined,
@@ -139,15 +133,11 @@ describe('CLI', () => {
 
         it('sets exit code to error if monodeploy throws', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {
-                    /* ignore */
-                })
+            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
+                /* ignore */
+            })
             const error = new Error('Monodeploy failed.')
-            ;(
-                monodeploy as jest.MockedFunction<typeof monodeploy>
-            ).mockImplementation(() => {
+            ;(monodeploy as jest.MockedFunction<typeof monodeploy>).mockImplementation(() => {
                 throw error
             })
             setArgs('')
@@ -165,11 +155,9 @@ describe('CLI', () => {
     describe('Config File', () => {
         it('throws an error if unable to read config file', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {
-                    /* ignore */
-                })
+            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
+                /* ignore */
+            })
 
             const configFileContents = `
                 invalid_javascript{} = {
@@ -178,9 +166,7 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
@@ -198,11 +184,9 @@ describe('CLI', () => {
 
         it('throws an error if invalid configuration', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {
-                    /* ignore */
-                })
+            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
+                /* ignore */
+            })
 
             const configFileContents = `
                 module.exports = { git: { baseBranch: true } }
@@ -210,9 +194,7 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
@@ -264,19 +246,15 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
                     require('./cli')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                        .calls[0][0],
-                ).toMatchInlineSnapshot(`
+                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
+                    .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
                       "autoCommit": true,
@@ -354,20 +332,16 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
                     require('./cli')
                 })
                 await new Promise((r) => setTimeout(r))
-                const config = (
-                    monodeploy as jest.MockedFunction<typeof monodeploy>
-                ).mock.calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
-                    .toMatchInlineSnapshot(`
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "restricted",
                       "autoCommit": undefined,
@@ -439,20 +413,16 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
                     require('./cli')
                 })
                 await new Promise((r) => setTimeout(r))
-                const config = (
-                    monodeploy as jest.MockedFunction<typeof monodeploy>
-                ).mock.calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null })
-                    .toMatchInlineSnapshot(`
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
                       "autoCommit": undefined,
@@ -528,9 +498,7 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
                     `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns "ignore-me"`,
@@ -539,10 +507,8 @@ describe('CLI', () => {
                     require('./cli')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                        .calls[0][0],
-                ).toMatchInlineSnapshot(`
+                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
+                    .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
                       "autoCommit": true,
@@ -616,22 +582,18 @@ describe('CLI', () => {
 
             const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
-                const configFilename = path.resolve(
-                    path.join(dir, 'monodeploy.config.js'),
-                )
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
                     `--config-file ${configFilename} --git-base-branch next --jobs 3 --no-prerelease ` +
-                        `--no-topological --no-topological-dev --no-persist-versions`,
+                        '--no-topological --no-topological-dev --no-persist-versions',
                 )
                 jest.isolateModules(() => {
                     require('./cli')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                        .calls[0][0],
-                ).toMatchInlineSnapshot(`
+                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
+                    .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
                       "autoCommit": true,

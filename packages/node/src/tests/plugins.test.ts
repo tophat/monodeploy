@@ -4,11 +4,7 @@ import path from 'path'
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type {
-    CommitMessage,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
@@ -122,14 +118,9 @@ describe('Monodeploy Plugins', () => {
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
 
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const pluginFilename = path.resolve(
-            monodeployConfig.cwd,
-            'onReleaseAvailable.plugin.js',
-        )
+        const pluginFilename = path.resolve(monodeployConfig.cwd, 'onReleaseAvailable.plugin.js')
         await fs.promises.writeFile(
             pluginFilename,
             `
@@ -148,10 +139,6 @@ describe('Monodeploy Plugins', () => {
             plugins: ['./onReleaseAvailable.plugin.js'],
         })
 
-        expect(
-            fs.existsSync(
-                path.resolve(monodeployConfig.cwd, 'plugin-executed.txt'),
-            ),
-        ).toBe(true)
+        expect(fs.existsSync(path.resolve(monodeployConfig.cwd, 'plugin-executed.txt'))).toBe(true)
     })
 })

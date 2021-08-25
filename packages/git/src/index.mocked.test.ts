@@ -1,10 +1,6 @@
 import { execSync } from 'child_process'
 
-import {
-    cleanUp,
-    initGitRepository,
-    setupMonorepo,
-} from '@monodeploy/test-utils'
+import { cleanUp, initGitRepository, setupMonorepo } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
 
 import { gitLastTaggedCommit, gitPushTags, gitTag } from '.'
@@ -90,8 +86,6 @@ describe('@monodeploy/git (mocked invariants)', () => {
         })
         await cleanUp([upstreamContext.project.cwd])
 
-        expect(remoteTags).toEqual(
-            expect.stringContaining(lastTaggedSha.trim()),
-        )
+        expect(remoteTags).toEqual(expect.stringContaining(lastTaggedSha.trim()))
     })
 })

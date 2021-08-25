@@ -42,9 +42,7 @@ export const incrementVersion = ({
         }
     }
 
-    const semverInfo = currentPrereleaseVersion
-        ? semver.parse(currentPrereleaseVersion)
-        : null
+    const semverInfo = currentPrereleaseVersion ? semver.parse(currentPrereleaseVersion) : null
 
     if (
         !currentPrereleaseVersion ||
@@ -65,11 +63,7 @@ export const incrementVersion = ({
     if (strategy === 'major' && !isPreleaseVersionMajor) {
         return {
             previous: currentPrereleaseVersion,
-            next: semver.inc(
-                currentPrereleaseVersion,
-                'premajor',
-                prereleaseId,
-            ),
+            next: semver.inc(currentPrereleaseVersion, 'premajor', prereleaseId),
         }
     }
 
@@ -77,11 +71,7 @@ export const incrementVersion = ({
     if (strategy === 'minor' && semverInfo.patch !== 0) {
         return {
             previous: currentPrereleaseVersion,
-            next: semver.inc(
-                currentPrereleaseVersion,
-                'preminor',
-                prereleaseId,
-            ),
+            next: semver.inc(currentPrereleaseVersion, 'preminor', prereleaseId),
         }
     }
 
@@ -113,8 +103,7 @@ const applyReleases = async ({
         const packageVersionStrategy = versionStrategies.get(packageName)?.type
 
         const currentLatestVersion = packageTag.latest
-        const currentPrereleaseVersion =
-            packageTag[config.prereleaseNPMTag] ?? null
+        const currentPrereleaseVersion = packageTag[config.prereleaseNPMTag] ?? null
 
         const { previous, next } = packageVersionStrategy
             ? incrementVersion({
@@ -128,8 +117,7 @@ const applyReleases = async ({
 
         if (!next || !previous || previous === next) {
             const version = config.prerelease
-                ? maxVersion(currentLatestVersion, currentPrereleaseVersion) ??
-                  currentLatestVersion
+                ? maxVersion(currentLatestVersion, currentPrereleaseVersion) ?? currentLatestVersion
                 : currentLatestVersion
             nonupdatedRegistryTags.set(packageName, {
                 previous: version,

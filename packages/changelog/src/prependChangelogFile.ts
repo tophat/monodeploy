@@ -2,11 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import logging from '@monodeploy/logging'
-import type {
-    ChangesetSchema,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { ChangesetSchema, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import pLimit from 'p-limit'
@@ -27,28 +23,22 @@ const prependEntry = async ({
 }): Promise<void> => {
     let changelogContents: string[] = []
     try {
-        changelogContents = (
-            await fs.readFile(filename, { encoding: 'utf-8' })
-        ).split('\n')
+        changelogContents = (await fs.readFile(filename, { encoding: 'utf-8' })).split('\n')
     } catch (err) {
         if (err.code === 'ENOENT') {
-            logging.info(
-                `[Changelog] Changelog ${filename} does not exist, creating.`,
-                { report: context.report },
-            )
+            logging.info(`[Changelog] Changelog ${filename} does not exist, creating.`, {
+                report: context.report,
+            })
             changelogContents = ['# Changelog', '', MARKER]
         } else {
-            logging.error(
-                `[Changelog] Unable to read changelog contents at ${filename}.`,
-                { report: context.report },
-            )
+            logging.error(`[Changelog] Unable to read changelog contents at ${filename}.`, {
+                report: context.report,
+            })
             throw err
         }
     }
 
-    const changelogOffset = changelogContents.findIndex(
-        (value) => value.trim() === MARKER,
-    )
+    const changelogOffset = changelogContents.findIndex((value) => value.trim() === MARKER)
     if (changelogOffset === -1) {
         logging.error(`[Changelog] Missing changelog marker: '${MARKER}'`, {
             report: context.report,
@@ -61,7 +51,7 @@ const prependEntry = async ({
     const dataToWrite = changelogContents.join('\n')
 
     if (config.dryRun && !config.forceWriteChangeFiles) {
-        logging.debug(`[Changelog] Skipping changelog update.`, {
+        logging.debug('[Changelog] Skipping changelog update.', {
             report: context.report,
         })
     } else {
@@ -89,16 +79,12 @@ const prependChangelogFile = async ({
     if (!config.changelogFilename) return
 
     if (config.changelogFilename.includes(TOKEN_PACKAGE_DIR)) {
-        const prependForWorkspace = async (
-            workspace: Workspace,
-        ): Promise<void> => {
+        const prependForWorkspace = async (workspace: Workspace): Promise<void> => {
             const filename = config.changelogFilename!.replace(
                 TOKEN_PACKAGE_DIR,
                 npath.fromPortablePath(workspace.cwd),
             )
-            const packageName = structUtils.stringifyIdent(
-                workspace.manifest.name!,
-            )
+            const packageName = structUtils.stringifyIdent(workspace.manifest.name!)
             const entry = changeset[packageName]?.changelog
             console.log(entry, packageName, changeset)
             if (entry) await prependEntry({ config, context, filename, entry })
@@ -106,9 +92,7 @@ const prependChangelogFile = async ({
 
         const limit = pLimit(config.jobs || Infinity)
         await Promise.all(
-            [...workspaces].map((workspace) =>
-                limit(() => prependForWorkspace(workspace)),
-            ),
+            [...workspaces].map((workspace) => limit(() => prependForWorkspace(workspace))),
         )
 
         return

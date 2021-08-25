@@ -6,14 +6,9 @@ import { parseRepositoryProperty } from './parseRepositoryProperty'
 describe('parseRepositoryProperty', () => {
     it('parses repository from manifest url as string', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
-            const workspace = context.project.getWorkspaceByIdent(
-                structUtils.parseIdent('pkg-1'),
-            )
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
 
-            workspace.manifest.setRawField(
-                'repository',
-                'git@github.com:tophat/monodeploy.git',
-            )
+            workspace.manifest.setRawField('repository', 'git@github.com:tophat/monodeploy.git')
             expect(await parseRepositoryProperty(workspace)).toEqual(
                 expect.objectContaining({
                     host: 'https://github.com',
@@ -23,10 +18,7 @@ describe('parseRepositoryProperty', () => {
                 }),
             )
 
-            workspace.manifest.setRawField(
-                'repository',
-                'https://github.com/tophat/monodeploy.git',
-            )
+            workspace.manifest.setRawField('repository', 'https://github.com/tophat/monodeploy.git')
             expect(await parseRepositoryProperty(workspace)).toEqual(
                 expect.objectContaining({
                     host: 'https://github.com',
@@ -52,9 +44,7 @@ describe('parseRepositoryProperty', () => {
 
     it('parses repository from manifest url as object', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
-            const workspace = context.project.getWorkspaceByIdent(
-                structUtils.parseIdent('pkg-1'),
-            )
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
 
             workspace.manifest.setRawField('repository', {
                 type: 'git',
@@ -73,9 +63,7 @@ describe('parseRepositoryProperty', () => {
 
     it('falls back to project root manifest', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
-            const workspace = context.project.getWorkspaceByIdent(
-                structUtils.parseIdent('pkg-1'),
-            )
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
             workspace.project.topLevelWorkspace.manifest.setRawField(
                 'repository',
                 'git@github.com:tophat/monodeploy.git',
@@ -93,9 +81,7 @@ describe('parseRepositoryProperty', () => {
 
     it('does not fallback to project root manifest if fallback option disabled', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
-            const workspace = context.project.getWorkspaceByIdent(
-                structUtils.parseIdent('pkg-1'),
-            )
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
             workspace.project.topLevelWorkspace.manifest.setRawField(
                 'repository',
                 'git@github.com:tophat/monodeploy.git',
@@ -117,13 +103,8 @@ describe('parseRepositoryProperty', () => {
 
     it('fails gracefully if falling back and root does not have repository', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
-            const workspace = context.project.getWorkspaceByIdent(
-                structUtils.parseIdent('pkg-1'),
-            )
-            workspace.project.topLevelWorkspace.manifest.setRawField(
-                'repository',
-                '',
-            )
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
+            workspace.project.topLevelWorkspace.manifest.setRawField('repository', '')
             workspace.manifest.setRawField('repository', '')
             expect(
                 await parseRepositoryProperty(workspace, {

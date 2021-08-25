@@ -69,9 +69,7 @@ describe('@monodeploy/git', () => {
             const diffTreeOutput = await gitDiffTree(headSha, { cwd, context })
 
             expect(diffTreeOutput.trim()).toEqual(
-                expect.stringContaining(
-                    ['test.txt', 'testDir/test.txt'].join('\n'),
-                ),
+                expect.stringContaining(['test.txt', 'testDir/test.txt'].join('\n')),
             )
         })
     })
@@ -125,16 +123,13 @@ describe('@monodeploy/git', () => {
                 context,
             )
 
-            expect(messages).toEqual([
-                { sha: headSha, body: `${commitMessage}\n\n` },
-            ])
+            expect(messages).toEqual([{ sha: headSha, body: `${commitMessage}\n\n` }])
         })
 
         it('includes all commits from parents of merge', async () => {
             const cwd = context.project.cwd
 
-            const commit = (msg: string) =>
-                exec(`git commit -m "${msg}" --allow-empty -n`, { cwd })
+            const commit = (msg: string) => exec(`git commit -m "${msg}" --allow-empty -n`, { cwd })
 
             // add some commits to "main"
             await commit('initial')
@@ -202,7 +197,7 @@ describe('@monodeploy/git', () => {
             await expect(async () =>
                 gitTag('pkg@1.0.0', { cwd, context }),
             ).rejects.toMatchInlineSnapshot(
-                `[Error: Invariant Violation: Invalid environment test !== production.]`,
+                '[Error: Invariant Violation: Invalid environment test !== production.]',
             )
         })
 
@@ -231,7 +226,7 @@ describe('@monodeploy/git', () => {
             await expect(async () =>
                 gitPushTags({ cwd, context, remote: 'origin' }),
             ).rejects.toMatchInlineSnapshot(
-                `[Error: Invariant Violation: Invalid environment test !== production.]`,
+                '[Error: Invariant Violation: Invalid environment test !== production.]',
             )
         })
     })
@@ -240,12 +235,9 @@ describe('@monodeploy/git', () => {
         it('defaults to HEAD if no tag exists', async () => {
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
 
             await createFile({ filePath: 'test1.txt', cwd })
             await exec('git add . && git commit -m "chore: second commit" -n', {
@@ -260,12 +252,9 @@ describe('@monodeploy/git', () => {
         it('defaults to HEAD if on initial commit', async () => {
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
             const headSha = await gitResolveSha('HEAD', { cwd, context })
             const commit = await gitLastTaggedCommit({ cwd, context })
             expect(commit).toEqual(headSha)
@@ -276,12 +265,9 @@ describe('@monodeploy/git', () => {
 
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
             const taggedSha = await gitResolveSha('HEAD', { cwd, context })
             await gitTag('test-tag@0.0.1', { cwd, context })
 
@@ -290,9 +276,7 @@ describe('@monodeploy/git', () => {
                 cwd,
             })
 
-            expect(await gitLastTaggedCommit({ cwd, context })).toEqual(
-                taggedSha,
-            )
+            expect(await gitLastTaggedCommit({ cwd, context })).toEqual(taggedSha)
         })
 
         it('skips prerelease tags if not in prerelease mode', async () => {
@@ -300,12 +284,9 @@ describe('@monodeploy/git', () => {
             const cwd = context.project.cwd
 
             await createFile({ filePath: 'test.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
             const releaseTagSha = await gitResolveSha('HEAD', { cwd, context })
 
             const nonPrereleaseTags = [
@@ -348,12 +329,9 @@ describe('@monodeploy/git', () => {
             const cwd = context.project.cwd
 
             await createFile({ filePath: 'test.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
             const releaseTagSha = await gitResolveSha('HEAD', { cwd, context })
             await gitTag('test-tag@0.0.1', { cwd, context })
 
@@ -392,12 +370,9 @@ describe('@monodeploy/git', () => {
             const cwd = context.project.cwd
 
             await createFile({ filePath: 'other.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
             const fromSha = await gitResolveSha('HEAD', { cwd, context })
 
             await createFile({ filePath: 'test.txt', cwd })
@@ -412,9 +387,7 @@ describe('@monodeploy/git', () => {
             const toSha = await gitResolveSha('HEAD', { cwd, context })
 
             // Note that gitLog excludes the "from" commit itself
-            const logEntries = (
-                await gitLog(fromSha, toSha, { cwd, DELIMITER })
-            )
+            const logEntries = (await gitLog(fromSha, toSha, { cwd, DELIMITER }))
                 .split(DELIMITER)
                 .filter((v) => Boolean(v.trim()))
 
@@ -435,12 +408,9 @@ describe('@monodeploy/git', () => {
             const cwd = context.project.cwd
 
             await createFile({ filePath: 'other.txt', cwd })
-            await exec(
-                'git add . && git commit -m "chore: initial commit" -n',
-                {
-                    cwd,
-                },
-            )
+            await exec('git add . && git commit -m "chore: initial commit" -n', {
+                cwd,
+            })
 
             await createFile({ filePath: 'test.txt', cwd })
             await exec('git add . && git commit -m "chore: second commit" -n', {
@@ -453,9 +423,7 @@ describe('@monodeploy/git', () => {
                 .filter((v) => Boolean(v.trim()))
 
             expect(logEntries).toHaveLength(1)
-            expect(logEntries[0]).toEqual(
-                expect.stringContaining('chore: second commit'),
-            )
+            expect(logEntries[0]).toEqual(expect.stringContaining('chore: second commit'))
         })
     })
 

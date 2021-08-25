@@ -1,9 +1,5 @@
 import logging from '@monodeploy/logging'
-import type {
-    MonodeployConfiguration,
-    PackageTagMap,
-    YarnContext,
-} from '@monodeploy/types'
+import type { MonodeployConfiguration, PackageTagMap, YarnContext } from '@monodeploy/types'
 import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 import pLimit from 'p-limit'
@@ -24,10 +20,7 @@ const getLatestPackageTags = async ({
         ...context.project.topLevelWorkspace.workspacesCwds,
     ]
         .map((wCwd) => context.project.workspacesByCwd.get(wCwd))
-        .filter(
-            (workspace) =>
-                !workspace?.manifest.private && workspace?.manifest.name,
-        )
+        .filter((workspace) => !workspace?.manifest.private && workspace?.manifest.name)
 
     const fetchDistTag = async (
         workspace: Workspace,
@@ -55,9 +48,7 @@ const getLatestPackageTags = async ({
 
             return [pkgName, { latest: manifestVersion, ...result }]
         } catch (err) {
-            const statusCode =
-                err.response?.statusCode ??
-                err.originalError?.response?.statusCode
+            const statusCode = err.response?.statusCode ?? err.originalError?.response?.statusCode
 
             if (
                 (err instanceof ReportError &&
@@ -74,10 +65,7 @@ const getLatestPackageTags = async ({
                 return [pkgName, { latest: manifestVersion }]
             }
 
-            if (
-                statusCode === 500 &&
-                config.registryUrl?.match(/\.jfrog\.io\//)
-            ) {
+            if (statusCode === 500 && config.registryUrl?.match(/\.jfrog\.io\//)) {
                 // There is a bug when using jfrog artifactory's virtual repo such that
                 // trying to fetch tags for non-published packages results in a 500 rather
                 // than a 404.
@@ -89,17 +77,14 @@ const getLatestPackageTags = async ({
                 return [pkgName, { latest: manifestVersion }]
             }
 
-            logging.error(
-                `[Get Tags] Failed to fetch latest tags for ${pkgName}`,
-                { report: context.report },
-            )
+            logging.error(`[Get Tags] Failed to fetch latest tags for ${pkgName}`, {
+                report: context.report,
+            })
             throw err
         }
     }
 
-    const distTags = await Promise.all(
-        (workspaces as Array<Workspace>).map(fetchDistTag),
-    )
+    const distTags = await Promise.all((workspaces as Array<Workspace>).map(fetchDistTag))
 
     const tags: PackageTagMap = new Map()
     for (const [pkgName, latest] of distTags) {

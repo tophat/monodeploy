@@ -1,7 +1,4 @@
-import {
-    getMonodeployConfig,
-    withMonorepoContext,
-} from '@monodeploy/test-utils'
+import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
 import { PluginHooks } from '@monodeploy/types'
 import { AsyncSeriesHook } from 'tapable'
 

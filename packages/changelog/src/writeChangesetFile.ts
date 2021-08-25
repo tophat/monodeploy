@@ -50,7 +50,7 @@ const writeChangesetFile = async ({
     }
 
     if (!config.changesetFilename) {
-        logging.debug(`[Changeset] Data`, {
+        logging.debug('[Changeset] Data', {
             extras: JSON.stringify(changesetData, null, 2),
             report: context.report,
         })

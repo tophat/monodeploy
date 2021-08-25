@@ -1,10 +1,6 @@
 import { parseRepositoryProperty } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
-import {
-    ChangesetSchema,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import { ChangesetSchema, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { Octokit } from '@octokit/core'
 import { throttling } from '@octokit/plugin-throttling'
 
@@ -31,9 +27,7 @@ export const PluginInternals = async (
         },
     })
 
-    const { owner, repository: repo } = await parseRepositoryProperty(
-        context.workspace,
-    )
+    const { owner, repository: repo } = await parseRepositoryProperty(context.workspace)
 
     if (!owner || !repo) {
         throw new Error('Cannot determine GitHub owner or repository')

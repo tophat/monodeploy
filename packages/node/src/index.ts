@@ -1,11 +1,7 @@
 import path from 'path'
 
 import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
-import {
-    backupPackageJsons,
-    clearBackupCache,
-    restorePackageJsons,
-} from '@monodeploy/io'
+import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
@@ -28,13 +24,7 @@ import {
     getImplicitVersionStrategies,
     getLatestPackageTags,
 } from '@monodeploy/versions'
-import {
-    Cache,
-    Configuration,
-    Project,
-    StreamReport,
-    Workspace,
-} from '@yarnpkg/core'
+import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
@@ -58,10 +48,7 @@ const monodeploy = async (
     const plumbingMode = config.changesetFilename === '-'
 
     const cwd = npath.toPortablePath(path.resolve(process.cwd(), config.cwd))
-    const configuration = await Configuration.find(
-        cwd,
-        getCompatiblePluginConfiguration(),
-    )
+    const configuration = await Configuration.find(cwd, getCompatiblePluginConfiguration())
     const foundProject = await Project.find(configuration, cwd)
     let { project } = foundProject
     const cache = await Cache.find(configuration)
@@ -69,11 +56,7 @@ const monodeploy = async (
 
     /* Initialize plugins */
     const hooks: PluginHooks = {
-        onReleaseAvailable: new AsyncSeriesHook([
-            'context',
-            'config',
-            'changeset',
-        ]),
+        onReleaseAvailable: new AsyncSeriesHook(['context', 'config', 'changeset']),
     }
 
     if (config.plugins?.length) {
@@ -100,7 +83,7 @@ const monodeploy = async (
 
         logging.setDryRun(config.dryRun)
 
-        logging.debug(`[Config] Using:`, {
+        logging.debug('[Config] Using:', {
             extras: JSON.stringify(config, null, 2),
             report,
         })
@@ -109,10 +92,7 @@ const monodeploy = async (
             config,
             context,
         })
-        logging.debug(
-            `[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`,
-            { report },
-        )
+        logging.debug(`[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`, { report })
 
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags({
@@ -148,12 +128,9 @@ const monodeploy = async (
 
         if (!config.dryRun) {
             backupKey = await backupPackageJsons({ config, context })
-            logging.info(
-                `[Savepoint] Saving working tree (key: ${backupKey})`,
-                {
-                    report,
-                },
-            )
+            logging.info(`[Savepoint] Saving working tree (key: ${backupKey})`, {
+                report,
+            })
         }
 
         try {
@@ -246,10 +223,7 @@ const monodeploy = async (
                     'Updating Project State',
                     { skipIfEmpty: false },
                     async () => {
-                        logging.debug(
-                            'Re-installing project to update lock file.',
-                            { report },
-                        )
+                        logging.debug('Re-installing project to update lock file.', { report })
                         if (!config.dryRun) {
                             await project.install({
                                 cache,
@@ -277,35 +251,26 @@ const monodeploy = async (
             await report.startTimerPromise(
                 'Executing Release Hooks',
                 { skipIfEmpty: true },
-                async () =>
-                    await hooks.onReleaseAvailable.promise(
-                        context,
-                        config,
-                        result,
-                    ),
+                async () => await hooks.onReleaseAvailable.promise(context, config, result),
             )
 
-            logging.info(`Monodeploy completed successfully`, { report })
+            logging.info('Monodeploy completed successfully', { report })
         } finally {
-            await report.startTimerPromise(
-                'Cleaning Up',
-                { skipIfEmpty: false },
-                async () => {
-                    // Nothing to clean up in dry run mode
-                    // (marked by backup key never being created)
-                    if (!backupKey) return
+            await report.startTimerPromise('Cleaning Up', { skipIfEmpty: false }, async () => {
+                // Nothing to clean up in dry run mode
+                // (marked by backup key never being created)
+                if (!backupKey) return
 
-                    if (!config.persistVersions) {
-                        // Restore workspace package.jsons
-                        logging.info(
-                            `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
-                            { report },
-                        )
-                        await restorePackageJsons({ key: backupKey })
-                    }
-                    await clearBackupCache({ keys: [backupKey] })
-                },
-            )
+                if (!config.persistVersions) {
+                    // Restore workspace package.jsons
+                    logging.info(
+                        `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
+                        { report },
+                    )
+                    await restorePackageJsons({ key: backupKey })
+                }
+                await clearBackupCache({ keys: [backupKey] })
+            })
         }
     }
 

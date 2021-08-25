@@ -1,8 +1,5 @@
 import { gitLastTaggedCommit, gitResolveSha } from '@monodeploy/git'
-import type {
-    MonodeployConfiguration,
-    RecursivePartial,
-} from '@monodeploy/types'
+import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 
 const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
@@ -17,17 +14,13 @@ const mergeDefaultConfig = async (
         dryRun: baseConfig.dryRun ?? false,
         git: {
             baseBranch:
-                baseConfig.git?.baseBranch ??
-                (await gitLastTaggedCommit({ cwd, prerelease })),
-            commitSha:
-                baseConfig.git?.commitSha ??
-                (await gitResolveSha('HEAD', { cwd })),
+                baseConfig.git?.baseBranch ?? (await gitLastTaggedCommit({ cwd, prerelease })),
+            commitSha: baseConfig.git?.commitSha ?? (await gitResolveSha('HEAD', { cwd })),
             remote: baseConfig.git?.remote ?? 'origin',
             push: baseConfig.git?.push ?? false,
             tag: baseConfig.git?.tag ?? true,
         },
-        conventionalChangelogConfig:
-            baseConfig.conventionalChangelogConfig ?? undefined,
+        conventionalChangelogConfig: baseConfig.conventionalChangelogConfig ?? undefined,
         changesetFilename: baseConfig.changesetFilename ?? undefined,
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         changesetIgnorePatterns: baseConfig.changesetIgnorePatterns ?? [],
@@ -35,8 +28,7 @@ const mergeDefaultConfig = async (
         access: baseConfig.access ?? 'public',
         persistVersions: baseConfig.persistVersions ?? false,
         autoCommit: baseConfig.autoCommit ?? false,
-        autoCommitMessage:
-            baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
+        autoCommitMessage: baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
         commitIgnorePatterns: baseConfig.commitIgnorePatterns ?? undefined,
         topological: baseConfig.topological ?? false,
         topologicalDev: baseConfig.topologicalDev ?? false,

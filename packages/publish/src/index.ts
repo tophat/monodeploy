@@ -57,15 +57,11 @@ export const publishPackages = async ({
             const globalAccess = config.access
             const access = globalAccess === 'infer' ? undefined : globalAccess
 
-            const body = await npmPublishUtils.makePublishBody(
-                workspace,
-                buffer,
-                {
-                    access,
-                    tag: publishTag,
-                    registry: registryUrl,
-                },
-            )
+            const body = await npmPublishUtils.makePublishBody(workspace, buffer, {
+                access,
+                tag: publishTag,
+                registry: registryUrl,
+            })
 
             try {
                 const identUrl = npmHttpUtils.getIdentUrl(ident)
@@ -91,19 +87,9 @@ export const publishPackages = async ({
             }
         }
 
-        await prepareForPublish(
-            context,
-            workspace,
-            { cwd, dryRun: config.dryRun },
-            async () => {
-                await prepareForPack(
-                    context,
-                    workspace,
-                    { cwd, dryRun: config.dryRun },
-                    pack,
-                )
-            },
-        )
+        await prepareForPublish(context, workspace, { cwd, dryRun: config.dryRun }, async () => {
+            await prepareForPack(context, workspace, { cwd, dryRun: config.dryRun }, pack)
+        })
     }
 
     const limit = pLimit(config.jobs || Infinity)
@@ -116,9 +102,7 @@ export const publishPackages = async ({
                 chain.then(
                     async () =>
                         void (await Promise.all(
-                            group.map((workspace) =>
-                                limit(() => prepareWorkspace(workspace)),
-                            ),
+                            group.map((workspace) => limit(() => prepareWorkspace(workspace))),
                         )),
                 ),
             Promise.resolve(),
@@ -126,9 +110,7 @@ export const publishPackages = async ({
         await promiseChain
     } else {
         await Promise.all(
-            [...workspacesToPublish].map((workspace) =>
-                limit(() => prepareWorkspace(workspace)),
-            ),
+            [...workspacesToPublish].map((workspace) => limit(() => prepareWorkspace(workspace))),
         )
     }
 }

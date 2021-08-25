@@ -2,11 +2,7 @@ import { Readable } from 'stream'
 
 import { parseRepositoryProperty } from '@monodeploy/git'
 import { readStream, readStreamString } from '@monodeploy/io'
-import type {
-    CommitMessage,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { structUtils } from '@yarnpkg/core'
 import conventionalChangelogWriter from 'conventional-changelog-writer'
 import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
@@ -46,9 +42,7 @@ const generateChangelogEntry = async ({
     ).pipe(conventionalCommitsParser(conventionalConfig.parserOpts))
     const conventionalCommits = await readStream<Commit>(commitsStream)
 
-    const { host, owner, repository, repoUrl } = await parseRepositoryProperty(
-        workspace,
-    )
+    const { host, owner, repository, repoUrl } = await parseRepositoryProperty(workspace)
 
     const templateContext = {
         version: newVersion,
@@ -58,9 +52,7 @@ const generateChangelogEntry = async ({
         repository: repository ?? '',
         repoUrl: repoUrl ?? '',
         currentTag: `${packageName}@${newVersion}`,
-        previousTag: previousVersion
-            ? `${packageName}@${previousVersion}`
-            : undefined,
+        previousTag: previousVersion ? `${packageName}@${previousVersion}` : undefined,
         linkCompare: Boolean(previousVersion),
     }
 

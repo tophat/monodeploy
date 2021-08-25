@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type {
-    CommitMessage,
-    MonodeployConfiguration,
-    YarnContext,
-} from '@monodeploy/types'
+import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 const actualMonodeployGit = jest.requireActual('@monodeploy/git')
 
@@ -69,15 +65,9 @@ const gitDiffTree = async (
 const gitLog = async (
     from: string,
     to: string,
-    {
-        cwd,
-        DELIMITER,
-        context,
-    }: { cwd: string; DELIMITER: string; context: YarnContext },
+    { cwd, DELIMITER, context }: { cwd: string; DELIMITER: string; context: YarnContext },
 ): Promise<string> => {
-    return registry.commits
-        .map((commit) => `${commit.sha}\n${commit.body}`)
-        .join(`${DELIMITER}\n`)
+    return registry.commits.map((commit) => `${commit.sha}\n${commit.body}`).join(`${DELIMITER}\n`)
 }
 
 const gitTag = async (
@@ -85,8 +75,7 @@ const gitTag = async (
     { cwd, context }: { cwd: string; context: YarnContext },
 ): Promise<void> => {
     registry.tags.push(tag)
-    registry.lastTaggedCommit =
-        registry.commits[registry.commits.length - 1]?.sha
+    registry.lastTaggedCommit = registry.commits[registry.commits.length - 1]?.sha
 }
 
 const gitPushTags = async ({
@@ -98,9 +87,7 @@ const gitPushTags = async ({
     remote: string
     context: YarnContext
 }): Promise<void> => {
-    registry.pushedTags = Array.from(
-        new Set([...registry.pushedTags, ...registry.tags]),
-    )
+    registry.pushedTags = Array.from(new Set([...registry.pushedTags, ...registry.tags]))
 }
 
 const gitPull = async ({

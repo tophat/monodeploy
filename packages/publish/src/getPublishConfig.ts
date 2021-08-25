@@ -20,8 +20,7 @@ export const getPublishRegistryUrl = async ({
         return pluginNPM.npmConfigUtils.normalizeRegistry(configRegistryUrl)
     }
 
-    return await pluginNPM.npmConfigUtils.getPublishRegistry(
-        workspace.manifest,
-        { configuration: context.configuration },
-    )
+    return await pluginNPM.npmConfigUtils.getPublishRegistry(workspace.manifest, {
+        configuration: context.configuration,
+    })
 }

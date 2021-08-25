@@ -20,12 +20,7 @@ describe('resolveConventionalConfig', () => {
         > = {
             cwd: process.cwd(),
             conventionalChangelogConfig: path.resolve(
-                path.join(
-                    __dirname,
-                    '..',
-                    'mocks',
-                    'conventional-config-fn.mock.ts',
-                ),
+                path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         }
 
@@ -52,12 +47,7 @@ describe('resolveConventionalConfig', () => {
             cwd: process.cwd(),
             conventionalChangelogConfig: {
                 name: path.resolve(
-                    path.join(
-                        __dirname,
-                        '..',
-                        'mocks',
-                        'conventional-config-fn.mock.ts',
-                    ),
+                    path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
                 ),
                 commentChar: COMMENT_CHAR,
             },
