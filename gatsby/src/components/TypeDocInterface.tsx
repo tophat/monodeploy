@@ -22,10 +22,9 @@ const stringifyType = (data: any): string => {
             obj[child.name] = stringifyType(child.type)
         }
         if (data.declaration?.indexSignature) {
-            obj[data.declaration?.indexSignature.parameters[0].name] =
-                stringifyType(
-                    data.declaration?.indexSignature.parameters[0].type,
-                )
+            obj[data.declaration?.indexSignature.parameters[0].name] = stringifyType(
+                data.declaration?.indexSignature.parameters[0].type,
+            )
         }
         return JSON.stringify(obj, null, 2)
             .replace(/"([^"]+)":/g, '$1:')
@@ -46,9 +45,7 @@ const stringifyComment = (data: any): string => {
 const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
     if (data?.type?.type === 'reflection') {
         return data.type.declaration.children.map((child) => (
-            <InterfaceChildRow
-                data={{ ...child, name: `${data.name}.${child.name}` }}
-            />
+            <InterfaceChildRow data={{ ...child, name: `${data.name}.${child.name}` }} />
         ))
     }
 
@@ -65,9 +62,7 @@ const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
             <td>
                 <div className="description">
                     <ReactMarkdown plugins={[RemarkExternalLinks]}>
-                        {data.comment
-                            ? stringifyComment(data.comment)
-                            : 'No description.'}
+                        {data.comment ? stringifyComment(data.comment) : 'No description.'}
                     </ReactMarkdown>
                 </div>
             </td>

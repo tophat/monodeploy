@@ -27,26 +27,17 @@ describe('Invariants', () => {
     describe('assertProductionOrTest', () => {
         it('raises violation in development', () => {
             process.env.NODE_ENV = 'development'
-            expect(() => assertProductionOrTest()).toThrow(
-                /Invariant Violation/,
-            )
+            expect(() => assertProductionOrTest()).toThrow(/Invariant Violation/)
         })
 
-        it.each(['test', 'production'])(
-            'does not raise violation in %s',
-            (env) => {
-                process.env.NODE_ENV = env
-                expect(() => assertProductionOrTest()).not.toThrow(
-                    /Invariant Violation/,
-                )
-            },
-        )
+        it.each(['test', 'production'])('does not raise violation in %s', (env) => {
+            process.env.NODE_ENV = env
+            expect(() => assertProductionOrTest()).not.toThrow(/Invariant Violation/)
+        })
 
         it('does not raise violation if node env not set', () => {
             delete process.env.NODE_ENV
-            expect(() => assertProductionOrTest()).not.toThrow(
-                /Invariant Violation/,
-            )
+            expect(() => assertProductionOrTest()).not.toThrow(/Invariant Violation/)
         })
     })
 })

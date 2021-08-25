@@ -2,9 +2,7 @@ import { Configuration, Project, Report, Workspace } from '@yarnpkg/core'
 import { AsyncSeriesHook } from 'tapable'
 
 export type RecursivePartial<T> = {
-    [P in keyof T]?: T[P] extends Record<string, unknown>
-        ? RecursivePartial<T[P]>
-        : T[P]
+    [P in keyof T]?: T[P] extends Record<string, unknown> ? RecursivePartial<T[P]> : T[P]
 }
 
 export interface MonodeployConfiguration {
@@ -261,11 +259,7 @@ export interface YarnContext {
 
 export interface PluginHooks {
     onReleaseAvailable: AsyncSeriesHook<
-        [
-            Readonly<YarnContext>,
-            Readonly<MonodeployConfiguration>,
-            Readonly<ChangesetSchema>,
-        ],
+        [Readonly<YarnContext>, Readonly<MonodeployConfiguration>, Readonly<ChangesetSchema>],
         void
     >
 }
@@ -275,10 +269,7 @@ export type CommitMessage = {
     body: string
 }
 
-export type PackageTagMap = Map<
-    string,
-    Record<string, string | undefined> & { latest: string }
->
+export type PackageTagMap = Map<string, Record<string, string | undefined> & { latest: string }>
 
 export type PackageVersionMap = Map<string, string>
 

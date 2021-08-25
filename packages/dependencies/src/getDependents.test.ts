@@ -35,11 +35,7 @@ describe('@monodeploy/dependencies', () => {
             baseBranch: 'main',
             commitSha: 'shashasha',
         })
-        const dependents = await getDependents(
-            config,
-            context,
-            new Set(['pkg-2']),
-        )
+        const dependents = await getDependents(config, context, new Set(['pkg-2']))
 
         expect(dependents).toEqual(new Set(['pkg-3', 'pkg-6']))
     })
@@ -52,11 +48,7 @@ describe('@monodeploy/dependencies', () => {
             commitSha: 'shashasha',
         })
 
-        const dependents = await getDependents(
-            config,
-            context,
-            new Set(['pkg-2', 'pkg-3']),
-        )
+        const dependents = await getDependents(config, context, new Set(['pkg-2', 'pkg-3']))
 
         expect(dependents).toEqual(new Set(['pkg-6']))
     })
@@ -69,11 +61,7 @@ describe('@monodeploy/dependencies', () => {
         })
 
         // pkg-5 is a private dependent of pk-4
-        const dependents = await getDependents(
-            config,
-            context,
-            new Set(['pkg-4']),
-        )
+        const dependents = await getDependents(config, context, new Set(['pkg-4']))
         expect(dependents).toEqual(new Set())
     })
 
@@ -85,11 +73,7 @@ describe('@monodeploy/dependencies', () => {
         })
 
         // pkg-6 is a dependent of both pkg-3 and pkg-7
-        const dependents = await getDependents(
-            config,
-            context,
-            new Set(['pkg-3', 'pkg-7']),
-        )
+        const dependents = await getDependents(config, context, new Set(['pkg-3', 'pkg-7']))
         expect(dependents).toEqual(new Set(['pkg-6']))
     })
 
@@ -134,11 +118,7 @@ describe('cycles', () => {
             baseBranch: 'main',
             commitSha: 'shashasha',
         })
-        const dependents = await getDependents(
-            config,
-            context,
-            new Set(['pkg-2']),
-        )
+        const dependents = await getDependents(config, context, new Set(['pkg-2']))
 
         expect(dependents).toEqual(new Set(['pkg-1', 'pkg-3']))
     })
@@ -163,11 +143,7 @@ describe('complex', () => {
                 baseBranch: 'main',
                 commitSha: 'shashasha',
             })
-            const dependents = await getDependents(
-                config,
-                context,
-                new Set(['pkg-1']),
-            )
+            const dependents = await getDependents(config, context, new Set(['pkg-1']))
             expect(dependents).toEqual(new Set(['pkg-2', 'pkg-3']))
         } finally {
             try {
@@ -200,14 +176,8 @@ describe('complex', () => {
                 baseBranch: 'main',
                 commitSha: 'shashasha',
             })
-            const dependents = await getDependents(
-                config,
-                context,
-                new Set(['pkg-1']),
-            )
-            expect(dependents).toEqual(
-                new Set(['pkg-2', 'pkg-3', 'pkg-4', 'pkg-5']),
-            )
+            const dependents = await getDependents(config, context, new Set(['pkg-1']))
+            expect(dependents).toEqual(new Set(['pkg-2', 'pkg-3', 'pkg-4', 'pkg-5']))
         } finally {
             try {
                 if (context) {
@@ -239,11 +209,7 @@ describe('complex', () => {
                 baseBranch: 'main',
                 commitSha: 'shashasha',
             })
-            const dependents = await getDependents(
-                config,
-                context,
-                new Set(['pkg-2', 'pkg-3']),
-            )
+            const dependents = await getDependents(config, context, new Set(['pkg-2', 'pkg-3']))
             expect(dependents).toEqual(new Set(['pkg-4', 'pkg-5']))
         } finally {
             try {

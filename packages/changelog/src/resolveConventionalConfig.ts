@@ -16,14 +16,8 @@ type ConventionalChangelogConfig = {
 }
 
 const coerceConventionalConfig = (
-    config: Exclude<
-        MonodeployConfiguration['conventionalChangelogConfig'],
-        undefined
-    >,
-): Exclude<
-    MonodeployConfiguration['conventionalChangelogConfig'],
-    string | undefined
-> => {
+    config: Exclude<MonodeployConfiguration['conventionalChangelogConfig'], undefined>,
+): Exclude<MonodeployConfiguration['conventionalChangelogConfig'], string | undefined> => {
     if (typeof config === 'string') {
         return {
             name: config,
@@ -43,16 +37,13 @@ const resolveConventionalConfig = async ({
         throw new Error('No conventional changelog config provided')
     }
 
-    const conventionalConfig = coerceConventionalConfig(
-        conventionalChangelogConfig,
-    )
+    const conventionalConfig = coerceConventionalConfig(conventionalChangelogConfig)
 
     // ghost-imports-ignore-next-line
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const conventionalConfigModule = require(require.resolve(
-        conventionalConfig.name,
-        { paths: [config.cwd] },
-    ))
+    const conventionalConfigModule = require(require.resolve(conventionalConfig.name, {
+        paths: [config.cwd],
+    }))
 
     return await (typeof conventionalConfigModule === 'function'
         ? conventionalConfigModule(conventionalConfig)

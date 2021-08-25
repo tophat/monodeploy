@@ -56,10 +56,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
     }
 
     const resolvePackagePath = (pkgName: string, filename: string) =>
-        path.resolve(
-            path.join(monodeployConfig.cwd, 'packages', pkgName),
-            filename,
-        )
+        path.resolve(path.join(monodeployConfig.cwd, 'packages', pkgName), filename)
 
     beforeAll(async () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
@@ -69,11 +66,9 @@ describe('Monodeploy Lifecycle Scripts', () => {
         const scripts = {
             prepack: 'node -p "process.hrtime.bigint()" > .prepack.test.tmp',
             prepare: 'node -p "process.hrtime.bigint()" > .prepare.test.tmp',
-            prepublish:
-                'node -p "process.hrtime.bigint()" > .prepublish.test.tmp',
+            prepublish: 'node -p "process.hrtime.bigint()" > .prepublish.test.tmp',
             postpack: 'node -p "process.hrtime.bigint()" > .postpack.test.tmp',
-            postpublish:
-                'node -p "process.hrtime.bigint()" > .postpublish.test.tmp',
+            postpublish: 'node -p "process.hrtime.bigint()" > .postpublish.test.tmp',
         }
         const context = await setupMonorepo(
             {
@@ -119,26 +114,18 @@ describe('Monodeploy Lifecycle Scripts', () => {
         mockNPM._setTag_('pkg-4', '0.0.1')
         mockNPM._setTag_('pkg-5', '0.0.1')
         mockNPM._setTag_('pkg-6', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-4/README.md',
-        ])
-        mockGit._commitFiles_('sha1', 'feat: some other feature!', [
-            './packages/pkg-2/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-4/README.md'])
+        mockGit._commitFiles_('sha1', 'feat: some other feature!', ['./packages/pkg-2/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-4 is explicitly updated with minor bump
         expect(result['pkg-4'].version).toEqual('0.1.0')
-        expect(result['pkg-4'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-4'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly bumped with minor
         expect(result['pkg-2'].version).toEqual('0.2.0')
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('some other feature'),
-        )
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some other feature'))
 
         // pkg-5 depends on pkg-4, so it'll be bumped as a dependant
         // pkg-3 is bumped because it depends on pkg-2
@@ -176,26 +163,18 @@ describe('Monodeploy Lifecycle Scripts', () => {
         mockNPM._setTag_('pkg-4', '0.0.1')
         mockNPM._setTag_('pkg-5', '0.0.1')
         mockNPM._setTag_('pkg-6', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-4/README.md',
-        ])
-        mockGit._commitFiles_('sha1', 'feat: some other feature!', [
-            './packages/pkg-2/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-4/README.md'])
+        mockGit._commitFiles_('sha1', 'feat: some other feature!', ['./packages/pkg-2/README.md'])
 
         const result = await monodeploy({ ...monodeployConfig, dryRun: true })
 
         // pkg-4 is explicitly updated with minor bump
         expect(result['pkg-4'].version).toEqual('0.1.0')
-        expect(result['pkg-4'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-4'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly bumped with minor
         expect(result['pkg-2'].version).toEqual('0.2.0')
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('some other feature'),
-        )
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some other feature'))
 
         const filesToCheck = [
             '.prepack.test.tmp',

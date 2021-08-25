@@ -28,9 +28,7 @@ const getTopologicalSort = async (
         visited.set(workspaceHash, visitedCount + 1)
 
         if (visitedCount > maxPossibleVisits) {
-            throw new Error(
-                'Unable to determine topological sort. There is likely a cycle.',
-            )
+            throw new Error('Unable to determine topological sort. There is likely a cycle.')
         }
 
         const level = Math.max(ordered.get(workspace) ?? 0, 0)
@@ -42,17 +40,11 @@ const getTopologicalSort = async (
         ]
         for (const descriptor of dependencies) {
             const child = workspace.project.tryWorkspaceByIdent(descriptor)
-            if (
-                !child ||
-                !possibleWorkspaces.has(child.anchoredDescriptor.descriptorHash)
-            ) {
+            if (!child || !possibleWorkspaces.has(child.anchoredDescriptor.descriptorHash)) {
                 continue
             }
 
-            ordered.set(
-                child,
-                Math.max(ordered.get(child) ?? level + 1, level + 1),
-            )
+            ordered.set(child, Math.max(ordered.get(child) ?? level + 1, level + 1))
             queue.unshift(child)
         }
     }

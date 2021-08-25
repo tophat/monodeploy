@@ -7,13 +7,7 @@ const exec = util.promisify(childProcess.exec)
 
 const scriptPath = require.resolve('monodeploy')
 
-export default async function run({
-    cwd,
-    args = '',
-}: {
-    cwd: string
-    args: string
-}): Promise<{
+export default async function run({ cwd, args = '' }: { cwd: string; args: string }): Promise<{
     stdout: string
     stderr: string
     error?: ExecException

@@ -112,9 +112,7 @@ describe('Monodeploy (Dry Run)', () => {
     })
 
     it('throws an error if invoked in a non-project', async () => {
-        const tmpDir = await fs.mkdtemp(
-            path.join(os.tmpdir(), 'non-workspace-'),
-        )
+        const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'non-workspace-'))
         try {
             await expect(async () => {
                 await monodeploy({
@@ -139,17 +137,13 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
         expect(result['pkg-1'].version).toEqual('0.1.0')
-        expect(result['pkg-1'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 and pkg-3 not in dependency graph
         expect(result['pkg-2']).toBeUndefined()
@@ -163,11 +157,9 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_(
-            'sha1',
-            'feat: some new feature!\n\nBREAKING CHANGE: major bump!',
-            ['./packages/pkg-2/README.md'],
-        )
+        mockGit._commitFiles_('sha1', 'feat: some new feature!\n\nBREAKING CHANGE: major bump!', [
+            './packages/pkg-2/README.md',
+        ])
 
         const result = await monodeploy(monodeployConfig)
 
@@ -176,32 +168,24 @@ describe('Monodeploy (Dry Run)', () => {
 
         // pkg-2 is the one explicitly updated with breaking change
         expect(result['pkg-2'].version).toEqual('1.0.0')
-        expect(result['pkg-2'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent
         expect(result['pkg-3'].version).toEqual('0.0.2')
-        expect(result['pkg-3'].changelog).not.toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-3'].changelog).not.toEqual(expect.stringContaining('some new feature'))
 
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toHaveLength(0)
     })
 
     it('defaults to 0.0.0 as base version for first publish if no version found in manifest', async () => {
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
         expect(result['pkg-1'].version).toEqual('0.1.0')
-        expect(result['pkg-1'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 and pkg-3 not in dependency graph
         expect(result['pkg-2']).toBeUndefined()
@@ -212,17 +196,13 @@ describe('Monodeploy (Dry Run)', () => {
     })
 
     it('defaults to version from manifest if no version found in package registry', async () => {
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-8/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-8/README.md'])
 
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
         expect(result['pkg-8'].version).toEqual('3.2.0')
-        expect(result['pkg-8'].changelog).toEqual(
-            expect.stringContaining('some new feature'),
-        )
+        expect(result['pkg-8'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toHaveLength(0)
@@ -232,9 +212,7 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
-        mockGit._commitFiles_('sha1', 'feat: some new feature!', [
-            './packages/pkg-1/README.md',
-        ])
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changelogFilename = await path.join(tempDir, 'changelog.md')
@@ -242,11 +220,11 @@ describe('Monodeploy (Dry Run)', () => {
 
         try {
             const changelogTemplate = [
-                `# Changelog`,
-                `Some blurb`,
-                `<!-- MONODEPLOY:BELOW -->`,
-                `## Old Versions`,
-                `Content`,
+                '# Changelog',
+                'Some blurb',
+                '<!-- MONODEPLOY:BELOW -->',
+                '## Old Versions',
+                'Content',
             ].join('\n')
             await fs.writeFile(changelogFilename, changelogTemplate, {
                 encoding: 'utf-8',
@@ -267,14 +245,10 @@ describe('Monodeploy (Dry Run)', () => {
             })
 
             // assert it contains the new entry
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('some new feature'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
             // assert it contains the old entries
-            expect(updatedChangelog).toEqual(
-                expect.stringContaining('Old Versions'),
-            )
+            expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
 
             const changeset = JSON.parse(
                 await fs.readFile(changesetFilename, {

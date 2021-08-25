@@ -74,10 +74,7 @@ describe('prependChangelogFile', () => {
         }
 
         // We'll grab a handle so prepend won't be able to write
-        const handle = await fs.open(
-            path.join(cwd, mockChangelogFilename),
-            'w+',
-        )
+        const handle = await fs.open(path.join(cwd, mockChangelogFilename), 'w+')
 
         await expect(async () =>
             prependChangelogFile({
@@ -182,14 +179,11 @@ describe('prependChangelogFile', () => {
             workspaces: new Set(),
         })
 
-        const changelogContents = await fs.readFile(
-            path.join(cwd, mockChangelogFilename),
-            { encoding: 'utf8' },
-        )
+        const changelogContents = await fs.readFile(path.join(cwd, mockChangelogFilename), {
+            encoding: 'utf8',
+        })
 
-        expect(changelogContents).toEqual(
-            expect.stringContaining(changeset['pkg-1'].changelog),
-        )
+        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
     })
 
     it('creates the changelog file if it does not exist', async () => {
@@ -222,14 +216,11 @@ describe('prependChangelogFile', () => {
             workspaces: new Set(),
         })
 
-        const changelogContents = await fs.readFile(
-            path.join(cwd, mockChangelogFilename),
-            { encoding: 'utf8' },
-        )
+        const changelogContents = await fs.readFile(path.join(cwd, mockChangelogFilename), {
+            encoding: 'utf8',
+        })
 
-        expect(changelogContents).toEqual(
-            expect.stringContaining(changeset['pkg-1'].changelog),
-        )
+        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
     })
 
     it('writes changelogs for each package if token present', async () => {
@@ -253,10 +244,7 @@ describe('prependChangelogFile', () => {
                 tag: null,
             },
         }
-        const workspaces = new Set([
-            getWorkspace(context, 'pkg-1'),
-            getWorkspace(context, 'pkg-2'),
-        ])
+        const workspaces = new Set([getWorkspace(context, 'pkg-1'), getWorkspace(context, 'pkg-2')])
 
         await prependChangelogFile({ config, context, changeset, workspaces })
 
@@ -265,9 +253,7 @@ describe('prependChangelogFile', () => {
             { encoding: 'utf8' },
         )
 
-        expect(onDiskChangelogPkg1).toEqual(
-            expect.stringContaining(changeset['pkg-1'].changelog),
-        )
+        expect(onDiskChangelogPkg1).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
         expect(onDiskChangelogPkg1).not.toEqual(
             expect.stringContaining(changeset['pkg-2'].changelog),
         )
@@ -277,9 +263,7 @@ describe('prependChangelogFile', () => {
             { encoding: 'utf8' },
         )
 
-        expect(onDiskChangelogPkg2).toEqual(
-            expect.stringContaining(changeset['pkg-2'].changelog),
-        )
+        expect(onDiskChangelogPkg2).toEqual(expect.stringContaining(changeset['pkg-2'].changelog))
         expect(onDiskChangelogPkg2).not.toEqual(
             expect.stringContaining(changeset['pkg-1'].changelog),
         )
@@ -302,10 +286,9 @@ describe('prependChangelogFile', () => {
         })
         const changeset = {}
 
-        const contentsBefore = await fs.readFile(
-            path.join(cwd, mockChangelogFilename),
-            { encoding: 'utf8' },
-        )
+        const contentsBefore = await fs.readFile(path.join(cwd, mockChangelogFilename), {
+            encoding: 'utf8',
+        })
 
         await prependChangelogFile({
             config,
@@ -314,10 +297,9 @@ describe('prependChangelogFile', () => {
             workspaces: new Set(),
         })
 
-        const contentsAfter = await fs.readFile(
-            path.join(cwd, mockChangelogFilename),
-            { encoding: 'utf8' },
-        )
+        const contentsAfter = await fs.readFile(path.join(cwd, mockChangelogFilename), {
+            encoding: 'utf8',
+        })
 
         expect(contentsBefore).toEqual(contentsAfter)
     })

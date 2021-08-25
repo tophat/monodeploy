@@ -81,7 +81,7 @@ export default function setupProject({
             await exec('git add . && git commit -n -m "initial commit"', {
                 cwd: project,
             })
-            await exec(`git push -u origin main`, {
+            await exec('git push -u origin main', {
                 cwd: project,
             })
 
@@ -93,10 +93,7 @@ export default function setupProject({
 
                     return run({
                         cwd: project,
-                        args: [
-                            `--config-file ${configFilename}`,
-                            ...(args ? args : []),
-                        ].join(' '),
+                        args: [`--config-file ${configFilename}`, ...(args ? args : [])].join(' '),
                     })
                 },
                 readFile: (filename: string) => {
@@ -111,9 +108,7 @@ export default function setupProject({
                 },
             })
         } finally {
-            await cleanUp(
-                [project, remotePath].filter((v): v is string => v !== null),
-            )
+            await cleanUp([project, remotePath].filter((v): v is string => v !== null))
             await stopRegistry()
         }
     }

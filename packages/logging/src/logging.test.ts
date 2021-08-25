@@ -54,9 +54,7 @@ describe('Logging', () => {
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m1'))
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('m3'))
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
 
         jest.resetAllMocks()
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.INFO)
@@ -64,14 +62,10 @@ describe('Logging', () => {
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m1'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m1'))
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('m3'))
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
 
         jest.resetAllMocks()
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.WARNING)
@@ -79,16 +73,10 @@ describe('Logging', () => {
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m1'),
-        )
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m2'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m1'))
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('m3'))
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
 
         jest.resetAllMocks()
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
@@ -96,18 +84,10 @@ describe('Logging', () => {
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m1'),
-        )
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m2'),
-        )
-        expect(console.warn).not.toHaveBeenCalledWith(
-            expect.stringContaining('m3'),
-        )
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m1'))
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m2'))
+        expect(console.warn).not.toHaveBeenCalledWith(expect.stringContaining('m3'))
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
     })
 
     it('prints dry run prefix when dry run configured', () => {
@@ -115,17 +95,13 @@ describe('Logging', () => {
         logging.setDryRun(true)
         logging.info('m1', { report })
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m1'))
-        expect(console.log).toHaveBeenCalledWith(
-            expect.stringContaining('[Dry Run]'),
-        )
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining('[Dry Run]'))
 
         jest.resetAllMocks()
         logging.setDryRun(false)
         logging.info('m1', { report })
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m1'))
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('[Dry Run]'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('[Dry Run]'))
     })
 
     it('defaults to log level info', () => {
@@ -134,14 +110,10 @@ describe('Logging', () => {
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m1'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m1'))
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('m3'))
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
     })
 
     it('falls back to log level info', () => {
@@ -150,22 +122,16 @@ describe('Logging', () => {
         logging.info('m2', { report })
         logging.warning('m3', { report })
         logging.error('m4', { report })
-        expect(console.log).not.toHaveBeenCalledWith(
-            expect.stringContaining('m1'),
-        )
+        expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('m1'))
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m2'))
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('m3'))
-        expect(console.error).toHaveBeenCalledWith(
-            expect.stringContaining('m4'),
-        )
+        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('m4'))
     })
 
     it('prints extras', () => {
         process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.INFO)
         logging.info('m1', { report, extras: 'extra info' })
         expect(console.log).toHaveBeenCalledWith(expect.stringContaining('m1'))
-        expect(console.log).toHaveBeenCalledWith(
-            expect.stringContaining('extra info'),
-        )
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining('extra info'))
     })
 })

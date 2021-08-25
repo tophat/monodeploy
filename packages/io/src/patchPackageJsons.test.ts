@@ -1,9 +1,6 @@
 import path from 'path'
 
-import {
-    getMonodeployConfig,
-    withMonorepoContext,
-} from '@monodeploy/test-utils'
+import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
 import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
@@ -13,14 +10,9 @@ import { patchPackageJsons } from '.'
 const identToWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
 
-const loadManifest = async (
-    context: YarnContext,
-    pkgName: string,
-): Promise<Manifest> => {
+const loadManifest = async (context: YarnContext, pkgName: string): Promise<Manifest> => {
     return await Manifest.fromFile(
-        npath.toPortablePath(
-            path.join(context.project.cwd, 'packages', pkgName, 'package.json'),
-        ),
+        npath.toPortablePath(path.join(context.project.cwd, 'packages', pkgName, 'package.json')),
     )
 }
 
@@ -68,18 +60,15 @@ describe('Patch Package Manifests', () => {
                 expect(manifest2.version).toEqual('2.0.0')
                 expect(manifest3.version).toEqual('3.0.0')
 
-                expect(
-                    manifest1.dependencies.get(manifest2.name!.identHash)!
-                        .range,
-                ).toEqual(`workspace:^2.0.0`)
-                expect(
-                    manifest1.peerDependencies.get(manifest3.name!.identHash)!
-                        .range,
-                ).toEqual(`^3.0.0`)
-                expect(
-                    manifest2.dependencies.get(manifest3.name!.identHash)!
-                        .range,
-                ).toEqual(`workspace:^3.0.0`)
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                    'workspace:^2.0.0',
+                )
+                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                    '^3.0.0',
+                )
+                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                    'workspace:^3.0.0',
+                )
             },
         ))
 
@@ -162,18 +151,15 @@ describe('Patch Package Manifests', () => {
                 expect(manifest2.version).toEqual('2.0.0')
                 expect(manifest3.version).toEqual('0.0.0')
 
-                expect(
-                    manifest1.dependencies.get(manifest2.name!.identHash)!
-                        .range,
-                ).toEqual(`workspace:^2.0.0`)
-                expect(
-                    manifest1.peerDependencies.get(manifest3.name!.identHash)!
-                        .range,
-                ).toEqual(`*`)
-                expect(
-                    manifest2.dependencies.get(manifest3.name!.identHash)!
-                        .range,
-                ).toEqual(`workspace:packages/pkg-3`)
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                    'workspace:^2.0.0',
+                )
+                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                    '*',
+                )
+                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                    'workspace:packages/pkg-3',
+                )
             },
         ))
 
@@ -259,9 +245,8 @@ describe('Patch Package Manifests', () => {
 
                 // In memory we don't have the workspace protocol
                 expect(
-                    workspace1.manifest.dependencies.get(
-                        workspace2.manifest.name!.identHash,
-                    )!.range,
+                    workspace1.manifest.dependencies.get(workspace2.manifest.name!.identHash)!
+                        .range,
                 ).toEqual('^2.0.0')
 
                 // On disk we have workspace protocol
@@ -270,16 +255,14 @@ describe('Patch Package Manifests', () => {
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
                 // no workspace protocol as we define it using '*' in the package.json
-                expect(
-                    manifest1.dependencies.get(manifest3.name!.identHash)!
-                        .range,
-                ).toEqual('^3.0.0')
+                expect(manifest1.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                    '^3.0.0',
+                )
 
                 // preserves workspace protocol
-                expect(
-                    manifest1.dependencies.get(manifest2.name!.identHash)!
-                        .range,
-                ).toEqual('workspace:^2.0.0')
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                    'workspace:^2.0.0',
+                )
             },
         ))
 

@@ -39,10 +39,7 @@ const monodeployConfig: MonodeployConfiguration = {
 
 describe('Default Recommended Strategy', () => {
     it.each([
-        [
-            'Note Title w/ Feat',
-            'feat: upgrade node\n\nBREAKING CHANGE: this is breaking',
-        ],
+        ['Note Title w/ Feat', 'feat: upgrade node\n\nBREAKING CHANGE: this is breaking'],
         [
             'Note Title w/ Fix',
             'fix: this is a patch',
@@ -50,9 +47,7 @@ describe('Default Recommended Strategy', () => {
         ],
         ['Type Prefix', 'BREAKING CHANGE: something changes'],
     ])('identifies breaking commits: %s', async (title, ...commits) => {
-        expect(await getDefaultRecommendedStrategy(commits)).toEqual(
-            STRATEGY.MAJOR,
-        )
+        expect(await getDefaultRecommendedStrategy(commits)).toEqual(STRATEGY.MAJOR)
     })
 
     it('chooses major among minor and patch', async () => {
@@ -100,34 +95,24 @@ describe('Custom Conventional Recommended Strategy', () => {
     })
 
     it('chooses none if strategy or level is not defined', async () => {
-        const strategyDeterminer =
-            createGetConventionalRecommendedStrategy(monodeployConfig)
+        const strategyDeterminer = createGetConventionalRecommendedStrategy(monodeployConfig)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = ''
-        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
-            STRATEGY.NONE,
-        )
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(STRATEGY.NONE)
 
         process.env._TEST_VERSION_RETURN_NULL_ = '1'
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
-        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
-            STRATEGY.NONE,
-        )
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(STRATEGY.NONE)
     })
 
     it('chooses strategy based on custom config', async () => {
-        const strategyDeterminer =
-            createGetConventionalRecommendedStrategy(monodeployConfig)
+        const strategyDeterminer = createGetConventionalRecommendedStrategy(monodeployConfig)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
-        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
-            STRATEGY.MINOR,
-        )
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(STRATEGY.MINOR)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MAJOR)
-        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(
-            STRATEGY.MAJOR,
-        )
+        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(STRATEGY.MAJOR)
     })
 })
 
@@ -142,23 +127,14 @@ describe('Custom Conventional Recommended Strategy (Function Format)', () => {
         const strategyDeterminer = createGetConventionalRecommendedStrategy({
             ...monodeployConfig,
             conventionalChangelogConfig: path.resolve(
-                path.join(
-                    __dirname,
-                    '..',
-                    'mocks',
-                    'conventional-config-fn.mock.ts',
-                ),
+                path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         })
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MINOR)
-        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(
-            STRATEGY.MINOR,
-        )
+        expect(await strategyDeterminer(['feat: a feature!'])).toEqual(STRATEGY.MINOR)
 
         process.env._TEST_VERSION_PIN_STRATEGY_LEVEL_ = String(STRATEGY.MAJOR)
-        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(
-            STRATEGY.MAJOR,
-        )
+        expect(await strategyDeterminer(['feat: a feature!!'])).toEqual(STRATEGY.MAJOR)
     })
 })

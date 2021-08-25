@@ -41,13 +41,10 @@ const getModifiedPackages = async ({
         context,
     })
     const paths = diffOutput.split('\n')
-    const uniquePaths = paths.reduce(
-        (uniquePaths: Set<string>, currentPath: string) => {
-            if (currentPath) uniquePaths.add(currentPath)
-            return uniquePaths
-        },
-        new Set(),
-    )
+    const uniquePaths = paths.reduce((uniquePaths: Set<string>, currentPath: string) => {
+        if (currentPath) uniquePaths.add(currentPath)
+        return uniquePaths
+    }, new Set())
 
     const ignorePatterns = config.changesetIgnorePatterns ?? []
 
@@ -56,9 +53,7 @@ const getModifiedPackages = async ({
             if (!micromatch([currentPath], ignorePatterns).length) {
                 try {
                     const workspace = context.project.getWorkspaceByFilePath(
-                        npath.toPortablePath(
-                            path.resolve(config.cwd, currentPath),
-                        ),
+                        npath.toPortablePath(path.resolve(config.cwd, currentPath)),
                     )
                     const ident = workspace?.manifest?.name
                     if (!ident) throw new Error('Missing workspace identity.')
@@ -90,19 +85,13 @@ const getExplicitVersionStrategies = async ({
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
 
-    const commitIgnorePatterns: Array<RegExp> = [
-        ...(config.commitIgnorePatterns ?? []),
-    ].map((pattern) =>
-        pattern instanceof RegExp ? pattern : new RegExp(pattern, 'm'),
+    const commitIgnorePatterns: Array<RegExp> = [...(config.commitIgnorePatterns ?? [])].map(
+        (pattern) => (pattern instanceof RegExp ? pattern : new RegExp(pattern, 'm')),
     )
 
     const commits = await getCommitMessages(config, context)
     for (const commit of commits) {
-        if (
-            commitIgnorePatterns.some((pattern) =>
-                pattern.test(`${commit.sha}\n${commit.body}`),
-            )
-        ) {
+        if (commitIgnorePatterns.some((pattern) => pattern.test(`${commit.sha}\n${commit.body}`))) {
             logging.debug(
                 `[Explicit Version Strategies] Skipping commit ${commit.sha} for matching a commit ignore pattern.`,
                 { report: context.report },
@@ -110,9 +99,7 @@ const getExplicitVersionStrategies = async ({
             continue
         }
 
-        const strategy = strategyLevelToType(
-            await strategyDeterminer([commit.body]),
-        )
+        const strategy = strategyLevelToType(await strategyDeterminer([commit.body]))
         const packageNames = await getModifiedPackages({
             config,
             context,
@@ -125,10 +112,7 @@ const getExplicitVersionStrategies = async ({
             const previousVersionStrategy = versionStrategies.get(pkgName)
 
             versionStrategies.set(pkgName, {
-                type: await maxStrategy(
-                    previousVersionStrategy?.type,
-                    strategy,
-                ),
+                type: await maxStrategy(previousVersionStrategy?.type, strategy),
                 commits: [commit, ...(previousVersionStrategy?.commits ?? [])],
             })
         }

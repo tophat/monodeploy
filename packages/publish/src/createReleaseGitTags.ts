@@ -1,10 +1,6 @@
 import { gitTag } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
-import type {
-    MonodeployConfiguration,
-    PackageVersionMap,
-    YarnContext,
-} from '@monodeploy/types'
+import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
 
 async function createReleaseGitTags({
     config,
