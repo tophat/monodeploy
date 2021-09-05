@@ -61,8 +61,8 @@ const getModifiedPackages = async ({
                     if (packageName && !workspace.manifest.private) {
                         modifiedPackages.push(packageName)
                     }
-                } catch (e) {
-                    logging.error(e, { report: context.report })
+                } catch (err) {
+                    logging.error(err, { report: context.report })
                 }
             }
             return modifiedPackages

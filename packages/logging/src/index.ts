@@ -14,7 +14,7 @@ export const LOG_LEVELS = {
 type LogLevelType = typeof LOG_LEVELS[keyof typeof LOG_LEVELS]
 
 type Logger = (
-    message: string | Error,
+    message: string | Error | unknown,
     { report, extras }: { report?: Report | null; extras?: string },
 ) => void
 
@@ -42,14 +42,16 @@ const createLogger =
             return
         }
 
+        const normalizedMessage = String(message)
+
         if (level === LOG_LEVELS.ERROR) {
-            report.reportError(MessageName.UNNAMED, message)
+            report.reportError(MessageName.UNNAMED, normalizedMessage)
         } else if (level === LOG_LEVELS.WARNING) {
-            report.reportWarning(MessageName.UNNAMED, message)
+            report.reportWarning(MessageName.UNNAMED, normalizedMessage)
         } else if (level === LOG_LEVELS.INFO || level === LOG_LEVELS.DEBUG) {
             report.reportInfo(
                 MessageName.UNNAMED,
-                loggerOpts.dryRun ? `[Dry Run] ${message}` : message,
+                loggerOpts.dryRun ? `[Dry Run] ${normalizedMessage}` : normalizedMessage,
             )
         }
 

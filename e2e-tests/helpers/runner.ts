@@ -3,14 +3,16 @@ import childProcess, { ExecException } from 'child_process'
 import path from 'path'
 import util from 'util'
 
+import { isNodeError } from '@monodeploy/types'
+
 const exec = util.promisify(childProcess.exec)
 
 const scriptPath = require.resolve('monodeploy')
 
 export default async function run({ cwd, args = '' }: { cwd: string; args: string }): Promise<{
-    stdout: string
-    stderr: string
-    error?: ExecException
+    stdout: string | undefined
+    stderr: string | undefined
+    error?: ExecException | Error
 }> {
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
@@ -34,7 +36,10 @@ export default async function run({ cwd, args = '' }: { cwd: string; args: strin
             },
         )
         return { stdout, stderr }
-    } catch (error) {
-        return { error, stdout: error?.stdout, stderr: error?.stderr }
+    } catch (err) {
+        if (isNodeError<ExecException & { stdout?: string; stderr?: string }>(err)) {
+            return { error: err, stdout: err?.stdout, stderr: err?.stderr }
+        }
+        throw new Error('Unexpected error')
     }
 }

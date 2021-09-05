@@ -81,9 +81,9 @@ export const publishPackages = async ({
                     `[Publish] ${pkgName} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl}; ${body.access})`,
                     { report: context.report },
                 )
-            } catch (e) {
-                logging.error(e, { report: context.report })
-                throw e
+            } catch (err) {
+                logging.error(err, { report: context.report })
+                throw err
             }
         }
 

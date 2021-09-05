@@ -1,8 +1,25 @@
 import logging from '@monodeploy/logging'
-import type { MonodeployConfiguration, PackageTagMap, YarnContext } from '@monodeploy/types'
+import { MonodeployConfiguration, PackageTagMap, YarnContext, isNodeError } from '@monodeploy/types'
 import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
+import { isReportError } from '@yarnpkg/core/lib/Report'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 import pLimit from 'p-limit'
+
+interface NetworkError extends Error {
+    readonly response?: Record<string, unknown> & { statusCode: number }
+}
+
+function statusCodeFromHTTPError(err: unknown): number | undefined {
+    if (isNodeError(err)) {
+        if ('response' in err) {
+            return (err as NetworkError).response?.statusCode
+        }
+        if (isReportError(err)) {
+            return (err.originalError as NetworkError | undefined)?.response?.statusCode
+        }
+    }
+    return undefined
+}
 
 const getLatestPackageTags = async ({
     config,
@@ -48,7 +65,7 @@ const getLatestPackageTags = async ({
 
             return [pkgName, { latest: manifestVersion, ...result }]
         } catch (err) {
-            const statusCode = err.response?.statusCode ?? err.originalError?.response?.statusCode
+            const statusCode = statusCodeFromHTTPError(err)
 
             if (
                 (err instanceof ReportError &&
