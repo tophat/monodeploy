@@ -177,7 +177,7 @@ jobs:
   #       env:
   #         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   tests_compatibility:
-    name: Test Compatibility - Node v${{ matrix.node_version }}
+    name: Test Compatibility - ${{ matrix.runner }} / Node v${{ matrix.node_version }}
     runs-on: ${{ matrix.runner}}
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
@@ -201,7 +201,7 @@ jobs:
             path: |
               ./.yarn
               .pnp.*
-            key: ${{ matrix.node_version }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+            key: ${{ matrix.runner}}-${{ matrix.node_version }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: |
             yarn install --immutable
