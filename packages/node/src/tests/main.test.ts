@@ -9,7 +9,7 @@ import { setupMonorepo } from '@monodeploy/test-utils'
 import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
+import { PortablePath, npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
@@ -100,7 +100,7 @@ describe('Monodeploy', () => {
 
     beforeEach(async () => {
         const context = await setupExampleMonorepo()
-        monodeployConfig.cwd = context.project.cwd
+        monodeployConfig.cwd = npath.fromPortablePath(context.project.cwd)
     })
 
     afterEach(async () => {

@@ -5,6 +5,7 @@ import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
 import type { MonodeployConfiguration } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
@@ -92,7 +93,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
                 },
             },
         )
-        monodeployConfig.cwd = context.project.cwd
+        monodeployConfig.cwd = npath.fromPortablePath(context.project.cwd)
     })
 
     afterEach(async () => {
