@@ -178,10 +178,11 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   tests_compatibility:
     name: Test Compatibility - Node v${{ matrix.node_version }}
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.runner}}
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
+        runner: ['ubuntu-20.04', 'windows-2022']
         node_version: ['14', '16']
     steps:
         - uses: actions/checkout@v2
