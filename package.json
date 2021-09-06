@@ -65,6 +65,7 @@
         "@yarnpkg/plugin-npm": "^2.5.0",
         "@yarnpkg/plugin-pack": "^3.1.0-rc.2",
         "@yarnpkg/sdks": "^2.4.2-rc.2",
+        "@yarnpkg/shell": "^3.0.1-rc.4",
         "all-contributors-cli": "^6.19.0",
         "commitizen": "^4.2.4",
         "eslint": "^7.32.0",

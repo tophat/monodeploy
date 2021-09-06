@@ -1,8 +1,9 @@
-import { execSync } from 'child_process'
 import { promises as fs } from 'fs'
 import path from 'path'
 
 import { YarnContext } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
+import { execute } from '@yarnpkg/shell'
 
 import setupMonorepo from './setupMonorepo'
 
@@ -10,16 +11,19 @@ export async function initGitRepository(
     cwd: string,
     { allowScaffoldingCommits = true }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
-    execSync('git init', { cwd })
-    execSync('git branch -m main', { cwd })
+    const pCwd = npath.toPortablePath(cwd)
+
+    await execute('git init', [], { cwd: pCwd })
+    await execute('git branch -m main', [], { cwd: pCwd })
+
     // This is needed to disable signing if set up by the host.
-    execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
+    await execute('echo "[commit]\ngpgSign=false" > .git/config', [], { cwd: pCwd })
 
     await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp'].join('\n'), {
         encoding: 'utf8',
     })
     if (allowScaffoldingCommits) {
-        execSync('git add .gitignore && git commit -n -m "gitignore"', { cwd })
+        await execute('git add .gitignore && git commit -n -m "gitignore"', [], { cwd: pCwd })
     }
 }
 
@@ -28,10 +32,12 @@ export async function addGitRemote(
     remoteCwd: string,
     remoteName = 'origin',
 ): Promise<void> {
-    execSync(`git remote add ${remoteName} ${remoteCwd}`, { cwd })
-    execSync(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd })
-    execSync(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd })
-    execSync('git branch -m main', { cwd })
+    const pCwd = npath.toPortablePath(cwd)
+
+    await execute(`git remote add ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
+    await execute(`git remote set-url ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
+    await execute(`git remote set-url --push ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
+    await execute('git branch -m main', [], { cwd: pCwd })
 }
 
 export async function setupTestRepository(...setupArgs: unknown[]): Promise<string> {
@@ -61,5 +67,6 @@ export async function cleanUp(paths: string[]): Promise<void> {
 }
 
 export async function createCommit(message: string, cwd: string): Promise<void> {
-    execSync(`git add . && git commit -m "${message}"`, { cwd })
+    const pCwd = npath.toPortablePath(cwd)
+    await execute(`git add . && git commit -m "${message}"`, [], { cwd: pCwd })
 }
