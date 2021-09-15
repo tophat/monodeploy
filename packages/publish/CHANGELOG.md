@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.12](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.11...@monodeploy/publish@0.5.12) "@monodeploy/publish" (2021-09-15)<a name="0.5.12"></a>
+
+### Bug Fixes
+
+* update yarn dependencies (#429) ([03a82b7](https://github.com/tophat/monodeploy/commits/03a82b7))
+* more detailed publish logs (#432) ([239b6d2](https://github.com/tophat/monodeploy/commits/239b6d2))
+
+
+
+
 ## [0.5.11](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.10...@monodeploy/publish@0.5.11) "@monodeploy/publish" (2021-08-16)<a name="0.5.11"></a>
 
 ### Bug Fixes

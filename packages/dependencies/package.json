@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/dependencies",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -25,8 +25,8 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/logging": "^0.1.9",
-    "@monodeploy/types": "^0.10.1",
+    "@monodeploy/logging": "^0.1.10",
+    "@monodeploy/types": "^0.10.2",
     "@yarnpkg/core": "^3.1.0-rc.3"
   },
   "devDependencies": {
