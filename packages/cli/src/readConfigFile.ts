@@ -14,7 +14,7 @@ const resolvePath = (name: string, cwd: PortablePath): string => {
     }
 
     const absPath = ppath.resolve(cwd, npath.toPortablePath(name))
-    return require.resolve(absPath, { paths: [nCwd] })
+    return require.resolve(npath.fromPortablePath(absPath), { paths: [nCwd] })
 }
 
 const readConfigFile = async (
