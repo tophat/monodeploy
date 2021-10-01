@@ -74,10 +74,9 @@ describe('applyReleases', () => {
                 ).toEqual('workspace:^1.0.0')
 
                 // pkg-2 should be the "new" version
-                // note: the workspace: protocol is stripped by yarn for peers
                 expect(
                     manifest3.peerDependencies.get(workspace2.manifest.name!.identHash)!.range,
-                ).toEqual('^2.1.0')
+                ).toEqual('workspace:^2.1.0')
 
                 // pkg-1 again should not be changed from registry tags
                 expect(
