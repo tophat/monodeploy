@@ -15,7 +15,7 @@ export async function initGitRepository(
     // This is needed to disable signing if set up by the host.
     execSync('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
-    await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp'].join('\n'), {
+    await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp', '.pnp.*'].join('\n'), {
         encoding: 'utf8',
     })
     if (allowScaffoldingCommits) {
