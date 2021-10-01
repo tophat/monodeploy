@@ -2976,6 +2976,7 @@ __metadata:
     "@octokit/plugin-throttling": ^3.4.1
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.1.0-rc.9
+    "@yarnpkg/fslib": ^2.6.0-rc.8
     tapable: ^2.2.0
   languageName: unknown
   linkType: soft
