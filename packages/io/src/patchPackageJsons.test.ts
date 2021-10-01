@@ -64,7 +64,7 @@ describe('Patch Package Manifests', () => {
                     'workspace:^2.0.0',
                 )
                 expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
-                    '^3.0.0',
+                    'workspace:^3.0.0',
                 )
                 expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
                     'workspace:^3.0.0',
@@ -155,7 +155,7 @@ describe('Patch Package Manifests', () => {
                     'workspace:^2.0.0',
                 )
                 expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
-                    '*',
+                    'workspace:*',
                 )
                 expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
                     'workspace:packages/pkg-3',
