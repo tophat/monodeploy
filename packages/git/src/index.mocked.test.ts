@@ -1,7 +1,6 @@
-import { execSync } from 'child_process'
-
 import { cleanUp, initGitRepository, setupMonorepo } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
+import { execUtils } from '@yarnpkg/core'
 
 import { gitLastTaggedCommit, gitPushTags, gitTag } from '.'
 
@@ -37,14 +36,14 @@ describe('@monodeploy/git (mocked invariants)', () => {
 
     it('gitTag creates a tag', async () => {
         const cwd = context.project.cwd
-        execSync('git commit -m "test: base" --allow-empty', {
+        await execUtils.execvp('git', ['commit', '-m "test: base"', '--allow-empty'], {
             cwd,
         })
         const newTag = 'pkg@1.0.0'
         await gitTag(newTag, { cwd, context })
-        const tagList = execSync('git tag -l', {
+        const { stdout: tagList } = await execUtils.execvp('git', ['tag', '-l'], {
             cwd,
-            encoding: 'utf8',
+            encoding: 'utf-8',
         })
 
         expect(tagList.trim().split('\n')).toEqual([newTag])
@@ -52,16 +51,20 @@ describe('@monodeploy/git (mocked invariants)', () => {
 
     it('gitLastTaggedCommit gets last tagged commit', async () => {
         const cwd = context.project.cwd
-        execSync('git commit -m "test: base" --allow-empty', {
+        await execUtils.execvp('git', ['commit', '-m "test: base"', '--allow-empty'], {
             cwd,
         })
         const tag = 'pkg@1.0.0'
         await gitTag(tag, { cwd, context })
         const lastTaggedSha = await gitLastTaggedCommit({ cwd, context })
-        const actualSha = execSync(`git log ${tag} -1 --pretty=%H`, {
-            cwd,
-            encoding: 'utf-8',
-        })
+        const { stdout: actualSha } = await execUtils.execvp(
+            'git',
+            ['log', tag, '-1', '--pretty=%H'],
+            {
+                cwd,
+                encoding: 'utf-8',
+            },
+        )
 
         expect(lastTaggedSha).toEqual(actualSha.trim())
     })
@@ -70,8 +73,10 @@ describe('@monodeploy/git (mocked invariants)', () => {
         const cwd = context.project.cwd
         const upstreamContext = await setupRepo()
 
-        execSync(`git remote add local ${upstreamContext.project.cwd}`, { cwd })
-        execSync('git commit -m "test: base" --allow-empty', {
+        await execUtils.execvp('git', ['remote', 'add', 'local', upstreamContext.project.cwd], {
+            cwd,
+        })
+        await execUtils.execvp('git', ['commit', '-m "test: base"', '--allow-empty'], {
             cwd,
         })
 
@@ -80,10 +85,14 @@ describe('@monodeploy/git (mocked invariants)', () => {
 
         const lastTaggedSha = await gitLastTaggedCommit({ cwd, context })
 
-        const remoteTags = execSync('git ls-remote --tags local', {
-            cwd,
-            encoding: 'utf8',
-        })
+        const { stdout: remoteTags } = await execUtils.execvp(
+            'git',
+            ['ls-remote', '--tags', 'local'],
+            {
+                cwd,
+                encoding: 'utf-8',
+            },
+        )
         await cleanUp([upstreamContext.project.cwd])
 
         expect(remoteTags).toEqual(expect.stringContaining(lastTaggedSha.trim()))

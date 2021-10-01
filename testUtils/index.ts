@@ -1,4 +1,5 @@
 export * from './git'
 export * from './misc'
 export * from './fs'
+export * from './exec'
 export { default as setupMonorepo, withMonorepoContext } from './setupMonorepo'

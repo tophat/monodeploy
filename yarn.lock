@@ -2796,6 +2796,8 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@tophat/conventional-changelog-config": ^0.5.8
     "@types/node": ^14.17.14
+    "@yarnpkg/core": ^3.1.0-rc.9
+    "@yarnpkg/fslib": ^2.6.0-rc.8
     helpers: "link:./helpers"
     monodeploy: "workspace:*"
   languageName: unknown
@@ -2846,10 +2848,12 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.1.0-rc.9
+    "@yarnpkg/fslib": ^2.6.0-rc.8
   peerDependencies:
     "@monodeploy/logging": ^0.1.10
     "@monodeploy/types": ^0.10.2
     "@yarnpkg/core": ^3.1.0-rc.9
+    "@yarnpkg/fslib": ^2.6.0-rc.8
   languageName: unknown
   linkType: soft
 
@@ -2906,6 +2910,7 @@ __metadata:
     "@yarnpkg/plugin-npm": ^2.6.0-rc.5
     "@yarnpkg/plugin-pack": ^3.1.0-rc.8
     "@yarnpkg/sdks": ^2.4.2-rc.8
+    "@yarnpkg/shell": 3.1.0-rc.5
     all-contributors-cli: ^6.19.0
     commitizen: ^4.2.4
     eslint: ^7.32.0
@@ -4904,7 +4909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/shell@npm:^3.1.0-rc.5":
+"@yarnpkg/shell@npm:3.1.0-rc.5, @yarnpkg/shell@npm:^3.1.0-rc.5":
   version: 3.1.0-rc.5
   resolution: "@yarnpkg/shell@npm:3.1.0-rc.5"
   dependencies:

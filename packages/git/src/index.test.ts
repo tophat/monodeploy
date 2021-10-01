@@ -1,11 +1,7 @@
-import childProcess from 'child_process'
-import util from 'util'
-
-const exec = util.promisify(childProcess.exec)
-
 import {
     cleanUp,
     createFile,
+    exec,
     getMonodeployConfig,
     initGitRepository,
     setupMonorepo,
@@ -63,10 +59,9 @@ describe('@monodeploy/git', () => {
             })
             const { stdout: headSha } = await exec('git rev-parse HEAD', {
                 cwd,
-                encoding: 'utf8',
             })
 
-            const diffTreeOutput = await gitDiffTree(headSha, { cwd, context })
+            const diffTreeOutput = await gitDiffTree(headSha.trim(), { cwd, context })
 
             expect(diffTreeOutput.trim()).toEqual(
                 expect.stringContaining(['test.txt', 'testDir/test.txt'].join('\n')),
@@ -84,7 +79,6 @@ describe('@monodeploy/git', () => {
             })
             const { stdout: headSha } = await exec('git rev-parse HEAD', {
                 cwd,
-                encoding: 'utf8',
             })
 
             const resolvedHead = await gitResolveSha('HEAD', { cwd, context })
@@ -110,7 +104,6 @@ describe('@monodeploy/git', () => {
             const headSha = (
                 await exec('git rev-parse HEAD', {
                     cwd,
-                    encoding: 'utf8',
                 })
             ).stdout.trim()
 
@@ -158,7 +151,6 @@ describe('@monodeploy/git', () => {
             const fromSha = (
                 await exec('git rev-parse HEAD', {
                     cwd,
-                    encoding: 'utf8',
                 })
             ).stdout.trim()
             await commit('6')
@@ -439,7 +431,6 @@ describe('@monodeploy/git', () => {
             expect(
                 (
                     await exec('git ls-files --error-unmatch test.txt', {
-                        encoding: 'utf8',
                         cwd,
                     })
                 ).stdout.toString(),
@@ -451,7 +442,6 @@ describe('@monodeploy/git', () => {
             expect(
                 (
                     await exec('git log -1 --format="%B"', {
-                        encoding: 'utf8',
                         cwd,
                     })
                 ).stdout.toString(),

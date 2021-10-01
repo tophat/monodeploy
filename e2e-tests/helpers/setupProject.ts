@@ -1,11 +1,7 @@
 /* eslint-disable jest/no-export */
-import childProcess, { ExecException } from 'child_process'
 import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
-import util from 'util'
-
-const exec = util.promisify(childProcess.exec)
 
 import {
     addGitRemote,
@@ -15,6 +11,8 @@ import {
     writeConfig,
 } from '@monodeploy/test-utils'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { execUtils } from '@yarnpkg/core'
+import { npath } from '@yarnpkg/fslib'
 
 import { startRegistry, stopRegistry, waitForRegistry } from './docker'
 import run from './runner'
@@ -24,17 +22,20 @@ const registryUrl = 'http://localhost:4873'
 type RunFn = (args?: Array<string>) => Promise<{
     stdout: string | undefined
     stderr: string | undefined
-    error?: Error | (ExecException & { stdout?: string; stderr?: string })
+    error?: Error | (Error & { stdout?: string; stderr?: string })
 }>
 
-type ExecFn = (cmd: string) => ReturnType<typeof exec>
+type ExecFn = (cmd: string, args?: readonly string[]) => ReturnType<typeof execUtils['execvp']>
 
 type ReadFile = (filepath: string) => Promise<string>
+
+type WriteFile = (filepath: string, data: string | Record<string, unknown>) => Promise<string>
 
 type TestCase = (params: {
     cwd: string
     run: RunFn
     readFile: ReadFile
+    writeFile: WriteFile
     exec: ExecFn
 }) => Promise<void>
 
@@ -75,14 +76,21 @@ export default function setupProject({
             })
 
             // initial commit
-            await exec('git pull --rebase --no-verify origin main', {
-                cwd: project,
+            await execUtils.execvp('git', ['pull', '--rebase', '--no-verify', 'origin', 'main'], {
+                cwd: npath.toPortablePath(project),
+                encoding: 'utf-8',
             })
-            await exec('git add . && git commit -n -m "initial commit"', {
-                cwd: project,
+            await execUtils.execvp('git', ['add', '.'], {
+                cwd: npath.toPortablePath(project),
+                encoding: 'utf-8',
             })
-            await exec('git push -u origin main', {
-                cwd: project,
+            await execUtils.execvp('git', ['commit', '-n', '-m "initial commit"'], {
+                cwd: npath.toPortablePath(project),
+                encoding: 'utf-8',
+            })
+            await execUtils.execvp('git', ['push', '-u', 'origin', 'main'], {
+                cwd: npath.toPortablePath(project),
+                encoding: 'utf-8',
             })
 
             await testCase({
@@ -93,7 +101,7 @@ export default function setupProject({
 
                     return run({
                         cwd: project,
-                        args: [`--config-file ${configFilename}`, ...(args ? args : [])].join(' '),
+                        args: [`--config-file ${configFilename}`, ...(args ? args : [])],
                     })
                 },
                 readFile: (filename: string) => {
@@ -102,9 +110,25 @@ export default function setupProject({
                         encoding: 'utf8',
                     })
                 },
-                exec: (command: string) => {
+                writeFile: async (
+                    filename: string,
+                    data: string | Record<string, unknown>,
+                ): Promise<string> => {
                     if (!project) throw new Error('Missing project path.')
-                    return exec(command, { cwd: project })
+                    const fullFilename = path.resolve(project, filename)
+                    await fs.appendFile(
+                        filename,
+                        typeof data === 'string' ? data : JSON.stringify(data, null, 4),
+                        'utf-8',
+                    )
+                    return fullFilename
+                },
+                exec: (command: string, args: readonly string[] = []) => {
+                    if (!project) throw new Error('Missing project path.')
+                    return execUtils.execvp(command, [...args], {
+                        cwd: npath.toPortablePath(project),
+                        encoding: 'utf-8',
+                    })
                 },
             })
         } finally {
