@@ -25,10 +25,10 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/git": "^0.3.9",
-    "@monodeploy/io": "^0.2.21",
-    "@monodeploy/logging": "^0.1.10",
-    "@monodeploy/types": "^0.10.2",
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
     "@yarnpkg/core": "^3.1.0-rc.9",
     "@yarnpkg/fslib": "^2.6.0-rc.8"
   },

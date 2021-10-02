@@ -1,8 +1,8 @@
+import { exec } from '@monodeploy/io'
 import {
     cleanUp,
     createCommit,
     createFile,
-    exec,
     getMonodeployConfig,
     setupContext,
     setupTestRepository,

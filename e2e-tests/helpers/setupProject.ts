@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
+import { ExecException, exec } from '@monodeploy/io'
 import {
     addGitRemote,
     cleanUp,
@@ -11,8 +12,6 @@ import {
     writeConfig,
 } from '@monodeploy/test-utils'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
-import { execUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
 
 import { startRegistry, stopRegistry, waitForRegistry } from './docker'
 import run from './runner'
@@ -22,13 +21,12 @@ const registryUrl = 'http://localhost:4873'
 type RunFn = (args?: Array<string>) => Promise<{
     stdout: string | undefined
     stderr: string | undefined
-    error?: Error | (Error & { stdout?: string; stderr?: string })
+    error?: Error | ExecException
 }>
 
-type ExecFn = (cmd: string, args?: readonly string[]) => ReturnType<typeof execUtils['execvp']>
+type ExecFn = (cmd: string) => ReturnType<typeof exec>
 
 type ReadFile = (filepath: string) => Promise<string>
-
 type WriteFile = (filepath: string, data: string | Record<string, unknown>) => Promise<string>
 
 type TestCase = (params: {
@@ -76,21 +74,14 @@ export default function setupProject({
             })
 
             // initial commit
-            await execUtils.execvp('git', ['pull', '--rebase', '--no-verify', 'origin', 'main'], {
-                cwd: npath.toPortablePath(project),
-                encoding: 'utf-8',
+            await exec('git pull --rebase --no-verify origin main', {
+                cwd: project,
             })
-            await execUtils.execvp('git', ['add', '.'], {
-                cwd: npath.toPortablePath(project),
-                encoding: 'utf-8',
+            await exec('git add . && git commit -n -m "initial commit"', {
+                cwd: project,
             })
-            await execUtils.execvp('git', ['commit', '-n', '-m "initial commit"'], {
-                cwd: npath.toPortablePath(project),
-                encoding: 'utf-8',
-            })
-            await execUtils.execvp('git', ['push', '-u', 'origin', 'main'], {
-                cwd: npath.toPortablePath(project),
-                encoding: 'utf-8',
+            await exec('git push -u origin main', {
+                cwd: project,
             })
 
             await testCase({
@@ -101,7 +92,7 @@ export default function setupProject({
 
                     return run({
                         cwd: project,
-                        args: [`--config-file ${configFilename}`, ...(args ? args : [])],
+                        args: [`--config-file ${configFilename}`, ...(args ? args : [])].join(' '),
                     })
                 },
                 readFile: (filename: string) => {
@@ -117,18 +108,15 @@ export default function setupProject({
                     if (!project) throw new Error('Missing project path.')
                     const fullFilename = path.resolve(project, filename)
                     await fs.appendFile(
-                        filename,
+                        fullFilename,
                         typeof data === 'string' ? data : JSON.stringify(data, null, 4),
                         'utf-8',
                     )
                     return fullFilename
                 },
-                exec: (command: string, args: readonly string[] = []) => {
+                exec: (command: string) => {
                     if (!project) throw new Error('Missing project path.')
-                    return execUtils.execvp(command, [...args], {
-                        cwd: npath.toPortablePath(project),
-                        encoding: 'utf-8',
-                    })
+                    return exec(command, { cwd: project })
                 },
             })
         } finally {

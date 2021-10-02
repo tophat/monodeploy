@@ -30,12 +30,14 @@
     "@monodeploy/types": "workspace:*",
     "@types/node": "^14.17.14",
     "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8"
+    "@yarnpkg/fslib": "^2.6.0-rc.8",
+    "@yarnpkg/shell": "^3.1.0-rc.5"
   },
   "peerDependencies": {
-    "@monodeploy/logging": "^0.1.10",
-    "@monodeploy/types": "^0.10.2",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
     "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8"
+    "@yarnpkg/fslib": "^2.6.0-rc.8",
+    "@yarnpkg/shell": "^3.1.0-rc.5"
   }
 }

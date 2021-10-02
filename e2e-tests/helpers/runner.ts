@@ -1,21 +1,15 @@
+/* eslint-disable no-undef */
 import path from 'path'
 
+import { ExecException, exec } from '@monodeploy/io'
 import { isNodeError } from '@monodeploy/types'
-import { execUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
 
 const scriptPath = require.resolve('monodeploy')
 
-export default async function run({
-    cwd,
-    args = [],
-}: {
-    cwd: string
-    args: readonly string[]
-}): Promise<{
+export default async function run({ cwd, args = '' }: { cwd: string; args: string }): Promise<{
     stdout: string | undefined
     stderr: string | undefined
-    error?: Error
+    error?: ExecException | Error
 }> {
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
@@ -27,18 +21,10 @@ export default async function run({
     const tsconfig = path.join(process.cwd(), 'tsconfig.json')
 
     try {
-        const { stdout, stderr } = await execUtils.execvp(
-            'node',
-            [
-                nycBin,
-                `--nycrc-path ${nycConfig}`,
-                `--cwd ${process.cwd()}`,
-                'node',
-                scriptPath,
-                ...args,
-            ],
+        const { stdout, stderr } = await exec(
+            `node ${nycBin} --nycrc-path ${nycConfig} --cwd ${process.cwd()} node ${scriptPath} ${args}`,
             {
-                cwd: npath.toPortablePath(cwd),
+                cwd,
                 env: {
                     ...process.env,
                     TS_NODE_PROJECT: tsconfig,
@@ -48,7 +34,7 @@ export default async function run({
         )
         return { stdout, stderr }
     } catch (err) {
-        if (isNodeError<Error & { stdout?: string; stderr?: string }>(err)) {
+        if (isNodeError<ExecException>(err)) {
             return { error: err, stdout: err?.stdout, stderr: err?.stderr }
         }
         throw new Error('Unexpected error')

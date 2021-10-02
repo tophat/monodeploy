@@ -1,10 +1,10 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { exec } from '@monodeploy/io'
 import { YarnContext } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
-import { exec } from './exec'
 import setupMonorepo from './setupMonorepo'
 
 export async function initGitRepository(

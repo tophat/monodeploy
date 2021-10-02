@@ -40,12 +40,10 @@ describe('Full E2E', () => {
                 maxConcurrentReads: 1,
                 maxConcurrentWrites: 1,
             },
-            testCase: async ({ run, readFile, writeFile, exec }) => {
+            testCase: async ({ run, readFile, exec, writeFile }) => {
                 // First semantic commit
                 await writeFile('packages/pkg-1/README.md', 'Modification.')
-                await exec('git', ['add', '.'])
-                await exec('git', ['commit', '-n', '-m "feat: some fancy addition"'])
-                await exec('git', ['push'])
+                await exec('git add . && git commit -n -m "feat: some fancy addition" && git push')
 
                 const { error } = await run()
 
@@ -53,8 +51,7 @@ describe('Full E2E', () => {
                 expect(error).toBeUndefined()
 
                 // verify yarn.lock is not staged with modifications
-                await exec('yarn')
-                await exec('git', ['diff', '--quiet', '--exit-code', 'yarn.lock'])
+                await exec('yarn && git diff --quiet --exit-code yarn.lock')
 
                 // Locally
                 let localChangeset = JSON.parse(await readFile('changes.json.tmp'))
@@ -90,45 +87,23 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-1@0.1.0',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-2@0.0.1',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-3@0.0.1',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.1.0')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-2@0.0.1')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.1')
 
                 // Assert changelog updated on remote
-                expect(
-                    (await exec('git', ['cat-file', 'blob', 'origin/main:changelog.md'])).stdout,
-                ).toEqual(expect.stringContaining('fancy'))
+                expect((await exec('git cat-file blob origin/main:changelog.md')).stdout).toEqual(
+                    expect.stringContaining('fancy'),
+                )
 
                 // -----
 
                 // Make another semantic change
                 await writeFile('packages/pkg-2/README.md', 'Modification.')
-                await exec('git', ['add', '.'])
-                await exec('git', [
-                    'commit',
-                    '-n',
-                    '-m "feat: some breaking feat addition"',
-                    '-m "BREAKING CHANGE: This is a breaking change"',
-                ])
-                await exec('git', ['push'])
+                await exec(
+                    'git add . && git commit -n -m "feat: some breaking feat addition" ' +
+                        '-m "BREAKING CHANGE: This is a breaking change" && git push',
+                )
 
                 const { error: error2 } = await run()
 
@@ -138,8 +113,7 @@ describe('Full E2E', () => {
                 // ---
 
                 // verify yarn.lock is not staged with modifications
-                await exec('yarn')
-                await exec('git', ['diff', '--quiet', '--exit-code', 'yarn.lock'])
+                await exec('yarn && git diff --quiet --exit-code yarn.lock')
 
                 localChangeset = JSON.parse(await readFile('changes.json.tmp'))
                 expect(localChangeset).toEqual({
@@ -173,34 +147,18 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-2@1.0.0',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-3@0.0.2',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-2@1.0.0')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.2')
 
                 // Assert changelog updated on remote
-                expect(
-                    (await exec('git', ['cat-file', 'blob', 'origin/main:changelog.md'])).stdout,
-                ).toEqual(expect.stringContaining('breaking'))
+                expect((await exec('git cat-file blob origin/main:changelog.md')).stdout).toEqual(
+                    expect.stringContaining('breaking'),
+                )
 
                 // assert modified manifests are correct
                 const pkg3Manifest = JSON.parse(
                     (
-                        await exec('git', [
-                            'cat-file',
-                            'blob',
-                            'origin/main:packages/pkg-3/package.json',
-                        ])
+                        await exec('git cat-file blob origin/main:packages/pkg-3/package.json')
                     ).stdout.toString(),
                 )
                 expect(pkg3Manifest.dependencies).toEqual(
@@ -253,12 +211,10 @@ describe('Full E2E', () => {
                 prereleaseId: 'alpha',
                 prereleaseNPMTag: 'next',
             },
-            testCase: async ({ run, readFile, writeFile, exec }) => {
+            testCase: async ({ run, readFile, exec, writeFile }) => {
                 // First semantic commit
                 await writeFile('packages/pkg-1/README.md', 'Modification.')
-                await exec('git', ['add', '.'])
-                await exec('git', ['commit', '-n', '-m "feat: some fancy addition"'])
-                await exec('git', ['push'])
+                await exec('git add . && git commit -n -m "feat: some fancy addition" && git push')
 
                 const { error } = await run()
 
@@ -267,46 +223,26 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-1@0.1.0',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-2@0.0.1',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-3@0.0.1',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.1.0')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-2@0.0.1')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.1')
 
                 // Assert changelog updated on remote
-                expect(
-                    (await exec('git', ['cat-file', 'blob', 'origin/main:changelog.md'])).stdout,
-                ).toEqual(expect.stringContaining('fancy'))
+                expect((await exec('git cat-file blob origin/main:changelog.md')).stdout).toEqual(
+                    expect.stringContaining('fancy'),
+                )
 
                 // -----
 
                 // Create & switch to "next" branch
-                await exec('git', ['checkout', '-b', 'next'])
-                await exec('git', ['push', '--set-upstream', 'origin', 'next'])
+                await exec('git checkout -b next')
+                await exec('git push --set-upstream origin next')
 
                 // -----
 
                 // Make another semantic change
                 await writeFile('packages/pkg-1/README.md', 'Modification.')
-                await exec('git', ['add', '.'])
-                await exec('git', ['commit', '-n', '-m "feat: some exciting addition"'])
-                await exec('git', ['push'])
+                await exec('git add . && git commit -n -m "feat: some exciting addition"')
 
                 const { error: error2 } = await run(['--prerelease'])
 
@@ -353,24 +289,17 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-1@0.2.0-alpha.0',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.2.0-alpha.0')
 
                 // Assert changelog updated on remote
-                expect(
-                    (await exec('git', ['cat-file', 'blob', 'origin/next:changelog.md'])).stdout,
-                ).toEqual(expect.stringContaining('exciting'))
+                expect((await exec('git cat-file blob origin/next:changelog.md')).stdout).toEqual(
+                    expect.stringContaining('exciting'),
+                )
 
                 // Another pre-release
                 // Make another semantic change
                 await writeFile('packages/pkg-1/README.md', 'Modification.')
-                await exec('git', ['add', '.'])
-                await exec('git', ['commit', '-n', '-m "fix: bugfix"'])
+                await exec('git add . && git commit -n -m "fix: bugfix"')
                 const { error: error3 } = await run(['--prerelease'])
 
                 if (error3) console.error(error3)
@@ -378,20 +307,14 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-1@0.2.0-alpha.1',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.2.0-alpha.1')
 
                 // ----
 
                 // Now we'll test merging "next" into "main"
 
-                await exec('git', ['checkout', 'main'])
-                await exec('git', ['merge', 'next', '--no-verify', '--no-edit'])
+                await exec('git checkout main')
+                await exec('git merge next --no-verify --no-edit')
 
                 // Run non-prerelease. We expect all the pre-release versions to be squashed.
                 // No additional file modifications required, as the previous pre-release tags
@@ -435,34 +358,10 @@ describe('Full E2E', () => {
 
                 // On Remote:
                 // Assert tags pushed
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-1@0.2.0',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-2@0.0.2',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-3@0.0.2',
-                ])
-                await exec('git', [
-                    'ls-remote',
-                    '--exit-code',
-                    '--tags',
-                    'origin',
-                    'refs/tags/pkg-4@0.0.2',
-                ])
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-1@0.2.0')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-2@0.0.2')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-3@0.0.2')
+                await exec('git ls-remote --exit-code --tags origin refs/tags/pkg-4@0.0.2')
             },
         }),
         TIMEOUT,

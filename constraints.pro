@@ -1,13 +1,13 @@
 constraints_min_version(1).
 
 % This rule enforces that all workspaces must depend on other workspaces using `workspace:*` in devDependencies
-gen_enforced_dependency(WorkspaceCwd, DependencyIdent, 'workspace:*', 'devDependencies') :-
-  workspace_has_dependency(WorkspaceCwd, DependencyIdent, _, 'devDependencies'),
+gen_enforced_dependency(WorkspaceCwd, DependencyIdent, 'workspace:*', DependencyType) :-
+  workspace_has_dependency(WorkspaceCwd, DependencyIdent, DependencyRange, DependencyType),
   % Only consider those that target something that could be a workspace
   workspace_ident(DependencyCwd, DependencyIdent).
 
 % Monodeploy (cli) should satisfy all dependency's peers
-gen_enforced_dependency(WorkspaceCwd, DependencyIdent, PrefixedDependencyRange, 'dependencies') :-
+gen_enforced_dependency(WorkspaceCwd, DependencyIdent, DependencyRange, 'dependencies') :-
   % Only target the CLI & plugin (independent packages)
   (
       workspace_field(WorkspaceCwd, 'name', 'monodeploy');
@@ -20,13 +20,6 @@ gen_enforced_dependency(WorkspaceCwd, DependencyIdent, PrefixedDependencyRange, 
   workspace_ident(DependencyCwd, PackageDependency),
   % Get all peer dependencies from DependencyCwd
   workspace_has_dependency(DependencyCwd, DependencyIdent, DependencyRange, 'peerDependencies'),
-  % DependencyRange should use workspace protocol
-  (
-      workspace_ident(_, DependencyIdent) ->
-        atom_concat('workspace:', DependencyRange, PrefixedDependencyRange);
-      \+workspace_ident(_, DependencyIdent) ->
-        PrefixedDependencyRange = DependencyRange
-  ),
   % Check WorkspaceCwd doesn't already provide DependencyIdent directly
   \+ workspace_has_dependency(WorkspaceCwd, DependencyIdent, _, 'peerDependencies').
 

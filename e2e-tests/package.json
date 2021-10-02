@@ -10,6 +10,8 @@
         "test": "run workspace:test $(pwd)"
     },
     "devDependencies": {
+        "@monodeploy/io": "workspace:*",
+        "@monodeploy/logging": "workspace:*",
         "@monodeploy/test-utils": "link:../testUtils",
         "@monodeploy/types": "workspace:*",
         "@tophat/conventional-changelog-config": "^0.5.8",

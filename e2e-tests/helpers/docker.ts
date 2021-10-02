@@ -1,7 +1,8 @@
+import childProcess from 'child_process'
 import http from 'http'
+import util from 'util'
 
-import { execUtils } from '@yarnpkg/core'
-import { ppath } from '@yarnpkg/fslib'
+const exec = util.promisify(childProcess.exec)
 
 const isUp = (): Promise<void> =>
     new Promise((resolve, reject) => {
@@ -38,19 +39,11 @@ export async function waitForRegistry(timeout = 20000): Promise<boolean> {
 }
 
 export async function stopRegistry(): Promise<void> {
-    const { stderr } = await execUtils.execvp(
-        'yarn',
-        ['workspace', '@monodeploy/e2e-tests', 'test:registry:stop'],
-        { encoding: 'utf-8', cwd: ppath.cwd() },
-    )
+    const { stderr } = await exec('yarn workspace @monodeploy/e2e-tests test:registry:stop')
     if (stderr) console.error(stderr)
 }
 
 export async function startRegistry(): Promise<void> {
-    const { stderr } = await execUtils.execvp(
-        'yarn',
-        ['workspace', '@monodeploy/e2e-tests', 'test:registry:start'],
-        { encoding: 'utf-8', cwd: ppath.cwd() },
-    )
+    const { stderr } = await exec('yarn workspace @monodeploy/e2e-tests test:registry:start')
     if (stderr) console.error(stderr)
 }

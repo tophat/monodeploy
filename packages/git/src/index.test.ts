@@ -1,7 +1,7 @@
+import { exec } from '@monodeploy/io'
 import {
     cleanUp,
     createFile,
-    exec,
     getMonodeployConfig,
     initGitRepository,
     setupMonorepo,
@@ -61,7 +61,7 @@ describe('@monodeploy/git', () => {
                 cwd,
             })
 
-            const diffTreeOutput = await gitDiffTree(headSha.trim(), { cwd, context })
+            const diffTreeOutput = await gitDiffTree(headSha, { cwd, context })
 
             expect(diffTreeOutput.trim()).toEqual(
                 expect.stringContaining(['test.txt', 'testDir/test.txt'].join('\n')),
