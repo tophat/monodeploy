@@ -40,11 +40,14 @@ const getModifiedPackages = async ({
         cwd: config.cwd,
         context,
     })
-    const paths = diffOutput.split('\n')
-    const uniquePaths = paths.reduce((uniquePaths: Set<string>, currentPath: string) => {
-        if (currentPath) uniquePaths.add(currentPath)
-        return uniquePaths
-    }, new Set())
+    const paths: string[] = diffOutput.split('\n')
+    const uniquePaths: Set<string> = paths.reduce(
+        (uniquePaths: Set<string>, currentPath: string) => {
+            if (currentPath) uniquePaths.add(currentPath)
+            return uniquePaths
+        },
+        new Set(),
+    )
 
     const ignorePatterns = config.changesetIgnorePatterns ?? []
 

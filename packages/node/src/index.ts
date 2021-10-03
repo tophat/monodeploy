@@ -63,7 +63,7 @@ const monodeploy = async (
         for (const plugin of config.plugins) {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const pluginModule = require(require.resolve(plugin, {
-                paths: [cwd],
+                paths: [npath.fromPortablePath(cwd)],
             }))
             const pluginConstructor = pluginModule?.default ?? pluginModule
             pluginConstructor(hooks)

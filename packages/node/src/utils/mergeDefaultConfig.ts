@@ -1,10 +1,11 @@
 import { gitLastTaggedCommit, gitResolveSha } from '@monodeploy/git'
 import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
 
 const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<MonodeployConfiguration> => {
-    const cwd = baseConfig.cwd ?? process.cwd()
+    const cwd = npath.fromPortablePath(baseConfig.cwd ?? process.cwd())
     const prerelease = baseConfig.prerelease ?? false
 
     return {
