@@ -3,26 +3,28 @@ import path from 'path'
 
 import { exec } from '@monodeploy/io'
 import { YarnContext } from '@monodeploy/types'
-import { npath } from '@yarnpkg/fslib'
+import { PortablePath, npath } from '@yarnpkg/fslib'
 
 import setupMonorepo from './setupMonorepo'
 
 export async function initGitRepository(
-    cwd: string,
+    cwd: PortablePath,
     { allowScaffoldingCommits = true }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
-    const pcwd = npath.toPortablePath(cwd)
-
-    await exec('git init', { cwd: pcwd })
-    await exec('git branch -m main', { cwd: pcwd })
+    await exec('git init', { cwd })
+    await exec('git branch -m main', { cwd })
     // This is needed to disable signing if set up by the host.
-    await exec('echo "[commit]\ngpgSign=false" > .git/config', { cwd: pcwd })
+    await exec('echo "[commit]\ngpgSign=false" > .git/config', { cwd })
 
-    await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp', '.pnp.*'].join('\n'), {
-        encoding: 'utf8',
-    })
+    await fs.writeFile(
+        path.resolve(npath.fromPortablePath(cwd), '.gitignore'),
+        ['.yarn', '*.tmp', '.pnp.*'].join('\n'),
+        {
+            encoding: 'utf8',
+        },
+    )
     if (allowScaffoldingCommits) {
-        await exec('git add .gitignore && git commit -n -m "gitignore"', { cwd: pcwd })
+        await exec('git add .gitignore && git commit -n -m "gitignore"', { cwd })
     }
 }
 
