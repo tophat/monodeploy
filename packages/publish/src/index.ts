@@ -53,7 +53,7 @@ export const publishPackages = async ({
             const access = globalAccess === 'infer' ? undefined : globalAccess
 
             logging.info(
-                `[Publish] ${pkgName} (${publishTag}: ${publishTag}, ${registryUrl}; ${access})`,
+                `[Publish] ${pkgName} (${publishTag}: ${workspace.manifest.version}, ${registryUrl}; ${access})`,
                 { report: context.report },
             )
 
