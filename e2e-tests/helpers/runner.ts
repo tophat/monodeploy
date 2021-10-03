@@ -1,11 +1,8 @@
 /* eslint-disable no-undef */
-import childProcess, { ExecException } from 'child_process'
 import path from 'path'
-import util from 'util'
 
+import { ExecException, exec } from '@monodeploy/io'
 import { isNodeError } from '@monodeploy/types'
-
-const exec = util.promisify(childProcess.exec)
 
 const scriptPath = require.resolve('monodeploy')
 
@@ -37,7 +34,7 @@ export default async function run({ cwd, args = '' }: { cwd: string; args: strin
         )
         return { stdout, stderr }
     } catch (err) {
-        if (isNodeError<ExecException & { stdout?: string; stderr?: string }>(err)) {
+        if (isNodeError<ExecException>(err)) {
             return { error: err, stdout: err?.stdout, stderr: err?.stderr }
         }
         throw new Error('Unexpected error')

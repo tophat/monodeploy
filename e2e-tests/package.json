@@ -10,10 +10,14 @@
         "test": "run workspace:test $(pwd)"
     },
     "devDependencies": {
+        "@monodeploy/io": "workspace:*",
+        "@monodeploy/logging": "workspace:*",
         "@monodeploy/test-utils": "link:../testUtils",
         "@monodeploy/types": "workspace:*",
         "@tophat/conventional-changelog-config": "^0.5.8",
         "@types/node": "^14.17.14",
+        "@yarnpkg/core": "^3.1.0-rc.9",
+        "@yarnpkg/fslib": "^2.6.0-rc.8",
         "helpers": "link:./helpers",
         "monodeploy": "workspace:*"
     }

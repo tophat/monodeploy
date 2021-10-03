@@ -1,12 +1,9 @@
 /* eslint-disable jest/no-export */
-import childProcess, { ExecException } from 'child_process'
 import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
-import util from 'util'
 
-const exec = util.promisify(childProcess.exec)
-
+import { ExecException, exec } from '@monodeploy/io'
 import {
     addGitRemote,
     cleanUp,
@@ -24,17 +21,19 @@ const registryUrl = 'http://localhost:4873'
 type RunFn = (args?: Array<string>) => Promise<{
     stdout: string | undefined
     stderr: string | undefined
-    error?: Error | (ExecException & { stdout?: string; stderr?: string })
+    error?: Error | ExecException
 }>
 
 type ExecFn = (cmd: string) => ReturnType<typeof exec>
 
 type ReadFile = (filepath: string) => Promise<string>
+type WriteFile = (filepath: string, data: string | Record<string, unknown>) => Promise<string>
 
 type TestCase = (params: {
     cwd: string
     run: RunFn
     readFile: ReadFile
+    writeFile: WriteFile
     exec: ExecFn
 }) => Promise<void>
 
@@ -101,6 +100,19 @@ export default function setupProject({
                     return fs.readFile(path.resolve(project, filename), {
                         encoding: 'utf8',
                     })
+                },
+                writeFile: async (
+                    filename: string,
+                    data: string | Record<string, unknown>,
+                ): Promise<string> => {
+                    if (!project) throw new Error('Missing project path.')
+                    const fullFilename = path.resolve(project, filename)
+                    await fs.appendFile(
+                        fullFilename,
+                        typeof data === 'string' ? data : JSON.stringify(data, null, 4),
+                        'utf-8',
+                    )
+                    return fullFilename
                 },
                 exec: (command: string) => {
                     if (!project) throw new Error('Missing project path.')

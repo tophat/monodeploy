@@ -25,8 +25,8 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/logging": "^0.1.10",
-    "@monodeploy/types": "^0.10.2",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
     "@yarnpkg/core": "^3.1.0-rc.9"
   },
   "devDependencies": {
