@@ -1,5 +1,4 @@
-import { execSync } from 'child_process'
-
+import { exec } from '@monodeploy/io'
 import {
     cleanUp,
     createCommit,
@@ -8,7 +7,7 @@ import {
     setupContext,
     setupTestRepository,
 } from '@monodeploy/test-utils'
-import { PortablePath } from '@yarnpkg/fslib'
+import { PortablePath, npath } from '@yarnpkg/fslib'
 
 // Skipping the git mock as we use a temp repository for these tests.
 jest.mock('@monodeploy/git', () => jest.requireActual('@monodeploy/git'))
@@ -29,14 +28,15 @@ describe('getExplicitVersionStrategies', () => {
         const cwd = tempRepositoryRoot
         const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
-        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
+        await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
         await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)
-        const headSha = execSync('git rev-parse HEAD', {
-            cwd,
-            encoding: 'utf8',
-        }).trim()
+        const headSha = (
+            await exec('git rev-parse HEAD', {
+                cwd: npath.toPortablePath(cwd),
+            })
+        ).stdout.trim()
         const strategies = await getExplicitVersionStrategies({
             config: await getMonodeployConfig({
                 cwd,
@@ -63,7 +63,7 @@ describe('getExplicitVersionStrategies', () => {
         const cwd = tempRepositoryRoot
         const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
-        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
+        await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
         await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
         await createCommit('feat: ignore-me!', cwd)
@@ -72,10 +72,11 @@ describe('getExplicitVersionStrategies', () => {
         const mockMessage = 'feat: pick me!'
         await createCommit(mockMessage, cwd)
 
-        const headSha = execSync('git rev-parse HEAD', {
-            cwd,
-            encoding: 'utf8',
-        }).trim()
+        const headSha = (
+            await exec('git rev-parse HEAD', {
+                cwd: npath.toPortablePath(cwd),
+            })
+        ).stdout.trim()
 
         const strategies = await getExplicitVersionStrategies({
             config: {
@@ -107,17 +108,18 @@ describe('getExplicitVersionStrategies', () => {
         const cwd = tempRepositoryRoot
         const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
-        execSync('git checkout -b test-branch', { cwd, stdio: 'ignore' })
+        await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
         await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
         await createFile({ filePath: 'packages/pkg-2/test.test.js', cwd })
 
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)
-        const headSha = execSync('git rev-parse HEAD', {
-            cwd,
-            encoding: 'utf8',
-        }).trim()
+        const headSha = (
+            await exec('git rev-parse HEAD', {
+                cwd: npath.toPortablePath(cwd),
+            })
+        ).stdout.trim()
 
         const strategies = await getExplicitVersionStrategies({
             config: {

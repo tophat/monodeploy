@@ -47,6 +47,8 @@
     "devDependencies": {
         "@commitlint/cli": "^12.1.4",
         "@monodeploy/git": "workspace:*",
+        "@monodeploy/io": "workspace:*",
+        "@monodeploy/logging": "workspace:*",
         "@monodeploy/plugin-github": "workspace:*",
         "@monodeploy/test-utils": "link:./testUtils",
         "@monodeploy/types": "workspace:*",
@@ -59,13 +61,13 @@
         "@types/node": "^14.17.14",
         "@typescript-eslint/eslint-plugin": "^4.30.0",
         "@typescript-eslint/parser": "^4.30.0",
-        "@yarnpkg/cli": "^3.0.2",
-        "@yarnpkg/core": "^3.1.0-rc.3",
-        "@yarnpkg/fslib": "^2.5.2",
-        "@yarnpkg/plugin-npm": "^2.5.0",
-        "@yarnpkg/plugin-pack": "^3.1.0-rc.2",
-        "@yarnpkg/sdks": "^2.4.2-rc.2",
-        "@yarnpkg/shell": "^3.0.1-rc.4",
+        "@yarnpkg/cli": "^3.1.0-rc.8",
+        "@yarnpkg/core": "^3.1.0-rc.9",
+        "@yarnpkg/fslib": "^2.6.0-rc.8",
+        "@yarnpkg/plugin-npm": "^2.6.0-rc.5",
+        "@yarnpkg/plugin-pack": "^3.1.0-rc.8",
+        "@yarnpkg/sdks": "^2.4.2-rc.8",
+        "@yarnpkg/shell": "3.1.0-rc.5",
         "all-contributors-cli": "^6.19.0",
         "commitizen": "^4.2.4",
         "eslint": "^7.32.0",
@@ -102,5 +104,5 @@
             "built": false
         }
     },
-    "packageManager": "yarn@3.0.2"
+    "packageManager": "yarn@3.1.0-rc.8"
 }

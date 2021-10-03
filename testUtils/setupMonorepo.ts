@@ -14,13 +14,16 @@ async function writeJSON(filename: string, data: Record<string, unknown>): Promi
 
 async function makeDependencyMap(
     packages: Array<string | [string, string]>,
+    { useRelativePath = true }: { useRelativePath?: boolean } = {},
 ): Promise<Record<string, string>> {
     const dependencies: Record<string, string> = {}
     for (const pkg of packages) {
         if (Array.isArray(pkg)) {
             dependencies[pkg[0]] = pkg[1]
         } else {
-            dependencies[pkg] = `workspace:packages/${structUtils.parseIdent(pkg).name}`
+            dependencies[pkg] = useRelativePath
+                ? `workspace:packages/${structUtils.parseIdent(pkg).name}`
+                : 'workspace:*'
         }
     }
     return dependencies
@@ -72,14 +75,16 @@ export default async function setupMonorepo(
             scripts: pkgConfig.scripts ?? {},
             dependencies: await makeDependencyMap(pkgConfig.dependencies ?? []),
             devDependencies: await makeDependencyMap(pkgConfig.devDependencies ?? []),
-            peerDependencies: await makeDependencyMap(pkgConfig.peerDependencies ?? []),
+            peerDependencies: await makeDependencyMap(pkgConfig.peerDependencies ?? [], {
+                useRelativePath: false,
+            }),
         })
     }
 
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.0.2.cjs'))
+    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.1.0-rc.8.cjs'))
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
 
     const authIdent = Buffer.from('test-user:test-password').toString('base64')

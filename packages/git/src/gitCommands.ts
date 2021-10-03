@@ -1,32 +1,37 @@
-import childProcess from 'child_process'
-import util from 'util'
-
+import { exec } from '@monodeploy/io'
 import logging, { assertProduction } from '@monodeploy/logging'
 import { YarnContext } from '@monodeploy/types'
 
-const exec = util.promisify(childProcess.exec)
+const git = async (
+    subcommand: string,
+    { cwd, context }: { cwd: string; context?: YarnContext },
+) => {
+    const command = `git ${subcommand}`
+    logging.debug(`[Exec] ${command}`, { report: context?.report })
+
+    return await exec(command, { cwd })
+}
 
 export const gitResolveSha = async (
     ref: string,
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<string> => {
-    const gitCommand = `git log --format="%H" -n 1 ${ref}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return (await exec(gitCommand, { encoding: 'utf8', cwd })).stdout.toString().trim()
+    const { stdout } = await git(`log --format=%H -n 1 ${ref}`, {
+        cwd,
+        context,
+    })
+    return stdout.trim()
 }
 
 export const gitDiffTree = async (
     ref: string,
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<string> => {
-    const gitCommand = `git diff-tree --no-commit-id --name-only -r --root ${ref}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return (
-        await exec(gitCommand, {
-            encoding: 'utf8',
-            cwd,
-        })
-    ).stdout
+    const { stdout } = await git(`diff-tree --no-commit-id --name-only -r --root ${ref.trim()}`, {
+        cwd,
+        context,
+    })
+    return stdout.trim()
 }
 
 export const gitLog = async (
@@ -34,19 +39,13 @@ export const gitLog = async (
     to: string,
     { cwd, DELIMITER, context }: { cwd: string; DELIMITER: string; context?: YarnContext },
 ): Promise<string> => {
-    let gitCommand = `git log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
+    let command = `log ${from}..${to} --format=%H%n%B%n${DELIMITER}`
     if (from === to) {
         /* Special case where we'll just return a single log entry for "to". */
-        gitCommand = `git log -1 ${to} --format=%H%n%B%n${DELIMITER}`
+        command = `log -1 ${to} --format=%H%n%B%n${DELIMITER}`
     }
-
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    return (
-        await exec(gitCommand, {
-            encoding: 'utf8',
-            cwd,
-        })
-    ).stdout
+    const { stdout } = await git(command, { cwd, context })
+    return stdout
 }
 
 export const gitTag = async (
@@ -54,9 +53,7 @@ export const gitTag = async (
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<void> => {
     assertProduction()
-    const gitCommand = `git tag ${tag} -m ${tag}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, { encoding: 'utf8', cwd })
+    await git(`tag ${tag} -m ${tag}`, { cwd, context })
 }
 
 export const gitPushTags = async ({
@@ -69,11 +66,9 @@ export const gitPushTags = async ({
     context?: YarnContext
 }): Promise<void> => {
     assertProduction()
-    const gitCommand = `git push --tags ${remote}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, {
-        encoding: 'utf8',
+    await git(`push --tags ${remote}`, {
         cwd,
+        context,
     })
 }
 
@@ -87,11 +82,9 @@ export const gitPull = async ({
     context?: YarnContext
 }): Promise<void> => {
     assertProduction()
-    const gitCommand = `git pull --rebase --no-verify ${remote}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, {
-        encoding: 'utf8',
+    await git(`pull --rebase --no-verify ${remote}`, {
         cwd,
+        context,
     })
 }
 
@@ -105,11 +98,9 @@ export const gitPush = async ({
     context?: YarnContext
 }): Promise<void> => {
     assertProduction()
-    const gitCommand = `git push --no-verify ${remote}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, {
-        encoding: 'utf8',
+    await git(`push --no-verify ${remote}`, {
         cwd,
+        context,
     })
 }
 
@@ -122,41 +113,29 @@ export const gitLastTaggedCommit = async ({
     context?: YarnContext
     prerelease?: boolean
 }): Promise<string> => {
-    let mostRecentTagCommand =
-        "git describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'"
+    let command = "describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'"
 
     if (!prerelease) {
         // The glob matches prerelease ranges. The 'complexity' comes from not wanting
         // to be overeager in producing a false positive for a tag such as
         // `@scope-with-hyphen/name.with.dot-and-hyphen`
-        mostRecentTagCommand = `${mostRecentTagCommand} --exclude '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*-*'`
+        command = `${command} --exclude '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*-*'`
     }
-
-    logging.debug(`[Exec] ${mostRecentTagCommand}`, { report: context?.report })
 
     let tag = 'HEAD'
 
     try {
-        tag = (
-            await exec(mostRecentTagCommand, {
-                encoding: 'utf8',
-                cwd,
-            })
-        ).stdout
-            .toString()
-            .trim()
+        tag = (await git(command, { cwd, context })).stdout.trim()
     } catch (err) {
         logging.warning('[Exec] Fetching most recent tag failed, falling back to HEAD', {
             report: context?.report,
         })
     }
 
-    const associatedShaCommand = `git rev-list -1 ${tag}`
-    logging.debug(`[Exec] ${associatedShaCommand}`, { report: context?.report })
     return (
-        await exec(associatedShaCommand, {
-            encoding: 'utf8',
+        await git(`rev-list -1 ${tag}`, {
             cwd,
+            context,
         })
     ).stdout
         .toString()
@@ -168,9 +147,7 @@ export const gitAdd = async (
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<void> => {
     assertProduction()
-    const gitCommand = `git add ${paths.join(' ')}`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, { encoding: 'utf8', cwd })
+    await git(`add ${paths.join(' ')}`, { cwd, context })
 }
 
 export const gitCommit = async (
@@ -178,7 +155,5 @@ export const gitCommit = async (
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<void> => {
     assertProduction()
-    const gitCommand = `git commit -m "${message}" -n`
-    logging.debug(`[Exec] ${gitCommand}`, { report: context?.report })
-    await exec(gitCommand, { encoding: 'utf8', cwd })
+    await git(`commit -m "${message}" -n`, { cwd, context })
 }

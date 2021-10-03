@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.9](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.3.8...@monodeploy/plugin-github@0.3.9) "@monodeploy/plugin-github" (2021-09-15)<a name="0.3.9"></a>
+
+### Bug Fixes
+
+* update yarn dependencies (#429) ([03a82b7](https://github.com/tophat/monodeploy/commits/03a82b7))
+
+
+
+
 ## [0.3.6](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.3.5...@monodeploy/plugin-github@0.3.6) "@monodeploy/plugin-github" (2021-07-26)<a name="0.3.6"></a>
 
 ### Bug Fixes

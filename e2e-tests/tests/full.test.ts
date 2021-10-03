@@ -40,9 +40,9 @@ describe('Full E2E', () => {
                 maxConcurrentReads: 1,
                 maxConcurrentWrites: 1,
             },
-            testCase: async ({ run, readFile, exec }) => {
+            testCase: async ({ run, readFile, exec, writeFile }) => {
                 // First semantic commit
-                await exec('echo "Modification." >> packages/pkg-1/README.md')
+                await writeFile('packages/pkg-1/README.md', 'Modification.')
                 await exec('git add . && git commit -n -m "feat: some fancy addition" && git push')
 
                 const { error } = await run()
@@ -99,7 +99,7 @@ describe('Full E2E', () => {
                 // -----
 
                 // Make another semantic change
-                await exec('echo "Modification." >> packages/pkg-2/README.md')
+                await writeFile('packages/pkg-2/README.md', 'Modification.')
                 await exec(
                     'git add . && git commit -n -m "feat: some breaking feat addition" ' +
                         '-m "BREAKING CHANGE: This is a breaking change" && git push',
@@ -211,9 +211,9 @@ describe('Full E2E', () => {
                 prereleaseId: 'alpha',
                 prereleaseNPMTag: 'next',
             },
-            testCase: async ({ run, readFile, exec }) => {
+            testCase: async ({ run, readFile, exec, writeFile }) => {
                 // First semantic commit
-                await exec('echo "Modification." >> packages/pkg-1/README.md')
+                await writeFile('packages/pkg-1/README.md', 'Modification.')
                 await exec('git add . && git commit -n -m "feat: some fancy addition" && git push')
 
                 const { error } = await run()
@@ -241,7 +241,7 @@ describe('Full E2E', () => {
                 // -----
 
                 // Make another semantic change
-                await exec('echo "Modification." >> packages/pkg-1/README.md')
+                await writeFile('packages/pkg-1/README.md', 'Modification.')
                 await exec('git add . && git commit -n -m "feat: some exciting addition"')
 
                 const { error: error2 } = await run(['--prerelease'])
@@ -298,7 +298,7 @@ describe('Full E2E', () => {
 
                 // Another pre-release
                 // Make another semantic change
-                await exec('echo "Modification." >> packages/pkg-1/README.md')
+                await writeFile('packages/pkg-1/README.md', 'Modification.')
                 await exec('git add . && git commit -n -m "fix: bugfix"')
                 const { error: error3 } = await run(['--prerelease'])
 

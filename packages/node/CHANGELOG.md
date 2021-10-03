@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.11.11](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.10...@monodeploy/node@0.11.11) "@monodeploy/node" (2021-09-15)<a name="0.11.11"></a>
+
+### Bug Fixes
+
+* update yarn dependencies (#429) ([03a82b7](https://github.com/tophat/monodeploy/commits/03a82b7))
+
+
+
+
 ## [0.11.4](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.3...@monodeploy/node@0.11.4) "@monodeploy/node" (2021-08-11)<a name="0.11.4"></a>
 
 ### Bug Fixes

@@ -43,29 +43,32 @@ export const publishPackages = async ({
 
             if (!registryUrl) {
                 logging.info(
-                    `[Publish] ${pkgName} (${publishTag}: ${workspace.manifest.version}, skipping registry)`,
+                    `[Publish] '${pkgName}' (${publishTag}: ${workspace.manifest.version}, skipping registry)`,
                     { report: context.report },
                 )
                 return
             }
 
-            const filesToPack = await packUtils.genPackList(workspace)
-            const pack = await packUtils.genPackStream(workspace, filesToPack)
-
-            const buffer = await miscUtils.bufferStream(pack)
-
             const globalAccess = config.access
             const access = globalAccess === 'infer' ? undefined : globalAccess
 
+            logging.info(
+                `[Publish] ${pkgName} (${publishTag}: ${publishTag}, ${registryUrl}; ${access})`,
+                { report: context.report },
+            )
+
+            const filesToPack = await packUtils.genPackList(workspace)
+            const pack = await packUtils.genPackStream(workspace, filesToPack)
+            const buffer = await miscUtils.bufferStream(pack)
             const body = await npmPublishUtils.makePublishBody(workspace, buffer, {
                 access,
                 tag: publishTag,
                 registry: registryUrl,
             })
 
-            try {
-                const identUrl = npmHttpUtils.getIdentUrl(ident)
+            const identUrl = npmHttpUtils.getIdentUrl(ident)
 
+            try {
                 if (!config.dryRun) {
                     assertProductionOrTest()
                     await limitPublish(() =>
@@ -77,12 +80,12 @@ export const publishPackages = async ({
                         }),
                     )
                 }
-                logging.info(
-                    `[Publish] ${pkgName} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl}; ${body.access})`,
-                    { report: context.report },
-                )
+                logging.info(`[Publish] '${pkgName}' published.`, { report: context.report })
             } catch (err) {
-                logging.error(err, { report: context.report })
+                logging.error(err, {
+                    report: context.report,
+                    extras: `[Publish] Failed to publish '${pkgName}' to ${identUrl} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl}; ${body.access})`,
+                })
                 throw err
             }
         }

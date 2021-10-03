@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/publish",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -34,22 +34,22 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@yarnpkg/cli": "^3.0.2",
-    "@yarnpkg/core": "^3.1.0-rc.3",
-    "@yarnpkg/fslib": "^2.5.2",
-    "@yarnpkg/plugin-npm": "^2.5.0",
-    "@yarnpkg/plugin-pack": "^3.1.0-rc.2"
+    "@yarnpkg/cli": "^3.1.0-rc.8",
+    "@yarnpkg/core": "^3.1.0-rc.9",
+    "@yarnpkg/fslib": "^2.6.0-rc.8",
+    "@yarnpkg/plugin-npm": "^2.6.0-rc.5",
+    "@yarnpkg/plugin-pack": "^3.1.0-rc.8"
   },
   "peerDependencies": {
-    "@monodeploy/dependencies": "^0.3.7",
-    "@monodeploy/git": "^0.3.8",
-    "@monodeploy/io": "^0.2.20",
-    "@monodeploy/logging": "^0.1.9",
-    "@monodeploy/types": "^0.10.1",
-    "@yarnpkg/cli": "^3.0.2",
-    "@yarnpkg/core": "^3.1.0-rc.3",
-    "@yarnpkg/fslib": "^2.5.2",
-    "@yarnpkg/plugin-npm": "^2.5.0",
-    "@yarnpkg/plugin-pack": "^3.1.0-rc.2"
+    "@monodeploy/dependencies": "workspace:*",
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
+    "@yarnpkg/cli": "^3.1.0-rc.8",
+    "@yarnpkg/core": "^3.1.0-rc.9",
+    "@yarnpkg/fslib": "^2.6.0-rc.8",
+    "@yarnpkg/plugin-npm": "^2.6.0-rc.5",
+    "@yarnpkg/plugin-pack": "^3.1.0-rc.8"
   }
 }

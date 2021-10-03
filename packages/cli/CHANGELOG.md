@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.8.11](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.10...monodeploy@2.8.11) "monodeploy" (2021-09-15)<a name="2.8.11"></a>
+
+### Bug Fixes
+
+* update yarn dependencies (#429) ([03a82b7](https://github.com/tophat/monodeploy/commits/03a82b7))
+
+
+
+
 ## [2.8.1](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.0...monodeploy@2.8.1) "monodeploy" (2021-07-26)<a name="2.8.1"></a>
 
 ### Bug Fixes
