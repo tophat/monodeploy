@@ -11,171 +11,171 @@ env:
   ARTIFACT_DIR: ./artifacts
 
 jobs:
-  # commit-watch:
-  #   name: Run Commit Watch
-  #   runs-on: ubuntu-20.04
-  #   if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #         with:
-  #           ref: ${{ github.event.pull_request.head.sha }}
-  #           fetch-depth: 0
-  #       - uses: ./.github/actions/detect-env
-  #       - name: Setup Node.js
-  #         uses: actions/setup-node@v2
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Create artifacts directory
-  #         run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #       - name: Run Commit Watch
-  #         env:
-  #           COMMIT_WATCH_OUTPUT_DIR: ${{ env.ARTIFACT_DIR }}/
-  #           COMMITWATCH_GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-  #           CI_REPO_OWNER: ${{ github.repository_owner }}
-  #           CI_REPO_NAME: ${{ github.event.repository.name }}
-  #           CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-  #           CI_BASE_BRANCH: origin/${{ github.base_ref }}
-  #         run: yarn dlx commit-watch
-  #       - name: Upload Artifacts
-  #         uses: actions/upload-artifact@v2
-  #         with:
-  #           name: commit-watch-artifacts
-  #           path: ${{ env.ARTIFACT_DIR }}
-  # tests:
-  #   name: Lint & Tests
-  #   runs-on: ubuntu-20.04
-  #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #         with:
-  #           fetch-depth: 0
-  #       - uses: ./.github/actions/detect-env
-  #       - name: Setup Node.js
-  #         uses: actions/setup-node@v2
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Create artifacts directory
-  #         run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #       - name: Restore yarn cache
-  #         id: yarn-cache
-  #         uses: actions/cache@v2
-  #         with:
-  #           path: |
-  #             ./.yarn
-  #             .pnp.*
-  #           key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-  #       - name: Install dependencies
-  #         run: |
-  #           yarn install --immutable
-  #       - name: Validate Constraints
-  #         run: yarn constraints
-  #       - name: Build
-  #         run: yarn build
-  #       - name: Linting
-  #         run: yarn lint:ci
-  #       - name: Set GitHub user for tests
-  #         run: |
-  #           git config --global user.email "opensource@tophat.com"
-  #           git config --global user.name "Top Hat Open Source"
-  #           git config --global init.defaultBranch main
-  #       - name: Tests
-  #         run: yarn test:ci
-  #       - name: Upload Artifacts
-  #         uses: actions/upload-artifact@v2
-  #         with:
-  #           name: coverage-unit-tests
-  #           path: ./raw-coverage/jest
-  # tests_e2es:
-  #   name: Tests - End to End
-  #   runs-on: ubuntu-20.04
-  #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-  #   env:
-  #     E2E: 1
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #         with:
-  #           fetch-depth: 0
-  #       - uses: ./.github/actions/detect-env
-  #       - name: Setup Node.js
-  #         uses: actions/setup-node@v2
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Create artifacts directory
-  #         run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #       - name: Restore yarn cache
-  #         id: yarn-cache
-  #         uses: actions/cache@v2
-  #         with:
-  #           path: |
-  #             ./.yarn
-  #             .pnp.*
-  #           key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-  #       - name: Install dependencies
-  #         run: |
-  #           yarn install --immutable
-  #       - name: Set GitHub user for tests
-  #         run: |
-  #           git config --global user.email "opensource@tophat.com"
-  #           git config --global user.name "Top Hat Open Source"
-  #           git config --global init.defaultBranch main
-  #       - name: Build Registry Dockerfile
-  #         run: yarn workspace @monodeploy/e2e-tests test:registry:build
-  #       - name: Run Tests
-  #         run: yarn test:e2e
-  #       - name: Upload Artifacts
-  #         uses: actions/upload-artifact@v2
-  #         with:
-  #           name: coverage-e2e-tests
-  #           path: ./raw-coverage/jest-e2es
-  # test_report:
-  #   name: Test Report
-  #   runs-on: ubuntu-20.04
-  #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-  #   needs: ['tests_e2es', 'tests']
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
-  #     - uses: ./.github/actions/detect-env
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #     - name: Create artifacts directory
-  #       run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #     - name: Restore yarn cache
-  #       id: yarn-cache
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ./.yarn
-  #           .pnp.*
-  #         key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: |
-  #         yarn install --immutable
-  #     - name: Download Unit Test Coverage
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: coverage-unit-tests
-  #         path: ./raw-coverage/jest
-  #     - name: Download E2E Coverage
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: coverage-e2e-tests
-  #         path: ./raw-coverage/jest-e2es
-  #     - name: Log Coverage Files (Jest Unit)
-  #       run: ls -la ./raw-coverage/jest
-  #     - name: Log Coverage Files (Jest E2Es)
-  #       run: ls -la ./raw-coverage/jest-e2es
-  #     - name: Merge Coverage
-  #       run: yarn test:coverage:merge
-  #     - name: Generate Report
-  #       run: yarn test:coverage:report
-  #     - name: Upload Coverage Report
-  #       run: ./.github/codecov.sh $GITHUB_EVENT_PATH
-  #       env:
-  #         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  commit-watch:
+    name: Run Commit Watch
+    runs-on: ubuntu-20.04
+    if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            ref: ${{ github.event.pull_request.head.sha }}
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Run Commit Watch
+          env:
+            COMMIT_WATCH_OUTPUT_DIR: ${{ env.ARTIFACT_DIR }}/
+            COMMITWATCH_GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+            CI_REPO_OWNER: ${{ github.repository_owner }}
+            CI_REPO_NAME: ${{ github.event.repository.name }}
+            CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+            CI_BASE_BRANCH: origin/${{ github.base_ref }}
+          run: yarn dlx commit-watch
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: commit-watch-artifacts
+            path: ${{ env.ARTIFACT_DIR }}
+  tests:
+    name: Lint & Tests
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Validate Constraints
+          run: yarn constraints
+        - name: Build
+          run: yarn build
+        - name: Linting
+          run: yarn lint:ci
+        - name: Set GitHub user for tests
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch main
+        - name: Tests
+          run: yarn test:ci
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-unit-tests
+            path: ./raw-coverage/jest
+  tests_e2es:
+    name: Tests - End to End
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      E2E: 1
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Set GitHub user for tests
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch main
+        - name: Build Registry Dockerfile
+          run: yarn workspace @monodeploy/e2e-tests test:registry:build
+        - name: Run Tests
+          run: yarn test:e2e
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-e2e-tests
+            path: ./raw-coverage/jest-e2es
+  test_report:
+    name: Test Report
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs: ['tests_e2es', 'tests']
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/detect-env
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Create artifacts directory
+        run: mkdir -p ${{ env.ARTIFACT_DIR }}
+      - name: Restore yarn cache
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./.yarn
+            .pnp.*
+          key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+      - name: Download Unit Test Coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-unit-tests
+          path: ./raw-coverage/jest
+      - name: Download E2E Coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-e2e-tests
+          path: ./raw-coverage/jest-e2es
+      - name: Log Coverage Files (Jest Unit)
+        run: ls -la ./raw-coverage/jest
+      - name: Log Coverage Files (Jest E2Es)
+        run: ls -la ./raw-coverage/jest-e2es
+      - name: Merge Coverage
+        run: yarn test:coverage:merge
+      - name: Generate Report
+        run: yarn test:coverage:report
+      - name: Upload Coverage Report
+        run: ./.github/codecov.sh $GITHUB_EVENT_PATH
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   tests_compatibility:
     name: Test Compatibility - ${{ matrix.runner }} / Node v${{ matrix.node_version }}
     runs-on: ${{ matrix.runner}}
@@ -219,124 +219,124 @@ jobs:
           with:
             name: report-artifacts
             path: ${{ env.ARTIFACT_DIR }}
-  # publish_preview:
-  #   name: Publish Preview
-  #   runs-on: ubuntu-20.04
-  #   needs: [test_report]
-  #   if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #         with:
-  #           fetch-depth: 0
-  #       - uses: ./.github/actions/detect-env
-  #       - name: Setup Node.js
-  #         uses: actions/setup-node@v2
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Create artifacts directory
-  #         run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #       - name: Restore yarn cache
-  #         id: yarn-cache
-  #         uses: actions/cache@v2
-  #         with:
-  #           path: |
-  #             ./.yarn
-  #             .pnp.*
-  #           key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-  #       - name: Install dependencies
-  #         run: yarn install --immutable
-  #       - name: Build
-  #         run: yarn build
-  #       - name: Run Monodeploy in Dry Run Mode
-  #         id: run-monodeploy
-  #         run: |
-  #           echo "<!-- MONODEPLOY:BELOW -->" > ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
+  publish_preview:
+    name: Publish Preview
+    runs-on: ubuntu-20.04
+    needs: [test_report]
+    if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: yarn install --immutable
+        - name: Build
+          run: yarn build
+        - name: Run Monodeploy in Dry Run Mode
+          id: run-monodeploy
+          run: |
+            echo "<!-- MONODEPLOY:BELOW -->" > ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
 
-  #           yarn run-local \
-  #             --dry-run \
-  #             --log-level 0 \
-  #             --git-base-branch origin/${{ github.base_ref }} \
-  #             --conventional-changelog-config @tophat/conventional-changelog-config \
-  #             --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
-  #             --force-write-change-files \
-  #             --changeset-ignore-patterns '**/*.test.ts'
+            yarn run-local \
+              --dry-run \
+              --log-level 0 \
+              --git-base-branch origin/${{ github.base_ref }} \
+              --conventional-changelog-config @tophat/conventional-changelog-config \
+              --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
+              --force-write-change-files \
+              --changeset-ignore-patterns '**/*.test.ts'
 
-  #           changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
-  #           changelog_body="${changelog_body//'%'/'%25'}"
-  #           changelog_body="${changelog_body//$'\n'/'%0A'}"
-  #           changelog_body="${changelog_body//$'\r'/'%0D'}"
-  #           echo ::set-output name=changelog::$changelog_body
-  #       - name: Check for Changelog Comment
-  #         uses: peter-evans/find-comment@v1
-  #         id: found-comment
-  #         if: github.event_name == 'pull_request'
-  #         with:
-  #           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-  #           issue-number: ${{ github.event.pull_request.number }}
-  #           comment-author: 'tophat-opensource-bot'
-  #           body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
-  #       - name: Post Changelog to PR
-  #         uses: peter-evans/create-or-update-comment@v1
-  #         if: github.event_name == 'pull_request'
-  #         with:
-  #           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-  #           comment-id: ${{ steps.found-comment.outputs.comment-id }}
-  #           issue-number: ${{ github.event.pull_request.number }}
-  #           edit-mode: replace
-  #           body: |
-  #             <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
-  #             # Monodeploy Publish Preview
+            changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
+            changelog_body="${changelog_body//'%'/'%25'}"
+            changelog_body="${changelog_body//$'\n'/'%0A'}"
+            changelog_body="${changelog_body//$'\r'/'%0D'}"
+            echo ::set-output name=changelog::$changelog_body
+        - name: Check for Changelog Comment
+          uses: peter-evans/find-comment@v1
+          id: found-comment
+          if: github.event_name == 'pull_request'
+          with:
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+            issue-number: ${{ github.event.pull_request.number }}
+            comment-author: 'tophat-opensource-bot'
+            body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
+        - name: Post Changelog to PR
+          uses: peter-evans/create-or-update-comment@v1
+          if: github.event_name == 'pull_request'
+          with:
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+            comment-id: ${{ steps.found-comment.outputs.comment-id }}
+            issue-number: ${{ github.event.pull_request.number }}
+            edit-mode: replace
+            body: |
+              <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
+              # Monodeploy Publish Preview
 
-  #             This Pull Request introduces the following changes:
+              This Pull Request introduces the following changes:
 
-  #             ${{ steps.run-monodeploy.outputs.changelog }}
-  #       - name: Upload Artifacts
-  #         uses: actions/upload-artifact@v2
-  #         with:
-  #           name: build-artifacts
-  #           path: ${{ env.ARTIFACT_DIR }}
-  # website:
-  #   name: Website
-  #   runs-on: ubuntu-20.04
-  #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-  #   needs: [test_report]
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #         with:
-  #           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-  #           fetch-depth: 0
-  #       - uses: ./.github/actions/detect-env
-  #       - name: Setup Node.js
-  #         uses: actions/setup-node@v2
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Create artifacts directory
-  #         run: mkdir -p ${{ env.ARTIFACT_DIR }}
-  #       - name: Restore yarn cache
-  #         id: yarn-cache
-  #         uses: actions/cache@v2
-  #         with:
-  #           path: |
-  #             ./.yarn
-  #             .pnp.*
-  #           key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-  #       - name: Install dependencies
-  #         run: |
-  #           yarn install --immutable
-  #       - name: Configure Git
-  #         run: |
-  #           git config --global user.email "opensource@tophat.com"
-  #           git config --global user.name "Top Hat Open Source"
-  #           git config --global init.defaultBranch main
-  #       - name: Build Website
-  #         if: "github.event_name == 'pull_request'"
-  #         run: yarn docs
-  #       - name: Build & Deploy Website
-  #         if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
-  #         run: |
-  #           git checkout gh-pages
-  #           git reset --hard main
-  #           yarn docs
-  #           git add docs
-  #           git commit -m "chore: update website" -n
-  #           git push --force origin gh-pages
+              ${{ steps.run-monodeploy.outputs.changelog }}
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: build-artifacts
+            path: ${{ env.ARTIFACT_DIR }}
+  website:
+    name: Website
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs: [test_report]
+    steps:
+        - uses: actions/checkout@v2
+          with:
+            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+            fetch-depth: 0
+        - uses: ./.github/actions/detect-env
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        - name: Create artifacts directory
+          run: mkdir -p ${{ env.ARTIFACT_DIR }}
+        - name: Restore yarn cache
+          id: yarn-cache
+          uses: actions/cache@v2
+          with:
+            path: |
+              ./.yarn
+              .pnp.*
+            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+        - name: Install dependencies
+          run: |
+            yarn install --immutable
+        - name: Configure Git
+          run: |
+            git config --global user.email "opensource@tophat.com"
+            git config --global user.name "Top Hat Open Source"
+            git config --global init.defaultBranch main
+        - name: Build Website
+          if: "github.event_name == 'pull_request'"
+          run: yarn docs
+        - name: Build & Deploy Website
+          if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
+          run: |
+            git checkout gh-pages
+            git reset --hard main
+            yarn docs
+            git add docs
+            git commit -m "chore: update website" -n
+            git push --force origin gh-pages
