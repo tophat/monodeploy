@@ -11,19 +11,18 @@ export async function initGitRepository(
     cwd: string,
     { allowScaffoldingCommits = true }: { allowScaffoldingCommits?: boolean } = {},
 ): Promise<void> {
-    const pCwd = npath.toPortablePath(cwd)
+    const pcwd = npath.toPortablePath(cwd)
 
-    await exec('git init', [], { cwd: pCwd })
-    await exec('git branch -m main', [], { cwd: pCwd })
-
+    await exec('git init', { cwd: pcwd })
+    await exec('git branch -m main', { cwd: pcwd })
     // This is needed to disable signing if set up by the host.
-    await exec('echo "[commit]\ngpgSign=false" > .git/config', [], { cwd: pCwd })
+    await exec('echo "[commit]\ngpgSign=false" > .git/config', { cwd: pcwd })
 
     await fs.writeFile(path.resolve(cwd, '.gitignore'), ['.yarn', '*.tmp', '.pnp.*'].join('\n'), {
         encoding: 'utf8',
     })
     if (allowScaffoldingCommits) {
-        await exec('git add .gitignore && git commit -n -m "gitignore"', [], { cwd: pCwd })
+        await exec('git add .gitignore && git commit -n -m "gitignore"', { cwd: pcwd })
     }
 }
 
@@ -32,12 +31,11 @@ export async function addGitRemote(
     remoteCwd: string,
     remoteName = 'origin',
 ): Promise<void> {
-    const pCwd = npath.toPortablePath(cwd)
-
-    await exec(`git remote add ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
-    await exec(`git remote set-url ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
-    await exec(`git remote set-url --push ${remoteName} ${remoteCwd}`, [], { cwd: pCwd })
-    await exec('git branch -m main', [], { cwd: pCwd })
+    const pcwd = npath.toPortablePath(cwd)
+    await exec(`git remote add ${remoteName} ${remoteCwd}`, { cwd: pcwd })
+    await exec(`git remote set-url ${remoteName} ${remoteCwd}`, { cwd: pcwd })
+    await exec(`git remote set-url --push ${remoteName} ${remoteCwd}`, { cwd: pcwd })
+    await exec('git branch -m main', { cwd: pcwd })
 }
 
 export async function setupTestRepository(...setupArgs: unknown[]): Promise<string> {
@@ -67,6 +65,5 @@ export async function cleanUp(paths: string[]): Promise<void> {
 }
 
 export async function createCommit(message: string, cwd: string): Promise<void> {
-    const pCwd = npath.toPortablePath(cwd)
-    await exec(`git add . && git commit -m "${message}"`, [], { cwd: pCwd })
+    await exec(`git add . && git commit -m "${message}"`, { cwd: npath.toPortablePath(cwd) })
 }
