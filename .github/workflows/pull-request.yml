@@ -91,7 +91,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
-        runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
+        runner: ['ubuntu-20.04', 'windows-2022']
         node_version: ['14']
     env:
       E2E: 1
