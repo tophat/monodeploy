@@ -18,7 +18,7 @@ const getWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
 
 describe('prependChangelogFile', () => {
-    let workspacePath: string
+    let workspacePath: PortablePath
 
     beforeEach(async () => {
         workspacePath = await setupTestRepository()
@@ -40,7 +40,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: undefined,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
@@ -68,7 +68,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: mockChangelogFilename,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
@@ -97,7 +97,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: 'changelog',
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
@@ -127,7 +127,7 @@ describe('prependChangelogFile', () => {
             changelogFilename: 'changelog',
             dryRun: true,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
         }
@@ -153,7 +153,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: mockChangelogFilename,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         await createFile({
             filePath: 'changelog',
             cwd: workspacePath,
@@ -195,7 +195,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: mockChangelogFilename,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             'pkg-1': {
                 version: '1.0.0',
@@ -231,7 +231,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: '<packageDir>/CHANGELOG.md',
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         const changeset = {
             'pkg-1': {
                 version: '1.0.0',
@@ -278,7 +278,7 @@ describe('prependChangelogFile', () => {
             cwd,
             changelogFilename: mockChangelogFilename,
         })
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         await createFile({
             filePath: 'changelog',
             cwd: workspacePath,

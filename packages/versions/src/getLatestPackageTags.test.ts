@@ -3,7 +3,7 @@ import path from 'path'
 
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
-import { PortablePath } from '@yarnpkg/fslib'
+import { npath, ppath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import { getLatestPackageTags } from '.'
@@ -159,8 +159,12 @@ describe('getLatestPackageTags', () => {
 
     it('returns a null pair for malformed workspaces (missing ident)', async () => {
         // Stripping pkg-2 of its ident
-        const pkg2Cwd = path.resolve(path.join(context.project.cwd, 'packages/pkg-2'))
-        context.project.workspacesByCwd.get(pkg2Cwd as PortablePath)!.manifest.name = null
+        context.project.workspacesByCwd.get(
+            ppath.resolve(
+                context.project.cwd,
+                npath.toPortablePath(path.join('packages', 'pkg-2')),
+            ),
+        )!.manifest.name = null
 
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,

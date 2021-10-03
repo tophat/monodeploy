@@ -3,7 +3,7 @@ import os from 'os'
 import path from 'path'
 
 import { YarnContext } from '@monodeploy/types'
-import { Cache, ThrowReport, structUtils } from '@yarnpkg/core'
+import { Cache, StreamReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
 import { setupContext } from './misc'
@@ -106,11 +106,11 @@ export default async function setupMonorepo(
     )
 
     // Initialize project
-    const context = await setupContext(npath.toPortablePath(workingDir))
+    const context: YarnContext = await setupContext(npath.toPortablePath(workingDir))
 
     await context.project.install({
         cache: await Cache.find(context.configuration),
-        report: new ThrowReport(),
+        report: new StreamReport({ configuration: context.configuration, stdout: process.stdout }),
     })
 
     return context

@@ -1,5 +1,6 @@
 import monodeploy from '@monodeploy/node'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { npath, ppath } from '@yarnpkg/fslib'
 import yargs from 'yargs'
 
 import readConfigFile from './readConfigFile'
@@ -153,7 +154,7 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
         const configFilename = argv.configFile
         const configFromFile: ConfigFile | null = configFilename
             ? await readConfigFile(configFilename, {
-                  cwd: cwd ?? process.cwd(),
+                  cwd: cwd ? npath.toPortablePath(cwd) : ppath.cwd(),
               })
             : null
 

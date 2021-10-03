@@ -1,21 +1,28 @@
-import path from 'path'
+import { structUtils } from '@yarnpkg/core'
+import { PortablePath, npath, ppath } from '@yarnpkg/fslib'
 
 import type { ConfigFile } from './types'
 import validateConfigFile from './validateConfigFile'
 
-const resolvePath = (filename: string, cwd: string): string => {
-    if (filename.startsWith(`.${path.sep}`) || filename.startsWith(path.sep)) {
-        return require.resolve(filename, { paths: [cwd] })
+const resolvePath = (name: string, cwd: PortablePath): string => {
+    const nCwd = npath.fromPortablePath(cwd)
+
+    if (structUtils.tryParseIdent(name)) {
+        try {
+            return require.resolve(name, { paths: [nCwd] })
+        } catch {}
     }
-    return require.resolve(`.${path.sep}${filename}`, { paths: [cwd] })
+
+    const absPath = ppath.resolve(cwd, npath.toPortablePath(name))
+    return require.resolve(npath.fromPortablePath(absPath), { paths: [nCwd] })
 }
 
 const readConfigFile = async (
-    configFilename: string,
-    { cwd }: { cwd: string },
+    configName: string,
+    { cwd }: { cwd: PortablePath },
 ): Promise<ConfigFile> => {
     try {
-        const configId = resolvePath(configFilename, cwd)
+        const configId = resolvePath(configName, cwd)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const config: unknown = require(configId)
         const validate = validateConfigFile()
@@ -31,7 +38,7 @@ const readConfigFile = async (
         /* istanbul ignore else */
         if (err instanceof Error && err?.message) {
             throw new Error(
-                `Unable to parse monodeploy config from: ${configFilename}.\n\n${err.message}`,
+                `Unable to parse monodeploy config from: ${configName}.\n\n${err.message}`,
             )
         }
 

@@ -7,7 +7,7 @@ import { gitLastTaggedCommit, gitPushTags, gitTag } from '.'
 jest.mock('@monodeploy/logging')
 
 const setupRepo = async () => {
-    const context = await setupMonorepo({
+    const context: YarnContext = await setupMonorepo({
         'pkg-1': {},
         'pkg-2': {},
         'pkg-3': { dependencies: ['pkg-2'] },

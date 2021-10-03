@@ -1,13 +1,14 @@
 import path from 'path'
 
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
 
 const getPackageJsonPaths = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
     return [...context.project.topLevelWorkspace.workspacesCwds].map((wCwd) =>
-        path.join(path.resolve(config.cwd, wCwd), 'package.json'),
+        path.resolve(config.cwd, npath.fromPortablePath(wCwd), 'package.json'),
     )
 }
 

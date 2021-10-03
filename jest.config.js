@@ -18,7 +18,7 @@ module.exports = {
         collectCoverage: true,
     }),
     transform: {
-        '^.+\\.[jt]sx?$': 'ts-jest',
+        '^.+\\.tsx?$': 'ts-jest',
     },
     coverageReporters: CI ? ['json'] : ['text', 'json'],
     coverageDirectory: 'raw-coverage/jest/',

@@ -12,6 +12,7 @@ import {
     writeConfig,
 } from '@monodeploy/test-utils'
 import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
 
 import { startRegistry, stopRegistry, waitForRegistry } from './docker'
 import run from './runner'
@@ -62,7 +63,7 @@ export default function setupProject({
 
             // remote to push tags/artifacts to
             remotePath = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            await initGitRepository(remotePath)
+            await initGitRepository(npath.toPortablePath(remotePath))
             await addGitRemote(project, remotePath, 'origin')
 
             const configFilename = await writeConfig({
