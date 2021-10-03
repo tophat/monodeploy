@@ -86,9 +86,13 @@ jobs:
             name: coverage-unit-tests
             path: ./raw-coverage/jest
   tests_e2es:
-    name: Tests - End to End
-    runs-on: ubuntu-20.04
+    name: Tests - End to End - ${{ matrix.runner }}
+    runs-on: ${{ matrix.runner}}
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    strategy:
+      matrix:
+        runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
+        node_version: ['14']
     env:
       E2E: 1
     steps:
@@ -99,7 +103,7 @@ jobs:
         - name: Setup Node.js
           uses: actions/setup-node@v2
           with:
-            node-version: ${{ env.NODE_VERSION }}
+            node-version: ${{ matrix.node_version }}
         - name: Create artifacts directory
           run: mkdir -p ${{ env.ARTIFACT_DIR }}
         - name: Restore yarn cache
@@ -109,7 +113,7 @@ jobs:
             path: |
               ./.yarn
               .pnp.*
-            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+            key: ${{ matrix.runner}}-${{ matrix.node_version }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
         - name: Install dependencies
           run: |
             yarn install --immutable
@@ -124,6 +128,7 @@ jobs:
           run: yarn test:e2e
         - name: Upload Artifacts
           uses: actions/upload-artifact@v2
+          if: ${{ matrix.runner }} == 'ubuntu-20.04'
           with:
             name: coverage-e2e-tests
             path: ./raw-coverage/jest-e2es
