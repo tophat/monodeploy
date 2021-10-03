@@ -11,7 +11,7 @@ import { PortablePath } from '@yarnpkg/fslib'
 import { writeChangesetFile } from '.'
 
 describe('writeChangesetFile', () => {
-    let workspacePath: string
+    let workspacePath: PortablePath
 
     beforeEach(async () => {
         workspacePath = await setupTestRepository()
@@ -35,7 +35,7 @@ describe('writeChangesetFile', () => {
                 path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         }
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
 
         const changeset = await writeChangesetFile({
             config,

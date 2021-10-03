@@ -9,7 +9,7 @@ import { setupMonorepo } from '@monodeploy/test-utils'
 import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
-import { PortablePath, npath } from '@yarnpkg/fslib'
+import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import monodeploy from '..'
@@ -485,7 +485,7 @@ describe('Monodeploy', () => {
 
     it('does not restore package.jsons if persist versions is true', async () => {
         const config = { ...monodeployConfig, persistVersions: true }
-        const cwd = path.resolve(process.cwd(), config.cwd) as PortablePath
+        const cwd = npath.toPortablePath(path.resolve(process.cwd(), config.cwd))
         const configuration = await Configuration.find(cwd, getPluginConfiguration())
         const { project, workspace } = await Project.find(configuration, cwd)
         await project.restoreInstallState()

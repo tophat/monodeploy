@@ -17,7 +17,7 @@ jest.mock('@monodeploy/git', () => jest.requireActual('@monodeploy/git'))
 import { getExplicitVersionStrategies } from '.'
 
 describe('getExplicitVersionStrategies', () => {
-    let tempRepositoryRoot: string
+    let tempRepositoryRoot: PortablePath
 
     beforeEach(async () => {
         tempRepositoryRoot = await setupTestRepository()
@@ -28,7 +28,7 @@ describe('getExplicitVersionStrategies', () => {
 
     it('produces strategies if a package has commited changes', async () => {
         const cwd = tempRepositoryRoot
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
         await createFile({ filePath: path.join('packages', 'pkg-1', 'test.js'), cwd })
@@ -63,7 +63,7 @@ describe('getExplicitVersionStrategies', () => {
 
     it('ignores ignored commits based on ignore patterns', async () => {
         const cwd = tempRepositoryRoot
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
@@ -108,7 +108,7 @@ describe('getExplicitVersionStrategies', () => {
 
     it('ignores ignored files', async () => {
         const cwd = tempRepositoryRoot
-        const context = await setupContext(cwd as PortablePath)
+        const context = await setupContext(cwd)
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
