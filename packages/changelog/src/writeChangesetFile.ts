@@ -9,6 +9,7 @@ import type {
     PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
+import { npath } from '@yarnpkg/fslib'
 
 import generateChangelogEntry from './changelog'
 
@@ -62,7 +63,10 @@ const writeChangesetFile = async ({
     if (config.changesetFilename === '-') {
         console.log(serializedData)
     } else {
-        const changesetPath = path.resolve(config.cwd, config.changesetFilename)
+        const changesetPath = path.resolve(
+            config.cwd,
+            npath.fromPortablePath(config.changesetFilename),
+        )
         await fs.mkdir(path.dirname(changesetPath), { recursive: true })
 
         await fs.writeFile(changesetPath, serializedData, {

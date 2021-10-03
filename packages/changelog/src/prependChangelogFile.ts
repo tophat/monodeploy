@@ -85,9 +85,11 @@ const prependChangelogFile = async ({
 
     if (config.changelogFilename.includes(TOKEN_PACKAGE_DIR)) {
         const prependForWorkspace = async (workspace: Workspace): Promise<void> => {
-            const filename = config.changelogFilename!.replace(
-                TOKEN_PACKAGE_DIR,
-                npath.fromPortablePath(workspace.cwd),
+            const filename = npath.fromPortablePath(
+                config.changelogFilename!.replace(
+                    TOKEN_PACKAGE_DIR,
+                    npath.fromPortablePath(workspace.cwd),
+                ),
             )
             const packageName = structUtils.stringifyIdent(workspace.manifest.name!)
             const entry = changeset[packageName]?.changelog
