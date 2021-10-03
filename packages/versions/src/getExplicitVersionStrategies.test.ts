@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { exec } from '@monodeploy/io'
 import {
     cleanUp,
@@ -29,7 +31,7 @@ describe('getExplicitVersionStrategies', () => {
         const context = await setupContext(cwd as PortablePath)
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
-        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
+        await createFile({ filePath: path.join('packages', 'pkg-1', 'test.js'), cwd })
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)
         const headSha = (
@@ -65,10 +67,10 @@ describe('getExplicitVersionStrategies', () => {
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
-        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
+        await createFile({ filePath: path.join('packages', 'pkg-1', 'test.js'), cwd })
         await createCommit('feat: ignore-me!', cwd)
 
-        await createFile({ filePath: 'packages/pkg-2/test.js', cwd })
+        await createFile({ filePath: path.join('packages', 'pkg-2', 'test.js'), cwd })
         const mockMessage = 'feat: pick me!'
         await createCommit(mockMessage, cwd)
 
@@ -110,8 +112,8 @@ describe('getExplicitVersionStrategies', () => {
         await createCommit('feat: initial commit', cwd)
         await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
 
-        await createFile({ filePath: 'packages/pkg-1/test.js', cwd })
-        await createFile({ filePath: 'packages/pkg-2/test.test.js', cwd })
+        await createFile({ filePath: path.join('packages', 'pkg-1', 'test.js'), cwd })
+        await createFile({ filePath: path.join('packages', 'pkg-2', 'test.test.js'), cwd })
 
         const mockMessage = 'feat: woa'
         await createCommit(mockMessage, cwd)

@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { exec } from '@monodeploy/io'
 import {
     cleanUp,
@@ -52,7 +54,7 @@ describe('@monodeploy/git', () => {
             const cwd = context.project.cwd
 
             await createFile({ filePath: 'test.txt', cwd })
-            await createFile({ filePath: 'testDir/test.txt', cwd })
+            await createFile({ filePath: path.join('testDir', 'test.txt'), cwd })
 
             await exec('git add . && git commit -m "test: test file" -n', {
                 cwd,
