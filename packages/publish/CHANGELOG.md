@@ -2,6 +2,17 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.5.13](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.12...@monodeploy/publish@0.5.13) "@monodeploy/publish" (2021-10-11)<a name="0.5.13"></a>
+
+### Bug Fixes
+
+* update internal yarn dependencies (#433) ([a8d6fcb](https://github.com/tophat/monodeploy/commits/a8d6fcb))
+* use cross platform exec for windows support (#434) ([3dcbfb4](https://github.com/tophat/monodeploy/commits/3dcbfb4))
+* include version in publish logging (#436) ([754ff51](https://github.com/tophat/monodeploy/commits/754ff51))
+
+
+
+
 ## [0.5.12](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.11...@monodeploy/publish@0.5.12) "@monodeploy/publish" (2021-09-15)<a name="0.5.12"></a>
 
 ### Bug Fixes

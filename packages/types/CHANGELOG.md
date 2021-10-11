@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.3](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.10.2...@monodeploy/types@0.10.3) "@monodeploy/types" (2021-10-11)<a name="0.10.3"></a>
+
+### Bug Fixes
+
+* update internal yarn dependencies (#433) ([a8d6fcb](https://github.com/tophat/monodeploy/commits/a8d6fcb))
+
+
+
+
 ## [0.10.2](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.10.1...@monodeploy/types@0.10.2) "@monodeploy/types" (2021-09-15)<a name="0.10.2"></a>
 
 ### Bug Fixes

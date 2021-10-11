@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.9](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.8...@monodeploy/dependencies@0.3.9) "@monodeploy/dependencies" (2021-10-11)<a name="0.3.9"></a>
+
+### Bug Fixes
+
+* update internal yarn dependencies (#433) ([a8d6fcb](https://github.com/tophat/monodeploy/commits/a8d6fcb))
+* use cross platform exec for windows support (#434) ([3dcbfb4](https://github.com/tophat/monodeploy/commits/3dcbfb4))
+
+
+
+
 ## [0.3.8](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.7...@monodeploy/dependencies@0.3.8) "@monodeploy/dependencies" (2021-09-15)<a name="0.3.8"></a>
 
 ### Bug Fixes

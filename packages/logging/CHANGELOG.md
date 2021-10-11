@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.1.11](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.10...@monodeploy/logging@0.1.11) "@monodeploy/logging" (2021-10-11)<a name="0.1.11"></a>
+
+### Bug Fixes
+
+* update internal yarn dependencies (#433) ([a8d6fcb](https://github.com/tophat/monodeploy/commits/a8d6fcb))
+
+
+
+
 ## [0.1.10](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.9...@monodeploy/logging@0.1.10) "@monodeploy/logging" (2021-09-15)<a name="0.1.10"></a>
 
 ### Bug Fixes

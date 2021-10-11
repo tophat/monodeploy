@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/versions",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -48,12 +48,12 @@
     "@yarnpkg/plugin-pack": "^3.1.0-rc.8"
   },
   "peerDependencies": {
-    "@monodeploy/changelog": "workspace:*",
-    "@monodeploy/dependencies": "workspace:*",
-    "@monodeploy/git": "workspace:*",
-    "@monodeploy/io": "workspace:*",
-    "@monodeploy/logging": "workspace:*",
-    "@monodeploy/types": "workspace:*",
+    "@monodeploy/changelog": "workspace:^0.7.8",
+    "@monodeploy/dependencies": "workspace:^0.3.9",
+    "@monodeploy/git": "workspace:^0.3.10",
+    "@monodeploy/io": "workspace:^0.2.22",
+    "@monodeploy/logging": "workspace:^0.1.11",
+    "@monodeploy/types": "workspace:^0.10.3",
     "@yarnpkg/cli": "^3.1.0-rc.8",
     "@yarnpkg/core": "^3.1.0-rc.9",
     "@yarnpkg/fslib": "^2.6.0-rc.8",
