@@ -176,6 +176,13 @@ export interface MonodeployConfiguration {
     commitIgnorePatterns?: Array<string | RegExp>
 
     /**
+     * The manifest field name to use in workspace grouping. All packages
+     * within a group will always have the same version. If unset, all packages
+     * are versioned independently.
+     */
+    packageGroupManifestField?: string
+
+    /**
      * Default: false
      *
      * Whether to run the lifecycle scripts of the packages to publish in topological order,

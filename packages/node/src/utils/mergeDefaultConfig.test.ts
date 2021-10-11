@@ -77,6 +77,7 @@ describe('Config Merging', () => {
             prereleaseId: 'rc',
             prereleaseNPMTag: 'beta',
             commitIgnorePatterns: ['\\[skip-ci\\]'],
+            packageGroupManifestField: 'group',
         }
 
         const merged = await mergeDefaultConfig(config)
