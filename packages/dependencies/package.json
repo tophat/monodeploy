@@ -25,15 +25,15 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/logging": "workspace:^0.1.11",
-    "@monodeploy/types": "workspace:^0.10.3",
-    "@yarnpkg/core": "^3.1.0-rc.9"
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
+    "@yarnpkg/core": "^3.1.0-rc.12"
   },
   "devDependencies": {
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8"
+    "@yarnpkg/core": "^3.1.0-rc.12",
+    "@yarnpkg/fslib": "^2.6.0-rc.11"
   }
 }

@@ -1,5 +1,11 @@
 constraints_min_version(1).
 
+% Peer versions should match dev versions for @yarnpkg/*
+gen_enforced_dependency(WorkspaceCwd, DependencyIdent, DependencyRange, 'peerDependencies') :-
+  workspace_has_dependency(WorkspaceCwd, DependencyIdent, DependencyRange, 'devDependencies'),
+  workspace_has_dependency(WorkspaceCwd, DependencyIdent, _, 'peerDependencies'),
+  atom_concat('@yarnpkg/', _, DependencyIdent).
+
 % This rule enforces that all workspaces must depend on other workspaces using `workspace:*` in devDependencies
 gen_enforced_dependency(WorkspaceCwd, DependencyIdent, 'workspace:*', DependencyType) :-
   workspace_has_dependency(WorkspaceCwd, DependencyIdent, DependencyRange, DependencyType),
