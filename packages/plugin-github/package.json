@@ -30,14 +30,14 @@
     "tapable": "^2.2.0"
   },
   "dependencies": {
-    "@monodeploy/git": "workspace:^0.3.10",
-    "@monodeploy/io": "workspace:^0.2.22",
-    "@monodeploy/logging": "workspace:^0.1.11",
-    "@monodeploy/types": "workspace:^0.10.3",
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
     "@octokit/core": "^3.4.0",
     "@octokit/plugin-throttling": "^3.4.1",
-    "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8",
-    "@yarnpkg/shell": "^3.1.0-rc.5"
+    "@yarnpkg/core": "^3.1.0",
+    "@yarnpkg/fslib": "^2.6.0",
+    "@yarnpkg/shell": "^3.1.0"
   }
 }

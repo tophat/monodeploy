@@ -25,12 +25,12 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/git": "workspace:^0.3.10",
-    "@monodeploy/io": "workspace:^0.2.22",
-    "@monodeploy/logging": "workspace:^0.1.11",
-    "@monodeploy/types": "workspace:^0.10.3",
-    "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8"
+    "@monodeploy/git": "workspace:*",
+    "@monodeploy/io": "workspace:*",
+    "@monodeploy/logging": "workspace:*",
+    "@monodeploy/types": "workspace:*",
+    "@yarnpkg/core": "^3.1.0",
+    "@yarnpkg/fslib": "^2.6.0"
   },
   "dependencies": {
     "conventional-changelog-writer": "^5.0.0",
@@ -46,7 +46,7 @@
     "@types/conventional-changelog-writer": "^4.0.0",
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/node": "^14.17.14",
-    "@yarnpkg/core": "^3.1.0-rc.9",
-    "@yarnpkg/fslib": "^2.6.0-rc.8"
+    "@yarnpkg/core": "^3.1.0",
+    "@yarnpkg/fslib": "^2.6.0"
   }
 }
