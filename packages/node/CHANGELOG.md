@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.11.13](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.12...@monodeploy/node@0.11.13) "@monodeploy/node" (2021-10-25)<a name="0.11.13"></a>
+
+### Bug Fixes
+
+* update to yarn 3.1.0 (#440) ([5eb4ad0](https://github.com/tophat/monodeploy/commits/5eb4ad0))
+
+
+
+
 ## [0.11.12](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.11...@monodeploy/node@0.11.12) "@monodeploy/node" (2021-10-11)<a name="0.11.12"></a>
 
 ### Bug Fixes
