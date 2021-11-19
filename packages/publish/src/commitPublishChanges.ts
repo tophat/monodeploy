@@ -1,4 +1,4 @@
-import { gitAdd, gitCommit, gitPull, gitPush, gitPushTags } from '@monodeploy/git'
+import { gitAdd, gitCheckIgnore, gitCommit, gitPull, gitPush, gitPushTags } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
@@ -27,11 +27,14 @@ const commitPublishChanges = async ({
 
     if (config.autoCommit) {
         // Push artifacts (changelog, package.json changes)
-        const files = ['.pnp.cjs', 'yarn.lock', 'package.json', '"**/package.json"']
+        const files = ['yarn.lock', 'package.json', '"**/package.json"']
         if (config?.changelogFilename) {
             files.push(`"${config.changelogFilename.replace('<packageDir>', '**')}"`)
         }
-        await gitAdd(files, { cwd: config.cwd })
+        if (!(await gitCheckIgnore('.pnp.cjs', { cwd: config.cwd, context }))) {
+            files.push('.pnp.cjs')
+        }
+        await gitAdd(files, { cwd: config.cwd, context })
         await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
 
         if (config.git.push) {
