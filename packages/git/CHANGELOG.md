@@ -2,6 +2,22 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.11...@monodeploy/git@0.4.0) "@monodeploy/git" (2021-11-19)<a name="0.4.0"></a>
+
+### Bug Fixes
+
+* include .pnp.cjs when committing changes ([8a031e6](https://github.com/tophat/monodeploy/commits/8a031e6))
+* git add generated `.pnp.cjs` when autocommiting (#438) ([8a031e6](https://github.com/tophat/monodeploy/commits/8a031e6))
+
+### Features
+
+* improved error messages when running exec commands
+
+Co-authored-by: noahnu <noahnu@gmail.com> ([8a031e6](https://github.com/tophat/monodeploy/commits/8a031e6))
+
+
+
+
 ## [0.3.11](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.10...@monodeploy/git@0.3.11) "@monodeploy/git" (2021-10-25)<a name="0.3.11"></a>
 
 ### Bug Fixes
