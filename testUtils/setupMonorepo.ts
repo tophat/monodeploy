@@ -3,10 +3,12 @@ import os from 'os'
 import path from 'path'
 
 import { YarnContext } from '@monodeploy/types'
-import { Cache, StreamReport, structUtils } from '@yarnpkg/core'
+import { Cache, StreamReport, ThrowReport, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
 import { setupContext } from './misc'
+
+const DEBUG = process.env.DEBUG === '1'
 
 async function writeJSON(filename: string, data: Record<string, unknown>): Promise<void> {
     await fs.writeFile(filename, JSON.stringify(data), 'utf-8')
@@ -110,7 +112,9 @@ export default async function setupMonorepo(
 
     await context.project.install({
         cache: await Cache.find(context.configuration),
-        report: new StreamReport({ configuration: context.configuration, stdout: process.stdout }),
+        report: DEBUG
+            ? new StreamReport({ configuration: context.configuration, stdout: process.stdout })
+            : new ThrowReport(),
     })
 
     return context

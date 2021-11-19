@@ -1,9 +1,9 @@
-import { DescriptorHash, Workspace } from '@yarnpkg/core'
+import { Workspace } from '@yarnpkg/core'
 
 type Level = number
 
 /**
- * Takes an iterable of workspaces and returns a topologically list:
+ * Takes an iterable of workspaces and returns a topologically sorted list:
  * [ [A, B], [C, D], [E] ]
  */
 const getTopologicalSort = async (
@@ -16,23 +16,18 @@ const getTopologicalSort = async (
             workspace,
         ]),
     )
-    const maxPossibleVisits = possibleWorkspaces.size
 
     const ordered = new Map<Workspace, Level>()
-    const visited = new Map<DescriptorHash, number>()
     const queue = [...possibleWorkspaces.values()]
     while (queue.length) {
         const workspace = queue.shift()!
-        const workspaceHash = workspace.anchoredDescriptor.descriptorHash
-        const visitedCount = visited.get(workspaceHash) ?? 0
-        visited.set(workspaceHash, visitedCount + 1)
-
-        if (visitedCount > maxPossibleVisits) {
-            throw new Error('Unable to determine topological sort. There is likely a cycle.')
-        }
 
         const level = Math.max(ordered.get(workspace) ?? 0, 0)
         ordered.set(workspace, level)
+
+        if (level > possibleWorkspaces.size) {
+            throw new Error('Unable to determine topological sort. There is likely a cycle.')
+        }
 
         const dependencies = [
             ...workspace.manifest.dependencies.values(),
