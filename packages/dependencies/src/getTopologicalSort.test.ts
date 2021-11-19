@@ -1,3 +1,5 @@
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "expectOrdering"] }] */
+
 import { withMonorepoContext } from '@monodeploy/test-utils'
 import { YarnContext } from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
@@ -6,6 +8,28 @@ import getTopologicalSort from './getTopologicalSort'
 
 const identToWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
+
+function mapToName(value: Array<Array<Workspace>> | Array<Workspace>) {
+    return value.map((group) => {
+        if (Array.isArray(group)) {
+            return group.map((w) => structUtils.stringifyIdent(w.manifest.name!))
+        }
+        return structUtils.stringifyIdent(group.manifest.name!)
+    })
+}
+
+function expectOrdering(received: Array<Array<Workspace>>) {
+    return {
+        toEqual(actual: Array<Array<Workspace>>) {
+            expect(mapToName(received)).toEqual(mapToName(actual))
+        },
+        not: {
+            toEqual(actual: Array<Array<Workspace>>) {
+                expect(mapToName(received)).not.toEqual(mapToName(actual))
+            },
+        },
+    }
+}
 
 describe('Topological Sort', () => {
     it('returns a single item for a single package monorepo', async () =>
@@ -17,7 +41,7 @@ describe('Topological Sort', () => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const sorted = await getTopologicalSort([workspace1])
 
-                expect(sorted).toEqual([[workspace1]])
+                expectOrdering(sorted).toEqual([[workspace1]])
             },
         ))
 
@@ -33,10 +57,10 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(await getTopologicalSort([workspace1])).toEqual([[workspace1]])
-                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).toEqual([
-                    expect.arrayContaining([workspace1, workspace2, workspace3]),
-                ])
+                expectOrdering(await getTopologicalSort([workspace1])).toEqual([[workspace1]])
+                expect(
+                    mapToName(await getTopologicalSort([workspace1, workspace2, workspace3])),
+                ).toEqual([expect.arrayContaining(mapToName([workspace1, workspace2, workspace3]))])
             },
         ))
 
@@ -53,7 +77,7 @@ describe('Topological Sort', () => {
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
                 const sorted = await getTopologicalSort([workspace1, workspace2, workspace3])
-                expect(sorted).toEqual([[workspace3], [workspace1], [workspace2]])
+                expectOrdering(sorted).toEqual([[workspace3], [workspace1], [workspace2]])
             },
         ))
 
@@ -73,7 +97,7 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
 
                 const sorted = await getTopologicalSort([workspace1, workspace2])
-                expect(sorted).toEqual([[workspace2], [workspace1]])
+                expectOrdering(sorted).toEqual([[workspace2], [workspace1]])
             },
         ))
 
@@ -89,7 +113,7 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(await getTopologicalSort([workspace1, workspace3])).toEqual([
+                expectOrdering(await getTopologicalSort([workspace1, workspace3])).toEqual([
                     [workspace3],
                     [workspace1],
                 ])
@@ -112,8 +136,101 @@ describe('Topological Sort', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).toEqual([
-                    [workspace1, workspace2, workspace3],
+                expectOrdering(
+                    await getTopologicalSort([workspace1, workspace2, workspace3]),
+                ).toEqual([[workspace1, workspace2, workspace3]])
+            },
+        ))
+
+    it('handles complex graphs', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {
+                    dependencies: ['pkg-2', 'pkg-4'],
+                },
+                'pkg-2': {
+                    dependencies: ['pkg-3', 'pkg-4'],
+                },
+                'pkg-3': { dependencies: ['pkg-4'] },
+                'pkg-4': {},
+            },
+            async (context) => {
+                const workspaces = ['pkg-1', 'pkg-2', 'pkg-3', 'pkg-4'].map((k) =>
+                    identToWorkspace(context, k),
+                )
+
+                expectOrdering(await getTopologicalSort([...workspaces], { dev: true })).toEqual([
+                    [workspaces[3] /* pkg-4 */],
+                    [workspaces[2] /* pkg-3 */],
+                    [workspaces[1] /* pkg-2 */],
+                    [workspaces[0] /* pkg-1 */],
+                ])
+            },
+        ))
+
+    it('handles complex graphs 2', async () =>
+        withMonorepoContext(
+            {
+                'pkg-1': {
+                    devDependencies: ['pkg-9'],
+                    dependencies: ['pkg-2', 'pkg-4', 'pkg-3', 'pkg-6', 'pkg-5'],
+                },
+                'pkg-2': {},
+                'pkg-3': { devDependencies: ['pkg-9'], dependencies: ['pkg-8'] },
+                'pkg-4': { dependencies: ['pkg-2', 'pkg-3', 'pkg-5'] },
+                'pkg-5': { devDependencies: ['pkg-9'], dependencies: ['pkg-8'] },
+                'pkg-6': {
+                    devDependencies: ['pkg-9'],
+                    dependencies: ['pkg-8', 'pkg-10'],
+                },
+                'pkg-7': { devDependencies: ['pkg-9'], dependencies: ['pkg-8'] },
+                'pkg-8': { devDependencies: ['pkg-9'] },
+                'pkg-9': {},
+                'pkg-10': { devDependencies: ['pkg-9'], dependencies: ['pkg-8'] },
+                'pkg-11': { devDependencies: ['pkg-9'], dependencies: ['pkg-10'] },
+                'pkg-12': {
+                    devDependencies: ['pkg-9'],
+                    dependencies: ['pkg-4', 'pkg-8'],
+                },
+                'pkg-13': {},
+                'pkg-14': { devDependencies: ['pkg-9'], dependencies: ['pkg-10'] },
+                'pkg-15': { dependencies: ['pkg-16'] },
+                'pkg-16': { devDependencies: ['pkg-9'] },
+            },
+            async (context) => {
+                const workspaces = [
+                    'pkg-1',
+                    'pkg-2',
+                    'pkg-3',
+                    'pkg-4',
+                    'pkg-5',
+                    'pkg-6',
+                    'pkg-7',
+                    'pkg-8',
+                    'pkg-9',
+                    'pkg-10',
+                    'pkg-11',
+                    'pkg-12',
+                    'pkg-13',
+                    'pkg-14',
+                    'pkg-15',
+                    'pkg-16',
+                ].map((k) => identToWorkspace(context, k))
+
+                expectOrdering(await getTopologicalSort([...workspaces], { dev: true })).toEqual([
+                    [workspaces[8]],
+                    [workspaces[7]],
+                    [workspaces[1], workspaces[2], workspaces[4], workspaces[9]],
+                    [workspaces[3], workspaces[5], workspaces[15]],
+                    [
+                        workspaces[0],
+                        workspaces[6],
+                        workspaces[10],
+                        workspaces[11],
+                        workspaces[12],
+                        workspaces[13],
+                        workspaces[14],
+                    ],
                 ])
             },
         ))
@@ -132,13 +249,11 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(await getTopologicalSort([workspace1, workspace2, workspace3])).not.toEqual([
-                    [workspace3],
-                    [workspace1],
-                    [workspace2],
-                ])
+                expectOrdering(
+                    await getTopologicalSort([workspace1, workspace2, workspace3]),
+                ).not.toEqual([[workspace3], [workspace1], [workspace2]])
 
-                expect(
+                expectOrdering(
                     await getTopologicalSort([workspace1, workspace2, workspace3], { dev: true }),
                 ).toEqual([[workspace3], [workspace1], [workspace2]])
             },
@@ -156,7 +271,7 @@ describe('Topological Sort, with Dev Dependencies', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                expect(
+                expectOrdering(
                     await getTopologicalSort([workspace1, workspace2, workspace3], { dev: true }),
                 ).toEqual([[workspace3], [workspace1], [workspace2]])
             },
