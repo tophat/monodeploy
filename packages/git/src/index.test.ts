@@ -13,6 +13,7 @@ import { YarnContext } from '@monodeploy/types'
 import {
     getCommitMessages,
     gitAdd,
+    gitCheckIgnore,
     gitCommit,
     gitDiffTree,
     gitLastTaggedCommit,
@@ -448,6 +449,18 @@ describe('@monodeploy/git', () => {
                     })
                 ).stdout.toString(),
             ).toEqual(expect.stringContaining('chore: initial commit'))
+        })
+    })
+
+    describe('gitCheckIgnore', () => {
+        it('correctly identifies ignored files', async () => {
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'test.txt', cwd })
+
+            expect(await gitCheckIgnore('test.txt', { cwd, context })).toBe(false)
+
+            // .pnp.cjs is defined as ignored in the gitignore from testUtils
+            expect(await gitCheckIgnore('.pnp.cjs', { cwd, context })).toBe(true)
         })
     })
 })

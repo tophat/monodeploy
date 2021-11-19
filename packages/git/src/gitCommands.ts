@@ -1,4 +1,4 @@
-import { exec } from '@monodeploy/io'
+import { ExecException, exec } from '@monodeploy/io'
 import logging, { assertProduction } from '@monodeploy/logging'
 import { YarnContext } from '@monodeploy/types'
 
@@ -140,6 +140,21 @@ export const gitLastTaggedCommit = async ({
     ).stdout
         .toString()
         .trim()
+}
+
+export const gitCheckIgnore = async (
+    file: string,
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<boolean> => {
+    try {
+        await git(`check-ignore -q ${file}`, { cwd, context })
+    } catch (err) {
+        if (err instanceof ExecException) {
+            if (err.code === 1) return false
+        }
+        throw err
+    }
+    return true
 }
 
 export const gitAdd = async (

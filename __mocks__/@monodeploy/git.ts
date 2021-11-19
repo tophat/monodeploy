@@ -169,6 +169,13 @@ export const getCommitMessages = async (
         .filter((msg) => msg.body)
 }
 
+export const gitCheckIgnore = async (
+    file: string,
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<boolean> => {
+    return false
+}
+
 module.exports = {
     __esModule: true,
     _commitFiles_,
@@ -180,6 +187,7 @@ module.exports = {
     getCommitMessages,
     gitAdd,
     gitCommit,
+    gitCheckIgnore,
     gitDiffTree,
     gitLastTaggedCommit,
     gitLog,
