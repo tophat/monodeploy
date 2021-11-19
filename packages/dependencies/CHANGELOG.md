@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.3.11](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.10...@monodeploy/dependencies@0.3.11) "@monodeploy/dependencies" (2021-11-19)<a name="0.3.11"></a>
+
+### Bug Fixes
+
+* overeager detection of cycles in topological sort (#443) ([78f1374](https://github.com/tophat/monodeploy/commits/78f1374))
+
+
+
+
 ## [0.3.10](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.9...@monodeploy/dependencies@0.3.10) "@monodeploy/dependencies" (2021-10-25)<a name="0.3.10"></a>
 
 ### Bug Fixes
