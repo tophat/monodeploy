@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.6.0...@monodeploy/publish@0.6.1) "@monodeploy/publish" (2021-11-22)<a name="0.6.1"></a>
+
+### Bug Fixes
+
+* only commit pnp files if they exist ([b14f8f3](https://github.com/tophat/monodeploy/commits/b14f8f3))
+* only commit pnp files if they exist (#445) ([b14f8f3](https://github.com/tophat/monodeploy/commits/b14f8f3))
+
+
+
+
 ## [0.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.5.15...@monodeploy/publish@0.6.0) "@monodeploy/publish" (2021-11-19)<a name="0.6.0"></a>
 
 ### Bug Fixes
