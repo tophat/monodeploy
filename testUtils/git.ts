@@ -40,10 +40,12 @@ export async function addGitRemote(
     await exec('git branch -m main', { cwd: pcwd })
 }
 
-export async function setupTestRepository(...setupArgs: unknown[]): Promise<PortablePath> {
+export async function setupTestRepository(
+    ...setupArgs: Parameters<typeof setupMonorepo> | never[]
+): Promise<PortablePath> {
     let context: YarnContext
     if (setupArgs.length) {
-        context = await setupMonorepo(...(setupArgs as Parameters<typeof setupMonorepo> | never))
+        context = await setupMonorepo(...(setupArgs as Parameters<typeof setupMonorepo>))
     } else {
         context = await setupMonorepo({
             'pkg-1': {},
