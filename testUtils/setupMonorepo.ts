@@ -49,8 +49,10 @@ export default async function setupMonorepo(
     monorepo: Record<string, PackageInitConfiguration>,
     {
         root,
+        nodeLinker = 'pnp',
     }: {
         root?: ProjectRootInitConfiguration
+        nodeLinker?: 'pnp' | 'pnpm' | 'node-modules'
     } = {},
 ): Promise<YarnContext> {
     const workingDir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
@@ -94,6 +96,7 @@ export default async function setupMonorepo(
         path.join(workingDir, '.yarnrc.yml'),
         [
             'yarnPath: ./run-yarn.cjs',
+            `nodeLinker: ${nodeLinker}`,
             'enableGlobalCache: false',
             ...(process.env.E2E === '1'
                 ? [
