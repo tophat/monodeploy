@@ -25,6 +25,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
+    "micromatch": "^4.0.4",
     "p-limit": "^3.1.0"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
+    "@types/micromatch": "^4",
     "@yarnpkg/cli": "^3.1.0",
     "@yarnpkg/core": "^3.1.0",
     "@yarnpkg/fslib": "^2.6.0",
