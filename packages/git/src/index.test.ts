@@ -455,8 +455,6 @@ describe('@monodeploy/git', () => {
 
     describe('gitGlob', () => {
         it('correctly lists globbed files', async () => {
-            process.env.MONODEPLOY_LOG_LEVEL = '0'
-
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
 
@@ -472,18 +470,14 @@ describe('@monodeploy/git', () => {
 
             expect(await gitGlob(['test*.txt'], { cwd, context })).toEqual(['test.txt'])
             expect(await gitGlob(['**/test*.txt'], { cwd, context })).toEqual(
-                expect.arrayContaining([
-                    'test.txt',
-                    path.join('child', 'test1.txt'),
-                    path.join('child', 'test2.txt'),
-                ]),
+                expect.arrayContaining(['test.txt', 'child/test1.txt', 'child/test2.txt']),
             )
             expect(await gitGlob(['other.txt', '**/test*.txt'], { cwd, context })).toEqual(
                 expect.arrayContaining([
                     'other.txt',
                     'test.txt',
-                    path.join('child', 'test1.txt'),
-                    path.join('child', 'test2.txt'),
+                    'child/test1.txt',
+                    'child/test2.txt',
                 ]),
             )
         })
