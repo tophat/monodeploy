@@ -41,8 +41,8 @@ describe('Config Merging', () => {
         mockGit.gitTag('v1.0.0', { cwd: '/tmp' })
 
         const merged = await mergeDefaultConfig({ cwd: '/tmp' })
-        expect(merged.git.baseBranch).toEqual('sha1')
-        expect(merged.git.commitSha).toEqual('sha:HEAD')
+        expect(merged.git.baseBranch).toBe('sha1')
+        expect(merged.git.commitSha).toBe('sha:HEAD')
     })
 
     it('uses supplied config', async () => {

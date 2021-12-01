@@ -200,7 +200,7 @@ describe('Monodeploy', () => {
 
         // pkg-8 is explicitly updated with minor bump
         // pkg-8's manifest version is 3.1.0
-        expect(result['pkg-8'].version).toEqual('3.2.0')
+        expect(result['pkg-8'].version).toBe('3.2.0')
         expect(result['pkg-8'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         expect(mockGit._getPushedTags_()).toEqual(['pkg-8@3.2.0'])
@@ -216,7 +216,7 @@ describe('Monodeploy', () => {
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
-        expect(result['pkg-1'].version).toEqual('0.1.0')
+        expect(result['pkg-1'].version).toBe('0.1.0')
         expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 and pkg-3 not in dependency graph
@@ -239,7 +239,7 @@ describe('Monodeploy', () => {
         })
 
         // pkg-1 is explicitly updated with minor bump
-        expect(result['pkg-1'].version).toEqual('0.1.0')
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
         // push is disabled, so no pushed tags
         expect(mockGit._getPushedTags_()).toEqual([])
@@ -257,7 +257,7 @@ describe('Monodeploy', () => {
         })
 
         // pkg-1 is explicitly updated with minor bump
-        expect(result['pkg-1'].version).toEqual('0.1.0')
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
         // push is enabled but tagging is disabled, so no pushed tags
         expect(mockGit._getPushedTags_()).toEqual([])
@@ -279,15 +279,15 @@ describe('Monodeploy', () => {
         expect(result['pkg-1']).toBeUndefined()
 
         // pkg-2 is the one explicitly updated with breaking change
-        expect(result['pkg-2'].version).toEqual('1.0.0')
+        expect(result['pkg-2'].version).toBe('1.0.0')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent
-        expect(result['pkg-3'].version).toEqual('0.0.2')
+        expect(result['pkg-3'].version).toBe('0.0.2')
         expect(result['pkg-3'].changelog).toBeNull()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
-        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].version).toBe('0.0.2')
         expect(result['pkg-6'].changelog).toBeNull()
 
         // Not tags pushed in dry run
@@ -305,20 +305,20 @@ describe('Monodeploy', () => {
         const result = await monodeploy(monodeployConfig)
 
         // pkg-1 is explicitly updated with minor bump
-        expect(result['pkg-1'].version).toEqual('0.1.0')
+        expect(result['pkg-1'].version).toBe('0.1.0')
         expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly updated with patch bump
-        expect(result['pkg-2'].version).toEqual('0.0.2')
+        expect(result['pkg-2'].version).toBe('0.0.2')
         expect(result['pkg-2'].changelog).not.toEqual(expect.stringContaining('some new feature'))
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('a different fix'))
 
         // pkg-3 depends on pkg-2
-        expect(result['pkg-3'].version).toEqual('0.0.2')
+        expect(result['pkg-3'].version).toBe('0.0.2')
         expect(result['pkg-3'].changelog).toBeNull()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
-        expect(result['pkg-6'].version).toEqual('0.0.2')
+        expect(result['pkg-6'].version).toBe('0.0.2')
         expect(result['pkg-6'].changelog).toBeNull()
 
         expect(mockGit._getPushedTags_()).toEqual([
@@ -358,7 +358,7 @@ describe('Monodeploy', () => {
             })
 
             // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].version).toBe('0.1.0')
 
             const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
@@ -458,7 +458,7 @@ describe('Monodeploy', () => {
             })
 
             // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].version).toBe('0.1.0')
 
             // changeset file should not exist
             await expect(fs.stat(changesetFilename)).rejects.toThrow()
@@ -507,7 +507,7 @@ describe('Monodeploy', () => {
             const result = await monodeploy(config)
 
             // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].version).toBe('0.1.0')
             expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
             // pkg-2 and pkg-3 not in dependency graph
@@ -527,7 +527,7 @@ describe('Monodeploy', () => {
 
             // unchanged packages don't need to be updated
             const pkg2 = await readPackageVersion('pkg-2')
-            expect(pkg2.version).toEqual('0.0.0')
+            expect(pkg2.version).toBe('0.0.0')
         } finally {
             await restorePackageJsons({ key: testBackupKey })
             await clearBackupCache({ keys: [testBackupKey] })
@@ -556,7 +556,7 @@ describe('Monodeploy', () => {
             })
 
             // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].version).toBe('0.1.0')
 
             const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
@@ -610,7 +610,7 @@ describe('Monodeploy', () => {
             })
 
             // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toEqual('0.1.0')
+            expect(result['pkg-1'].version).toBe('0.1.0')
 
             const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
@@ -660,15 +660,15 @@ describe('Monodeploy', () => {
         expect(result['pkg-1']).toBeUndefined()
 
         // pkg-2 is the one explicitly updated with feature change
-        expect(result['pkg-2'].version).toEqual('2.4.0-alpha.4')
+        expect(result['pkg-2'].version).toBe('2.4.0-alpha.4')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent
-        expect(result['pkg-3'].version).toEqual('7.0.0-alpha.1')
+        expect(result['pkg-3'].version).toBe('7.0.0-alpha.1')
         expect(result['pkg-3'].changelog).toBeNull()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
-        expect(result['pkg-6'].version).toEqual('0.0.5-alpha.0')
+        expect(result['pkg-6'].version).toBe('0.0.5-alpha.0')
         expect(result['pkg-6'].changelog).toBeNull()
 
         expect(mockGit._getPushedTags_()).toEqual([

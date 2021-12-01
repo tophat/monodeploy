@@ -56,32 +56,32 @@ describe('applyReleases', () => {
                 })
 
                 expect(intendedVersions.has('pkg-1')).toBeFalsy()
-                expect(intendedVersions.get('pkg-2')).toEqual('2.1.0')
-                expect(intendedVersions.get('pkg-3')).toEqual('3.3.1')
+                expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
+                expect(intendedVersions.get('pkg-3')).toBe('3.3.1')
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
                 // pkg-1 wasn't included in the workspaces set, so shouldn't be updated
-                expect(manifest1.version).toEqual('0.0.0')
-                expect(manifest2.version).toEqual('2.1.0')
-                expect(manifest3.version).toEqual('3.3.1')
+                expect(manifest1.version).toBe('0.0.0')
+                expect(manifest2.version).toBe('2.1.0')
+                expect(manifest3.version).toBe('3.3.1')
 
                 // pkg-1 should be unchanged from registry tags
-                expect(
-                    manifest2.dependencies.get(workspace1.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^1.0.0')
+                expect(manifest2.dependencies.get(workspace1.manifest.name!.identHash)!.range).toBe(
+                    'workspace:^1.0.0',
+                )
 
                 // pkg-2 should be the "new" version
                 expect(
                     manifest3.peerDependencies.get(workspace2.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^2.1.0')
+                ).toBe('workspace:^2.1.0')
 
                 // pkg-1 again should not be changed from registry tags
-                expect(
-                    manifest3.dependencies.get(workspace1.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^1.0.0')
+                expect(manifest3.dependencies.get(workspace1.manifest.name!.identHash)!.range).toBe(
+                    'workspace:^1.0.0',
+                )
             },
         ))
 
@@ -127,17 +127,17 @@ describe('applyReleases', () => {
                     ]),
                 })
 
-                expect(intendedVersions.get('pkg-1')).toEqual('1.1.0-rc.0')
-                expect(intendedVersions.get('pkg-2')).toEqual('2.1.0-rc.4')
-                expect(intendedVersions.get('pkg-3')).toEqual('4.0.0-rc.2')
+                expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
+                expect(intendedVersions.get('pkg-2')).toBe('2.1.0-rc.4')
+                expect(intendedVersions.get('pkg-3')).toBe('4.0.0-rc.2')
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
-                expect(manifest1.version).toEqual('1.1.0-rc.0')
-                expect(manifest2.version).toEqual('2.1.0-rc.4')
-                expect(manifest3.version).toEqual('4.0.0-rc.2')
+                expect(manifest1.version).toBe('1.1.0-rc.0')
+                expect(manifest2.version).toBe('2.1.0-rc.4')
+                expect(manifest3.version).toBe('4.0.0-rc.2')
             },
         ))
 
@@ -178,21 +178,21 @@ describe('applyReleases', () => {
                     ]),
                     versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
                 })
-                expect(intendedVersions.get('pkg-1')).toEqual('1.1.0-rc.0')
+                expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
-                expect(manifest1.version).toEqual('1.1.0-rc.0')
+                expect(manifest1.version).toBe('1.1.0-rc.0')
 
                 // Use the greaatest version out of latest & prerelease for non-updated packages
-                expect(
-                    manifest1.dependencies.get(workspace2.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^1.2.0')
-                expect(
-                    manifest1.dependencies.get(workspace3.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^4.0.0-rc.1')
-                expect(
-                    manifest1.dependencies.get(workspace4.manifest.name!.identHash)!.range,
-                ).toEqual('workspace:^0.1.0')
+                expect(manifest1.dependencies.get(workspace2.manifest.name!.identHash)!.range).toBe(
+                    'workspace:^1.2.0',
+                )
+                expect(manifest1.dependencies.get(workspace3.manifest.name!.identHash)!.range).toBe(
+                    'workspace:^4.0.0-rc.1',
+                )
+                expect(manifest1.dependencies.get(workspace4.manifest.name!.identHash)!.range).toBe(
+                    'workspace:^0.1.0',
+                )
             },
         ))
 })
