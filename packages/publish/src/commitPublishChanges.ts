@@ -1,9 +1,6 @@
-import fs from 'fs'
-
-import { gitAdd, gitCheckIgnore, gitCommit, gitPull, gitPush, gitPushTags } from '@monodeploy/git'
+import { gitAdd, gitCommit, gitGlob, gitPull, gitPush, gitPushTags } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import micromatch from 'micromatch'
 
 const commitPublishChanges = async ({
     config,
@@ -30,17 +27,11 @@ const commitPublishChanges = async ({
 
     if (config.autoCommit) {
         // Push artifacts (changelog, package.json changes)
-        const files = ['yarn.lock', 'package.json', '"**/package.json"']
+        const globs = ['yarn.lock', 'package.json', '**/package.json', '.pnp.*']
         if (config?.changelogFilename) {
-            files.push(`"${config.changelogFilename.replace('<packageDir>', '**')}"`)
+            globs.push(config.changelogFilename.replace('<packageDir>', '**'))
         }
-
-        const topLevelFiles = await fs.promises.readdir(config.cwd)
-        for (const file of micromatch(topLevelFiles, '.pnp.*')) {
-            if (!(await gitCheckIgnore(file, { cwd: config.cwd, context }))) {
-                files.push(file)
-            }
-        }
+        const files = await gitGlob(globs, { cwd: config.cwd, context })
 
         await gitAdd(files, { cwd: config.cwd, context })
         await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })

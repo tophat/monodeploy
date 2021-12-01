@@ -169,11 +169,11 @@ export const getCommitMessages = async (
         .filter((msg) => msg.body)
 }
 
-export const gitCheckIgnore = async (
-    file: string,
+export const gitGlob = async (
+    globs: string[],
     { cwd, context }: { cwd: string; context?: YarnContext },
-): Promise<boolean> => {
-    return false
+): Promise<string[]> => {
+    return globs // TODO: not entirely accurate
 }
 
 module.exports = {
@@ -187,11 +187,11 @@ module.exports = {
     getCommitMessages,
     gitAdd,
     gitCommit,
-    gitCheckIgnore,
     gitDiffTree,
     gitLastTaggedCommit,
     gitLog,
     gitPull,
+    gitGlob,
     gitPush,
     gitPushTags,
     gitResolveSha,
