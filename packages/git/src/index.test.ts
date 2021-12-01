@@ -455,6 +455,8 @@ describe('@monodeploy/git', () => {
 
     describe('gitGlob', () => {
         it('correctly lists globbed files', async () => {
+            process.env.MONODEPLOY_LOG_LEVEL = '0'
+
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
 
