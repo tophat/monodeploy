@@ -146,7 +146,7 @@ describe('CLI', () => {
             })
             await new Promise((r) => setTimeout(r))
             expect(spyError).toHaveBeenCalledWith(error)
-            expect(process.exitCode).toEqual(1)
+            expect(process.exitCode).toBe(1)
             spyError.mockRestore()
             process.exitCode = prevExitCode
         })
@@ -174,7 +174,7 @@ describe('CLI', () => {
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toEqual(1)
+                expect(process.exitCode).toBe(1)
                 spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {
@@ -202,7 +202,7 @@ describe('CLI', () => {
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toEqual(1)
+                expect(process.exitCode).toBe(1)
                 spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {

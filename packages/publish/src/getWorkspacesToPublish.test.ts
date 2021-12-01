@@ -26,7 +26,7 @@ describe('getWorspacesToPublish', () => {
             versionStrategies,
         })
 
-        expect(workspacesToRelease.size).toEqual(0)
+        expect(workspacesToRelease.size).toBe(0)
         //expect([...workspacesToRelease][0].manifest.name.name).toEqual('pkg-6')
     })
 
@@ -40,7 +40,7 @@ describe('getWorspacesToPublish', () => {
             versionStrategies,
         })
 
-        expect(workspacesToRelease.size).toEqual(1)
-        expect([...workspacesToRelease][0].manifest.name!.name).toEqual('pkg-6')
+        expect(workspacesToRelease.size).toBe(1)
+        expect([...workspacesToRelease][0].manifest.name!.name).toBe('pkg-6')
     })
 })

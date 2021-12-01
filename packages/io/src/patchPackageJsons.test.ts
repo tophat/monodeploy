@@ -56,17 +56,17 @@ describe('Patch Package Manifests', () => {
                 const manifest2 = await loadManifest(context, 'pkg-2')
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
-                expect(manifest1.version).toEqual('1.0.0')
-                expect(manifest2.version).toEqual('2.0.0')
-                expect(manifest3.version).toEqual('3.0.0')
+                expect(manifest1.version).toBe('1.0.0')
+                expect(manifest2.version).toBe('2.0.0')
+                expect(manifest3.version).toBe('3.0.0')
 
-                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toBe(
                     'workspace:^2.0.0',
                 )
-                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toBe(
                     'workspace:^3.0.0',
                 )
-                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toBe(
                     'workspace:^3.0.0',
                 )
             },
@@ -147,17 +147,17 @@ describe('Patch Package Manifests', () => {
                 const manifest2 = await loadManifest(context, 'pkg-2')
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
-                expect(manifest1.version).toEqual('1.0.0')
-                expect(manifest2.version).toEqual('2.0.0')
-                expect(manifest3.version).toEqual('0.0.0')
+                expect(manifest1.version).toBe('1.0.0')
+                expect(manifest2.version).toBe('2.0.0')
+                expect(manifest3.version).toBe('0.0.0')
 
-                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toBe(
                     'workspace:^2.0.0',
                 )
-                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                expect(manifest1.peerDependencies.get(manifest3.name!.identHash)!.range).toBe(
                     'workspace:*',
                 )
-                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
+                expect(manifest2.dependencies.get(manifest3.name!.identHash)!.range).toBe(
                     'workspace:packages/pkg-3',
                 )
             },
@@ -199,8 +199,8 @@ describe('Patch Package Manifests', () => {
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
 
-                expect(manifest1.version).toEqual('1.0.0')
-                expect(manifest2.version).toEqual('2.0.0')
+                expect(manifest1.version).toBe('1.0.0')
+                expect(manifest2.version).toBe('2.0.0')
                 expect(
                     manifest1.devDependencies
                         .get(manifest2.name!.identHash)!
@@ -247,7 +247,7 @@ describe('Patch Package Manifests', () => {
                 expect(
                     workspace1.manifest.dependencies.get(workspace2.manifest.name!.identHash)!
                         .range,
-                ).toEqual('^2.0.0')
+                ).toBe('^2.0.0')
 
                 // On disk we have workspace protocol
                 const manifest1 = await loadManifest(context, 'pkg-1')
@@ -255,12 +255,10 @@ describe('Patch Package Manifests', () => {
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
                 // no workspace protocol as we define it using '*' in the package.json
-                expect(manifest1.dependencies.get(manifest3.name!.identHash)!.range).toEqual(
-                    '^3.0.0',
-                )
+                expect(manifest1.dependencies.get(manifest3.name!.identHash)!.range).toBe('^3.0.0')
 
                 // preserves workspace protocol
-                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toEqual(
+                expect(manifest1.dependencies.get(manifest2.name!.identHash)!.range).toBe(
                     'workspace:^2.0.0',
                 )
             },
@@ -306,13 +304,13 @@ describe('Patch Package Manifests', () => {
                 const manifest2 = await loadManifest(context, 'pkg-2')
                 const manifest3 = await loadManifest(context, 'pkg-3')
 
-                expect(manifest1.version).not.toEqual('1.0.0')
-                expect(manifest2.version).not.toEqual('2.0.0')
-                expect(manifest3.version).not.toEqual('3.0.0')
+                expect(manifest1.version).not.toBe('1.0.0')
+                expect(manifest2.version).not.toBe('2.0.0')
+                expect(manifest3.version).not.toBe('3.0.0')
 
-                expect(workspace1.manifest.version).toEqual('1.0.0')
-                expect(workspace2.manifest.version).toEqual('2.0.0')
-                expect(workspace3.manifest.version).toEqual('3.0.0')
+                expect(workspace1.manifest.version).toBe('1.0.0')
+                expect(workspace2.manifest.version).toBe('2.0.0')
+                expect(workspace3.manifest.version).toBe('3.0.0')
             },
         ))
 })

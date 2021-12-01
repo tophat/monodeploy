@@ -121,11 +121,11 @@ describe('Monodeploy Lifecycle Scripts', () => {
         const result = await monodeploy(monodeployConfig)
 
         // pkg-4 is explicitly updated with minor bump
-        expect(result['pkg-4'].version).toEqual('0.1.0')
+        expect(result['pkg-4'].version).toBe('0.1.0')
         expect(result['pkg-4'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly bumped with minor
-        expect(result['pkg-2'].version).toEqual('0.2.0')
+        expect(result['pkg-2'].version).toBe('0.2.0')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some other feature'))
 
         // pkg-5 depends on pkg-4, so it'll be bumped as a dependant
@@ -170,11 +170,11 @@ describe('Monodeploy Lifecycle Scripts', () => {
         const result = await monodeploy({ ...monodeployConfig, dryRun: true })
 
         // pkg-4 is explicitly updated with minor bump
-        expect(result['pkg-4'].version).toEqual('0.1.0')
+        expect(result['pkg-4'].version).toBe('0.1.0')
         expect(result['pkg-4'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly bumped with minor
-        expect(result['pkg-2'].version).toEqual('0.2.0')
+        expect(result['pkg-2'].version).toBe('0.2.0')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some other feature'))
 
         const filesToCheck = [

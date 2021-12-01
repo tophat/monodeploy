@@ -23,7 +23,7 @@ describe('GitHub Plugin', () => {
             GitHubPlugin(hooks)
         })
 
-        expect(info.type).toEqual('promise')
+        expect(info.type).toBe('promise')
         expect(info.name).toEqual(PluginName)
     })
 

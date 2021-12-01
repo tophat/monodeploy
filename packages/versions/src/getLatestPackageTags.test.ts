@@ -64,7 +64,7 @@ describe('getLatestPackageTags', () => {
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
-            expect(tag.latest).toEqual('0.0.0')
+            expect(tag.latest).toBe('0.0.0')
         }
     })
 
@@ -151,7 +151,7 @@ describe('getLatestPackageTags', () => {
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
-            expect(tag.latest).toEqual('0.0.0')
+            expect(tag.latest).toBe('0.0.0')
         }
 
         mockNPM.npmHttpUtils.get = mockGet
