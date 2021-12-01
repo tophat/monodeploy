@@ -88,7 +88,7 @@ export default async function setupMonorepo(
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.1.0.cjs'))
+    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.1.1.cjs'))
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
 
     const authIdent = Buffer.from('test-user:test-password').toString('base64')
