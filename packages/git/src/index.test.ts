@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 
 import { exec } from '@monodeploy/io'
@@ -13,9 +14,9 @@ import { YarnContext } from '@monodeploy/types'
 import {
     getCommitMessages,
     gitAdd,
-    gitCheckIgnore,
     gitCommit,
     gitDiffTree,
+    gitGlob,
     gitLastTaggedCommit,
     gitLog,
     gitPushTags,
@@ -452,15 +453,37 @@ describe('@monodeploy/git', () => {
         })
     })
 
-    describe('gitCheckIgnore', () => {
-        it('correctly identifies ignored files', async () => {
+    describe('gitGlob', () => {
+        it('correctly lists globbed files', async () => {
             const cwd = context.project.cwd
             await createFile({ filePath: 'test.txt', cwd })
 
-            expect(await gitCheckIgnore('test.txt', { cwd, context })).toBe(false)
+            expect(await gitGlob(['test.txt'], { cwd, context })).toEqual(['test.txt'])
 
             // .pnp.cjs is defined as ignored in the gitignore from testUtils
-            expect(await gitCheckIgnore('.pnp.cjs', { cwd, context })).toBe(true)
+            expect(await fs.promises.stat('.pnp.cjs')).toBeDefined()
+            expect(await gitGlob(['.pnp.cjs'], { cwd, context })).toEqual([])
+
+            await createFile({ filePath: path.join('child', 'test1.txt'), cwd })
+            await createFile({ filePath: path.join('child', 'test2.txt'), cwd })
+            await createFile({ filePath: 'other.txt', cwd })
+
+            expect(await gitGlob(['test*.txt'], { cwd, context })).toEqual(['test.txt'])
+            expect(await gitGlob(['**/test*.txt'], { cwd, context })).toEqual(
+                expect.arrayContaining([
+                    'test.txt',
+                    path.join('child', 'test1.txt'),
+                    path.join('child', 'test2.txt'),
+                ]),
+            )
+            expect(await gitGlob(['other.txt', '**/test*.txt'], { cwd, context })).toEqual(
+                expect.arrayContaining([
+                    'other.txt',
+                    'test.txt',
+                    path.join('child', 'test1.txt'),
+                    path.join('child', 'test2.txt'),
+                ]),
+            )
         })
     })
 })

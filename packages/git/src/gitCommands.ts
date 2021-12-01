@@ -1,6 +1,7 @@
-import { ExecException, exec } from '@monodeploy/io'
+import { exec } from '@monodeploy/io'
 import logging, { assertProduction } from '@monodeploy/logging'
 import { YarnContext } from '@monodeploy/types'
+import micromatch from 'micromatch'
 
 const git = async (
     subcommand: string,
@@ -142,19 +143,20 @@ export const gitLastTaggedCommit = async ({
         .trim()
 }
 
-export const gitCheckIgnore = async (
-    file: string,
+export const gitGlob = async (
+    globs: string[],
     { cwd, context }: { cwd: string; context?: YarnContext },
-): Promise<boolean> => {
-    try {
-        await git(`check-ignore -q ${file}`, { cwd, context })
-    } catch (err) {
-        if (err instanceof ExecException) {
-            if (err.code === 1) return false
-        }
-        throw err
-    }
-    return true
+): Promise<string[]> => {
+    const files = (
+        await Promise.all([
+            git('ls-files', { cwd, context }),
+            git('ls-files -o --exclude-standard', { cwd, context }),
+        ])
+    )
+        .map(({ stdout }) => stdout.split('\n'))
+        .flat()
+        .filter((v) => Boolean(v))
+    return micromatch(files, globs)
 }
 
 export const gitAdd = async (
