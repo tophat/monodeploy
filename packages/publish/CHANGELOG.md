@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.2](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.6.1...@monodeploy/publish@0.6.2) "@monodeploy/publish" (2021-12-02)<a name="0.6.2"></a>
+
+### Bug Fixes
+
+* only commit files that exist and are not ignored (#447) ([9b2b062](https://github.com/tophat/monodeploy/commits/9b2b062))
+
+
+
+
 ## [0.6.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.6.0...@monodeploy/publish@0.6.1) "@monodeploy/publish" (2021-11-22)<a name="0.6.1"></a>
 
 ### Bug Fixes

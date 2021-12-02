@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.0...@monodeploy/git@0.4.1) "@monodeploy/git" (2021-12-02)<a name="0.4.1"></a>
+
+### Bug Fixes
+
+* only commit files that exist and are not ignored (#447) ([9b2b062](https://github.com/tophat/monodeploy/commits/9b2b062))
+* only look at modified files (#448) ([3b2f495](https://github.com/tophat/monodeploy/commits/3b2f495))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.3.11...@monodeploy/git@0.4.0) "@monodeploy/git" (2021-11-19)<a name="0.4.0"></a>
 
 ### Bug Fixes
