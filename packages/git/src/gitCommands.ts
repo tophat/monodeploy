@@ -147,15 +147,11 @@ export const gitGlob = async (
     globs: string[],
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<string[]> => {
-    const files = (
-        await Promise.all([
-            git('ls-files', { cwd, context }),
-            git('ls-files -o --exclude-standard', { cwd, context }),
-        ])
-    )
-        .map(({ stdout }) => stdout.split('\n'))
-        .flat()
-        .filter((v) => Boolean(v))
+    const rawStdout = [
+        (await git('ls-files --modified', { cwd, context })).stdout,
+        (await git('ls-files -o --exclude-standard', { cwd, context })).stdout,
+    ].join('\n')
+    const files = rawStdout.split('\n').filter((v) => Boolean(v))
     return micromatch(files, globs)
 }
 
