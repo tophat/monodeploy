@@ -128,7 +128,7 @@ describe('Monodeploy', () => {
 
         expect(spyPublish.mock.calls[0][2]).toEqual(
             expect.objectContaining({
-                access: 'public',
+                access: undefined, // when set to infer, we let Yarn choose
             }),
         )
         spyPublish.mockClear()
@@ -147,12 +147,12 @@ describe('Monodeploy', () => {
 
         await monodeploy({
             ...monodeployConfig,
-            access: 'infer',
+            access: 'public',
         })
 
         expect(spyPublish.mock.calls[0][2]).toEqual(
             expect.objectContaining({
-                access: undefined,
+                access: 'public',
             }),
         )
         spyPublish.mockClear()

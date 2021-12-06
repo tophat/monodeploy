@@ -135,12 +135,10 @@ export interface MonodeployConfiguration {
     forceWriteChangeFiles: boolean
 
     /**
-     * Default: public
+     * Default: infer
      *
      * This overrides the access defined in the publishConfig of individual
      * workspaces. Set this to 'infer' to respect individual workspace configurations.
-     *
-     * **Caution**: The default may be too open and will be changed in a future major release.
      */
     access?: 'infer' | 'public' | 'restricted'
 
