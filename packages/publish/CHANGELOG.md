@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.3](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.6.2...@monodeploy/publish@0.6.3) "@monodeploy/publish" (2021-12-06)<a name="0.6.3"></a>
+
+### Bug Fixes
+
+* update internal yarn dependencies to 3.1.1 (#451) ([ff07de7](https://github.com/tophat/monodeploy/commits/ff07de7))
+
+
+
+
 ## [0.6.2](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@0.6.1...@monodeploy/publish@0.6.2) "@monodeploy/publish" (2021-12-02)<a name="0.6.2"></a>
 
 ### Bug Fixes

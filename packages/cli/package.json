@@ -1,6 +1,6 @@
 {
   "name": "monodeploy",
-  "version": "2.8.17",
+  "version": "2.8.18",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -30,7 +30,7 @@
     "@types/yargs": "^16.0.0"
   },
   "dependencies": {
-    "@monodeploy/node": "workspace:^0.11.17",
+    "@monodeploy/node": "workspace:^0.11.18",
     "@monodeploy/types": "workspace:^0.10.4",
     "@yarnpkg/core": "^3.1.0",
     "@yarnpkg/fslib": "^2.6.0",
