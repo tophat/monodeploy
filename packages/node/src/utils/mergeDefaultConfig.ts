@@ -26,7 +26,7 @@ const mergeDefaultConfig = async (
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         changesetIgnorePatterns: baseConfig.changesetIgnorePatterns ?? [],
         forceWriteChangeFiles: baseConfig.forceWriteChangeFiles ?? false,
-        access: baseConfig.access ?? 'public',
+        access: baseConfig.access ?? 'infer',
         persistVersions: baseConfig.persistVersions ?? false,
         autoCommit: baseConfig.autoCommit ?? false,
         autoCommitMessage: baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
