@@ -69,7 +69,7 @@ describe('writeChangesetFile', () => {
                     },
                 ],
             ]),
-            createdGitTags: new Map([
+            gitTags: new Map([
                 ['pkg-1', 'pkg-1@2.0.0'],
                 ['pkg-2', 'pkg-1@4.6.0'],
             ]),
