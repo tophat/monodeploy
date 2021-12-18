@@ -19,14 +19,14 @@ const writeChangesetFile = async ({
     previousTags,
     nextTags,
     versionStrategies,
-    createdGitTags,
+    gitTags,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     previousTags: PackageVersionMap
     nextTags: PackageVersionMap
     versionStrategies: PackageStrategyMap
-    createdGitTags?: Map<string, string>
+    gitTags?: Map<string, string>
 }): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
@@ -45,7 +45,7 @@ const writeChangesetFile = async ({
             version: newVersion,
             previousVersion: previousVersion,
             changelog,
-            tag: createdGitTags?.get(packageName) ?? null,
+            tag: gitTags?.get(packageName) ?? null,
             strategy: versionStrategy?.type ?? null,
         }
     }

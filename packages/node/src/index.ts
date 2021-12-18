@@ -5,7 +5,7 @@ import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@mono
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
-    createReleaseGitTags,
+    determineGitTags,
     getWorkspacesToPublish,
     publishPackages,
 } from '@monodeploy/publish'
@@ -152,6 +152,8 @@ const monodeploy = async (
                 previous: PackageVersionMap
             }
 
+            let gitTags: Map<string, string> | undefined
+
             await report.startTimerPromise(
                 'Patching Package Manifests',
                 { skipIfEmpty: false },
@@ -167,29 +169,17 @@ const monodeploy = async (
                 },
             )
 
-            let createdGitTags: Map<string, string> | undefined
-
-            await report.startTimerPromise(
-                'Publishing Packages',
-                { skipIfEmpty: false },
-                async () => {
-                    // Publish (+ Git Tags)
-                    await publishPackages({
-                        config,
-                        context,
-                        workspacesToPublish,
-                    })
-
-                    if (config.git.tag) {
-                        // Create tags
-                        createdGitTags = await createReleaseGitTags({
-                            config,
-                            context,
+            if (config.git.tag) {
+                await report.startTimerPromise(
+                    'Determine Git Tags',
+                    { skipIfEmpty: false },
+                    async () => {
+                        gitTags = await determineGitTags({
                             versions: versionChanges.next,
                         })
-                    }
-                },
-            )
+                    },
+                )
+            }
 
             await report.startTimerPromise(
                 'Updating Change Files',
@@ -201,7 +191,7 @@ const monodeploy = async (
                         previousTags: versionChanges.previous,
                         nextTags: versionChanges.next,
                         versionStrategies,
-                        createdGitTags,
+                        gitTags,
                     })
 
                     await prependChangelogFile({
@@ -209,6 +199,22 @@ const monodeploy = async (
                         context,
                         changeset: result,
                         workspaces: workspacesToPublish,
+                    })
+                },
+            )
+
+            // We publish to the registry before committing artifacts, because we use the
+            // git tags (usually) to determine whether we should publish. So if publishing fails,
+            // we don't want to have pushed the git tags to the repo, since otherwise we'd have to revert
+            // those changes which are a hassle in an automated pipeline.
+            await report.startTimerPromise(
+                'Publishing Packages',
+                { skipIfEmpty: false },
+                async () => {
+                    await publishPackages({
+                        config,
+                        context,
+                        workspacesToPublish,
                     })
                 },
             )
@@ -239,12 +245,13 @@ const monodeploy = async (
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
-                    if (versionStrategies.size) {
-                        await commitPublishChanges({
-                            config,
-                            context,
-                        })
-                    }
+                    if (!versionStrategies.size) return
+
+                    await commitPublishChanges({
+                        config,
+                        context,
+                        gitTags,
+                    })
                 },
             )
 

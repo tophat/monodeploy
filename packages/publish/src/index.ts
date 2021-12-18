@@ -7,12 +7,12 @@ import { packUtils } from '@yarnpkg/plugin-pack'
 import pLimit from 'p-limit'
 
 import commitPublishChanges from './commitPublishChanges'
-import createReleaseGitTags from './createReleaseGitTags'
+import determineGitTags from './determineGitTags'
 import { getPublishRegistryUrl } from './getPublishConfig'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
 
-export { commitPublishChanges, getWorkspacesToPublish, createReleaseGitTags }
+export { determineGitTags, commitPublishChanges, getWorkspacesToPublish }
 
 export const publishPackages = async ({
     config,

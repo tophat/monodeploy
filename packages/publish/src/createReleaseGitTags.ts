@@ -1,44 +1,28 @@
 import { gitTag } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
-import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
+import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 async function createReleaseGitTags({
     config,
     context,
-    versions,
+    gitTags,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    versions: PackageVersionMap
-}): Promise<Map<string, string>> {
-    const tags = await Promise.all(
-        [...versions.entries()].map(async (packageVersionEntry: string[]) => {
-            const [packageIdent, packageVersion] = packageVersionEntry
-            const tag = `${packageIdent}@${packageVersion}`
-
-            try {
-                if (!config.dryRun) {
-                    await gitTag(tag, { cwd: config.cwd, context })
-                }
-
-                logging.info(`[Tag] ${tag}`, { report: context.report })
-
-                return [packageIdent, tag]
-            } catch (err) {
-                logging.error(`[Tag] Failed ${tag}`, { report: context.report })
-                logging.error(err, { report: context.report })
+    gitTags: Map<string, string>
+}): Promise<void> {
+    for (const tag of gitTags.values()) {
+        try {
+            if (!config.dryRun) {
+                await gitTag(tag, { cwd: config.cwd, context })
             }
-            return null
-        }),
-    )
 
-    const packageTags = new Map<string, string>()
-    for (const tag of tags) {
-        if (!tag) continue
-        packageTags.set(tag[0], tag[1])
+            logging.info(`[Tag] ${tag}`, { report: context.report })
+        } catch (err) {
+            logging.error(`[Tag] Failed ${tag}`, { report: context.report })
+            logging.error(err, { report: context.report })
+        }
     }
-
-    return packageTags
 }
 
 export default createReleaseGitTags
