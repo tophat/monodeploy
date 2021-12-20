@@ -38,6 +38,7 @@ type PackageInitConfiguration = Partial<{
     scripts: Record<string, string>
     private: boolean
     version: string
+    raw?: Record<string, any>
 }>
 
 type ProjectRootInitConfiguration = Partial<{
@@ -82,6 +83,7 @@ export default async function setupMonorepo(
             peerDependencies: await makeDependencyMap(pkgConfig.peerDependencies ?? [], {
                 useRelativePath: false,
             }),
+            ...pkgConfig.raw,
         })
     }
 

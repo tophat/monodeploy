@@ -195,6 +195,116 @@ describe('applyReleases', () => {
                 )
             },
         ))
+
+    describe('Groups', () => {
+        // non-idiomatic version number = 3.1.1 usually indicates a patch, but here it can be from a feat/breaking change
+        it('updates to the greatest version among each group, even if this results in non-idiomatic version number', async () =>
+            withMonorepoContext(
+                {
+                    'pkg-1': { raw: { group: 'group-a' } },
+                    'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
+                    'pkg-3': {
+                        raw: { group: 'group-b' },
+                    },
+                    'pkg-4': {
+                        raw: { group: 'group-b' },
+                    },
+                },
+                async (context) => {
+                    const config = {
+                        ...(await getMonodeployConfig({
+                            cwd: context.project.cwd,
+                            baseBranch: 'main',
+                            commitSha: 'shashasha',
+                        })),
+                        persistVersions: true,
+                    }
+                    const workspace1 = identToWorkspace(context, 'pkg-1')
+                    const workspace2 = identToWorkspace(context, 'pkg-2')
+                    const workspace3 = identToWorkspace(context, 'pkg-3')
+                    const workspace4 = identToWorkspace(context, 'pkg-4')
+
+                    const { next: intendedVersions } = await applyReleases({
+                        config,
+                        context,
+                        workspaces: new Set([workspace1, workspace2, workspace3, workspace4]),
+                        registryTags: new Map([
+                            ['pkg-1', { latest: '6.0.0' }],
+                            ['pkg-2', { latest: '2.0.0' }],
+                            ['pkg-3', { latest: '3.3.0' }],
+                            ['pkg-4', { latest: '5.1.0' }],
+                        ]),
+                        versionStrategies: new Map([
+                            ['pkg-1', { type: 'patch', commits: [], group: 'group-a' }],
+                            ['pkg-2', { type: 'minor', commits: [], group: 'group-a' }],
+                            ['pkg-3', { type: 'patch', commits: [], group: 'group-b' }],
+                            ['pkg-4', { type: 'patch', commits: [], group: 'group-b' }],
+                        ]),
+                    })
+
+                    // group-a
+                    expect(intendedVersions.get('pkg-1')).toBe('6.0.1')
+                    expect(intendedVersions.get('pkg-2')).toBe('6.0.1')
+
+                    // group-b
+                    expect(intendedVersions.get('pkg-3')).toBe('5.1.1')
+                    expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+                },
+            ))
+
+        it('updates to the greatest version among each group, ignoring unchanged packages', async () =>
+            withMonorepoContext(
+                {
+                    'pkg-1': { raw: { group: 'group-a' } },
+                    'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
+                    'pkg-3': {
+                        raw: { group: 'group-b' },
+                    },
+                    'pkg-4': {
+                        raw: { group: 'group-b' },
+                    },
+                },
+                async (context) => {
+                    const config = {
+                        ...(await getMonodeployConfig({
+                            cwd: context.project.cwd,
+                            baseBranch: 'main',
+                            commitSha: 'shashasha',
+                        })),
+                        persistVersions: true,
+                    }
+                    const workspace1 = identToWorkspace(context, 'pkg-1')
+                    const workspace2 = identToWorkspace(context, 'pkg-2')
+                    const workspace3 = identToWorkspace(context, 'pkg-3')
+                    const workspace4 = identToWorkspace(context, 'pkg-4')
+
+                    const { next: intendedVersions } = await applyReleases({
+                        config,
+                        context,
+                        workspaces: new Set([workspace1, workspace2, workspace3, workspace4]),
+                        registryTags: new Map([
+                            ['pkg-1', { latest: '1.5.0' }],
+                            ['pkg-2', { latest: '2.0.0' }],
+                            ['pkg-3', { latest: '3.3.0' }],
+                            ['pkg-4', { latest: '5.1.0' }],
+                        ]),
+                        versionStrategies: new Map([
+                            ['pkg-1', { type: 'patch', commits: [], group: 'group-a' }],
+                            ['pkg-2', { type: 'minor', commits: [], group: 'group-a' }],
+                            ['pkg-4', { type: 'patch', commits: [], group: 'group-b' }],
+                        ]),
+                    })
+
+                    // group-a
+                    expect(intendedVersions.get('pkg-1')).toBe('2.1.0')
+                    expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
+
+                    // group-b but with pkg-3 not changing because no strategy
+                    expect(intendedVersions.has('pkg-3')).toBeFalsy()
+                    expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+                },
+            ))
+    })
 })
 
 describe('applyReleases prereleases', () => {
