@@ -23,6 +23,7 @@ import {
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
     getLatestPackageTags,
+    mergeVersionStrategies,
 } from '@monodeploy/versions'
 import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
@@ -114,10 +115,12 @@ const monodeploy = async (
             intentionalStrategies,
         })
 
-        const versionStrategies: PackageStrategyMap = new Map([
-            ...intentionalStrategies.entries(),
-            ...implicitVersionStrategies.entries(),
-        ])
+        const versionStrategies: PackageStrategyMap = await mergeVersionStrategies({
+            config,
+            context,
+            intentionalStrategies,
+            implicitVersionStrategies,
+        })
 
         if (!versionStrategies.size) {
             logging.warning('No packages need to be updated.', { report })

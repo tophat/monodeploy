@@ -127,10 +127,51 @@ const applyReleases = async ({
         }
 
         updatedRegistryTags.set(packageName, { previous, next })
-        logging.info(
-            `[Version Change] ${packageName}: ${previous} -> ${next} (${packageVersionStrategy})`,
-            { report: context.report },
+    }
+
+    // first populate the groups by group key
+    const groups = new Map<string, Set<string>>()
+    for (const packageName of updatedRegistryTags.keys()) {
+        const groupKey = versionStrategies.get(packageName)?.group ?? packageName
+        const group = groups.get(groupKey) ?? new Set()
+        groups.set(groupKey, group)
+        group.add(packageName)
+    }
+
+    const fullyIndependent = groups.size === updatedRegistryTags.size
+
+    // merge group updates
+    for (const [groupKey, group] of groups.entries()) {
+        const version: string | null = Array.from(group).reduce(
+            (curr, packageName) =>
+                maxVersion(curr, updatedRegistryTags.get(packageName)?.next ?? null),
+            null as string | null,
         )
+        if (!version) continue
+
+        for (const packageName of group) {
+            updatedRegistryTags.set(packageName, {
+                ...updatedRegistryTags.get(packageName)!,
+                next: version,
+            })
+            const update = updatedRegistryTags.get(packageName)!
+
+            if (fullyIndependent) {
+                logging.info(
+                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
+                        versionStrategies.get(packageName)?.type
+                    })`,
+                    { report: context.report },
+                )
+            } else {
+                logging.info(
+                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
+                        versionStrategies.get(packageName)?.type
+                    }, group: ${groupKey})`,
+                    { report: context.report },
+                )
+            }
+        }
     }
 
     const patchVersions: PackageVersionMap = new Map()

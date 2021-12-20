@@ -86,10 +86,10 @@ export const createGetConventionalRecommendedStrategy =
         return conventionalStrategy?.level ?? STRATEGY.NONE
     }
 
-export const maxStrategy = async (
+export const maxStrategy = (
     strategyA?: PackageStrategyType,
     strategyB?: PackageStrategyType,
-): Promise<PackageStrategyType> => {
+): PackageStrategyType => {
     if (!strategyA && !strategyB) throw new Error('Invalid strategies.')
     if (!strategyA) return strategyB as PackageStrategyType
     if (!strategyB) return strategyA as PackageStrategyType

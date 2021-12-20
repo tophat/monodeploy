@@ -282,7 +282,7 @@ export type PackageStrategyType = 'major' | 'minor' | 'patch'
 
 export type PackageStrategyMap = Map<
     string,
-    { type: PackageStrategyType; commits: CommitMessage[] }
+    { type: PackageStrategyType; group?: string | null; commits: CommitMessage[] }
 >
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>
@@ -293,6 +293,7 @@ export interface ChangesetRecord {
     changelog: string | null
     tag: string | null
     strategy?: PackageStrategyType | null
+    group: string
 }
 
 export interface ChangesetSchema {

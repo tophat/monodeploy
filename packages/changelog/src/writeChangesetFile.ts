@@ -47,6 +47,7 @@ const writeChangesetFile = async ({
             changelog,
             tag: gitTags?.get(packageName) ?? null,
             strategy: versionStrategy?.type ?? null,
+            group: versionStrategy?.group ?? packageName,
         }
     }
 

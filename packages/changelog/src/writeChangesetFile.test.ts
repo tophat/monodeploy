@@ -83,6 +83,7 @@ describe('writeChangesetFile', () => {
                     strategy: 'major',
                     tag: 'pkg-1@2.0.0',
                     version: '2.0.0',
+                    group: 'pkg-1',
                 },
                 'pkg-2': {
                     changelog: expect.stringContaining('fancy change'),
@@ -90,6 +91,7 @@ describe('writeChangesetFile', () => {
                     strategy: 'minor',
                     tag: 'pkg-1@4.6.0',
                     version: '4.6.0',
+                    group: 'pkg-2',
                 },
             }),
         )
