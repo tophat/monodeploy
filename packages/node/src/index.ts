@@ -12,7 +12,6 @@ import {
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
-    PackageStrategyMap,
     PackageVersionMap,
     PluginHooks,
     RecursivePartial,
@@ -115,7 +114,7 @@ const monodeploy = async (
             intentionalStrategies,
         })
 
-        const versionStrategies: PackageStrategyMap = await mergeVersionStrategies({
+        const { versionStrategies, workspaceGroups } = await mergeVersionStrategies({
             config,
             context,
             intentionalStrategies,
@@ -168,6 +167,7 @@ const monodeploy = async (
                         workspaces: workspacesToPublish,
                         registryTags,
                         versionStrategies,
+                        workspaceGroups,
                     })
                 },
             )
@@ -195,6 +195,7 @@ const monodeploy = async (
                         nextTags: versionChanges.next,
                         versionStrategies,
                         gitTags,
+                        workspaceGroups,
                     })
 
                     await prependChangelogFile({

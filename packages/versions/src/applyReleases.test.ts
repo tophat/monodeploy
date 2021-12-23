@@ -53,6 +53,10 @@ describe('applyReleases', () => {
                         ['pkg-2', { type: 'minor', commits: [] }],
                         ['pkg-3', { type: 'patch', commits: [] }],
                     ]),
+                    workspaceGroups: new Map([
+                        ['pkg-2', new Set(['pkg-2'])],
+                        ['pkg-3', new Set(['pkg-3'])],
+                    ]),
                 })
 
                 expect(intendedVersions.has('pkg-1')).toBeFalsy()
@@ -125,6 +129,11 @@ describe('applyReleases', () => {
                         ['pkg-2', { type: 'minor', commits: [] }],
                         ['pkg-3', { type: 'major', commits: [] }],
                     ]),
+                    workspaceGroups: new Map([
+                        ['pkg-1', new Set(['pkg-1'])],
+                        ['pkg-2', new Set(['pkg-2'])],
+                        ['pkg-3', new Set(['pkg-3'])],
+                    ]),
                 })
 
                 expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
@@ -177,6 +186,7 @@ describe('applyReleases', () => {
                         ['pkg-4', { latest: '0.1.0' }],
                     ]),
                     versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
+                    workspaceGroups: new Map([['pkg-1', new Set(['pkg-1'])]]),
                 })
                 expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
 
@@ -235,10 +245,14 @@ describe('applyReleases', () => {
                             ['pkg-4', { latest: '5.1.0' }],
                         ]),
                         versionStrategies: new Map([
-                            ['pkg-1', { type: 'patch', commits: [], group: 'group-a' }],
-                            ['pkg-2', { type: 'minor', commits: [], group: 'group-a' }],
-                            ['pkg-3', { type: 'patch', commits: [], group: 'group-b' }],
-                            ['pkg-4', { type: 'patch', commits: [], group: 'group-b' }],
+                            ['pkg-1', { type: 'patch', commits: [] }],
+                            ['pkg-2', { type: 'minor', commits: [] }],
+                            ['pkg-3', { type: 'patch', commits: [] }],
+                            ['pkg-4', { type: 'patch', commits: [] }],
+                        ]),
+                        workspaceGroups: new Map([
+                            ['group-a', new Set(['pkg-1', 'pkg-2'])],
+                            ['group-b', new Set(['pkg-3', 'pkg-4'])],
                         ]),
                     })
 
@@ -289,9 +303,13 @@ describe('applyReleases', () => {
                             ['pkg-4', { latest: '5.1.0' }],
                         ]),
                         versionStrategies: new Map([
-                            ['pkg-1', { type: 'patch', commits: [], group: 'group-a' }],
-                            ['pkg-2', { type: 'minor', commits: [], group: 'group-a' }],
-                            ['pkg-4', { type: 'patch', commits: [], group: 'group-b' }],
+                            ['pkg-1', { type: 'patch', commits: [] }],
+                            ['pkg-2', { type: 'minor', commits: [] }],
+                            ['pkg-4', { type: 'patch', commits: [] }],
+                        ]),
+                        workspaceGroups: new Map([
+                            ['group-a', new Set(['pkg-1', 'pkg-2'])],
+                            ['group-b', new Set(['pkg-4'])],
                         ]),
                     })
 

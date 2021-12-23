@@ -13,6 +13,7 @@
     "registry": "https://registry.npmjs.org/",
     "types": "./lib/index.d.ts"
   },
+  "group": "monodeploy",
   "files": [
     "lib"
   ],

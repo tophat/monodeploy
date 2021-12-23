@@ -89,12 +89,14 @@ const applyReleases = async ({
     workspaces,
     registryTags,
     versionStrategies,
+    workspaceGroups,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     workspaces: Set<Workspace>
     registryTags: PackageTagMap
     versionStrategies: PackageStrategyMap
+    workspaceGroups: Map<string, Set<string>>
 }): Promise<{ previous: PackageVersionMap; next: PackageVersionMap }> => {
     const updatedRegistryTags = new Map<string, VersionChange>()
     const nonupdatedRegistryTags = new Map<string, VersionChange>()
@@ -129,19 +131,10 @@ const applyReleases = async ({
         updatedRegistryTags.set(packageName, { previous, next })
     }
 
-    // first populate the groups by group key
-    const groups = new Map<string, Set<string>>()
-    for (const packageName of updatedRegistryTags.keys()) {
-        const groupKey = versionStrategies.get(packageName)?.group ?? packageName
-        const group = groups.get(groupKey) ?? new Set()
-        groups.set(groupKey, group)
-        group.add(packageName)
-    }
-
-    const fullyIndependent = groups.size === updatedRegistryTags.size
+    const isFullyIndependent = workspaceGroups.size === updatedRegistryTags.size
 
     // merge group updates
-    for (const [groupKey, group] of groups.entries()) {
+    for (const [groupKey, group] of workspaceGroups.entries()) {
         const version: string | null = Array.from(group).reduce(
             (curr, packageName) =>
                 maxVersion(curr, updatedRegistryTags.get(packageName)?.next ?? null),
@@ -156,7 +149,7 @@ const applyReleases = async ({
             })
             const update = updatedRegistryTags.get(packageName)!
 
-            if (fullyIndependent) {
+            if (isFullyIndependent) {
                 logging.info(
                     `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
                         versionStrategies.get(packageName)?.type

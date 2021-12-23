@@ -1,6 +1,18 @@
 import logging from '@monodeploy/logging'
-import { MonodeployConfiguration, PackageStrategyMap, YarnContext } from '@monodeploy/types'
+import {
+    MonodeployConfiguration,
+    PackageStrategyMap,
+    PackageStrategyType,
+    YarnContext,
+} from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
+
+import { maxStrategy } from './versionStrategy'
+
+function getIn(raw: Record<string, any>, key: string): unknown | undefined {
+    const value = key.split('.').reduce((obj, part) => obj?.[part], raw)
+    return value ?? undefined
+}
 
 const mergeVersionStrategies = async ({
     config,
@@ -12,7 +24,10 @@ const mergeVersionStrategies = async ({
     context: YarnContext
     intentionalStrategies: PackageStrategyMap
     implicitVersionStrategies: PackageStrategyMap
-}): Promise<PackageStrategyMap> => {
+}): Promise<{
+    versionStrategies: PackageStrategyMap
+    workspaceGroups: Map<string, Set<string>>
+}> => {
     const groupField = config.packageGroupManifestField ?? 'name'
 
     const strategies: PackageStrategyMap = new Map([
@@ -28,7 +43,7 @@ const mergeVersionStrategies = async ({
         if (strategies.has(ident)) {
             workspaces.set(ident, workspace)
 
-            const groupKey = workspace.manifest.raw[groupField]
+            const groupKey = getIn(workspace.manifest.raw, groupField)
             if (typeof groupKey !== 'string') {
                 logging.warning(
                     `[Versions] Invalid group key resolved in '${ident}' using field '${groupField}'.`,
@@ -43,16 +58,27 @@ const mergeVersionStrategies = async ({
         }
     }
 
-    for (const [groupKey, group] of groups.entries()) {
+    for (const group of groups.values()) {
+        // we use the highest strategy among the group. This ensures the final version
+        // conforms to the format specified by the most meaningful commit. E.g. 4.0.0 indicates
+        // a breaking change, while 4.1.1 is guaranteed to be a patch (or at a min, a commit
+        // that the end user does not need to worry about).
+        const strategy = Array.from(group).reduce(
+            (curr, name) => maxStrategy(curr, strategies.get(name)?.type),
+            undefined as PackageStrategyType | undefined,
+        )
+
+        if (!strategy) continue
+
         for (const workspaceIdent of group) {
             strategies.set(workspaceIdent, {
                 ...strategies.get(workspaceIdent)!,
-                group: groupKey,
+                type: strategy,
             })
         }
     }
 
-    return strategies
+    return { versionStrategies: strategies, workspaceGroups: groups }
 }
 
 export default mergeVersionStrategies

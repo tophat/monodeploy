@@ -179,6 +179,9 @@ export interface MonodeployConfiguration {
      * The manifest field name to use in workspace grouping. All packages
      * within a group will always have the same version. If unset, all packages
      * are versioned independently.
+     *
+     * You can use a '.' to access nested properties in the manifest file. For example,
+     * you can use 'publishConfig.group' to access the group property in your publishConfig.
      */
     packageGroupManifestField?: string
 
@@ -282,7 +285,7 @@ export type PackageStrategyType = 'major' | 'minor' | 'patch'
 
 export type PackageStrategyMap = Map<
     string,
-    { type: PackageStrategyType; group?: string | null; commits: CommitMessage[] }
+    { type: PackageStrategyType; commits: CommitMessage[] }
 >
 
 export type StrategyDeterminer = (commits: string[]) => Promise<number>

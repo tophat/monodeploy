@@ -73,6 +73,10 @@ describe('writeChangesetFile', () => {
                 ['pkg-1', 'pkg-1@2.0.0'],
                 ['pkg-2', 'pkg-1@4.6.0'],
             ]),
+            workspaceGroups: new Map([
+                ['pkg-1', new Set(['pkg-1'])],
+                ['pkg-2', new Set(['pkg-2'])],
+            ]),
         })
 
         expect(changeset).toEqual(
