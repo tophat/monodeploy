@@ -27,15 +27,15 @@
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
     "@types/node": "^14.17.14",
-    "tapable": "^2.2.0"
+    "tapable": "^2.2.1"
   },
   "dependencies": {
     "@monodeploy/git": "workspace:^0.4.1",
     "@monodeploy/io": "workspace:^0.3.0",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.4",
-    "@octokit/core": "^3.4.0",
-    "@octokit/plugin-throttling": "^3.4.1",
+    "@octokit/core": "^3.5.1",
+    "@octokit/plugin-throttling": "^3.5.2",
     "@yarnpkg/core": "^3.1.0",
     "@yarnpkg/fslib": "^2.6.0",
     "@yarnpkg/shell": "^3.1.0"

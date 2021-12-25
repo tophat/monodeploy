@@ -39,7 +39,9 @@ const stringifyType = (data: any): string => {
 }
 
 const stringifyComment = (data: any): string => {
-    return `${data?.shortText ?? ''}\n\n${data?.text ?? ''}`.trim()
+    const defaultValue = data?.tags?.find((tag) => tag.tag === 'default')?.text
+    const body = `${data?.shortText ?? ''}\n\n${data?.text ?? ''}`.trim()
+    return `Default: ${defaultValue?.trim() ?? '_No Default_'}\n\n${body}`
 }
 
 const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {

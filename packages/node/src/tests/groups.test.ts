@@ -141,7 +141,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-6'].changelog).toBeNull()
 
         // Not tags pushed in dry run
-        expect(mockGit._getPushedTags_()).toEqual(['pkg-2@1.0.0', 'pkg-3@0.0.2', 'pkg-6@1.0.0'])
+        expect(mockGit._getPushedTags_()).toEqual(['even@1.0.0', 'odd@0.0.2'])
     })
 
     it('publishes changed workspaces with distinct version stategies and commits', async () => {
@@ -171,12 +171,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-6'].version).toBe('2.0.2')
         expect(result['pkg-6'].changelog).toBeNull()
 
-        expect(mockGit._getPushedTags_()).toEqual([
-            'pkg-1@0.1.0',
-            'pkg-2@2.0.2',
-            'pkg-3@0.0.2',
-            'pkg-6@2.0.2',
-        ])
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0', 'even@2.0.2', 'odd@0.0.2'])
     })
 
     it('updates changelog and changeset', async () => {
@@ -234,6 +229,7 @@ describe('Monodeploy', () => {
                         strategy: 'minor',
                         previousVersion: '0.0.1',
                         group: 'even',
+                        tag: 'even@0.1.0',
                     }),
                 }),
             )
@@ -277,10 +273,6 @@ describe('Monodeploy', () => {
         expect(result['pkg-6'].version).toBe('2.4.0-alpha.4')
         expect(result['pkg-6'].changelog).toBeNull()
 
-        expect(mockGit._getPushedTags_()).toEqual([
-            'pkg-2@2.4.0-alpha.4',
-            'pkg-3@7.0.0-alpha.1',
-            'pkg-6@2.4.0-alpha.4',
-        ])
+        expect(mockGit._getPushedTags_()).toEqual(['even@2.4.0-alpha.4', 'odd@7.0.0-alpha.1'])
     })
 })

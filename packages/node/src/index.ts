@@ -179,6 +179,7 @@ const monodeploy = async (
                     async () => {
                         gitTags = await determineGitTags({
                             versions: versionChanges.next,
+                            workspaceGroups,
                         })
                     },
                 )

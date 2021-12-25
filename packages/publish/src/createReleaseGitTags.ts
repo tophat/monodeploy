@@ -11,7 +11,10 @@ async function createReleaseGitTags({
     context: YarnContext
     gitTags: Map<string, string>
 }): Promise<void> {
-    for (const tag of gitTags.values()) {
+    // packages in a group share the same tag
+    const tags = new Set(gitTags.values())
+
+    for (const tag of tags) {
         try {
             if (!config.dryRun) {
                 await gitTag(tag, { cwd: config.cwd, context })
