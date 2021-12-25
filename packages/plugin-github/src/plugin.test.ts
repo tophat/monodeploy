@@ -47,6 +47,7 @@ describe('GitHub Plugin', () => {
                             version: '1.0.0',
                             tag: 'pkg-1@1.0.0',
                             changelog: 'a new feature',
+                            group: 'pkg-1',
                         },
                     })
                 }).rejects.toThrow(/Missing GitHub Personal Access Token/)
@@ -76,6 +77,7 @@ describe('GitHub Plugin', () => {
                                 version: '1.0.0',
                                 tag: 'pkg-1@1.0.0',
                                 changelog: 'a new feature',
+                                group: 'pkg-1',
                             },
                         })
                     }).rejects.toThrow(/Cannot determine GitHub owner/)

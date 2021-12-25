@@ -138,6 +138,10 @@ const { argv } = yargs
         type: 'string',
         description: 'NPM dist tag to use for pre-release versions',
     })
+    .option('package-group-manifest-field', {
+        type: 'string',
+        description: 'Manifest field to group packages by for grouped versioning.',
+    })
     .demandCommand(0, 0)
     .strict()
     .wrap(yargs.terminalWidth()) as { argv: ArgOutput }
@@ -207,6 +211,10 @@ if (argv.logLevel !== undefined && argv.logLevel !== null) {
             prereleaseId: argv.prereleaseId ?? configFromFile?.prereleaseId ?? undefined,
             prereleaseNPMTag:
                 argv.prereleaseNPMTag ?? configFromFile?.prereleaseNPMTag ?? undefined,
+            packageGroupManifestField:
+                argv.packageGroupManifestField ??
+                configFromFile?.packageGroupManifestField ??
+                undefined,
         }
 
         await monodeploy(config)

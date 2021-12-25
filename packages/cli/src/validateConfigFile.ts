@@ -66,6 +66,7 @@ const schema: SchemaObject = {
         prerelease: { type: 'boolean', nullable: true },
         prereleaseId: { type: 'string', nullable: true },
         prereleaseNPMTag: { type: 'string', nullable: true },
+        packageGroupManifestField: { type: 'string', nullable: true },
     },
     required: [],
     additionalProperties: false,

@@ -33,6 +33,10 @@ As an added benefit, downstream projects using systems like Renovate or Dependab
 
 If there is a use case where you believe this behaviour is unwarranted, please open an issue and we'll be glad to discuss.
 
+### How can I achieve behaviour similar to Lerna's fixed version mode?
+
+Starting in Monodeploy v3, fixed version mode can be achieved by setting the `packageGroupManifestField` in your monodeploy configuration, or via the CLI argument. This config option should be set to some field in each workspace's manifest file to indicate fixed version grouping. For example, you can add a "group" field set to "components" for some workspaces and "utils" for other workspaces. Monodeploy will then ensure all workspaces with changes (or dependent changes) in the "components" group have the same version bump. To achieve fixed versioning of all workspaces, you need to specify a field that all workspaces have in common. You can also enforce this with the use of the Yarn Constraints plugin.
+
 ### How does Monodeploy differ from:
 
 #### Lerna

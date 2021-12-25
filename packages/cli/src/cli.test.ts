@@ -38,7 +38,7 @@ describe('CLI', () => {
                     '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
                     '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
-                    '--commit-ignore-patterns "skip-ci"',
+                    '--commit-ignore-patterns "skip-ci" --package-group-manifest-field group',
             )
             jest.isolateModules(() => {
                 require('./cli')
@@ -73,6 +73,7 @@ describe('CLI', () => {
                   "maxConcurrentReads": 3,
                   "maxConcurrentWrites": 4,
                   "noRegistry": true,
+                  "packageGroupManifestField": "group",
                   "persistVersions": true,
                   "plugins": Array [
                     "plugin-a",
@@ -119,6 +120,7 @@ describe('CLI', () => {
                   "maxConcurrentReads": 0,
                   "maxConcurrentWrites": 0,
                   "noRegistry": undefined,
+                  "packageGroupManifestField": undefined,
                   "persistVersions": undefined,
                   "plugins": undefined,
                   "prerelease": undefined,
@@ -280,6 +282,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 3,
                       "maxConcurrentWrites": 5,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": true,
                       "plugins": Array [
                         "plugin-a",
@@ -368,6 +371,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 6,
                       "maxConcurrentWrites": 2,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": false,
@@ -408,6 +412,7 @@ describe('CLI', () => {
                     topologicalDev: true,
                     maxConcurrentReads: 2,
                     maxConcurrentWrites: 1,
+                    packageGroupManifestField: 'group',
                 }
             `
 
@@ -449,6 +454,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 2,
                       "maxConcurrentWrites": 1,
                       "noRegistry": false,
+                      "packageGroupManifestField": "group",
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": undefined,
@@ -493,6 +499,7 @@ describe('CLI', () => {
                 prerelease: true,
                 prereleaseId: 'beta',
                 commitIgnorePatterns: ['skip-ci'],
+                packageGroupManifestField: 'group',
             }
         `
 
@@ -534,6 +541,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 10,
                       "maxConcurrentWrites": 11,
                       "noRegistry": false,
+                      "packageGroupManifestField": "group",
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": true,
@@ -617,6 +625,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 10,
                       "maxConcurrentWrites": 11,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": false,
                       "plugins": undefined,
                       "prerelease": false,

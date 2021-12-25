@@ -8,7 +8,7 @@ import {
     setupContext,
     setupTestRepository,
 } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
+import { ChangesetSchema, YarnContext } from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
 import { PortablePath } from '@yarnpkg/fslib'
 
@@ -41,8 +41,8 @@ describe('prependChangelogFile', () => {
             changelogFilename: undefined,
         })
         const context = await setupContext(cwd)
-        const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
+        const changeset: ChangesetSchema = {
+            'pkg-1': { version: '1.0.0', changelog: 'wowchanges', tag: null, group: 'pkg-1' },
         }
 
         // TODO: Better assertion.
@@ -69,8 +69,8 @@ describe('prependChangelogFile', () => {
             changelogFilename: mockChangelogFilename,
         })
         const context = await setupContext(cwd)
-        const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
+        const changeset: ChangesetSchema = {
+            'pkg-1': { version: '1.0.0', changelog: 'wowchanges', tag: null, group: 'pkg-1' },
         }
 
         // We'll grab a handle so prepend won't be able to write
@@ -98,8 +98,8 @@ describe('prependChangelogFile', () => {
             changelogFilename: 'changelog',
         })
         const context = await setupContext(cwd)
-        const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
+        const changeset: ChangesetSchema = {
+            'pkg-1': { version: '1.0.0', changelog: 'wowchanges', tag: null, group: 'pkg-1' },
         }
         await createFile({ filePath: 'changelog', cwd, content: 'wonomarker' })
         await expect(async () =>
@@ -128,8 +128,8 @@ describe('prependChangelogFile', () => {
             dryRun: true,
         })
         const context = await setupContext(cwd)
-        const changeset = {
-            '1.0.0': { version: '1.0.0', changelog: 'wowchanges', tag: null },
+        const changeset: ChangesetSchema = {
+            'pkg-1': { version: '1.0.0', changelog: 'wowchanges', tag: null, group: 'pkg-1' },
         }
 
         // TODO: Better assertion.
@@ -159,16 +159,18 @@ describe('prependChangelogFile', () => {
             cwd: workspacePath,
             content: '<!-- MONODEPLOY:BELOW -->',
         })
-        const changeset = {
+        const changeset: ChangesetSchema = {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
                 tag: null,
+                group: 'pkg-1',
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
                 tag: null,
+                group: 'pkg-2',
             },
         }
 
@@ -183,7 +185,7 @@ describe('prependChangelogFile', () => {
             encoding: 'utf8',
         })
 
-        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
+        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog!))
     })
 
     it('creates the changelog file if it does not exist', async () => {
@@ -196,16 +198,18 @@ describe('prependChangelogFile', () => {
             changelogFilename: mockChangelogFilename,
         })
         const context = await setupContext(cwd)
-        const changeset = {
+        const changeset: ChangesetSchema = {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
                 tag: null,
+                group: 'pkg-1',
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
                 tag: null,
+                group: 'pkg-2',
             },
         }
 
@@ -220,7 +224,7 @@ describe('prependChangelogFile', () => {
             encoding: 'utf8',
         })
 
-        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
+        expect(changelogContents).toEqual(expect.stringContaining(changeset['pkg-1'].changelog!))
     })
 
     it('writes changelogs for each package if token present', async () => {
@@ -232,16 +236,18 @@ describe('prependChangelogFile', () => {
             changelogFilename: '<packageDir>/CHANGELOG.md',
         })
         const context = await setupContext(cwd)
-        const changeset = {
+        const changeset: ChangesetSchema = {
             'pkg-1': {
                 version: '1.0.0',
                 changelog: 'wowchanges\nthisisachangelog',
                 tag: null,
+                group: 'pkg-1',
             },
             'pkg-2': {
                 version: '1.1.0',
                 changelog: 'just a version bump',
                 tag: null,
+                group: 'pkg-2',
             },
         }
         const workspaces = new Set([getWorkspace(context, 'pkg-1'), getWorkspace(context, 'pkg-2')])
@@ -253,9 +259,9 @@ describe('prependChangelogFile', () => {
             { encoding: 'utf8' },
         )
 
-        expect(onDiskChangelogPkg1).toEqual(expect.stringContaining(changeset['pkg-1'].changelog))
+        expect(onDiskChangelogPkg1).toEqual(expect.stringContaining(changeset['pkg-1'].changelog!))
         expect(onDiskChangelogPkg1).not.toEqual(
-            expect.stringContaining(changeset['pkg-2'].changelog),
+            expect.stringContaining(changeset['pkg-2'].changelog!),
         )
 
         const onDiskChangelogPkg2 = await fs.readFile(
@@ -263,9 +269,9 @@ describe('prependChangelogFile', () => {
             { encoding: 'utf8' },
         )
 
-        expect(onDiskChangelogPkg2).toEqual(expect.stringContaining(changeset['pkg-2'].changelog))
+        expect(onDiskChangelogPkg2).toEqual(expect.stringContaining(changeset['pkg-2'].changelog!))
         expect(onDiskChangelogPkg2).not.toEqual(
-            expect.stringContaining(changeset['pkg-1'].changelog),
+            expect.stringContaining(changeset['pkg-1'].changelog!),
         )
     })
 
@@ -284,7 +290,7 @@ describe('prependChangelogFile', () => {
             cwd: workspacePath,
             content: '<!-- MONODEPLOY:BELOW -->',
         })
-        const changeset = {}
+        const changeset: ChangesetSchema = {}
 
         const contentsBefore = await fs.readFile(path.join(cwd, mockChangelogFilename), {
             encoding: 'utf8',

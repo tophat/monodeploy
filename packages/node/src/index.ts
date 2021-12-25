@@ -12,7 +12,6 @@ import {
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
-    PackageStrategyMap,
     PackageVersionMap,
     PluginHooks,
     RecursivePartial,
@@ -23,6 +22,7 @@ import {
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
     getLatestPackageTags,
+    mergeVersionStrategies,
 } from '@monodeploy/versions'
 import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
@@ -114,10 +114,12 @@ const monodeploy = async (
             intentionalStrategies,
         })
 
-        const versionStrategies: PackageStrategyMap = new Map([
-            ...intentionalStrategies.entries(),
-            ...implicitVersionStrategies.entries(),
-        ])
+        const { versionStrategies, workspaceGroups } = await mergeVersionStrategies({
+            config,
+            context,
+            intentionalStrategies,
+            implicitVersionStrategies,
+        })
 
         if (!versionStrategies.size) {
             logging.warning('No packages need to be updated.', { report })
@@ -165,6 +167,7 @@ const monodeploy = async (
                         workspaces: workspacesToPublish,
                         registryTags,
                         versionStrategies,
+                        workspaceGroups,
                     })
                 },
             )
@@ -176,6 +179,7 @@ const monodeploy = async (
                     async () => {
                         gitTags = await determineGitTags({
                             versions: versionChanges.next,
+                            workspaceGroups,
                         })
                     },
                 )
@@ -192,6 +196,7 @@ const monodeploy = async (
                         nextTags: versionChanges.next,
                         versionStrategies,
                         gitTags,
+                        workspaceGroups,
                     })
 
                     await prependChangelogFile({

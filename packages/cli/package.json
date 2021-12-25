@@ -13,6 +13,7 @@
     "bin": "./lib/cli.js",
     "main": "./lib/cli.js"
   },
+  "group": "monodeploy",
   "bin": "./src/cli.ts",
   "main": "./src/cli.ts",
   "files": [

@@ -2,13 +2,23 @@ import type { PackageVersionMap } from '@monodeploy/types'
 
 async function determineGitTags({
     versions,
+    workspaceGroups,
 }: {
     versions: PackageVersionMap
+    workspaceGroups: Map<string, Set<string>>
 }): Promise<Map<string, string>> {
+    const groupByPackageName = new Map<string, string>()
+    for (const [groupKey, group] of workspaceGroups.entries()) {
+        for (const packageName of group) {
+            groupByPackageName.set(packageName, groupKey)
+        }
+    }
+
     const tags = [...versions.entries()].map((packageVersionEntry: string[]) => {
-        const [packageIdent, packageVersion] = packageVersionEntry
-        const tag = `${packageIdent}@${packageVersion}`
-        return [packageIdent, tag]
+        const [packageName, packageVersion] = packageVersionEntry
+        const name = groupByPackageName.get(packageName) ?? packageName
+        const tag = `${name}@${packageVersion}`
+        return [packageName, tag]
     })
 
     const packageTags = new Map<string, string>()

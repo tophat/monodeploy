@@ -20,6 +20,7 @@ const writeChangesetFile = async ({
     nextTags,
     versionStrategies,
     gitTags,
+    workspaceGroups,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
@@ -27,6 +28,7 @@ const writeChangesetFile = async ({
     nextTags: PackageVersionMap
     versionStrategies: PackageStrategyMap
     gitTags?: Map<string, string>
+    workspaceGroups: Map<string, Set<string>>
 }): Promise<ChangesetSchema> => {
     const changesetData: ChangesetSchema = {}
 
@@ -47,6 +49,14 @@ const writeChangesetFile = async ({
             changelog,
             tag: gitTags?.get(packageName) ?? null,
             strategy: versionStrategy?.type ?? null,
+            group: packageName, // overwritten below
+        }
+    }
+
+    for (const [groupKey, group] of workspaceGroups.entries()) {
+        for (const packageName of group) {
+            if (!changesetData[packageName]) continue
+            changesetData[packageName].group = groupKey ?? packageName
         }
     }
 

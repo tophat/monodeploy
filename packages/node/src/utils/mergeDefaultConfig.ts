@@ -40,6 +40,7 @@ const mergeDefaultConfig = async (
         prerelease,
         prereleaseId: baseConfig.prereleaseId ?? 'rc',
         prereleaseNPMTag: baseConfig.prereleaseNPMTag ?? 'next',
+        packageGroupManifestField: baseConfig.packageGroupManifestField ?? undefined,
     }
 }
 

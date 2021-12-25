@@ -115,7 +115,7 @@ const getExplicitVersionStrategies = async ({
             const previousVersionStrategy = versionStrategies.get(pkgName)
 
             versionStrategies.set(pkgName, {
-                type: await maxStrategy(previousVersionStrategy?.type, strategy),
+                type: maxStrategy(previousVersionStrategy?.type, strategy),
                 commits: [commit, ...(previousVersionStrategy?.commits ?? [])],
             })
         }

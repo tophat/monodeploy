@@ -89,12 +89,14 @@ const applyReleases = async ({
     workspaces,
     registryTags,
     versionStrategies,
+    workspaceGroups,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     workspaces: Set<Workspace>
     registryTags: PackageTagMap
     versionStrategies: PackageStrategyMap
+    workspaceGroups: Map<string, Set<string>>
 }): Promise<{ previous: PackageVersionMap; next: PackageVersionMap }> => {
     const updatedRegistryTags = new Map<string, VersionChange>()
     const nonupdatedRegistryTags = new Map<string, VersionChange>()
@@ -127,10 +129,42 @@ const applyReleases = async ({
         }
 
         updatedRegistryTags.set(packageName, { previous, next })
-        logging.info(
-            `[Version Change] ${packageName}: ${previous} -> ${next} (${packageVersionStrategy})`,
-            { report: context.report },
+    }
+
+    const isFullyIndependent = workspaceGroups.size === updatedRegistryTags.size
+
+    // merge group updates
+    for (const [groupKey, group] of workspaceGroups.entries()) {
+        const version: string | null = Array.from(group).reduce(
+            (curr, packageName) =>
+                maxVersion(curr, updatedRegistryTags.get(packageName)?.next ?? null),
+            null as string | null,
         )
+        if (!version) continue
+
+        for (const packageName of group) {
+            updatedRegistryTags.set(packageName, {
+                ...updatedRegistryTags.get(packageName)!,
+                next: version,
+            })
+            const update = updatedRegistryTags.get(packageName)!
+
+            if (isFullyIndependent) {
+                logging.info(
+                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
+                        versionStrategies.get(packageName)?.type
+                    })`,
+                    { report: context.report },
+                )
+            } else {
+                logging.info(
+                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
+                        versionStrategies.get(packageName)?.type
+                    }, group: ${groupKey})`,
+                    { report: context.report },
+                )
+            }
+        }
     }
 
     const patchVersions: PackageVersionMap = new Map()
