@@ -264,7 +264,8 @@ jobs:
               --conventional-changelog-config @tophat/conventional-changelog-config \
               --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
               --force-write-change-files \
-              --changeset-ignore-patterns '**/*.test.ts'
+              --changeset-ignore-patterns '**/*.test.ts' \
+              --package-group-manifest-field group
 
             changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
             changelog_body="${changelog_body//'%'/'%25'}"
