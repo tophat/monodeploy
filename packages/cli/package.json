@@ -10,12 +10,12 @@
   "license": "Apache-2.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "bin": "./lib/cli.js",
-    "main": "./lib/cli.js"
+    "bin": "./lib/index.js",
+    "main": "./lib/index.js"
   },
   "group": "monodeploy",
-  "bin": "./src/cli.ts",
-  "main": "./src/cli.ts",
+  "bin": "./src/index.ts",
+  "main": "./src/index.ts",
   "files": [
     "lib"
   ],
@@ -27,16 +27,16 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/node": "^14.17.14",
-    "@types/yargs": "^16.0.0"
+    "@types/node": "^14.17.14"
   },
   "dependencies": {
     "@monodeploy/node": "workspace:^0.11.18",
     "@monodeploy/types": "workspace:^0.10.4",
     "@yarnpkg/core": "^3.1.0",
     "@yarnpkg/fslib": "^2.6.0",
-    "ajv": "^8.6.1",
-    "yargs": "^16.2.0"
+    "ajv": "^8.8.2",
+    "clipanion": "^3.2.0-rc.4",
+    "typanion": "^3.7.1"
   },
   "engines": {
     "node": ">=14.0.0"

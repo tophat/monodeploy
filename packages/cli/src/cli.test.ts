@@ -4,7 +4,7 @@ import path from 'path'
 
 import monodeploy from '@monodeploy/node'
 
-const scriptPath = path.join(__dirname, 'cli.ts')
+const scriptPath = path.join(__dirname, 'index.ts')
 
 jest.mock('@monodeploy/node', () => ({
     __esModule: true,
@@ -35,13 +35,13 @@ describe('CLI', () => {
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access infer --topological --topological-dev --jobs 6 ' +
-                    '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
+                    '--auto-commit --auto-commit-message release --plugins plugin-a --plugins plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
-                    '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
-                    '--commit-ignore-patterns "skip-ci" --package-group-manifest-field group',
+                    '--changeset-ignore-patterns *.test.js --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
+                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group',
             )
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
@@ -81,7 +81,7 @@ describe('CLI', () => {
                   ],
                   "prerelease": true,
                   "prereleaseId": "rc",
-                  "prereleaseNPMTag": undefined,
+                  "prereleaseNPMTag": "beta",
                   "registryUrl": "http://example.com",
                   "topological": true,
                   "topologicalDev": true,
@@ -92,7 +92,7 @@ describe('CLI', () => {
         it('passes empty config if no cli flags set', async () => {
             setArgs('')
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
@@ -144,7 +144,7 @@ describe('CLI', () => {
             })
             setArgs('')
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
             expect(spyError).toHaveBeenCalledWith(error)
@@ -172,7 +172,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
@@ -200,7 +200,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
@@ -252,7 +252,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
@@ -339,7 +339,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
@@ -422,7 +422,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
@@ -508,10 +508,10 @@ describe('CLI', () => {
                 const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns "ignore-me"`,
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me`,
                 )
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
@@ -597,7 +597,7 @@ describe('CLI', () => {
                         '--no-topological --no-topological-dev --no-persist-versions',
                 )
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])

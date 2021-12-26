@@ -5378,15 +5378,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.0.1, ajv@npm:^8.6.1":
-  version: 8.6.1
-  resolution: "ajv@npm:8.6.1"
+"ajv@npm:^8.0.1, ajv@npm:^8.8.2":
+  version: 8.8.2
+  resolution: "ajv@npm:8.8.2"
   dependencies:
     fast-deep-equal: ^3.1.1
     json-schema-traverse: ^1.0.0
     require-from-string: ^2.0.2
     uri-js: ^4.2.2
-  checksum: e091264ff6c8134d9072e804f6f1d56e8dacc143537852d9afb456f0bb6c4eff98307e152da2faf7afef2ebf665278316aa5cf30f7d81ccecc9654c11629e2a6
+  checksum: 90849ef03c4f4f7051d15f655120137b89e3205537d683beebd39d95f40c0ca00ea8476cd999602d2f433863e7e4bf1b81d1869d1e07f4dcf56d71b6430a605c
   languageName: node
   linkType: hard
 
@@ -15493,13 +15493,13 @@ __metadata:
     "@monodeploy/node": "workspace:^0.11.18"
     "@monodeploy/types": "workspace:^0.10.4"
     "@types/node": ^14.17.14
-    "@types/yargs": ^16.0.0
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
-    ajv: ^8.6.1
-    yargs: ^16.2.0
+    ajv: ^8.8.2
+    clipanion: ^3.2.0-rc.4
+    typanion: ^3.7.1
   bin:
-    monodeploy: ./src/cli.ts
+    monodeploy: ./src/index.ts
   languageName: unknown
   linkType: soft
 
@@ -20717,10 +20717,10 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typanion@npm:^3.3.0, typanion@npm:^3.3.1":
-  version: 3.3.2
-  resolution: "typanion@npm:3.3.2"
-  checksum: e7621409eb56cac3145ba3955702682627d4018a8f31b1c8355d354a93b86f7cea339583b211a4dbf7576847dd04aacad4af6912f3c42542e573b9c325e6093c
+"typanion@npm:^3.3.0, typanion@npm:^3.3.1, typanion@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "typanion@npm:3.7.1"
+  checksum: 79f396a960167956999b585eb9f0baa61c79455c680778dd950261e73bf6465f5a38779cc176142099c7fbf440d578b44664632bb1e3e41769199278751d7d92
   languageName: node
   linkType: hard
 
