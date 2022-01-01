@@ -60,7 +60,6 @@ describe('getLatestPackageTags', () => {
         const tags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
@@ -89,7 +88,6 @@ describe('getLatestPackageTags', () => {
         const tags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
 
         const expectedTags = new Map([
@@ -120,7 +118,6 @@ describe('getLatestPackageTags', () => {
                 await getLatestPackageTags({
                     config,
                     context,
-                    registryUrl: config.registryUrl ?? 'https://example.org/',
                 }),
         ).rejects.toEqual(mockError)
 
@@ -147,7 +144,6 @@ describe('getLatestPackageTags', () => {
         const tags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: config.registryUrl,
         })
         for (const tagPair of tags) {
             const tag = tagPair[1]
@@ -174,7 +170,6 @@ describe('getLatestPackageTags', () => {
         const tags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: config.registryUrl ?? 'https://example.org/',
         })
 
         expect(tags.keys()).not.toContain('pkg-2')

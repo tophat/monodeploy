@@ -17,7 +17,11 @@ describe('getFetchRegistryUrl', () => {
                     noRegistry: true,
                 }
                 config.registryUrl = 'http://example.com'
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getFetchRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toBeNull()
             },
         ))
@@ -33,7 +37,11 @@ describe('getFetchRegistryUrl', () => {
                     baseBranch: 'main',
                 })
                 config.registryUrl = 'http://example.com'
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getFetchRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toEqual(config.registryUrl)
             },
         ))
@@ -49,7 +57,11 @@ describe('getFetchRegistryUrl', () => {
                     baseBranch: 'main',
                 })
                 config.registryUrl = undefined
-                const url = await getFetchRegistryUrl({ config, context })
+                const url = await getFetchRegistryUrl({
+                    config,
+                    context,
+                    workspace: context.workspace,
+                })
                 expect(url).toMatchInlineSnapshot('"https://registry.yarnpkg.com"')
             },
         ))

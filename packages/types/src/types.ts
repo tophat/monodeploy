@@ -16,8 +16,8 @@ export interface MonodeployConfiguration {
 
     /**
      * The NPM registry URL for fetching package information, and publishing
-     * packages outside of dry run. Note that this overrides any
-     * publishConfig.registryUrl or Yarn RC configuration.
+     * packages. Note that this overrides any publishConfig.registryUrl or
+     * Yarn RC configuration.
      *
      * @default [Yarn Configuration](https://yarnpkg.com/configuration/yarnrc)
      */

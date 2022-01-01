@@ -5,6 +5,8 @@ import { isReportError } from '@yarnpkg/core/lib/Report'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 import pLimit from 'p-limit'
 
+import { getFetchRegistryUrl } from './getRegistryUrl'
+
 interface NetworkError extends Error {
     readonly response?: Record<string, unknown> & { statusCode: number }
 }
@@ -24,11 +26,9 @@ function statusCodeFromHTTPError(err: unknown): number | undefined {
 const getLatestPackageTags = async ({
     config,
     context,
-    registryUrl,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    registryUrl?: string | null
 }): Promise<PackageTagMap> => {
     const limitFetch = pLimit(config.maxConcurrentReads || 10)
 
@@ -46,7 +46,16 @@ const getLatestPackageTags = async ({
         const pkgName = structUtils.stringifyIdent(ident)
         const manifestVersion = workspace.manifest.version ?? '0.0.0'
 
-        if (config.noRegistry || !registryUrl) {
+        const registryUrl = await getFetchRegistryUrl({
+            config,
+            context,
+            workspace,
+        })
+
+        if (!registryUrl) {
+            logging.info(`[Get Tags] '${pkgName}' (${manifestVersion}, skipping registry)`, {
+                report: context.report,
+            })
             return [pkgName, { latest: manifestVersion }]
         }
 
@@ -76,27 +85,30 @@ const getLatestPackageTags = async ({
                 // If the issue was actually an auth issue, we'll find out
                 // later when we attempt to publish.
                 logging.warning(
-                    `[Get Tags] Cannot find ${pkgName} in registry (version: ${manifestVersion}, ${config.registryUrl})`,
+                    `[Get Tags] Cannot find '${pkgName}' in registry (version: ${manifestVersion}, ${registryUrl})`,
                     { report: context.report },
                 )
                 return [pkgName, { latest: manifestVersion }]
             }
 
-            if (statusCode === 500 && config.registryUrl?.match(/\.jfrog\.io\//)) {
+            if (statusCode === 500 && registryUrl?.match(/\.jfrog\.io\//)) {
                 // There is a bug when using jfrog artifactory's virtual repo such that
                 // trying to fetch tags for non-published packages results in a 500 rather
                 // than a 404.
                 // See: https://www.jfrog.com/jira/browse/RTFACT-16518
                 logging.warning(
-                    `[Get Tags] [HTTP 500] Cannot find ${pkgName} in registry (version: ${manifestVersion})`,
+                    `[Get Tags] [HTTP 500] Cannot find '${pkgName}' in registry (version: ${manifestVersion}, ${registryUrl})`,
                     { report: context.report },
                 )
                 return [pkgName, { latest: manifestVersion }]
             }
 
-            logging.error(`[Get Tags] Failed to fetch latest tags for ${pkgName}`, {
-                report: context.report,
-            })
+            logging.error(
+                `[Get Tags] Failed to fetch latest tags for '${pkgName}' (${registryUrl})`,
+                {
+                    report: context.report,
+                },
+            )
             throw err
         }
     }

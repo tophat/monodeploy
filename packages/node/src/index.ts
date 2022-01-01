@@ -29,7 +29,6 @@ import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
-import { getFetchRegistryUrl } from './utils/getRegistryUrl'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 const monodeploy = async (
@@ -88,17 +87,10 @@ const monodeploy = async (
             report,
         })
 
-        const defaultFetchRegistryUrl = await getFetchRegistryUrl({
-            config,
-            context,
-        })
-        logging.debug(`[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`, { report })
-
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: defaultFetchRegistryUrl,
         })
 
         // Determine version bumps via commit messages
