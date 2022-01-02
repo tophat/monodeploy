@@ -12,7 +12,8 @@
   "publishConfig": {
     "main": "./lib/types.js",
     "types": "./lib/types.d.ts",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "group": "monodeploy",
   "files": [
