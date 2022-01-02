@@ -2821,13 +2821,13 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-changelog-writer": ^4.0.0
-    "@types/conventional-commits-parser": ^3.0.1
+    "@types/conventional-changelog-writer": ^4.0.1
+    "@types/conventional-commits-parser": ^3.0.2
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
-    conventional-changelog-writer: ^5.0.0
-    conventional-commits-parser: ^3.2.0
+    conventional-changelog-writer: ^5.0.1
+    conventional-commits-parser: ^3.2.4
     p-limit: ^3.1.0
   peerDependencies:
     "@monodeploy/git": "workspace:^0.4.1"
@@ -3693,22 +3693,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/conventional-changelog-writer@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@types/conventional-changelog-writer@npm:4.0.0"
+"@types/conventional-changelog-writer@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@types/conventional-changelog-writer@npm:4.0.1"
   dependencies:
     "@types/conventional-commits-parser": "*"
     "@types/node": "*"
-  checksum: 537fcf9a435d57f7722c8d12a41c103bfd0cfe40ea1951c680683b317d75ded2fbeae622c50ed5af82111fb7e56f1e599930d9f9512b57f3bed68384245f2cda
+  checksum: 1e029327a97406de0be4df76ee98a183a0c67a6d90d518e7b72a922e3e4f66e56e4c4c829f1bce02a80946ed474389742708739dd0ecb3e144ec0e421140ae48
   languageName: node
   linkType: hard
 
-"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@types/conventional-commits-parser@npm:3.0.1"
+"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.1, @types/conventional-commits-parser@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/conventional-commits-parser@npm:3.0.2"
   dependencies:
     "@types/node": "*"
-  checksum: 3ab5bc46c8a94ccdfd7094eec11c326e803f052267c87147ff0b0d1ccaa172c4a483686befa389c53a10fe3915c9a639001a88c0bd2b811d010d88605f172eaa
+  checksum: 886c9c35db7b1f82ff29b405e0de2f0545bc310fd543c7b770cdc02841c1952ae9501f31b6ab97b2d089f7994012ff9986055899683122b0fd6d5343ccaccc4f
   languageName: node
   linkType: hard
 
@@ -7450,13 +7450,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-changelog-writer@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "conventional-changelog-writer@npm:5.0.0"
+"conventional-changelog-writer@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "conventional-changelog-writer@npm:5.0.1"
   dependencies:
     conventional-commits-filter: ^2.0.7
     dateformat: ^3.0.0
-    handlebars: ^4.7.6
+    handlebars: ^4.7.7
     json-stringify-safe: ^5.0.1
     lodash: ^4.17.15
     meow: ^8.0.0
@@ -7465,7 +7465,7 @@ __metadata:
     through2: ^4.0.0
   bin:
     conventional-changelog-writer: cli.js
-  checksum: c310b949d354688b971f576c92cac77f11540fee56dccb990169e94e4fc42e40245d2c381f826b7d781deb04d4f7e01701cc29bdd1c3d3cdf8817e8b7a80ea18
+  checksum: 5c0129db44577f14b1f8de225b62a392a9927ba7fe3422cb21ad71a771b8472bd03badb7c87cb47419913abc3f2ce3759b69f59550cdc6f7a7b0459015b3b44c
   languageName: node
   linkType: hard
 
@@ -7486,9 +7486,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-commits-parser@npm:^3.0.0, conventional-commits-parser@npm:^3.2.0, conventional-commits-parser@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "conventional-commits-parser@npm:3.2.3"
+"conventional-commits-parser@npm:^3.0.0, conventional-commits-parser@npm:^3.2.3, conventional-commits-parser@npm:^3.2.4":
+  version: 3.2.4
+  resolution: "conventional-commits-parser@npm:3.2.4"
   dependencies:
     JSONStream: ^1.0.4
     is-text-path: ^1.0.1
@@ -7498,7 +7498,7 @@ __metadata:
     through2: ^4.0.0
   bin:
     conventional-commits-parser: cli.js
-  checksum: 0f57b5cb7cb359eb49e6807cfd82b27cbe9ac30ec580b20ad7e79575561183110532a6c2e6328ce6c4cd05c01458b9bb781f1f6653b14560f7c509b87b0e9ac7
+  checksum: 1627ff203bc9586d89e47a7fe63acecf339aba74903b9114e23d28094f79d4e2d6389bf146ae561461dcba8fc42e7bc228165d2b173f15756c43f1d32bc50bfd
   languageName: node
   linkType: hard
 
@@ -11548,7 +11548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handlebars@npm:^4.7.6, handlebars@npm:^4.7.7":
+"handlebars@npm:^4.7.7":
   version: 4.7.7
   resolution: "handlebars@npm:4.7.7"
   dependencies:

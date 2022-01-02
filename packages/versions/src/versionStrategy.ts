@@ -19,15 +19,27 @@ export const STRATEGY = {
 export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
     commits: string[],
 ): Promise<number> => {
-    const commitsStream = Readable.from(commits).pipe(conventionalCommitsParser())
-    const conventionalCommits = await readStream<Commit>(commitsStream)
     const titlePattern = new RegExp('^(\\w+)(\\([^)]+\\))?$', 'g')
     const PATCH_TYPES = ['fix', 'perf']
     const FEATURE_TYPES = ['feat']
     const BREAKING_CHANGE = 'breaking change'
+
+    const parser = conventionalCommitsParser({
+        headerPattern: /^(\w*)(?:\((.*)\))?: (.*)$/,
+        headerCorrespondence: ['type', 'scope', 'subject'],
+        noteKeywords: [
+            'BREAKING CHANGE',
+            ...[...PATCH_TYPES, ...FEATURE_TYPES].map((prefix) => `${prefix}(?:\\(.*\\))?`),
+        ],
+        revertPattern: /^(revert:|Revert)\s([\s\S]*?)\s*This reverts commit (\w*)\./,
+        revertCorrespondence: ['prefix', 'header', 'hash'],
+    })
+    const commitsStream = Readable.from(commits).pipe(parser)
+    const conventionalCommits = await readStream<Commit>(commitsStream)
+
     return conventionalCommits.reduce((level, commit) => {
         for (const note of commit.notes) {
-            if (note.title.toLowerCase().includes(BREAKING_CHANGE)) {
+            if (note.title.toLowerCase().startsWith(BREAKING_CHANGE)) {
                 return STRATEGY.MAJOR
             }
 
@@ -35,29 +47,30 @@ export const getDefaultRecommendedStrategy: StrategyDeterminer = async (
             const type = matches?.[1]
 
             if (FEATURE_TYPES.includes(type)) {
-                return Math.min(level, STRATEGY.MINOR)
+                level = Math.min(level, STRATEGY.MINOR)
+                continue
             }
             if (PATCH_TYPES.includes(type)) {
-                return Math.min(level, STRATEGY.PATCH)
+                level = Math.min(level, STRATEGY.PATCH)
+                continue
             }
         }
 
-        if (commit.header?.toLowerCase().includes(BREAKING_CHANGE)) {
+        if (commit.header?.toLowerCase().startsWith(BREAKING_CHANGE)) {
             return STRATEGY.MAJOR
         }
 
         const commitType = commit.type
         if (commitType) {
             if (FEATURE_TYPES.includes(commitType)) {
-                return Math.min(level, STRATEGY.MINOR)
-            }
-            if (PATCH_TYPES.includes(commitType)) {
-                return Math.min(level, STRATEGY.PATCH)
+                level = Math.min(level, STRATEGY.MINOR)
+            } else if (PATCH_TYPES.includes(commitType)) {
+                level = Math.min(level, STRATEGY.PATCH)
             }
         }
 
         if (commit.revert) {
-            return Math.min(level, STRATEGY.PATCH)
+            level = Math.min(level, STRATEGY.PATCH)
         }
         return level
     }, STRATEGY.NONE)
