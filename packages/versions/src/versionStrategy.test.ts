@@ -85,6 +85,19 @@ describe('Default Recommended Strategy', () => {
         ])
         expect(strategy).toEqual(STRATEGY.NONE)
     })
+
+    it('considers all notes', async () => {
+        expect(
+            await getDefaultRecommendedStrategy([
+                'fix: some content\n\n* feat: some other content',
+            ]),
+        ).toEqual(STRATEGY.MINOR)
+        expect(
+            await getDefaultRecommendedStrategy([
+                'feat: some other content\n\n* fix: some content',
+            ]),
+        ).toEqual(STRATEGY.MINOR)
+    })
 })
 
 describe('Custom Conventional Recommended Strategy', () => {
