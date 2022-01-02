@@ -11,7 +11,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "bin": "./lib/index.js",
-    "main": "./lib/index.js"
+    "main": "./lib/index.js",
+    "access": "public"
   },
   "group": "monodeploy",
   "bin": "./src/index.ts",
