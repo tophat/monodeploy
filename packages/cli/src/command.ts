@@ -5,9 +5,13 @@ import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
 import readConfigFile from './readConfigFile'
-import { ConfigFile } from './types'
 
 export class MonodeployCommand extends Command {
+    preset = Option.String('--preset', {
+        validator: t.isString(),
+        description: 'Monodeploy config preset',
+    })
+
     cwd = Option.String('--cwd', {
         validator: t.isString(),
         description: 'Working directory',
@@ -159,12 +163,10 @@ export class MonodeployCommand extends Command {
         try {
             const cwd = this.cwd
 
-            const configFilename = this.configFile
-            const configFromFile: ConfigFile | null = configFilename
-                ? await readConfigFile(configFilename, {
-                      cwd: cwd ? npath.toPortablePath(cwd) : ppath.cwd(),
-                  })
-                : null
+            const configFromFile = await readConfigFile(this.configFile, {
+                cwd: cwd ? npath.toPortablePath(cwd) : ppath.cwd(),
+                preset: this.preset,
+            })
 
             const config: RecursivePartial<MonodeployConfiguration> = {
                 registryUrl: this.registryUrl ?? configFromFile?.registryUrl ?? undefined,
@@ -229,7 +231,7 @@ export class MonodeployCommand extends Command {
             await monodeploy(config)
             return 0
         } catch (err) {
-            console.error(err)
+            console.error(process.env.DEBUG === 'monodeploy' ? err : String(err))
             return 1
         }
     }

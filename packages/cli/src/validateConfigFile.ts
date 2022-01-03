@@ -7,6 +7,7 @@ const ajv = new Ajv({ allowUnionTypes: true })
 const schema: SchemaObject = {
     type: 'object',
     properties: {
+        preset: { type: 'string', nullable: true },
         registryUrl: { type: 'string', nullable: true },
         noRegistry: { type: 'boolean', nullable: true },
         dryRun: { type: 'boolean', nullable: true },
