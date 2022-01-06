@@ -1004,7 +1004,7 @@ describe('CLI', () => {
         it('reads built-in presets', async () => {
             const configFileContents = `
                 module.exports = {
-                    preset: 'monodeploy/preset-recommended',
+                    preset: '${require.resolve('monodeploy/preset-recommended')}',
                     access: 'public',
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',

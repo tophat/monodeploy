@@ -2977,6 +2977,7 @@ __metadata:
     "@tophat/conventional-changelog-config": ^0.5.8
     "@tophat/eslint-config": ^1.0.0
     "@tophat/eslint-import-resolver-require": ^0.1.3
+    "@tophat/jest-resolver": ^0.1.0
     "@types/jest": ^27.0.1
     "@types/node": ^14.17.14
     "@typescript-eslint/eslint-plugin": ^5.5.0
@@ -3549,6 +3550,13 @@ __metadata:
   peerDependencies:
     eslint-plugin-import: ">= 2.0.0"
   checksum: a19c7e2abba314d502c21ce4d86582e8d44fab67fc9a4b8eb66da4d7e9c443aa4b81063d44e03a0839d074b90fa0515b0218e3a87c48489e8c0c9420b805134e
+  languageName: node
+  linkType: hard
+
+"@tophat/jest-resolver@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@tophat/jest-resolver@npm:0.1.0"
+  checksum: 57220ab91430d6b85ec4ddeac2b7d380c2751a05d01c1bd034769d20ee50957c9c3e74e37d866335afcdd275047e858a825dab3970cd3a30c5b8c9a5d099b281
   languageName: node
   linkType: hard
 
