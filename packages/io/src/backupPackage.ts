@@ -17,14 +17,27 @@ export const backupPackageJsons = async ({
 }): Promise<string> => {
     const packageJsonPaths = await getPackageJsonPaths(config, context)
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'package-jsons-'))
+    await fs.chmod(tmpDir, 0o744) /* rwx-r-r */
+
+    logging.debug(`[Savepoint] Saving working tree (key: ${tmpDir})`, { report: context.report })
+    const progress = Report.progressViaCounter(packageJsonPaths.length)
+    context.report.reportProgress(progress)
+
     await Promise.all(
-        packageJsonPaths.map(async (packageJsonPath, index) =>
-            fs.copyFile(packageJsonPath, path.join(tmpDir, String(index))),
-        ),
+        packageJsonPaths.map(async (packageJsonPath, index) => {
+            try {
+                const dstFile = path.join(tmpDir, String(index))
+                await fs.copyFile(packageJsonPath, dstFile)
+                await fs.chmod(dstFile, 0o744) /* rwx-r-r */
+            } finally {
+                progress.tick()
+            }
+        }),
     )
     const mapFilename = path.join(tmpDir, 'map.json')
     const map = { ...packageJsonPaths }
     await fs.writeFile(mapFilename, JSON.stringify(map, null, 2))
+    await fs.chmod(mapFilename, 0o744) /* rwx-r-r */
     return tmpDir
 }
 
