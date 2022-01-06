@@ -3,7 +3,6 @@ import os from 'os'
 import path from 'path'
 
 import monodeploy from '@monodeploy/node'
-import { ppath } from '@yarnpkg/fslib'
 
 const scriptPath = path.join(__dirname, 'index.ts')
 
@@ -1007,7 +1006,7 @@ describe('CLI', () => {
 
             const configFileContents = `
                 module.exports = {
-                    preset: require.resolve('monodeploy/preset-recommended', { paths: ['${ppath.cwd()}'] }),
+                    preset: 'monodeploy/preset-recommended',
                     access: 'public',
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',

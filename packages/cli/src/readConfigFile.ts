@@ -52,6 +52,14 @@ const merge = (base: any, overrides: any): any => {
 
 const loadPresetConfig = (presetPath: string | null, cwd: PortablePath) => {
     if (presetPath) {
+        if (presetPath.startsWith('monodeploy/')) {
+            switch (presetPath.split('/')[1]) {
+                case 'preset-recommended':
+                    return require('./presets/recommended')
+                default:
+                    break
+            }
+        }
         return require(resolvePath(presetPath, cwd))
     }
 
