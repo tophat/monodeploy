@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.3.0...@monodeploy/io@0.4.0) "@monodeploy/io" (2022-01-06)<a name="0.4.0"></a>
+
+### Bug Fixes
+
+* fail on corrupt manifest patching (#463) ([be3a881](https://github.com/tophat/monodeploy/commits/be3a881))
+
+### Features
+
+* add progress bars for patching manifest and savepoints ([be3a881](https://github.com/tophat/monodeploy/commits/be3a881))
+
+
+
+
 ## [0.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.2.23...@monodeploy/io@0.3.0) "@monodeploy/io" (2021-11-19)<a name="0.3.0"></a>
 
 ### Bug Fixes

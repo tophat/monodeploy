@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.2](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.1...@monodeploy/git@0.4.2) "@monodeploy/git" (2022-01-06)<a name="0.4.2"></a>
+
+### Bug Fixes
+
+* perform no-op if base branch is tagged (#462) ([6d22a53](https://github.com/tophat/monodeploy/commits/6d22a53))
+
+
+
+
 ## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.0...@monodeploy/git@0.4.1) "@monodeploy/git" (2021-12-02)<a name="0.4.1"></a>
 
 ### Bug Fixes
