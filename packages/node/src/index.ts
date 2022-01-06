@@ -127,9 +127,6 @@ const monodeploy = async (
 
         if (!config.dryRun) {
             backupKey = await backupPackageJsons({ config, context })
-            logging.info(`[Savepoint] Saving working tree (key: ${backupKey})`, {
-                report,
-            })
         }
 
         try {
