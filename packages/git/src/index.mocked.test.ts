@@ -64,7 +64,7 @@ describe('@monodeploy/git (mocked invariants)', () => {
             })
         ).stdout
 
-        expect(lastTaggedSha).toEqual(actualSha.trim())
+        expect(lastTaggedSha.sha).toEqual(actualSha.trim())
     })
 
     it('gitPushTags pushes to remote', async () => {
@@ -88,6 +88,6 @@ describe('@monodeploy/git (mocked invariants)', () => {
         ).stdout
         await cleanUp([upstreamContext.project.cwd])
 
-        expect(remoteTags).toEqual(expect.stringContaining(lastTaggedSha.trim()))
+        expect(remoteTags).toEqual(expect.stringContaining(lastTaggedSha.sha.trim()))
     })
 })

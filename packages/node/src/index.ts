@@ -36,7 +36,6 @@ const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<ChangesetSchema> => {
     const config: MonodeployConfiguration = await mergeDefaultConfig(baseConfig)
-
     if (config.cwd === typeof undefined) {
         throw new Error('Invalid cwd.')
     }

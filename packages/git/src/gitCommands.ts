@@ -113,7 +113,7 @@ export const gitLastTaggedCommit = async ({
     cwd: string
     context?: YarnContext
     prerelease?: boolean
-}): Promise<string> => {
+}): Promise<{ sha: string; tag: string | null }> => {
     let command = "describe --abbrev=0 --match '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*'"
 
     if (!prerelease) {
@@ -123,7 +123,7 @@ export const gitLastTaggedCommit = async ({
         command = `${command} --exclude '*@*[[:digit:]]*.[[:digit:]]*.[[:digit:]]*-*'`
     }
 
-    let tag = 'HEAD'
+    let tag: string | null = null
 
     try {
         tag = (await git(command, { cwd, context })).stdout.trim()
@@ -133,14 +133,16 @@ export const gitLastTaggedCommit = async ({
         })
     }
 
-    return (
-        await git(`rev-list -1 ${tag}`, {
+    const sha = (
+        await git(`rev-list -1 ${tag ?? 'HEAD'}`, {
             cwd,
             context,
         })
     ).stdout
         .toString()
         .trim()
+
+    return { sha, tag }
 }
 
 export const gitGlob = async (
