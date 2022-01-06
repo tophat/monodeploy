@@ -2812,7 +2812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monodeploy/changelog@workspace:*, @monodeploy/changelog@workspace:^0.7.11, @monodeploy/changelog@workspace:packages/changelog":
+"@monodeploy/changelog@workspace:*, @monodeploy/changelog@workspace:^0.7.12, @monodeploy/changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
@@ -2830,16 +2830,16 @@ __metadata:
     conventional-commits-parser: ^3.2.4
     p-limit: ^3.1.0
   peerDependencies:
-    "@monodeploy/git": "workspace:^0.4.1"
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/git": "workspace:^0.4.2"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
   languageName: unknown
   linkType: soft
 
-"@monodeploy/dependencies@workspace:*, @monodeploy/dependencies@workspace:^0.3.11, @monodeploy/dependencies@workspace:packages/dependencies":
+"@monodeploy/dependencies@workspace:*, @monodeploy/dependencies@workspace:^0.3.12, @monodeploy/dependencies@workspace:packages/dependencies":
   version: 0.0.0-use.local
   resolution: "@monodeploy/dependencies@workspace:packages/dependencies"
   dependencies:
@@ -2850,7 +2850,7 @@ __metadata:
     "@yarnpkg/fslib": ^2.6.0
   peerDependencies:
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
   languageName: unknown
   linkType: soft
@@ -2908,7 +2908,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.4.1, @monodeploy/git@workspace:packages/git":
+"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.4.2, @monodeploy/git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "@monodeploy/git@workspace:packages/git"
   dependencies:
@@ -2922,15 +2922,15 @@ __metadata:
     "@yarnpkg/fslib": ^2.6.0
     micromatch: ^4.0.4
   peerDependencies:
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
   languageName: unknown
   linkType: soft
 
-"@monodeploy/io@workspace:*, @monodeploy/io@workspace:^0.3.0, @monodeploy/io@workspace:packages/io":
+"@monodeploy/io@workspace:*, @monodeploy/io@workspace:^0.4.0, @monodeploy/io@workspace:packages/io":
   version: 0.0.0-use.local
   resolution: "@monodeploy/io@workspace:packages/io"
   dependencies:
@@ -2943,7 +2943,7 @@ __metadata:
     "@yarnpkg/shell": ^3.1.0
   peerDependencies:
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
     "@yarnpkg/shell": ^3.1.0
@@ -3018,19 +3018,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@workspace:^0.11.18, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@workspace:^0.12.0, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
-    "@monodeploy/changelog": "workspace:^0.7.11"
-    "@monodeploy/dependencies": "workspace:^0.3.11"
-    "@monodeploy/git": "workspace:^0.4.1"
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/changelog": "workspace:^0.7.12"
+    "@monodeploy/dependencies": "workspace:^0.3.12"
+    "@monodeploy/git": "workspace:^0.4.2"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/publish": "workspace:^0.6.3"
+    "@monodeploy/publish": "workspace:^0.6.4"
     "@monodeploy/test-utils": "link:../../testUtils"
-    "@monodeploy/types": "workspace:^0.10.4"
-    "@monodeploy/versions": "workspace:^0.8.13"
+    "@monodeploy/types": "workspace:^0.10.5"
+    "@monodeploy/versions": "workspace:^0.8.14"
     "@types/node": ^14.17.14
     "@yarnpkg/cli": ^3.1.1
     "@yarnpkg/core": ^3.1.0
@@ -3046,11 +3046,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
   dependencies:
-    "@monodeploy/git": "workspace:^0.4.1"
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/git": "workspace:^0.4.2"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/test-utils": "link:../../testUtils"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@octokit/core": ^3.5.1
     "@octokit/plugin-throttling": ^3.5.2
     "@types/node": ^14.17.14
@@ -3061,7 +3061,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/publish@workspace:^0.6.3, @monodeploy/publish@workspace:packages/publish":
+"@monodeploy/publish@workspace:^0.6.4, @monodeploy/publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "@monodeploy/publish@workspace:packages/publish"
   dependencies:
@@ -3078,11 +3078,11 @@ __metadata:
     "@yarnpkg/plugin-pack": ^3.1.0
     p-limit: ^3.1.0
   peerDependencies:
-    "@monodeploy/dependencies": "workspace:^0.3.11"
-    "@monodeploy/git": "workspace:^0.4.1"
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/dependencies": "workspace:^0.3.12"
+    "@monodeploy/git": "workspace:^0.4.2"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/cli": ^3.1.1
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
@@ -3151,7 +3151,7 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@monodeploy/types@workspace:*, @monodeploy/types@workspace:^0.10.4, @monodeploy/types@workspace:packages/types":
+"@monodeploy/types@workspace:*, @monodeploy/types@workspace:^0.10.5, @monodeploy/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@monodeploy/types@workspace:packages/types"
   dependencies:
@@ -3164,7 +3164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/versions@workspace:^0.8.13, @monodeploy/versions@workspace:packages/versions":
+"@monodeploy/versions@workspace:^0.8.14, @monodeploy/versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "@monodeploy/versions@workspace:packages/versions"
   dependencies:
@@ -3188,12 +3188,12 @@ __metadata:
     p-limit: ^3.1.0
     semver: ^7.3.5
   peerDependencies:
-    "@monodeploy/changelog": "workspace:^0.7.11"
-    "@monodeploy/dependencies": "workspace:^0.3.11"
-    "@monodeploy/git": "workspace:^0.4.1"
-    "@monodeploy/io": "workspace:^0.3.0"
+    "@monodeploy/changelog": "workspace:^0.7.12"
+    "@monodeploy/dependencies": "workspace:^0.3.12"
+    "@monodeploy/git": "workspace:^0.4.2"
+    "@monodeploy/io": "workspace:^0.4.0"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/cli": ^3.1.1
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0
@@ -15490,8 +15490,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": "workspace:^0.11.18"
-    "@monodeploy/types": "workspace:^0.10.4"
+    "@monodeploy/node": "workspace:^0.12.0"
+    "@monodeploy/types": "workspace:^0.10.5"
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.1.0
     "@yarnpkg/fslib": ^2.6.0

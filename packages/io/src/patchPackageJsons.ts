@@ -1,5 +1,5 @@
 import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
-import { Descriptor, Manifest, Workspace, structUtils } from '@yarnpkg/core'
+import { Descriptor, Manifest, Report, Workspace, structUtils } from '@yarnpkg/core'
 import { ppath, xfs } from '@yarnpkg/fslib'
 
 const patchPackageJsons = async (
@@ -88,6 +88,13 @@ const patchPackageJsons = async (
         const path = ppath.join(workspace.cwd, Manifest.fileName)
         const content = `${JSON.stringify(data, null, workspace.manifest.indent)}\n`
 
+        // Content should never empty. We're asserting as we've noticed some odd behaviour in the wild.
+        if (!content.trim().length) {
+            throw new Error(
+                `[Invariant Violation] The workspace manifest for '${pkgName}' is empty. Aborting.`,
+            )
+        }
+
         if (!config.dryRun) {
             await xfs.changeFilePromise(path, content, {
                 automaticNewlines: true,
@@ -95,7 +102,14 @@ const patchPackageJsons = async (
         }
     }
 
-    await Promise.all([...workspaces].map(patchWorkspace))
+    const progress = Report.progressViaCounter(workspaces.size)
+    context.report.reportProgress(progress)
+
+    await Promise.all(
+        [...workspaces].map((workspace) =>
+            patchWorkspace(workspace).finally(() => progress.tick()),
+        ),
+    )
 }
 
 export default patchPackageJsons

@@ -1,4 +1,4 @@
-import { gitLastTaggedCommit, gitResolveSha } from '@monodeploy/git'
+import { gitResolveSha } from '@monodeploy/git'
 import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
@@ -14,8 +14,7 @@ const mergeDefaultConfig = async (
         cwd,
         dryRun: baseConfig.dryRun ?? false,
         git: {
-            baseBranch:
-                baseConfig.git?.baseBranch ?? (await gitLastTaggedCommit({ cwd, prerelease })),
+            baseBranch: baseConfig.git?.baseBranch,
             commitSha: baseConfig.git?.commitSha ?? (await gitResolveSha('HEAD', { cwd })),
             remote: baseConfig.git?.remote ?? 'origin',
             push: baseConfig.git?.push ?? false,

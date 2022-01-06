@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.5](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.10.4...@monodeploy/types@0.10.5) "@monodeploy/types" (2022-01-06)<a name="0.10.5"></a>
+
+### Bug Fixes
+
+* perform no-op if base branch is tagged (#462) ([6d22a53](https://github.com/tophat/monodeploy/commits/6d22a53))
+
+
+
+
 ## [0.10.4](https://github.com/tophat/monodeploy/compare/@monodeploy/types@0.10.3...@monodeploy/types@0.10.4) "@monodeploy/types" (2021-10-25)<a name="0.10.4"></a>
 
 ### Bug Fixes

@@ -35,7 +35,6 @@ const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<ChangesetSchema> => {
     const config: MonodeployConfiguration = await mergeDefaultConfig(baseConfig)
-
     if (config.cwd === typeof undefined) {
         throw new Error('Invalid cwd.')
     }
@@ -267,13 +266,9 @@ const monodeploy = async (
 
                 if (!config.persistVersions) {
                     // Restore workspace package.jsons
-                    logging.info(
-                        `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
-                        { report },
-                    )
-                    await restorePackageJsons({ key: backupKey })
+                    await restorePackageJsons({ report, key: backupKey })
                 }
-                await clearBackupCache({ keys: [backupKey] })
+                await clearBackupCache({ report, keys: [backupKey] })
             })
         }
     }

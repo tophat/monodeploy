@@ -140,11 +140,11 @@ const gitLastTaggedCommit = async ({
     cwd: string
     context: YarnContext
     prerelease?: boolean
-}): Promise<string> => {
+}): Promise<{ sha: string; tag: string | null }> => {
     if (!registry.lastTaggedCommit) {
         throw new Error('No tagged commit.')
     }
-    return registry.lastTaggedCommit
+    return { sha: registry.lastTaggedCommit, tag: registry.tags[registry.tags.length - 1] ?? null }
 }
 
 export const getCommitMessages = async (
@@ -152,8 +152,23 @@ export const getCommitMessages = async (
     context: YarnContext,
 ): Promise<CommitMessage[]> => {
     const DELIMITER = '-----------------monodeploy-----------------'
-    const from = config.git.baseBranch
+
     const to = config.git.commitSha
+    let from = config.git.baseBranch
+    if (!from) {
+        const { sha, tag } = await gitLastTaggedCommit({
+            cwd: config.cwd,
+            context,
+            prerelease: config.prerelease,
+        })
+        from = sha
+
+        if (to === from && tag !== null) {
+            // the latest commit is the tagged commit, this run of monodeploy should be a no-op
+            return []
+        }
+    }
+
     const logOutput = await gitLog(from, to, {
         cwd: config.cwd,
         DELIMITER,

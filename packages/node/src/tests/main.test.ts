@@ -529,8 +529,8 @@ describe('Monodeploy', () => {
             const pkg2 = await readPackageVersion('pkg-2')
             expect(pkg2.version).toBe('0.0.0')
         } finally {
-            await restorePackageJsons({ key: testBackupKey })
-            await clearBackupCache({ keys: [testBackupKey] })
+            await restorePackageJsons({ report: context.report, key: testBackupKey })
+            await clearBackupCache({ report: context.report, keys: [testBackupKey] })
         }
     })
 

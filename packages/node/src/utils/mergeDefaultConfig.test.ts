@@ -36,12 +36,11 @@ describe('Config Merging', () => {
         delete process.env.MONODEPLOY_LOG_LEVEL
     })
 
-    it('resolves git base branch and sha', async () => {
+    it('resolves commit sha', async () => {
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
         mockGit.gitTag('v1.0.0', { cwd: '/tmp' })
 
         const merged = await mergeDefaultConfig({ cwd: '/tmp' })
-        expect(merged.git.baseBranch).toBe('sha1')
         expect(merged.git.commitSha).toBe('sha:HEAD')
     })
 

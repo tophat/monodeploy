@@ -51,7 +51,7 @@ export interface MonodeployConfiguration {
          *
          * @default _last tagged commit_
          */
-        baseBranch: string
+        baseBranch?: string
 
         /**
          * The git ref which marks the "end point" of package change discovery.
