@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.12.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.18...@monodeploy/node@0.12.0) "@monodeploy/node" (2022-01-06)<a name="0.12.0"></a>
+
+### Bug Fixes
+
+* perform no-op if base branch is tagged (#462) ([6d22a53](https://github.com/tophat/monodeploy/commits/6d22a53))
+* fail on corrupt manifest patching (#463) ([be3a881](https://github.com/tophat/monodeploy/commits/be3a881))
+
+### Features
+
+* add progress bars for patching manifest and savepoints ([be3a881](https://github.com/tophat/monodeploy/commits/be3a881))
+
+
+
+
 ## [0.11.18](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.11.17...@monodeploy/node@0.11.18) "@monodeploy/node" (2021-12-06)<a name="0.11.18"></a>
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/io",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -35,7 +35,7 @@
   },
   "peerDependencies": {
     "@monodeploy/logging": "workspace:^0.1.12",
-    "@monodeploy/types": "workspace:^0.10.4",
+    "@monodeploy/types": "workspace:^0.10.5",
     "@yarnpkg/core": "^3.1.0",
     "@yarnpkg/fslib": "^2.6.0",
     "@yarnpkg/shell": "^3.1.0"
