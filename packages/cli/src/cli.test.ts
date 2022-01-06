@@ -3,6 +3,7 @@ import os from 'os'
 import path from 'path'
 
 import monodeploy from '@monodeploy/node'
+import { ppath } from '@yarnpkg/fslib'
 
 const scriptPath = path.join(__dirname, 'index.ts')
 
@@ -1002,9 +1003,11 @@ describe('CLI', () => {
         })
 
         it('reads built-in presets', async () => {
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+
             const configFileContents = `
                 module.exports = {
-                    preset: '${require.resolve('monodeploy/preset-recommended')}',
+                    preset: require.resolve('monodeploy/preset-recommended', { paths: ['${ppath.cwd()}'] }),
                     access: 'public',
                     changelogFilename: 'from_file.changelog.md',
                     changesetFilename: 'from_file.changes.json',
@@ -1032,7 +1035,6 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
             try {
                 const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
