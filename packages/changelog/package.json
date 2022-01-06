@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/changelog",
-  "version": "0.7.12",
+  "version": "0.7.13",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -25,8 +25,8 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "peerDependencies": {
-    "@monodeploy/git": "workspace:^0.4.2",
-    "@monodeploy/io": "workspace:^0.4.0",
+    "@monodeploy/git": "workspace:^0.4.3",
+    "@monodeploy/io": "workspace:^0.4.1",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.5",
     "@yarnpkg/core": "^3.1.0",

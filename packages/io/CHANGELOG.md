@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.4.0...@monodeploy/io@0.4.1) "@monodeploy/io" (2022-01-06)<a name="0.4.1"></a>
+
+### Bug Fixes
+
+* set file permissions on backed up manifests ([74f630c](https://github.com/tophat/monodeploy/commits/74f630c))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.3.0...@monodeploy/io@0.4.0) "@monodeploy/io" (2022-01-06)<a name="0.4.0"></a>
 
 ### Bug Fixes

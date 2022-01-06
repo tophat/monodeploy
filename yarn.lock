@@ -2787,7 +2787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monodeploy/changelog@workspace:*, @monodeploy/changelog@workspace:^0.7.12, @monodeploy/changelog@workspace:packages/changelog":
+"@monodeploy/changelog@workspace:*, @monodeploy/changelog@workspace:^0.7.13, @monodeploy/changelog@workspace:packages/changelog":
   version: 0.0.0-use.local
   resolution: "@monodeploy/changelog@workspace:packages/changelog"
   dependencies:
@@ -2805,8 +2805,8 @@ __metadata:
     conventional-commits-parser: ^3.2.0
     p-limit: ^3.1.0
   peerDependencies:
-    "@monodeploy/git": "workspace:^0.4.2"
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/git": "workspace:^0.4.3"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
@@ -2883,7 +2883,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.4.2, @monodeploy/git@workspace:packages/git":
+"@monodeploy/git@workspace:*, @monodeploy/git@workspace:^0.4.3, @monodeploy/git@workspace:packages/git":
   version: 0.0.0-use.local
   resolution: "@monodeploy/git@workspace:packages/git"
   dependencies:
@@ -2897,7 +2897,7 @@ __metadata:
     "@yarnpkg/fslib": ^2.6.0
     micromatch: ^4.0.4
   peerDependencies:
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/core": ^3.1.0
@@ -2905,7 +2905,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/io@workspace:*, @monodeploy/io@workspace:^0.4.0, @monodeploy/io@workspace:packages/io":
+"@monodeploy/io@workspace:*, @monodeploy/io@workspace:^0.4.1, @monodeploy/io@workspace:packages/io":
   version: 0.0.0-use.local
   resolution: "@monodeploy/io@workspace:packages/io"
   dependencies:
@@ -2993,19 +2993,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/node@workspace:^0.12.0, @monodeploy/node@workspace:packages/node":
+"@monodeploy/node@workspace:^0.12.1, @monodeploy/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@monodeploy/node@workspace:packages/node"
   dependencies:
-    "@monodeploy/changelog": "workspace:^0.7.12"
+    "@monodeploy/changelog": "workspace:^0.7.13"
     "@monodeploy/dependencies": "workspace:^0.3.12"
-    "@monodeploy/git": "workspace:^0.4.2"
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/git": "workspace:^0.4.3"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
-    "@monodeploy/publish": "workspace:^0.6.4"
+    "@monodeploy/publish": "workspace:^0.6.5"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:^0.10.5"
-    "@monodeploy/versions": "workspace:^0.8.14"
+    "@monodeploy/versions": "workspace:^0.8.15"
     "@types/node": ^14.17.14
     "@yarnpkg/cli": ^3.1.1
     "@yarnpkg/core": ^3.1.0
@@ -3021,8 +3021,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/plugin-github@workspace:packages/plugin-github"
   dependencies:
-    "@monodeploy/git": "workspace:^0.4.2"
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/git": "workspace:^0.4.3"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:^0.10.5"
@@ -3036,7 +3036,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/publish@workspace:^0.6.4, @monodeploy/publish@workspace:packages/publish":
+"@monodeploy/publish@workspace:^0.6.5, @monodeploy/publish@workspace:packages/publish":
   version: 0.0.0-use.local
   resolution: "@monodeploy/publish@workspace:packages/publish"
   dependencies:
@@ -3054,8 +3054,8 @@ __metadata:
     p-limit: ^3.1.0
   peerDependencies:
     "@monodeploy/dependencies": "workspace:^0.3.12"
-    "@monodeploy/git": "workspace:^0.4.2"
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/git": "workspace:^0.4.3"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/cli": ^3.1.1
@@ -3139,7 +3139,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monodeploy/versions@workspace:^0.8.14, @monodeploy/versions@workspace:packages/versions":
+"@monodeploy/versions@workspace:^0.8.15, @monodeploy/versions@workspace:packages/versions":
   version: 0.0.0-use.local
   resolution: "@monodeploy/versions@workspace:packages/versions"
   dependencies:
@@ -3163,10 +3163,10 @@ __metadata:
     p-limit: ^3.1.0
     semver: ^7.3.5
   peerDependencies:
-    "@monodeploy/changelog": "workspace:^0.7.12"
+    "@monodeploy/changelog": "workspace:^0.7.13"
     "@monodeploy/dependencies": "workspace:^0.3.12"
-    "@monodeploy/git": "workspace:^0.4.2"
-    "@monodeploy/io": "workspace:^0.4.0"
+    "@monodeploy/git": "workspace:^0.4.3"
+    "@monodeploy/io": "workspace:^0.4.1"
     "@monodeploy/logging": "workspace:^0.1.12"
     "@monodeploy/types": "workspace:^0.10.5"
     "@yarnpkg/cli": ^3.1.1
@@ -16618,7 +16618,7 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
-    "@monodeploy/node": "workspace:^0.12.0"
+    "@monodeploy/node": "workspace:^0.12.1"
     "@monodeploy/types": "workspace:^0.10.5"
     "@types/node": ^14.17.14
     "@types/yargs": ^16.0.0
@@ -22661,7 +22661,7 @@ resolve@^2.0.0-next.3:
 
 "typescript@patch:typescript@~4.4.2#~builtin<compat/typescript>":
   version: 4.4.2
-  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=ddd1e8"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -22671,11 +22671,11 @@ resolve@^2.0.0-next.3:
 
 "typescript@patch:typescript@~4.5.2#~builtin<compat/typescript>":
   version: 4.5.2
-  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=ddd1e8"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 53838d56aba6fcc947d63aa0771e5d966b1b648fddafed6e221d7f38c71219c4e036ece8cfe9e35ed80cf5a35ff4eb958934c993f99c3233773ec4f9ccd53f69
+  checksum: 24a439e062a05e3285a4f0e8a40644116ecdca89f3e908bed01e5a01b9aee747e3bcf0e85fe9e017e5ebf0c0863437c39479f2616f55a244c2d82d37022cdc4f
   languageName: node
   linkType: hard
 
