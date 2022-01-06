@@ -42,4 +42,5 @@ module.exports = {
     },
     modulePathIgnorePatterns: ['<rootDir>/.*/lib'],
     testTimeout: 30000,
+    resolver: '@tophat/jest-resolver',
 }

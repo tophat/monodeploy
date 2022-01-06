@@ -12,11 +12,19 @@
     "registry": "https://registry.npmjs.org/",
     "bin": "./lib/index.js",
     "main": "./lib/index.js",
-    "access": "public"
+    "access": "public",
+    "exports": {
+      ".": "./lib/index.js",
+      "./preset-recommended": "./lib/presets/recommended.js"
+    }
   },
   "group": "monodeploy",
   "bin": "./src/index.ts",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./preset-recommended": "./src/presets/recommended.ts"
+  },
   "files": [
     "lib"
   ],

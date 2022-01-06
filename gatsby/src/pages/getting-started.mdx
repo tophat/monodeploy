@@ -21,7 +21,7 @@ Edit your project's root `package.json`:
 3. Create a `monodeploy.config.js` file and set it to:
 
   ```js
-  module.exports = {}
+  module.exports = { preset: 'monodeploy/preset-recommended' }
   ```
 
   You'll be extending this file as you make changes to your project's publish configuration.
@@ -111,6 +111,8 @@ try {
     console.error(err)
 }
 ```
+
+Note that configuration presets are not supported when using the Node API.
 
 ### Changelog
 
