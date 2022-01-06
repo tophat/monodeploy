@@ -262,13 +262,9 @@ const monodeploy = async (
 
                 if (!config.persistVersions) {
                     // Restore workspace package.jsons
-                    logging.info(
-                        `[Savepoint] Restoring modified working tree (key: ${backupKey})`,
-                        { report },
-                    )
-                    await restorePackageJsons({ key: backupKey })
+                    await restorePackageJsons({ report, key: backupKey })
                 }
-                await clearBackupCache({ keys: [backupKey] })
+                await clearBackupCache({ report, keys: [backupKey] })
             })
         }
     }
