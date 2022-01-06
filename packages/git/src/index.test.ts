@@ -92,6 +92,71 @@ describe('@monodeploy/git', () => {
     })
 
     describe('gitCommitMessages', () => {
+        it('does not return any messages if target commit is tagged (no-op)', async () => {
+            process.env.NODE_ENV = 'production'
+            const cwd = context.project.cwd
+
+            // Create some files and commit them to have a diff.
+            await createFile({ filePath: 'test.txt', cwd })
+            await exec('git commit -m "test: base" --allow-empty -n', {
+                cwd,
+            })
+            await exec('git checkout -b test-branch', { cwd })
+            const commitMessage = 'test: test file'
+            await exec(`git add . && git commit -m "${commitMessage}" -n`, {
+                cwd,
+            })
+            await gitTag('pkg@1.0.0', { cwd, context })
+
+            const headSha = (
+                await exec('git rev-parse HEAD', {
+                    cwd,
+                })
+            ).stdout.trim()
+
+            const messages = await getCommitMessages(
+                await getMonodeployConfig({
+                    cwd,
+                    commitSha: headSha,
+                }),
+                context,
+            )
+
+            expect(messages).toEqual([])
+        })
+
+        it('returns a singular commit if missing baseBranch and no tags', async () => {
+            process.env.NODE_ENV = 'production'
+            const cwd = context.project.cwd
+
+            // Create some files and commit them to have a diff.
+            await createFile({ filePath: 'test.txt', cwd })
+            await exec('git commit -m "test: base" --allow-empty -n', {
+                cwd,
+            })
+            await exec('git checkout -b test-branch', { cwd })
+            const commitMessage = 'test: test file'
+            await exec(`git add . && git commit -m "${commitMessage}" -n`, {
+                cwd,
+            })
+
+            const headSha = (
+                await exec('git rev-parse HEAD', {
+                    cwd,
+                })
+            ).stdout.trim()
+
+            const messages = await getCommitMessages(
+                await getMonodeployConfig({
+                    cwd,
+                    commitSha: headSha,
+                }),
+                context,
+            )
+
+            expect(messages).toEqual([{ sha: headSha, body: `${commitMessage}\n\n` }])
+        })
+
         it('gets commit messages', async () => {
             const cwd = context.project.cwd
 
@@ -242,7 +307,8 @@ describe('@monodeploy/git', () => {
 
             const headSha = await gitResolveSha('HEAD', { cwd, context })
             const commit = await gitLastTaggedCommit({ cwd, context })
-            expect(commit).toEqual(headSha)
+            expect(commit.sha).toEqual(headSha)
+            expect(commit.tag).toBeNull()
         })
 
         it('defaults to HEAD if on initial commit', async () => {
@@ -253,7 +319,8 @@ describe('@monodeploy/git', () => {
             })
             const headSha = await gitResolveSha('HEAD', { cwd, context })
             const commit = await gitLastTaggedCommit({ cwd, context })
-            expect(commit).toEqual(headSha)
+            expect(commit.sha).toEqual(headSha)
+            expect(commit.tag).toBeNull()
         })
 
         it('gets the last tagged commit', async () => {
@@ -272,7 +339,9 @@ describe('@monodeploy/git', () => {
                 cwd,
             })
 
-            expect(await gitLastTaggedCommit({ cwd, context })).toEqual(taggedSha)
+            const commit = await gitLastTaggedCommit({ cwd, context })
+            expect(commit.sha).toEqual(taggedSha)
+            expect(commit.tag).toBe('test-tag@0.0.1')
         })
 
         it('skips prerelease tags if not in prerelease mode', async () => {
@@ -316,8 +385,8 @@ describe('@monodeploy/git', () => {
                 prerelease: false,
             })
 
-            expect(detectedCommit).not.toEqual(prereleaseTagSha)
-            expect(detectedCommit).toEqual(releaseTagSha)
+            expect(detectedCommit.sha).not.toEqual(prereleaseTagSha)
+            expect(detectedCommit.sha).toEqual(releaseTagSha)
         })
 
         it('includes prerelease tags when in prerelease mode', async () => {
@@ -352,8 +421,9 @@ describe('@monodeploy/git', () => {
                 prerelease: true,
             })
 
-            expect(detectedCommit).toEqual(prereleaseTagSha)
-            expect(detectedCommit).not.toEqual(releaseTagSha)
+            expect(detectedCommit.sha).toEqual(prereleaseTagSha)
+            expect(detectedCommit.tag).toBe('test-tag@0.0.2-rc.1')
+            expect(detectedCommit.sha).not.toEqual(releaseTagSha)
         })
     })
 

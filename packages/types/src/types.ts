@@ -51,7 +51,7 @@ export interface MonodeployConfiguration {
          * discovery. If not set, this will default to the last tagged commit.
          * You usually do not want to set this.
          */
-        baseBranch: string
+        baseBranch?: string
 
         /**
          * Default: HEAD
