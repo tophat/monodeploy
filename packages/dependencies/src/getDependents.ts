@@ -7,10 +7,15 @@ const getDependents = async (
     packageNames: Set<string>,
 ): Promise<Set<string>> => {
     const identToWorkspace = new Map<string, Workspace>()
+    const topLevelWorkspace = context.project.topLevelWorkspace
 
     // Enable easy lookup of workspace name to workspace
     for (const workspace of context.project.workspaces) {
-        if (workspace.manifest.private || !workspace.manifest.name) continue
+        const isTopLevel = structUtils.areDescriptorsEqual(
+            workspace.anchoredDescriptor,
+            topLevelWorkspace.anchoredDescriptor,
+        )
+        if (isTopLevel || !workspace.manifest.name) continue
         const ident = structUtils.stringifyIdent(workspace.manifest.name)
         identToWorkspace.set(ident, workspace)
     }
@@ -25,7 +30,7 @@ const getDependents = async (
             for (const dependency of dependencies.values()) {
                 const dependencyIdent = structUtils.stringifyIdent(dependency)
 
-                // Prune invalid workspace candidates (e.g. private)
+                // Prune invalid workspace candidates (e.g. top level)
                 if (!identToWorkspace.has(dependencyIdent)) continue
 
                 const dependents = identToDirectDependents.get(dependencyIdent) ?? new Set<string>()

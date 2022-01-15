@@ -43,14 +43,14 @@ const setupExampleMonorepo = async (): Promise<YarnContext> => {
         {
             'pkg-1': {},
             'pkg-2': { devDependencies: [], raw: { nested: { group: 'even' } } },
-            'pkg-3': { dependencies: ['pkg-2'], raw: { nested: { group: 'odd' } } },
+            'pkg-3': { dependencies: ['pkg-2'], private: true, raw: { nested: { group: 'odd' } } },
             'pkg-4': { raw: { nested: { group: 'even' } } },
             'pkg-5': { dependencies: ['pkg-4'], raw: { nested: { group: 'odd' } } },
             'pkg-6': {
-                dependencies: ['pkg-3', 'pkg-7'],
+                dependencies: ['pkg-3'],
                 raw: { nested: { group: 'even' } },
             },
-            'pkg-7': { raw: { nested: { group: 'odd' } } },
+            'pkg-7': { dependencies: ['pkg-2'], raw: { nested: { group: 'odd' } } },
             'pkg-8': { version: '3.1.0', raw: { nested: { group: 'even' } } },
         },
         {
@@ -117,8 +117,8 @@ describe('Monodeploy', () => {
     it('propagates dependant changes', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
-        mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-6', '0.0.1')
+        mockNPM._setTag_('pkg-7', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!\n\nBREAKING CHANGE: major bump!', [
             './packages/pkg-2/README.md',
         ])
@@ -133,12 +133,16 @@ describe('Monodeploy', () => {
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent but in separate group (odd)
-        expect(result['pkg-3'].version).toBe('0.0.2')
-        expect(result['pkg-3'].changelog).toBeNull()
+        // however pkg-3 is also private, so it doesn't end up in the changeset
+        expect(result['pkg-3']).toBeUndefined()
 
-        // pkg-6 depends on pkg-3, and is updated as a transitive dependent but in same group as pkg-2 (even)
+        // pkg-6 depends on pkg-3 (which is private), and is updated as a transitive dependent but in same group as pkg-2 (even)
         expect(result['pkg-6'].version).toBe('1.0.0')
         expect(result['pkg-6'].changelog).toBeNull()
+
+        // pkg-7 depends on pkg-2
+        expect(result['pkg-7'].version).toBe('0.0.2')
+        expect(result['pkg-7'].changelog).toBeNull()
 
         // Not tags pushed in dry run
         expect(mockGit._getPushedTags_()).toEqual(['even@1.0.0', 'odd@0.0.2'])
@@ -147,8 +151,8 @@ describe('Monodeploy', () => {
     it('publishes changed workspaces with distinct version stategies and commits', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
-        mockNPM._setTag_('pkg-3', '0.0.1')
         mockNPM._setTag_('pkg-6', '2.0.1')
+        mockNPM._setTag_('pkg-7', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
         mockGit._commitFiles_('sha2', 'fix: a different fix!', ['./packages/pkg-2/README.md'])
 
@@ -164,12 +168,16 @@ describe('Monodeploy', () => {
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('a different fix'))
 
         // pkg-3 depends on pkg-2
-        expect(result['pkg-3'].version).toBe('0.0.2')
-        expect(result['pkg-3'].changelog).toBeNull()
+        // however pkg-3 is also private, so it doesn't end up in the changeset
+        expect(result['pkg-3']).toBeUndefined()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent (but same group as pkg-2)
         expect(result['pkg-6'].version).toBe('2.0.2')
         expect(result['pkg-6'].changelog).toBeNull()
+
+        // pkg-7 depends on pkg-2
+        expect(result['pkg-7'].version).toBe('0.0.2')
+        expect(result['pkg-7'].changelog).toBeNull()
 
         expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0', 'even@2.0.2', 'odd@0.0.2'])
     })
@@ -177,7 +185,7 @@ describe('Monodeploy', () => {
     it('updates changelog and changeset', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
-        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockNPM._setTag_('pkg-7', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-2/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
@@ -245,8 +253,8 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-1', '1.0.1', 'latest')
         mockNPM._setTag_('pkg-2', '2.3.0', 'latest')
         mockNPM._setTag_('pkg-2', '2.4.0-alpha.3', 'canary')
-        mockNPM._setTag_('pkg-3', '6.0.0', 'latest')
-        mockNPM._setTag_('pkg-3', '7.0.0-alpha.0', 'canary')
+        mockNPM._setTag_('pkg-7', '6.0.0', 'latest')
+        mockNPM._setTag_('pkg-7', '7.0.0-alpha.0', 'canary')
         mockNPM._setTag_('pkg-6', '0.0.4', 'latest')
 
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-2/README.md'])
@@ -265,13 +273,16 @@ describe('Monodeploy', () => {
         expect(result['pkg-2'].version).toBe('2.4.0-alpha.4')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
-        // pkg-3 depends on pkg-2, and is updated as dependent
-        expect(result['pkg-3'].version).toBe('7.0.0-alpha.1')
-        expect(result['pkg-3'].changelog).toBeNull()
+        // pkg-3 depends on pkg-2 but is private -- however it still propagates updates
+        expect(result['pkg-3']).toBeUndefined()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
         expect(result['pkg-6'].version).toBe('2.4.0-alpha.4')
         expect(result['pkg-6'].changelog).toBeNull()
+
+        // pkg-7 depends on pkg-2, and is updated as dependent
+        expect(result['pkg-7'].version).toBe('7.0.0-alpha.1')
+        expect(result['pkg-7'].changelog).toBeNull()
 
         expect(mockGit._getPushedTags_()).toEqual(['even@2.4.0-alpha.4', 'odd@7.0.0-alpha.1'])
     })
