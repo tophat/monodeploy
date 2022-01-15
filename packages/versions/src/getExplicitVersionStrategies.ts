@@ -49,6 +49,7 @@ const getModifiedPackages = async ({
         new Set(),
     )
 
+    const topLevelDescriptor = context.project.topLevelWorkspace.anchoredDescriptor
     const ignorePatterns = config.changesetIgnorePatterns ?? []
 
     const modifiedPackages = [...uniquePaths].reduce(
@@ -60,8 +61,15 @@ const getModifiedPackages = async ({
                     )
                     const ident = workspace?.manifest?.name
                     if (!ident) throw new Error('Missing workspace identity.')
+
                     const packageName = structUtils.stringifyIdent(ident)
-                    if (packageName && !workspace.manifest.private) {
+                    if (
+                        packageName &&
+                        !structUtils.areDescriptorsEqual(
+                            topLevelDescriptor,
+                            workspace.anchoredDescriptor,
+                        )
+                    ) {
                         modifiedPackages.push(packageName)
                     }
                 } catch (err) {

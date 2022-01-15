@@ -16,9 +16,8 @@ yarn monodeploy --dry-run
 
 Edit your project's root `package.json`:
 
-1. Set `"private": true`
-2. Set "workspaces": ["packages/*"] (you can use a different glob to match your monorepo layout)
-3. Create a `monodeploy.config.js` file and set it to:
+1. Set "workspaces": ["packages/*"] (you can use a different glob to match your monorepo layout)
+2. Create a `monodeploy.config.js` file and set it to:
 
   ```js
   module.exports = { preset: 'monodeploy/preset-recommended' }

@@ -143,12 +143,14 @@ const applyReleases = async ({
         if (!version) continue
 
         for (const packageName of group) {
+            // skip packages with no associated versions (e.g. private packages)
+            if (!registryTags.get(packageName)) continue
+
             updatedRegistryTags.set(packageName, {
                 ...updatedRegistryTags.get(packageName)!,
                 next: version,
             })
             const update = updatedRegistryTags.get(packageName)!
-
             if (isFullyIndependent) {
                 logging.info(
                     `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
