@@ -1,7 +1,12 @@
 import path from 'path'
 
 import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
-import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
+import {
+    backupPackageJsons,
+    clearBackupCache,
+    patchPackageJsons,
+    restorePackageJsons,
+} from '@monodeploy/io'
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
@@ -18,7 +23,7 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 import {
-    applyReleases,
+    applyVersionStrategies,
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
     getLatestPackageTags,
@@ -148,14 +153,23 @@ const monodeploy = async (
                 'Patching Package Manifests',
                 { skipIfEmpty: false },
                 async () => {
-                    // Apply releases, and update package.jsons
-                    versionChanges = await applyReleases({
+                    versionChanges = await applyVersionStrategies({
                         config,
                         context,
-                        workspaces: workspacesToPublish,
                         registryTags,
                         versionStrategies,
                         workspaceGroups,
+                    })
+
+                    // Update package.jsons (the main destructive action which requires the backup)
+                    await patchPackageJsons({
+                        config,
+                        context,
+                        workspaces: workspacesToPublish,
+                        registryTags: new Map<string, string>([
+                            ...versionChanges.previous.entries(),
+                            ...versionChanges.next.entries(),
+                        ]),
                     })
                 },
             )

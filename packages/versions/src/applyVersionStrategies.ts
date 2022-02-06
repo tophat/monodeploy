@@ -1,4 +1,3 @@
-import { patchPackageJsons } from '@monodeploy/io'
 import logging from '@monodeploy/logging'
 import type {
     MonodeployConfiguration,
@@ -8,7 +7,6 @@ import type {
     PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
-import { Workspace } from '@yarnpkg/core'
 import * as semver from 'semver'
 
 const maxVersion = (a: string | null, b: string | null): string | null => {
@@ -83,17 +81,15 @@ export const incrementVersion = ({
 
 type VersionChange = { previous: string; next: string }
 
-const applyReleases = async ({
+const applyVersionStrategies = async ({
     config,
     context,
-    workspaces,
     registryTags,
     versionStrategies,
     workspaceGroups,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    workspaces: Set<Workspace>
     registryTags: PackageTagMap
     versionStrategies: PackageStrategyMap
     workspaceGroups: Map<string, Set<string>>
@@ -169,18 +165,15 @@ const applyReleases = async ({
         }
     }
 
-    const patchVersions: PackageVersionMap = new Map()
-    for (const [pkg, info] of [
-        ...nonupdatedRegistryTags.entries(),
-        ...updatedRegistryTags.entries(),
-    ]) {
-        patchVersions.set(pkg, info.next)
-    }
-
-    await patchPackageJsons(config, context, workspaces, patchVersions)
-
     const next: PackageVersionMap = new Map()
     const previous: PackageVersionMap = new Map()
+
+    // non-update "next" is actually what's "current" since it's not changing
+    // this means "next" is a subset of the packages in "previous"
+    for (const [pkg, info] of nonupdatedRegistryTags.entries()) {
+        previous.set(pkg, info.next)
+    }
+
     for (const [pkg, info] of updatedRegistryTags.entries()) {
         next.set(pkg, info.next)
         previous.set(pkg, info.previous)
@@ -189,4 +182,4 @@ const applyReleases = async ({
     return { next, previous }
 }
 
-export default applyReleases
+export default applyVersionStrategies

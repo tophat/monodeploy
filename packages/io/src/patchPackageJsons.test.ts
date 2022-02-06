@@ -41,16 +41,16 @@ describe('Patch Package Manifests', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                await patchPackageJsons(
+                await patchPackageJsons({
                     config,
                     context,
-                    new Set([workspace1, workspace2, workspace3]),
-                    new Map([
+                    workspaces: new Set([workspace1, workspace2, workspace3]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                         ['pkg-3', '3.0.0'],
                     ]),
-                )
+                })
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
@@ -97,15 +97,15 @@ describe('Patch Package Manifests', () => {
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
                 await expect(async () =>
-                    patchPackageJsons(
+                    patchPackageJsons({
                         config,
                         context,
-                        new Set([workspace1, workspace2, workspace3]),
-                        new Map([
+                        workspaces: new Set([workspace1, workspace2, workspace3]),
+                        registryTags: new Map([
                             ['pkg-1', '1.0.0'],
                             ['pkg-3', '3.0.0'],
                         ]),
-                    ),
+                    }),
                 ).rejects.toThrow('missing a version')
             },
         ))
@@ -133,15 +133,15 @@ describe('Patch Package Manifests', () => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
 
-                await patchPackageJsons(
+                await patchPackageJsons({
                     config,
                     context,
-                    new Set([workspace1, workspace2]),
-                    new Map([
+                    workspaces: new Set([workspace1, workspace2]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                     ]),
-                )
+                })
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
@@ -186,15 +186,15 @@ describe('Patch Package Manifests', () => {
                 const workspace1 = identToWorkspace(context, 'pkg-1')
                 const workspace2 = identToWorkspace(context, 'pkg-2')
 
-                await patchPackageJsons(
+                await patchPackageJsons({
                     config,
                     context,
-                    new Set([workspace1, workspace2]),
-                    new Map([
+                    workspaces: new Set([workspace1, workspace2]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                     ]),
-                )
+                })
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
@@ -232,16 +232,16 @@ describe('Patch Package Manifests', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                await patchPackageJsons(
+                await patchPackageJsons({
                     config,
                     context,
-                    new Set([workspace1, workspace2, workspace3]),
-                    new Map([
+                    workspaces: new Set([workspace1, workspace2, workspace3]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                         ['pkg-3', '3.0.0'],
                     ]),
-                )
+                })
 
                 // In memory we don't have the workspace protocol
                 expect(
@@ -289,16 +289,16 @@ describe('Patch Package Manifests', () => {
                 const workspace2 = identToWorkspace(context, 'pkg-2')
                 const workspace3 = identToWorkspace(context, 'pkg-3')
 
-                await patchPackageJsons(
+                await patchPackageJsons({
                     config,
                     context,
-                    new Set([workspace1, workspace2, workspace3]),
-                    new Map([
+                    workspaces: new Set([workspace1, workspace2, workspace3]),
+                    registryTags: new Map([
                         ['pkg-1', '1.0.0'],
                         ['pkg-2', '2.0.0'],
                         ['pkg-3', '3.0.0'],
                     ]),
-                )
+                })
 
                 const manifest1 = await loadManifest(context, 'pkg-1')
                 const manifest2 = await loadManifest(context, 'pkg-2')
