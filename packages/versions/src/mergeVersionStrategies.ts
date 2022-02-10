@@ -38,14 +38,7 @@ const mergeVersionStrategies = async ({
     const workspaces = new Map<string, Workspace>()
     const groups = new Map<string, Set<string>>()
     for (const workspace of context.project.workspaces) {
-        if (
-            structUtils.areDescriptorsEqual(
-                context.project.topLevelWorkspace.anchoredDescriptor,
-                workspace.anchoredDescriptor,
-            ) ||
-            !workspace.manifest.name
-        )
-            continue
+        if (!workspace.manifest.name) continue
         const ident = structUtils.stringifyIdent(workspace.manifest.name)
         if (strategies.has(ident)) {
             workspaces.set(ident, workspace)
