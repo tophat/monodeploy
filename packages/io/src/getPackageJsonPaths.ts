@@ -7,9 +7,10 @@ const getPackageJsonPaths = async (
     config: MonodeployConfiguration,
     context: YarnContext,
 ): Promise<string[]> => {
-    return [...context.project.topLevelWorkspace.workspacesCwds].map((wCwd) =>
-        path.resolve(config.cwd, npath.fromPortablePath(wCwd), 'package.json'),
-    )
+    return [
+        context.project.topLevelWorkspace.cwd,
+        ...context.project.topLevelWorkspace.workspacesCwds,
+    ].map((wCwd) => path.resolve(config.cwd, npath.fromPortablePath(wCwd), 'package.json'))
 }
 
 export default getPackageJsonPaths
