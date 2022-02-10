@@ -128,40 +128,82 @@ const monodeploy = async (
             backupKey = await backupPackageJsons({ config, context })
         }
 
-        try {
-            let workspacesToPublish: Set<Workspace>
+        let workspacesToPublish: Set<Workspace>
 
+        await report.startTimerPromise(
+            'Fetching Workspace Information',
+            { skipIfEmpty: false },
+            async () => {
+                workspacesToPublish = await getWorkspacesToPublish({
+                    context,
+                    versionStrategies,
+                })
+            },
+        )
+
+        let versionChanges: {
+            next: PackageVersionMap
+            previous: PackageVersionMap
+        }
+
+        let gitTags: Map<string, string> | undefined
+
+        await report.startTimerPromise(
+            'Determine New Versions',
+            { skipIfEmpty: false },
+            async () => {
+                versionChanges = await applyVersionStrategies({
+                    config,
+                    context,
+                    registryTags,
+                    versionStrategies,
+                    workspaceGroups,
+                })
+            },
+        )
+
+        if (config.git.tag) {
             await report.startTimerPromise(
-                'Fetching Workspace Information',
+                'Determine Git Tags',
                 { skipIfEmpty: false },
                 async () => {
-                    workspacesToPublish = await getWorkspacesToPublish({
-                        context,
-                        versionStrategies,
+                    gitTags = await determineGitTags({
+                        versions: versionChanges.next,
+                        workspaceGroups,
                     })
                 },
             )
+        }
 
-            let versionChanges: {
-                next: PackageVersionMap
-                previous: PackageVersionMap
-            }
+        await report.startTimerPromise(
+            'Updating Change Files',
+            { skipIfEmpty: false },
+            async () => {
+                result = await writeChangesetFile({
+                    config,
+                    context,
+                    previousTags: versionChanges.previous,
+                    nextTags: versionChanges.next,
+                    versionStrategies,
+                    gitTags,
+                    workspaceGroups,
+                })
 
-            let gitTags: Map<string, string> | undefined
+                await prependChangelogFile({
+                    config,
+                    context,
+                    changeset: result,
+                    workspaces: workspacesToPublish,
+                })
+            },
+        )
 
+        try {
+            // Update package.jsons (the main destructive action which requires the backup)
             await report.startTimerPromise(
                 'Patching Package Manifests',
                 { skipIfEmpty: false },
                 async () => {
-                    versionChanges = await applyVersionStrategies({
-                        config,
-                        context,
-                        registryTags,
-                        versionStrategies,
-                        workspaceGroups,
-                    })
-
-                    // Update package.jsons (the main destructive action which requires the backup)
                     await patchPackageJsons({
                         config,
                         context,
@@ -170,42 +212,6 @@ const monodeploy = async (
                             ...versionChanges.previous.entries(),
                             ...versionChanges.next.entries(),
                         ]),
-                    })
-                },
-            )
-
-            if (config.git.tag) {
-                await report.startTimerPromise(
-                    'Determine Git Tags',
-                    { skipIfEmpty: false },
-                    async () => {
-                        gitTags = await determineGitTags({
-                            versions: versionChanges.next,
-                            workspaceGroups,
-                        })
-                    },
-                )
-            }
-
-            await report.startTimerPromise(
-                'Updating Change Files',
-                { skipIfEmpty: false },
-                async () => {
-                    result = await writeChangesetFile({
-                        config,
-                        context,
-                        previousTags: versionChanges.previous,
-                        nextTags: versionChanges.next,
-                        versionStrategies,
-                        gitTags,
-                        workspaceGroups,
-                    })
-
-                    await prependChangelogFile({
-                        config,
-                        context,
-                        changeset: result,
-                        workspaces: workspacesToPublish,
                     })
                 },
             )
