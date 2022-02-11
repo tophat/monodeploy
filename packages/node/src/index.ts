@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
+import { generateChangeset, prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
 import {
     backupPackageJsons,
     clearBackupCache,
@@ -73,7 +73,7 @@ const monodeploy = async (
         }
     }
 
-    let result: ChangesetSchema = {}
+    let changeset: ChangesetSchema = {}
 
     const pipeline = async (report: StreamReport): Promise<void> => {
         const context: YarnContext = {
@@ -175,28 +175,27 @@ const monodeploy = async (
             )
         }
 
-        await report.startTimerPromise(
-            'Updating Change Files',
-            { skipIfEmpty: false },
-            async () => {
-                result = await writeChangesetFile({
-                    config,
-                    context,
-                    previousTags: versionChanges.previous,
-                    nextTags: versionChanges.next,
-                    versionStrategies,
-                    gitTags,
-                    workspaceGroups,
-                })
+        await report.startTimerPromise('Generating Changeset', { skipIfEmpty: false }, async () => {
+            changeset = await generateChangeset({
+                config,
+                context,
+                previousTags: versionChanges.previous,
+                nextTags: versionChanges.next,
+                versionStrategies,
+                gitTags,
+                workspaceGroups,
+            })
+            await writeChangesetFile({ config, context, changeset })
+        })
 
-                await prependChangelogFile({
-                    config,
-                    context,
-                    changeset: result,
-                    workspaces: workspacesToPublish,
-                })
-            },
-        )
+        await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
+            await prependChangelogFile({
+                config,
+                context,
+                changeset: changeset,
+                workspaces: workspacesToPublish,
+            })
+        })
 
         try {
             // Update package.jsons (the main destructive action which requires the backup)
@@ -271,7 +270,7 @@ const monodeploy = async (
             await report.startTimerPromise(
                 'Executing Release Hooks',
                 { skipIfEmpty: true },
-                async () => await hooks.onReleaseAvailable.promise(context, config, result),
+                async () => await hooks.onReleaseAvailable.promise(context, config, changeset),
             )
 
             logging.info('Monodeploy completed successfully', { report })
@@ -306,7 +305,7 @@ const monodeploy = async (
         throw new Error('Monodeploy failed')
     }
 
-    return result
+    return changeset
 }
 
 export default monodeploy

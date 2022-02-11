@@ -2,73 +2,27 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import logging from '@monodeploy/logging'
-import type {
-    ChangesetSchema,
-    MonodeployConfiguration,
-    PackageStrategyMap,
-    PackageVersionMap,
-    YarnContext,
-} from '@monodeploy/types'
+import type { ChangesetSchema, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
-
-import generateChangelogEntry from './changelog'
 
 const writeChangesetFile = async ({
     config,
     context,
-    previousTags,
-    nextTags,
-    versionStrategies,
-    gitTags,
-    workspaceGroups,
+    changeset,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    previousTags: PackageVersionMap
-    nextTags: PackageVersionMap
-    versionStrategies: PackageStrategyMap
-    gitTags?: Map<string, string>
-    workspaceGroups: Map<string, Set<string>>
-}): Promise<ChangesetSchema> => {
-    const changesetData: ChangesetSchema = {}
-
-    for (const [packageName, newVersion] of nextTags.entries()) {
-        const previousVersion = previousTags.get(packageName) ?? null
-        const versionStrategy = versionStrategies.get(packageName)
-        const changelog = await generateChangelogEntry({
-            config,
-            context,
-            packageName,
-            previousVersion,
-            newVersion,
-            commits: versionStrategy?.commits ?? [],
-        })
-        changesetData[packageName] = {
-            version: newVersion,
-            previousVersion: previousVersion,
-            changelog,
-            tag: gitTags?.get(packageName) ?? null,
-            strategy: versionStrategy?.type ?? null,
-            group: packageName, // overwritten below
-        }
-    }
-
-    for (const [groupKey, group] of workspaceGroups.entries()) {
-        for (const packageName of group) {
-            if (!changesetData[packageName]) continue
-            changesetData[packageName].group = groupKey ?? packageName
-        }
-    }
-
+    changeset: ChangesetSchema
+}): Promise<void> => {
     if (!config.changesetFilename) {
         logging.debug('[Changeset] Data', {
-            extras: JSON.stringify(changesetData, null, 2),
+            extras: JSON.stringify(changeset, null, 2),
             report: context.report,
         })
-        return changesetData
+        return
     }
 
-    const serializedData = JSON.stringify(changesetData, null, 2)
+    const serializedData = JSON.stringify(changeset, null, 2)
 
     if (config.changesetFilename === '-') {
         console.log(serializedData)
@@ -86,8 +40,6 @@ const writeChangesetFile = async ({
             report: context.report,
         })
     }
-
-    return changesetData
 }
 
 export default writeChangesetFile
