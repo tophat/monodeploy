@@ -14,10 +14,10 @@
         "@monodeploy/logging": "workspace:*",
         "@monodeploy/test-utils": "link:../testUtils",
         "@monodeploy/types": "workspace:*",
-        "@tophat/conventional-changelog-config": "^0.5.9",
+        "@tophat/conventional-changelog-config": "^0.6.1",
         "@types/node": "^14.17.14",
-        "@yarnpkg/core": "^3.1.0",
-        "@yarnpkg/fslib": "^2.6.0",
+        "@yarnpkg/core": "^3.2.0",
+        "@yarnpkg/fslib": "^2.6.1",
         "helpers": "link:./helpers",
         "monodeploy": "workspace:*"
     }
