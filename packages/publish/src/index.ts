@@ -17,11 +17,11 @@ export { determineGitTags, commitPublishChanges, getWorkspacesToPublish }
 export const publishPackages = async ({
     config,
     context,
-    workspacesToPublish,
+    workspaces,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
-    workspacesToPublish: Set<Workspace>
+    workspaces: Set<Workspace>
 }): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
     const publishTag = config.prerelease ? config.prereleaseNPMTag : 'latest'
@@ -97,7 +97,7 @@ export const publishPackages = async ({
 
     const limit = pLimit(config.jobs || Infinity)
     if (config.topological || config.topologicalDev) {
-        const groups = await getTopologicalSort(workspacesToPublish, {
+        const groups = await getTopologicalSort(workspaces, {
             dev: config.topologicalDev,
         })
         const promiseChain = groups.reduce<Promise<void>>(
@@ -113,7 +113,7 @@ export const publishPackages = async ({
         await promiseChain
     } else {
         await Promise.all(
-            [...workspacesToPublish].map((workspace) => limit(() => prepareWorkspace(workspace))),
+            [...workspaces].map((workspace) => limit(() => prepareWorkspace(workspace))),
         )
     }
 }

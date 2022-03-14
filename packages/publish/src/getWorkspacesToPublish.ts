@@ -1,12 +1,12 @@
-import type { PackageStrategyMap, YarnContext } from '@monodeploy/types'
+import type { ChangesetSchema, YarnContext } from '@monodeploy/types'
 import { Workspace, structUtils } from '@yarnpkg/core'
 
 const getWorkspacesToPublish = async ({
     context,
-    versionStrategies,
+    changeset,
 }: {
     context: YarnContext
-    versionStrategies: PackageStrategyMap
+    changeset: ChangesetSchema
 }): Promise<Set<Workspace>> => {
     const workspacesByIdent = context.project.workspaces.reduce(
         (workspacesMap: Map<string, Workspace>, current: Workspace) => {
@@ -23,7 +23,7 @@ const getWorkspacesToPublish = async ({
 
     const workspacesToRelease = new Set<Workspace>()
 
-    for (const packageName of versionStrategies.keys()) {
+    for (const packageName of Object.keys(changeset)) {
         const workspace = workspacesByIdent.get(packageName)
 
         if (workspace && !workspace.manifest.private) {

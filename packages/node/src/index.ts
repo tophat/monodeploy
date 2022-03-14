@@ -34,6 +34,7 @@ import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
 import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
+import { getGitTagsFromChangeset } from './utils/getGitTagsFromChangeset'
 import mergeDefaultConfig from './utils/mergeDefaultConfig'
 
 const monodeploy = async (
@@ -128,19 +129,6 @@ const monodeploy = async (
             backupKey = await backupPackageJsons({ config, context })
         }
 
-        let workspacesToPublish: Set<Workspace>
-
-        await report.startTimerPromise(
-            'Fetching Workspace Information',
-            { skipIfEmpty: false },
-            async () => {
-                workspacesToPublish = await getWorkspacesToPublish({
-                    context,
-                    versionStrategies,
-                })
-            },
-        )
-
         let versionChanges: {
             next: PackageVersionMap
             previous: PackageVersionMap
@@ -188,12 +176,25 @@ const monodeploy = async (
             await writeChangesetFile({ config, context, changeset })
         })
 
+        let workspaces: Set<Workspace>
+
+        await report.startTimerPromise(
+            'Fetching Workspace Information',
+            { skipIfEmpty: false },
+            async () => {
+                workspaces = await getWorkspacesToPublish({
+                    context,
+                    changeset,
+                })
+            },
+        )
+
         await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
             await prependChangelogFile({
                 config,
                 context,
-                changeset: changeset,
-                workspaces: workspacesToPublish,
+                changeset,
+                workspaces,
             })
         })
 
@@ -206,7 +207,7 @@ const monodeploy = async (
                     await patchPackageJsons({
                         config,
                         context,
-                        workspaces: workspacesToPublish,
+                        workspaces,
                         registryTags: new Map<string, string>([
                             ...versionChanges.previous.entries(),
                             ...versionChanges.next.entries(),
@@ -226,7 +227,7 @@ const monodeploy = async (
                     await publishPackages({
                         config,
                         context,
-                        workspacesToPublish,
+                        workspaces,
                     })
                 },
             )
@@ -262,7 +263,7 @@ const monodeploy = async (
                     await commitPublishChanges({
                         config,
                         context,
-                        gitTags,
+                        gitTags: getGitTagsFromChangeset(changeset),
                     })
                 },
             )
