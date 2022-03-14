@@ -33,8 +33,8 @@
     "@monodeploy/types": "workspace:*",
     "@types/micromatch": "^4",
     "@types/node": "^14.17.14",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0"
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1"
   },
   "dependencies": {
     "micromatch": "^4.0.4"
@@ -43,7 +43,7 @@
     "@monodeploy/io": "workspace:^0.4.1",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.5",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0"
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1"
   }
 }
