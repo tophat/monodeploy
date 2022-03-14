@@ -33,7 +33,7 @@ describe('CLI', () => {
                 '--registry-url http://example.com --no-registry --cwd /tmp --dry-run ' +
                     '--git-base-branch main --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
-                    '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
+                    '--changeset-filename changes.json --changelog-filename changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access infer --topological --topological-dev --jobs 6 ' +
                     '--auto-commit --auto-commit-message release --plugins plugin-a --plugins plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
