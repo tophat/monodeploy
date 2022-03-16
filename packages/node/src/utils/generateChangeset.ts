@@ -1,3 +1,4 @@
+import { generateChangelogEntry } from '@monodeploy/changelog'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -6,9 +7,7 @@ import type {
     YarnContext,
 } from '@monodeploy/types'
 
-import generateChangelogEntry from './changelog'
-
-const generateChangeset = async ({
+export const generateChangeset = async ({
     config,
     context,
     previousTags,
@@ -57,5 +56,3 @@ const generateChangeset = async ({
 
     return changesetData
 }
-
-export default generateChangeset

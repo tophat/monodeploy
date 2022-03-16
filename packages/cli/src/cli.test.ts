@@ -38,7 +38,7 @@ describe('CLI', () => {
                     '--auto-commit --auto-commit-message release --plugins plugin-a --plugins plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
                     '--changeset-ignore-patterns *.test.js --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
-                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group',
+                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group --apply-changeset',
             )
             jest.isolateModules(() => {
                 require('./index')
@@ -48,6 +48,7 @@ describe('CLI', () => {
                 .toMatchInlineSnapshot(`
                 Object {
                   "access": "infer",
+                  "applyChangeset": true,
                   "autoCommit": true,
                   "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
@@ -99,6 +100,7 @@ describe('CLI', () => {
                 .toMatchInlineSnapshot(`
                 Object {
                   "access": undefined,
+                  "applyChangeset": false,
                   "autoCommit": undefined,
                   "autoCommitMessage": undefined,
                   "changelogFilename": undefined,
@@ -259,6 +261,7 @@ describe('CLI', () => {
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -347,6 +350,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "restricted",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -430,6 +434,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -518,6 +523,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -608,6 +614,7 @@ describe('CLI', () => {
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -694,6 +701,7 @@ describe('CLI', () => {
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -863,6 +871,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "infer",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -962,6 +971,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "infer",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -1047,6 +1057,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",

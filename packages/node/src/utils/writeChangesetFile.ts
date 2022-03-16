@@ -5,7 +5,7 @@ import logging from '@monodeploy/logging'
 import type { ChangesetSchema, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
-const writeChangesetFile = async ({
+export const writeChangesetFile = async ({
     config,
     context,
     changeset,
@@ -41,5 +41,3 @@ const writeChangesetFile = async ({
         })
     }
 }
-
-export default writeChangesetFile

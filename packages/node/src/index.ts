@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { generateChangeset, prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
+import { prependChangelogFile } from '@monodeploy/changelog'
 import {
     backupPackageJsons,
     clearBackupCache,
@@ -33,9 +33,12 @@ import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
-import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
+import { generateChangeset } from './utils/generateChangeset'
+import { getCompatiblePluginConfiguration } from './utils/getCompatiblePluginConfiguration'
 import { getGitTagsFromChangeset } from './utils/getGitTagsFromChangeset'
-import mergeDefaultConfig from './utils/mergeDefaultConfig'
+import { mergeDefaultConfig } from './utils/mergeDefaultConfig'
+// import { readChangesetFile } from './utils/readChangesetFile'
+import { writeChangesetFile } from './utils/writeChangesetFile'
 
 const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
@@ -91,6 +94,13 @@ const monodeploy = async (
             extras: JSON.stringify(config, null, 2),
             report,
         })
+
+        if (config.applyChangeset) {
+            throw new Error(
+                '[Pre-release] Running monodeploy from a changeset file is NOT supported yet. Exiting early.',
+            )
+            // changeset = await readChangesetFile({ config })
+        }
 
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags({

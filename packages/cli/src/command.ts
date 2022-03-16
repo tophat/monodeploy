@@ -69,6 +69,10 @@ export class MonodeployCommand extends Command {
         description: 'Changeset output filename',
     })
 
+    applyChangeset = Option.Boolean('--apply-changeset', false, {
+        description: 'Publishes using data from the changeset specified via --changeset-filename',
+    })
+
     /**
      * @deprecated Will be removed in favour of --changelog-filename.
      */
@@ -195,6 +199,7 @@ export class MonodeployCommand extends Command {
                     undefined,
                 changesetFilename:
                     this.changesetFilename ?? configFromFile?.changesetFilename ?? undefined,
+                applyChangeset: this.applyChangeset ?? undefined,
                 changesetIgnorePatterns:
                     this.changesetIgnorePatterns ??
                     configFromFile?.changesetIgnorePatterns ??

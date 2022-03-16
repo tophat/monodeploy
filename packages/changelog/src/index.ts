@@ -1,6 +1,5 @@
-import generateChangeset from './generateChangeset'
+import generateChangelogEntry from './changelog'
 import prependChangelogFile from './prependChangelogFile'
 import resolveConventionalConfig from './resolveConventionalConfig'
-import writeChangesetFile from './writeChangesetFile'
 
-export { prependChangelogFile, writeChangesetFile, resolveConventionalConfig, generateChangeset }
+export { prependChangelogFile, resolveConventionalConfig, generateChangelogEntry }
