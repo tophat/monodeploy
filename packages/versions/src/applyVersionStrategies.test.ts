@@ -1,23 +1,10 @@
-import path from 'path'
-
 import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
-import { MonodeployConfiguration, PackageStrategyType, YarnContext } from '@monodeploy/types'
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
-import { npath } from '@yarnpkg/fslib'
+import { MonodeployConfiguration, PackageStrategyType } from '@monodeploy/types'
 
-import applyReleases, { incrementVersion } from './applyReleases'
+import applyVersionStrategies, { incrementVersion } from './applyVersionStrategies'
 
-const identToWorkspace = (context: YarnContext, name: string): Workspace =>
-    context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
-
-const loadManifest = async (context: YarnContext, pkgName: string): Promise<Manifest> => {
-    return await Manifest.fromFile(
-        npath.toPortablePath(path.join(context.project.cwd, 'packages', pkgName, 'package.json')),
-    )
-}
-
-describe('applyReleases', () => {
-    it("rewrites dependency versions in package.jsons, including dependencies we're not updating", async () =>
+describe('applyVersionStrategies', () => {
+    it("includes dependencies we're not updating in previous tags", async () =>
         withMonorepoContext(
             {
                 'pkg-1': {},
@@ -36,14 +23,9 @@ describe('applyReleases', () => {
                     })),
                     persistVersions: true,
                 }
-                const workspace1 = identToWorkspace(context, 'pkg-1')
-                const workspace2 = identToWorkspace(context, 'pkg-2')
-                const workspace3 = identToWorkspace(context, 'pkg-3')
-
-                const { next: intendedVersions } = await applyReleases({
+                const { next: intendedVersions, previous } = await applyVersionStrategies({
                     config,
                     context,
-                    workspaces: new Set([workspace2, workspace3]),
                     registryTags: new Map([
                         ['pkg-1', { latest: '1.0.0' }],
                         ['pkg-2', { latest: '2.0.0' }],
@@ -63,29 +45,8 @@ describe('applyReleases', () => {
                 expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
                 expect(intendedVersions.get('pkg-3')).toBe('3.3.1')
 
-                const manifest1 = await loadManifest(context, 'pkg-1')
-                const manifest2 = await loadManifest(context, 'pkg-2')
-                const manifest3 = await loadManifest(context, 'pkg-3')
-
                 // pkg-1 wasn't included in the workspaces set, so shouldn't be updated
-                expect(manifest1.version).toBe('0.0.0')
-                expect(manifest2.version).toBe('2.1.0')
-                expect(manifest3.version).toBe('3.3.1')
-
-                // pkg-1 should be unchanged from registry tags
-                expect(manifest2.dependencies.get(workspace1.manifest.name!.identHash)!.range).toBe(
-                    'workspace:^1.0.0',
-                )
-
-                // pkg-2 should be the "new" version
-                expect(
-                    manifest3.peerDependencies.get(workspace2.manifest.name!.identHash)!.range,
-                ).toBe('workspace:^2.1.0')
-
-                // pkg-1 again should not be changed from registry tags
-                expect(manifest3.dependencies.get(workspace1.manifest.name!.identHash)!.range).toBe(
-                    'workspace:^1.0.0',
-                )
+                expect(previous.get('pkg-1')).toBe('1.0.0')
             },
         ))
 
@@ -111,14 +72,9 @@ describe('applyReleases', () => {
                     prereleaseNPMTag: 'next',
                     prereleaseId: 'rc',
                 }
-                const workspace1 = identToWorkspace(context, 'pkg-1')
-                const workspace2 = identToWorkspace(context, 'pkg-2')
-                const workspace3 = identToWorkspace(context, 'pkg-3')
-
-                const { next: intendedVersions } = await applyReleases({
+                const { next: intendedVersions } = await applyVersionStrategies({
                     config,
                     context,
-                    workspaces: new Set([workspace1, workspace2, workspace3]),
                     registryTags: new Map([
                         ['pkg-1', { latest: '1.0.0' }],
                         ['pkg-2', { latest: '2.0.0', next: '2.1.0-rc.3' }],
@@ -139,18 +95,10 @@ describe('applyReleases', () => {
                 expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
                 expect(intendedVersions.get('pkg-2')).toBe('2.1.0-rc.4')
                 expect(intendedVersions.get('pkg-3')).toBe('4.0.0-rc.2')
-
-                const manifest1 = await loadManifest(context, 'pkg-1')
-                const manifest2 = await loadManifest(context, 'pkg-2')
-                const manifest3 = await loadManifest(context, 'pkg-3')
-
-                expect(manifest1.version).toBe('1.1.0-rc.0')
-                expect(manifest2.version).toBe('2.1.0-rc.4')
-                expect(manifest3.version).toBe('4.0.0-rc.2')
             },
         ))
 
-    it('patches non-updated versions correctly in prerelease mode', async () =>
+    it('returns non-updated versions correctly in prerelease mode', async () =>
         withMonorepoContext(
             {
                 'pkg-1': { dependencies: ['pkg-2', 'pkg-3', 'pkg-4'] },
@@ -170,15 +118,10 @@ describe('applyReleases', () => {
                     prereleaseNPMTag: 'next',
                     prereleaseId: 'rc',
                 }
-                const workspace1 = identToWorkspace(context, 'pkg-1')
-                const workspace2 = identToWorkspace(context, 'pkg-2')
-                const workspace3 = identToWorkspace(context, 'pkg-3')
-                const workspace4 = identToWorkspace(context, 'pkg-4')
 
-                const { next: intendedVersions } = await applyReleases({
+                const { next: intendedVersions, previous } = await applyVersionStrategies({
                     config,
                     context,
-                    workspaces: new Set([workspace1, workspace2, workspace3]),
                     registryTags: new Map([
                         ['pkg-1', { latest: '1.0.0' }],
                         ['pkg-2', { latest: '1.2.0', next: '0.5.0-rc.1' }],
@@ -190,19 +133,10 @@ describe('applyReleases', () => {
                 })
                 expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
 
-                const manifest1 = await loadManifest(context, 'pkg-1')
-                expect(manifest1.version).toBe('1.1.0-rc.0')
-
                 // Use the greaatest version out of latest & prerelease for non-updated packages
-                expect(manifest1.dependencies.get(workspace2.manifest.name!.identHash)!.range).toBe(
-                    'workspace:^1.2.0',
-                )
-                expect(manifest1.dependencies.get(workspace3.manifest.name!.identHash)!.range).toBe(
-                    'workspace:^4.0.0-rc.1',
-                )
-                expect(manifest1.dependencies.get(workspace4.manifest.name!.identHash)!.range).toBe(
-                    'workspace:^0.1.0',
-                )
+                expect(previous.get('pkg-2')).toBe('1.2.0')
+                expect(previous.get('pkg-3')).toBe('4.0.0-rc.1')
+                expect(previous.get('pkg-4')).toBe('0.1.0')
             },
         ))
 
@@ -229,15 +163,10 @@ describe('applyReleases', () => {
                         })),
                         persistVersions: true,
                     }
-                    const workspace1 = identToWorkspace(context, 'pkg-1')
-                    const workspace2 = identToWorkspace(context, 'pkg-2')
-                    const workspace3 = identToWorkspace(context, 'pkg-3')
-                    const workspace4 = identToWorkspace(context, 'pkg-4')
 
-                    const { next: intendedVersions } = await applyReleases({
+                    const { next: intendedVersions } = await applyVersionStrategies({
                         config,
                         context,
-                        workspaces: new Set([workspace1, workspace2, workspace3, workspace4]),
                         registryTags: new Map([
                             ['pkg-1', { latest: '6.0.0' }],
                             ['pkg-2', { latest: '2.0.0' }],
@@ -287,15 +216,9 @@ describe('applyReleases', () => {
                         })),
                         persistVersions: true,
                     }
-                    const workspace1 = identToWorkspace(context, 'pkg-1')
-                    const workspace2 = identToWorkspace(context, 'pkg-2')
-                    const workspace3 = identToWorkspace(context, 'pkg-3')
-                    const workspace4 = identToWorkspace(context, 'pkg-4')
-
-                    const { next: intendedVersions } = await applyReleases({
+                    const { next: intendedVersions } = await applyVersionStrategies({
                         config,
                         context,
-                        workspaces: new Set([workspace1, workspace2, workspace3, workspace4]),
                         registryTags: new Map([
                             ['pkg-1', { latest: '1.5.0' }],
                             ['pkg-2', { latest: '2.0.0' }],
@@ -325,7 +248,7 @@ describe('applyReleases', () => {
     })
 })
 
-describe('applyReleases prereleases', () => {
+describe('applyVersionStrategies prereleases', () => {
     it.each([
         // Applying "patch" to a "prepatch" gives us a "prepatch"
         ['2.0.1-rc.0', 'patch', '2.0.1-rc.1'],

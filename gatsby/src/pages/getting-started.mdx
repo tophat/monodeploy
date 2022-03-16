@@ -116,7 +116,7 @@ Note that configuration presets are not supported when using the Node API.
 ### Changelog
 
 
-If you choose to use the `--prepend-changelog CHANGELOG.md` flag or related API config property, in your CHANGELOG.md file you'll need to insert a marker to let monodeploy know where to insert the changelog entries. For example:
+If you choose to use the `--changelog-filename CHANGELOG.md` flag or related API config property, in your CHANGELOG.md file you'll need to insert a marker to let monodeploy know where to insert the changelog entries. For example:
 
 ```md
 # My Example Changelog
@@ -135,5 +135,5 @@ The marker `<!-- MONODEPLOY:BELOW -->` must match exactly. It is whitespace and 
 You can use the template variable `<packageDir>` to create individual changelogs per package, like so:
 
 ```bash
---prepend-changelog "<packageDir>/CHANGELOG.md"
+--changelog-filename "<packageDir>/CHANGELOG.md"
 ```

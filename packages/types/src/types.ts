@@ -107,6 +107,12 @@ export interface MonodeployConfiguration {
     changesetFilename?: string
 
     /**
+     * Whether to resume publishing from a changeset. This option can only be set from the command line,
+     * and cannot be provided via a monodeploy.config.js file.
+     */
+    applyChangeset?: boolean
+
+    /**
      * The filename to write changelogs to, assuming a conventional changelog config has been set.
      * Use '<packageDir>' to reference the cwd of an individual workspace.
      */

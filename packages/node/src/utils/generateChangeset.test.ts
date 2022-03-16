@@ -8,9 +8,9 @@ import {
 } from '@monodeploy/test-utils'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { writeChangesetFile } from '.'
+import { generateChangeset } from './generateChangeset'
 
-describe('writeChangesetFile', () => {
+describe('generateChangeset', () => {
     let workspacePath: PortablePath
 
     beforeEach(async () => {
@@ -32,12 +32,12 @@ describe('writeChangesetFile', () => {
             })),
             changesetFilename: undefined,
             conventionalChangelogConfig: path.resolve(
-                path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
+                path.join(__dirname, '..', '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         }
         const context = await setupContext(cwd)
 
-        const changeset = await writeChangesetFile({
+        const changeset = await generateChangeset({
             config,
             context,
             previousTags: new Map([

@@ -69,7 +69,19 @@ export class MonodeployCommand extends Command {
         description: 'Changeset output filename',
     })
 
+    applyChangeset = Option.Boolean('--apply-changeset', false, {
+        description: 'Publishes using data from the changeset specified via --changeset-filename',
+    })
+
+    /**
+     * @deprecated Will be removed in favour of --changelog-filename.
+     */
     prependChangelog = Option.String('--prepend-changelog', {
+        validator: t.isString(),
+        description: 'Deprecated. Please use --changelog-filename.',
+    })
+
+    changelogFilename = Option.String('--changelog-filename', {
         validator: t.isString(),
         description: 'Changelog file to prepend changelog entries',
     })
@@ -187,6 +199,7 @@ export class MonodeployCommand extends Command {
                     undefined,
                 changesetFilename:
                     this.changesetFilename ?? configFromFile?.changesetFilename ?? undefined,
+                applyChangeset: this.applyChangeset ?? undefined,
                 changesetIgnorePatterns:
                     this.changesetIgnorePatterns ??
                     configFromFile?.changesetIgnorePatterns ??
@@ -194,7 +207,10 @@ export class MonodeployCommand extends Command {
                 commitIgnorePatterns:
                     this.commitIgnorePatterns ?? configFromFile?.commitIgnorePatterns ?? undefined,
                 changelogFilename:
-                    this.prependChangelog ?? configFromFile?.changelogFilename ?? undefined,
+                    this.changelogFilename ??
+                    this.prependChangelog ??
+                    configFromFile?.changelogFilename ??
+                    undefined,
                 forceWriteChangeFiles:
                     this.forceWriteChangeFiles ?? configFromFile?.forceWriteChangeFiles,
                 access: this.access ?? configFromFile?.access ?? undefined,

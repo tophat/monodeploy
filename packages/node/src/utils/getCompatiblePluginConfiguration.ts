@@ -11,7 +11,7 @@ const requireForCLI = createRequire(require.resolve('@yarnpkg/cli'))
  * We cannot use getPluginConfiguration since it's possible some plugins are
  * incompatible with the version of yarnpkg/core we use in monodeploy.
  */
-const getCompatiblePluginConfiguration = (): PluginConfiguration => {
+export const getCompatiblePluginConfiguration = (): PluginConfiguration => {
     const plugins = new Set<string>()
     for (const dependencyName of packageJson['@yarnpkg/builder'].bundles.standard) {
         plugins.add(dependencyName)
@@ -41,5 +41,3 @@ const getCompatiblePluginConfiguration = (): PluginConfiguration => {
 
     return { plugins, modules }
 }
-
-export default getCompatiblePluginConfiguration

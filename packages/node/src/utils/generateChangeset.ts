@@ -1,7 +1,4 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-
-import logging from '@monodeploy/logging'
+import { generateChangelogEntry } from '@monodeploy/changelog'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
@@ -9,11 +6,8 @@ import type {
     PackageVersionMap,
     YarnContext,
 } from '@monodeploy/types'
-import { npath } from '@yarnpkg/fslib'
 
-import generateChangelogEntry from './changelog'
-
-const writeChangesetFile = async ({
+export const generateChangeset = async ({
     config,
     context,
     previousTags,
@@ -60,34 +54,5 @@ const writeChangesetFile = async ({
         }
     }
 
-    if (!config.changesetFilename) {
-        logging.debug('[Changeset] Data', {
-            extras: JSON.stringify(changesetData, null, 2),
-            report: context.report,
-        })
-        return changesetData
-    }
-
-    const serializedData = JSON.stringify(changesetData, null, 2)
-
-    if (config.changesetFilename === '-') {
-        console.log(serializedData)
-    } else {
-        const changesetPath = path.resolve(
-            config.cwd,
-            npath.fromPortablePath(config.changesetFilename),
-        )
-        await fs.mkdir(path.dirname(changesetPath), { recursive: true })
-
-        await fs.writeFile(changesetPath, serializedData, {
-            encoding: 'utf8',
-        })
-        logging.info(`[Changeset] Written to: ${changesetPath}`, {
-            report: context.report,
-        })
-    }
-
     return changesetData
 }
-
-export default writeChangesetFile
