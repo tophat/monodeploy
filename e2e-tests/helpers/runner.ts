@@ -32,6 +32,10 @@ export default async function run({ cwd, args = '' }: { cwd: string; args: strin
                 },
             },
         )
+        if (process.env.DEBUG?.includes('test:e2e')) {
+            if (stdout) console.log(stdout)
+            if (stderr) console.error(stderr)
+        }
         return { stdout, stderr }
     } catch (err) {
         if (isNodeError<ExecException>(err)) {

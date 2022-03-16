@@ -128,10 +128,6 @@ const monodeploy = async (
             implicitVersionStrategies,
         })
 
-        if (!versionStrategies.size) {
-            logging.warning('No packages need to be updated.', { report })
-        }
-
         // Backup workspace package.jsons
         let backupKey: string | undefined
 
@@ -199,6 +195,22 @@ const monodeploy = async (
             },
         )
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (!workspaces) {
+            throw new Error(
+                'Workspaces invariant violation. If you are seeing this message, a critical error ' +
+                    'has occurred. Please report this to the GitHub issue tracker.',
+            )
+        }
+
+        await new Promise<void>((resolve) => {
+            if (!workspaces.size) {
+                logging.warning('No packages need to be updated.', { report })
+            }
+            resolve()
+        })
+
         await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
             await prependChangelogFile({
                 config,
@@ -242,16 +254,20 @@ const monodeploy = async (
                 },
             )
 
-            // After patching the manifests, there may be an inconsistency between what's on
-            // disk and what's in memory. We need to re-sync these states.
-            project = (await Project.find(configuration, cwd)).project
-            await project.restoreInstallState()
+            if (workspaces.size) {
+                // After patching the manifests, there may be an inconsistency between what's on
+                // disk and what's in memory. We need to re-sync these states.
+                project = (await Project.find(configuration, cwd)).project
+                await project.restoreInstallState()
+            }
 
             if (config.persistVersions) {
                 await report.startTimerPromise(
                     'Updating Project State',
                     { skipIfEmpty: false },
                     async () => {
+                        if (!workspaces.size) return
+
                         logging.debug('Re-installing project to update lock file.', { report })
                         if (!config.dryRun) {
                             await project.install({
@@ -268,7 +284,7 @@ const monodeploy = async (
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
-                    if (!versionStrategies.size) return
+                    if (!workspaces.size) return
 
                     await commitPublishChanges({
                         config,
