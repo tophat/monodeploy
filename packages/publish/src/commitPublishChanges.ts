@@ -27,12 +27,13 @@ const commitPublishChanges = async ({
             globs.push(config.changelogFilename.replace('<packageDir>', '**'))
         }
         const files = await gitGlob(globs, { cwd: config.cwd, context })
-
-        await gitAdd(files, { cwd: config.cwd, context })
-        await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
+        if (files.length) {
+            await gitAdd(files, { cwd: config.cwd, context })
+            await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
+        }
     }
 
-    if (config.git.tag && gitTags) {
+    if (config.git.tag && gitTags?.size) {
         // Tag commit
         await createReleaseGitTags({
             config,
@@ -62,7 +63,7 @@ const commitPublishChanges = async ({
             remote: config.git.remote,
             context,
         })
-        if (config.git.tag && gitTags) {
+        if (config.git.tag && gitTags?.size) {
             await gitPushTags({
                 cwd: config.cwd,
                 remote: config.git.remote,
