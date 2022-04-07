@@ -5,7 +5,7 @@ import {
     PackageStrategyType,
     YarnContext,
 } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { structUtils } from '@yarnpkg/core'
 
 import { maxStrategy } from './versionStrategy'
 
@@ -35,27 +35,23 @@ const mergeVersionStrategies = async ({
         ...implicitVersionStrategies.entries(),
     ])
 
-    const workspaces = new Map<string, Workspace>()
     const groups = new Map<string, Set<string>>()
     for (const workspace of context.project.workspaces) {
         if (!workspace.manifest.name) continue
         const ident = structUtils.stringifyIdent(workspace.manifest.name)
-        if (strategies.has(ident)) {
-            workspaces.set(ident, workspace)
 
-            const groupKey = getIn(workspace.manifest.raw, groupField)
-            if (typeof groupKey !== 'string') {
-                logging.warning(
-                    `[Versions] Invalid group key resolved in '${ident}' using field '${groupField}'.`,
-                    { report: context.report },
-                )
-                continue
-            }
-
-            const group = groups.get(groupKey) ?? new Set()
-            group.add(ident)
-            groups.set(groupKey, group)
+        const groupKey = getIn(workspace.manifest.raw, groupField) ?? ident
+        if (typeof groupKey !== 'string') {
+            logging.warning(
+                `[Versions] Invalid group key resolved in '${ident}' using field '${groupField}'.`,
+                { report: context.report },
+            )
+            continue
         }
+
+        const group = groups.get(groupKey) ?? new Set()
+        group.add(ident)
+        groups.set(groupKey, group)
     }
 
     for (const group of groups.values()) {
@@ -64,13 +60,18 @@ const mergeVersionStrategies = async ({
         // a breaking change, while 4.1.1 is guaranteed to be a patch (or at a min, a commit
         // that the end user does not need to worry about).
         const strategy = Array.from(group).reduce(
-            (curr, name) => maxStrategy(curr, strategies.get(name)?.type),
+            (curr, name) =>
+                strategies.has(name) ? maxStrategy(curr, strategies.get(name)?.type) : curr,
             undefined as PackageStrategyType | undefined,
         )
 
         if (!strategy) continue
 
         for (const workspaceIdent of group) {
+            // only update existing strategies, do not introduce new ones
+            // (for example from packages not being modified)
+            if (!strategies.has(workspaceIdent)) continue
+
             strategies.set(workspaceIdent, {
                 ...strategies.get(workspaceIdent)!,
                 type: strategy,

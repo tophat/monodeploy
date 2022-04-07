@@ -9,9 +9,9 @@ import type {
 } from '@monodeploy/types'
 import * as semver from 'semver'
 
-const maxVersion = (a: string | null, b: string | null): string | null => {
-    if (!a) return b
-    if (!b) return a
+const maxVersion = (a?: string | null, b?: string | null): string | null => {
+    if (!a) return b ?? null
+    if (!b) return a ?? null
 
     const semverInfo = semver.parse(a)
     if (!semverInfo || semverInfo?.compare(b) <= 0) {
@@ -32,11 +32,12 @@ export const incrementVersion = ({
     strategy: PackageStrategyType
     prerelease: boolean
     prereleaseId: string
-}): { previous: string; next: string | null } => {
+}): { fromPrerelease: boolean; previous: string; next: string | null } => {
     if (!prerelease) {
         return {
             previous: currentLatestVersion,
             next: semver.inc(currentLatestVersion, strategy),
+            fromPrerelease: false,
         }
     }
 
@@ -52,6 +53,7 @@ export const incrementVersion = ({
         return {
             previous: currentLatestVersion,
             next: semver.inc(currentLatestVersion, releaseType, prereleaseId),
+            fromPrerelease: false,
         }
     }
 
@@ -62,6 +64,7 @@ export const incrementVersion = ({
         return {
             previous: currentPrereleaseVersion,
             next: semver.inc(currentPrereleaseVersion, 'premajor', prereleaseId),
+            fromPrerelease: true,
         }
     }
 
@@ -70,16 +73,48 @@ export const incrementVersion = ({
         return {
             previous: currentPrereleaseVersion,
             next: semver.inc(currentPrereleaseVersion, 'preminor', prereleaseId),
+            fromPrerelease: true,
         }
     }
 
     return {
         previous: currentPrereleaseVersion,
         next: semver.inc(currentPrereleaseVersion, 'prerelease', prereleaseId),
+        fromPrerelease: true,
     }
 }
 
 type VersionChange = { previous: string; next: string }
+
+function buildBaseVersionsByGroup({
+    workspaceGroups,
+    registryTags,
+    prereleaseNPMTag,
+}: {
+    workspaceGroups: Map<string, Set<string>>
+    registryTags: PackageTagMap
+    prereleaseNPMTag: string
+}) {
+    const baseVersionsByGroup = new Map<string, { latest: string; prerelease: string | null }>(
+        Array.from(workspaceGroups.entries()).map(([groupKey, group]) => [
+            groupKey,
+            {
+                // there's always a latest so we'll default to 0.0.0 so we can keep 'null' out of the types
+                latest: Array.from(group).reduce(
+                    (curr, packageName) =>
+                        maxVersion(curr, registryTags.get(packageName)?.latest) ?? '0.0.0',
+                    '0.0.0' as string,
+                ),
+                prerelease: Array.from(group).reduce(
+                    (curr, packageName) =>
+                        maxVersion(curr, registryTags.get(packageName)?.[prereleaseNPMTag] ?? null),
+                    null as string | null,
+                ),
+            },
+        ]),
+    )
+    return baseVersionsByGroup
+}
 
 const applyVersionStrategies = async ({
     config,
@@ -94,37 +129,63 @@ const applyVersionStrategies = async ({
     versionStrategies: PackageStrategyMap
     workspaceGroups: Map<string, Set<string>>
 }): Promise<{ previous: PackageVersionMap; next: PackageVersionMap }> => {
+    // determine base tags for the groups. To do this, we create a map of
+    // group name to max latest and prerelease version among said group
+    const baseVersionsByGroup = buildBaseVersionsByGroup({
+        workspaceGroups,
+        registryTags,
+        prereleaseNPMTag: config.prereleaseNPMTag,
+    })
+
     const updatedRegistryTags = new Map<string, VersionChange>()
     const nonupdatedRegistryTags = new Map<string, VersionChange>()
 
-    for (const [packageName, packageTag] of registryTags.entries()) {
-        const packageVersionStrategy = versionStrategies.get(packageName)?.type
+    for (const [groupKey, group] of workspaceGroups.entries()) {
+        const baseVersions = baseVersionsByGroup.get(groupKey)
+        if (!baseVersions) continue
 
-        const currentLatestVersion = packageTag.latest
-        const currentPrereleaseVersion = packageTag[config.prereleaseNPMTag] ?? null
+        for (const packageName of group) {
+            const packageTag = registryTags.get(packageName)
+            if (!packageTag) continue
 
-        const { previous, next } = packageVersionStrategy
-            ? incrementVersion({
-                  strategy: packageVersionStrategy,
-                  currentLatestVersion,
-                  currentPrereleaseVersion,
-                  prerelease: config.prerelease,
-                  prereleaseId: config.prereleaseId,
-              })
-            : { previous: null, next: null }
+            const packageVersionStrategy = versionStrategies.get(packageName)?.type
 
-        if (!next || !previous || previous === next) {
-            const version = config.prerelease
-                ? maxVersion(currentLatestVersion, currentPrereleaseVersion) ?? currentLatestVersion
-                : currentLatestVersion
-            nonupdatedRegistryTags.set(packageName, {
-                previous: version,
-                next: version,
+            const currentLatestVersion = packageTag.latest
+            const currentPrereleaseVersion = packageTag[config.prereleaseNPMTag] ?? null
+
+            const { previous, next, fromPrerelease } = packageVersionStrategy
+                ? incrementVersion({
+                      strategy: packageVersionStrategy,
+                      currentLatestVersion: baseVersions.latest,
+                      currentPrereleaseVersion: baseVersions.prerelease,
+                      prerelease: config.prerelease,
+                      prereleaseId: config.prereleaseId,
+                  })
+                : { previous: null, next: null, fromPrerelease: false }
+
+            if (!next || !previous || previous === next) {
+                const version = config.prerelease
+                    ? maxVersion(currentLatestVersion, currentPrereleaseVersion) ??
+                      currentLatestVersion
+                    : currentLatestVersion
+                nonupdatedRegistryTags.set(packageName, {
+                    previous: version,
+                    next: version,
+                })
+                continue
+            }
+
+            updatedRegistryTags.set(packageName, {
+                // Although we use the largest version in the group in calculating the next version,
+                // we still want to reference the package's registry tag as the previous version.
+                // This way, the changeset will correctly include the previous version as the version
+                // in npm prior to running monodeploy.
+                previous: fromPrerelease
+                    ? currentPrereleaseVersion ?? currentLatestVersion
+                    : currentLatestVersion,
+                next,
             })
-            continue
         }
-
-        updatedRegistryTags.set(packageName, { previous, next })
     }
 
     const isFullyIndependent = workspaceGroups.size === updatedRegistryTags.size
@@ -141,6 +202,8 @@ const applyVersionStrategies = async ({
         for (const packageName of group) {
             // skip packages with no associated versions (e.g. private packages)
             if (!registryTags.get(packageName)) continue
+            // skip packages with no associated version strategy
+            if (!versionStrategies.get(packageName)) continue
 
             updatedRegistryTags.set(packageName, {
                 ...updatedRegistryTags.get(packageName)!,
