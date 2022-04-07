@@ -129,7 +129,13 @@ describe('Monodeploy', () => {
         expect(result['pkg-1']).toBeUndefined()
 
         // pkg-2 is the one explicitly updated with breaking change
-        expect(result['pkg-2'].version).toBe('1.0.0')
+        // it's 4.0.0 rather than 1.0.0, since it has to be greater than any other version
+        // in the group. pkg-8 starts at version 3.1.0, so the next major after 3.1.0 is 4.0.0.
+        // If we had updated to 1.0.0 instead, eventually we might run into an issue where
+        // pkg-2 tries to bump "even" to 3.1.0, when the tag has already been previously claimed. It
+        // introduces an incorrect ordering issue where versions are no longer guaranteed to be in
+        // non-decreasing order.
+        expect(result['pkg-2'].version).toBe('4.0.0')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2, and is updated as dependent but in separate group (odd)
@@ -137,7 +143,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-3']).toBeUndefined()
 
         // pkg-6 depends on pkg-3 (which is private), and is updated as a transitive dependent but in same group as pkg-2 (even)
-        expect(result['pkg-6'].version).toBe('1.0.0')
+        expect(result['pkg-6'].version).toBe('4.0.0')
         expect(result['pkg-6'].changelog).toBeNull()
 
         // pkg-7 depends on pkg-2
@@ -145,7 +151,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-7'].changelog).toBeNull()
 
         // Not tags pushed in dry run
-        expect(mockGit._getPushedTags_()).toEqual(['even@1.0.0', 'odd@0.0.2'])
+        expect(mockGit._getPushedTags_()).toEqual(['even@4.0.0', 'odd@0.0.2'])
     })
 
     it('publishes changed workspaces with distinct version stategies and commits', async () => {
@@ -163,7 +169,7 @@ describe('Monodeploy', () => {
         expect(result['pkg-1'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-2 is explicitly updated with patch bump but is in the same group as pkg-6
-        expect(result['pkg-2'].version).toBe('2.0.2')
+        expect(result['pkg-2'].version).toBe('3.1.1')
         expect(result['pkg-2'].changelog).not.toEqual(expect.stringContaining('some new feature'))
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('a different fix'))
 
@@ -172,14 +178,14 @@ describe('Monodeploy', () => {
         expect(result['pkg-3']).toBeUndefined()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent (but same group as pkg-2)
-        expect(result['pkg-6'].version).toBe('2.0.2')
+        expect(result['pkg-6'].version).toBe('3.1.1')
         expect(result['pkg-6'].changelog).toBeNull()
 
         // pkg-7 depends on pkg-2
         expect(result['pkg-7'].version).toBe('0.0.2')
         expect(result['pkg-7'].changelog).toBeNull()
 
-        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0', 'even@2.0.2', 'odd@0.0.2'])
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0', 'even@3.1.1', 'odd@0.0.2'])
     })
 
     it('updates changelog and changeset', async () => {
@@ -211,7 +217,7 @@ describe('Monodeploy', () => {
             })
 
             // pkg-2 is explicitly updated with minor bump
-            expect(result['pkg-2'].version).toBe('0.1.0')
+            expect(result['pkg-2'].version).toBe('3.2.0')
 
             const updatedChangelog = await fs.readFile(changelogFilename, {
                 encoding: 'utf-8',
@@ -232,12 +238,12 @@ describe('Monodeploy', () => {
             expect(changeset).toEqual(
                 expect.objectContaining({
                     'pkg-2': expect.objectContaining({
-                        version: '0.1.0',
+                        version: '3.2.0',
                         changelog: expect.stringContaining('some new feature'),
                         strategy: 'minor',
                         previousVersion: '0.0.1',
                         group: 'even',
-                        tag: 'even@0.1.0',
+                        tag: 'even@3.2.0',
                     }),
                 }),
             )
@@ -270,20 +276,20 @@ describe('Monodeploy', () => {
         expect(result['pkg-1']).toBeUndefined()
 
         // pkg-2 is the one explicitly updated with feature change
-        expect(result['pkg-2'].version).toBe('2.4.0-alpha.4')
+        expect(result['pkg-2'].version).toBe('3.2.0-alpha.0')
         expect(result['pkg-2'].changelog).toEqual(expect.stringContaining('some new feature'))
 
         // pkg-3 depends on pkg-2 but is private -- however it still propagates updates
         expect(result['pkg-3']).toBeUndefined()
 
         // pkg-6 depends on pkg-3, and is updated as a transitive dependent
-        expect(result['pkg-6'].version).toBe('2.4.0-alpha.4')
+        expect(result['pkg-6'].version).toBe('3.2.0-alpha.0')
         expect(result['pkg-6'].changelog).toBeNull()
 
         // pkg-7 depends on pkg-2, and is updated as dependent
         expect(result['pkg-7'].version).toBe('7.0.0-alpha.1')
         expect(result['pkg-7'].changelog).toBeNull()
 
-        expect(mockGit._getPushedTags_()).toEqual(['even@2.4.0-alpha.4', 'odd@7.0.0-alpha.1'])
+        expect(mockGit._getPushedTags_()).toEqual(['even@3.2.0-alpha.0', 'odd@7.0.0-alpha.1'])
     })
 })

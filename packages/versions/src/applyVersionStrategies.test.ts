@@ -36,6 +36,7 @@ describe('applyVersionStrategies', () => {
                         ['pkg-3', { type: 'patch', commits: [] }],
                     ]),
                     workspaceGroups: new Map([
+                        ['pkg-1', new Set(['pkg-1'])],
                         ['pkg-2', new Set(['pkg-2'])],
                         ['pkg-3', new Set(['pkg-3'])],
                     ]),
@@ -129,7 +130,12 @@ describe('applyVersionStrategies', () => {
                         ['pkg-4', { latest: '0.1.0' }],
                     ]),
                     versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
-                    workspaceGroups: new Map([['pkg-1', new Set(['pkg-1'])]]),
+                    workspaceGroups: new Map([
+                        ['pkg-1', new Set(['pkg-1'])],
+                        ['pkg-2', new Set(['pkg-2'])],
+                        ['pkg-3', new Set(['pkg-3'])],
+                        ['pkg-4', new Set(['pkg-4'])],
+                    ]),
                 })
                 expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
 
@@ -141,8 +147,8 @@ describe('applyVersionStrategies', () => {
         ))
 
     describe('Groups', () => {
-        // non-idiomatic version number = 3.1.1 usually indicates a patch, but here it can be from a feat/breaking change
-        it('updates to the greatest version among each group, even if this results in non-idiomatic version number', async () =>
+        // idiomatic version number: x.x.0 is always from a minor strategy, x.0.0 is always from a major strategy
+        it('updates to the greatest version among each group, always resulting in an idiomatic version number', async () =>
             withMonorepoContext(
                 {
                     'pkg-1': { raw: { group: 'group-a' } },
@@ -186,8 +192,8 @@ describe('applyVersionStrategies', () => {
                     })
 
                     // group-a
-                    expect(intendedVersions.get('pkg-1')).toBe('6.0.1')
-                    expect(intendedVersions.get('pkg-2')).toBe('6.0.1')
+                    expect(intendedVersions.get('pkg-1')).toBe('6.1.0')
+                    expect(intendedVersions.get('pkg-2')).toBe('6.1.0')
 
                     // group-b
                     expect(intendedVersions.get('pkg-3')).toBe('5.1.1')
@@ -232,7 +238,7 @@ describe('applyVersionStrategies', () => {
                         ]),
                         workspaceGroups: new Map([
                             ['group-a', new Set(['pkg-1', 'pkg-2'])],
-                            ['group-b', new Set(['pkg-4'])],
+                            ['group-b', new Set(['pkg-3', 'pkg-4'])],
                         ]),
                     })
 
@@ -243,6 +249,50 @@ describe('applyVersionStrategies', () => {
                     // group-b but with pkg-3 not changing because no strategy
                     expect(intendedVersions.has('pkg-3')).toBeFalsy()
                     expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+                },
+            ))
+
+        it('uses the largest group version as the base version when applying the update strategy', async () =>
+            withMonorepoContext(
+                {
+                    'pkg-a1': { raw: { group: 'group-a' } },
+                    'pkg-a2': { raw: { group: 'group-a' } },
+                    'pkg-b1': { raw: { group: 'group-b' } },
+                    'pkg-b2': { raw: { group: 'group-b' } },
+                },
+                async (context) => {
+                    const config = {
+                        ...(await getMonodeployConfig({
+                            cwd: context.project.cwd,
+                            baseBranch: 'main',
+                            commitSha: 'shashasha',
+                        })),
+                        persistVersions: true,
+                    }
+                    const { next: intendedVersions } = await applyVersionStrategies({
+                        config,
+                        context,
+                        registryTags: new Map([
+                            ['pkg-a1', { latest: '1.5.0' }],
+                            ['pkg-a2', { latest: '2.0.0' }],
+                            ['pkg-b1', { latest: '3.3.0' }],
+                            ['pkg-b2', { latest: '5.1.0' }],
+                        ]),
+                        versionStrategies: new Map([['pkg-a1', { type: 'minor', commits: [] }]]),
+                        workspaceGroups: new Map([
+                            ['group-a', new Set(['pkg-a1', 'pkg-a2'])],
+                            ['group-b', new Set(['pkg-b1', 'pkg-b2'])],
+                        ]),
+                    })
+
+                    // pkg-a1 applies "minor" to 2.0.0, not 1.5.0, since 2.0.0 is the greatest base version
+                    // across the entire group 'a'.
+                    expect(intendedVersions.get('pkg-a1')).toBe('2.1.0')
+
+                    // no dependencies between the remaining packages, so they don't get updated
+                    expect(intendedVersions.get('pkg-a2')).toBeFalsy()
+                    expect(intendedVersions.has('pkg-b1')).toBeFalsy()
+                    expect(intendedVersions.get('pkg-b2')).toBeFalsy()
                 },
             ))
     })
