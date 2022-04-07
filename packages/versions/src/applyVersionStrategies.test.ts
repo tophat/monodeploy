@@ -394,4 +394,42 @@ describe('applyVersionStrategies prereleases', () => {
             expect(previous).toEqual(fromLatest)
         },
     )
+
+    describe('falls back to the latest version if no prerelease', () => {
+        it('increments using a prerelease if the base version is a prerelease (patch)', () => {
+            const { previous, next: actualVersion } = incrementVersion({
+                currentLatestVersion: '2.3.1-rc.2',
+                currentPrereleaseVersion: null,
+                strategy: 'patch',
+                prerelease: true,
+                prereleaseId: 'rc',
+            })
+            expect(actualVersion).toBe('2.3.1-rc.3')
+            expect(previous).toBe('2.3.1-rc.2')
+        })
+
+        it('increments using a prerelease if the base version is a prerelease (minor)', () => {
+            const { previous, next: actualVersion } = incrementVersion({
+                currentLatestVersion: '2.3.0-rc.2',
+                currentPrereleaseVersion: null,
+                strategy: 'patch',
+                prerelease: true,
+                prereleaseId: 'rc',
+            })
+            expect(actualVersion).toBe('2.3.0-rc.3')
+            expect(previous).toBe('2.3.0-rc.2')
+        })
+
+        it('increments using a prerelease if the base version is a prerelease (major)', () => {
+            const { previous, next: actualVersion } = incrementVersion({
+                currentLatestVersion: '2.0.0-rc.2',
+                currentPrereleaseVersion: null,
+                strategy: 'patch',
+                prerelease: true,
+                prereleaseId: 'rc',
+            })
+            expect(actualVersion).toBe('2.0.0-rc.3')
+            expect(previous).toBe('2.0.0-rc.2')
+        })
+    })
 })
