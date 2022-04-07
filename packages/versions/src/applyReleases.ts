@@ -42,14 +42,11 @@ export const incrementVersion = ({
         }
     }
 
-    const semverInfo = currentPrereleaseVersion ? semver.parse(currentPrereleaseVersion) : null
+    const baseVersion =
+        maxVersion(currentPrereleaseVersion, currentLatestVersion) ?? currentLatestVersion
+    const semverInfo = semver.parse(baseVersion)
 
-    if (
-        !currentPrereleaseVersion ||
-        !semverInfo ||
-        // the prerelease version is outdated relative to latest
-        semverInfo.compare(currentLatestVersion) <= 0
-    ) {
+    if (!semverInfo?.prerelease?.length) {
         const releaseType: `pre${PackageStrategyType}` = `pre${strategy}`
         return {
             previous: currentLatestVersion,
@@ -62,22 +59,22 @@ export const incrementVersion = ({
         semverInfo.major > 0 && semverInfo.minor === 0 && semverInfo.patch === 0
     if (strategy === 'major' && !isPreleaseVersionMajor) {
         return {
-            previous: currentPrereleaseVersion,
-            next: semver.inc(currentPrereleaseVersion, 'premajor', prereleaseId),
+            previous: baseVersion,
+            next: semver.inc(baseVersion, 'premajor', prereleaseId),
         }
     }
 
     // if bumping to minor, but not already on major or patch
     if (strategy === 'minor' && semverInfo.patch !== 0) {
         return {
-            previous: currentPrereleaseVersion,
-            next: semver.inc(currentPrereleaseVersion, 'preminor', prereleaseId),
+            previous: baseVersion,
+            next: semver.inc(baseVersion, 'preminor', prereleaseId),
         }
     }
 
     return {
-        previous: currentPrereleaseVersion,
-        next: semver.inc(currentPrereleaseVersion, 'prerelease', prereleaseId),
+        previous: baseVersion,
+        next: semver.inc(baseVersion, 'prerelease', prereleaseId),
     }
 }
 
