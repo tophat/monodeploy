@@ -108,7 +108,8 @@ export interface MonodeployConfiguration {
 
     /**
      * Whether to resume publishing from a changeset. This option can only be set from the command line,
-     * and cannot be provided via a monodeploy.config.js file.
+     * and cannot be provided via a monodeploy.config.js file. This feature is _not_ available yet. If
+     * you're interested in this feature, please leave comments on the [GitHub Issue](https://github.com/tophat/monodeploy/issues/323).
      */
     applyChangeset?: boolean
 
