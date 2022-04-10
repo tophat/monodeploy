@@ -25,7 +25,7 @@
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\"",
-    "docs": "node ./generateDocs.js"
+    "docs": "ts-node --transpile-only ./generateDocs.ts"
   },
   "dependencies": {
     "tapable": "^2.2.1"
@@ -34,8 +34,10 @@
     "@yarnpkg/core": "^3.2.0"
   },
   "devDependencies": {
+    "@types/node": "^14.17.14",
     "@yarnpkg/core": "^3.2.0",
-    "typedoc": "^0.21.4",
-    "typescript": "~4.6.2"
+    "ts-node": "^10.7.0",
+    "typedoc": "^0.22.14",
+    "typescript": "~4.6.3"
   }
 }
