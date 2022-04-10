@@ -8,6 +8,8 @@ about: Create a report to help us improve
 
 <!-- A clear and concise description of what the bug is. -->
 
+- [ ] I am interested in contributing a fix.
+
 **To reproduce**
 
 <!--
@@ -21,15 +23,14 @@ Steps to reproduce the behavior:
 
 <!-- A clear and concise description of what you expected to happen. -->
 
-**Screenshots**
-
-<!-- If applicable, add screenshots to help explain your problem. -->
-
 **Environment (please complete the following information):**
 
-- OS: [e.g. Ubuntu 20.04, Mac OSX 10.14]
-- Monodeploy Version: [e.g. 1.0]
-- Node Version: [e.g. 12.16.1]
+- OS: <!-- [e.g. Ubuntu 20.04, Mac OSX 10.14] -->
+- Monodeploy Version: <!-- [e.g. 3.0] -->
+- Yarn Version: <!-- [e.g. 3.2.0] -->
+  - Yarn module linker: <!-- [e.g. pnp / pnpm / node-modules] -->
+- Node Version: <!-- [e.g. 12.16.1] -->
+- Git Version: <!-- [e.g. 2.33.0] -->
 
 **Additional context**
 
