@@ -120,6 +120,14 @@ const getExplicitVersionStrategies = async ({
                 commits: [commit, ...(previousVersionStrategy?.commits ?? [])],
             })
         }
+
+        if (strategy && !packageNames.length) {
+            logging.warning(
+                `[Explicit Version Strategies] The commit "${commit.sha}" indicates a version bump, however ` +
+                    'no modified packages were detected. This typically implies a user error.',
+                { report: context.report },
+            )
+        }
     }
 
     return versionStrategies
