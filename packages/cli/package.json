@@ -43,7 +43,7 @@
     "@monodeploy/types": "workspace:^0.10.5",
     "@yarnpkg/core": "^3.2.0",
     "@yarnpkg/fslib": "^2.6.1",
-    "ajv": "^8.10.0",
+    "ajv": "^8.11.0",
     "clipanion": "^3.2.0-rc.10",
     "typanion": "^3.7.1"
   },

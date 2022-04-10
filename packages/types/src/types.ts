@@ -235,7 +235,7 @@ export interface MonodeployConfiguration {
      *
      * @default []
      */
-    plugins?: Array<string>
+    plugins?: Array<string | [string, unknown]>
 
     /**
      * Whether to run Monodeploy in Prerelease mode. In prerelease mode, versions are not
