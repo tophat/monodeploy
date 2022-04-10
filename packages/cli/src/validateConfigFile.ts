@@ -1,4 +1,4 @@
-import Ajv, { SchemaObject, ValidateFunction } from 'ajv'
+import Ajv, { SchemaObject, ValidateFunction } from 'ajv/dist/2020'
 
 import type { ConfigFile } from './types'
 
@@ -63,7 +63,16 @@ const schema: SchemaObject = {
             additionalProperties: false,
             nullable: true,
         },
-        plugins: { type: 'array', nullable: true, items: { type: 'string' } },
+        plugins: {
+            type: 'array',
+            nullable: true,
+            items: {
+                anyOf: [
+                    { type: 'string' },
+                    { type: 'array', prefixItems: [{ type: 'string' }], minItems: 1, maxItems: 2 },
+                ],
+            },
+        },
         prerelease: { type: 'boolean', nullable: true },
         prereleaseId: { type: 'string', nullable: true },
         prereleaseNPMTag: { type: 'string', nullable: true },

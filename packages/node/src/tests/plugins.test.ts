@@ -143,3 +143,89 @@ describe('Monodeploy Plugins', () => {
         expect(fs.existsSync(path.resolve(monodeployConfig.cwd, 'plugin-executed.txt'))).toBe(true)
     })
 })
+
+describe('Monodeploy Plugins with Options', () => {
+    const monodeployConfig: MonodeployConfiguration = {
+        cwd: '/tmp/to-be-overwritten-by-before-each',
+        dryRun: false,
+        noRegistry: false,
+        autoCommit: false,
+        autoCommitMessage: 'chore: release [skip ci]',
+        git: {
+            baseBranch: 'main',
+            commitSha: 'HEAD',
+            remote: 'origin',
+            push: true,
+            tag: true,
+        },
+        conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+        access: 'public',
+        persistVersions: false,
+        topological: false,
+        topologicalDev: false,
+        jobs: 0,
+        forceWriteChangeFiles: false,
+        maxConcurrentReads: 2,
+        maxConcurrentWrites: 2,
+        prerelease: false,
+        prereleaseId: 'rc',
+        prereleaseNPMTag: 'next',
+    }
+
+    beforeAll(async () => {
+        process.env.MONODEPLOY_LOG_LEVEL = String(LOG_LEVELS.ERROR)
+    })
+
+    beforeEach(async () => {
+        const context = await setupExampleMonorepo()
+        monodeployConfig.cwd = npath.fromPortablePath(context.project.cwd)
+    })
+
+    afterEach(async () => {
+        mockGit._reset_()
+        mockNPM._reset_()
+        try {
+            await fs.promises.rm(monodeployConfig.cwd, {
+                recursive: true,
+                force: true,
+            })
+        } catch {}
+    })
+
+    afterAll(() => {
+        delete process.env.MONODEPLOY_LOG_LEVEL
+    })
+
+    it('executes the onReleaseAvailable plugin', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+
+        const pluginFilename = path.resolve(monodeployConfig.cwd, 'onReleaseAvailable.plugin.js')
+        await fs.promises.writeFile(
+            pluginFilename,
+            `
+                const fs = require('fs');
+                const path = require('path');
+                module.exports = ({ onReleaseAvailable }, opts) => {
+                    onReleaseAvailable.tapPromise('CustomPlugin', async (context, config, changeset) => {
+                        fs.writeFileSync(path.resolve(config.cwd, 'plugin-executed.txt'), JSON.stringify(opts));
+                    })
+                }
+            `,
+        )
+
+        await monodeploy({
+            ...monodeployConfig,
+            plugins: [['./onReleaseAvailable.plugin.js', { keyA: 'valueA' }]],
+        })
+
+        const writtenData = await fs.promises.readFile(
+            path.resolve(monodeployConfig.cwd, 'plugin-executed.txt'),
+            'utf-8',
+        )
+        expect(writtenData).toEqual(expect.stringContaining('"keyA":"valueA"'))
+    })
+})

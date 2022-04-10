@@ -15,7 +15,15 @@ plugins: ['@monodeploy/plugin-github']
 yarn monodeploy --plugins @monodeploy/plugin-github
 ```
 
-A plugin is a module which exposes a function as the default. This function takes PluginHooks as an argument. You can then "tap" into the hooks.
+A plugin is a module which exposes a function as the default. This function takes PluginHooks as the first argument and plugin options as the second.
+
+Plugin options can only be passed through a config file, and are not supported through the command line:
+
+```raw
+plugins: ['@monodeploy/plugin-github', { someArbitraryOption: 'value' }]
+```
+
+You can then "tap" into the hooks.
 
 ## Available Plugins
 
