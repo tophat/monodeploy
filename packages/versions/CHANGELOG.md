@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.8.16](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.15...@monodeploy/versions@0.8.16) "@monodeploy/versions" (2022-04-07)<a name="0.8.16"></a>
+
+### Bug Fixes
+
+* handle prerelease updates off of non-prerelease base (#481) ([f8cffee](https://github.com/tophat/monodeploy/commits/f8cffee))
+
+
+
+
 ## [0.8.13](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.12...@monodeploy/versions@0.8.13) "@monodeploy/versions" (2021-12-06)<a name="0.8.13"></a>
 
 ### Bug Fixes
