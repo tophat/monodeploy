@@ -2,6 +2,24 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.12...@monodeploy/dependencies@3.0.0) "@monodeploy/dependencies" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Private workspaces are now no longer pruned prior to dependency graph traversal and when considering version strategies for a group. This means you can create a private workspace as a devDependency of other packages and updates to that private workspace will propagate to the dependents with the correct version strategy -- assuming all these packages are in the same group. The private package, although considered when determining the version strategy, is not published. ([3c10414](https://github.com/tophat/monodeploy/commits/3c10414))
+
+### Bug Fixes
+
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* consider private workspaces when determining updates (#468) ([3c10414](https://github.com/tophat/monodeploy/commits/3c10414))
+
+
+
+
 ## [0.3.11](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@0.3.10...@monodeploy/dependencies@0.3.11) "@monodeploy/dependencies" (2021-11-19)<a name="0.3.11"></a>
 
 ### Bug Fixes

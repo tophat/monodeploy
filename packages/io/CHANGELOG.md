@@ -2,6 +2,26 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.4.1...@monodeploy/io@3.0.0) "@monodeploy/io" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Monodeploy will now publish the top level workspace if not marked as private, and if a change is detected. This means monodeploy can now be used to publish non-monorepos. ([231029a](https://github.com/tophat/monodeploy/commits/231029a))
+
+### Bug Fixes
+
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* support publishing the top level workspace (#473) ([231029a](https://github.com/tophat/monodeploy/commits/231029a))
+* deprecate --prepend-changelog in favour of --changelog-filename ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add --apply-changeset cli flag ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+
+
+
+
 ## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/io@0.4.0...@monodeploy/io@0.4.1) "@monodeploy/io" (2022-01-06)<a name="0.4.1"></a>
 
 ### Bug Fixes

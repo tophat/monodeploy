@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/plugin-github",
-  "version": "0.3.15",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -31,10 +31,10 @@
     "tapable": "^2.2.1"
   },
   "dependencies": {
-    "@monodeploy/git": "workspace:^0.4.3",
-    "@monodeploy/io": "workspace:^0.4.1",
-    "@monodeploy/logging": "workspace:^0.1.12",
-    "@monodeploy/types": "workspace:^0.10.5",
+    "@monodeploy/git": "workspace:^3.0.0",
+    "@monodeploy/io": "workspace:^3.0.0",
+    "@monodeploy/logging": "workspace:^3.0.0",
+    "@monodeploy/types": "workspace:^3.0.0",
     "@octokit/core": "^3.6.0",
     "@octokit/plugin-throttling": "^3.6.1",
     "@yarnpkg/core": "^3.2.0",

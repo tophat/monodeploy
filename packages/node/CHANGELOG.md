@@ -2,6 +2,31 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.12.2...@monodeploy/node@3.0.0) "@monodeploy/node" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Change the default of the 'access' config option from public to infer. This reduces risk of accidental publish of private packages. The infer option respects the user's yarnrc.yml config, as well as publishConfig.access manifest field. ([d776ec0](https://github.com/tophat/monodeploy/commits/d776ec0))
+* Monodeploy no longer tags the commit containing the code changes, but rather tags the later commit which contains the package.json changes and other publish artifacts. This is more inline with how Lerna operates and means the tag will match the version in the package.json, as well as the changelog files. If there is interest in adding back the old behaviour behind a configuration option, please open a GitHub issue. ([559de51](https://github.com/tophat/monodeploy/commits/559de51))
+
+### Bug Fixes
+
+* change access config option default from public to infer (#449) ([d776ec0](https://github.com/tophat/monodeploy/commits/d776ec0))
+* use per-scope fetch registry from .yarnrc.yml, #457 (#458) ([06ea79f](https://github.com/tophat/monodeploy/commits/06ea79f))
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+* do not attempt to commit missing artifacts when no changes (#475) ([baeef6a](https://github.com/tophat/monodeploy/commits/baeef6a))
+
+### Features
+
+* tag the same commit which includes publish artifacts, #402 (#452) ([559de51](https://github.com/tophat/monodeploy/commits/559de51))
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* deprecate --prepend-changelog in favour of --changelog-filename ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add --apply-changeset cli flag ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add support for plugin options (#484) ([07fbb70](https://github.com/tophat/monodeploy/commits/07fbb70))
+
+
+
+
 ## [0.12.1](https://github.com/tophat/monodeploy/compare/@monodeploy/node@0.12.0...@monodeploy/node@0.12.1) "@monodeploy/node" (2022-01-06)<a name="0.12.1"></a>
 
 ### Bug Fixes

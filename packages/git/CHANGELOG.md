@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.3...@monodeploy/git@3.0.0) "@monodeploy/git" (2022-04-10)<a name="3.0.0"></a>
+
+### Bug Fixes
+
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+
+
+
+
 ## [0.4.2](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.1...@monodeploy/git@0.4.2) "@monodeploy/git" (2022-01-06)<a name="0.4.2"></a>
 
 ### Bug Fixes

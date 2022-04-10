@@ -2,6 +2,27 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.7.13...@monodeploy/changelog@3.0.0) "@monodeploy/changelog" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Monodeploy no longer tags the commit containing the code changes, but rather tags the later commit which contains the package.json changes and other publish artifacts. This is more inline with how Lerna operates and means the tag will match the version in the package.json, as well as the changelog files. If there is interest in adding back the old behaviour behind a configuration option, please open a GitHub issue. ([559de51](https://github.com/tophat/monodeploy/commits/559de51))
+
+### Bug Fixes
+
+* inconsistent behaviour in experimental conventional config (#459) ([b6af42a](https://github.com/tophat/monodeploy/commits/b6af42a))
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* tag the same commit which includes publish artifacts, #402 (#452) ([559de51](https://github.com/tophat/monodeploy/commits/559de51))
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* deprecate --prepend-changelog in favour of --changelog-filename ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add --apply-changeset cli flag ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+
+
+
+
 ## [0.7.9](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@0.7.8...@monodeploy/changelog@0.7.9) "@monodeploy/changelog" (2021-10-25)<a name="0.7.9"></a>
 
 ### Bug Fixes

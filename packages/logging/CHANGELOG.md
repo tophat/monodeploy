@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.12...@monodeploy/logging@3.0.0) "@monodeploy/logging" (2022-04-10)<a name="3.0.0"></a>
+
+### Bug Fixes
+
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+
+
+
+
 ## [0.1.12](https://github.com/tophat/monodeploy/compare/@monodeploy/logging@0.1.11...@monodeploy/logging@0.1.12) "@monodeploy/logging" (2021-10-25)<a name="0.1.12"></a>
 
 ### Bug Fixes

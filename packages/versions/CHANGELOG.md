@@ -2,6 +2,33 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.16...@monodeploy/versions@3.0.0) "@monodeploy/versions" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Private workspaces are now no longer pruned prior to dependency graph traversal and when considering version strategies for a group. This means you can create a private workspace as a devDependency of other packages and updates to that private workspace will propagate to the dependents with the correct version strategy -- assuming all these packages are in the same group. The private package, although considered when determining the version strategy, is not published. ([3c10414](https://github.com/tophat/monodeploy/commits/3c10414))
+* Monodeploy will now publish the top level workspace if not marked as private, and if a change is detected. This means monodeploy can now be used to publish non-monorepos. ([231029a](https://github.com/tophat/monodeploy/commits/231029a))
+
+### Bug Fixes
+
+* use per-scope fetch registry from .yarnrc.yml, #457 (#458) ([06ea79f](https://github.com/tophat/monodeploy/commits/06ea79f))
+* inconsistent behaviour in experimental conventional config (#459) ([b6af42a](https://github.com/tophat/monodeploy/commits/b6af42a))
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+* apply version strategy to largest version among group (#479) ([72b4feb](https://github.com/tophat/monodeploy/commits/72b4feb))
+* handle prerelease updates off of non-prerelease base (#480) ([40d8f10](https://github.com/tophat/monodeploy/commits/40d8f10))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* consider private workspaces when determining updates (#468) ([3c10414](https://github.com/tophat/monodeploy/commits/3c10414))
+* support publishing the top level workspace (#473) ([231029a](https://github.com/tophat/monodeploy/commits/231029a))
+* deprecate --prepend-changelog in favour of --changelog-filename ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add --apply-changeset cli flag ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add warning when version bump is not applied, close #471 (#486) ([0e1e521](https://github.com/tophat/monodeploy/commits/0e1e521))
+
+
+
+
 ## [0.8.16](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@0.8.15...@monodeploy/versions@0.8.16) "@monodeploy/versions" (2022-04-07)<a name="0.8.16"></a>
 
 ### Bug Fixes

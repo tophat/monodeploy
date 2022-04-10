@@ -2,6 +2,31 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.21...monodeploy@3.0.0) "monodeploy" (2022-04-10)<a name="3.0.0"></a>
+
+### Breaking Changes
+
+* Array CLI argument syntax has changed due to the migration from yargs to clipanion. Instead of '--plugins plugin-a plugin-b', the new syntax is to specify the cli flag per item to yield '--plugins plugin-a --plugins plugin-b'. ([add912b](https://github.com/tophat/monodeploy/commits/add912b))
+
+### Bug Fixes
+
+* prereleaseNPMTag cli argument was not being read ([add912b](https://github.com/tophat/monodeploy/commits/add912b))
+* compatibility with yarn 3.2.0, update dependencies (#474) ([ba475a5](https://github.com/tophat/monodeploy/commits/ba475a5))
+
+### Features
+
+* support grouping packages similar to lerna fixed mode #415 (#453) ([1e8711a](https://github.com/tophat/monodeploy/commits/1e8711a))
+* migrate from yargs to clipanion (#454) ([add912b](https://github.com/tophat/monodeploy/commits/add912b))
+* support for config presets ([5ae6c73](https://github.com/tophat/monodeploy/commits/5ae6c73))
+* monodeploy will auto-detect your monodeploy.config.js file ([5ae6c73](https://github.com/tophat/monodeploy/commits/5ae6c73))
+* support for config presets (#461) ([5ae6c73](https://github.com/tophat/monodeploy/commits/5ae6c73))
+* deprecate --prepend-changelog in favour of --changelog-filename ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add --apply-changeset cli flag ([7e2dc3b](https://github.com/tophat/monodeploy/commits/7e2dc3b))
+* add support for plugin options (#484) ([07fbb70](https://github.com/tophat/monodeploy/commits/07fbb70))
+
+
+
+
 ## [2.8.13](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.12...monodeploy@2.8.13) "monodeploy" (2021-10-25)<a name="2.8.13"></a>
 
 ### Bug Fixes
