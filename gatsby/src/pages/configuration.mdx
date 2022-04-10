@@ -20,13 +20,35 @@ To fine-tune monodeploy, create a `monodeploy.config.js` file and invoke monodep
 yarn monodeploy --config-file monodeploy.config.js
 ```
 
+Note that monodeploy will automatically detect your `monodeploy.config.js` file if named correctly.
+
+You can use a preset configuration as a basis for your monodeploy config, and add either additional config options or CLI flags to extend the preset. For example:
+
+```bash
+yarn monodeploy --dry-run --preset monodeploy/preset-recommended
+```
+
+### Presets
+
+A preset can be a filepath (relative or absolute) or the name of an installed npm package. You can pass a preset via the CLI argument or option directly in your config file. Other options are then merged with the values in the preset. In terms of precedence, CLI flags take highest precedence, followed by config file options, followed by preset values, and then finally the built-in defaults.
+
+The preset should ultimately point to a file which exports a monodeploy configuration. You can also use any of the built-in presets.
+
+#### monodeploy/preset-recommended
+
+```bash
+yarn monodeploy --dry-run --preset monodeploy/preset-recommended
+```
+
+The "recommended" preset differs from the monodeploy default in that it will modify your package.json files, commit the changes, and then automatically push said changes to your remote git repository.
+
 ## Configuration File
 
 If you omit a property, a reasonable default will be used. Note that setting a property to `null` is not always the same as omitting the property (or setting it to `undefined`).
 
 ```js
 module.exports = {
-    autoCommit: true,
+    preset: 'monodeploy/preset-recommended',
     changelogFilename: 'CHANGELOG.md',
 }
 ```

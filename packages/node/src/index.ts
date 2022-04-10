@@ -1,36 +1,44 @@
 import path from 'path'
 
-import { prependChangelogFile, writeChangesetFile } from '@monodeploy/changelog'
-import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
+import { prependChangelogFile } from '@monodeploy/changelog'
+import {
+    backupPackageJsons,
+    clearBackupCache,
+    patchPackageJsons,
+    restorePackageJsons,
+} from '@monodeploy/io'
 import logging from '@monodeploy/logging'
 import {
     commitPublishChanges,
-    createReleaseGitTags,
+    determineGitTags,
     getWorkspacesToPublish,
     publishPackages,
 } from '@monodeploy/publish'
 import type {
     ChangesetSchema,
     MonodeployConfiguration,
-    PackageStrategyMap,
     PackageVersionMap,
     PluginHooks,
     RecursivePartial,
     YarnContext,
 } from '@monodeploy/types'
 import {
-    applyReleases,
+    applyVersionStrategies,
     getExplicitVersionStrategies,
     getImplicitVersionStrategies,
     getLatestPackageTags,
+    mergeVersionStrategies,
 } from '@monodeploy/versions'
 import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 
-import getCompatiblePluginConfiguration from './utils/getCompatiblePluginConfiguration'
-import { getFetchRegistryUrl } from './utils/getRegistryUrl'
-import mergeDefaultConfig from './utils/mergeDefaultConfig'
+import { generateChangeset } from './utils/generateChangeset'
+import { getCompatiblePluginConfiguration } from './utils/getCompatiblePluginConfiguration'
+import { getGitTagsFromChangeset } from './utils/getGitTagsFromChangeset'
+import { mergeDefaultConfig } from './utils/mergeDefaultConfig'
+// import { readChangesetFile } from './utils/readChangesetFile'
+import { writeChangesetFile } from './utils/writeChangesetFile'
 
 const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
@@ -59,17 +67,20 @@ const monodeploy = async (
     }
 
     if (config.plugins?.length) {
-        for (const plugin of config.plugins) {
+        for (const pluginEntry of config.plugins) {
+            const [plugin, pluginOptions] =
+                typeof pluginEntry === 'string' ? [pluginEntry] : pluginEntry
+
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const pluginModule = require(require.resolve(plugin, {
                 paths: [npath.fromPortablePath(cwd)],
             }))
             const pluginConstructor = pluginModule?.default ?? pluginModule
-            pluginConstructor(hooks)
+            pluginConstructor(hooks, pluginOptions)
         }
     }
 
-    let result: ChangesetSchema = {}
+    let changeset: ChangesetSchema = {}
 
     const pipeline = async (report: StreamReport): Promise<void> => {
         const context: YarnContext = {
@@ -87,17 +98,17 @@ const monodeploy = async (
             report,
         })
 
-        const defaultFetchRegistryUrl = await getFetchRegistryUrl({
-            config,
-            context,
-        })
-        logging.debug(`[Config] Default Registry Fetch Url: ${defaultFetchRegistryUrl}`, { report })
+        if (config.applyChangeset) {
+            throw new Error(
+                '[Pre-release] Running monodeploy from a changeset file is NOT supported yet. Exiting early.',
+            )
+            // changeset = await readChangesetFile({ config })
+        }
 
         // Fetch latest package versions for workspaces
         const registryTags = await getLatestPackageTags({
             config,
             context,
-            registryUrl: defaultFetchRegistryUrl,
         })
 
         // Determine version bumps via commit messages
@@ -113,14 +124,12 @@ const monodeploy = async (
             intentionalStrategies,
         })
 
-        const versionStrategies: PackageStrategyMap = new Map([
-            ...intentionalStrategies.entries(),
-            ...implicitVersionStrategies.entries(),
-        ])
-
-        if (!versionStrategies.size) {
-            logging.warning('No packages need to be updated.', { report })
-        }
+        const { versionStrategies, workspaceGroups } = await mergeVersionStrategies({
+            config,
+            context,
+            intentionalStrategies,
+            implicitVersionStrategies,
+        })
 
         // Backup workspace package.jsons
         let backupKey: string | undefined
@@ -129,96 +138,139 @@ const monodeploy = async (
             backupKey = await backupPackageJsons({ config, context })
         }
 
-        try {
-            let workspacesToPublish: Set<Workspace>
+        let versionChanges: {
+            next: PackageVersionMap
+            previous: PackageVersionMap
+        }
 
+        let gitTags: Map<string, string> | undefined
+
+        await report.startTimerPromise(
+            'Determine New Versions',
+            { skipIfEmpty: false },
+            async () => {
+                versionChanges = await applyVersionStrategies({
+                    config,
+                    context,
+                    registryTags,
+                    versionStrategies,
+                    workspaceGroups,
+                })
+            },
+        )
+
+        if (config.git.tag) {
             await report.startTimerPromise(
-                'Fetching Workspace Information',
+                'Determine Git Tags',
                 { skipIfEmpty: false },
                 async () => {
-                    workspacesToPublish = await getWorkspacesToPublish({
-                        context,
-                        versionStrategies,
+                    gitTags = await determineGitTags({
+                        versions: versionChanges.next,
+                        workspaceGroups,
                     })
                 },
             )
+        }
 
-            let versionChanges: {
-                next: PackageVersionMap
-                previous: PackageVersionMap
+        await report.startTimerPromise('Generating Changeset', { skipIfEmpty: false }, async () => {
+            changeset = await generateChangeset({
+                config,
+                context,
+                previousTags: versionChanges.previous,
+                nextTags: versionChanges.next,
+                versionStrategies,
+                gitTags,
+                workspaceGroups,
+            })
+            await writeChangesetFile({ config, context, changeset })
+        })
+
+        let workspaces: Set<Workspace>
+
+        await report.startTimerPromise(
+            'Fetching Workspace Information',
+            { skipIfEmpty: false },
+            async () => {
+                workspaces = await getWorkspacesToPublish({
+                    context,
+                    changeset,
+                })
+            },
+        )
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (!workspaces) {
+            throw new Error(
+                'Workspaces invariant violation. If you are seeing this message, a critical error ' +
+                    'has occurred. Please report this to the GitHub issue tracker.',
+            )
+        }
+
+        await new Promise<void>((resolve) => {
+            if (!workspaces.size) {
+                logging.warning('No packages need to be updated.', { report })
             }
+            resolve()
+        })
 
+        await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
+            await prependChangelogFile({
+                config,
+                context,
+                changeset,
+                workspaces,
+            })
+        })
+
+        try {
+            // Update package.jsons (the main destructive action which requires the backup)
             await report.startTimerPromise(
                 'Patching Package Manifests',
                 { skipIfEmpty: false },
                 async () => {
-                    // Apply releases, and update package.jsons
-                    versionChanges = await applyReleases({
+                    await patchPackageJsons({
                         config,
                         context,
-                        workspaces: workspacesToPublish,
-                        registryTags,
-                        versionStrategies,
+                        workspaces,
+                        registryTags: new Map<string, string>([
+                            ...versionChanges.previous.entries(),
+                            ...versionChanges.next.entries(),
+                        ]),
                     })
                 },
             )
 
-            let createdGitTags: Map<string, string> | undefined
-
+            // We publish to the registry before committing artifacts, because we use the
+            // git tags (usually) to determine whether we should publish. So if publishing fails,
+            // we don't want to have pushed the git tags to the repo, since otherwise we'd have to revert
+            // those changes which are a hassle in an automated pipeline.
             await report.startTimerPromise(
                 'Publishing Packages',
                 { skipIfEmpty: false },
                 async () => {
-                    // Publish (+ Git Tags)
                     await publishPackages({
                         config,
                         context,
-                        workspacesToPublish,
-                    })
-
-                    if (config.git.tag) {
-                        // Create tags
-                        createdGitTags = await createReleaseGitTags({
-                            config,
-                            context,
-                            versions: versionChanges.next,
-                        })
-                    }
-                },
-            )
-
-            await report.startTimerPromise(
-                'Updating Change Files',
-                { skipIfEmpty: false },
-                async () => {
-                    result = await writeChangesetFile({
-                        config,
-                        context,
-                        previousTags: versionChanges.previous,
-                        nextTags: versionChanges.next,
-                        versionStrategies,
-                        createdGitTags,
-                    })
-
-                    await prependChangelogFile({
-                        config,
-                        context,
-                        changeset: result,
-                        workspaces: workspacesToPublish,
+                        workspaces,
                     })
                 },
             )
 
-            // After patching the manifests, there may be an inconsistency between what's on
-            // disk and what's in memory. We need to re-sync these states.
-            project = (await Project.find(configuration, cwd)).project
-            await project.restoreInstallState()
+            if (workspaces.size) {
+                // After patching the manifests, there may be an inconsistency between what's on
+                // disk and what's in memory. We need to re-sync these states.
+                project = (await Project.find(configuration, cwd)).project
+                await project.restoreInstallState()
+            }
 
             if (config.persistVersions) {
                 await report.startTimerPromise(
                     'Updating Project State',
                     { skipIfEmpty: false },
                     async () => {
+                        if (!workspaces.size) return
+
                         logging.debug('Re-installing project to update lock file.', { report })
                         if (!config.dryRun) {
                             await project.install({
@@ -235,19 +287,20 @@ const monodeploy = async (
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
-                    if (versionStrategies.size) {
-                        await commitPublishChanges({
-                            config,
-                            context,
-                        })
-                    }
+                    if (!workspaces.size) return
+
+                    await commitPublishChanges({
+                        config,
+                        context,
+                        gitTags: getGitTagsFromChangeset(changeset),
+                    })
                 },
             )
 
             await report.startTimerPromise(
                 'Executing Release Hooks',
                 { skipIfEmpty: true },
-                async () => await hooks.onReleaseAvailable.promise(context, config, result),
+                async () => await hooks.onReleaseAvailable.promise(context, config, changeset),
             )
 
             logging.info('Monodeploy completed successfully', { report })
@@ -282,7 +335,7 @@ const monodeploy = async (
         throw new Error('Monodeploy failed')
     }
 
-    return result
+    return changeset
 }
 
 export default monodeploy

@@ -11,8 +11,10 @@
   "publishConfig": {
     "main": "./lib/index.js",
     "registry": "https://registry.npmjs.org/",
-    "types": "./lib/index.d.ts"
+    "types": "./lib/index.d.ts",
+    "access": "public"
   },
+  "group": "monodeploy",
   "files": [
     "lib"
   ],
@@ -34,11 +36,11 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@yarnpkg/cli": "^3.1.1",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "@yarnpkg/plugin-npm": "^2.6.0",
-    "@yarnpkg/plugin-pack": "^3.1.0"
+    "@yarnpkg/cli": "^3.2.0",
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "@yarnpkg/plugin-npm": "^2.7.0",
+    "@yarnpkg/plugin-pack": "^3.1.1"
   },
   "peerDependencies": {
     "@monodeploy/dependencies": "workspace:^0.3.12",
@@ -46,10 +48,10 @@
     "@monodeploy/io": "workspace:^0.4.1",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.5",
-    "@yarnpkg/cli": "^3.1.1",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "@yarnpkg/plugin-npm": "^2.6.0",
-    "@yarnpkg/plugin-pack": "^3.1.0"
+    "@yarnpkg/cli": "^3.2.0",
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "@yarnpkg/plugin-npm": "^2.7.0",
+    "@yarnpkg/plugin-pack": "^3.1.1"
   }
 }

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const TypeDoc = require('typedoc')
+import * as TypeDoc from 'typedoc'
 
 async function main() {
     const app = new TypeDoc.Application()
@@ -10,7 +9,7 @@ async function main() {
 
     app.bootstrap({
         // typedoc options here
-        entryPoints: ['./src'],
+        entryPoints: ['./src/types.ts'],
         exclude: [],
     })
 

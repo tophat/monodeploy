@@ -53,7 +53,7 @@ describe('@monodeploy/dependencies', () => {
         expect(dependents).toEqual(new Set(['pkg-6']))
     })
 
-    it('Ignores private dependents', async () => {
+    it('Considers private dependents', async () => {
         const config = await getMonodeployConfig({
             cwd: context.project.cwd,
             baseBranch: 'main',
@@ -62,7 +62,7 @@ describe('@monodeploy/dependencies', () => {
 
         // pkg-5 is a private dependent of pk-4
         const dependents = await getDependents(config, context, new Set(['pkg-4']))
-        expect(dependents).toEqual(new Set())
+        expect(dependents).toEqual(new Set(['pkg-5']))
     })
 
     it('Only counts dependents once', async () => {

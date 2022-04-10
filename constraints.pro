@@ -65,3 +65,10 @@ gen_enforced_dependency(WorkspaceCwd, YarnDependencyIdent, null, 'dependencies')
       workspace_field(WorkspaceCwd, 'name', 'monodeploy');
       workspace_field(WorkspaceCwd, 'name', '@monodeploy/node')
     ).
+
+gen_enforced_field(WorkspaceCwd, 'repository.type', 'git') :- \+ workspace_field(WorkspaceCwd, 'private', 'true').
+gen_enforced_field(WorkspaceCwd, 'repository.url', 'https://github.com/tophat/monodeploy.git') :- \+ workspace_field(WorkspaceCwd, 'private', 'true').
+gen_enforced_field(WorkspaceCwd, 'repository.directory', WorkspaceCwd) :- \+ workspace_field(WorkspaceCwd, 'private', 'true').
+
+gen_enforced_field(WorkspaceCwd, 'publishConfig.registry', 'https://registry.npmjs.org/') :- \+ workspace_field(WorkspaceCwd, 'private', 'true').
+gen_enforced_field(WorkspaceCwd, 'publishConfig.access', 'public') :- \+ workspace_field(WorkspaceCwd, 'private', 'true').

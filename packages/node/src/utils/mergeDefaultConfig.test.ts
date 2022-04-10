@@ -3,7 +3,7 @@ import { LOG_LEVELS } from '@monodeploy/logging'
 import { MonodeployConfiguration } from '@monodeploy/types'
 import * as npm from '@yarnpkg/plugin-npm'
 
-import mergeDefaultConfig from './mergeDefaultConfig'
+import { mergeDefaultConfig } from './mergeDefaultConfig'
 
 jest.mock('@yarnpkg/plugin-npm')
 jest.mock('@monodeploy/git')
@@ -46,6 +46,7 @@ describe('Config Merging', () => {
 
     it('uses supplied config', async () => {
         const config: MonodeployConfiguration = {
+            applyChangeset: true,
             cwd: '/tmp',
             registryUrl: 'https://registry.example/',
             dryRun: true,
@@ -76,6 +77,7 @@ describe('Config Merging', () => {
             prereleaseId: 'rc',
             prereleaseNPMTag: 'beta',
             commitIgnorePatterns: ['\\[skip-ci\\]'],
+            packageGroupManifestField: 'group',
         }
 
         const merged = await mergeDefaultConfig(config)

@@ -10,11 +10,21 @@
   "license": "Apache-2.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "bin": "./lib/cli.js",
-    "main": "./lib/cli.js"
+    "bin": "./lib/index.js",
+    "main": "./lib/index.js",
+    "access": "public",
+    "exports": {
+      ".": "./lib/index.js",
+      "./preset-recommended": "./lib/presets/recommended.js"
+    }
   },
-  "bin": "./src/cli.ts",
-  "main": "./src/cli.ts",
+  "group": "monodeploy",
+  "bin": "./src/index.ts",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./preset-recommended": "./src/presets/recommended.ts"
+  },
   "files": [
     "lib"
   ],
@@ -26,16 +36,16 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/node": "^14.17.14",
-    "@types/yargs": "^16.0.0"
+    "@types/node": "^14.17.14"
   },
   "dependencies": {
     "@monodeploy/node": "workspace:^0.12.2",
     "@monodeploy/types": "workspace:^0.10.5",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "ajv": "^8.6.1",
-    "yargs": "^16.2.0"
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "ajv": "^8.11.0",
+    "clipanion": "^3.2.0-rc.10",
+    "typanion": "^3.7.1"
   },
   "engines": {
     "node": ">=14.0.0"

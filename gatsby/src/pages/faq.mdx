@@ -31,7 +31,23 @@ In addition to the version strategies associated with packages explicitly modifi
 
 As an added benefit, downstream projects using systems like Renovate or Dependabot, will also receive updates for Package-A that will bring in the updated Package-B.
 
-If there is a use case where you believe this behaviour is unwarranted, please open an issue and we'll be glad to discuss.
+If there is a use case where you believe this behaviour is does not make sense, please open an issue and we'll be glad to discuss.
+
+Note that when using package groups (equivalent of Lerna's fixed mode), the highest version strategy from among each group is chosen. In this case, you may find a dependent package with a minor or even major version bump, assuming such a strategy exists for an intentional bump within said group.
+
+### How does Monodeploy handle private packages?
+
+Private packages, i.e. packages containing a `private: true` field in their manifest, are includes as part of dependency graph traversal and in determining version strategies, but are not published to any registry. Monodeploy filters out private packages from git tag creation as well.
+
+Note that the top level workspace is a special case. It is neither published, nor considered part of the dependency graph. In other words, all dependency paths are terminated at the top level workspace rather than traverse through this workspace.
+
+### How can I manually trigger a release (i.e. ignore commits)?
+
+Monodeploy is intended to be entirely automated based on semantic commits. As a result we have not prioritized any manual modes. If manual releases are what you prefer, you may be more interested in the official Yarn Version Plugin. Otherwise, feel free to open a GitHub issue to discuss.
+
+### How can I achieve behaviour similar to Lerna's fixed version mode?
+
+Starting in Monodeploy v3, fixed version mode can be achieved by setting the `packageGroupManifestField` in your monodeploy configuration, or via the CLI argument. This config option should be set to some field in each workspace's manifest file to indicate fixed version grouping. For example, you can add a "group" field set to "components" for some workspaces and "utils" for other workspaces. Monodeploy will then ensure all workspaces with changes (or dependent changes) in the "components" group have the same version bump. To achieve fixed versioning of all workspaces, you need to specify a field that all workspaces have in common. You can also enforce this with the use of the Yarn Constraints plugin.
 
 ### How does Monodeploy differ from:
 

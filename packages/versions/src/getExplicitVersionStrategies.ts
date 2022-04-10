@@ -60,8 +60,9 @@ const getModifiedPackages = async ({
                     )
                     const ident = workspace?.manifest?.name
                     if (!ident) throw new Error('Missing workspace identity.')
+
                     const packageName = structUtils.stringifyIdent(ident)
-                    if (packageName && !workspace.manifest.private) {
+                    if (packageName) {
                         modifiedPackages.push(packageName)
                     }
                 } catch (err) {
@@ -115,9 +116,17 @@ const getExplicitVersionStrategies = async ({
             const previousVersionStrategy = versionStrategies.get(pkgName)
 
             versionStrategies.set(pkgName, {
-                type: await maxStrategy(previousVersionStrategy?.type, strategy),
+                type: maxStrategy(previousVersionStrategy?.type, strategy),
                 commits: [commit, ...(previousVersionStrategy?.commits ?? [])],
             })
+        }
+
+        if (strategy && !packageNames.length) {
+            logging.warning(
+                `[Explicit Version Strategies] The commit "${commit.sha}" indicates a version bump, however ` +
+                    'no modified packages were detected. This typically implies a user error.',
+                { report: context.report },
+            )
         }
     }
 

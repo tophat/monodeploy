@@ -2,7 +2,7 @@ import { gitResolveSha } from '@monodeploy/git'
 import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
-const mergeDefaultConfig = async (
+export const mergeDefaultConfig = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<MonodeployConfiguration> => {
     const cwd = npath.fromPortablePath(baseConfig.cwd ?? process.cwd())
@@ -22,10 +22,11 @@ const mergeDefaultConfig = async (
         },
         conventionalChangelogConfig: baseConfig.conventionalChangelogConfig ?? undefined,
         changesetFilename: baseConfig.changesetFilename ?? undefined,
+        applyChangeset: baseConfig.applyChangeset ?? false,
         changelogFilename: baseConfig.changelogFilename ?? undefined,
         changesetIgnorePatterns: baseConfig.changesetIgnorePatterns ?? [],
         forceWriteChangeFiles: baseConfig.forceWriteChangeFiles ?? false,
-        access: baseConfig.access ?? 'public',
+        access: baseConfig.access ?? 'infer',
         persistVersions: baseConfig.persistVersions ?? false,
         autoCommit: baseConfig.autoCommit ?? false,
         autoCommitMessage: baseConfig.autoCommitMessage ?? 'chore: release [skip ci]',
@@ -39,7 +40,6 @@ const mergeDefaultConfig = async (
         prerelease,
         prereleaseId: baseConfig.prereleaseId ?? 'rc',
         prereleaseNPMTag: baseConfig.prereleaseNPMTag ?? 'next',
+        packageGroupManifestField: baseConfig.packageGroupManifestField ?? undefined,
     }
 }
-
-export default mergeDefaultConfig

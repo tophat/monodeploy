@@ -4,7 +4,7 @@ import path from 'path'
 
 import monodeploy from '@monodeploy/node'
 
-const scriptPath = path.join(__dirname, 'cli.ts')
+const scriptPath = path.join(__dirname, 'index.ts')
 
 jest.mock('@monodeploy/node', () => ({
     __esModule: true,
@@ -33,21 +33,22 @@ describe('CLI', () => {
                 '--registry-url http://example.com --no-registry --cwd /tmp --dry-run ' +
                     '--git-base-branch main --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
-                    '--changeset-filename changes.json --prepend-changelog changelog.md --force-write-change-files ' +
+                    '--changeset-filename changes.json --changelog-filename changelog.md --force-write-change-files ' +
                     '--push --persist-versions --access infer --topological --topological-dev --jobs 6 ' +
-                    '--auto-commit --auto-commit-message release --plugins plugin-a plugin-b ' +
+                    '--auto-commit --auto-commit-message release --plugins plugin-a --plugins plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag ' +
-                    '--changeset-ignore-patterns "*.test.js" --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
-                    '--commit-ignore-patterns "skip-ci"',
+                    '--changeset-ignore-patterns *.test.js --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
+                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group --apply-changeset',
             )
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                 .toMatchInlineSnapshot(`
                 Object {
                   "access": "infer",
+                  "applyChangeset": true,
                   "autoCommit": true,
                   "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
@@ -73,6 +74,7 @@ describe('CLI', () => {
                   "maxConcurrentReads": 3,
                   "maxConcurrentWrites": 4,
                   "noRegistry": true,
+                  "packageGroupManifestField": "group",
                   "persistVersions": true,
                   "plugins": Array [
                     "plugin-a",
@@ -80,7 +82,7 @@ describe('CLI', () => {
                   ],
                   "prerelease": true,
                   "prereleaseId": "rc",
-                  "prereleaseNPMTag": undefined,
+                  "prereleaseNPMTag": "beta",
                   "registryUrl": "http://example.com",
                   "topological": true,
                   "topologicalDev": true,
@@ -91,13 +93,14 @@ describe('CLI', () => {
         it('passes empty config if no cli flags set', async () => {
             setArgs('')
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                 .toMatchInlineSnapshot(`
                 Object {
                   "access": undefined,
+                  "applyChangeset": false,
                   "autoCommit": undefined,
                   "autoCommitMessage": undefined,
                   "changelogFilename": undefined,
@@ -119,6 +122,7 @@ describe('CLI', () => {
                   "maxConcurrentReads": 0,
                   "maxConcurrentWrites": 0,
                   "noRegistry": undefined,
+                  "packageGroupManifestField": undefined,
                   "persistVersions": undefined,
                   "plugins": undefined,
                   "prerelease": undefined,
@@ -142,10 +146,10 @@ describe('CLI', () => {
             })
             setArgs('')
             jest.isolateModules(() => {
-                require('./cli')
+                require('./index')
             })
             await new Promise((r) => setTimeout(r))
-            expect(spyError).toHaveBeenCalledWith(error)
+            expect(spyError).toHaveBeenCalledWith(String(error))
             expect(process.exitCode).toBe(1)
             spyError.mockRestore()
             process.exitCode = prevExitCode
@@ -170,7 +174,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
@@ -198,7 +202,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
@@ -250,13 +254,14 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ${configFilename}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -280,6 +285,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 3,
                       "maxConcurrentWrites": 5,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": true,
                       "plugins": Array [
                         "plugin-a",
@@ -336,7 +342,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
@@ -344,6 +350,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "restricted",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -368,6 +375,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 6,
                       "maxConcurrentWrites": 2,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": false,
@@ -408,6 +416,7 @@ describe('CLI', () => {
                     topologicalDev: true,
                     maxConcurrentReads: 2,
                     maxConcurrentWrites: 1,
+                    packageGroupManifestField: 'group',
                 }
             `
 
@@ -417,7 +426,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
@@ -425,6 +434,7 @@ describe('CLI', () => {
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
@@ -449,11 +459,103 @@ describe('CLI', () => {
                       "maxConcurrentReads": 2,
                       "maxConcurrentWrites": 1,
                       "noRegistry": false,
+                      "packageGroupManifestField": "group",
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": undefined,
                       "prereleaseId": undefined,
                       "prereleaseNPMTag": undefined,
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('reads from monodeploy.config.js by default if it exists', async () => {
+            const configFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    autoCommit: true,
+                    autoCommitMessage: 'chore: release',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    git: {
+                        baseBranch: 'main',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                        tag: true,
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                    maxConcurrentReads: 3,
+                    maxConcurrentWrites: 5,
+                    plugins: ['plugin-a', 'plugin-b'],
+                    prerelease: true,
+                    prereleaseId: 'alpha',
+                    prereleaseNPMTag: 'beta',
+                    commitIgnorePatterns: ['skip-ci'],
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--cwd ${dir}`)
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "applyChangeset": false,
+                      "autoCommit": true,
+                      "autoCommitMessage": "chore: release",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": undefined,
+                      "commitIgnorePatterns": Array [
+                        "skip-ci",
+                      ],
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "main",
+                        "commitSha": "HEAD",
+                        "push": true,
+                        "remote": "origin",
+                        "tag": true,
+                      },
+                      "jobs": 6,
+                      "maxConcurrentReads": 3,
+                      "maxConcurrentWrites": 5,
+                      "noRegistry": false,
+                      "packageGroupManifestField": undefined,
+                      "persistVersions": true,
+                      "plugins": Array [
+                        "plugin-a",
+                        "plugin-b",
+                      ],
+                      "prerelease": true,
+                      "prereleaseId": "alpha",
+                      "prereleaseNPMTag": "beta",
                       "registryUrl": "http://example.com",
                       "topological": true,
                       "topologicalDev": true,
@@ -493,6 +595,7 @@ describe('CLI', () => {
                 prerelease: true,
                 prereleaseId: 'beta',
                 commitIgnorePatterns: ['skip-ci'],
+                packageGroupManifestField: 'group',
             }
         `
 
@@ -501,16 +604,17 @@ describe('CLI', () => {
                 const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns "ignore-me"`,
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me`,
                 )
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -534,6 +638,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 10,
                       "maxConcurrentWrites": 11,
                       "noRegistry": false,
+                      "packageGroupManifestField": "group",
                       "persistVersions": true,
                       "plugins": undefined,
                       "prerelease": true,
@@ -589,13 +694,14 @@ describe('CLI', () => {
                         '--no-topological --no-topological-dev --no-persist-versions',
                 )
                 jest.isolateModules(() => {
-                    require('./cli')
+                    require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
                     Object {
                       "access": "public",
+                      "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
@@ -617,6 +723,7 @@ describe('CLI', () => {
                       "maxConcurrentReads": 10,
                       "maxConcurrentWrites": 11,
                       "noRegistry": false,
+                      "packageGroupManifestField": undefined,
                       "persistVersions": false,
                       "plugins": undefined,
                       "prerelease": false,
@@ -625,6 +732,368 @@ describe('CLI', () => {
                       "registryUrl": "http://example.com",
                       "topological": false,
                       "topologicalDev": false,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+    })
+
+    describe('Presets', () => {
+        it('throws an error if unable to read the preset file', async () => {
+            const prevExitCode = process.exitCode ?? 0
+            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
+                /* ignore */
+            })
+
+            const configFileContents = `
+                module.exports = { preset: './preset.js', git: { baseBranch: 'main' } }
+            `
+
+            const presetFileContents = `
+                invalid_javascript{} = {
+                    invalid code
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const presetFilename = path.resolve(path.join(dir, 'preset.js'))
+                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ${configFilename}`)
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                expect(spyError).toHaveBeenCalled()
+                expect(process.exitCode).toBe(1)
+                spyError.mockRestore()
+                process.exitCode = prevExitCode
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('throws an error if invalid configuration', async () => {
+            const prevExitCode = process.exitCode ?? 0
+            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
+                /* ignore */
+            })
+
+            const configFileContents = `
+                module.exports = { preset: './preset.js', git: { baseBranch: true } }
+            `
+
+            const presetFileContents = `
+                module.exports = { git: { baseBranch: true } }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const presetFilename = path.resolve(path.join(dir, 'preset.js'))
+                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ${configFilename}`)
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                expect(spyError).toHaveBeenCalled()
+                expect(process.exitCode).toBe(1)
+                spyError.mockRestore()
+                process.exitCode = prevExitCode
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('merges preset with overrides, defined in config file', async () => {
+            const presetFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    changesetIgnorePatterns: ['*.test.js', '*.snap'],
+                    git: {
+                        baseBranch: 'main-1',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                        tag: false,
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                    maxConcurrentReads: 2,
+                    maxConcurrentWrites: 1,
+                    packageGroupManifestField: 'group',
+                }
+            `
+
+            const configFileContents = `
+                module.exports = {
+                    preset: './some-preset.js',
+                    access: 'infer',
+                    changesetIgnorePatterns: ['*.snap'],
+                    git: {
+                        push: false,
+                        remote: 'upstream',
+                    },
+                    jobs: 2,
+                    maxConcurrentReads: 0,
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const presetFilename = path.resolve(path.join(dir, 'some-preset.js'))
+                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "infer",
+                      "applyChangeset": false,
+                      "autoCommit": undefined,
+                      "autoCommitMessage": undefined,
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": Array [
+                        "*.snap",
+                      ],
+                      "commitIgnorePatterns": undefined,
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "main-1",
+                        "commitSha": "HEAD",
+                        "push": false,
+                        "remote": "upstream",
+                        "tag": false,
+                      },
+                      "jobs": 2,
+                      "maxConcurrentReads": 0,
+                      "maxConcurrentWrites": 1,
+                      "noRegistry": false,
+                      "packageGroupManifestField": "group",
+                      "persistVersions": true,
+                      "plugins": undefined,
+                      "prerelease": undefined,
+                      "prereleaseId": undefined,
+                      "prereleaseNPMTag": undefined,
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('merges preset with overrides, with preset passed as cli arg', async () => {
+            const presetFileContents = `
+                module.exports = {
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    changesetIgnorePatterns: ['*.test.js', '*.snap'],
+                    git: {
+                        baseBranch: 'main-1',
+                        commitSha: 'HEAD',
+                        push: true,
+                        remote: 'origin',
+                        tag: false,
+                    },
+                    jobs: 6,
+                    persistVersions: true,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                    maxConcurrentReads: 2,
+                    maxConcurrentWrites: 1,
+                    packageGroupManifestField: 'group',
+                }
+            `
+
+            const configFileContents = `
+                module.exports = {
+                    access: 'infer',
+                    changesetIgnorePatterns: ['*.snap'],
+                    git: {
+                        push: false,
+                        remote: 'upstream',
+                    },
+                    jobs: 2,
+                    maxConcurrentReads: 0,
+                }
+            `
+
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            try {
+                const presetFilename = path.resolve(path.join(dir, 'some-preset.js'))
+                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(
+                    `--config-file ./monodeploy.config.js --preset ./some-preset.js --cwd ${dir}`,
+                )
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "infer",
+                      "applyChangeset": false,
+                      "autoCommit": undefined,
+                      "autoCommitMessage": undefined,
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": Array [
+                        "*.snap",
+                      ],
+                      "commitIgnorePatterns": undefined,
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "main-1",
+                        "commitSha": "HEAD",
+                        "push": false,
+                        "remote": "upstream",
+                        "tag": false,
+                      },
+                      "jobs": 2,
+                      "maxConcurrentReads": 0,
+                      "maxConcurrentWrites": 1,
+                      "noRegistry": false,
+                      "packageGroupManifestField": "group",
+                      "persistVersions": true,
+                      "plugins": undefined,
+                      "prerelease": undefined,
+                      "prereleaseId": undefined,
+                      "prereleaseNPMTag": undefined,
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
+                    }
+                `)
+            } finally {
+                await fs.rm(dir, { recursive: true, force: true })
+            }
+        })
+
+        it('reads built-in presets', async () => {
+            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+
+            const configFileContents = `
+                module.exports = {
+                    preset: 'monodeploy/preset-recommended',
+                    access: 'public',
+                    changelogFilename: 'from_file.changelog.md',
+                    changesetFilename: 'from_file.changes.json',
+                    conventionalChangelogConfig: '@my/config-from-file',
+                    autoCommitMessage: 'chore: release',
+                    dryRun: true,
+                    forceWriteChangeFiles: true,
+                    git: {
+                        baseBranch: 'main',
+                        commitSha: 'HEAD',
+                        remote: 'origin',
+                        tag: true,
+                    },
+                    jobs: 6,
+                    registryUrl: 'http://example.com',
+                    noRegistry: false,
+                    topological: true,
+                    topologicalDev: true,
+                    maxConcurrentReads: 3,
+                    maxConcurrentWrites: 5,
+                    plugins: ['plugin-a', 'plugin-b'],
+                    prerelease: true,
+                    prereleaseId: 'alpha',
+                    prereleaseNPMTag: 'beta',
+                }
+            `
+
+            try {
+                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
+                await fs.writeFile(configFilename, configFileContents, 'utf-8')
+                setArgs(`--cwd ${dir}`)
+                jest.isolateModules(() => {
+                    require('./index')
+                })
+                await new Promise((r) => setTimeout(r))
+                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
+                    .calls[0][0]
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
+                    Object {
+                      "access": "public",
+                      "applyChangeset": false,
+                      "autoCommit": true,
+                      "autoCommitMessage": "chore: release",
+                      "changelogFilename": "from_file.changelog.md",
+                      "changesetFilename": "from_file.changes.json",
+                      "changesetIgnorePatterns": Array [
+                        "**/*.test.ts",
+                        "**/*.test.js",
+                      ],
+                      "commitIgnorePatterns": undefined,
+                      "conventionalChangelogConfig": "@my/config-from-file",
+                      "cwd": "/tmp/cwd",
+                      "dryRun": true,
+                      "forceWriteChangeFiles": true,
+                      "git": Object {
+                        "baseBranch": "main",
+                        "commitSha": "HEAD",
+                        "push": true,
+                        "remote": "origin",
+                        "tag": true,
+                      },
+                      "jobs": 6,
+                      "maxConcurrentReads": 3,
+                      "maxConcurrentWrites": 5,
+                      "noRegistry": false,
+                      "packageGroupManifestField": undefined,
+                      "persistVersions": true,
+                      "plugins": Array [
+                        "plugin-a",
+                        "plugin-b",
+                      ],
+                      "prerelease": true,
+                      "prereleaseId": "alpha",
+                      "prereleaseNPMTag": "beta",
+                      "registryUrl": "http://example.com",
+                      "topological": true,
+                      "topologicalDev": true,
                     }
                 `)
             } finally {

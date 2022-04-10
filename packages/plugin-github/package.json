@@ -11,7 +11,8 @@
   "publishConfig": {
     "main": "./lib/index.js",
     "registry": "https://registry.npmjs.org/",
-    "types": "./lib/index.d.ts"
+    "types": "./lib/index.d.ts",
+    "access": "public"
   },
   "main": "./src/index.ts",
   "files": [
@@ -27,17 +28,17 @@
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
     "@types/node": "^14.17.14",
-    "tapable": "^2.2.0"
+    "tapable": "^2.2.1"
   },
   "dependencies": {
     "@monodeploy/git": "workspace:^0.4.3",
     "@monodeploy/io": "workspace:^0.4.1",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.5",
-    "@octokit/core": "^3.4.0",
-    "@octokit/plugin-throttling": "^3.4.1",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "@yarnpkg/shell": "^3.1.0"
+    "@octokit/core": "^3.6.0",
+    "@octokit/plugin-throttling": "^3.6.1",
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "@yarnpkg/shell": "^3.2.0"
   }
 }

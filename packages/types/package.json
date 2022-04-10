@@ -12,8 +12,10 @@
   "publishConfig": {
     "main": "./lib/types.js",
     "types": "./lib/types.d.ts",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
+  "group": "monodeploy",
   "files": [
     "lib"
   ],
@@ -23,17 +25,19 @@
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\"",
-    "docs": "node ./generateDocs.js"
+    "docs": "ts-node --transpile-only ./generateDocs.ts"
   },
   "dependencies": {
-    "tapable": "^2.2.0"
+    "tapable": "^2.2.1"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.1.0"
+    "@yarnpkg/core": "^3.2.0"
   },
   "devDependencies": {
-    "@yarnpkg/core": "^3.1.0",
-    "typedoc": "^0.21.4",
-    "typescript": "~4.4.2"
+    "@types/node": "^14.17.14",
+    "@yarnpkg/core": "^3.2.0",
+    "ts-node": "^10.7.0",
+    "typedoc": "^0.22.14",
+    "typescript": "~4.6.3"
   }
 }

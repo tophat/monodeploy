@@ -188,7 +188,7 @@ jobs:
     strategy:
       matrix:
         runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
-        node_version: ['16']
+        node_version: ['14']
     steps:
         - uses: actions/checkout@v2
           with:
@@ -262,9 +262,10 @@ jobs:
               --log-level 0 \
               --git-base-branch origin/${{ github.base_ref }} \
               --conventional-changelog-config @tophat/conventional-changelog-config \
-              --prepend-changelog ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
+              --changelog-filename ${{ env.ARTIFACT_DIR }}/CHANGELOG.md \
               --force-write-change-files \
-              --changeset-ignore-patterns '**/*.test.ts'
+              --changeset-ignore-patterns '**/*.test.ts' \
+              --package-group-manifest-field group
 
             changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
             changelog_body="${changelog_body//'%'/'%25'}"

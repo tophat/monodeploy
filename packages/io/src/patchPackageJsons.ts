@@ -2,12 +2,17 @@ import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@m
 import { Descriptor, Manifest, Report, Workspace, structUtils } from '@yarnpkg/core'
 import { ppath, xfs } from '@yarnpkg/fslib'
 
-const patchPackageJsons = async (
-    config: MonodeployConfiguration,
-    context: YarnContext,
-    workspaces: Set<Workspace>,
-    registryTags: PackageVersionMap,
-): Promise<void> => {
+const patchPackageJsons = async ({
+    config,
+    context,
+    workspaces,
+    registryTags,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    workspaces: Set<Workspace>
+    registryTags: PackageVersionMap
+}): Promise<void> => {
     const regenerateManifestRaw = async (workspace: Workspace): Promise<void> => {
         const data = {}
         workspace.manifest.exportTo(data)

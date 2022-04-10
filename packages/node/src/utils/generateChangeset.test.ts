@@ -8,9 +8,9 @@ import {
 } from '@monodeploy/test-utils'
 import { PortablePath } from '@yarnpkg/fslib'
 
-import { writeChangesetFile } from '.'
+import { generateChangeset } from './generateChangeset'
 
-describe('writeChangesetFile', () => {
+describe('generateChangeset', () => {
     let workspacePath: PortablePath
 
     beforeEach(async () => {
@@ -32,12 +32,12 @@ describe('writeChangesetFile', () => {
             })),
             changesetFilename: undefined,
             conventionalChangelogConfig: path.resolve(
-                path.join(__dirname, '..', 'mocks', 'conventional-config-fn.mock.ts'),
+                path.join(__dirname, '..', '..', 'mocks', 'conventional-config-fn.mock.ts'),
             ),
         }
         const context = await setupContext(cwd)
 
-        const changeset = await writeChangesetFile({
+        const changeset = await generateChangeset({
             config,
             context,
             previousTags: new Map([
@@ -69,9 +69,13 @@ describe('writeChangesetFile', () => {
                     },
                 ],
             ]),
-            createdGitTags: new Map([
+            gitTags: new Map([
                 ['pkg-1', 'pkg-1@2.0.0'],
                 ['pkg-2', 'pkg-1@4.6.0'],
+            ]),
+            workspaceGroups: new Map([
+                ['pkg-1', new Set(['pkg-1'])],
+                ['pkg-2', new Set(['pkg-2'])],
             ]),
         })
 
@@ -83,6 +87,7 @@ describe('writeChangesetFile', () => {
                     strategy: 'major',
                     tag: 'pkg-1@2.0.0',
                     version: '2.0.0',
+                    group: 'pkg-1',
                 },
                 'pkg-2': {
                     changelog: expect.stringContaining('fancy change'),
@@ -90,6 +95,7 @@ describe('writeChangesetFile', () => {
                     strategy: 'minor',
                     tag: 'pkg-1@4.6.0',
                     version: '4.6.0',
+                    group: 'pkg-2',
                 },
             }),
         )

@@ -15,35 +15,41 @@ async function writeJSON(filename: string, data: Record<string, unknown>): Promi
 }
 
 async function makeDependencyMap(
-    packages: Array<string | [string, string]>,
+    packages: Record<string, string> | Array<string | [string, string]>,
     { useRelativePath = true }: { useRelativePath?: boolean } = {},
 ): Promise<Record<string, string>> {
     const dependencies: Record<string, string> = {}
-    for (const pkg of packages) {
-        if (Array.isArray(pkg)) {
-            dependencies[pkg[0]] = pkg[1]
-        } else {
-            dependencies[pkg] = useRelativePath
-                ? `workspace:packages/${structUtils.parseIdent(pkg).name}`
-                : 'workspace:*'
+    if (Array.isArray(packages)) {
+        for (const pkg of packages) {
+            if (Array.isArray(pkg)) {
+                dependencies[pkg[0]] = pkg[1]
+            } else {
+                dependencies[pkg] = useRelativePath
+                    ? `workspace:packages/${structUtils.parseIdent(pkg).name}`
+                    : 'workspace:*'
+            }
         }
+    } else {
+        return { ...packages }
     }
     return dependencies
 }
 
 type PackageInitConfiguration = Partial<{
-    dependencies: Array<string | [string, string]>
-    devDependencies: Array<string | [string, string]>
-    peerDependencies: Array<string | [string, string]>
+    dependencies: Record<string, string> | Array<string | [string, string]>
+    devDependencies: Record<string, string> | Array<string | [string, string]>
+    peerDependencies: Record<string, string> | Array<string | [string, string]>
     scripts: Record<string, string>
     private: boolean
     version: string
+    raw?: Record<string, any>
 }>
 
-type ProjectRootInitConfiguration = Partial<{
-    dependencies: Record<string, string | [string, string]>
-    repository: string
-}>
+type ProjectRootInitConfiguration = PackageInitConfiguration &
+    Partial<{
+        name?: string
+        repository: string
+    }>
 
 export default async function setupMonorepo(
     monorepo: Record<string, PackageInitConfiguration>,
@@ -59,11 +65,15 @@ export default async function setupMonorepo(
 
     // Generate root package.json
     await writeJSON(path.join(workingDir, 'package.json'), {
-        name: 'monorepo',
-        private: true,
-        version: '1.0.0',
-        workspaces: ['packages/*'],
-        dependencies: root?.dependencies ?? {},
+        name: root?.name ?? 'monorepo',
+        private: root?.private ?? true,
+        version: root?.version ?? '1.0.0',
+        workspaces: Object.keys(monorepo).length ? ['packages/*'] : undefined,
+        dependencies: await makeDependencyMap(root?.dependencies ?? []),
+        devDependencies: await makeDependencyMap(root?.devDependencies ?? []),
+        peerDependencies: await makeDependencyMap(root?.peerDependencies ?? [], {
+            useRelativePath: false,
+        }),
         repository: root?.repository,
     })
 
@@ -82,13 +92,14 @@ export default async function setupMonorepo(
             peerDependencies: await makeDependencyMap(pkgConfig.peerDependencies ?? [], {
                 useRelativePath: false,
             }),
+            ...pkgConfig.raw,
         })
     }
 
     // Generate .yarnrc.yml
     const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
     await fs.mkdir(releasesDir, { recursive: true })
-    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.1.1.cjs'))
+    const yarnBinary = path.resolve(path.join(releasesDir, 'yarn-3.2.0.cjs'))
     await fs.symlink(yarnBinary, path.join(workingDir, 'run-yarn.cjs'))
 
     const authIdent = Buffer.from('test-user:test-password').toString('base64')
@@ -98,6 +109,7 @@ export default async function setupMonorepo(
             'yarnPath: ./run-yarn.cjs',
             `nodeLinker: ${nodeLinker}`,
             'enableGlobalCache: false',
+            'pnpEnableEsmLoader: false',
             ...(process.env.E2E === '1'
                 ? [
                       "unsafeHttpWhitelist: ['localhost']",

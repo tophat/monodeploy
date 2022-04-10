@@ -11,8 +11,10 @@
   "publishConfig": {
     "main": "./lib/index.js",
     "registry": "https://registry.npmjs.org/",
-    "types": "./lib/index.d.ts"
+    "types": "./lib/index.d.ts",
+    "access": "public"
   },
+  "group": "monodeploy",
   "files": [
     "lib"
   ],
@@ -25,7 +27,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "conventional-commits-parser": "^3.2.3",
+    "conventional-commits-parser": "^3.2.4",
     "micromatch": "^4.0.4",
     "p-limit": "^3.1.0",
     "semver": "^7.3.5"
@@ -41,11 +43,11 @@
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/micromatch": "^4",
     "@types/semver": "^7.3.4",
-    "@yarnpkg/cli": "^3.1.1",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "@yarnpkg/plugin-npm": "^2.6.0",
-    "@yarnpkg/plugin-pack": "^3.1.0"
+    "@yarnpkg/cli": "^3.2.0",
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "@yarnpkg/plugin-npm": "^2.7.0",
+    "@yarnpkg/plugin-pack": "^3.1.1"
   },
   "peerDependencies": {
     "@monodeploy/changelog": "workspace:^0.7.13",
@@ -54,10 +56,10 @@
     "@monodeploy/io": "workspace:^0.4.1",
     "@monodeploy/logging": "workspace:^0.1.12",
     "@monodeploy/types": "workspace:^0.10.5",
-    "@yarnpkg/cli": "^3.1.1",
-    "@yarnpkg/core": "^3.1.0",
-    "@yarnpkg/fslib": "^2.6.0",
-    "@yarnpkg/plugin-npm": "^2.6.0",
-    "@yarnpkg/plugin-pack": "^3.1.0"
+    "@yarnpkg/cli": "^3.2.0",
+    "@yarnpkg/core": "^3.2.0",
+    "@yarnpkg/fslib": "^2.6.1",
+    "@yarnpkg/plugin-npm": "^2.7.0",
+    "@yarnpkg/plugin-pack": "^3.1.1"
   }
 }

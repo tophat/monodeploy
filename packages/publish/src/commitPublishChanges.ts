@@ -2,27 +2,22 @@ import { gitAdd, gitCommit, gitGlob, gitPull, gitPush, gitPushTags } from '@mono
 import logging from '@monodeploy/logging'
 import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
+import createReleaseGitTags from './createReleaseGitTags'
+
 const commitPublishChanges = async ({
     config,
     context,
+    gitTags,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
+    gitTags?: Map<string, string>
 }): Promise<void> => {
     if (config.dryRun) {
         logging.info('[Publish] Committing changes', {
             report: context?.report,
         })
         return
-    }
-
-    // Push tags
-    if (config.git.push && config.git.tag) {
-        await gitPushTags({
-            cwd: config.cwd,
-            remote: config.git.remote,
-            context,
-        })
     }
 
     if (config.autoCommit) {
@@ -32,17 +27,44 @@ const commitPublishChanges = async ({
             globs.push(config.changelogFilename.replace('<packageDir>', '**'))
         }
         const files = await gitGlob(globs, { cwd: config.cwd, context })
+        if (files.length) {
+            await gitAdd(files, { cwd: config.cwd, context })
+            await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
+        }
+    }
 
-        await gitAdd(files, { cwd: config.cwd, context })
-        await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
+    if (config.git.tag && gitTags?.size) {
+        // Tag commit
+        await createReleaseGitTags({
+            config,
+            context,
+            gitTags,
+        })
 
-        if (config.git.push) {
-            await gitPull({
+        // Push tags only outside of auto-commit mode, otherwise
+        // we'll push them after we push the commit
+        if (config.git.push && !config.autoCommit) {
+            await gitPushTags({
                 cwd: config.cwd,
                 remote: config.git.remote,
                 context,
             })
-            await gitPush({
+        }
+    }
+
+    if (config.autoCommit && config.git.push) {
+        await gitPull({
+            cwd: config.cwd,
+            remote: config.git.remote,
+            context,
+        })
+        await gitPush({
+            cwd: config.cwd,
+            remote: config.git.remote,
+            context,
+        })
+        if (config.git.tag && gitTags?.size) {
+            await gitPushTags({
                 cwd: config.cwd,
                 remote: config.git.remote,
                 context,
