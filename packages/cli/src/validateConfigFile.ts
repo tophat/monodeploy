@@ -2,7 +2,7 @@ import Ajv, { SchemaObject, ValidateFunction } from 'ajv/dist/2020'
 
 import type { ConfigFile } from './types'
 
-const ajv = new Ajv({ allowUnionTypes: true })
+const ajv = new Ajv({ allowUnionTypes: true, strictTuples: false })
 
 const schema: SchemaObject = {
     type: 'object',

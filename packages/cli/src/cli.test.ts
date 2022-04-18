@@ -604,7 +604,7 @@ describe('CLI', () => {
                 const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me`,
+                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me --plugins plugin-a`,
                 )
                 jest.isolateModules(() => {
                     require('./index')
@@ -640,7 +640,9 @@ describe('CLI', () => {
                       "noRegistry": false,
                       "packageGroupManifestField": "group",
                       "persistVersions": true,
-                      "plugins": undefined,
+                      "plugins": Array [
+                        "plugin-a",
+                      ],
                       "prerelease": true,
                       "prereleaseId": "beta",
                       "prereleaseNPMTag": undefined,
