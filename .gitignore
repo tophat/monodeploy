@@ -1,3 +1,6 @@
+# OS Specific
+.DS_STORE
+
 # dependency management
 node_modules
 .yarn/*
@@ -21,5 +24,9 @@ lib
 artifacts
 *.junit.xml
 
-# this is configured via bootstrap script
-.vscode
+# IDE
+.idea/
+.vim/
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
