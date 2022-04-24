@@ -2829,7 +2829,7 @@ __metadata:
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
     "@types/react-helmet": ^6.1.5
-    gatsby: ^4.11.2
+    gatsby: ^4.12.1
     gatsby-plugin-gatsby-cloud: ^4.11.1
     gatsby-plugin-image: ^2.11.1
     gatsby-plugin-manifest: ^4.11.1
@@ -2949,14 +2949,14 @@ __metadata:
     husky: ^7.0.4
     jest: ^27.5.1
     jest-junit: ^13.1.0
-    lint-staged: ^12.3.7
+    lint-staged: ^12.4.0
     monodeploy: "workspace:*"
     nyc: ^15.1.0
     prettier: ^2.6.2
     ts-jest: ^27.1.3
     ts-node: ^10.7.0
-    typescript: ~4.6.3
-    yaml-validator: ^3.0.1
+    typescript: 4.6.3
+    yaml-validator: ^4.0.0
   dependenciesMeta:
     core-js-pure:
       built: false
@@ -11310,7 +11310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby@npm:^4.11.2":
+"gatsby@npm:^4.12.1":
   version: 4.12.1
   resolution: "gatsby@npm:4.12.1"
   dependencies:
@@ -14102,7 +14102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^4.0.0, js-yaml@npm:^4.1.0":
+"js-yaml@npm:^4.1.0":
   version: 4.1.0
   resolution: "js-yaml@npm:4.1.0"
   dependencies:
@@ -14506,9 +14506,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.7":
-  version: 12.3.7
-  resolution: "lint-staged@npm:12.3.7"
+"lint-staged@npm:^12.4.0":
+  version: 12.4.0
+  resolution: "lint-staged@npm:12.4.0"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -14526,7 +14526,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: b595097556880eb2ab7ce2cf105047f6f22525ccfd608fbdc63ab243259aa36a26949576fadff673748fb885e7cb37ad3f4471d964ad54c1205d57a58999ba24
+  checksum: e25b273a73b79f224ff1ccb22432c34a9050fe8318b9cf7e08c748e2efc80e1f48ed4f2aa61cd16a701bb7fd6323ecf0d94a497c97732db04f2b5382d6b70131
   languageName: node
   linkType: hard
 
@@ -21317,7 +21317,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.4.3, typescript@npm:~4.6.3":
+"typescript@npm:4.6.3, typescript@npm:^4.4.3, typescript@npm:~4.6.3":
   version: 4.6.3
   resolution: "typescript@npm:4.6.3"
   bin:
@@ -21327,7 +21327,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.6.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.6.3#~builtin<compat/typescript>":
   version: 4.6.3
   resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=bda367"
   bin:
@@ -22859,16 +22859,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"yaml-validator@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "yaml-validator@npm:3.0.1"
+"yaml-validator@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "yaml-validator@npm:4.0.0"
   dependencies:
     check-type: ^0.4.11
-    js-yaml: ^4.0.0
+    js-yaml: ^4.1.0
     optionator: ^0.9.1
   bin:
     yaml-validator: bin/yaml-validator.js
-  checksum: 933d045b36b65bc235ab559f5a1b85f4075dd98ce9e561e3137342eaae7de7b48f014d00dd5a7f8d68ae7244d11ad7d46b0535146242ff0bd9cac2491908f087
+  checksum: f995e32ee0336653b868fac875f458c2c5d972c5e0a2b0ddf686799cd44352aa3877316b747bcec51d0f215d54c3e383a45494db70a01c082d9ff2b252f9e525
   languageName: node
   linkType: hard
 
