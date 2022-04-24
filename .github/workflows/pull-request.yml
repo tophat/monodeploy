@@ -188,7 +188,7 @@ jobs:
     strategy:
       matrix:
         runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
-        node_version: ['14']
+        node_version: ['14', '18']
     steps:
         - uses: actions/checkout@v2
           with:
