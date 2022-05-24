@@ -62,13 +62,13 @@
         "@types/node": "^14.17.14",
         "@typescript-eslint/eslint-plugin": "^5.20.0",
         "@typescript-eslint/parser": "^5.20.0",
-        "@yarnpkg/cli": "^3.2.0",
-        "@yarnpkg/core": "^3.2.0",
-        "@yarnpkg/fslib": "^2.6.1",
-        "@yarnpkg/plugin-npm": "^2.7.0",
-        "@yarnpkg/plugin-pack": "^3.1.1",
-        "@yarnpkg/sdks": "^2.6.0",
-        "@yarnpkg/shell": "^3.2.0",
+        "@yarnpkg/cli": "^3.2.1",
+        "@yarnpkg/core": "^3.2.1",
+        "@yarnpkg/fslib": "^2.6.2",
+        "@yarnpkg/plugin-npm": "^2.7.1",
+        "@yarnpkg/plugin-pack": "^3.1.2",
+        "@yarnpkg/sdks": "^2.6.2",
+        "@yarnpkg/shell": "^3.2.2",
         "all-contributors-cli": "^6.20.0",
         "commitizen": "^4.2.4",
         "eslint": "^8.14.0",
@@ -105,5 +105,5 @@
             "built": false
         }
     },
-    "packageManager": "yarn@3.2.0"
+    "packageManager": "yarn@3.2.1"
 }
