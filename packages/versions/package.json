@@ -43,11 +43,11 @@
     "@types/conventional-commits-parser": "^3.0.1",
     "@types/micromatch": "^4",
     "@types/semver": "^7.3.4",
-    "@yarnpkg/cli": "^3.2.0",
-    "@yarnpkg/core": "^3.2.0",
-    "@yarnpkg/fslib": "^2.6.1",
-    "@yarnpkg/plugin-npm": "^2.7.0",
-    "@yarnpkg/plugin-pack": "^3.1.1"
+    "@yarnpkg/cli": "^3.2.1",
+    "@yarnpkg/core": "^3.2.1",
+    "@yarnpkg/fslib": "^2.6.2",
+    "@yarnpkg/plugin-npm": "^2.7.1",
+    "@yarnpkg/plugin-pack": "^3.1.2"
   },
   "peerDependencies": {
     "@monodeploy/changelog": "workspace:^3.0.0",
@@ -56,10 +56,10 @@
     "@monodeploy/io": "workspace:^3.0.0",
     "@monodeploy/logging": "workspace:^3.0.0",
     "@monodeploy/types": "workspace:^3.0.0",
-    "@yarnpkg/cli": "^3.2.0",
-    "@yarnpkg/core": "^3.2.0",
-    "@yarnpkg/fslib": "^2.6.1",
-    "@yarnpkg/plugin-npm": "^2.7.0",
-    "@yarnpkg/plugin-pack": "^3.1.1"
+    "@yarnpkg/cli": "^3.2.1",
+    "@yarnpkg/core": "^3.2.1",
+    "@yarnpkg/fslib": "^2.6.2",
+    "@yarnpkg/plugin-npm": "^2.7.1",
+    "@yarnpkg/plugin-pack": "^3.1.2"
   }
 }
