@@ -14,7 +14,7 @@ export default async function run({ cwd, args = '' }: { cwd: string; args: strin
     const nycBin = require.resolve('nyc/bin/nyc', {
         paths: [process.cwd()],
     })
-    const nycConfig = require.resolve('nyc.config.js', {
+    const nycConfig = require.resolve('./nyc.config.js', {
         paths: [process.cwd()],
     })
 
