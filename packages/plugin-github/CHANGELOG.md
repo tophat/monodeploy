@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.4.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.4.0...@monodeploy/plugin-github@0.4.1) "@monodeploy/plugin-github" (2022-05-26)<a name="0.4.1"></a>
+
+### Bug Fixes
+
+* target yarn 3.2.1 (#495) ([e13073f](https://github.com/tophat/monodeploy/commits/e13073f))
+
+
+
+
 ## [0.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.3.15...@monodeploy/plugin-github@0.4.0) "@monodeploy/plugin-github" (2022-04-10)<a name="0.4.0"></a>
 
 ### Bug Fixes

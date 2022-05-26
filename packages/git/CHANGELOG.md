@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.0.0...@monodeploy/git@3.0.1) "@monodeploy/git" (2022-05-26)<a name="3.0.1"></a>
+
+### Bug Fixes
+
+* target yarn 3.2.1 (#495) ([e13073f](https://github.com/tophat/monodeploy/commits/e13073f))
+
+
+
+
 ## [3.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@0.4.3...@monodeploy/git@3.0.0) "@monodeploy/git" (2022-04-10)<a name="3.0.0"></a>
 
 ### Bug Fixes

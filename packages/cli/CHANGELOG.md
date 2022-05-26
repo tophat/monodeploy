@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.1](https://github.com/tophat/monodeploy/compare/monodeploy@3.0.0...monodeploy@3.0.1) "monodeploy" (2022-05-26)<a name="3.0.1"></a>
+
+### Bug Fixes
+
+* remove strict tuples config parser warning (#490) ([99ef764](https://github.com/tophat/monodeploy/commits/99ef764))
+* target yarn 3.2.1 (#495) ([e13073f](https://github.com/tophat/monodeploy/commits/e13073f))
+
+
+
+
 ## [3.0.0](https://github.com/tophat/monodeploy/compare/monodeploy@2.8.21...monodeploy@3.0.0) "monodeploy" (2022-04-10)<a name="3.0.0"></a>
 
 ### Breaking Changes
