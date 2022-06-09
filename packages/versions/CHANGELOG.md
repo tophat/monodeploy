@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.0.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.0.1...@monodeploy/versions@3.0.2) "@monodeploy/versions" (2022-06-09)<a name="3.0.2"></a>
+
+### Bug Fixes
+
+* TypeError when registry returns version as array ([bdb19fd](https://github.com/tophat/monodeploy/commits/bdb19fd))
+
+
+
+
 ## [3.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.0.0...@monodeploy/versions@3.0.1) "@monodeploy/versions" (2022-05-26)<a name="3.0.1"></a>
 
 ### Bug Fixes
