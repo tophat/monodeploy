@@ -72,7 +72,13 @@ const getLatestPackageTags = async ({
                 }),
             )
 
-            return [pkgName, { latest: manifestVersion, ...result }]
+            // Result can contain versions as arrays, for example when using GitHub package registry
+            // `{ latest: ['1.0.0'] }` ==> `{ latest: '1.0.0' }`
+            const flatResult = Object.fromEntries(Object.entries(result).map(
+              ([key, value]) => [key, value.toString()]
+            ));
+            
+            return [pkgName, { latest: manifestVersion, ...flatResult }]
         } catch (err) {
             const statusCode = statusCodeFromHTTPError(err)
 
