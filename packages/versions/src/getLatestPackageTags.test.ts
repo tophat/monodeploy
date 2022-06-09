@@ -13,7 +13,7 @@ jest.mock('@yarnpkg/plugin-npm')
 const mockNPM = npm as jest.Mocked<
     typeof npm & {
         _reset_: () => void
-        _setTag_: (pkgName: string, tagValue: string, tagKey?: string) => void
+        _setTag_: (pkgName: string, tagValue: string | string[], tagKey?: string) => void
     }
 >
 
@@ -92,6 +92,45 @@ describe('getLatestPackageTags', () => {
 
         const expectedTags = new Map([
             ...registryTags.entries(),
+            ['pkg-4', { latest: '0.0.0' }],
+            ['pkg-6', { latest: '0.0.0' }],
+            ['pkg-7', { latest: '0.0.0' }],
+        ])
+
+        expect(tags).toEqual(expectedTags)
+    })
+
+    it('can read tags when returned as an array', async () => {
+        const registryTags = new Map(
+            Object.entries({
+                'pkg-1': { latest: ['0.0.1'] },
+                'pkg-2': { latest: ['0.1.0'] },
+                'pkg-3': { latest: ['1.0.0'] },
+            }),
+        )
+
+        for (const [pkgName, map] of registryTags) {
+            mockNPM._setTag_(pkgName, map.latest)
+        }
+
+        // we'll also test with a non-latest tag
+        mockNPM._setTag_('pkg-2', ['4.5.0'], 'next')
+
+        const config = await getMonodeployConfig({
+            cwd: context.project.cwd,
+            baseBranch: 'main',
+            commitSha: 'shashasha',
+        })
+        const tags = await getLatestPackageTags({
+            config,
+            context,
+        })
+
+        const expectedTags = new Map([
+            ['pkg-1', { latest: '0.0.1' }],
+            ['pkg-2', { latest: '0.1.0', next: '4.5.0' }],
+            ['pkg-3', { latest: '1.0.0' }],
+
             ['pkg-4', { latest: '0.0.0' }],
             ['pkg-6', { latest: '0.0.0' }],
             ['pkg-7', { latest: '0.0.0' }],

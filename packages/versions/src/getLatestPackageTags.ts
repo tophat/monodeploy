@@ -11,6 +11,21 @@ interface NetworkError extends Error {
     readonly response?: Record<string, unknown> & { statusCode: number }
 }
 
+/**
+ * GitHub package registry may return versions in an array format, e.g.:
+ * `{ latest: ['1.0.0'] }` instead of `{ latest: '1.0.0' }`
+ */
+type RawDistTags = Partial<Record<string, string | [string]>>
+type NormalizedDistTags = Partial<Record<string, string>>
+
+function flattenDistTags(rawTags: RawDistTags): NormalizedDistTags {
+    const tags: NormalizedDistTags = {}
+    for (const [key, value] of Object.entries(rawTags)) {
+        tags[key] = Array.isArray(value) ? value[0] : value
+    }
+    return tags
+}
+
 function statusCodeFromHTTPError(err: unknown): number | undefined {
     if (isNodeError(err)) {
         if ('response' in err) {
@@ -63,7 +78,7 @@ const getLatestPackageTags = async ({
         const distTagUrl = `/-/package${identUrl}/dist-tags`
 
         try {
-            const result = await limitFetch(() =>
+            const result: RawDistTags = await limitFetch(() =>
                 pluginNPM.npmHttpUtils.get(distTagUrl, {
                     configuration: context.configuration,
                     ident,
@@ -72,13 +87,7 @@ const getLatestPackageTags = async ({
                 }),
             )
 
-            // Result can contain versions as arrays, for example when using GitHub package registry
-            // `{ latest: ['1.0.0'] }` ==> `{ latest: '1.0.0' }`
-            const flatResult = Object.fromEntries(Object.entries(result).map(
-              ([key, value]) => [key, value.toString()]
-            ));
-            
-            return [pkgName, { latest: manifestVersion, ...flatResult }]
+            return [pkgName, { latest: manifestVersion, ...flattenDistTags(result) }]
         } catch (err) {
             const statusCode = statusCodeFromHTTPError(err)
 

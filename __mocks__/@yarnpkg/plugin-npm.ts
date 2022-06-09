@@ -3,7 +3,7 @@ import { Configuration, Ident, MessageName, ReportError, structUtils } from '@ya
 
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 
-const _registry: { tags: Record<string, Record<string, string>> } = {
+const _registry: { tags: Record<string, Record<string, string | string[]>> } = {
     tags: {},
 }
 
@@ -11,14 +11,14 @@ const _reset_ = (): void => {
     _registry.tags = {}
 }
 
-const _setTag_ = (pkgName: string, tagValue: string, tagKey = 'latest'): void => {
+const _setTag_ = (pkgName: string, tagValue: string | string[], tagKey = 'latest'): void => {
     _registry.tags[pkgName] = { ..._registry.tags[pkgName], [tagKey]: tagValue }
 }
 
 const npmHttpUtilsGet = (
     distTagUrl: string,
     { ident, registry }: { ident: Ident; registry: string },
-): Record<string, string> => {
+): Record<string, string | string[]> => {
     const pkgName = structUtils.stringifyIdent(ident)
     const tags = _registry.tags[pkgName]
     if (!tags) {
