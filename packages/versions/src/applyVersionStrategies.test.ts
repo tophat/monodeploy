@@ -431,5 +431,17 @@ describe('applyVersionStrategies prereleases', () => {
             expect(actualVersion).toBe('2.0.0-rc.3')
             expect(previous).toBe('2.0.0-rc.2')
         })
+
+        it('increments using a prerelease if the base version is... broken?', () => {
+            const { previous, next: actualVersion } = incrementVersion({
+                currentLatestVersion: '2.0.0-rc.0',
+                currentPrereleaseVersion: '2.0.0-pre.1',
+                strategy: 'patch',
+                prerelease: true,
+                prereleaseId: 'pre',
+            })
+            expect(actualVersion).toBe('2.0.0-pre.2')
+            expect(previous).toBe('2.0.0-pre.1')
+        })
     })
 })
