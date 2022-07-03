@@ -1,27 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import RemarkExternalLinks from 'remark-external-links'
+import type { Comment, DeclarationReflection, ProjectReflection, SomeType } from 'typedoc'
 
-const stringifyType = (data: any): string => {
-    if (data.type === 'literal') {
-        return data.value
+const stringifyType = (data: SomeType | undefined): string => {
+    if (data?.type === 'literal') {
+        return String(data.value)
     }
 
-    if (data.type === 'union') {
+    if (data?.type === 'union') {
         return data.types.map((t) => stringifyType(t)).join(' | ')
     }
 
-    if (data.type === 'array') {
+    if (data?.type === 'array') {
         return `${stringifyType(data.elementType)}[]`
     }
 
-    if (data.type === 'reflection') {
-        const obj = {}
+    if (data?.type === 'reflection') {
+        const obj: Record<string, string> = {}
         for (const child of data.declaration?.children ?? []) {
             obj[child.name] = stringifyType(child.type)
         }
-        if (data.declaration?.indexSignature) {
+        if (data.declaration?.indexSignature?.parameters) {
             obj[data.declaration?.indexSignature.parameters[0].name] = stringifyType(
                 data.declaration?.indexSignature.parameters[0].type,
             )
@@ -31,24 +31,36 @@ const stringifyType = (data: any): string => {
             .replace(/: "([^"]+)"/g, ': $1')
     }
 
-    if (data.name) {
-        return data.name
+    if ((data as any)?.name) {
+        return (data as any)?.name
     }
 
     return '???'
 }
 
-const stringifyComment = (data: any): string => {
-    const defaultValue = data?.tags?.find((tag) => tag.tag === 'default')?.text
-    const body = `${data?.shortText ?? ''}\n\n${data?.text ?? ''}`.trim()
+const stringifyComment = (data?: Comment): string => {
+    const defaultValue = data?.blockTags?.find((tag) => tag.tag === '@default')?.content[0].text
+    const body = `${data?.summary[0].text ?? ''}`.trim()
     return `Default: ${defaultValue?.trim() ?? '_No Default_'}\n\n${body}`
 }
 
-const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
-    if (data?.type?.type === 'reflection') {
-        return data.type.declaration.children.map((child) => (
-            <InterfaceChildRow data={{ ...child, name: `${data.name}.${child.name}` }} />
-        ))
+const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) => {
+    const dataType = data.type
+    if (dataType?.type === 'reflection' && dataType.declaration.children) {
+        return (
+            <>
+                {dataType.declaration.children.map((child) => (
+                    <InterfaceChildRow
+                        data={
+                            {
+                                ...child,
+                                name: `${data.name}.${child.name}`,
+                            } as DeclarationReflection
+                        }
+                    />
+                ))}
+            </>
+        )
     }
 
     const rowId = `schema-option-${data.name}`
@@ -72,11 +84,11 @@ const InterfaceChildRow: React.FC<{ data: any }> = ({ data }) => {
     )
 }
 
-const TypeDocInterface: React.FC<{ schema: any; interfaceName: string }> = ({
+const TypeDocInterface: React.FC<{ schema: ProjectReflection; interfaceName: string }> = ({
     schema,
     interfaceName,
 }) => {
-    const interfaceData = schema.children.find((n) => n.name === interfaceName)
+    const interfaceData = schema.children?.find((n) => n.name === interfaceName)
 
     return (
         <table className="typedoc-schema">

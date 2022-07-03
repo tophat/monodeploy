@@ -2,13 +2,15 @@
   "name": "@monodeploy/gatsby",
   "private": true,
   "dependencies": {
+    "path-browserify": "^1.0.1",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-markdown": "^7.1.1",
     "remark-external-links": "^9.0.1",
-    "sanitize.css": "^13.0.0"
+    "sanitize.css": "^13.0.0",
+    "typedoc": "^0.23.5"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
@@ -37,7 +39,7 @@
   "scripts": {
     "build:gatsby": "rm -rf .cache public && gatsby build --prefix-paths \"$@\" && rsync -rtuc --delete public/ ../docs/",
     "build": "yarn workspace @monodeploy/types docs && yarn build:gatsby",
-    "develop": "gatsby develop",
+    "develop": "yarn workspace @monodeploy/types docs && gatsby develop",
     "start": "yarn run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
