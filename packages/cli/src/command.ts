@@ -1,5 +1,5 @@
 import monodeploy from '@monodeploy/node'
-import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
 import { npath, ppath } from '@yarnpkg/fslib'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
@@ -28,7 +28,13 @@ export class MonodeployCommand extends Command {
     })
 
     registry = Option.Boolean('--registry', true, {
-        description: 'Whether to read and write to the npm-like registry',
+        description:
+            'Whether to read and write to the npm-like registry (deprecated, use --registry-mode instead)',
+    })
+
+    registryMode = Option.String('--registry-mode', {
+        description: 'The type of "registry" to use as the source of truth for package versions.',
+        validator: t.isEnum(RegistryMode),
     })
 
     dryRun = Option.Boolean('--dry-run', {
@@ -183,6 +189,7 @@ export class MonodeployCommand extends Command {
             const config: RecursivePartial<MonodeployConfiguration> = {
                 registryUrl: this.registryUrl ?? configFromFile?.registryUrl ?? undefined,
                 noRegistry: (!this.registry || configFromFile?.noRegistry) ?? undefined,
+                registryMode: this.registryMode ?? configFromFile?.registryMode ?? undefined,
                 cwd: cwd ?? undefined,
                 dryRun: this.dryRun ?? configFromFile?.dryRun ?? undefined,
                 git: {
@@ -238,6 +245,7 @@ export class MonodeployCommand extends Command {
                     this.packageGroupManifestField ??
                     configFromFile?.packageGroupManifestField ??
                     undefined,
+                packageGroups: configFromFile?.packageGroups,
             }
 
             if (this.logLevel !== undefined && this.logLevel !== null) {

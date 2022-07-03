@@ -1,4 +1,4 @@
-import logging from '@monodeploy/logging'
+import { resolveGroupName } from '@monodeploy/io'
 import {
     MonodeployConfiguration,
     PackageStrategyMap,
@@ -8,11 +8,6 @@ import {
 import { structUtils } from '@yarnpkg/core'
 
 import { maxStrategy } from './versionStrategy'
-
-function getIn(raw: Record<string, any>, key: string): unknown | undefined {
-    const value = key.split('.').reduce((obj, part) => obj?.[part], raw)
-    return value ?? undefined
-}
 
 const mergeVersionStrategies = async ({
     config,
@@ -28,8 +23,6 @@ const mergeVersionStrategies = async ({
     versionStrategies: PackageStrategyMap
     workspaceGroups: Map<string, Set<string>>
 }> => {
-    const groupField = config.packageGroupManifestField ?? 'name'
-
     const strategies: PackageStrategyMap = new Map([
         ...intentionalStrategies.entries(),
         ...implicitVersionStrategies.entries(),
@@ -37,18 +30,14 @@ const mergeVersionStrategies = async ({
 
     const groups = new Map<string, Set<string>>()
     for (const workspace of context.project.workspaces) {
-        if (!workspace.manifest.name) continue
+        const groupKey = resolveGroupName({
+            context,
+            workspace,
+            packageGroupManifestField: config.packageGroupManifestField,
+        })
+        if (!groupKey || !workspace.manifest.name) continue
+
         const ident = structUtils.stringifyIdent(workspace.manifest.name)
-
-        const groupKey = getIn(workspace.manifest.raw, groupField) ?? ident
-        if (typeof groupKey !== 'string') {
-            logging.warning(
-                `[Versions] Invalid group key resolved in '${ident}' using field '${groupField}'.`,
-                { report: context.report },
-            )
-            continue
-        }
-
         const group = groups.get(groupKey) ?? new Set()
         group.add(ident)
         groups.set(groupKey, group)

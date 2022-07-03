@@ -31,6 +31,10 @@ table.typedoc-schema tbody .name {
 table.typedoc-schema tbody .name:hover {
     text-decoration: underline;
 }
+table.typedoc-schema tbody .name.deprecated {
+    color: inherit;
+    text-decoration: line-through;
+}
 
 table.typedoc-schema tbody .type {
     font-family: monospace;
@@ -43,6 +47,16 @@ table.typedoc-schema tbody tr {
 
 table.typedoc-schema tbody tr:nth-child(2n+1) {
     background: #383838;
+}
+
+table.typedoc-schema tbody tr.schema-option.deprecated {
+    background: repeating-linear-gradient(
+        45deg,
+        #1e1e1e,
+        #383838 10px,
+        #1e1e1e 10px,
+        #383838 20px
+    );
 }
 
 table.typedoc-schema tbody .description a {

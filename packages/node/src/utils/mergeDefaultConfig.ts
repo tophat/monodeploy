@@ -1,5 +1,5 @@
 import { gitResolveSha } from '@monodeploy/git'
-import type { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
 export const mergeDefaultConfig = async (
@@ -8,9 +8,15 @@ export const mergeDefaultConfig = async (
     const cwd = npath.fromPortablePath(baseConfig.cwd ?? process.cwd())
     const prerelease = baseConfig.prerelease ?? false
 
+    // deprecated option
+    const noRegistry = baseConfig.noRegistry ?? false
+
     return {
         registryUrl: baseConfig.registryUrl ?? undefined,
-        noRegistry: baseConfig.noRegistry ?? false,
+        noRegistry,
+        registryMode: noRegistry
+            ? RegistryMode.Manifest
+            : baseConfig.registryMode ?? RegistryMode.NPM,
         cwd,
         dryRun: baseConfig.dryRun ?? false,
         git: {
@@ -41,5 +47,6 @@ export const mergeDefaultConfig = async (
         prereleaseId: baseConfig.prereleaseId ?? 'rc',
         prereleaseNPMTag: baseConfig.prereleaseNPMTag ?? 'next',
         packageGroupManifestField: baseConfig.packageGroupManifestField ?? undefined,
+        packageGroups: baseConfig.packageGroups,
     }
 }

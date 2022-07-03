@@ -1,4 +1,5 @@
-import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import { resolveGroupName } from '@monodeploy/io'
+import { MonodeployConfiguration, RegistryMode, YarnContext } from '@monodeploy/types'
 import { Workspace } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
@@ -11,8 +12,22 @@ export const getFetchRegistryUrl = async ({
     context: YarnContext
     workspace: Workspace
 }): Promise<string | null> => {
+    const groupName = resolveGroupName({
+        context,
+        workspace,
+        packageGroupManifestField: config.packageGroupManifestField,
+    })
+    if (groupName) {
+        const registryMode = config.packageGroups?.[groupName]?.registryMode ?? config.registryMode
+        if (registryMode === RegistryMode.Manifest) {
+            return null
+        }
+    }
+
     if (config.noRegistry) {
-        return null
+        throw new Error(
+            '[Read] Critical invariant violation around noRegistry vs. registryMode check. Please open a GitHub issue on Monodeploy.',
+        )
     }
 
     const configRegistryUrl = config.registryUrl

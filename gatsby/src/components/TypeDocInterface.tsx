@@ -38,10 +38,20 @@ const stringifyType = (data: SomeType | undefined): string => {
     return '???'
 }
 
-const stringifyComment = (data?: Comment): string => {
-    const defaultValue = data?.blockTags?.find((tag) => tag.tag === '@default')?.content[0].text
+const stringifyComment = (
+    data: Comment | undefined,
+    tags: Partial<Record<`@${string}`, string>>,
+): string => {
+    const deprecation = tags['@deprecated']
+    const defaultValue = tags['@default']
     const body = `${data?.summary[0].text ?? ''}`.trim()
-    return `Default: ${defaultValue?.trim() ?? '_No Default_'}\n\n${body}`
+
+    let text = `Default: ${defaultValue?.trim() ?? '_No Default_'}\n\n${body}`
+    if (deprecation) {
+        text += `\n\n---\n\nDeprecated: ${deprecation}`
+    }
+
+    return text
 }
 
 const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) => {
@@ -64,11 +74,21 @@ const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) 
     }
 
     const rowId = `schema-option-${data.name}`
+    const tags = (data?.comment?.blockTags ?? []).reduce((tags, blockTag) => {
+        tags[blockTag.tag] = blockTag.content[0].text
+        return tags
+    }, {} as Partial<Record<`@${string}`, string>>)
 
     return (
-        <tr id={rowId}>
+        <tr
+            id={rowId}
+            className={`schema-option ${tags['@deprecated'] ? 'deprecated' : ''}`.trim()}
+        >
             <td>
-                <a href={`#${rowId}`} className="name">
+                <a
+                    href={`#${rowId}`}
+                    className={`name ${tags['@deprecated'] ? 'deprecated' : ''}`.trim()}
+                >
                     {data.name}
                 </a>
                 <div className="type">{stringifyType(data.type)}</div>
@@ -76,7 +96,7 @@ const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) 
             <td>
                 <div className="description">
                     <ReactMarkdown plugins={[RemarkExternalLinks]}>
-                        {data.comment ? stringifyComment(data.comment) : 'No description.'}
+                        {data.comment ? stringifyComment(data.comment, tags) : 'No description.'}
                     </ReactMarkdown>
                 </div>
             </td>

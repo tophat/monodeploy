@@ -1,6 +1,6 @@
 import path from 'path'
 
-import type { MonodeployConfiguration } from '@monodeploy/types'
+import { MonodeployConfiguration, RegistryMode } from '@monodeploy/types'
 
 import {
     STRATEGY,
@@ -23,6 +23,7 @@ const monodeployConfig: MonodeployConfiguration = {
     ),
     access: 'public',
     noRegistry: false,
+    registryMode: RegistryMode.NPM,
     autoCommit: false,
     autoCommitMessage: '',
     persistVersions: false,
