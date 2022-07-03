@@ -1,4 +1,5 @@
 import { RegistryMode } from '@monodeploy/types'
+
 import setupProject from 'helpers/setupProject'
 
 const TIMEOUT = 200000 // we need time for docker interactions
