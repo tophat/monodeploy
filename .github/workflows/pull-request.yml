@@ -22,7 +22,7 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ env.NODE_VERSION }}
         - name: Create artifacts directory
@@ -51,7 +51,7 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ env.NODE_VERSION }}
         - name: Create artifacts directory
@@ -92,7 +92,7 @@ jobs:
     strategy:
       matrix:
         runner: ['ubuntu-20.04']
-        node_version: ['14']
+        node_version: ['14.19.3']
     env:
       E2E: 1
     steps:
@@ -101,7 +101,7 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ matrix.node_version }}
         - name: Create artifacts directory
@@ -143,7 +143,7 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/detect-env
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Create artifacts directory
@@ -188,13 +188,13 @@ jobs:
     strategy:
       matrix:
         runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
-        node_version: ['14']
+        node_version: ['14.19.3']
     steps:
         - uses: actions/checkout@v2
           with:
             fetch-depth: 0
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ matrix.node_version }}
         - name: Create artifacts directory
@@ -235,7 +235,7 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ env.NODE_VERSION }}
         - name: Create artifacts directory
@@ -313,7 +313,7 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/detect-env
         - name: Setup Node.js
-          uses: actions/setup-node@v2
+          uses: actions/setup-node@v3.3.0
           with:
             node-version: ${{ env.NODE_VERSION }}
         - name: Create artifacts directory

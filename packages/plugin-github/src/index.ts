@@ -1,10 +1,11 @@
 import { PluginHooks } from '@monodeploy/types'
 
 export const PluginName = 'GitHub Plugin'
-import { PluginInternals } from './plugin'
+import { type PluginOptions, createPluginInternals } from './plugin'
 
-export default function GitHubPlugin({
-    onReleaseAvailable,
-}: Pick<PluginHooks, 'onReleaseAvailable'>): void {
-    onReleaseAvailable.tapPromise(PluginName, PluginInternals)
+export default function GitHubPlugin(
+    { onReleaseAvailable }: Pick<PluginHooks, 'onReleaseAvailable'>,
+    options?: PluginOptions | undefined,
+): void {
+    onReleaseAvailable.tapPromise(PluginName, createPluginInternals(options ?? {}))
 }

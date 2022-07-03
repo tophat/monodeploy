@@ -4,7 +4,7 @@ import path from 'path'
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type { MonodeployConfiguration } from '@monodeploy/types'
+import { MonodeployConfiguration, RegistryMode } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
@@ -33,6 +33,7 @@ describe('Monodeploy Lifecycle Scripts', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         noRegistry: false,
+        registryMode: RegistryMode.NPM,
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',
         git: {

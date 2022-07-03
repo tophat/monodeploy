@@ -1,6 +1,6 @@
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
-import { MonodeployConfiguration } from '@monodeploy/types'
+import { MonodeployConfiguration, RegistryMode } from '@monodeploy/types'
 import * as npm from '@yarnpkg/plugin-npm'
 
 import { mergeDefaultConfig } from './mergeDefaultConfig'
@@ -51,6 +51,7 @@ describe('Config Merging', () => {
             registryUrl: 'https://registry.example/',
             dryRun: true,
             noRegistry: false,
+            registryMode: RegistryMode.NPM,
             git: {
                 baseBranch: 'main',
                 commitSha: 'HEAD',
@@ -78,6 +79,7 @@ describe('Config Merging', () => {
             prereleaseNPMTag: 'beta',
             commitIgnorePatterns: ['\\[skip-ci\\]'],
             packageGroupManifestField: 'group',
+            packageGroups: { 'pkg-1': { registryMode: RegistryMode.Manifest } },
         }
 
         const merged = await mergeDefaultConfig(config)

@@ -33,6 +33,12 @@ Plugin: `@monodeploy/plugin-github`.
 
 The GitHub plugin creates GitHub releases. It requires a `GH_TOKEN` environment variable which should be set to a Personal Access Token with write access to GitHub releases.
 
+By default, implicit version updates do not get a dedicated release. To change this behaviour, set `includeImplicitUpdates` to `true`:
+
+```raw
+plugins: ['@monodeploy/plugin-github', { includeImplicitUpdates: true }]
+```
+
 ## Plugin Development
 
 We use [tapable](https://github.com/webpack/tapable) for an experimental plugin system.

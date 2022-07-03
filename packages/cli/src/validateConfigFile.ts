@@ -10,6 +10,26 @@ const schema: SchemaObject = {
         preset: { type: 'string', nullable: true },
         registryUrl: { type: 'string', nullable: true },
         noRegistry: { type: 'boolean', nullable: true },
+        registryMode: {
+            type: 'string',
+            nullable: true,
+            enum: ['npm', 'manifest'],
+        },
+        packageGroups: {
+            type: 'object',
+            patternProperties: {
+                '.*': {
+                    type: 'object',
+                    properties: {
+                        registryMode: {
+                            type: 'string',
+                            nullable: true,
+                            enum: ['npm', 'manifest'],
+                        },
+                    },
+                },
+            },
+        },
         dryRun: { type: 'boolean', nullable: true },
         conventionalChangelogConfig: {
             type: ['string', 'object'],

@@ -5,7 +5,12 @@ import path from 'path'
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import {
+    CommitMessage,
+    MonodeployConfiguration,
+    RegistryMode,
+    YarnContext,
+} from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 
@@ -69,6 +74,7 @@ describe('Monodeploy', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         noRegistry: false,
+        registryMode: RegistryMode.NPM,
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',
         git: {

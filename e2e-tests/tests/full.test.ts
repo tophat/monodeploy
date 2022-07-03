@@ -1,3 +1,5 @@
+import { RegistryMode } from '@monodeploy/types'
+
 import setupProject from 'helpers/setupProject'
 
 const TIMEOUT = 200000 // we need time for docker interactions
@@ -37,7 +39,7 @@ describe('Full E2E', () => {
                 },
                 jobs: 1,
                 persistVersions: true,
-                noRegistry: false,
+                registryMode: RegistryMode.NPM,
                 topological: true,
                 topologicalDev: true,
                 maxConcurrentReads: 1,
@@ -208,7 +210,7 @@ describe('Full E2E', () => {
                 },
                 jobs: 1,
                 persistVersions: true,
-                noRegistry: false,
+                registryMode: RegistryMode.NPM,
                 topological: true,
                 topologicalDev: true,
                 maxConcurrentReads: 1,
@@ -376,7 +378,7 @@ describe('Full E2E', () => {
                 },
                 jobs: 1,
                 persistVersions: true,
-                noRegistry: false,
+                registryMode: RegistryMode.NPM,
                 topological: true,
                 topologicalDev: true,
                 maxConcurrentReads: 1,

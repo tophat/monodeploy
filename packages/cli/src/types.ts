@@ -1,9 +1,10 @@
-import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
 
 export interface ArgOutput {
     configFile?: string
     registryUrl?: string
     registry?: boolean
+    registryMode?: RegistryMode
     cwd?: string
     dryRun?: boolean
     gitBaseBranch?: string

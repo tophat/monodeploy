@@ -6,7 +6,12 @@ import * as git from '@monodeploy/git'
 import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import type { CommitMessage, MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import {
+    CommitMessage,
+    MonodeployConfiguration,
+    RegistryMode,
+    YarnContext,
+} from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
@@ -71,6 +76,7 @@ describe('Monodeploy', () => {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
         noRegistry: false,
+        registryMode: RegistryMode.NPM,
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',
         git: {

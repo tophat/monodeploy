@@ -1,8 +1,13 @@
-import { Configuration, Project, Report, Workspace } from '@yarnpkg/core'
-import { AsyncSeriesHook } from 'tapable'
+import type { Configuration, Project, Report, Workspace } from '@yarnpkg/core'
+import type { AsyncSeriesHook } from 'tapable'
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Record<string, unknown> ? RecursivePartial<T[P]> : T[P]
+}
+
+export enum RegistryMode {
+    NPM = 'npm',
+    Manifest = 'manifest',
 }
 
 export interface MonodeployConfiguration {
@@ -29,9 +34,23 @@ export interface MonodeployConfiguration {
      * the latest version is instead taken from the package.json files. This is
      * incompatible with prerelease mode.
      *
+     * @deprecated In favour of registryMode='manifest'.
+     *
      * @default false
      */
     noRegistry: boolean
+
+    /**
+     * By default the latest package versions upon which the version strategy
+     * is applied is taken from the NPM registry (npm mode). If registryMode is set to 'manifest'
+     * the latest version is instead taken from the package.json files. Note that
+     * 'manifest' mode is incompatible with prerelease mode.
+     *
+     * Can be either 'npm' or 'manifest'.
+     *
+     * @default "npm"
+     */
+    registryMode: RegistryMode
 
     /**
      * If enabled, any operation performing a destructive action on an external
@@ -190,6 +209,12 @@ export interface MonodeployConfiguration {
     packageGroupManifestField?: string
 
     /**
+     * Package group specific settings. Note that if no packageGroupManifestField is set,
+     * each workspace is in its own group.
+     */
+    packageGroups?: Record<string, GroupConfiguration>
+
+    /**
      * Whether to run the lifecycle scripts of the packages to publish in topological order,
      * based on dependencies and peerDependencies. This excludes devDependencies from the graph.
      *
@@ -259,6 +284,18 @@ export interface MonodeployConfiguration {
      * @default "next"
      */
     prereleaseNPMTag: string
+}
+
+export interface GroupConfiguration {
+    /**
+     * By default the latest package versions upon which the version strategy
+     * is applied is taken from the NPM registry (npm mode). If registryMode is set to 'manifest'
+     * the latest version is instead taken from the package.json files. Note that
+     * 'manifest' mode is incompatible with prerelease mode.
+     *
+     * @default "npm"
+     */
+    registryMode: RegistryMode
 }
 
 export interface YarnContext {
