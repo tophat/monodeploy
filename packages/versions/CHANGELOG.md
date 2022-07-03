@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.0.2...@monodeploy/versions@3.1.0) "@monodeploy/versions" (2022-07-03)<a name="3.1.0"></a>
+
+### Features
+
+* add registryMode option, deprecated noRegistry ([6945cdb](https://github.com/tophat/monodeploy/commits/6945cdb))
+
+
+
+
 ## [3.0.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.0.1...@monodeploy/versions@3.0.2) "@monodeploy/versions" (2022-06-09)<a name="3.0.2"></a>
 
 ### Bug Fixes

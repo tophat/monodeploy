@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/dependencies",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -28,7 +28,7 @@
   },
   "peerDependencies": {
     "@monodeploy/logging": "workspace:^3.0.1",
-    "@monodeploy/types": "workspace:^3.0.1",
+    "@monodeploy/types": "workspace:^3.1.0",
     "@yarnpkg/core": "^3.2.1"
   },
   "devDependencies": {
