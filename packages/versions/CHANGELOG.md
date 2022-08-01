@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.1.0...@monodeploy/versions@3.2.0) "@monodeploy/versions" (2022-08-01)<a name="3.2.0"></a>
+
+### Features
+
+* build against Yarn 3.2.2 (#506) ([11d117c](https://github.com/tophat/monodeploy/commits/11d117c))
+
+
+
+
 ## [3.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.0.2...@monodeploy/versions@3.1.0) "@monodeploy/versions" (2022-07-03)<a name="3.1.0"></a>
 
 ### Features

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.1.0...@monodeploy/changelog@3.2.0) "@monodeploy/changelog" (2022-08-01)<a name="3.2.0"></a>
+
+### Features
+
+* build against Yarn 3.2.2 (#506) ([11d117c](https://github.com/tophat/monodeploy/commits/11d117c))
+
+
+
+
 ## [3.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.0.0...@monodeploy/changelog@3.0.1) "@monodeploy/changelog" (2022-05-26)<a name="3.0.1"></a>
 
 ### Bug Fixes

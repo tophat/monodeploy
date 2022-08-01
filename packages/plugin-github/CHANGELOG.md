@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.5.0...@monodeploy/plugin-github@0.6.0) "@monodeploy/plugin-github" (2022-08-01)<a name="0.6.0"></a>
+
+### Features
+
+* build against Yarn 3.2.2 (#506) ([11d117c](https://github.com/tophat/monodeploy/commits/11d117c))
+
+
+
+
 ## [0.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.4.1...@monodeploy/plugin-github@0.5.0) "@monodeploy/plugin-github" (2022-07-03)<a name="0.5.0"></a>
 
 ### Features
