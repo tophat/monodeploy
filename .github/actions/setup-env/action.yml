@@ -1,0 +1,54 @@
+name: setup-env
+description: Initializes environment.
+inputs:
+  node-version:
+    description: Override Node Version
+    required: false
+    default: ''
+  cache-prefix:
+    description: Additional cache prefix
+    required: false
+    default: 'default'
+outputs:
+  node-version:
+    value: ${{ steps.detect-node.outputs.version }}
+    description: Detected Node version.
+runs:
+  using: "composite"
+  steps:
+    - name: Detect Node Version
+      id: detect-node
+      run: |
+        if [[ -z "${{ inputs.node-version }}" ]]; then
+          echo "::set-output name=version::$(cat .nvmrc | tr -d '\n')"
+        else
+          echo "::set-output name=version::${{ inputs.node-version }}"
+        fi
+      shell: bash
+    - name: Install NodeJS
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: ${{ steps.detect-node.outputs.version }}
+    - name: Enable Corepack
+      run: corepack enable
+      shell: bash
+    - name: Restore Yarn Cache
+      id: yarn-cache
+      uses: actions/cache@v3.0.5
+      with:
+        path: |
+          .yarn/cache
+          .pnp.*
+        key: ${{ inputs.cache-prefix }}-${{ steps.detect-node.outputs.version }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Yarn Project
+      run: yarn install --immutable
+      shell: bash
+    - name: Create Artifacts Directory
+      run: mkdir -p artifacts
+      shell: bash
+    - name: Configure Git
+      run: |
+        git config --global user.name tophat-opensource-bot
+        git config --global user.email opensource-leads+bot@tophatmonocle.com
+        git config --global init.defaultBranch main
+      shell: bash
