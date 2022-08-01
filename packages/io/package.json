@@ -31,15 +31,15 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/node": "^14.17.14",
-    "@yarnpkg/core": "^3.2.1",
-    "@yarnpkg/fslib": "^2.6.2",
-    "@yarnpkg/shell": "^3.2.2"
+    "@yarnpkg/core": "^3.2.3",
+    "@yarnpkg/fslib": "^2.7.0",
+    "@yarnpkg/shell": "^3.2.3"
   },
   "peerDependencies": {
     "@monodeploy/logging": "workspace:^3.0.1",
     "@monodeploy/types": "workspace:^3.1.0",
-    "@yarnpkg/core": "^3.2.1",
-    "@yarnpkg/fslib": "^2.6.2",
-    "@yarnpkg/shell": "^3.2.2"
+    "@yarnpkg/core": "^3.2.3",
+    "@yarnpkg/fslib": "^2.7.0",
+    "@yarnpkg/shell": "^3.2.3"
   }
 }

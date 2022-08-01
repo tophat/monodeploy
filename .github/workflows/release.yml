@@ -12,103 +12,65 @@ jobs:
     name: Publish Monodeploy (Precheck)
     runs-on: ubuntu-20.04
     steps:
-        - uses: actions/checkout@v2
-          with:
-            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-            fetch-depth: 0
-        - uses: ./.github/actions/detect-env
-        - name: Setup Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: ${{ env.NODE_VERSION }}
-        - name: Create artifacts directory
-          run: mkdir -p ${{ env.ARTIFACT_DIR }}
-        - name: Restore yarn cache
-          id: yarn-cache
-          uses: actions/cache@v2
-          with:
-            path: |
-              ./.yarn
-              .pnp.*
-            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-        - name: Install dependencies
-          run: |
-            yarn install --immutable
-        - name: Build
-          run: yarn build
-        - name: Configure Git
-          run: |
-            git config --global user.name tophat-opensource-bot
-            git config --global user.email opensource-leads+bot@tophatmonocle.com
-            git config --global init.defaultBranch main
-        - name: Tests
-          run: yarn test:ci
+      - uses: actions/checkout@v3.0.2
+        with:
+          token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-env
+      - name: Build
+        run: yarn build
+      - name: Configure Git
+        run: |
+          git config --global user.name tophat-opensource-bot
+          git config --global user.email opensource-leads+bot@tophatmonocle.com
+          git config --global init.defaultBranch main
+      - name: Tests
+        run: yarn test:ci
 
   release:
     name: Publish Monodeploy
     runs-on: ubuntu-20.04
     needs: [pre-release-check]
     steps:
-        - uses: actions/checkout@v2
-          with:
-            token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-            fetch-depth: 0
-        - uses: ./.github/actions/detect-env
-        - name: Setup Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: ${{ env.NODE_VERSION }}
-        - name: Create artifacts directory
-          run: mkdir -p ${{ env.ARTIFACT_DIR }}
-        - name: Restore yarn cache
-          id: yarn-cache
-          uses: actions/cache@v2
-          with:
-            path: |
-              ./.yarn
-              .pnp.*
-            key: ${{ env.NODE_VERSION }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-        - name: Install dependencies
-          run: yarn install --immutable
-        - name: Build
-          run: yarn build
-        - name: Configure Git
-          run: |
-            git config --global user.name tophat-opensource-bot
-            git config --global user.email opensource-leads+bot@tophatmonocle.com
-            git config --global init.defaultBranch main
-        - name: Publish via Monodeploy (Pre-release)
-          if: github.ref != 'refs/heads/main'
-          env:
-            NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-            GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-          run: |
-            yarn run-local \
-              --log-level 0 \
-              --conventional-changelog-config @tophat/conventional-changelog-config \
-              --push \
-              --changeset-ignore-patterns '**/*.test.ts' \
-              --prerelease \
-              --package-group-manifest-field group
-        - name: Publish via Monodeploy
-          if: github.ref == 'refs/heads/main'
-          env:
-            NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-            GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-          run: |
-            yarn run-local \
-              --log-level 0 \
-              --conventional-changelog-config @tophat/conventional-changelog-config \
-              --changelog-filename "<packageDir>/CHANGELOG.md" \
-              --persist-versions \
-              --auto-commit \
-              --auto-commit-message "chore: release monodeploy [skip ci]" \
-              --plugins "@monodeploy/plugin-github" \
-              --push \
-              --changeset-ignore-patterns '**/*.test.ts' \
-              --package-group-manifest-field group
-        - name: Upload Artifacts
-          uses: actions/upload-artifact@v2
-          with:
-            name: build-artifacts
-            path: ${{ env.ARTIFACT_DIR }}
+      - uses: actions/checkout@v3.0.2
+        with:
+          token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-env
+      - name: Build
+        run: yarn build
+      - name: Publish via Monodeploy (Pre-release)
+        if: github.ref != 'refs/heads/main'
+        env:
+          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+        run: |
+          yarn run-local \
+            --log-level 0 \
+            --conventional-changelog-config @tophat/conventional-changelog-config \
+            --push \
+            --changeset-ignore-patterns '**/*.test.ts' \
+            --prerelease \
+            --package-group-manifest-field group
+      - name: Publish via Monodeploy
+        if: github.ref == 'refs/heads/main'
+        env:
+          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+        run: |
+          yarn run-local \
+            --log-level 0 \
+            --conventional-changelog-config @tophat/conventional-changelog-config \
+            --changelog-filename "<packageDir>/CHANGELOG.md" \
+            --persist-versions \
+            --auto-commit \
+            --auto-commit-message "chore: release monodeploy [skip ci]" \
+            --plugins "@monodeploy/plugin-github" \
+            --push \
+            --changeset-ignore-patterns '**/*.test.ts' \
+            --package-group-manifest-field group
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: ${{ env.ARTIFACT_DIR }}

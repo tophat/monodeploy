@@ -1,3 +1,5 @@
+corepack enable
+
 yarn && \
     yarn husky install && \
     yarn sdks vscode vim
