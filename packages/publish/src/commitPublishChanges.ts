@@ -1,10 +1,18 @@
-import { gitAdd, gitCommit, gitGlob, gitPull, gitPush, gitPushTags } from '@monodeploy/git'
+import {
+    gitAdd,
+    gitCommit,
+    gitGlob,
+    gitPull,
+    gitPush,
+    gitPushTags,
+    gitResolveSha,
+} from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
 
 import createReleaseGitTags from './createReleaseGitTags'
 
-const commitPublishChanges = async ({
+export const createPublishCommit = async ({
     config,
     context,
     gitTags,
@@ -12,12 +20,12 @@ const commitPublishChanges = async ({
     config: MonodeployConfiguration
     context: YarnContext
     gitTags?: Map<string, string>
-}): Promise<void> => {
+}): Promise<{ headSha: string } | undefined> => {
     if (config.dryRun) {
-        logging.info('[Publish] Committing changes', {
+        logging.info('[Publish] Creating publish commit', {
             report: context?.report,
         })
-        return
+        return undefined
     }
 
     if (config.autoCommit) {
@@ -40,24 +48,40 @@ const commitPublishChanges = async ({
             context,
             gitTags,
         })
-
-        // Push tags only outside of auto-commit mode, otherwise
-        // we'll push them after we push the commit
-        if (config.git.push && !config.autoCommit) {
-            await gitPushTags({
-                cwd: config.cwd,
-                remote: config.git.remote,
-                context,
-            })
-        }
     }
 
-    if (config.autoCommit && config.git.push) {
+    if (config.git.push && config.autoCommit) {
         await gitPull({
             cwd: config.cwd,
             remote: config.git.remote,
             context,
         })
+    }
+
+    return { headSha: await gitResolveSha('HEAD', { cwd: config.cwd, context }) }
+}
+
+export const pushPublishCommit = async ({
+    config,
+    context,
+    gitTags,
+}: {
+    config: MonodeployConfiguration
+    context: YarnContext
+    gitTags?: Map<string, string>
+}): Promise<void> => {
+    if (config.dryRun) {
+        logging.info('[Publish] Pushing publish commit', {
+            report: context?.report,
+        })
+        return
+    }
+
+    if (!config.git.push) {
+        return
+    }
+
+    if (config.autoCommit) {
         await gitPush({
             cwd: config.cwd,
             remote: config.git.remote,
@@ -70,7 +94,15 @@ const commitPublishChanges = async ({
                 context,
             })
         }
+    } else {
+        if (config.git.tag && gitTags?.size) {
+            // Push tags only outside of auto-commit mode, otherwise
+            // we'll push them after we push the commit
+            await gitPushTags({
+                cwd: config.cwd,
+                remote: config.git.remote,
+                context,
+            })
+        }
     }
 }
-
-export default commitPublishChanges

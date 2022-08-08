@@ -7,12 +7,13 @@ import {
     patchPackageJsons,
     restorePackageJsons,
 } from '@monodeploy/io'
-import logging from '@monodeploy/logging'
+import logging, { InvariantError } from '@monodeploy/logging'
 import {
-    commitPublishChanges,
+    createPublishCommit,
     determineGitTags,
     getWorkspacesToPublish,
     publishPackages,
+    pushPublishCommit,
 } from '@monodeploy/publish'
 import type {
     ChangesetSchema,
@@ -83,10 +84,11 @@ const monodeploy = async (
     let changeset: ChangesetSchema = {}
 
     const pipeline = async (report: StreamReport): Promise<void> => {
+        if (!foundProject.workspace) throw new InvariantError('No workspace found.')
         const context: YarnContext = {
             configuration,
             project,
-            workspace: foundProject.workspace as Workspace,
+            workspace: foundProject.workspace,
             report,
             hooks,
         }
@@ -185,7 +187,7 @@ const monodeploy = async (
             await writeChangesetFile({ config, context, changeset })
         })
 
-        let workspaces: Set<Workspace>
+        let workspaces: Set<Workspace> = new Set()
 
         await report.startTimerPromise(
             'Fetching Workspace Information',
@@ -198,8 +200,6 @@ const monodeploy = async (
             },
         )
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         if (!workspaces) {
             throw new Error(
                 'Workspaces invariant violation. If you are seeing this message, a critical error ' +
@@ -241,22 +241,6 @@ const monodeploy = async (
                 },
             )
 
-            // We publish to the registry before committing artifacts, because we use the
-            // git tags (usually) to determine whether we should publish. So if publishing fails,
-            // we don't want to have pushed the git tags to the repo, since otherwise we'd have to revert
-            // those changes which are a hassle in an automated pipeline.
-            await report.startTimerPromise(
-                'Publishing Packages',
-                { skipIfEmpty: false },
-                async () => {
-                    await publishPackages({
-                        config,
-                        context,
-                        workspaces,
-                    })
-                },
-            )
-
             if (workspaces.size) {
                 // After patching the manifests, there may be an inconsistency between what's on
                 // disk and what's in memory. We need to re-sync these states.
@@ -283,19 +267,50 @@ const monodeploy = async (
                 )
             }
 
+            let publishCommitSha: string | undefined
+            const restoredGitTags = getGitTagsFromChangeset(changeset)
+
             await report.startTimerPromise(
                 'Committing Changes',
                 { skipIfEmpty: true },
                 async () => {
                     if (!workspaces.size) return
 
-                    await commitPublishChanges({
+                    const publishCommit = await createPublishCommit({
                         config,
                         context,
-                        gitTags: getGitTagsFromChangeset(changeset),
+                        gitTags: restoredGitTags,
+                    })
+                    publishCommitSha = publishCommit?.headSha
+                },
+            )
+
+            // We publish to the registry before committing artifacts, because we use the
+            // git tags (usually) to determine whether we should publish. So if publishing fails,
+            // we don't want to have pushed the git tags to the repo, since otherwise we'd have to revert
+            // those changes which are a hassle in an automated pipeline.
+            await report.startTimerPromise(
+                'Publishing Packages',
+                { skipIfEmpty: false },
+                async () => {
+                    await publishPackages({
+                        config,
+                        context,
+                        workspaces,
+                        publishCommitSha,
                     })
                 },
             )
+
+            await report.startTimerPromise('Pushing Commit', { skipIfEmpty: true }, async () => {
+                if (!workspaces.size) return
+
+                await pushPublishCommit({
+                    config,
+                    context,
+                    gitTags: restoredGitTags,
+                })
+            })
 
             await report.startTimerPromise(
                 'Executing Release Hooks',
