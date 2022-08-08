@@ -16007,6 +16007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monodeploy@workspace:packages/cli"
   dependencies:
+    "@monodeploy/logging": "workspace:^3.2.0"
     "@monodeploy/node": "workspace:^3.2.0"
     "@monodeploy/types": "workspace:^3.2.0"
     "@types/node": ^14.17.14

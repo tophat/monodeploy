@@ -1,3 +1,4 @@
+import { ErrorsReported } from '@monodeploy/logging'
 import monodeploy from '@monodeploy/node'
 import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
 import { npath, ppath } from '@yarnpkg/fslib'
@@ -255,7 +256,17 @@ export class MonodeployCommand extends Command {
             await monodeploy(config)
             return 0
         } catch (err) {
-            console.error(process.env.DEBUG === 'monodeploy' ? err : String(err))
+            if (err instanceof ErrorsReported) {
+                // We've already reported the error, return.
+                return 1
+            }
+
+            this.context.stderr.write(`${err}\n`)
+            if (process.env.DEBUG === 'monodeploy') {
+                if (err instanceof Error) {
+                    this.context.stderr.write(`${err.stack}\n`)
+                }
+            }
             return 1
         }
     }

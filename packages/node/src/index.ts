@@ -7,7 +7,7 @@ import {
     patchPackageJsons,
     restorePackageJsons,
 } from '@monodeploy/io'
-import logging, { InvariantError } from '@monodeploy/logging'
+import logging, { ErrorsReported, InvariantError } from '@monodeploy/logging'
 import {
     createPublishCommit,
     determineGitTags,
@@ -347,7 +347,7 @@ const monodeploy = async (
     )
 
     if (report.hasErrors()) {
-        throw new Error('Monodeploy failed')
+        throw new ErrorsReported()
     }
 
     return changeset

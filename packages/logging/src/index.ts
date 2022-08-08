@@ -18,6 +18,8 @@ type Logger = (
     { report, extras }: { report?: Report | null; extras?: string },
 ) => void
 
+export class ErrorsReported extends Error {}
+
 const loggerOpts: { dryRun: boolean } = {
     dryRun: false,
 }
