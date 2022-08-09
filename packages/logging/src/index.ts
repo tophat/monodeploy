@@ -1,4 +1,5 @@
 import { Writable } from 'stream'
+import util from 'util'
 
 import { MessageName, Report, miscUtils } from '@yarnpkg/core'
 
@@ -35,7 +36,7 @@ const createLogger =
         if (getCurrentLogLevel() > level) return
 
         if (!report) {
-            console.log(message)
+            process.stdout.write(`${util.format(message)}\n`)
             return
         }
 

@@ -93,7 +93,6 @@ const prependChangelogFile = async ({
             )
             const packageName = structUtils.stringifyIdent(workspace.manifest.name!)
             const entry = changeset[packageName]?.changelog
-            console.log(entry, packageName, changeset)
             if (entry) await prependEntry({ config, context, filename, entry })
         }
 

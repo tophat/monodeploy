@@ -92,23 +92,19 @@ To use the API:
 import type { MonodeployConfiguration }  from '@monodeploy/types'
 import monodeploy from '@monodeploy/node'
 
-try {
-    const config: MonodeployConfiguration = {
-        cwd: process.cwd(),
-        dryRun: false,
-        git: {
-            commitSha: 'HEAD',
-            remote: 'origin',
-            push: true,
-        },
-        conventionalChangelogConfig: '@tophat/conventional-changelog-config',
-        access: 'infer',
-        persistVersions: false,
-    }
-    const changeset = await monodeploy(config)
-} catch (err) {
-    console.error(err)
+const config: MonodeployConfiguration = {
+    cwd: process.cwd(),
+    dryRun: false,
+    git: {
+        commitSha: 'HEAD',
+        remote: 'origin',
+        push: true,
+    },
+    conventionalChangelogConfig: '@tophat/conventional-changelog-config',
+    access: 'infer',
+    persistVersions: false,
 }
+const changeset = await monodeploy(config)
 ```
 
 Note that configuration presets are not supported when using the Node API.
