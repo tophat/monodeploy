@@ -141,9 +141,7 @@ describe('CLI', () => {
 
         it('sets exit code to error if monodeploy throws', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-                /* ignore */
-            })
+            const spyError = jest.spyOn(process.stderr, 'write')
             const error = new Error('Monodeploy failed.')
             ;(monodeploy as jest.MockedFunction<typeof monodeploy>).mockImplementation(() => {
                 throw error
@@ -153,9 +151,8 @@ describe('CLI', () => {
                 require('./index')
             })
             await new Promise((r) => setTimeout(r))
-            expect(spyError).toHaveBeenCalledWith(String(error))
+            expect(spyError).toHaveBeenCalledWith(`${String(error)}\n`)
             expect(process.exitCode).toBe(1)
-            spyError.mockRestore()
             process.exitCode = prevExitCode
         })
     })
@@ -163,9 +160,7 @@ describe('CLI', () => {
     describe('Config File', () => {
         it('throws an error if unable to read config file', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-                /* ignore */
-            })
+            const spyError = jest.spyOn(process.stderr, 'write')
 
             const configFileContents = `
                 invalid_javascript{} = {
@@ -183,7 +178,6 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toBe(1)
-                spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
@@ -192,9 +186,7 @@ describe('CLI', () => {
 
         it('throws an error if invalid configuration', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-                /* ignore */
-            })
+            const spyError = jest.spyOn(process.stderr, 'write')
 
             const configFileContents = `
                 module.exports = { git: { baseBranch: true } }
@@ -211,7 +203,6 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toBe(1)
-                spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
@@ -771,9 +762,7 @@ describe('CLI', () => {
     describe('Presets', () => {
         it('throws an error if unable to read the preset file', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-                /* ignore */
-            })
+            const spyError = jest.spyOn(process.stderr, 'write')
 
             const configFileContents = `
                 module.exports = { preset: './preset.js', git: { baseBranch: 'main' } }
@@ -798,7 +787,6 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toBe(1)
-                spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
@@ -807,9 +795,7 @@ describe('CLI', () => {
 
         it('throws an error if invalid configuration', async () => {
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(console, 'error').mockImplementation(() => {
-                /* ignore */
-            })
+            const spyError = jest.spyOn(process.stderr, 'write')
 
             const configFileContents = `
                 module.exports = { preset: './preset.js', git: { baseBranch: true } }
@@ -833,7 +819,6 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect(spyError).toHaveBeenCalled()
                 expect(process.exitCode).toBe(1)
-                spyError.mockRestore()
                 process.exitCode = prevExitCode
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })

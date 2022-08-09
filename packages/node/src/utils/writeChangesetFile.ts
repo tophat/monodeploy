@@ -25,7 +25,7 @@ export const writeChangesetFile = async ({
     const serializedData = JSON.stringify(changeset, null, 2)
 
     if (config.changesetFilename === '-') {
-        console.log(serializedData)
+        process.stdout.write(`${serializedData}\n`)
     } else {
         const changesetPath = path.resolve(
             config.cwd,

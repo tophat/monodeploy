@@ -39,6 +39,7 @@
     "@types/node": "^14.17.14"
   },
   "dependencies": {
+    "@monodeploy/logging": "workspace:^3.2.0",
     "@monodeploy/node": "workspace:^3.2.0",
     "@monodeploy/types": "workspace:^3.2.0",
     "@yarnpkg/core": "^3.2.3",

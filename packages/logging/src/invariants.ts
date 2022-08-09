@@ -15,3 +15,9 @@ export const assertProductionOrTest = (): void => {
         )
     }
 }
+
+export class InvariantError extends Error {
+    constructor(message: string) {
+        super(message)
+    }
+}

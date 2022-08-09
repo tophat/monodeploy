@@ -455,7 +455,7 @@ describe('Monodeploy', () => {
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changesetFilename = await path.join(tempDir, 'changeset.json')
 
-        const spyConsoleLog = jest.spyOn(console, 'log')
+        const spyStdout = jest.spyOn(process.stdout, 'write')
 
         try {
             const result = await monodeploy({
@@ -470,7 +470,7 @@ describe('Monodeploy', () => {
             await expect(fs.stat(changesetFilename)).rejects.toThrow()
 
             // assert stdout is equal to the returned result
-            expect(JSON.parse(spyConsoleLog.mock.calls[0][0])).toEqual(result)
+            expect(JSON.parse(spyStdout.mock.calls[0][0] as string)).toEqual(result)
 
             expect(result).toEqual(
                 expect.objectContaining({
@@ -486,7 +486,7 @@ describe('Monodeploy', () => {
             } catch {}
         }
 
-        spyConsoleLog.mockRestore()
+        spyStdout.mockRestore()
     })
 
     it('does not restore package.jsons if persist versions is true', async () => {

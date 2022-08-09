@@ -6,22 +6,24 @@ import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
 import pLimit from 'p-limit'
 
-import commitPublishChanges from './commitPublishChanges'
 import determineGitTags from './determineGitTags'
 import { getPublishRegistryUrl } from './getPublishConfig'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
 import { prepareForPack, prepareForPublish } from './prepare'
 
-export { determineGitTags, commitPublishChanges, getWorkspacesToPublish }
+export { pushPublishCommit, createPublishCommit } from './commitPublishChanges'
+export { determineGitTags, getWorkspacesToPublish }
 
 export const publishPackages = async ({
     config,
     context,
     workspaces,
+    publishCommitSha,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     workspaces: Set<Workspace>
+    publishCommitSha?: string | undefined
 }): Promise<void> => {
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
     const publishTag = config.prerelease ? config.prereleaseNPMTag : 'latest'
@@ -64,6 +66,7 @@ export const publishPackages = async ({
                 access,
                 tag: publishTag,
                 registry: registryUrl,
+                gitHead: publishCommitSha,
             })
 
             const identUrl = npmHttpUtils.getIdentUrl(ident)

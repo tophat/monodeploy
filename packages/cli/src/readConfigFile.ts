@@ -98,7 +98,7 @@ const readConfigFile = async (
         /* istanbul ignore else */
         if (err instanceof Error && err?.message) {
             throw new Error(
-                `Unable to parse monodeploy config from: ${configPath}.\n\n${err.message}`,
+                `Unable to parse monodeploy config from '${configPath}'.\n\n${err.message}`,
             )
         }
 
