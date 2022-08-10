@@ -32,3 +32,30 @@ Once the manifests of all packages we will be publishing are updated, we trigger
 At this point, the changeset information for each published package is piped through the loaded conventional changelog config, and changelog files are written. Depending on configuration options, the changelog files, and the modified package manifests are committed. If enabled, release git tags are created then created, and the tagged commit is pushed to the remote git repository.
 
 At various steps throughout the pipepline, Monodeploy plugin hooks will be triggered.
+
+### Lifecycle Scripts
+
+At various points in the publish lifecycle, Monodeploy will execute special lifecycle scripts. If leveraging lifecycle scripts, you'll want to familiarize yourself with this section, since Monodeploy may act differently than NPM, Yarn, or Lerna.
+
+There are two types of lifecycle scripts, "pre" scripts and "post" scripts. Monodeploy will execute _all_ "pre" scripts prior to actually publishing any packages, even if using topological sort. This enables you to leverage the pre lifecycle hooks to abort the publish early without leaving the repository in a half-published state.
+
+Once all pre scripts are executed, Monodeploy publishes the package archive to the specified registry. Post scripts will then run, regardless of whether the publish was successful or not.
+
+You can think of the publish process as being split into distinct stages wherein each stage will execute exactly one type of lifecycle script, while respecting topological sort options while executing that stage. For example, when calling "prepublish", Monodeploy will trigger prepublish in topological order (if the topological config option is set) and will _not_ execute the prepack script until _all_ prepublish scripts have completed.
+
+The exact order of lifecycle scripts executed is as follows (this may differ from NPM, Yarn, and Lerna):
+
+1. prepublish
+    - This is called before packing even starts. Since NPM will execute this lifecycle script on installs, NPM deprecated this lifecycle script in favour of 'prepublishOnly'. That being said, Yarn Modern _does not_ call prepublishOnly but calls 'prepublish'. Further, Yarn does not call prepublish on install.
+2. prepare
+    - This is not called by Yarn, however it is called by NPM and by Lerna prior to packing. It is _not recommended_ to leverage this lifecycle hook for compilation.
+3. prepublishOnly
+    - This is not directly supported by Yarn Modern, however was introduced by NPM as a replacement for the deprecated 'prepublish' script.
+4. prepack
+    - This is the lifecycle hook that you should be using for any compilation, such as compiling TypeScript to JavaScript. Errors thrown here, or in any early pre lifecycle script, will abort the publish process.
+5. ~_publish_~
+    - At this "stage" we pack and publish each package. We do not call any 'publish' lifecycle scripts here.
+6. postpack
+    - This is guaranteed to execute after packing the archive, regardless of failure. This is useful script for build directory cleanup.
+7. postpublish
+    - This is guaranteed to execute after postpack and is the final lifecycle script called in the publish pipeline. Note that Monodeploy will still do work following this lifecycle script, mainly around changelog generation, and git management.

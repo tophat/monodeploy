@@ -1,15 +1,12 @@
 import { getTopologicalSort } from '@monodeploy/dependencies'
-import logging, { assertProductionOrTest } from '@monodeploy/logging'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Workspace, miscUtils, structUtils } from '@yarnpkg/core'
-import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
-import { packUtils } from '@yarnpkg/plugin-pack'
+import { Workspace } from '@yarnpkg/core'
 import pLimit from 'p-limit'
 
 import determineGitTags from './determineGitTags'
-import { getPublishRegistryUrl } from './getPublishConfig'
 import getWorkspacesToPublish from './getWorkspacesToPublish'
-import { prepareForPack, prepareForPublish } from './prepare'
+import { createWorkspaceLifecycleExecutor } from './lifecycleExecutor'
+import { pack } from './pack'
 
 export { pushPublishCommit, createPublishCommit } from './commitPublishChanges'
 export { determineGitTags, getWorkspacesToPublish }
@@ -28,95 +25,73 @@ export const publishPackages = async ({
     const limitPublish = pLimit(config.maxConcurrentWrites || 1)
     const publishTag = config.prerelease ? config.prereleaseNPMTag : 'latest'
 
-    const prepareWorkspace = async (workspace: Workspace) => {
-        const ident = workspace.manifest.name
-        if (!ident) return
-
-        const pkgName = structUtils.stringifyIdent(ident)
-
-        const cwd = workspace.cwd
-
-        const pack = async () => {
-            const registryUrl = await getPublishRegistryUrl({
-                config,
-                context,
-                workspace,
-            })
-
-            if (!registryUrl) {
-                logging.info(
-                    `[Publish] '${pkgName}' (${publishTag}: ${workspace.manifest.version}, skipping registry)`,
-                    { report: context.report },
-                )
-                return
-            }
-
-            const globalAccess = config.access
-            const access = globalAccess === 'infer' ? undefined : globalAccess
-
-            logging.info(
-                `[Publish] ${pkgName} (${publishTag}: ${workspace.manifest.version}, ${registryUrl}; ${access})`,
-                { report: context.report },
-            )
-
-            const filesToPack = await packUtils.genPackList(workspace)
-            const pack = await packUtils.genPackStream(workspace, filesToPack)
-            const buffer = await miscUtils.bufferStream(pack)
-            const body = await npmPublishUtils.makePublishBody(workspace, buffer, {
-                access,
-                tag: publishTag,
-                registry: registryUrl,
-                gitHead: publishCommitSha,
-            })
-
-            const identUrl = npmHttpUtils.getIdentUrl(ident)
-
-            try {
-                if (!config.dryRun) {
-                    assertProductionOrTest()
-                    await limitPublish(() =>
-                        npmHttpUtils.put(identUrl, body, {
-                            authType: npmHttpUtils.AuthType.ALWAYS_AUTH,
-                            configuration: context.project.configuration,
-                            ident,
-                            registry: registryUrl,
-                        }),
-                    )
-                }
-                logging.info(`[Publish] '${pkgName}' published.`, { report: context.report })
-            } catch (err) {
-                logging.error(err, {
-                    report: context.report,
-                    extras: `[Publish] Failed to publish '${pkgName}' to ${identUrl} (${publishTag}: ${body['dist-tags']?.[publishTag]}, ${registryUrl}; ${body.access})`,
-                })
-                throw err
-            }
-        }
-
-        await prepareForPublish(context, workspace, { cwd, dryRun: config.dryRun }, async () => {
-            await prepareForPack(context, workspace, { cwd, dryRun: config.dryRun }, pack)
-        })
-    }
-
     const limit = pLimit(config.jobs || Infinity)
-    if (config.topological || config.topologicalDev) {
-        const groups = await getTopologicalSort(workspaces, {
-            dev: config.topologicalDev,
-        })
-        const promiseChain = groups.reduce<Promise<void>>(
-            (chain, group) =>
-                chain.then(
-                    async () =>
-                        void (await Promise.all(
-                            group.map((workspace) => limit(() => prepareWorkspace(workspace))),
-                        )),
-                ),
-            Promise.resolve(),
+    const groups =
+        config.topological || config.topologicalDev
+            ? await getTopologicalSort(workspaces, {
+                  dev: config.topologicalDev,
+              })
+            : [[...workspaces]]
+
+    const executeLifecycle = createWorkspaceLifecycleExecutor({ limit, groups, config, context })
+
+    /**
+     * Lifecycle: Prepublish
+     *
+     * Called before packing even starts. NPM will execute this lifecycle script
+     * on installs, so it's not recommended to place publish-only scripts here.
+     *
+     * This is deprecated by NPM in favour of prepublishOnly, however Yarn Modern does
+     * not implement prepublishOnly and only implements prepublish.
+     */
+    await executeLifecycle('prepublish')
+
+    /**
+     * Lifecycle: Prepare
+     *
+     * This is not called by Yarn but called by NPM and by Lerna prior to packing.
+     * It is not recommended to use this lifecycle hook for compiling.
+     */
+    await executeLifecycle('prepare')
+
+    /**
+     * Lifecycle: Prepublish Only
+     *
+     * This is not directly supported by Yarn Modern, however was introduced by NPM as
+     * a replacement for the deprecated "Prepublish".
+     */
+    await executeLifecycle('prepublishOnly')
+
+    /**
+     * Lifecycle: Prepack
+     *
+     * The prepack script should be used to compile packages, e.g.
+     * transpiling TypeScript to JavaScript.
+     */
+    await executeLifecycle('prepack')
+
+    try {
+        /**
+         * In "pack", we create the package archives and publish to the registry.
+         */
+        await executeLifecycle((workspace) =>
+            pack({ workspace, limitPublish, config, context, publishTag, publishCommitSha }),
         )
-        await promiseChain
-    } else {
-        await Promise.all(
-            [...workspaces].map((workspace) => limit(() => prepareWorkspace(workspace))),
-        )
+    } finally {
+        try {
+            /**
+             * Lifecycle: Postpack
+             *
+             * Guaranteed to execute after packing the archive.
+             */
+            await executeLifecycle('postpack')
+        } finally {
+            /**
+             * Lifecycle: Postpublish
+             *
+             * Guaranteed to execute _after_ postpack.
+             */
+            await executeLifecycle('postpublish')
+        }
     }
 }

@@ -66,11 +66,13 @@ describe('Monodeploy Lifecycle Scripts', () => {
 
     beforeEach(async () => {
         const scripts = {
-            prepack: 'node -p "process.hrtime.bigint()" > .prepack.test.tmp',
-            prepare: 'node -p "process.hrtime.bigint()" > .prepare.test.tmp',
-            prepublish: 'node -p "process.hrtime.bigint()" > .prepublish.test.tmp',
-            postpack: 'node -p "process.hrtime.bigint()" > .postpack.test.tmp',
-            postpublish: 'node -p "process.hrtime.bigint()" > .postpublish.test.tmp',
+            prepack: 'node -p "process.hrtime.bigint().toString()" > .prepack.test.tmp',
+            prepare: 'node -p "process.hrtime.bigint().toString()" > .prepare.test.tmp',
+            prepublish: 'node -p "process.hrtime.bigint().toString()" > .prepublish.test.tmp',
+            prepublishOnly:
+                'node -p "process.hrtime.bigint().toString()" > .prepublishOnly.test.tmp',
+            postpack: 'node -p "process.hrtime.bigint().toString()" > .postpack.test.tmp',
+            postpublish: 'node -p "process.hrtime.bigint().toString()" > .postpublish.test.tmp',
         }
         const context = await setupMonorepo(
             {
@@ -140,21 +142,22 @@ describe('Monodeploy Lifecycle Scripts', () => {
             'pkg-6@0.0.2',
         ])
 
-        const filesToCheck = [
-            '.prepack.test.tmp',
-            '.prepare.test.tmp',
+        const orderedFilesToCheck = [
             '.prepublish.test.tmp',
+            '.prepare.test.tmp',
+            '.prepublishOnly.test.tmp',
+            '.prepack.test.tmp',
             '.postpack.test.tmp',
             '.postpublish.test.tmp',
         ]
 
-        for (const fileToCheck of filesToCheck) {
+        let timestamp = BigInt(0)
+        for (const fileToCheck of orderedFilesToCheck) {
             const filename = resolvePackagePath('pkg-4', fileToCheck)
-            const exists = await fs
-                .stat(filename)
-                .then(() => true)
-                .catch(() => false)
-            expect(exists).toBe(true)
+            const time = BigInt(await fs.readFile(filename, 'utf8'))
+
+            expect(time).toBeGreaterThanOrEqual(timestamp)
+            timestamp = time
         }
     })
 
