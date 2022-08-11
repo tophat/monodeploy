@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.2.0...@monodeploy/publish@3.3.0) "@monodeploy/publish" (2022-08-11)<a name="3.3.0"></a>
+
+### Bug Fixes
+
+* **publish**: set gitHead on publish, close #412 ([fc25ff3](https://github.com/tophat/monodeploy/commits/fc25ff3))
+
+### Features
+
+* run all pre-lifecycle hooks before publish, close #311 (#510) ([4176baa](https://github.com/tophat/monodeploy/commits/4176baa))
+
+
+
+
 ## [3.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.1.0...@monodeploy/publish@3.2.0) "@monodeploy/publish" (2022-08-01)<a name="3.2.0"></a>
 
 ### Features

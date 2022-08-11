@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.3.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.2.0...monodeploy@3.3.0) "monodeploy" (2022-08-11)<a name="3.3.0"></a>
+
+### Observability & Analytics
+
+* improved logging ([e517337](https://github.com/tophat/monodeploy/commits/e517337))
+
+
+
+
 ## [3.2.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.1.0...monodeploy@3.2.0) "monodeploy" (2022-08-01)<a name="3.2.0"></a>
 
 ### Features

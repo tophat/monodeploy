@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@3.2.0...@monodeploy/node@3.3.0) "@monodeploy/node" (2022-08-11)<a name="3.3.0"></a>
+
+### Bug Fixes
+
+* **publish**: set gitHead on publish, close #412 ([fc25ff3](https://github.com/tophat/monodeploy/commits/fc25ff3))
+
+### Observability & Analytics
+
+* improved logging ([e517337](https://github.com/tophat/monodeploy/commits/e517337))
+
+
+
+
 ## [3.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@3.1.0...@monodeploy/node@3.2.0) "@monodeploy/node" (2022-08-01)<a name="3.2.0"></a>
 
 ### Features
