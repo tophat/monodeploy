@@ -105,7 +105,7 @@ export class MonodeployCommand extends Command {
     })
 
     access = Option.String('--access', {
-        validator: t.isEnum(['infer', 'public', 'restricted']),
+        validator: t.isEnum(['infer', 'public', 'restricted'] as const),
         description:
             'Whether the package should be deployed as public or restricted (only applies to scoped packages)',
     })

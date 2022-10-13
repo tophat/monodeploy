@@ -46,24 +46,24 @@ describe('CLI', () => {
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                 .toMatchInlineSnapshot(`
-                Object {
+                {
                   "access": "infer",
                   "applyChangeset": true,
                   "autoCommit": true,
                   "autoCommitMessage": "release",
                   "changelogFilename": "changelog.md",
                   "changesetFilename": "changes.json",
-                  "changesetIgnorePatterns": Array [
+                  "changesetIgnorePatterns": [
                     "*.test.js",
                   ],
-                  "commitIgnorePatterns": Array [
+                  "commitIgnorePatterns": [
                     "skip-ci",
                   ],
                   "conventionalChangelogConfig": "@my/config",
                   "cwd": "/tmp",
                   "dryRun": true,
                   "forceWriteChangeFiles": true,
-                  "git": Object {
+                  "git": {
                     "baseBranch": "main",
                     "commitSha": "HEAD",
                     "push": true,
@@ -77,7 +77,7 @@ describe('CLI', () => {
                   "packageGroupManifestField": "group",
                   "packageGroups": undefined,
                   "persistVersions": true,
-                  "plugins": Array [
+                  "plugins": [
                     "plugin-a",
                     "plugin-b",
                   ],
@@ -100,7 +100,7 @@ describe('CLI', () => {
             await new Promise((r) => setTimeout(r))
             expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                 .toMatchInlineSnapshot(`
-                Object {
+                {
                   "access": undefined,
                   "applyChangeset": false,
                   "autoCommit": undefined,
@@ -113,7 +113,7 @@ describe('CLI', () => {
                   "cwd": undefined,
                   "dryRun": undefined,
                   "forceWriteChangeFiles": undefined,
-                  "git": Object {
+                  "git": {
                     "baseBranch": undefined,
                     "commitSha": undefined,
                     "push": undefined,
@@ -256,7 +256,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": true,
@@ -264,14 +264,14 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": Array [
+                      "commitIgnorePatterns": [
                         "skip-ci",
                       ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
@@ -283,16 +283,16 @@ describe('CLI', () => {
                       "maxConcurrentWrites": 5,
                       "noRegistry": false,
                       "packageGroupManifestField": undefined,
-                      "packageGroups": Object {
-                        "pkg-1": Object {
+                      "packageGroups": {
+                        "pkg-1": {
                           "registryMode": "npm",
                         },
-                        "pkg-2": Object {
+                        "pkg-2": {
                           "registryMode": "manifest",
                         },
                       },
                       "persistVersions": true,
-                      "plugins": Array [
+                      "plugins": [
                         "plugin-a",
                         "plugin-b",
                       ],
@@ -354,7 +354,7 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "restricted",
                       "applyChangeset": false,
                       "autoCommit": undefined,
@@ -363,14 +363,14 @@ describe('CLI', () => {
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
                       "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": Object {
+                      "conventionalChangelogConfig": {
                         "name": "@my/config-from-file",
                         "someData": 123,
                       },
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
@@ -440,14 +440,14 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": Array [
+                      "changesetIgnorePatterns": [
                         "*.test.js",
                         "*.snap",
                       ],
@@ -456,7 +456,7 @@ describe('CLI', () => {
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
@@ -532,7 +532,7 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": true,
@@ -540,14 +540,14 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": Array [
+                      "commitIgnorePatterns": [
                         "skip-ci",
                       ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
@@ -561,7 +561,7 @@ describe('CLI', () => {
                       "packageGroupManifestField": undefined,
                       "packageGroups": undefined,
                       "persistVersions": true,
-                      "plugins": Array [
+                      "plugins": [
                         "plugin-a",
                         "plugin-b",
                       ],
@@ -625,7 +625,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": true,
@@ -633,14 +633,14 @@ describe('CLI', () => {
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
                       "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": Array [
+                      "commitIgnorePatterns": [
                         "ignore-me",
                       ],
                       "conventionalChangelogConfig": "@my/config-from-file",
                       "cwd": undefined,
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "next",
                         "commitSha": "HEAD",
                         "push": true,
@@ -654,7 +654,7 @@ describe('CLI', () => {
                       "packageGroupManifestField": "group",
                       "packageGroups": undefined,
                       "persistVersions": true,
-                      "plugins": Array [
+                      "plugins": [
                         "plugin-a",
                       ],
                       "prerelease": true,
@@ -716,7 +716,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
                     .toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": true,
@@ -729,7 +729,7 @@ describe('CLI', () => {
                       "cwd": undefined,
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "next",
                         "commitSha": "HEAD",
                         "push": true,
@@ -882,14 +882,14 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "infer",
                       "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": Array [
+                      "changesetIgnorePatterns": [
                         "*.snap",
                       ],
                       "commitIgnorePatterns": undefined,
@@ -897,7 +897,7 @@ describe('CLI', () => {
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main-1",
                         "commitSha": "HEAD",
                         "push": false,
@@ -984,14 +984,14 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "infer",
                       "applyChangeset": false,
                       "autoCommit": undefined,
                       "autoCommitMessage": undefined,
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": Array [
+                      "changesetIgnorePatterns": [
                         "*.snap",
                       ],
                       "commitIgnorePatterns": undefined,
@@ -999,7 +999,7 @@ describe('CLI', () => {
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main-1",
                         "commitSha": "HEAD",
                         "push": false,
@@ -1072,14 +1072,14 @@ describe('CLI', () => {
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
                 expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    Object {
+                    {
                       "access": "public",
                       "applyChangeset": false,
                       "autoCommit": true,
                       "autoCommitMessage": "chore: release",
                       "changelogFilename": "from_file.changelog.md",
                       "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": Array [
+                      "changesetIgnorePatterns": [
                         "**/*.test.ts",
                         "**/*.test.js",
                       ],
@@ -1088,7 +1088,7 @@ describe('CLI', () => {
                       "cwd": "/tmp/cwd",
                       "dryRun": true,
                       "forceWriteChangeFiles": true,
-                      "git": Object {
+                      "git": {
                         "baseBranch": "main",
                         "commitSha": "HEAD",
                         "push": true,
@@ -1102,7 +1102,7 @@ describe('CLI', () => {
                       "packageGroupManifestField": undefined,
                       "packageGroups": undefined,
                       "persistVersions": true,
-                      "plugins": Array [
+                      "plugins": [
                         "plugin-a",
                         "plugin-b",
                       ],
