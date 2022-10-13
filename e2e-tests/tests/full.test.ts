@@ -2,7 +2,7 @@ import { RegistryMode } from '@monodeploy/types'
 
 import setupProject from 'helpers/setupProject'
 
-const TIMEOUT = 200000 // we need time for docker interactions
+const TIMEOUT = 300000 // we need time for docker interactions
 
 describe('Full E2E', () => {
     it(
