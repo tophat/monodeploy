@@ -23,6 +23,6 @@
     "include": ["./packages", "./e2e-tests", "./__mocks__", "./testUtils"],
     "ts-node": {
         "transpileOnly": true,
-        "ignore": [".yarn/plugins/.*"],
+        "ignore": ["(?:^|/)node_modules/", ".yarn/plugins/.*"],
     }
 }

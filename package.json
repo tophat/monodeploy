@@ -40,7 +40,7 @@
         "workspace:test:watch": "run workspace:test --watch $0",
         "workspace:test": "jest --config=jest.config.js $0",
         "workspace:types:watch": "tsc -p $0 --noEmit --pretty --watch",
-        "run-local": "ts-node --ignore '.yarn/plugins/.*' $(yarn bin monodeploy)",
+        "run-local": "ts-node --ignore '.yarn/plugins/.*' --ignore '(?:^|/)node_modules/' $(yarn bin monodeploy)",
         "docs": "yarn workspace @monodeploy/gatsby build",
         "docs:dev": "yarn workspace @monodeploy/gatsby develop"
     },
