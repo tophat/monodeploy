@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.3.0...@monodeploy/publish@3.3.1) "@monodeploy/publish" (2022-10-13)<a name="3.3.1"></a>
+
+### Bug Fixes
+
+* update to yarn 3.2.3 (#513) ([a6e8030](https://github.com/tophat/monodeploy/commits/a6e8030))
+* update to yarn 3.2.4 ([6aebff9](https://github.com/tophat/monodeploy/commits/6aebff9))
+
+
+
+
 ## [3.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.2.0...@monodeploy/publish@3.3.0) "@monodeploy/publish" (2022-08-11)<a name="3.3.0"></a>
 
 ### Bug Fixes
