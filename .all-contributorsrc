@@ -115,6 +115,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "imccausl",
+      "name": "Ian McCausland",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20084398?v=4",
+      "profile": "https://www.ianmccaus.land",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
