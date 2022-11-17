@@ -172,3 +172,17 @@ export const gitCommit = async (
     assertProduction()
     await git(`commit -m "${message}" -n`, { cwd, context })
 }
+
+export const gitPushDryRun = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<boolean> => {
+    const result = await git(`push --dry-run ${remote}`, { cwd, context })
+
+    return result.code === 0
+}

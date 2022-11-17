@@ -40,6 +40,7 @@ import { getGitTagsFromChangeset } from './utils/getGitTagsFromChangeset'
 import { mergeDefaultConfig } from './utils/mergeDefaultConfig'
 // import { readChangesetFile } from './utils/readChangesetFile'
 import { writeChangesetFile } from './utils/writeChangesetFile'
+import { verifyGitCredentials } from './verifyGitCredentials'
 
 const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
@@ -131,6 +132,12 @@ const monodeploy = async (
             context,
             intentionalStrategies,
             implicitVersionStrategies,
+        })
+
+        // Verify if we can push to the remote repository
+        await verifyGitCredentials({
+            config,
+            context,
         })
 
         // Backup workspace package.jsons

@@ -12,6 +12,7 @@ const registry: {
     lastTaggedCommit?: string
     pushedCommits: string[]
     stagedFiles: string[]
+    hasValidCredentials: boolean
 } = {
     commits: [],
     filesModified: new Map(),
@@ -20,6 +21,7 @@ const registry: {
     pushedCommits: [],
     lastTaggedCommit: undefined,
     stagedFiles: [],
+    hasValidCredentials: true,
 }
 
 const _reset_ = (): void => {
@@ -30,6 +32,7 @@ const _reset_ = (): void => {
     registry.pushedCommits = []
     registry.lastTaggedCommit = undefined
     registry.stagedFiles = []
+    registry.hasValidCredentials = true
 }
 
 const _commitFiles_ = (sha: string, commit: string, files: string[]): void => {
@@ -191,6 +194,18 @@ export const gitGlob = async (
     return globs // TODO: not entirely accurate
 }
 
+export const gitPushDryRun = async ({
+    cwd,
+    remote,
+    context,
+}: {
+    cwd: string
+    remote: string
+    context?: YarnContext
+}): Promise<boolean> => {
+    return registry.hasValidCredentials
+}
+
 module.exports = {
     __esModule: true,
     _commitFiles_,
@@ -211,4 +226,5 @@ module.exports = {
     gitPushTags,
     gitResolveSha,
     gitTag,
+    gitPushDryRun,
 }

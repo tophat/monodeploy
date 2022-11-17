@@ -36,6 +36,7 @@ const mockGit = git as jest.Mocked<
             lastTaggedCommit?: string
             pushedCommits: string[]
             stagedFiles: string[]
+            hasValidCredentials: boolean
         }
     }
 >
@@ -682,5 +683,23 @@ describe('Monodeploy', () => {
             'pkg-3@7.0.0-alpha.1',
             'pkg-6@0.0.5-alpha.0',
         ])
+    })
+
+    it('checks if git credentials are valid', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+        mockGit._getRegistry_().hasValidCredentials = false
+
+        await expect(async () => {
+            await monodeploy({
+                ...monodeployConfig,
+                git: {
+                    ...monodeployConfig.git,
+                    push: true,
+                },
+            })
+        }).rejects.toThrow()
     })
 })
