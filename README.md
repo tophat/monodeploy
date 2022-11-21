@@ -7,7 +7,7 @@
 [![Maturity badge - level 2](https://img.shields.io/badge/Maturity-Level%202%20--%20First%20Release-yellowgreen.svg)](https://github.com/tophat/getting-started/blob/main/scorecard.md)
 [![GitHub license](https://img.shields.io/github/license/tophat/monodeploy)](https://github.com/tophat/monodeploy/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/809577721751142410)](https://discord.gg/YhK3GFcZrk) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![node-current](https://img.shields.io/node/v/monodeploy)
@@ -53,6 +53,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="https://www.karnov.club/"><img src="https://avatars2.githubusercontent.com/u/6210361?v=4?s=100" width="100px;" alt="Marc Cataford"/><br /><sub><b>Marc Cataford</b></sub></a><br /><a href="https://github.com/tophat/monodeploy/commits?author=mcataford" title="Code">💻</a> <a href="#infra-mcataford" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
       <td align="center"><a href="https://github.com/fmal"><img src="https://avatars.githubusercontent.com/u/927591?v=4?s=100" width="100px;" alt="Filip Malinowski"/><br /><sub><b>Filip Malinowski</b></sub></a><br /><a href="https://github.com/tophat/monodeploy/commits?author=fmal" title="Code">💻</a> <a href="https://github.com/tophat/monodeploy/issues?q=author%3Afmal" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://www.ianmccaus.land"><img src="https://avatars.githubusercontent.com/u/20084398?v=4?s=100" width="100px;" alt="Ian McCausland"/><br /><sub><b>Ian McCausland</b></sub></a><br /><a href="https://github.com/tophat/monodeploy/commits?author=imccausl" title="Documentation">📖</a></td>
+      <td align="center"><a href="https://github.com/EdieLemoine"><img src="https://avatars.githubusercontent.com/u/3886637?v=4?s=100" width="100px;" alt="Edie Lemoine"/><br /><sub><b>Edie Lemoine</b></sub></a><br /><a href="https://github.com/tophat/monodeploy/commits?author=EdieLemoine" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
