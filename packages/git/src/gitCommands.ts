@@ -10,7 +10,7 @@ const git = async (
     const command = `git ${subcommand}`
     logging.debug(`[Exec] ${command}`, { report: context?.report })
 
-    return await exec(command, { cwd })
+    return await exec(command, { cwd, env: { GIT_TERMINAL_PROMPT: '0', ...process.env } })
 }
 
 export const gitResolveSha = async (
@@ -61,13 +61,19 @@ export const gitPushTags = async ({
     cwd,
     remote,
     context,
+    dryRun = false,
 }: {
     cwd: string
     remote: string
     context?: YarnContext
+    dryRun?: boolean
 }): Promise<void> => {
     assertProduction()
-    await git(`push --tags ${remote}`, {
+
+    const args = ['--tags']
+    if (dryRun) args.push('--dry-run')
+
+    await git(`push ${args.join(' ')} ${remote}`, {
         cwd,
         context,
     })
@@ -93,13 +99,19 @@ export const gitPush = async ({
     cwd,
     remote,
     context,
+    dryRun = false,
 }: {
     cwd: string
     remote: string
     context?: YarnContext
+    dryRun?: boolean
 }): Promise<void> => {
     assertProduction()
-    await git(`push --no-verify ${remote}`, {
+
+    const args = ['--no-verify']
+    if (dryRun) args.push('--dry-run')
+
+    await git(`push ${args.join(' ')} ${remote}`, {
         cwd,
         context,
     })

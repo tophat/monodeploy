@@ -285,6 +285,26 @@ const monodeploy = async (
                 },
             )
 
+            if (!config.dryRun) {
+                // When not in dry run mode, we run an extra git push --dry-run
+                // prior to publishing packages. This is meant to stop the pipeline
+                // when a git issue is detected, before corrupting the npm registry.
+                await report.startTimerPromise(
+                    'Validating Git Config',
+                    { skipIfEmpty: true },
+                    async () => {
+                        if (!workspaces.size) return
+
+                        await pushPublishCommit({
+                            config,
+                            context,
+                            gitTags: restoredGitTags,
+                            dryRun: true,
+                        })
+                    },
+                )
+            }
+
             // We publish to the registry before committing artifacts, because we use the
             // git tags (usually) to determine whether we should publish. So if publishing fails,
             // we don't want to have pushed the git tags to the repo, since otherwise we'd have to revert
@@ -304,6 +324,20 @@ const monodeploy = async (
 
             await report.startTimerPromise('Pushing Commit', { skipIfEmpty: true }, async () => {
                 if (!workspaces.size) return
+
+                if (config.dryRun) {
+                    // Ideally we use the git --dry-run commands in dry run, however this would be a
+                    // breaking change for projects that rely on dryRun to generate Pull Request change previews.
+                    // Once https://github.com/tophat/monodeploy/issues/493 is merged, we'll have a path forward for
+                    // the preview use case and can then remove the "if (!config.dryRun)" conditional as part of a
+                    // breaking change.
+                    if (config.git.push) {
+                        logging.info('[Publish] Pushing publish commit', {
+                            report: context?.report,
+                        })
+                    }
+                    return
+                }
 
                 await pushPublishCommit({
                     config,
