@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.4.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.3.1...@monodeploy/publish@3.4.0) "@monodeploy/publish" (2022-11-21)<a name="3.4.0"></a>
+
+### Bug Fixes
+
+* set env variable to disable git terminal prompts ([c618ddb](https://github.com/tophat/monodeploy/commits/c618ddb))
+
+### Features
+
+* verify git commands before publishing packages ([c618ddb](https://github.com/tophat/monodeploy/commits/c618ddb))
+* verify git commands before publishing packages (#525) ([c618ddb](https://github.com/tophat/monodeploy/commits/c618ddb))
+
+
+
+
 ## [3.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.3.0...@monodeploy/publish@3.3.1) "@monodeploy/publish" (2022-10-13)<a name="3.3.1"></a>
 
 ### Bug Fixes
