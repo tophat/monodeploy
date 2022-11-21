@@ -3378,7 +3378,7 @@ __metadata:
     gatsby-remark-images: ^6.20.0
     gatsby-source-filesystem: ^4.20.0
     gatsby-transformer-sharp: ^4.20.0
-    loader-utils: ^3.2.0
+    loader-utils: ^3.2.1
     path-browserify: ^1.0.1
     prism-react-renderer: ^1.3.5
     prop-types: ^15.8.1
@@ -14932,6 +14932,13 @@ __metadata:
   version: 3.2.0
   resolution: "loader-utils@npm:3.2.0"
   checksum: c7b9a8dc4b3bc19e9ef563c48e3a18ea9f8bb2da1ad38a12e4b88358cfba5f148a7baf12d78fe78ffcb718ce1e062ab31fcf5c148459f1247a672a4213471e80
+  languageName: node
+  linkType: hard
+
+"loader-utils@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "loader-utils@npm:3.2.1"
+  checksum: 4e3ea054cdc8be1ab1f1238f49f42fdf0483039eff920fb1d442039f3f0ad4ebd11fb8e584ccdf2cb7e3c56b3d40c1832416e6408a55651b843da288960cc792
   languageName: node
   linkType: hard
 
