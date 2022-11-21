@@ -20,13 +20,13 @@ runs:
       id: detect-node
       run: |
         if [[ -z "${{ inputs.node-version }}" ]]; then
-          echo "::set-output name=version::$(cat .nvmrc | tr -d '\n')"
+          echo "version=$(cat .nvmrc | tr -d '\n')" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=version::${{ inputs.node-version }}"
+          echo "version=${{ inputs.node-version }}" >> $GITHUB_OUTPUT
         fi
       shell: bash
     - name: Install NodeJS
-      uses: actions/setup-node@v3.0.0
+      uses: actions/setup-node@v3.5.1
       with:
         node-version: ${{ steps.detect-node.outputs.version }}
     - name: Enable Corepack
@@ -34,7 +34,7 @@ runs:
       shell: bash
     - name: Restore Yarn Cache
       id: yarn-cache
-      uses: actions/cache@v3.0.5
+      uses: actions/cache@v3.0.11
       with:
         path: |
           .yarn/cache
