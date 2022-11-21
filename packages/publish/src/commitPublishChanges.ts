@@ -65,18 +65,13 @@ export const pushPublishCommit = async ({
     config,
     context,
     gitTags,
+    dryRun = false,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     gitTags?: Map<string, string>
+    dryRun?: boolean
 }): Promise<void> => {
-    if (config.dryRun) {
-        logging.info('[Publish] Pushing publish commit', {
-            report: context?.report,
-        })
-        return
-    }
-
     if (!config.git.push) {
         return
     }
@@ -86,12 +81,14 @@ export const pushPublishCommit = async ({
             cwd: config.cwd,
             remote: config.git.remote,
             context,
+            dryRun,
         })
         if (config.git.tag && gitTags?.size) {
             await gitPushTags({
                 cwd: config.cwd,
                 remote: config.git.remote,
                 context,
+                dryRun,
             })
         }
     } else {
@@ -102,6 +99,7 @@ export const pushPublishCommit = async ({
                 cwd: config.cwd,
                 remote: config.git.remote,
                 context,
+                dryRun,
             })
         }
     }

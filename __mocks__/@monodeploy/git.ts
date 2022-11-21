@@ -82,11 +82,14 @@ const gitPushTags = async ({
     cwd,
     remote,
     context,
+    dryRun = false,
 }: {
     cwd: string
     remote: string
     context: YarnContext
+    dryRun?: boolean
 }): Promise<void> => {
+    if (dryRun) return
     registry.pushedTags = Array.from(new Set([...registry.pushedTags, ...registry.tags]))
 }
 
@@ -106,11 +109,14 @@ const gitPush = async ({
     cwd,
     remote,
     context,
+    dryRun = false,
 }: {
     cwd: string
     remote: string
     context: YarnContext
+    dryRun?: boolean
 }): Promise<void> => {
+    if (dryRun) return
     for (const commit of registry.commits) {
         registry.pushedCommits.push(commit.sha)
     }
