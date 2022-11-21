@@ -124,6 +124,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "EdieLemoine",
+      "name": "Edie Lemoine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3886637?v=4",
+      "profile": "https://github.com/EdieLemoine",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
