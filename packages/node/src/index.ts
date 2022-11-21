@@ -325,11 +325,24 @@ const monodeploy = async (
             await report.startTimerPromise('Pushing Commit', { skipIfEmpty: true }, async () => {
                 if (!workspaces.size) return
 
+                if (config.dryRun) {
+                    // Ideally we use the git --dry-run commands in dry run, however this would be a
+                    // breaking change for projects that rely on dryRun to generate Pull Request change previews.
+                    // Once https://github.com/tophat/monodeploy/issues/493 is merged, we'll have a path forward for
+                    // the preview use case and can then remove the "if (!config.dryRun)" conditional as part of a
+                    // breaking change.
+                    if (config.git.push) {
+                        logging.info('[Publish] Pushing publish commit', {
+                            report: context?.report,
+                        })
+                    }
+                    return
+                }
+
                 await pushPublishCommit({
                     config,
                     context,
                     gitTags: restoredGitTags,
-                    dryRun: config.dryRun,
                 })
             })
 

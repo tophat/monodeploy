@@ -65,7 +65,7 @@ export const pushPublishCommit = async ({
     config,
     context,
     gitTags,
-    dryRun = false,
+    dryRun = config.dryRun,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
