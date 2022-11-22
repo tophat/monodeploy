@@ -13,7 +13,7 @@ module.exports = {
             resolve: 'gatsby-source-filesystem',
             options: {
                 name: 'images',
-                path: `${__dirname}/src/images`,
+                path: `${__dirname}/src/images/`,
             },
         },
         {
@@ -25,6 +25,17 @@ module.exports = {
         },
         'gatsby-transformer-sharp',
         'gatsby-plugin-sharp',
+        {
+            resolve: 'gatsby-transformer-remark',
+            options: {
+                plugins: [
+                    {
+                        resolve: require.resolve('gatsby-remark-images'),
+                        options: { maxWidth: 1000 },
+                    },
+                ],
+            },
+        },
         {
             resolve: 'gatsby-plugin-manifest',
             options: {
@@ -44,14 +55,7 @@ module.exports = {
                     {
                         resolve: require.resolve('gatsby-remark-autolink-headers'),
                     },
-                    {
-                        resolve: require.resolve('gatsby-remark-images'),
-                        options: { maxWidth: 1000 },
-                    },
                 ],
-                defaultLayouts: {
-                    default: require.resolve('./src/components/Layout.tsx'),
-                },
             },
         },
         'gatsby-plugin-gatsby-cloud',

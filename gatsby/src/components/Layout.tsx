@@ -8,10 +8,6 @@ import Seo from './Seo'
 import 'sanitize.css'
 import './layout.css'
 
-const components = {
-    code: CodeBlock,
-}
-
 interface PageContext {
     frontmatter: {
         path: string
@@ -19,7 +15,11 @@ interface PageContext {
     }
 }
 
-const Layout: React.FC<{
+const components: any = {
+    code: CodeBlock,
+}
+
+export const Layout: React.FC<{
     children: React.ReactNode
     pageContext: PageContext
 }> = ({ children, pageContext }) => {
