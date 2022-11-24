@@ -30,7 +30,7 @@
     "conventional-commits-parser": "^3.2.4",
     "micromatch": "^4.0.4",
     "p-limit": "^3.1.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.8"
   },
   "devDependencies": {
     "@monodeploy/changelog": "workspace:*",
@@ -42,7 +42,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.2",
     "@types/micromatch": "^4",
-    "@types/semver": "^7.3.4",
+    "@types/semver": "^7.3.13",
     "@yarnpkg/cli": "^3.2.4",
     "@yarnpkg/core": "^3.2.5",
     "@yarnpkg/fslib": "^2.8.0",
