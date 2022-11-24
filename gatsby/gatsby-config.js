@@ -8,7 +8,6 @@ module.exports = {
     },
     plugins: [
         'gatsby-plugin-react-helmet',
-        'gatsby-plugin-image',
         {
             resolve: 'gatsby-source-filesystem',
             options: {
@@ -23,19 +22,23 @@ module.exports = {
                 path: `${__dirname}/src/pages/`,
             },
         },
-        'gatsby-transformer-sharp',
-        'gatsby-plugin-sharp',
         {
-            resolve: 'gatsby-transformer-remark',
+            resolve: 'gatsby-plugin-mdx',
             options: {
-                plugins: [
+                gatsbyRemarkPlugins: [
+                    {
+                        resolve: require.resolve('gatsby-remark-autolink-headers'),
+                    },
                     {
                         resolve: require.resolve('gatsby-remark-images'),
-                        options: { maxWidth: 1000 },
+                        options: { maxWidth: 1000, linkImagesToOriginal: false },
                     },
                 ],
             },
         },
+        'gatsby-plugin-sharp',
+        'gatsby-transformer-sharp',
+        'gatsby-plugin-image',
         {
             resolve: 'gatsby-plugin-manifest',
             options: {
@@ -46,16 +49,6 @@ module.exports = {
                 theme_color: '#803ed7',
                 display: 'minimal-ui',
                 icon: 'src/images/monodeploy.svg', // This path is relative to the root of the site.
-            },
-        },
-        {
-            resolve: 'gatsby-plugin-mdx',
-            options: {
-                gatsbyRemarkPlugins: [
-                    {
-                        resolve: require.resolve('gatsby-remark-autolink-headers'),
-                    },
-                ],
             },
         },
         'gatsby-plugin-gatsby-cloud',
