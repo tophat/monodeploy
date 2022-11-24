@@ -37,7 +37,7 @@
     "@yarnpkg/fslib": "^2.8.0"
   },
   "dependencies": {
-    "micromatch": "^4.0.4"
+    "micromatch": "^4.0.5"
   },
   "peerDependencies": {
     "@monodeploy/io": "workspace:^3.3.1",
