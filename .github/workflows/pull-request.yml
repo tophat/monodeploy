@@ -104,12 +104,12 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/setup-env
       - name: Download Unit Test Coverage
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage-unit-tests
           path: ./raw-coverage/jest
       - name: Download E2E Coverage
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage-e2e-tests
           path: ./raw-coverage/jest-e2es
