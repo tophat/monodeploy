@@ -3,12 +3,12 @@ import path from 'path'
 
 import logging from '@monodeploy/logging'
 import {
-    ChangesetSchema,
-    MonodeployConfiguration,
-    YarnContext,
+    type ChangesetSchema,
+    type MonodeployConfiguration,
+    type YarnContext,
     isNodeError,
 } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import pLimit from 'p-limit'
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { structUtils } from '@yarnpkg/core'
-import { PortablePath, npath, ppath } from '@yarnpkg/fslib'
+import { type PortablePath, npath, ppath } from '@yarnpkg/fslib'
 
 import type { ConfigFile } from './types'
 import validateConfigFile from './validateConfigFile'

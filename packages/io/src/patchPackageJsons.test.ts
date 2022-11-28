@@ -1,8 +1,8 @@
 import path from 'path'
 
 import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
-import { Manifest, Workspace, structUtils } from '@yarnpkg/core'
+import { type YarnContext } from '@monodeploy/types'
+import { Manifest, type Workspace, structUtils } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 
 import { patchPackageJsons } from '.'

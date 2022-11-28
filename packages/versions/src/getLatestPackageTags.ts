@@ -1,6 +1,11 @@
 import logging from '@monodeploy/logging'
-import { MonodeployConfiguration, PackageTagMap, YarnContext, isNodeError } from '@monodeploy/types'
-import { MessageName, ReportError, Workspace, structUtils } from '@yarnpkg/core'
+import {
+    type MonodeployConfiguration,
+    type PackageTagMap,
+    type YarnContext,
+    isNodeError,
+} from '@monodeploy/types'
+import { MessageName, ReportError, type Workspace, structUtils } from '@yarnpkg/core'
 import { isReportError } from '@yarnpkg/core/lib/Report'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 import pLimit from 'p-limit'

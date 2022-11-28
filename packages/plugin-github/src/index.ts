@@ -1,4 +1,4 @@
-import { PluginHooks } from '@monodeploy/types'
+import { type PluginHooks } from '@monodeploy/types'
 
 export const PluginName = 'GitHub Plugin'
 import { type PluginOptions, createPluginInternals } from './plugin'

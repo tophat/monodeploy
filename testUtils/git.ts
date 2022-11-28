@@ -2,8 +2,8 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import { exec } from '@monodeploy/io'
-import { YarnContext } from '@monodeploy/types'
-import { PortablePath, npath } from '@yarnpkg/fslib'
+import { type YarnContext } from '@monodeploy/types'
+import { type PortablePath, npath } from '@yarnpkg/fslib'
 
 import setupMonorepo from './setupMonorepo'
 

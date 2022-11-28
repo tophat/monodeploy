@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { MonodeployConfiguration, RegistryMode } from '@monodeploy/types'
+import { type MonodeployConfiguration, RegistryMode } from '@monodeploy/types'
 
 import {
     STRATEGY,

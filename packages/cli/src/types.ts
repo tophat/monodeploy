@@ -1,4 +1,8 @@
-import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
+import {
+    type MonodeployConfiguration,
+    type RecursivePartial,
+    type RegistryMode,
+} from '@monodeploy/types'
 
 export interface ArgOutput {
     configFile?: string

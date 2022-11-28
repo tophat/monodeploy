@@ -1,8 +1,8 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "expectOrdering"] }] */
 
 import { withMonorepoContext } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type YarnContext } from '@monodeploy/types'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 
 import getTopologicalSort from './getTopologicalSort'
 

@@ -1,4 +1,4 @@
-import Ajv, { SchemaObject, ValidateFunction } from 'ajv/dist/2020'
+import Ajv, { type SchemaObject, type ValidateFunction } from 'ajv/dist/2020'
 
 import type { ConfigFile } from './types'
 

@@ -30,7 +30,7 @@ import {
     getLatestPackageTags,
     mergeVersionStrategies,
 } from '@monodeploy/versions'
-import { Cache, Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import { Cache, Configuration, Project, StreamReport, type Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import { AsyncSeriesHook } from 'tapable'
 

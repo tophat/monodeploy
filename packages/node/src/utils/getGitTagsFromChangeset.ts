@@ -1,4 +1,4 @@
-import { ChangesetSchema } from '@monodeploy/types'
+import { type ChangesetSchema } from '@monodeploy/types'
 
 export function getGitTagsFromChangeset(changeset: ChangesetSchema) {
     return new Map(

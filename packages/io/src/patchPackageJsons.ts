@@ -1,5 +1,5 @@
 import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
-import { Descriptor, Manifest, Report, Workspace, structUtils } from '@yarnpkg/core'
+import { type Descriptor, Manifest, Report, type Workspace, structUtils } from '@yarnpkg/core'
 import { ppath, xfs } from '@yarnpkg/fslib'
 
 const patchPackageJsons = async ({

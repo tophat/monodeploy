@@ -1,5 +1,9 @@
 import { gitResolveSha } from '@monodeploy/git'
-import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
+import {
+    type MonodeployConfiguration,
+    type RecursivePartial,
+    RegistryMode,
+} from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
 export const mergeDefaultConfig = async (

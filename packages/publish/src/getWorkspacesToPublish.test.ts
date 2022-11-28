@@ -1,5 +1,5 @@
 import { cleanUp, setupContext, setupTestRepository } from '@monodeploy/test-utils'
-import { PortablePath, npath } from '@yarnpkg/fslib'
+import { type PortablePath, npath } from '@yarnpkg/fslib'
 
 import { getWorkspacesToPublish } from '.'
 

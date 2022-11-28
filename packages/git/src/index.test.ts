@@ -9,7 +9,7 @@ import {
     initGitRepository,
     setupMonorepo,
 } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
+import { type YarnContext } from '@monodeploy/types'
 
 import {
     getCommitMessages,

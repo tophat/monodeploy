@@ -1,6 +1,6 @@
 import { getTopologicalSort } from '@monodeploy/dependencies'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Workspace } from '@yarnpkg/core'
+import { type Workspace } from '@yarnpkg/core'
 import pLimit from 'p-limit'
 
 import determineGitTags from './determineGitTags'

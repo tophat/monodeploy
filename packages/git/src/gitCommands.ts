@@ -1,6 +1,6 @@
 import { exec } from '@monodeploy/io'
 import logging, { assertProduction } from '@monodeploy/logging'
-import { YarnContext } from '@monodeploy/types'
+import { type YarnContext } from '@monodeploy/types'
 import micromatch from 'micromatch'
 
 const git = async (

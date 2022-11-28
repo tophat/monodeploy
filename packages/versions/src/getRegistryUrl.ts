@@ -1,6 +1,6 @@
 import { resolveGroupName } from '@monodeploy/io'
-import { MonodeployConfiguration, RegistryMode, YarnContext } from '@monodeploy/types'
-import { Workspace } from '@yarnpkg/core'
+import { type MonodeployConfiguration, RegistryMode, type YarnContext } from '@monodeploy/types'
+import { type Workspace } from '@yarnpkg/core'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 
 export const getFetchRegistryUrl = async ({

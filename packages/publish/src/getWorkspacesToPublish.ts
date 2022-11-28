@@ -1,5 +1,5 @@
 import type { ChangesetSchema, YarnContext } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 
 const getWorkspacesToPublish = async ({
     context,

@@ -1,9 +1,9 @@
 import logging, { assertProductionOrTest } from '@monodeploy/logging'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Workspace, miscUtils, structUtils } from '@yarnpkg/core'
+import { type Workspace, miscUtils, structUtils } from '@yarnpkg/core'
 import { npmHttpUtils, npmPublishUtils } from '@yarnpkg/plugin-npm'
 import { packUtils } from '@yarnpkg/plugin-pack'
-import pLimit from 'p-limit'
+import type pLimit from 'p-limit'
 
 import { getPublishRegistryUrl } from './getPublishConfig'
 

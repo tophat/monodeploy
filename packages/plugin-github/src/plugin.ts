@@ -1,10 +1,10 @@
 import { parseRepositoryProperty } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import {
-    ChangesetRecord,
-    ChangesetSchema,
-    MonodeployConfiguration,
-    YarnContext,
+    type ChangesetRecord,
+    type ChangesetSchema,
+    type MonodeployConfiguration,
+    type YarnContext,
 } from '@monodeploy/types'
 import { Octokit } from '@octokit/core'
 import { throttling } from '@octokit/plugin-throttling'

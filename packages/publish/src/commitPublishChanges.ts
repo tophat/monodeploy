@@ -8,7 +8,7 @@ import {
     gitResolveSha,
 } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
-import { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
+import { type MonodeployConfiguration, type YarnContext } from '@monodeploy/types'
 
 import createReleaseGitTags from './createReleaseGitTags'
 

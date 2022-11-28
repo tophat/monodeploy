@@ -1,5 +1,5 @@
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 
 const getDependents = async (
     config: MonodeployConfiguration,
