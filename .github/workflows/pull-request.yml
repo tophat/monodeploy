@@ -199,7 +199,7 @@ jobs:
           comment-author: 'tophat-opensource-bot'
           body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
       - name: Post Changelog to PR
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
