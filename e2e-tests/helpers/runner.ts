@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import path from 'path'
 
-import { ExecException, exec } from '@monodeploy/io'
+import { type ExecException, exec } from '@monodeploy/io'
 import { isNodeError } from '@monodeploy/types'
 
 const scriptPath = require.resolve('monodeploy')

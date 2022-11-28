@@ -7,7 +7,7 @@ import type {
     PackageStrategyType,
     StrategyDeterminer,
 } from '@monodeploy/types'
-import conventionalCommitsParser, { Commit } from 'conventional-commits-parser'
+import conventionalCommitsParser, { type Commit } from 'conventional-commits-parser'
 
 export const STRATEGY = {
     MAJOR: 0,

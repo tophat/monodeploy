@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
+import { type YarnContext } from '@monodeploy/types'
 
 import { getImplicitVersionStrategies } from '.'
 

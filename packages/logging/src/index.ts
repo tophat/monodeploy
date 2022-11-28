@@ -1,7 +1,7 @@
-import { Writable } from 'stream'
+import { type Writable } from 'stream'
 import util from 'util'
 
-import { MessageName, Report, miscUtils } from '@yarnpkg/core'
+import { MessageName, type Report, miscUtils } from '@yarnpkg/core'
 
 export * from './invariants'
 

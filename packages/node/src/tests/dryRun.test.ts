@@ -5,7 +5,7 @@ import path from 'path'
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
-import { MonodeployConfiguration, RegistryMode, YarnContext } from '@monodeploy/types'
+import { type MonodeployConfiguration, RegistryMode, type YarnContext } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 

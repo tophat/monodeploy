@@ -1,4 +1,4 @@
-import { Readable } from 'stream'
+import { type Readable } from 'stream'
 
 export const readStream = <T>(stream: Readable): Promise<T[]> =>
     new Promise((resolve) => {

@@ -1,4 +1,4 @@
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 
 export type RepositoryInfo = {
     host: string | null

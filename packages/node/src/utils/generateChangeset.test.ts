@@ -6,7 +6,7 @@ import {
     setupContext,
     setupTestRepository,
 } from '@monodeploy/test-utils'
-import { PortablePath } from '@yarnpkg/fslib'
+import { type PortablePath } from '@yarnpkg/fslib'
 
 import { generateChangeset } from './generateChangeset'
 

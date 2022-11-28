@@ -3,7 +3,7 @@ import { createRequire } from 'module'
 import logging from '@monodeploy/logging'
 import { getDynamicLibs } from '@yarnpkg/cli'
 import packageJson from '@yarnpkg/cli/package.json'
-import { PluginConfiguration } from '@yarnpkg/core'
+import { type PluginConfiguration } from '@yarnpkg/core'
 
 const requireForCLI = createRequire(require.resolve('@yarnpkg/cli'))
 

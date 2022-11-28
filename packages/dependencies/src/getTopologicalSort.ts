@@ -1,4 +1,4 @@
-import { Workspace } from '@yarnpkg/core'
+import { type Workspace } from '@yarnpkg/core'
 
 type Level = number
 

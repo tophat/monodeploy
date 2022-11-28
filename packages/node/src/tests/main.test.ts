@@ -7,13 +7,13 @@ import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@mono
 import { LOG_LEVELS } from '@monodeploy/logging'
 import { setupMonorepo } from '@monodeploy/test-utils'
 import {
-    CommitMessage,
-    MonodeployConfiguration,
+    type CommitMessage,
+    type MonodeployConfiguration,
     RegistryMode,
-    YarnContext,
+    type YarnContext,
 } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
-import { Configuration, Project, StreamReport, Workspace } from '@yarnpkg/core'
+import { Configuration, Project, StreamReport, type Workspace } from '@yarnpkg/core'
 import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 

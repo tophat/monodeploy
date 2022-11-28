@@ -1,5 +1,5 @@
 import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
-import { MonodeployConfiguration, PackageStrategyType } from '@monodeploy/types'
+import { type MonodeployConfiguration, type PackageStrategyType } from '@monodeploy/types'
 
 import applyVersionStrategies, { incrementVersion } from './applyVersionStrategies'
 

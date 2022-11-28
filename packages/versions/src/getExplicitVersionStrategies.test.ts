@@ -9,7 +9,7 @@ import {
     setupContext,
     setupTestRepository,
 } from '@monodeploy/test-utils'
-import { PortablePath, npath } from '@yarnpkg/fslib'
+import { type PortablePath, npath } from '@yarnpkg/fslib'
 
 // Skipping the git mock as we use a temp repository for these tests.
 jest.mock('@monodeploy/git', () => jest.requireActual('@monodeploy/git'))

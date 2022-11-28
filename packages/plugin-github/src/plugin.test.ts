@@ -1,5 +1,5 @@
 import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
-import { PluginHooks } from '@monodeploy/types'
+import { type PluginHooks } from '@monodeploy/types'
 import { AsyncSeriesHook } from 'tapable'
 
 import { createPluginInternals } from './plugin'

@@ -1,6 +1,6 @@
 import { PassThrough } from 'stream'
 
-import { PortablePath, npath, ppath } from '@yarnpkg/fslib'
+import { type PortablePath, npath, ppath } from '@yarnpkg/fslib'
 import { execute } from '@yarnpkg/shell'
 
 export class ExecException extends Error {

@@ -1,6 +1,6 @@
 import logging from '@monodeploy/logging'
-import { YarnContext } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
+import { type YarnContext } from '@monodeploy/types'
+import { type Workspace, structUtils } from '@yarnpkg/core'
 
 function getIn(raw: Record<string, any>, key: string): unknown | undefined {
     const value = key.split('.').reduce((obj, part) => obj?.[part], raw)

@@ -1,4 +1,4 @@
-import { MessageName, ThrowReport } from '@yarnpkg/core'
+import { type MessageName, ThrowReport } from '@yarnpkg/core'
 
 import logging, { LOG_LEVELS } from '.'
 

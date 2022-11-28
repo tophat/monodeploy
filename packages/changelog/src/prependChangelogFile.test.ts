@@ -8,9 +8,9 @@ import {
     setupContext,
     setupTestRepository,
 } from '@monodeploy/test-utils'
-import { ChangesetSchema, YarnContext } from '@monodeploy/types'
-import { Workspace, structUtils } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
+import { type ChangesetSchema, type YarnContext } from '@monodeploy/types'
+import { type Workspace, structUtils } from '@yarnpkg/core'
+import { type PortablePath } from '@yarnpkg/fslib'
 
 import { prependChangelogFile } from '.'
 

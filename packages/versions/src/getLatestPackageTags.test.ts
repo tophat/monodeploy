@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 import { getMonodeployConfig, setupMonorepo } from '@monodeploy/test-utils'
-import { YarnContext } from '@monodeploy/types'
+import { type YarnContext } from '@monodeploy/types'
 import { npath, ppath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
 

@@ -1,7 +1,7 @@
 import { maybeExecuteWorkspaceLifecycleScript } from '@monodeploy/io'
 import type { MonodeployConfiguration, YarnContext } from '@monodeploy/types'
-import { Workspace } from '@yarnpkg/core'
-import pLimit from 'p-limit'
+import { type Workspace } from '@yarnpkg/core'
+import type pLimit from 'p-limit'
 
 export function createWorkspaceLifecycleExecutor({
     limit,

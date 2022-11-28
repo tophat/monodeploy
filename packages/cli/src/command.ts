@@ -1,6 +1,10 @@
 import { ErrorsReported } from '@monodeploy/logging'
 import monodeploy from '@monodeploy/node'
-import { MonodeployConfiguration, RecursivePartial, RegistryMode } from '@monodeploy/types'
+import {
+    type MonodeployConfiguration,
+    type RecursivePartial,
+    RegistryMode,
+} from '@monodeploy/types'
 import { npath, ppath } from '@yarnpkg/fslib'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'

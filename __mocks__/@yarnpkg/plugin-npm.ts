@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Configuration, Ident, MessageName, ReportError, structUtils } from '@yarnpkg/core'
+import {
+    type Configuration,
+    type Ident,
+    MessageName,
+    ReportError,
+    structUtils,
+} from '@yarnpkg/core'
 
 const actualModule = jest.requireActual('@yarnpkg/plugin-npm')
 

@@ -1,10 +1,14 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { MonodeployConfiguration, RecursivePartial, YarnContext } from '@monodeploy/types'
+import {
+    type MonodeployConfiguration,
+    type RecursivePartial,
+    type YarnContext,
+} from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
 import { Configuration, Project, StreamReport } from '@yarnpkg/core'
-import { PortablePath } from '@yarnpkg/fslib'
+import { type PortablePath } from '@yarnpkg/fslib'
 
 import { mergeDefaultConfig } from '../packages/node/src/utils/mergeDefaultConfig'
 

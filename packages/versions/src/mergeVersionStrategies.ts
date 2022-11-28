@@ -1,9 +1,9 @@
 import { resolveGroupName } from '@monodeploy/io'
 import {
-    MonodeployConfiguration,
-    PackageStrategyMap,
-    PackageStrategyType,
-    YarnContext,
+    type MonodeployConfiguration,
+    type PackageStrategyMap,
+    type PackageStrategyType,
+    type YarnContext,
 } from '@monodeploy/types'
 import { structUtils } from '@yarnpkg/core'
 

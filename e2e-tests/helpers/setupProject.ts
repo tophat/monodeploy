@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { ExecException, exec } from '@monodeploy/io'
+import { type ExecException, exec } from '@monodeploy/io'
 import {
     addGitRemote,
     cleanUp,
@@ -11,7 +11,7 @@ import {
     setupTestRepository,
     writeConfig,
 } from '@monodeploy/test-utils'
-import { MonodeployConfiguration, RecursivePartial } from '@monodeploy/types'
+import { type MonodeployConfiguration, type RecursivePartial } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 
 import { startRegistry, stopRegistry, waitForRegistry } from './docker'
