@@ -31,7 +31,7 @@ jobs:
           CI_BASE_BRANCH: origin/${{ github.base_ref }}
         run: yarn dlx commit-watch
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: commit-watch-artifacts
           path: ${{ env.ARTIFACT_DIR }}
@@ -59,7 +59,7 @@ jobs:
       - name: Tests
         run: yarn test:ci
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-unit-tests
           path: ./raw-coverage/jest
@@ -87,7 +87,7 @@ jobs:
         - name: Run Tests
           run: yarn test:e2e
         - name: Upload Artifacts
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-artifact@v3
           if: ${{ matrix.runner }} == 'ubuntu-20.04'
           with:
             name: coverage-e2e-tests
@@ -152,7 +152,7 @@ jobs:
       - name: Tests
         run: yarn test:ci
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: report-artifacts
           path: ${{ env.ARTIFACT_DIR }}
@@ -214,7 +214,7 @@ jobs:
 
             ${{ steps.run-monodeploy.outputs.changelog }}
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: ${{ env.ARTIFACT_DIR }}

@@ -70,7 +70,7 @@ jobs:
             --changeset-ignore-patterns '**/*.test.ts' \
             --package-group-manifest-field group
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: ${{ env.ARTIFACT_DIR }}
