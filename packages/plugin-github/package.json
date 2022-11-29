@@ -36,7 +36,7 @@
     "@monodeploy/logging": "workspace:^3.3.1",
     "@monodeploy/types": "workspace:^3.3.1",
     "@octokit/core": "^4.1.0",
-    "@octokit/plugin-throttling": "^3.7.0",
+    "@octokit/plugin-throttling": "^4.3.2",
     "@yarnpkg/core": "^3.2.5",
     "@yarnpkg/fslib": "^2.8.0",
     "@yarnpkg/shell": "^3.2.4"
