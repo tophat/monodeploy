@@ -2745,7 +2745,7 @@ __metadata:
     "@types/react-helmet": ^6.1.5
     gatsby: ^4.24.7
     gatsby-plugin-gatsby-cloud: ^4.24.1
-    gatsby-plugin-image: ^2.24.0
+    gatsby-plugin-image: ^3.0.0
     gatsby-plugin-manifest: ^4.24.0
     gatsby-plugin-mdx: ^4.3.0
     gatsby-plugin-offline: ^5.24.0
@@ -6350,6 +6350,20 @@ __metadata:
     "@babel/core": ^7.0.0
     gatsby: ^4.0.0-next
   checksum: c0e589dbaf4653540c031c6c4003be36096339d695bfb86c29b4e508c6ee913c97d1691752e5cd5bf0452865bc52af380d1e8b03f1cedd41f9b17e57ddff6460
+  languageName: node
+  linkType: hard
+
+"babel-plugin-remove-graphql-queries@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "babel-plugin-remove-graphql-queries@npm:5.2.0"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    "@babel/types": ^7.15.4
+    gatsby-core-utils: ^4.2.0
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    gatsby: ^5.0.0-next
+  checksum: 51fef47ef25a85dc0d892928b2b61dbbc9357620489ae385e7da4ea35032032e676581e3ac086c3e25fc05734b5510e63b5ed580fa1ab7bb2076201462289530
   languageName: node
   linkType: hard
 
@@ -10398,6 +10412,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-core-utils@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "gatsby-core-utils@npm:4.2.0"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    ci-info: 2.0.0
+    configstore: ^5.0.1
+    fastq: ^1.13.0
+    file-type: ^16.5.3
+    fs-extra: ^10.1.0
+    got: ^11.8.5
+    import-from: ^4.0.0
+    lmdb: 2.5.3
+    lock: ^1.1.0
+    node-object-hash: ^2.3.10
+    proper-lockfile: ^4.1.2
+    resolve-from: ^5.0.0
+    tmp: ^0.2.1
+    xdg-basedir: ^4.0.0
+  checksum: b4bd39a355573cbb90d6f07ed3ae974fe7167472c9fc6e466545491e27cd6ef7b9d7e867fba47493cd022ce84b9aab9943d969e339920e27eada13a173bff0f6
+  languageName: node
+  linkType: hard
+
 "gatsby-graphiql-explorer@npm:^2.24.0":
   version: 2.24.0
   resolution: "gatsby-graphiql-explorer@npm:2.24.0"
@@ -10488,32 +10525,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-image@npm:^2.24.0":
-  version: 2.24.0
-  resolution: "gatsby-plugin-image@npm:2.24.0"
+"gatsby-plugin-image@npm:^3.0.0":
+  version: 3.2.0
+  resolution: "gatsby-plugin-image@npm:3.2.0"
   dependencies:
     "@babel/code-frame": ^7.14.0
     "@babel/parser": ^7.15.5
     "@babel/runtime": ^7.15.4
     "@babel/traverse": ^7.15.4
     babel-jsx-utils: ^1.1.0
-    babel-plugin-remove-graphql-queries: ^4.24.0
+    babel-plugin-remove-graphql-queries: ^5.2.0
     camelcase: ^5.3.1
     chokidar: ^3.5.3
     common-tags: ^1.8.2
     fs-extra: ^10.1.0
-    gatsby-core-utils: ^3.24.0
-    gatsby-plugin-utils: ^3.18.0
+    gatsby-core-utils: ^4.2.0
+    gatsby-plugin-utils: ^4.2.0
     objectFitPolyfill: ^2.3.5
     prop-types: ^15.8.1
   peerDependencies:
     "@babel/core": ^7.12.3
-    gatsby: ^4.0.0-next
-    gatsby-plugin-sharp: ^4.0.0-next
-    gatsby-source-filesystem: ^4.0.0-next
-    react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
-    react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
-  checksum: 520e33e715fe034b87637923f9402b959d8a38b1a5f6cb8dd8b6bd60a27ac1712c5f60335b4a78e1ba5513de772508e4636386028c4618d69f4dcc2a6bd286b6
+    gatsby: ^5.0.0-next
+    gatsby-plugin-sharp: ^5.0.0-next
+    gatsby-source-filesystem: ^5.0.0-next
+    react: ^18.0.0 || ^0.0.0
+    react-dom: ^18.0.0 || ^0.0.0
+  peerDependenciesMeta:
+    gatsby-plugin-sharp:
+      optional: true
+    gatsby-source-filesystem:
+      optional: true
+  checksum: 83ce019f84649b9a2950447cbcb6fe7485c96611d43eda08a5dfcfdd5c1dda41e5c3de1608bf5194251a2c1502170ff0999993548344d5c3bd1dec83f1db251c
   languageName: node
   linkType: hard
 
@@ -10682,6 +10724,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-plugin-utils@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "gatsby-plugin-utils@npm:4.2.0"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    fastq: ^1.13.0
+    fs-extra: ^10.1.0
+    gatsby-core-utils: ^4.2.0
+    gatsby-sharp: ^1.2.0
+    graphql-compose: ^9.0.9
+    import-from: ^4.0.0
+    joi: ^17.4.2
+    mime: ^3.0.0
+  peerDependencies:
+    gatsby: ^5.0.0-next
+    graphql: ^16.0.0
+  checksum: 6d8e5fbd9a621187b2428fe88178a8dd26747f93888e6eab700df9874a553e11e84a6f6bf7eb24af57da54ff7a424673ac6928fe7b7d6f13a02ea896d8cfe70d
+  languageName: node
+  linkType: hard
+
 "gatsby-react-router-scroll@npm:^5.24.0":
   version: 5.24.0
   resolution: "gatsby-react-router-scroll@npm:5.24.0"
@@ -10753,6 +10815,16 @@ __metadata:
     "@types/sharp": ^0.30.5
     sharp: ^0.30.7
   checksum: a236a490c6959e8d877f63e20fb8525bda417dee956bb94c06d420f668f7422165e4e5cae53e0519212d925d58f48e1746300ad9d1347e48932bd5359288206f
+  languageName: node
+  linkType: hard
+
+"gatsby-sharp@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "gatsby-sharp@npm:1.2.0"
+  dependencies:
+    "@types/sharp": ^0.30.5
+    sharp: ^0.30.7
+  checksum: 6e3b999c19ff720387b515bc50455eb62e880937cc1cae3c44c0010081286b9e731c12b1358654b61217fa202b429b98977b727be5d72610402f3f02d033bc0b
   languageName: node
   linkType: hard
 
@@ -11421,7 +11493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-compose@npm:^9.0.7":
+"graphql-compose@npm:^9.0.7, graphql-compose@npm:^9.0.9":
   version: 9.0.10
   resolution: "graphql-compose@npm:9.0.10"
   dependencies:
