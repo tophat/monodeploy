@@ -16,7 +16,7 @@
     "@babel/core": "^7.20.5",
     "@mdx-js/loader": "^2.1.5",
     "@mdx-js/react": "^2.1.5",
-    "@types/babel__core": "^7.1.19",
+    "@types/babel__core": "^7.1.20",
     "@types/loader-utils": "^2.0.3",
     "@types/mdx-js__react": "^1.5.5",
     "@types/react": "^18.0.25",
