@@ -28,9 +28,9 @@
   },
   "devDependencies": {
     "@types/node": "^14.17.14",
-    "@yarnpkg/core": "^3.2.5"
+    "@yarnpkg/core": "^3.3.0"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.2.5"
+    "@yarnpkg/core": "^3.3.0"
   }
 }
