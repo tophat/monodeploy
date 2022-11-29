@@ -30,7 +30,7 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/node": "^14.17.14",
+    "@types/node": "^14.18.33",
     "@yarnpkg/core": "^3.2.5",
     "@yarnpkg/fslib": "^2.8.0",
     "@yarnpkg/shell": "^3.2.4"

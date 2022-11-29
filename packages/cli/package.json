@@ -36,7 +36,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/node": "^14.17.14"
+    "@types/node": "^14.18.33"
   },
   "dependencies": {
     "@monodeploy/logging": "workspace:^3.3.1",
@@ -49,6 +49,6 @@
     "typanion": "^3.12.1"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=v14.21.1"
   }
 }

@@ -2622,7 +2622,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/conventional-changelog-writer": ^4.0.1
     "@types/conventional-commits-parser": ^3.0.2
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     conventional-changelog-writer: ^5.0.1
@@ -2663,7 +2663,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../testUtils"
     "@monodeploy/types": "workspace:*"
     "@tophat/conventional-changelog-config": ^1.0.1
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     helpers: "link:./helpers"
@@ -2720,7 +2720,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/micromatch": ^4
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     micromatch: ^4.0.5
@@ -2740,7 +2740,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     "@yarnpkg/shell": ^3.2.4
@@ -2757,7 +2757,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/logging@workspace:packages/logging"
   dependencies:
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
   peerDependencies:
     "@yarnpkg/core": ^3.2.5
@@ -2782,7 +2782,7 @@ __metadata:
     "@tophat/eslint-import-resolver-require": ^0.1.3
     "@tophat/jest-resolver": ^0.1.0
     "@types/jest": ^29.2.2
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.45.0
     "@yarnpkg/cli": ^3.2.4
@@ -2834,7 +2834,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:^3.3.1"
     "@monodeploy/versions": "workspace:^3.4.0"
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/cli": ^3.2.4
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
@@ -2856,7 +2856,7 @@ __metadata:
     "@monodeploy/types": "workspace:^3.3.1"
     "@octokit/core": ^3.6.0
     "@octokit/plugin-throttling": ^3.7.0
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     "@yarnpkg/shell": ^3.2.4
@@ -2958,7 +2958,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/types@workspace:packages/types"
   dependencies:
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     tapable: ^2.2.1
     ts-node: ^10.9.1
@@ -4268,10 +4268,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.17.14":
-  version: 14.17.14
-  resolution: "@types/node@npm:14.17.14"
-  checksum: 66ed675a324fdddc4f693f1b240c0d81a9f53e1c68f7de8b84d02d65c0b447f9fa30d318481d04e1502f68dd37091b5cadc59633b57246582ad25e3fa835cd7d
+"@types/node@npm:^14.18.33":
+  version: 14.18.33
+  resolution: "@types/node@npm:14.18.33"
+  checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
   languageName: node
   linkType: hard
 
@@ -15446,7 +15446,7 @@ __metadata:
     "@monodeploy/logging": "workspace:^3.3.1"
     "@monodeploy/node": "workspace:^3.4.0"
     "@monodeploy/types": "workspace:^3.3.1"
-    "@types/node": ^14.17.14
+    "@types/node": ^14.18.33
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
     ajv: ^8.11.0

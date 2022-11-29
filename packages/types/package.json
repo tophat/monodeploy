@@ -34,7 +34,7 @@
     "@yarnpkg/core": "^3.2.5"
   },
   "devDependencies": {
-    "@types/node": "^14.17.14",
+    "@types/node": "^14.18.33",
     "@yarnpkg/core": "^3.2.5",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.20",
