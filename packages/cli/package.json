@@ -42,8 +42,8 @@
     "@monodeploy/logging": "workspace:^3.3.1",
     "@monodeploy/node": "workspace:^3.4.0",
     "@monodeploy/types": "workspace:^3.3.1",
-    "@yarnpkg/core": "^3.2.5",
-    "@yarnpkg/fslib": "^2.8.0",
+    "@yarnpkg/core": "^3.3.0",
+    "@yarnpkg/fslib": "^2.9.0",
     "ajv": "^8.11.0",
     "clipanion": "^3.2.0-rc.13",
     "typanion": "^3.12.1"
