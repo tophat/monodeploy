@@ -19,7 +19,7 @@
     "@types/babel__core": "^7.1.19",
     "@types/loader-utils": "^2.0.3",
     "@types/mdx-js__react": "^1.5.5",
-    "@types/react": "^18.0.24",
+    "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/react-helmet": "^6.1.5",
     "gatsby": "^4.24.7",
