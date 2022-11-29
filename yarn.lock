@@ -2914,7 +2914,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:^3.3.1"
     "@octokit/core": ^3.6.0
-    "@octokit/plugin-throttling": ^3.7.0
+    "@octokit/plugin-throttling": ^4.3.2
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.2.5
     "@yarnpkg/fslib": ^2.8.0
@@ -3146,15 +3146,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-throttling@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "@octokit/plugin-throttling@npm:3.7.0"
+"@octokit/openapi-types@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@octokit/openapi-types@npm:14.0.0"
+  checksum: 0a1f8f3be998cd82c5a640e9166d43fd183b33d5d36f5e1a9b81608e94d0da87c01ec46c9988f69cd26585d4e2ffc4d3ec99ee4f75e5fe997fc86dad0aa8293c
+  languageName: node
+  linkType: hard
+
+"@octokit/plugin-throttling@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "@octokit/plugin-throttling@npm:4.3.2"
   dependencies:
-    "@octokit/types": ^6.0.1
+    "@octokit/types": ^8.0.0
     bottleneck: ^2.15.3
   peerDependencies:
-    "@octokit/core": ^3.5.0
-  checksum: a1c29094d060f1c221c2795b899cb86cd83dc71ea61c6e2a272aabed4f7856bfac2696f3e8f31beccc7c99bbe14d172d3175cd68ae939ae5ff1d01fadf8df00b
+    "@octokit/core": ^4.0.0
+  checksum: 2c9ef9be2cc1b9cb01d4d9f04e82246ccaa41ab05a4dc315f926b11abf5a99e3a38a98756fbb7f9e8d4c4f5e43f052c1dbd11c062017096dd943b8896c9e414c
   languageName: node
   linkType: hard
 
@@ -3183,12 +3190,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/types@npm:^6.0.1, @octokit/types@npm:^6.0.3, @octokit/types@npm:^6.16.1":
+"@octokit/types@npm:^6.0.3, @octokit/types@npm:^6.16.1":
   version: 6.38.2
   resolution: "@octokit/types@npm:6.38.2"
   dependencies:
     "@octokit/openapi-types": ^12.6.1
   checksum: ee83a46f0d24ff211fb75a54d0feb615efd1be0a2dae161b3596e8fb60126268409a4bfa8c27c311b4f12027147c90de3a88d892007b7353f0529d411593bbd4
+  languageName: node
+  linkType: hard
+
+"@octokit/types@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@octokit/types@npm:8.0.0"
+  dependencies:
+    "@octokit/openapi-types": ^14.0.0
+  checksum: 1a0197b2c4c522ac90f145e02b3f8cb048a47f71c2c6bdbf021a03db7dd30ca92a899c0186acb401337f218efe44e60d33cc1cc68715b622bb75bc1a4e79515d
   languageName: node
   linkType: hard
 
