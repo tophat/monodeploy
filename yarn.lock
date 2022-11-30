@@ -2693,7 +2693,7 @@ __metadata:
     gatsby-plugin-react-helmet: ^5.24.0
     gatsby-plugin-sharp: ^4.24.0
     gatsby-remark-autolink-headers: ^5.24.0
-    gatsby-remark-images: ^6.24.0
+    gatsby-remark-images: ^7.0.0
     gatsby-source-filesystem: ^4.24.0
     gatsby-transformer-remark: ^5.24.0
     gatsby-transformer-sharp: ^4.24.0
@@ -10275,6 +10275,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-core-utils@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "gatsby-core-utils@npm:4.2.0"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    ci-info: 2.0.0
+    configstore: ^5.0.1
+    fastq: ^1.13.0
+    file-type: ^16.5.3
+    fs-extra: ^10.1.0
+    got: ^11.8.5
+    import-from: ^4.0.0
+    lmdb: 2.5.3
+    lock: ^1.1.0
+    node-object-hash: ^2.3.10
+    proper-lockfile: ^4.1.2
+    resolve-from: ^5.0.0
+    tmp: ^0.2.1
+    xdg-basedir: ^4.0.0
+  checksum: b4bd39a355573cbb90d6f07ed3ae974fe7167472c9fc6e466545491e27cd6ef7b9d7e867fba47493cd022ce84b9aab9943d969e339920e27eada13a173bff0f6
+  languageName: node
+  linkType: hard
+
 "gatsby-graphiql-explorer@npm:^2.24.0":
   version: 2.24.0
   resolution: "gatsby-graphiql-explorer@npm:2.24.0"
@@ -10590,15 +10613,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-remark-images@npm:^6.24.0":
-  version: 6.24.0
-  resolution: "gatsby-remark-images@npm:6.24.0"
+"gatsby-remark-images@npm:^7.0.0":
+  version: 7.2.0
+  resolution: "gatsby-remark-images@npm:7.2.0"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@gatsbyjs/potrace": ^2.3.0
     chalk: ^4.1.2
     cheerio: ^1.0.0-rc.10
-    gatsby-core-utils: ^3.24.0
+    gatsby-core-utils: ^4.2.0
     is-relative-url: ^3.0.0
     lodash: ^4.17.21
     mdast-util-definitions: ^4.0.0
@@ -10606,9 +10628,9 @@ __metadata:
     unist-util-select: ^3.0.4
     unist-util-visit-parents: ^3.1.1
   peerDependencies:
-    gatsby: ^4.0.0-next
-    gatsby-plugin-sharp: ^4.0.0-next
-  checksum: 9378123c0a0a8bcf75f22a4f2dad3f04100ac8c7f94a894d00c6c9a8f1634910363bf2ec1d265c3c86681ef9388f0fb69ae17bca09663fca25335d12073efd36
+    gatsby: ^5.0.0-next
+    gatsby-plugin-sharp: ^5.0.0-next
+  checksum: bd59bbb95d61c07835a950d8a77a117d72b90c2e3819cf0b2a6364face2d06c0a64c3fcb74ce82d896b029a8578c42b973cd7c24c4cbce6101c55a9bb660fe73
   languageName: node
   linkType: hard
 
