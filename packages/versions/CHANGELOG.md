@@ -2,6 +2,22 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.4.0...@monodeploy/versions@3.5.0) "@monodeploy/versions" (2022-11-30)<a name="3.5.0"></a>
+
+### Dependencies
+
+* update dependency @types/conventional-commits-parser to ^3.0.2 (#532) ([54eae29](https://github.com/tophat/monodeploy/commits/54eae29))
+* update dependency semver to ^7.3.8 (#543) ([849a0be](https://github.com/tophat/monodeploy/commits/849a0be))
+* update dependency micromatch to ^4.0.5 (#542) ([1257527](https://github.com/tophat/monodeploy/commits/1257527))
+
+### Features
+
+* target yarn v3.3.0 ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+* target yarn v3.3.0 (#576) ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+
+
+
+
 ## [3.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.3.0...@monodeploy/versions@3.3.1) "@monodeploy/versions" (2022-10-13)<a name="3.3.1"></a>
 
 ### Bug Fixes

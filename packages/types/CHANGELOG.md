@@ -2,6 +2,21 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.3.1...@monodeploy/types@3.5.0) "@monodeploy/types" (2022-11-30)<a name="3.5.0"></a>
+
+### Dependencies
+
+* update dependency typedoc to ^0.23.20 (#544) ([c2a27e8](https://github.com/tophat/monodeploy/commits/c2a27e8))
+* update dependency typescript to v4.8.4 (#560) ([20f2b01](https://github.com/tophat/monodeploy/commits/20f2b01))
+
+### Features
+
+* target yarn v3.3.0 ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+* target yarn v3.3.0 (#576) ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+
+
+
+
 ## [3.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.2.0...@monodeploy/types@3.3.1) "@monodeploy/types" (2022-10-13)<a name="3.3.1"></a>
 
 ### Bug Fixes

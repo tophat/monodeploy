@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@3.3.1...@monodeploy/dependencies@3.5.0) "@monodeploy/dependencies" (2022-11-30)<a name="3.5.0"></a>
+
+### Features
+
+* target yarn v3.3.0 ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+* target yarn v3.3.0 (#576) ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+
+
+
+
 ## [3.3.1](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@3.3.0...@monodeploy/dependencies@3.3.1) "@monodeploy/dependencies" (2022-10-13)<a name="3.3.1"></a>
 
 ### Bug Fixes

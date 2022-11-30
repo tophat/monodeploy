@@ -2,6 +2,26 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.6.3...@monodeploy/plugin-github@0.7.0) "@monodeploy/plugin-github" (2022-11-30)<a name="0.7.0"></a>
+
+### Dependencies
+
+* update dependency @octokit/plugin-throttling to ^3.7.0 (#547) ([b1e3b9a](https://github.com/tophat/monodeploy/commits/b1e3b9a))
+* update dependency @octokit/core to v4 ([d1e2bc0](https://github.com/tophat/monodeploy/commits/d1e2bc0))
+* update @octokit/plugin-throttling
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+Co-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com> ([d1e2bc0](https://github.com/tophat/monodeploy/commits/d1e2bc0))
+* update dependency @octokit/core to v4 (#566) ([d1e2bc0](https://github.com/tophat/monodeploy/commits/d1e2bc0))
+
+### Features
+
+* target yarn v3.3.0 ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+* target yarn v3.3.0 (#576) ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+
+
+
+
 ## [0.6.2](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.6.1...@monodeploy/plugin-github@0.6.2) "@monodeploy/plugin-github" (2022-10-13)<a name="0.6.2"></a>
 
 ### Bug Fixes

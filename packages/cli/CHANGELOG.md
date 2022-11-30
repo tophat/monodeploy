@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.5.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.4.0...monodeploy@3.5.0) "monodeploy" (2022-11-30)<a name="3.5.0"></a>
+
+### Dependencies
+
+* update dependency clipanion to ^3.2.0-rc.13 (#537) ([caa2968](https://github.com/tophat/monodeploy/commits/caa2968))
+
+### Features
+
+* target yarn v3.3.0 ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+* target yarn v3.3.0 (#576) ([0f1248e](https://github.com/tophat/monodeploy/commits/0f1248e))
+
+
+
+
 ## [3.3.1](https://github.com/tophat/monodeploy/compare/monodeploy@3.3.0...monodeploy@3.3.1) "monodeploy" (2022-10-13)<a name="3.3.1"></a>
 
 ### Bug Fixes
