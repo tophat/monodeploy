@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.6.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.5.0...@monodeploy/git@3.6.0) "@monodeploy/git" (2023-01-03)<a name="3.6.0"></a>
+
+### Features
+
+* target yarn 3.3.1 (#589) ([f3bd3bc](https://github.com/tophat/monodeploy/commits/f3bd3bc))
+
+
+
+
 ## [3.5.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.4.0...@monodeploy/git@3.5.0) "@monodeploy/git" (2022-11-30)<a name="3.5.0"></a>
 
 ### Dependencies

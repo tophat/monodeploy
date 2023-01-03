@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.7.0...@monodeploy/plugin-github@0.8.0) "@monodeploy/plugin-github" (2023-01-03)<a name="0.8.0"></a>
+
+### Features
+
+* target yarn 3.3.1 (#589) ([f3bd3bc](https://github.com/tophat/monodeploy/commits/f3bd3bc))
+
+
+
+
 ## [0.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.6.3...@monodeploy/plugin-github@0.7.0) "@monodeploy/plugin-github" (2022-11-30)<a name="0.7.0"></a>
 
 ### Dependencies
