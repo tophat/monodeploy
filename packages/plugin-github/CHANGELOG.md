@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.8.0...@monodeploy/plugin-github@0.9.0) "@monodeploy/plugin-github" (2023-02-14)<a name="0.9.0"></a>
+
+### Features
+
+* update yarn to 3.4.1 (#590) ([217aaa9](https://github.com/tophat/monodeploy/commits/217aaa9))
+
+
+
+
 ## [0.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.7.0...@monodeploy/plugin-github@0.8.0) "@monodeploy/plugin-github" (2023-01-03)<a name="0.8.0"></a>
 
 ### Features
