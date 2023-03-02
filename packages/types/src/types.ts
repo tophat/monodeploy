@@ -134,7 +134,8 @@ export interface MonodeployConfiguration {
 
     /**
      * The filename to write changelogs to, assuming a conventional changelog config has been set.
-     * Use '<packageDir>' to reference the cwd of an individual workspace.
+     * Use '<packageDir>' to reference the cwd of an individual workspace. You should also enable
+     * 'autoCommit' when this is set so that the changelogs are committed to your repo.
      */
     changelogFilename?: string
 
@@ -168,14 +169,17 @@ export interface MonodeployConfiguration {
      * Whether to persist package.json modifications, i.e. updating the dependency versions
      * and the version field of each published workspace. Most publishing tools act as if this
      * is enabled. It can be useful to disable version persistence if you do not want your CI
-     * environment to write back to your Git repository. Useful for runners like Jenkins.
+     * environment to write back to your Git repository. Useful for runners like Jenkins. You
+     * should also enable 'autoCommit' when this is set so that the changelogs are committed
+     * to your repo.
      *
      * @default false
      */
     persistVersions: boolean
 
     /**
-     * Whether to automatically create a release commit, for use with persistVersions.
+     * Whether to automatically create a release commit after a publish. If using autoCommit,
+     * you must also have one of 'persistVersions' or 'changelogFilename' set.
      *
      * @default false
      */
