@@ -540,19 +540,20 @@ describe('Monodeploy', () => {
         }
     })
 
-    it('autocommits changelog and package.json files', async () => {
+    it('autocommits changelogs if changelogFilename is set', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changelogFilename = path.join(tempDir, 'changelog.md')
 
         try {
             const result = await monodeploy({
                 ...monodeployConfig,
                 changelogFilename,
+                persistVersions: false,
                 autoCommit: true,
                 autoCommitMessage: 'chore: some unique message',
                 git: {
@@ -574,7 +575,96 @@ describe('Monodeploy', () => {
             // assert tags pushed
             expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
-            // assert changelog committed
+            // assert only changelog committed
+            const autoCommit =
+                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
+            expect(autoCommitFiles).toEqual(expect.arrayContaining([changelogFilename]))
+
+            // assert commit pushed
+            expect(mockGit._getRegistry_().pushedCommits).toEqual(
+                expect.arrayContaining([autoCommit.sha]),
+            )
+        } finally {
+            try {
+                await fs.unlink(changelogFilename)
+                await fs.rm(tempDir, { recursive: true, force: true })
+            } catch {}
+        }
+    })
+
+    it('autocommits package.json files if persistVersions is true', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename: undefined,
+            persistVersions: true,
+            autoCommit: true,
+            autoCommitMessage: 'chore: some unique message',
+            git: {
+                ...monodeployConfig.git,
+                push: true,
+            },
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
+
+        // assert tags pushed
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+
+        // assert only package.jsons committed
+        const autoCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+        const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
+        expect(autoCommitFiles).toEqual(expect.arrayContaining(['**/package.json']))
+
+        // assert commit pushed
+        expect(mockGit._getRegistry_().pushedCommits).toEqual(
+            expect.arrayContaining([autoCommit.sha]),
+        )
+    })
+
+    it('autocommits changelogs and package.json files if both options are true', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+
+        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
+        const changelogFilename = path.join(tempDir, 'changelog.md')
+
+        try {
+            const result = await monodeploy({
+                ...monodeployConfig,
+                changelogFilename,
+                persistVersions: true,
+                autoCommit: true,
+                autoCommitMessage: 'chore: some unique message',
+                git: {
+                    ...monodeployConfig.git,
+                    push: true,
+                },
+            })
+
+            // pkg-1 is explicitly updated with minor bump
+            expect(result['pkg-1'].version).toBe('0.1.0')
+
+            const updatedChangelog = await fs.readFile(changelogFilename, {
+                encoding: 'utf-8',
+            })
+
+            // assert it contains the new entry
+            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+
+            // assert tags pushed
+            expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+
+            // assert changelog and package.jsons committed
             const autoCommit =
                 mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
             const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
@@ -594,6 +684,39 @@ describe('Monodeploy', () => {
         }
     })
 
+    it('does not autocommit if changelogFilename and persistVersions are unset', async () => {
+        mockNPM._setTag_('pkg-1', '0.0.1')
+        mockNPM._setTag_('pkg-2', '0.0.1')
+        mockNPM._setTag_('pkg-3', '0.0.1')
+        mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+
+        const preMonodeployLatestCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename: undefined,
+            persistVersions: false,
+            autoCommit: true,
+            autoCommitMessage: 'chore: some unique message',
+            git: {
+                ...monodeployConfig.git,
+                push: true,
+            },
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
+
+        // assert tags pushed
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+
+        // assert no further commit
+        const postMonodeployLatestCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+        expect(preMonodeployLatestCommit).toEqual(postMonodeployLatestCommit)
+    })
+
     it('does not push autocommit if push set to false', async () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockNPM._setTag_('pkg-2', '0.0.1')
@@ -601,13 +724,17 @@ describe('Monodeploy', () => {
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
+        const changelogFilename = path.join(tempDir, 'changelog.md')
+
+        const preMonodeployLatestCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
 
         try {
             const result = await monodeploy({
                 ...monodeployConfig,
                 changelogFilename,
-                autoCommit: true,
+                persistVersions: true,
+                autoCommit: false,
                 autoCommitMessage: 'chore: some unique message',
                 git: {
                     ...monodeployConfig.git,
@@ -625,18 +752,10 @@ describe('Monodeploy', () => {
             // assert it contains the new entry
             expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
-            // assert changelog committed
-            const autoCommit =
+            // assert no further commit
+            const postMonodeployLatestCommit =
                 mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
-            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
-            expect(autoCommitFiles).toEqual(
-                expect.arrayContaining([changelogFilename, '**/package.json']),
-            )
-
-            // assert commit pushed
-            expect(mockGit._getRegistry_().pushedCommits).not.toEqual(
-                expect.arrayContaining([autoCommit.sha]),
-            )
+            expect(preMonodeployLatestCommit).toEqual(postMonodeployLatestCommit)
         } finally {
             try {
                 await fs.unlink(changelogFilename)
