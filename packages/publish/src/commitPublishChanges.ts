@@ -29,11 +29,17 @@ export const createPublishCommit = async ({
     }
 
     if (config.autoCommit) {
-        // Push artifacts (changelog, package.json changes)
-        const globs = ['yarn.lock', 'package.json', '**/package.json', '.pnp.*']
+        const globs = []
+
+        if (config?.persistVersions) {
+            // Push package.json and related changes
+            globs.push(...['yarn.lock', 'package.json', '**/package.json', '.pnp.*'])
+        }
         if (config?.changelogFilename) {
+            // Push changelog changes
             globs.push(config.changelogFilename.replace('<packageDir>', '**'))
         }
+
         const files = await gitGlob(globs, { cwd: config.cwd, context })
         if (files.length) {
             await gitAdd(files, { cwd: config.cwd, context })
