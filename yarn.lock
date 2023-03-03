@@ -2620,7 +2620,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-changelog-writer": ^4.0.1
+    "@types/conventional-changelog-writer": ^4.0.2
     "@types/conventional-commits-parser": ^3.0.2
     "@types/node": ^14.17.14
     "@yarnpkg/core": ^3.4.0
@@ -3930,6 +3930,16 @@ __metadata:
     "@types/conventional-commits-parser": "*"
     "@types/node": "*"
   checksum: 1e029327a97406de0be4df76ee98a183a0c67a6d90d518e7b72a922e3e4f66e56e4c4c829f1bce02a80946ed474389742708739dd0ecb3e144ec0e421140ae48
+  languageName: node
+  linkType: hard
+
+"@types/conventional-changelog-writer@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@types/conventional-changelog-writer@npm:4.0.2"
+  dependencies:
+    "@types/conventional-commits-parser": "*"
+    "@types/node": "*"
+  checksum: e992a0847f7611e515498dd7c26d774ecda39b35a08ac8d2f01f9a1684794afe25c03feb8235e1567e64224842febf8d25da60a70c32fff09cbab5a89eb0bbb8
   languageName: node
   linkType: hard
 
