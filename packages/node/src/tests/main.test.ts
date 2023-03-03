@@ -580,6 +580,7 @@ describe('Monodeploy', () => {
                 mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
             const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
             expect(autoCommitFiles).toEqual(expect.arrayContaining([changelogFilename]))
+            expect(autoCommitFiles).not.toEqual(expect.arrayContaining(['**/package.json']))
 
             // assert commit pushed
             expect(mockGit._getRegistry_().pushedCommits).toEqual(
