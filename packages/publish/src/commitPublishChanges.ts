@@ -29,7 +29,7 @@ export const createPublishCommit = async ({
     }
 
     if (config.autoCommit) {
-        const globs = []
+        const globs: string[] = []
 
         if (config.persistVersions) {
             // Push package.json and related changes
