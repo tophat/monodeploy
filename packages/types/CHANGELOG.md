@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.7.0...@monodeploy/types@3.7.1) "@monodeploy/types" (2023-03-03)<a name="3.7.1"></a>
+
+### Bug Fixes
+
+* allow auto-committing without persisting versions (#593) ([761fa8a](https://github.com/tophat/monodeploy/commits/761fa8a))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.6.0...@monodeploy/types@3.7.0) "@monodeploy/types" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features
