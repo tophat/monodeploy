@@ -184,3 +184,23 @@ export const gitCommit = async (
     assertProduction()
     await git(`commit -m "${message}" -n`, { cwd, context })
 }
+
+export const gitResetHard = async ({
+    cwd,
+    context,
+}: {
+    cwd: string
+    context?: YarnContext
+}): Promise<void> => {
+    await git('reset --hard', { cwd, context })
+}
+
+export const gitClean = async ({
+    cwd,
+    context,
+}: {
+    cwd: string
+    context?: YarnContext
+}): Promise<void> => {
+    await git('clean -fd', { cwd, context })
+}

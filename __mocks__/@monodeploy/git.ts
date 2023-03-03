@@ -138,6 +138,26 @@ export const gitCommit = async (
     registry.stagedFiles = []
 }
 
+export const gitResetHard = async ({
+    cwd,
+    context,
+}: {
+    cwd: string
+    context?: YarnContext
+}): Promise<void> => {
+    registry.stagedFiles = []
+}
+
+export const gitClean = async ({
+    cwd,
+    context,
+}: {
+    cwd: string
+    context?: YarnContext
+}): Promise<void> => {
+    registry.stagedFiles = []
+}
+
 const gitLastTaggedCommit = async ({
     cwd,
     context,
@@ -207,6 +227,7 @@ module.exports = {
     ...actualMonodeployGit,
     getCommitMessages,
     gitAdd,
+    gitClean,
     gitCommit,
     gitDiffTree,
     gitLastTaggedCommit,
@@ -215,6 +236,7 @@ module.exports = {
     gitGlob,
     gitPush,
     gitPushTags,
+    gitResetHard,
     gitResolveSha,
     gitTag,
 }

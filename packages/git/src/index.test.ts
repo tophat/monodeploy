@@ -14,12 +14,14 @@ import { type YarnContext } from '@monodeploy/types'
 import {
     getCommitMessages,
     gitAdd,
+    gitClean,
     gitCommit,
     gitDiffTree,
     gitGlob,
     gitLastTaggedCommit,
     gitLog,
     gitPushTags,
+    gitResetHard,
     gitResolveSha,
     gitTag,
 } from '.'
@@ -550,6 +552,75 @@ describe('@monodeploy/git', () => {
                     'child/test2.txt',
                 ]),
             )
+        })
+    })
+
+    describe('gitResetHard, gitClean', () => {
+        it('reset hard undoes changes to files', async () => {
+            process.env.NODE_ENV = 'production'
+
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'staged.txt', cwd })
+            await gitAdd(['staged.txt'], { cwd, context })
+
+            // assert files present
+            expect(
+                (
+                    await exec('git ls-files --error-unmatch staged.txt', {
+                        cwd,
+                    })
+                ).stdout.toString(),
+            ).toEqual(expect.stringContaining('staged.txt'))
+
+            await gitResetHard({ cwd, context })
+
+            // assert files not present
+            await expect(
+                async () =>
+                    await exec('git ls-files --error-unmatch staged.txt', {
+                        cwd,
+                    }),
+            ).rejects.toThrow()
+        })
+
+        it('cleans all files, including directories', async () => {
+            process.env.NODE_ENV = 'production'
+
+            const cwd = context.project.cwd
+            await createFile({ filePath: 'file.txt', cwd })
+            await createFile({ filePath: path.join('dir', 'dir.txt'), cwd })
+
+            // assert files present
+            expect(
+                (
+                    await exec('ls file.txt', {
+                        cwd,
+                    })
+                ).stdout.toString(),
+            ).toEqual(expect.stringContaining('file.txt'))
+            expect(
+                (
+                    await exec('ls dir/dir.txt', {
+                        cwd,
+                    })
+                ).stdout.toString(),
+            ).toEqual(expect.stringContaining('dir/dir.txt'))
+
+            await gitClean({ cwd, context })
+
+            // assert committed
+            await expect(
+                async () =>
+                    await exec('ls file.txt', {
+                        cwd,
+                    }),
+            ).rejects.toThrow()
+            await expect(
+                async () =>
+                    await exec('ls dir/dir.txt', {
+                        cwd,
+                    }),
+            ).rejects.toThrow()
         })
     })
 })
