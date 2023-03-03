@@ -1,6 +1,6 @@
 {
   "name": "@monodeploy/plugin-github",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/tophat/monodeploy.git",
@@ -31,7 +31,7 @@
     "tapable": "^2.2.1"
   },
   "dependencies": {
-    "@monodeploy/git": "workspace:^3.7.1",
+    "@monodeploy/git": "workspace:^3.7.2",
     "@monodeploy/io": "workspace:^3.7.1",
     "@monodeploy/logging": "workspace:^3.7.0",
     "@monodeploy/types": "workspace:^3.7.1",

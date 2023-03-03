@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.1...@monodeploy/publish@3.7.2) "@monodeploy/publish" (2023-03-03)<a name="3.7.2"></a>
+
+### Bug Fixes
+
+* stash changes before pulling with rebase (#596) ([4165f57](https://github.com/tophat/monodeploy/commits/4165f57))
+
+
+
+
 ## [3.7.1](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.0...@monodeploy/publish@3.7.1) "@monodeploy/publish" (2023-03-03)<a name="3.7.1"></a>
 
 ### Bug Fixes
