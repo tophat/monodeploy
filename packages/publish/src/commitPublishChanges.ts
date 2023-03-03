@@ -42,21 +42,14 @@ export const createPublishCommit = async ({
             globs.push(config.changelogFilename.replace('<packageDir>', '**'))
         }
 
-        console.log('1')
         const files = globs.length ? await gitGlob(globs, { cwd: config.cwd, context }) : []
-        console.log('2')
         if (files.length) {
-            console.log('3')
             await gitAdd(files, { cwd: config.cwd, context })
-            console.log('4')
             await gitCommit(config.autoCommitMessage, { cwd: config.cwd, context })
-            console.log('5')
 
             // clean up any files that were modified but not committed
             await gitResetHard({ cwd: config.cwd, context })
-            console.log('6')
             await gitClean({ cwd: config.cwd, context })
-            console.log('7')
         }
     }
 
