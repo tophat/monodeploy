@@ -83,13 +83,17 @@ export const gitPull = async ({
     cwd,
     remote,
     context,
+    autostash = false,
 }: {
     cwd: string
     remote: string
     context?: YarnContext
+    autostash?: boolean
 }): Promise<void> => {
     assertProduction()
-    await git(`pull --rebase --no-verify ${remote}`, {
+    const args = ['--rebase', '--no-verify']
+    if (autostash) args.push('--autostash')
+    await git(`pull ${args.join(' ')} ${remote}`, {
         cwd,
         context,
     })

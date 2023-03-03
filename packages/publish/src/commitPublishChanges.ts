@@ -61,6 +61,7 @@ export const createPublishCommit = async ({
             cwd: config.cwd,
             remote: config.git.remote,
             context,
+            autostash: true,
         })
     }
 
