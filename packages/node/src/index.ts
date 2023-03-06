@@ -214,15 +214,6 @@ const monodeploy = async (
             resolve()
         })
 
-        await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
-            await prependChangelogFile({
-                config,
-                context,
-                changeset,
-                workspaces,
-            })
-        })
-
         try {
             // Update package.jsons (the main destructive action which requires the backup)
             await report.startTimerPromise(
@@ -269,6 +260,22 @@ const monodeploy = async (
 
             let publishCommitSha: string | undefined
             const restoredGitTags = getGitTagsFromChangeset(changeset)
+
+            // TODO: if autoCommit is enabled, do a git pull --rebase here, prior to updating changelog
+            // git pull --rebase should always be paired with a project.install()
+
+            await report.startTimerPromise(
+                'Updating Changelog',
+                { skipIfEmpty: false },
+                async () => {
+                    await prependChangelogFile({
+                        config,
+                        context,
+                        changeset,
+                        workspaces,
+                    })
+                },
+            )
 
             await report.startTimerPromise(
                 'Committing Changes',
