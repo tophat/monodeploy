@@ -18,9 +18,10 @@
             "ES2020",
             "dom",
             "dom.iterable"
-        ]
+        ],
     },
-    "include": ["./packages", "./e2e-tests", "./__mocks__", "./testUtils"],
+    "include": ["jest.config.ts", "./packages", "./gatsby", "./e2e-tests", "./__mocks__", "./testUtils"],
+    "exclude": ["**/lib"],
     "ts-node": {
         "transpileOnly": true,
         "ignore": ["(?:^|/)node_modules/", ".yarn/plugins/.*"],

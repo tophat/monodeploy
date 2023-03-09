@@ -10,11 +10,11 @@ import * as React from 'react'
 import { Helmet } from 'react-helmet'
 
 const Seo: React.FC<{
-    description: string
-    lang: string
+    description?: string
+    lang?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    meta: Array<Record<string, any>>
-    title: string
+    meta?: Array<Record<string, any>>
+    title?: string | undefined
 }> = ({ description = '', lang = 'en', meta = [], title }) => {
     const { site } = useStaticQuery(
         graphql`

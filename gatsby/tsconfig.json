@@ -1,23 +1,8 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "declaration": true,
-        "noImplicitAny": true,
-        "emitDeclarationOnly": false,
-        "allowSyntheticDefaultImports": true,
-        "resolveJsonModule": true,
-        "allowJs": true,
-        "jsx": "preserve",
-        "lib": [
-            "ES2020",
-            "dom",
-            "dom.iterable"
-        ]
+        "declarationDir": "./lib",
+        "outDir": "./lib"
     },
-    "include": ["./src"]
+    "include": ["./src"],
 }

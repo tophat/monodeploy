@@ -1,8 +1,10 @@
+import { type Config } from '@jest/types'
+
 const CI = process.env.CI === '1'
 const ARTIFACT_DIR = process.env.ARTIFACT_DIR || 'artifacts'
 const IS_E2E = process.env.E2E === '1'
 
-module.exports = {
+const config: Config.InitialOptions = {
     ...(CI && {
         reporters: [
             'default',
@@ -44,3 +46,5 @@ module.exports = {
     testTimeout: 30000,
     resolver: '@tophat/jest-resolver',
 }
+
+export default config

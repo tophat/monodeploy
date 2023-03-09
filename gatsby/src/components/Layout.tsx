@@ -20,8 +20,8 @@ const components: any = {
 }
 
 export const Layout: React.FC<{
-    children: React.ReactNode
-    pageContext: PageContext
+    children: React.ReactNode | React.ReactNode[]
+    pageContext?: PageContext
 }> = ({ children, pageContext }) => {
     const data = useStaticQuery(graphql`
         query SiteTitleQuery {

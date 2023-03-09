@@ -95,7 +95,7 @@ const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) 
             </td>
             <td>
                 <div className="description">
-                    <ReactMarkdown plugins={[RemarkExternalLinks]}>
+                    <ReactMarkdown remarkPlugins={[RemarkExternalLinks]}>
                         {data.comment ? stringifyComment(data.comment, tags) : 'No description.'}
                     </ReactMarkdown>
                 </div>
