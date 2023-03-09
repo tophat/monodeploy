@@ -2300,12 +2300,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/schemas@npm:^29.0.0":
-  version: 29.0.0
-  resolution: "@jest/schemas@npm:29.0.0"
+"@jest/schemas@npm:^29.0.0, @jest/schemas@npm:^29.4.3":
+  version: 29.4.3
+  resolution: "@jest/schemas@npm:29.4.3"
   dependencies:
-    "@sinclair/typebox": ^0.24.1
-  checksum: 41355c78f09eb1097e57a3c5d0ca11c9099e235e01ea5fa4e3953562a79a6a9296c1d300f1ba50ca75236048829e056b00685cd2f1ff8285e56fd2ce01249acb
+    "@sinclair/typebox": ^0.25.16
+  checksum: ac754e245c19dc39e10ebd41dce09040214c96a4cd8efa143b82148e383e45128f24599195ab4f01433adae4ccfbe2db6574c90db2862ccd8551a86704b5bebd
   languageName: node
   linkType: hard
 
@@ -2367,17 +2367,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^29.3.1":
-  version: 29.3.1
-  resolution: "@jest/types@npm:29.3.1"
+"@jest/types@npm:^29.3.1, @jest/types@npm:^29.5.0":
+  version: 29.5.0
+  resolution: "@jest/types@npm:29.5.0"
   dependencies:
-    "@jest/schemas": ^29.0.0
+    "@jest/schemas": ^29.4.3
     "@types/istanbul-lib-coverage": ^2.0.0
     "@types/istanbul-reports": ^3.0.0
     "@types/node": "*"
     "@types/yargs": ^17.0.8
     chalk: ^4.0.0
-  checksum: 6f9faf27507b845ff3839c1adc6dbd038d7046d03d37e84c9fc956f60718711a801a5094c7eeee6b39ccf42c0ab61347fdc0fa49ab493ae5a8efd2fd41228ee8
+  checksum: 1811f94b19cf8a9460a289c4f056796cfc373480e0492692a6125a553cd1a63824bd846d7bb78820b7b6f758f6dd3c2d4558293bb676d541b2fa59c70fdf9d39
   languageName: node
   linkType: hard
 
@@ -2771,6 +2771,7 @@ __metadata:
   resolution: "@monodeploy/monorepo@workspace:."
   dependencies:
     "@commitlint/cli": ^17.3.0
+    "@jest/types": ^29.5.0
     "@monodeploy/git": "workspace:*"
     "@monodeploy/io": "workspace:*"
     "@monodeploy/logging": "workspace:*"
@@ -2783,7 +2784,7 @@ __metadata:
     "@tophat/eslint-config": ^4.0.0
     "@tophat/eslint-import-resolver-require": ^0.1.3
     "@tophat/jest-resolver": ^0.1.0
-    "@types/jest": ^29.2.3
+    "@types/jest": ^29.4.0
     "@types/node": ^18.14.6
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
@@ -3583,10 +3584,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinclair/typebox@npm:^0.24.1":
-  version: 0.24.23
-  resolution: "@sinclair/typebox@npm:0.24.23"
-  checksum: 8965c9d10a13c091a953cadd43748c8b0a7e82daf7647e19e9c39f53fde405a6d6fe939edaf90f320d06a8c529a87928380b6bb2a97e27b42865b1b7891e9d43
+"@sinclair/typebox@npm:^0.25.16":
+  version: 0.25.24
+  resolution: "@sinclair/typebox@npm:0.25.24"
+  checksum: 10219c58f40b8414c50b483b0550445e9710d4fe7b2c4dccb9b66533dd90ba8e024acc776026cebe81e87f06fa24b07fdd7bc30dd277eb9cc386ec50151a3026
   languageName: node
   linkType: hard
 
@@ -4132,13 +4133,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.2.3":
-  version: 29.2.4
-  resolution: "@types/jest@npm:29.2.4"
+"@types/jest@npm:^29.4.0":
+  version: 29.4.0
+  resolution: "@types/jest@npm:29.4.0"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 9deb4756fe1b438d41ff1aae7d6c216c9e49e5fe60f539f8edb6698ffeb530ff7b25d37e223439b03602ca3a7397c9c2e53e1a39c7bd616353472fce0cc04107
+  checksum: 23760282362a252e6690314584d83a47512d4cd61663e957ed3398ecf98195fe931c45606ee2f9def12f8ed7d8aa102d492ec42d26facdaf8b78094a31e6568e
   languageName: node
   linkType: hard
 
