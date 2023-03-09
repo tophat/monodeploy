@@ -66,13 +66,16 @@ export default function setupProject({
             await initGitRepository(npath.toPortablePath(remotePath))
             await addGitRemote(project, remotePath, 'origin')
 
-            const configFilename = await writeConfig({
-                cwd: project,
-                config: {
-                    registryUrl,
-                    ...config,
-                },
-            })
+            const configFilename = path.relative(
+                project,
+                await writeConfig({
+                    cwd: project,
+                    config: {
+                        registryUrl,
+                        ...config,
+                    },
+                }),
+            )
 
             // initial commit
             await exec('git pull --rebase --no-verify origin main', {

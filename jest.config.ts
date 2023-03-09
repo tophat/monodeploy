@@ -20,7 +20,7 @@ const config: Config.InitialOptions = {
         collectCoverage: true,
     }),
     transform: {
-        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.tsx?$': require.resolve('ts-jest'),
     },
     coverageReporters: CI ? ['json'] : ['text', 'json'],
     coverageDirectory: 'raw-coverage/jest/',
@@ -44,7 +44,13 @@ const config: Config.InitialOptions = {
     },
     modulePathIgnorePatterns: ['<rootDir>/.*/lib'],
     testTimeout: 30000,
-    resolver: '@tophat/jest-resolver',
+    resolver: require.resolve('@tophat/jest-resolver'),
+    ...(IS_E2E && {
+        maxConcurrency: 1,
+        maxWorkers: 1,
+        testTimeout: 300000,
+        verbose: true,
+    }),
 }
 
 export default config
