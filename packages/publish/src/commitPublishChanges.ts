@@ -62,6 +62,7 @@ export const createPublishCommit = async ({
             remote: config.git.remote,
             context,
             autostash: true,
+            strategyOption: 'theirs',
         })
     }
 

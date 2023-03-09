@@ -197,6 +197,13 @@ export const gitGlob = async (
     return globs // TODO: not entirely accurate
 }
 
+export const gitCheckout = async (
+    { files }: { files: string[] },
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    //
+}
+
 module.exports = {
     __esModule: true,
     _commitFiles_,

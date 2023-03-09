@@ -214,15 +214,6 @@ const monodeploy = async (
             resolve()
         })
 
-        await report.startTimerPromise('Updating Changelog', { skipIfEmpty: false }, async () => {
-            await prependChangelogFile({
-                config,
-                context,
-                changeset,
-                workspaces,
-            })
-        })
-
         try {
             // Update package.jsons (the main destructive action which requires the backup)
             await report.startTimerPromise(
@@ -269,6 +260,20 @@ const monodeploy = async (
 
             let publishCommitSha: string | undefined
             const restoredGitTags = getGitTagsFromChangeset(changeset)
+
+            await report.startTimerPromise(
+                'Updating Changelog',
+                { skipIfEmpty: false },
+                async () => {
+                    await prependChangelogFile({
+                        config,
+                        context,
+                        changeset,
+                        workspaces,
+                        forceRefreshChangelogs: config.autoCommit && config.git.push,
+                    })
+                },
+            )
 
             await report.startTimerPromise(
                 'Committing Changes',
