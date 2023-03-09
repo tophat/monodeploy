@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { gitCheckout } from '@monodeploy/git'
 import logging from '@monodeploy/logging'
 import {
     type ChangesetSchema,
@@ -75,13 +76,29 @@ const prependChangelogFile = async ({
     context,
     changeset,
     workspaces,
+    forceRefreshChangelogs = false,
 }: {
     config: MonodeployConfiguration
     context: YarnContext
     changeset: ChangesetSchema
     workspaces: Set<Workspace>
+    forceRefreshChangelogs?: boolean
 }): Promise<void> => {
     if (!config.changelogFilename) return
+
+    // Make sure the changelogs are up to date with the remote
+    if (!config.dryRun && forceRefreshChangelogs) {
+        const changelogGlob = config.changelogFilename.replace('<packageDir>', '**')
+        if (changelogGlob) {
+            try {
+                await gitCheckout({ files: [changelogGlob] }, { cwd: config.cwd, context })
+            } catch {
+                logging.debug('Force refreshing changelogs failed. Ignoring.', {
+                    report: context.report,
+                })
+            }
+        }
+    }
 
     if (config.changelogFilename.includes(TOKEN_PACKAGE_DIR)) {
         const prependForWorkspace = async (workspace: Workspace): Promise<void> => {

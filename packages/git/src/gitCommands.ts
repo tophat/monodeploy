@@ -13,6 +13,20 @@ const git = async (
     return await exec(command, { cwd, env: { GIT_TERMINAL_PROMPT: '0', ...process.env } })
 }
 
+export const gitCheckout = async (
+    { files }: { files: string[] },
+    { cwd, context }: { cwd: string; context?: YarnContext },
+): Promise<void> => {
+    const { stdout: branch } = await git('rev-parse --abbrev-ref --symbolic-full-name @\\{u\\}', {
+        cwd,
+        context,
+    })
+    await git(`checkout ${branch.trim()} -- ${files.map((f) => `"${f}"`).join(' ')}`, {
+        cwd,
+        context,
+    })
+}
+
 export const gitResolveSha = async (
     ref: string,
     { cwd, context }: { cwd: string; context?: YarnContext },
@@ -84,15 +98,18 @@ export const gitPull = async ({
     remote,
     context,
     autostash = false,
+    strategyOption,
 }: {
     cwd: string
     remote: string
     context?: YarnContext
     autostash?: boolean
+    strategyOption?: 'theirs'
 }): Promise<void> => {
     assertProduction()
     const args = ['--rebase', '--no-verify']
     if (autostash) args.push('--autostash')
+    if (strategyOption) args.push(`--strategy-option=${strategyOption}`)
     await git(`pull ${args.join(' ')} ${remote}`, {
         cwd,
         context,
