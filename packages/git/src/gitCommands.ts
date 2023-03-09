@@ -17,11 +17,14 @@ export const gitCheckout = async (
     { files }: { files: string[] },
     { cwd, context }: { cwd: string; context?: YarnContext },
 ): Promise<void> => {
-    const { stdout: branch } = await git('rev-parse --abbrev-ref --symbolic-full-name @{u}', {
+    const { stdout: branch } = await git('rev-parse --abbrev-ref --symbolic-full-name @\\{u\\}', {
         cwd,
         context,
     })
-    await git(`checkout ${branch.trim()} -- ${files.join(' ')}`, { cwd, context })
+    await git(`checkout ${branch.trim()} -- ${files.map((f) => `"${f}"`).join(' ')}`, {
+        cwd,
+        context,
+    })
 }
 
 export const gitResolveSha = async (

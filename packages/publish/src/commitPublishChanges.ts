@@ -47,15 +47,6 @@ export const createPublishCommit = async ({
         }
     }
 
-    if (config.git.tag && gitTags?.size) {
-        // Tag commit
-        await createReleaseGitTags({
-            config,
-            context,
-            gitTags,
-        })
-    }
-
     if (config.git.push && config.autoCommit) {
         await gitPull({
             cwd: config.cwd,
@@ -63,6 +54,15 @@ export const createPublishCommit = async ({
             context,
             autostash: true,
             strategyOption: 'theirs',
+        })
+    }
+
+    if (config.git.tag && gitTags?.size) {
+        // Tag commit
+        await createReleaseGitTags({
+            config,
+            context,
+            gitTags,
         })
     }
 

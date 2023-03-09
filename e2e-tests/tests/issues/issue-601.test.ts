@@ -61,6 +61,12 @@ describe('Issue #601', () => {
                 if (error2) console.error(error2)
                 expect(error2).toBeUndefined()
 
+                // At this point we expected change 2 followed by change 1 in the changelog
+                let remoteChangelog = (
+                    await exec('git cat-file blob origin/main:packages/pkg-1/CHANGELOG.md')
+                ).stdout
+                expect(remoteChangelog).toMatch(/change 2.*change 1/s)
+
                 // Switch back to change_3 which is now "out of sync" with main
                 await exec('git checkout main')
                 await exec('git reset --hard change_3')
@@ -68,7 +74,7 @@ describe('Issue #601', () => {
                 // If we attempt to publish, we'll have a conflict with the CHANGELOG.md file
                 // since our change_3 will only have change 1 and change 3 and will be missing change 2.
                 // We'll validate this:
-                let remoteChangelog = (
+                remoteChangelog = (
                     await exec('git cat-file blob origin/main:packages/pkg-1/CHANGELOG.md')
                 ).stdout
                 expect(remoteChangelog).toEqual(expect.stringContaining('change 1'))
@@ -85,9 +91,14 @@ describe('Issue #601', () => {
                 remoteChangelog = (
                     await exec('git cat-file blob origin/main:packages/pkg-1/CHANGELOG.md')
                 ).stdout
-                expect(remoteChangelog).toEqual(
-                    expect.stringMatching('change 1.*change 2.*change 3'),
+                expect(remoteChangelog).toMatch(/change 3.*change 2.*change 1/s)
+                expect((await (await exec('git describe --abbrev=0')).stdout).trim()).toBe(
+                    'pkg-1@0.3.0',
                 )
+
+                // NOTE: the hard reset we do disassociates the git tag with the HEAD of main.
+                // This causes the change_3 monodeploy run to include changes 2 and 3. This is
+                // just a quirk of the test scenario.
             },
         }),
     )

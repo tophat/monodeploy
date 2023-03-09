@@ -93,7 +93,9 @@ const prependChangelogFile = async ({
             try {
                 await gitCheckout({ files: [changelogGlob] }, { cwd: config.cwd, context })
             } catch {
-                logging.debug('Force refreshing changelogs failed.', { report: context.report })
+                logging.debug('Force refreshing changelogs failed. Ignoring.', {
+                    report: context.report,
+                })
             }
         }
     }
