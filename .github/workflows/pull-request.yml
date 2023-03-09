@@ -13,7 +13,7 @@ env:
 jobs:
   commit-watch:
     name: Run Commit Watch
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v3.1.0
@@ -37,7 +37,7 @@ jobs:
           path: ${{ env.ARTIFACT_DIR }}
   tests:
     name: Lint & Tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v3.1.0
@@ -69,8 +69,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
-        runner: ['ubuntu-20.04']
-        node-version: ['14.19.3']
+        runner: ['ubuntu-latest']
     env:
       E2E: 1
     steps:
@@ -80,7 +79,6 @@ jobs:
             fetch-depth: 0
         - uses: ./.github/actions/setup-env
           with:
-            node-version: ${{ matrix.node-version }}
             cache-prefix: ${{ matrix.runner }}
         - name: Build Registry Dockerfile
           run: yarn workspace @monodeploy/e2e-tests test:registry:build
@@ -88,13 +86,13 @@ jobs:
           run: yarn test:e2e
         - name: Upload Artifacts
           uses: actions/upload-artifact@v3
-          if: ${{ matrix.runner }} == 'ubuntu-20.04'
+          if: ${{ matrix.runner }} == 'ubuntu-latest'
           with:
             name: coverage-e2e-tests
             path: ./raw-coverage/jest-e2es
   test_report:
     name: Test Report
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     needs: ['tests_e2es', 'tests']
     steps:
@@ -126,13 +124,13 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   tests_compatibility:
-    name: Test Compatibility - ${{ matrix.runner }} / Node v${{ matrix.node-version }}
+    name: Test Compatibility - ${{ matrix.runner }} / Node ${{ matrix.node-version }}
     runs-on: ${{ matrix.runner}}
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
-        runner: ['ubuntu-20.04', 'windows-2022', 'macos-11']
-        node-version: ['14.19.3']
+        runner: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        node-version: ['lts/fermium', 'lts/gallium']
     steps:
       - uses: actions/checkout@v3.1.0
         with:
@@ -158,7 +156,7 @@ jobs:
           path: ${{ env.ARTIFACT_DIR }}
   publish_preview:
     name: Publish Preview
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: [test_report]
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
@@ -220,7 +218,7 @@ jobs:
           path: ${{ env.ARTIFACT_DIR }}
   website:
     name: Website
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     needs: [test_report]
     steps:

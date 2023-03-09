@@ -32,7 +32,7 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/micromatch": "^4",
-    "@types/node": "^14.17.14",
+    "@types/node": "^18.14.6",
     "@yarnpkg/core": "^3.4.0",
     "@yarnpkg/fslib": "^2.10.1"
   },
