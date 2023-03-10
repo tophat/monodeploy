@@ -46,14 +46,14 @@ describe('prependChangelogFile', () => {
         }
 
         // TODO: Better assertion.
-        await expect(async () =>
+        await expect(
             prependChangelogFile({
                 config,
                 context,
                 changeset,
                 workspaces: new Set(),
             }),
-        ).not.toThrow()
+        ).resolves.toBeUndefined()
         expect(writeMock).not.toHaveBeenCalled()
         expect(readMock).not.toHaveBeenCalled()
     })
@@ -133,14 +133,14 @@ describe('prependChangelogFile', () => {
         }
 
         // TODO: Better assertion.
-        await expect(async () =>
+        await expect(
             prependChangelogFile({
                 config,
                 context,
                 changeset,
                 workspaces: new Set(),
             }),
-        ).not.toThrow()
+        ).resolves.toBeUndefined()
         expect(writeMock).not.toHaveBeenCalled()
     })
 

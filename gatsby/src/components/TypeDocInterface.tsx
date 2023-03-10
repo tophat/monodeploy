@@ -74,10 +74,13 @@ const InterfaceChildRow: React.FC<{ data: DeclarationReflection }> = ({ data }) 
     }
 
     const rowId = `schema-option-${data.name}`
-    const tags = (data?.comment?.blockTags ?? []).reduce((tags, blockTag) => {
-        tags[blockTag.tag] = blockTag.content[0].text
-        return tags
-    }, {} as Partial<Record<`@${string}`, string>>)
+    const tags = (data?.comment?.blockTags ?? []).reduce<Partial<Record<`@${string}`, string>>>(
+        (tags, blockTag) => {
+            tags[blockTag.tag] = blockTag.content[0].text
+            return tags
+        },
+        {},
+    )
 
     return (
         <tr

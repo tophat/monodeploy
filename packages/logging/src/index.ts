@@ -12,7 +12,7 @@ export const LOG_LEVELS = {
     ERROR: 3,
 } as const
 
-type LogLevelType = typeof LOG_LEVELS[keyof typeof LOG_LEVELS]
+type LogLevelType = (typeof LOG_LEVELS)[keyof typeof LOG_LEVELS]
 
 type Logger = (
     message: string | Error | unknown,

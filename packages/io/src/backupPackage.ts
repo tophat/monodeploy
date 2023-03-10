@@ -63,7 +63,7 @@ export const restorePackageJsons = async ({
 
     await Promise.all(
         entries.map(([index, filename]) =>
-            restoreFile(index, filename).finally(() => progress.tick()),
+            restoreFile(index, filename).finally(() => void progress.tick()),
         ),
     )
 }
@@ -82,7 +82,7 @@ export const clearBackupCache = async ({
 
     await Promise.all(
         keys.map((key) =>
-            fs.rm(key, { recursive: true, force: true }).finally(() => progress.tick()),
+            fs.rm(key, { recursive: true, force: true }).finally(() => void progress.tick()),
         ),
     )
 }

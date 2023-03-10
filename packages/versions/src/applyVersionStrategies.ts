@@ -97,15 +97,15 @@ function buildBaseVersionsByGroup({
             groupKey,
             {
                 // there's always a latest so we'll default to 0.0.0 so we can keep 'null' out of the types
-                latest: Array.from(group).reduce(
+                latest: Array.from(group).reduce<string>(
                     (curr, packageName) =>
                         maxVersion(curr, registryTags.get(packageName)?.latest) ?? '0.0.0',
-                    '0.0.0' as string,
+                    '0.0.0',
                 ),
-                prerelease: Array.from(group).reduce(
+                prerelease: Array.from(group).reduce<string | null>(
                     (curr, packageName) =>
                         maxVersion(curr, registryTags.get(packageName)?.[prereleaseNPMTag] ?? null),
-                    null as string | null,
+                    null,
                 ),
             },
         ]),
@@ -189,10 +189,10 @@ const applyVersionStrategies = async ({
 
     // merge group updates
     for (const [groupKey, group] of workspaceGroups.entries()) {
-        const version: string | null = Array.from(group).reduce(
+        const version: string | null = Array.from(group).reduce<string | null>(
             (curr, packageName) =>
                 maxVersion(curr, updatedRegistryTags.get(packageName)?.next ?? null),
-            null as string | null,
+            null,
         )
         if (!version) continue
 

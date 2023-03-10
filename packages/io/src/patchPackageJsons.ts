@@ -112,7 +112,7 @@ const patchPackageJsons = async ({
 
     await Promise.all(
         [...workspaces].map((workspace) =>
-            patchWorkspace(workspace).finally(() => progress.tick()),
+            patchWorkspace(workspace).finally(() => void progress.tick()),
         ),
     )
 }

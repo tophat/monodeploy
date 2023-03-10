@@ -14,6 +14,7 @@ node_modules
 *.tmp
 *.log
 .nyc_cache
+.tmp
 
 # build artifacts
 .nyc_output
@@ -22,6 +23,7 @@ raw-coverage
 lib
 artifacts
 *.junit.xml
+*.tsbuildinfo
 
 # IDE
 .idea/

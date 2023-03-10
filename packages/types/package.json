@@ -34,6 +34,7 @@
     "@yarnpkg/core": "^3.4.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.4.0",
     "@types/node": "^18.14.6",
     "@yarnpkg/core": "^3.4.0",
     "ts-node": "^10.9.1",
