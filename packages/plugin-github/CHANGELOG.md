@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.4](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.3...@monodeploy/plugin-github@0.9.4) "@monodeploy/plugin-github" (2023-03-10)<a name="0.9.4"></a>
+
+### Bug Fixes
+
+* re-release monodeploy due to missing lib dirs (#623) ([b51c88c](https://github.com/tophat/monodeploy/commits/b51c88c))
+
+
+
+
 ## [0.9.3](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.2...@monodeploy/plugin-github@0.9.3) "@monodeploy/plugin-github" (2023-03-10)<a name="0.9.3"></a>
 
 ### Dependencies

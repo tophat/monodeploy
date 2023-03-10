@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.4](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.7.3...@monodeploy/types@3.7.4) "@monodeploy/types" (2023-03-10)<a name="3.7.4"></a>
+
+### Bug Fixes
+
+* re-release monodeploy due to missing lib dirs (#623) ([b51c88c](https://github.com/tophat/monodeploy/commits/b51c88c))
+
+
+
+
 ## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.7.1...@monodeploy/types@3.7.3) "@monodeploy/types" (2023-03-10)<a name="3.7.3"></a>
 
 ### Dependencies
