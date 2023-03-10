@@ -35,7 +35,7 @@
         "test:coverage:report": "nyc --nycrc-path nyc.config.js report -t ${ARTIFACT_DIR:-artifacts}/",
         "types:watch": "tsc --noEmit --emitDeclarationOnly false --pretty --watch",
         "workspace:build:watch": "tsc -p $0/tsconfig.build.json --watch",
-        "workspace:build": "rm -rf $0/lib && tsc -p $0/tsconfig.build.json",
+        "workspace:build": "rm -rf $0/lib $0/.tmp && tsc -p $0/tsconfig.build.json",
         "workspace:clean": "rm -rf $0/lib $0/.tmp && find $0/src -name '*.js' -type f -delete",
         "workspace:test:watch": "run workspace:test --watch $0",
         "workspace:test": "jest --config=jest.config.ts $0",
