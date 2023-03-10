@@ -24,7 +24,7 @@
     "types:watch": "run workspace:types:watch \"$(pwd)\"",
     "test:watch": "run workspace:test:watch \"$(pwd)\"",
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
-    "prepack": "run workspace:build \"$(pwd)\""
+    "prepack": "run clean && run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
     "@monodeploy/io": "workspace:*",
