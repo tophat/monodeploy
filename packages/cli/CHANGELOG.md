@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/monodeploy@3.7.2...monodeploy@3.7.3) "monodeploy" (2023-03-10)<a name="3.7.3"></a>
+
+### Dependencies
+
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+* update to stable clipanion dependency (#613) ([9ec0d7e](https://github.com/tophat/monodeploy/commits/9ec0d7e))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.6.0...monodeploy@3.7.0) "monodeploy" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features

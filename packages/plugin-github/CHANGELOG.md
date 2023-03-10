@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.9.3](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.2...@monodeploy/plugin-github@0.9.3) "@monodeploy/plugin-github" (2023-03-10)<a name="0.9.3"></a>
+
+### Dependencies
+
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+
+
+
+
 ## [0.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.8.0...@monodeploy/plugin-github@0.9.0) "@monodeploy/plugin-github" (2023-02-14)<a name="0.9.0"></a>
 
 ### Features

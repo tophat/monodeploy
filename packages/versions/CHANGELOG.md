@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.7.2...@monodeploy/versions@3.7.3) "@monodeploy/versions" (2023-03-10)<a name="3.7.3"></a>
+
+### Dependencies
+
+* update dependency @types/conventional-commits-parser to ^3.0.3 (#599) ([d15f493](https://github.com/tophat/monodeploy/commits/d15f493))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.6.0...@monodeploy/versions@3.7.0) "@monodeploy/versions" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features

@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.2...@monodeploy/publish@3.7.3) "@monodeploy/publish" (2023-03-10)<a name="3.7.3"></a>
+
+### Bug Fixes
+
+* ensures changelog files are up to date before adding entries (#610) ([c5a3460](https://github.com/tophat/monodeploy/commits/c5a3460))
+
+
+
+
 ## [3.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.1...@monodeploy/publish@3.7.2) "@monodeploy/publish" (2023-03-03)<a name="3.7.2"></a>
 
 ### Bug Fixes

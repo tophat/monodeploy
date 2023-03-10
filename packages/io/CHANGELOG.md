@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.7.1...@monodeploy/io@3.7.3) "@monodeploy/io" (2023-03-10)<a name="3.7.3"></a>
+
+### Dependencies
+
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.6.0...@monodeploy/io@3.7.0) "@monodeploy/io" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features

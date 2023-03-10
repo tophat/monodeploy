@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/node@3.7.2...@monodeploy/node@3.7.3) "@monodeploy/node" (2023-03-10)<a name="3.7.3"></a>
+
+### Bug Fixes
+
+* ensures changelog files are up to date before adding entries (#610) ([c5a3460](https://github.com/tophat/monodeploy/commits/c5a3460))
+* defer manifest backup to immediately prior to patching (#621) ([4ae62fd](https://github.com/tophat/monodeploy/commits/4ae62fd))
+
+### Dependencies
+
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/node@3.6.0...@monodeploy/node@3.7.0) "@monodeploy/node" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features

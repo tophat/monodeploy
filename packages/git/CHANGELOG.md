@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.7.2...@monodeploy/git@3.7.3) "@monodeploy/git" (2023-03-10)<a name="3.7.3"></a>
+
+### Bug Fixes
+
+* ensures changelog files are up to date before adding entries (#610) ([c5a3460](https://github.com/tophat/monodeploy/commits/c5a3460))
+
+### Dependencies
+
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+
+
+
+
 ## [3.7.2](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.7.1...@monodeploy/git@3.7.2) "@monodeploy/git" (2023-03-03)<a name="3.7.2"></a>
 
 ### Bug Fixes

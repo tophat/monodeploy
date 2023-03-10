@@ -2,6 +2,21 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.3](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.7.2...@monodeploy/changelog@3.7.3) "@monodeploy/changelog" (2023-03-10)<a name="3.7.3"></a>
+
+### Bug Fixes
+
+* ensures changelog files are up to date before adding entries (#610) ([c5a3460](https://github.com/tophat/monodeploy/commits/c5a3460))
+
+### Dependencies
+
+* update dependency @types/conventional-changelog-writer to ^4.0.2 (#598) ([65e0f2f](https://github.com/tophat/monodeploy/commits/65e0f2f))
+* update dependency @types/conventional-commits-parser to ^3.0.3 (#599) ([d15f493](https://github.com/tophat/monodeploy/commits/d15f493))
+* update NodeJS version used in development to v18 ([74da880](https://github.com/tophat/monodeploy/commits/74da880))
+
+
+
+
 ## [3.7.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.6.0...@monodeploy/changelog@3.7.0) "@monodeploy/changelog" (2023-02-14)<a name="3.7.0"></a>
 
 ### Features
