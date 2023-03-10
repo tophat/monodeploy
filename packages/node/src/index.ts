@@ -133,13 +133,6 @@ const monodeploy = async (
             implicitVersionStrategies,
         })
 
-        // Backup workspace package.jsons
-        let backupKey: string | undefined
-
-        if (!config.dryRun) {
-            backupKey = await backupPackageJsons({ config, context })
-        }
-
         let versionChanges: {
             next: PackageVersionMap
             previous: PackageVersionMap
@@ -213,6 +206,13 @@ const monodeploy = async (
             }
             resolve()
         })
+
+        // Backup workspace package.jsons
+        let backupKey: string | undefined
+
+        if (!config.dryRun) {
+            backupKey = await backupPackageJsons({ config, context })
+        }
 
         try {
             // Update package.jsons (the main destructive action which requires the backup)
