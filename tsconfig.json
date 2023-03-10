@@ -9,7 +9,6 @@
         "downlevelIteration": true,
         "forceConsistentCasingInFileNames": true,
         "noImplicitAny": true,
-        "emitDeclarationOnly": false,
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "allowJs": true,
@@ -19,9 +18,13 @@
             "dom",
             "dom.iterable"
         ],
+        "composite": true,
+        "rootDir": ".",
+        "emitDeclarationOnly": true,
+        "outDir": ".tmp/tsc/root",
     },
-    "include": ["jest.config.ts", "./packages", "./gatsby", "./e2e-tests", "./__mocks__", "./testUtils"],
-    "exclude": ["**/lib"],
+    "exclude": ["**/lib", "./.pnp.*"],
+    "include": ["./__mocks__", "./e2e-tests", "./gatsby", "./packages", "./testUtils", "./*.js", "./*.ts", "./**/.eslintrc.js"],
     "ts-node": {
         "transpileOnly": true,
         "ignore": ["(?:^|/)node_modules/", ".yarn/plugins/.*"],

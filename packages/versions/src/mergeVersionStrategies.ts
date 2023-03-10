@@ -48,10 +48,10 @@ const mergeVersionStrategies = async ({
         // conforms to the format specified by the most meaningful commit. E.g. 4.0.0 indicates
         // a breaking change, while 4.1.1 is guaranteed to be a patch (or at a min, a commit
         // that the end user does not need to worry about).
-        const strategy = Array.from(group).reduce(
+        const strategy = Array.from(group).reduce<PackageStrategyType | undefined>(
             (curr, name) =>
                 strategies.has(name) ? maxStrategy(curr, strategies.get(name)?.type) : curr,
-            undefined as PackageStrategyType | undefined,
+            undefined,
         )
 
         if (!strategy) continue

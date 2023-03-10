@@ -10,9 +10,9 @@ const isUp = (): Promise<void> =>
             http.get('http://localhost:4873/-/whoami', { timeout: 2000 }, (res) => {
                 res.resume()
                 if (res.statusCode === 200) {
-                    return resolve()
+                    return void resolve()
                 }
-                return reject(new Error('Request failed.'))
+                return void reject(new Error('Request failed.'))
             }).on('error', (err) => {
                 reject(err)
             })

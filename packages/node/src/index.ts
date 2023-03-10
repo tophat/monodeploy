@@ -354,7 +354,8 @@ const monodeploy = async (
             await report.startTimerPromise(
                 'Executing Release Hooks',
                 { skipIfEmpty: true },
-                async () => await hooks.onReleaseAvailable.promise(context, config, changeset),
+                async () =>
+                    void (await hooks.onReleaseAvailable.promise(context, config, changeset)),
             )
 
             logging.info('Monodeploy completed successfully', { report })
