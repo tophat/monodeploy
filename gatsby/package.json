@@ -7,7 +7,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
-    "react-markdown": "^8.0.3",
+    "react-markdown": "^8.0.5",
     "remark-external-links": "^9.0.1",
     "sanitize.css": "^13.0.0",
     "typedoc": "^0.23.20"
