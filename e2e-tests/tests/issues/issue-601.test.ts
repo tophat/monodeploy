@@ -92,9 +92,8 @@ describe('Issue #601', () => {
                     await exec('git cat-file blob origin/main:packages/pkg-1/CHANGELOG.md')
                 ).stdout
                 expect(remoteChangelog).toMatch(/change 3.*change 2.*change 1/s)
-                expect((await (await exec('git describe --abbrev=0')).stdout).trim()).toBe(
-                    'pkg-1@0.3.0',
-                )
+                await exec('git checkout --force change_3')
+                expect((await exec('git describe --abbrev=0')).stdout.trim()).toBe('pkg-1@0.3.0')
 
                 // NOTE: the hard reset we do disassociates the git tag with the HEAD of main.
                 // This causes the change_3 monodeploy run to include changes 2 and 3. This is

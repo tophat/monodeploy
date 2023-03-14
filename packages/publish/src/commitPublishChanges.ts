@@ -28,6 +28,18 @@ export const createPublishCommit = async ({
         return undefined
     }
 
+    if (config.git.tag && gitTags?.size && !config.persistVersions) {
+        // If not using persistVersions, we'll attach the git tag to the commit
+        // that we're running monodeploy against since this marks the commit as the
+        // "last one published". This informs later monodeploy runs so that they don't republish
+        // the changes.
+        await createReleaseGitTags({
+            config,
+            context,
+            gitTags,
+        })
+    }
+
     if (config.autoCommit) {
         const globs: string[] = []
 
@@ -57,8 +69,12 @@ export const createPublishCommit = async ({
         })
     }
 
-    if (config.git.tag && gitTags?.size) {
-        // Tag commit
+    if (config.git.tag && gitTags?.size && config.persistVersions) {
+        // If using persistVersions, we attach the git tag to the commit with
+        // the modified package.json files and changelogs. This does mean that we are
+        // subject to a race condition where 2 changes going out at the same time might
+        // result in the latter change missing commits. This is an inherent flaw with using
+        // git tags to determine the last publish checkpoint.
         await createReleaseGitTags({
             config,
             context,
