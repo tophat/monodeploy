@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.5](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.7.4...@monodeploy/types@3.7.5) "@monodeploy/types" (2023-03-14)<a name="3.7.5"></a>
+
+### Dependencies
+
+* update dependency typedoc to ^0.23.25 (#619) ([8afbfcc](https://github.com/tophat/monodeploy/commits/8afbfcc))
+
+
+
+
 ## [3.7.4](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.7.3...@monodeploy/types@3.7.4) "@monodeploy/types" (2023-03-10)<a name="3.7.4"></a>
 
 ### Bug Fixes

@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.7.5](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.4...@monodeploy/publish@3.7.5) "@monodeploy/publish" (2023-03-14)<a name="3.7.5"></a>
+
+### Bug Fixes
+
+* attach git sha to initial commit for non-persist mode ([4398bc9](https://github.com/tophat/monodeploy/commits/4398bc9))
+* attach git sha to initial commit for non-persist mode (#629) ([4398bc9](https://github.com/tophat/monodeploy/commits/4398bc9))
+
+
+
+
 ## [3.7.4](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.3...@monodeploy/publish@3.7.4) "@monodeploy/publish" (2023-03-10)<a name="3.7.4"></a>
 
 ### Bug Fixes
