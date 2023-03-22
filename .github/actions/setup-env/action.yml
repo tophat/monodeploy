@@ -34,7 +34,7 @@ runs:
       shell: bash
     - name: Restore Yarn Cache
       id: yarn-cache
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.6
       with:
         path: |
           .yarn/cache
