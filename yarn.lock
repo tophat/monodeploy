@@ -2685,15 +2685,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/loader@npm:^2.1.5":
-  version: 2.1.5
-  resolution: "@mdx-js/loader@npm:2.1.5"
+"@mdx-js/loader@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@mdx-js/loader@npm:2.3.0"
   dependencies:
     "@mdx-js/mdx": ^2.0.0
     source-map: ^0.7.0
   peerDependencies:
     webpack: ">=4"
-  checksum: a4108e5ba8075a7369d0279e8bee09dcee4483474e7a621a805fc4e3af53b79b5b59219dc78249a8c97906b15a1e47b036626725697d8cf227c849fafaf7d3d1
+  checksum: 1217f811b7ee37e4f63ca828642cd47120b7b2994975409b38cdd8550434166520c94f116efa975cb2b14760a5cc7a424848649519ce05d47f96d21b8c2c1066
   languageName: node
   linkType: hard
 
@@ -2812,7 +2812,7 @@ __metadata:
   resolution: "@monodeploy/gatsby@workspace:gatsby"
   dependencies:
     "@babel/core": ^7.21.0
-    "@mdx-js/loader": ^2.1.5
+    "@mdx-js/loader": ^2.3.0
     "@mdx-js/react": ^2.1.5
     "@types/babel__core": ^7.1.20
     "@types/loader-utils": ^2.0.3
