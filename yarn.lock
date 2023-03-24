@@ -2856,7 +2856,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/jest": ^29.4.0
-    "@types/micromatch": ^4
+    "@types/micromatch": ^4.0.2
     "@types/node": ^18.14.6
     "@yarnpkg/core": ^3.4.0
     "@yarnpkg/fslib": ^2.10.1
@@ -3126,7 +3126,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/conventional-commits-parser": ^3.0.3
     "@types/jest": ^29.4.0
-    "@types/micromatch": ^4
+    "@types/micromatch": ^4.0.2
     "@types/semver": ^7.3.13
     "@yarnpkg/cli": ^3.4.1
     "@yarnpkg/core": ^3.4.0
@@ -4353,12 +4353,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:^4":
-  version: 4.0.1
-  resolution: "@types/micromatch@npm:4.0.1"
+"@types/micromatch@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@types/micromatch@npm:4.0.2"
   dependencies:
     "@types/braces": "*"
-  checksum: 4f9fea285778c579055c83fbb025f576c3adc9541ec89e12f1e192e53c0885a04d1a5863b44001606f01964f12b26f8b08b033c06de11ca9de78d58e7a672850
+  checksum: 6c678e9c625d5b422c6d2c1001da1c502ecc4457248343bbd324b79fd798a6563e336a4d79630d80e8202312013dd7cf8b4440afa644d04477abd26fde6fba24
   languageName: node
   linkType: hard
 
