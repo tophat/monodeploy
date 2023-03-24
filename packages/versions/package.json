@@ -42,7 +42,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.3",
     "@types/jest": "^29.4.0",
-    "@types/micromatch": "^4",
+    "@types/micromatch": "^4.0.2",
     "@types/semver": "^7.3.13",
     "@yarnpkg/cli": "^3.4.1",
     "@yarnpkg/core": "^3.4.0",
