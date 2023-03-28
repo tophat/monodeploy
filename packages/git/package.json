@@ -31,11 +31,11 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.0",
     "@types/micromatch": "^4.0.2",
     "@types/node": "^18.14.6",
-    "@yarnpkg/core": "^3.4.0",
-    "@yarnpkg/fslib": "^2.10.1"
+    "@yarnpkg/core": "^3.5.0",
+    "@yarnpkg/fslib": "^2.10.2"
   },
   "dependencies": {
     "micromatch": "^4.0.5"
@@ -44,7 +44,7 @@
     "@monodeploy/io": "workspace:^3.7.5",
     "@monodeploy/logging": "workspace:^3.7.4",
     "@monodeploy/types": "workspace:^3.7.5",
-    "@yarnpkg/core": "^3.4.0",
-    "@yarnpkg/fslib": "^2.10.1"
+    "@yarnpkg/core": "^3.5.0",
+    "@yarnpkg/fslib": "^2.10.2"
   }
 }
