@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.5...@monodeploy/plugin-github@0.10.0) "@monodeploy/plugin-github" (2023-03-28)<a name="0.10.0"></a>
+
+### Dependencies
+
+* **dev**: update jest dev dependency ([1909076](https://github.com/tophat/monodeploy/commits/1909076))
+
+### Features
+
+* target yarn 3.5.0 ([e62613d](https://github.com/tophat/monodeploy/commits/e62613d))
+
+
+
+
 ## [0.9.4](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.3...@monodeploy/plugin-github@0.9.4) "@monodeploy/plugin-github" (2023-03-10)<a name="0.9.4"></a>
 
 ### Bug Fixes

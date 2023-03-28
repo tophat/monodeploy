@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.7.5...@monodeploy/changelog@3.8.0) "@monodeploy/changelog" (2023-03-28)<a name="3.8.0"></a>
+
+### Dependencies
+
+* **dev**: update jest dev dependency ([1909076](https://github.com/tophat/monodeploy/commits/1909076))
+
+### Features
+
+* target yarn 3.5.0 ([e62613d](https://github.com/tophat/monodeploy/commits/e62613d))
+
+
+
+
 ## [3.7.4](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.7.3...@monodeploy/changelog@3.7.4) "@monodeploy/changelog" (2023-03-10)<a name="3.7.4"></a>
 
 ### Bug Fixes
