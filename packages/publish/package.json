@@ -37,11 +37,11 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/jest": "^29.4.0",
-    "@yarnpkg/cli": "^3.4.1",
-    "@yarnpkg/core": "^3.4.0",
-    "@yarnpkg/fslib": "^2.10.1",
+    "@yarnpkg/cli": "^3.5.0",
+    "@yarnpkg/core": "^3.5.0",
+    "@yarnpkg/fslib": "^2.10.2",
     "@yarnpkg/plugin-npm": "^2.7.3",
-    "@yarnpkg/plugin-pack": "^3.1.4"
+    "@yarnpkg/plugin-pack": "^3.2.0"
   },
   "peerDependencies": {
     "@monodeploy/dependencies": "workspace:^3.7.5",
@@ -49,10 +49,10 @@
     "@monodeploy/io": "workspace:^3.7.5",
     "@monodeploy/logging": "workspace:^3.7.4",
     "@monodeploy/types": "workspace:^3.7.5",
-    "@yarnpkg/cli": "^3.4.1",
-    "@yarnpkg/core": "^3.4.0",
-    "@yarnpkg/fslib": "^2.10.1",
+    "@yarnpkg/cli": "^3.5.0",
+    "@yarnpkg/core": "^3.5.0",
+    "@yarnpkg/fslib": "^2.10.2",
     "@yarnpkg/plugin-npm": "^2.7.3",
-    "@yarnpkg/plugin-pack": "^3.1.4"
+    "@yarnpkg/plugin-pack": "^3.2.0"
   }
 }

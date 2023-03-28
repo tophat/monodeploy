@@ -75,7 +75,7 @@ export default async function setupMonorepo(
             useRelativePath: false,
         }),
         repository: root?.repository,
-        packageManager: 'yarn@3.4.1',
+        packageManager: 'yarn@3.5.0',
     })
 
     // Generate children workspaces
