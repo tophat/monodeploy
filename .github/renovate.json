@@ -1,3 +1,13 @@
 {
-    "extends": ["github>tophat/new-project-kit//.github/renovate"]
+    "extends": ["github>tophat/new-project-kit//.github/renovate"],
+    "packageRules": [
+        {
+            "matchUpdateTypes": ["patch", "minor"],
+            "matchCurrentVersion": "!/^0/",
+            "addLabels": ["automerge"],
+            "automerge": true,
+            "automergeType": "pr",
+            "automergeStrategy": "squash"
+        }
+    ]
 }
