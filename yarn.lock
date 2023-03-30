@@ -1772,15 +1772,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gatsbyjs/potrace@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "@gatsbyjs/potrace@npm:2.3.0"
-  dependencies:
-    jimp-compact: ^0.16.1-2
-  checksum: 237d4ccb9ac1ee321f1b2351b48ad1082252af2c181634da634292ba8e4bb15cb56bdfec3984c5c2d203befe86e93058976d26f52c30dee46f994741ef4a7f30
-  languageName: node
-  linkType: hard
-
 "@gatsbyjs/reach-router@npm:^1.3.9":
   version: 1.3.9
   resolution: "@gatsbyjs/reach-router@npm:1.3.9"
@@ -2715,7 +2706,7 @@ __metadata:
     gatsby-remark-images: ^6.25.0
     gatsby-source-filesystem: ^4.25.0
     gatsby-transformer-remark: ^5.25.1
-    gatsby-transformer-sharp: ^4.24.0
+    gatsby-transformer-sharp: ^4.25.0
     loader-utils: ^3.2.1
     path-browserify: ^1.0.1
     prism-react-renderer: ^1.3.5
@@ -10412,7 +10403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-core-utils@npm:^3.24.0, gatsby-core-utils@npm:^3.25.0":
+"gatsby-core-utils@npm:^3.25.0":
   version: 3.25.0
   resolution: "gatsby-core-utils@npm:3.25.0"
   dependencies:
@@ -10693,29 +10684,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-utils@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "gatsby-plugin-utils@npm:3.18.0"
-  dependencies:
-    "@babel/runtime": ^7.15.4
-    "@gatsbyjs/potrace": ^2.3.0
-    fastq: ^1.13.0
-    fs-extra: ^10.1.0
-    gatsby-core-utils: ^3.24.0
-    gatsby-sharp: ^0.18.0
-    graphql-compose: ^9.0.7
-    import-from: ^4.0.0
-    joi: ^17.4.2
-    mime: ^3.0.0
-    mini-svg-data-uri: ^1.4.4
-    svgo: ^2.8.0
-  peerDependencies:
-    gatsby: ^4.0.0-next
-    graphql: ^15.0.0
-  checksum: 34c9e1f9cbe6ecd54dbd1ccd5e57a9129cb14022a8e0c7379abaaa4260b5a6c7014091f72d9b4533e4afbbf2158a17b6058929497d69004e17ad0ec11ee09e50
-  languageName: node
-  linkType: hard
-
 "gatsby-plugin-utils@npm:^3.19.0":
   version: 3.19.0
   resolution: "gatsby-plugin-utils@npm:3.19.0"
@@ -10796,16 +10764,6 @@ __metadata:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
   checksum: 08e26a45acf9e4e86f7998aefe58caea4a2e98031b51b5fae33c257617677ed8cfefd72d0e7c3553fbb975aaccc55401b0c00bae80bd762c92cb8f870b951faf
-  languageName: node
-  linkType: hard
-
-"gatsby-sharp@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "gatsby-sharp@npm:0.18.0"
-  dependencies:
-    "@types/sharp": ^0.30.5
-    sharp: ^0.30.7
-  checksum: a236a490c6959e8d877f63e20fb8525bda417dee956bb94c06d420f668f7422165e4e5cae53e0519212d925d58f48e1746300ad9d1347e48932bd5359288206f
   languageName: node
   linkType: hard
 
@@ -10891,23 +10849,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-transformer-sharp@npm:^4.24.0":
-  version: 4.24.0
-  resolution: "gatsby-transformer-sharp@npm:4.24.0"
+"gatsby-transformer-sharp@npm:^4.25.0":
+  version: 4.25.0
+  resolution: "gatsby-transformer-sharp@npm:4.25.0"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@gatsbyjs/potrace": ^2.3.0
     bluebird: ^3.7.2
     common-tags: ^1.8.2
     fs-extra: ^10.1.0
-    gatsby-plugin-utils: ^3.18.0
+    gatsby-plugin-utils: ^3.19.0
     probe-image-size: ^7.2.3
     semver: ^7.3.7
     sharp: ^0.30.7
   peerDependencies:
     gatsby: ^4.0.0-next
     gatsby-plugin-sharp: ^4.0.0-next
-  checksum: 11a263c098cba4e6ac68b5f455a0c7e5a6b1f258b89a11176165e6870e36a5490a973c51126f24a809b29be3b9d342edbc5cfef04dbac032ff8d00c7493fb60e
+  checksum: 8529646d3b2d1f4678e2d48f345e9e1c7ad90fca2195e36b98f247fea8c222ab369b65dd8eaf3441f17bc379c4f221641932f6db2af0e502b7f83a75752bf35b
   languageName: node
   linkType: hard
 
@@ -13673,13 +13630,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jimp-compact@npm:^0.16.1-2":
-  version: 0.16.1
-  resolution: "jimp-compact@npm:0.16.1"
-  checksum: 5a1c62d70881b31f79ea65fecfe03617be0eb56139bc451f37e8972365c99ac3b52c5176c446ff27144c98ab664a99107ae08d347044e94e1de637f165b41a57
-  languageName: node
-  linkType: hard
-
 "joi@npm:^17.4.2":
   version: 17.5.0
   resolution: "joi@npm:17.5.0"
@@ -15600,15 +15550,6 @@ __metadata:
   peerDependencies:
     webpack: ^4.4.0 || ^5.0.0
   checksum: c2c1f3d7e5bc206b5bece0f37b65467ee58e0bb0b61d5e031bb818682b02db2552b296f5018af9058b18eb7127e00f6462fb718712a3d4432079dfa848b510cc
-  languageName: node
-  linkType: hard
-
-"mini-svg-data-uri@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "mini-svg-data-uri@npm:1.4.4"
-  bin:
-    mini-svg-data-uri: cli.js
-  checksum: 997f1fbd8d59a70f03761e18626d335197a3479cb9d1ff75678e4b64b864d32a0b8fc18115eabde035e5299b8b4a354a78e57dd6ac10f9d604162a6170898d09
   languageName: node
   linkType: hard
 
@@ -19886,7 +19827,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svgo@npm:^2.3.0, svgo@npm:^2.8.0":
+"svgo@npm:^2.3.0":
   version: 2.8.0
   resolution: "svgo@npm:2.8.0"
   dependencies:
