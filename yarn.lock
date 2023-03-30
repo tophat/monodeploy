@@ -2706,7 +2706,7 @@ __metadata:
     gatsby: ^4.25.5
     gatsby-plugin-gatsby-cloud: ^4.25.0
     gatsby-plugin-image: ^2.25.0
-    gatsby-plugin-manifest: ^4.24.0
+    gatsby-plugin-manifest: ^4.25.0
     gatsby-plugin-mdx: ^4.3.0
     gatsby-plugin-offline: ^5.24.0
     gatsby-plugin-react-helmet: ^5.24.0
@@ -10547,18 +10547,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-manifest@npm:^4.24.0":
-  version: 4.24.0
-  resolution: "gatsby-plugin-manifest@npm:4.24.0"
+"gatsby-plugin-manifest@npm:^4.25.0":
+  version: 4.25.0
+  resolution: "gatsby-plugin-manifest@npm:4.25.0"
   dependencies:
     "@babel/runtime": ^7.15.4
-    gatsby-core-utils: ^3.24.0
-    gatsby-plugin-utils: ^3.18.0
+    gatsby-core-utils: ^3.25.0
+    gatsby-plugin-utils: ^3.19.0
     semver: ^7.3.7
     sharp: ^0.30.7
   peerDependencies:
     gatsby: ^4.0.0-next
-  checksum: 5040a3844e5cc0444440a7acedbc92c80d4ca05e2ef79ce61c05ae218e53ff4c6aff98af59548cfc7de0f74618d61bce45bc962406595ff923f9bc7ffa01d573
+  checksum: a9c755d0e574f422d4876411b4f6f361d96380fb5b14a60462c8fd9b2dc847da75cd6b369866687b8d3701e6998e3a45b967478105d7ef4d71293ccc5cfbb020
   languageName: node
   linkType: hard
 
