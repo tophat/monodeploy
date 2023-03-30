@@ -2705,7 +2705,7 @@ __metadata:
     "@types/react-helmet": ^6.1.6
     gatsby: ^4.25.5
     gatsby-plugin-gatsby-cloud: ^4.25.0
-    gatsby-plugin-image: ^2.24.0
+    gatsby-plugin-image: ^2.25.0
     gatsby-plugin-manifest: ^4.24.0
     gatsby-plugin-mdx: ^4.3.0
     gatsby-plugin-offline: ^5.24.0
@@ -6298,20 +6298,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: ecca4389fd557554efc6de834f84f7c85e83c348d5283de2032d35429bc7121ed6f336553d3d704021f9bef22fca339fbee560d3b0fb8bb1d4eca2fecaaeebcb
-  languageName: node
-  linkType: hard
-
-"babel-plugin-remove-graphql-queries@npm:^4.24.0":
-  version: 4.24.0
-  resolution: "babel-plugin-remove-graphql-queries@npm:4.24.0"
-  dependencies:
-    "@babel/runtime": ^7.15.4
-    "@babel/types": ^7.15.4
-    gatsby-core-utils: ^3.24.0
-  peerDependencies:
-    "@babel/core": ^7.0.0
-    gatsby: ^4.0.0-next
-  checksum: c0e589dbaf4653540c031c6c4003be36096339d695bfb86c29b4e508c6ee913c97d1691752e5cd5bf0452865bc52af380d1e8b03f1cedd41f9b17e57ddff6460
   languageName: node
   linkType: hard
 
@@ -10532,22 +10518,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-image@npm:^2.24.0":
-  version: 2.24.0
-  resolution: "gatsby-plugin-image@npm:2.24.0"
+"gatsby-plugin-image@npm:^2.25.0":
+  version: 2.25.0
+  resolution: "gatsby-plugin-image@npm:2.25.0"
   dependencies:
     "@babel/code-frame": ^7.14.0
     "@babel/parser": ^7.15.5
     "@babel/runtime": ^7.15.4
     "@babel/traverse": ^7.15.4
     babel-jsx-utils: ^1.1.0
-    babel-plugin-remove-graphql-queries: ^4.24.0
+    babel-plugin-remove-graphql-queries: ^4.25.0
     camelcase: ^5.3.1
     chokidar: ^3.5.3
     common-tags: ^1.8.2
     fs-extra: ^10.1.0
-    gatsby-core-utils: ^3.24.0
-    gatsby-plugin-utils: ^3.18.0
+    gatsby-core-utils: ^3.25.0
+    gatsby-plugin-utils: ^3.19.0
     objectFitPolyfill: ^2.3.5
     prop-types: ^15.8.1
   peerDependencies:
@@ -10557,7 +10543,7 @@ __metadata:
     gatsby-source-filesystem: ^4.0.0-next
     react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^0.0.0
-  checksum: 520e33e715fe034b87637923f9402b959d8a38b1a5f6cb8dd8b6bd60a27ac1712c5f60335b4a78e1ba5513de772508e4636386028c4618d69f4dcc2a6bd286b6
+  checksum: a5fe9f9c8b9e1219177a41756d63d9321385b009676c75735dfdf04c63f339e5c3f0840a7d28374a209358ca4fe6bb433504e4b81376ba07f131445993a273c5
   languageName: node
   linkType: hard
 
