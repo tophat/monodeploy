@@ -2712,7 +2712,7 @@ __metadata:
     gatsby-plugin-react-helmet: ^5.25.0
     gatsby-plugin-sharp: ^4.25.0
     gatsby-remark-autolink-headers: ^5.25.0
-    gatsby-remark-images: ^6.24.0
+    gatsby-remark-images: ^6.25.0
     gatsby-source-filesystem: ^4.24.0
     gatsby-transformer-remark: ^5.25.1
     gatsby-transformer-sharp: ^4.24.0
@@ -10767,15 +10767,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-remark-images@npm:^6.24.0":
-  version: 6.24.0
-  resolution: "gatsby-remark-images@npm:6.24.0"
+"gatsby-remark-images@npm:^6.25.0":
+  version: 6.25.0
+  resolution: "gatsby-remark-images@npm:6.25.0"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@gatsbyjs/potrace": ^2.3.0
     chalk: ^4.1.2
     cheerio: ^1.0.0-rc.10
-    gatsby-core-utils: ^3.24.0
+    gatsby-core-utils: ^3.25.0
     is-relative-url: ^3.0.0
     lodash: ^4.17.21
     mdast-util-definitions: ^4.0.0
@@ -10785,7 +10784,7 @@ __metadata:
   peerDependencies:
     gatsby: ^4.0.0-next
     gatsby-plugin-sharp: ^4.0.0-next
-  checksum: 9378123c0a0a8bcf75f22a4f2dad3f04100ac8c7f94a894d00c6c9a8f1634910363bf2ec1d265c3c86681ef9388f0fb69ae17bca09663fca25335d12073efd36
+  checksum: 4158184241cc563ae21365c4f20c11257764d1f5e3c7c61e4abbe17dafa2f5c9ef3acf041bc9074f95d7a1287d54540e2ac7bd01c536aaa54c58dff7de20d204
   languageName: node
   linkType: hard
 
