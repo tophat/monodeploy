@@ -5641,6 +5641,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ajv@npm:^8.12.0":
+  version: 8.12.0
+  resolution: "ajv@npm:8.12.0"
+  dependencies:
+    fast-deep-equal: ^3.1.1
+    json-schema-traverse: ^1.0.0
+    require-from-string: ^2.0.2
+    uri-js: ^4.2.2
+  checksum: 4dc13714e316e67537c8b31bc063f99a1d9d9a497eb4bbd55191ac0dcd5e4985bbb71570352ad6f1e76684fb6d790928f96ba3b2d4fd6e10024be9612fe3f001
+  languageName: node
+  linkType: hard
+
 "all-contributors-cli@npm:^6.24.0":
   version: 6.24.0
   resolution: "all-contributors-cli@npm:6.24.0"
@@ -15741,7 +15753,7 @@ __metadata:
     "@types/node": ^18.14.6
     "@yarnpkg/core": ^3.5.0
     "@yarnpkg/fslib": ^2.10.2
-    ajv: ^8.11.0
+    ajv: ^8.12.0
     clipanion: ^3.2.0
     typanion: ^3.12.1
   bin:
