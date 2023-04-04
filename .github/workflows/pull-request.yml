@@ -130,7 +130,7 @@ jobs:
     strategy:
       matrix:
         runner: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        node-version: ['lts/fermium', 'lts/gallium']
+        node-version: ['lts/gallium']
     steps:
       - uses: actions/checkout@v3.3.0
         with:
