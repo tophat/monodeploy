@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [0.10.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.10.0...@monodeploy/plugin-github@0.10.1) "@monodeploy/plugin-github" (2023-04-04)<a name="0.10.1"></a>
+
+### Dependencies
+
+* update dependency @octokit/core to ^4.2.0 (#637) ([da5278e](https://github.com/tophat/monodeploy/commits/da5278e))
+* update dependency @octokit/plugin-throttling to v5 (#657) ([91d4255](https://github.com/tophat/monodeploy/commits/91d4255))
+
+
+
+
 ## [0.10.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.9.5...@monodeploy/plugin-github@0.10.0) "@monodeploy/plugin-github" (2023-03-28)<a name="0.10.0"></a>
 
 ### Dependencies

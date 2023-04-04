@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.8.0...@monodeploy/io@3.9.0) "@monodeploy/io" (2023-04-04)<a name="3.9.0"></a>
+
+### Features
+
+* add versionStrategy config (#659) ([cb551d8](https://github.com/tophat/monodeploy/commits/cb551d8))
+
+
+
+
 ## [3.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.7.5...@monodeploy/io@3.8.0) "@monodeploy/io" (2023-03-28)<a name="3.8.0"></a>
 
 ### Dependencies

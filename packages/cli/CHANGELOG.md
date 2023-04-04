@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [3.9.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.8.0...monodeploy@3.9.0) "monodeploy" (2023-04-04)<a name="3.9.0"></a>
+
+### Dependencies
+
+* update dependency ajv to ^8.12.0 (#639) ([2f69854](https://github.com/tophat/monodeploy/commits/2f69854))
+* update node.js to >=v14.21.3 (#656) ([d7711ab](https://github.com/tophat/monodeploy/commits/d7711ab))
+
+### Features
+
+* add versionStrategy config (#659) ([cb551d8](https://github.com/tophat/monodeploy/commits/cb551d8))
+
+
+
+
 ## [3.8.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.7.5...monodeploy@3.8.0) "monodeploy" (2023-03-28)<a name="3.8.0"></a>
 
 ### Dependencies
