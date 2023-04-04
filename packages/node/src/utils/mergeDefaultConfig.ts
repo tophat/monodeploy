@@ -52,5 +52,9 @@ export const mergeDefaultConfig = async (
         prereleaseNPMTag: baseConfig.prereleaseNPMTag ?? 'next',
         packageGroupManifestField: baseConfig.packageGroupManifestField ?? undefined,
         packageGroups: baseConfig.packageGroups,
+        versionStrategy: {
+            coerceImplicitPeerDependency:
+                baseConfig.versionStrategy?.coerceImplicitPeerDependency ?? undefined,
+        },
     }
 }

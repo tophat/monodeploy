@@ -97,6 +97,19 @@ const schema: SchemaObject = {
         prereleaseId: { type: 'string', nullable: true },
         prereleaseNPMTag: { type: 'string', nullable: true },
         packageGroupManifestField: { type: 'string', nullable: true },
+        versionStrategy: {
+            type: 'object',
+            properties: {
+                coerceImplicitPeerDependency: {
+                    type: 'string',
+                    nullable: true,
+                    enum: ['patch', 'minor', 'major'],
+                },
+            },
+            required: [],
+            additionalProperties: false,
+            nullable: true,
+        },
     },
     required: [],
     additionalProperties: false,

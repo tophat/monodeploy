@@ -313,4 +313,61 @@ describe('Patch Package Manifests', () => {
                 expect(workspace3.manifest.version).toBe('3.0.0')
             },
         ))
+
+    describe('Coerce Peer Dependency Version Strategy', () => {
+        it.each([
+            ['patch', '2.3.4', '2.3.4'],
+            ['minor', '2.3.4', '2.3.0'],
+            ['major', '2.3.4', '2.0.0'],
+        ] as const)(
+            'rounds down peer dependency to nearest %s',
+            async (strategy, fromVersion, expectedVersion) =>
+                withMonorepoContext(
+                    {
+                        'pkg-1': {
+                            dependencies: ['pkg-2'],
+                            peerDependencies: ['pkg-3'],
+                        },
+                        'pkg-2': { dependencies: ['pkg-3'] },
+                        'pkg-3': {},
+                    },
+                    async (context) => {
+                        const config = {
+                            ...(await getMonodeployConfig({
+                                cwd: context.project.cwd,
+                                baseBranch: 'main',
+                                commitSha: 'shashasha',
+                                versionStrategy: {
+                                    coerceImplicitPeerDependency: strategy,
+                                },
+                            })),
+                            persistVersions: true,
+                        }
+
+                        const workspace1 = identToWorkspace(context, 'pkg-1')
+                        const workspace2 = identToWorkspace(context, 'pkg-2')
+                        const workspace3 = identToWorkspace(context, 'pkg-3')
+
+                        await patchPackageJsons({
+                            config,
+                            context,
+                            workspaces: new Set([workspace1, workspace2, workspace3]),
+                            registryTags: new Map([
+                                ['pkg-1', '1.0.0'],
+                                ['pkg-2', '2.0.0'],
+                                ['pkg-3', fromVersion],
+                            ]),
+                        })
+
+                        const manifest1 = await loadManifest(context, 'pkg-1')
+                        const manifest3 = await loadManifest(context, 'pkg-3')
+
+                        expect(manifest3.version).toBe(fromVersion)
+                        expect(
+                            manifest1.peerDependencies.get(manifest3.name!.identHash)!.range,
+                        ).toBe(`workspace:^${expectedVersion}`)
+                    },
+                ),
+        )
+    })
 })

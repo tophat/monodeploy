@@ -2753,9 +2753,11 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/jest": ^29.5.0
     "@types/node": ^18.14.6
+    "@types/semver": ^7.3.13
     "@yarnpkg/core": ^3.5.0
     "@yarnpkg/fslib": ^2.10.2
     "@yarnpkg/shell": ^3.2.5
+    semver: ^7.3.8
   peerDependencies:
     "@monodeploy/logging": "workspace:^3.8.0"
     "@monodeploy/types": "workspace:^3.8.0"
@@ -2825,7 +2827,7 @@ __metadata:
     monodeploy: "workspace:*"
     nyc: ^15.1.0
     prettier: ^2.8.4
-    ts-jest: ^29.0.5
+    ts-jest: ^29.1.0
     ts-node: ^10.9.1
     typescript: 5.0.2
     yaml-validator: ^4.0.0
@@ -5620,19 +5622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.0.1, ajv@npm:^8.11.0":
-  version: 8.11.0
-  resolution: "ajv@npm:8.11.0"
-  dependencies:
-    fast-deep-equal: ^3.1.1
-    json-schema-traverse: ^1.0.0
-    require-from-string: ^2.0.2
-    uri-js: ^4.2.2
-  checksum: 5e0ff226806763be73e93dd7805b634f6f5921e3e90ca04acdf8db81eed9d8d3f0d4c5f1213047f45ebbf8047ffe0c840fa1ef2ec42c3a644899f69aa72b5bef
-  languageName: node
-  linkType: hard
-
-"ajv@npm:^8.12.0":
+"ajv@npm:^8.0.1, ajv@npm:^8.11.0, ajv@npm:^8.12.0":
   version: 8.12.0
   resolution: "ajv@npm:8.12.0"
   dependencies:
@@ -7460,33 +7450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commitizen@npm:^4.0.3":
-  version: 4.2.5
-  resolution: "commitizen@npm:4.2.5"
-  dependencies:
-    cachedir: 2.3.0
-    cz-conventional-changelog: 3.3.0
-    dedent: 0.7.0
-    detect-indent: 6.1.0
-    find-node-modules: ^2.1.2
-    find-root: 1.1.0
-    fs-extra: 9.1.0
-    glob: 7.2.3
-    inquirer: 8.2.4
-    is-utf8: ^0.2.1
-    lodash: 4.17.21
-    minimist: 1.2.6
-    strip-bom: 4.0.0
-    strip-json-comments: 3.1.1
-  bin:
-    commitizen: bin/commitizen
-    cz: bin/git-cz
-    git-cz: bin/git-cz
-  checksum: 28f5d10cf332663f1710edb2ca22473664bc4457146ce6922896ed2ed6ee2a23add607b04d5b8d1bb7ee09bb78bc0d38d09057e0ab39b38e44b172765e3835c9
-  languageName: node
-  linkType: hard
-
-"commitizen@npm:^4.3.0":
+"commitizen@npm:^4.0.3, commitizen@npm:^4.3.0":
   version: 4.3.0
   resolution: "commitizen@npm:4.3.0"
   dependencies:
@@ -9329,14 +9293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-visitor-keys@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "eslint-visitor-keys@npm:3.3.0"
-  checksum: d59e68a7c5a6d0146526b0eec16ce87fbf97fe46b8281e0d41384224375c4e52f5ffb9e16d48f4ea50785cde93f766b0c898e31ab89978d88b0e1720fbfb7808
-  languageName: node
-  linkType: hard
-
-"eslint-visitor-keys@npm:^3.4.0":
+"eslint-visitor-keys@npm:^3.3.0, eslint-visitor-keys@npm:^3.4.0":
   version: 3.4.0
   resolution: "eslint-visitor-keys@npm:3.4.0"
   checksum: 33159169462d3989321a1ec1e9aaaf6a24cc403d5d347e9886d1b5bfe18ffa1be73bdc6203143a28a606b142b1af49787f33cff0d6d0813eb5f2e8d2e1a6043c
@@ -12240,29 +12197,6 @@ __metadata:
   version: 0.1.1
   resolution: "inline-style-parser@npm:0.1.1"
   checksum: 5d545056a3e1f2bf864c928a886a0e1656a3517127d36917b973de581bd54adc91b4bf1febcb0da054f204b4934763f1a4e09308b4d55002327cf1d48ac5d966
-  languageName: node
-  linkType: hard
-
-"inquirer@npm:8.2.4":
-  version: 8.2.4
-  resolution: "inquirer@npm:8.2.4"
-  dependencies:
-    ansi-escapes: ^4.2.1
-    chalk: ^4.1.1
-    cli-cursor: ^3.1.0
-    cli-width: ^3.0.0
-    external-editor: ^3.0.3
-    figures: ^3.0.0
-    lodash: ^4.17.21
-    mute-stream: 0.0.8
-    ora: ^5.4.1
-    run-async: ^2.4.0
-    rxjs: ^7.5.5
-    string-width: ^4.1.0
-    strip-ansi: ^6.0.0
-    through: ^2.3.6
-    wrap-ansi: ^7.0.0
-  checksum: dfcb6529d3af443dfea2241cb471508091b51f5121a088fdb8728b23ec9b349ef0a5e13a0ef2c8e19457b0bed22f7cbbcd561f7a4529d084c562a58c605e2655
   languageName: node
   linkType: hard
 
@@ -15591,14 +15525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:1.2.6, minimist@npm:^1.2.0, minimist@npm:^1.2.3, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
-  version: 1.2.6
-  resolution: "minimist@npm:1.2.6"
-  checksum: d15428cd1e11eb14e1233bcfb88ae07ed7a147de251441d61158619dfb32c4d7e9061d09cab4825fdee18ecd6fce323228c8c47b5ba7cd20af378ca4048fb3fb
-  languageName: node
-  linkType: hard
-
-"minimist@npm:1.2.7":
+"minimist@npm:1.2.7, minimist@npm:^1.2.0, minimist@npm:^1.2.3, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
   version: 1.2.7
   resolution: "minimist@npm:1.2.7"
   checksum: 7346574a1038ca23c32e02252f603801f09384dd1d78b69a943a4e8c2c28730b80e96193882d3d3b22a063445f460e48316b29b8a25addca2d7e5e8f75478bec
@@ -20230,9 +20157,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.5":
-  version: 29.0.5
-  resolution: "ts-jest@npm:29.0.5"
+"ts-jest@npm:^29.1.0":
+  version: 29.1.0
+  resolution: "ts-jest@npm:29.1.0"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -20247,7 +20174,7 @@ __metadata:
     "@jest/types": ^29.0.0
     babel-jest: ^29.0.0
     jest: ^29.0.0
-    typescript: ">=4.3"
+    typescript: ">=4.3 <6"
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -20259,7 +20186,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: f60f129c2287f4c963d9ee2677132496c5c5a5d39c27ad234199a1140c26318a7d5bda34890ab0e30636ec42a8de28f84487c09e9dcec639c9c67812b3a38373
+  checksum: 535dc42ad523cbe1e387701fb2e448518419b515c082f09b25411f0b3dd0b854cf3e8141c316d6f4b99883aeb4a4f94159cbb1edfb06d7f77ea6229fadb2e1bf
   languageName: node
   linkType: hard
 

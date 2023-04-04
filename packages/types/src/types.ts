@@ -178,6 +178,13 @@ export interface MonodeployConfiguration {
     persistVersions: boolean
 
     /**
+     * Customizations to the version strategy logic.
+     *
+     * @default undefined
+     */
+    versionStrategy?: VersionStrategyConfiguration
+
+    /**
      * Whether to automatically create a release commit after a publish. If using autoCommit,
      * you must also have one of 'persistVersions' or 'changelogFilename' set.
      *
@@ -288,6 +295,21 @@ export interface MonodeployConfiguration {
      * @default "next"
      */
     prereleaseNPMTag: string
+}
+
+export interface VersionStrategyConfiguration {
+    /**
+     * When patching dependencies in package manifests, this setting controls
+     * how to set the version for peerDependencies. The default is "patch".
+     * If set to "minor", the peerDependency version is rounded down to the nearest
+     * "minor" version. If set to "major", the peerDependency version is rounded down
+     * to the nearest major.
+     *
+     * In a future version of Monodeploy, the default will be changed to 'minor'.
+     *
+     * @default "patch"
+     */
+    coerceImplicitPeerDependency?: 'patch' | 'minor' | 'major'
 }
 
 export interface GroupConfiguration {
