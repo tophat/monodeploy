@@ -80,6 +80,9 @@ describe('Config Merging', () => {
             commitIgnorePatterns: ['\\[skip-ci\\]'],
             packageGroupManifestField: 'group',
             packageGroups: { 'pkg-1': { registryMode: RegistryMode.Manifest } },
+            versionStrategy: {
+                coerceImplicitPeerDependency: 'minor',
+            },
         }
 
         const merged = await mergeDefaultConfig(config)

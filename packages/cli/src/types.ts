@@ -2,6 +2,7 @@ import {
     type MonodeployConfiguration,
     type RecursivePartial,
     type RegistryMode,
+    type VersionStrategyConfiguration,
 } from '@monodeploy/types'
 
 export interface ArgOutput {
@@ -37,6 +38,7 @@ export interface ArgOutput {
     prereleaseNPMTag?: string
     commitIgnorePatterns?: Array<string>
     packageGroupManifestField?: string
+    versionStrategy?: VersionStrategyConfiguration
 }
 
 export type ConfigFile = RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>>

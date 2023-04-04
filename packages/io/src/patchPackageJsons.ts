@@ -1,6 +1,7 @@
 import type { MonodeployConfiguration, PackageVersionMap, YarnContext } from '@monodeploy/types'
 import { type Descriptor, Manifest, Report, type Workspace, structUtils } from '@yarnpkg/core'
 import { ppath, xfs } from '@yarnpkg/fslib'
+import * as semver from 'semver'
 
 const patchPackageJsons = async ({
     config,
@@ -42,8 +43,20 @@ const patchPackageJsons = async ({
             for (const descriptor of dependencySet.values()) {
                 const depPackageName = structUtils.stringifyIdent(descriptor)
 
-                const dependencyVersion = registryTags.get(depPackageName)
+                let dependencyVersion = registryTags.get(depPackageName)
                 if (!dependencyVersion) continue
+
+                if (dependentSetKey === 'peerDependencies') {
+                    const coerceTo = config.versionStrategy?.coerceImplicitPeerDependency ?? 'patch'
+                    if (coerceTo !== 'patch') {
+                        const depVersion = semver.parse(dependencyVersion)
+                        if (depVersion && !depVersion.prerelease.length) {
+                            depVersion.patch = 0
+                            if (coerceTo === 'major') depVersion.minor = 0
+                            dependencyVersion = depVersion.format()
+                        }
+                    }
+                }
 
                 const dependencyIdent = structUtils.convertToIdent(descriptor)
 

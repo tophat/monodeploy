@@ -26,12 +26,16 @@
     "build:watch": "run workspace:build:watch \"$(pwd)\"",
     "prepack": "run workspace:build \"$(pwd)\""
   },
+  "dependencies": {
+    "semver": "^7.3.8"
+  },
   "devDependencies": {
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.14.6",
+    "@types/semver": "^7.3.13",
     "@yarnpkg/core": "^3.5.0",
     "@yarnpkg/fslib": "^2.10.2",
     "@yarnpkg/shell": "^3.2.5"
