@@ -12,7 +12,7 @@ jobs:
     name: Publish Monodeploy (Precheck)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
           fetch-depth: 0
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [pre-release-check]
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
           fetch-depth: 0
