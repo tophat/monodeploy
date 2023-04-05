@@ -33,7 +33,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/jest": "^29.5.0",
     "@types/micromatch": "^4.0.2",
-    "@types/node": "^18.14.6",
+    "@types/node": "^18.15.11",
     "@yarnpkg/core": "^3.5.0",
     "@yarnpkg/fslib": "^2.10.2"
   },
