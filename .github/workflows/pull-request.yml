@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -73,7 +73,7 @@ jobs:
     env:
       E2E: 1
     steps:
-        - uses: actions/checkout@v3.3.0
+        - uses: actions/checkout@v3.4.0
           with:
             ref: ${{ github.event.pull_request.head.sha }}
             fetch-depth: 0
@@ -96,7 +96,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     needs: ['tests_e2es', 'tests']
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -132,7 +132,7 @@ jobs:
         runner: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         node-version: ['lts/gallium']
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -160,7 +160,7 @@ jobs:
     needs: [test_report]
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -222,7 +222,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     needs: [test_report]
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
         with:
           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
           fetch-depth: 0
