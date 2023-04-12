@@ -38,7 +38,7 @@
     "@types/node": "^18.15.11",
     "@yarnpkg/core": "^3.5.0",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.26",
+    "typedoc": "^0.23.28",
     "typescript": "5.0.2"
   }
 }
