@@ -27,7 +27,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "p-limit": "^3.1.0"
+    "p-limit": "^4.0.0"
   },
   "devDependencies": {
     "@monodeploy/dependencies": "workspace:*",
