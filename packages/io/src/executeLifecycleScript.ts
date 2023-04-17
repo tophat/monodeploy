@@ -30,7 +30,15 @@ export const maybeExecuteWorkspaceLifecycleScript = async (
             return
         }
 
-        await scriptUtils.executePackageScript(workspace.anchoredLocator, scriptName, [], opts)
+        const code = await scriptUtils.executePackageScript(
+            workspace.anchoredLocator,
+            scriptName,
+            [],
+            opts,
+        )
+        if (code) {
+            throw new Error(`${prefix} [Exec] '${scriptName}' failed with exit code: ${code}`)
+        }
     }
 
     const [stdout, endStdout] = logging.createReportStream({
