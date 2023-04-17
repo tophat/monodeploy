@@ -230,4 +230,34 @@ describe('Monodeploy Lifecycle Scripts', () => {
             await expect(monodeploy(monodeployConfig)).rejects.toThrow()
         })
     })
+
+    describe('variables', () => {
+        it('sets working directory', async () => {
+            const scripts = {
+                prepack: 'echo "$(pwd)" > .prepack.tmp',
+            }
+            const context = await setupMonorepo(
+                {
+                    'pkg-1': { scripts },
+                },
+                {
+                    root: {
+                        dependencies: {
+                            '@tophat/conventional-changelog-config': '^0.5.0',
+                        },
+                    },
+                },
+            )
+            monodeployConfig.cwd = npath.fromPortablePath(context.project.cwd)
+
+            mockNPM._setTag_('pkg-1', '0.0.1')
+            mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
+            await monodeploy(monodeployConfig)
+
+            const filename = resolvePackagePath('pkg-1', '.prepack.tmp')
+            expect((await fs.readFile(filename, 'utf-8')).trim()).toEqual(
+                path.resolve(monodeployConfig.cwd, 'packages', 'pkg-1'),
+            )
+        })
+    })
 })
