@@ -59,7 +59,17 @@ const getModifiedPackages = async ({
                         npath.toPortablePath(path.resolve(config.cwd, currentPath)),
                     )
                     const ident = workspace?.manifest?.name
-                    if (!ident) throw new Error('Missing workspace identity.')
+                    if (!ident) {
+                        if (
+                            context.project.topLevelWorkspace.anchoredDescriptor ===
+                                workspace.anchoredDescriptor &&
+                            workspace.manifest.private
+                        ) {
+                            // We allow the top level workspace, if private, to be missing a name
+                            return modifiedPackages
+                        }
+                        throw new Error('Missing workspace identity.')
+                    }
 
                     const packageName = structUtils.stringifyIdent(ident)
                     if (packageName) {
