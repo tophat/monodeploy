@@ -12,15 +12,9 @@ export const mergeDefaultConfig = async (
     const cwd = npath.fromPortablePath(baseConfig.cwd ?? process.cwd())
     const prerelease = baseConfig.prerelease ?? false
 
-    // deprecated option
-    const noRegistry = baseConfig.noRegistry ?? false
-
     return {
         registryUrl: baseConfig.registryUrl ?? undefined,
-        noRegistry,
-        registryMode: noRegistry
-            ? RegistryMode.Manifest
-            : baseConfig.registryMode ?? RegistryMode.NPM,
+        registryMode: baseConfig.registryMode ?? RegistryMode.NPM,
         cwd,
         dryRun: baseConfig.dryRun ?? false,
         git: {

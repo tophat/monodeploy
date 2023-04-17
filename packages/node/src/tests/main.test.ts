@@ -75,7 +75,6 @@ describe('Monodeploy', () => {
     const monodeployConfig: MonodeployConfiguration = {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: false,
-        noRegistry: false,
         registryMode: RegistryMode.NPM,
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',
@@ -201,7 +200,7 @@ describe('Monodeploy', () => {
 
         const result = await monodeploy({
             ...monodeployConfig,
-            noRegistry: true,
+            registryMode: RegistryMode.Manifest,
         })
 
         // pkg-8 is explicitly updated with minor bump

@@ -4,27 +4,6 @@ import { RegistryMode } from '@monodeploy/types'
 import { getFetchRegistryUrl } from './getRegistryUrl'
 
 describe('getFetchRegistryUrl', () => {
-    it('returns null if in no registry mode', async () =>
-        withMonorepoContext(
-            {
-                'pkg-1': {},
-            },
-            async (context) => {
-                const config = await getMonodeployConfig({
-                    commitSha: 'shashasha',
-                    baseBranch: 'main',
-                    noRegistry: true,
-                    registryUrl: 'http://example.com',
-                })
-                const url = await getFetchRegistryUrl({
-                    config,
-                    context,
-                    workspace: context.workspace,
-                })
-                expect(url).toBeNull()
-            },
-        ))
-
     it('returns null if registry mode set to manifest', async () =>
         withMonorepoContext(
             {

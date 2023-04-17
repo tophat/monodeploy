@@ -22,7 +22,6 @@ export interface ArgOutput {
     conventionalChangelogConfig?: string
     changesetFilename?: string
     forceWriteChangeFiles?: boolean
-    prependChangelog?: string
     access?: 'infer' | 'public' | 'restricted'
     push?: boolean
     persistVersions?: boolean

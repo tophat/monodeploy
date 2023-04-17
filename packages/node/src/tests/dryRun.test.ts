@@ -58,7 +58,6 @@ describe('Monodeploy (Dry Run)', () => {
     const monodeployConfig: MonodeployConfiguration = {
         cwd: '/tmp/to-be-overwritten-by-before-each',
         dryRun: true,
-        noRegistry: false,
         registryMode: RegistryMode.NPM,
         autoCommit: false,
         autoCommitMessage: 'chore: release [skip ci]',

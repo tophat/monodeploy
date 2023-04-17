@@ -24,10 +24,8 @@ export const getPublishRegistryUrl = async ({
         }
     }
 
-    if (config.noRegistry) {
-        throw new Error(
-            '[Write] Critical invariant violation around noRegistry vs. registryMode check. Please open a GitHub issue on Monodeploy.',
-        )
+    if (!groupName && config.registryMode === RegistryMode.Manifest) {
+        return null
     }
 
     const configRegistryUrl = config.registryUrl

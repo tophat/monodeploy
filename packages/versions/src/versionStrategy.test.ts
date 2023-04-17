@@ -22,7 +22,6 @@ const monodeployConfig: MonodeployConfiguration = {
         path.join(__dirname, '..', 'mocks', 'conventional-config.mock.ts'),
     ),
     access: 'public',
-    noRegistry: false,
     registryMode: RegistryMode.NPM,
     autoCommit: false,
     autoCommitMessage: '',
