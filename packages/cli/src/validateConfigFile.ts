@@ -9,7 +9,6 @@ const schema: SchemaObject = {
     properties: {
         preset: { type: 'string', nullable: true },
         registryUrl: { type: 'string', nullable: true },
-        noRegistry: { type: 'boolean', nullable: true },
         registryMode: {
             type: 'string',
             nullable: true,

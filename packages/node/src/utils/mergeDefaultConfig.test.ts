@@ -50,7 +50,6 @@ describe('Config Merging', () => {
             cwd: '/tmp',
             registryUrl: 'https://registry.example/',
             dryRun: true,
-            noRegistry: false,
             registryMode: RegistryMode.NPM,
             git: {
                 baseBranch: 'main',

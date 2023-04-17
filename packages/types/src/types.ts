@@ -30,18 +30,6 @@ export interface MonodeployConfiguration {
 
     /**
      * By default the latest package versions upon which the version strategy
-     * is applied, is taken from the NPM registry. If noRegistry mode is enabled,
-     * the latest version is instead taken from the package.json files. This is
-     * incompatible with prerelease mode.
-     *
-     * @deprecated In favour of registryMode='manifest'.
-     *
-     * @default false
-     */
-    noRegistry: boolean
-
-    /**
-     * By default the latest package versions upon which the version strategy
      * is applied is taken from the NPM registry (npm mode). If registryMode is set to 'manifest'
      * the latest version is instead taken from the package.json files. Note that
      * 'manifest' mode is incompatible with prerelease mode.

@@ -185,7 +185,6 @@ export class MonodeployCommand extends Command {
 
             const config: RecursivePartial<MonodeployConfiguration> = {
                 registryUrl: this.registryUrl ?? configFromFile?.registryUrl ?? undefined,
-                noRegistry: (!this.registry || configFromFile?.noRegistry) ?? undefined,
                 registryMode: this.registryMode ?? configFromFile?.registryMode ?? undefined,
                 cwd: cwd ?? undefined,
                 dryRun: this.dryRun ?? configFromFile?.dryRun ?? undefined,
