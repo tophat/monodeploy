@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.9.0...@monodeploy/git@4.0.0) "@monodeploy/git" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Min. node version is now v16. ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+### Features
+
+* raise minimum Node version to v16 (#661) ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+
+
+
 ## [3.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@3.7.5...@monodeploy/git@3.8.0) "@monodeploy/git" (2023-03-28)<a name="3.8.0"></a>
 
 ### Dependencies

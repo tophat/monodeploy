@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [1.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.10.1...@monodeploy/plugin-github@1.0.0) "@monodeploy/plugin-github" (2023-04-17)<a name="1.0.0"></a>
+
+### Breaking Changes
+
+* Min. node version is now v16. ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+### Features
+
+* raise minimum Node version to v16 (#661) ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+
+
+
 ## [0.10.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.10.0...@monodeploy/plugin-github@0.10.1) "@monodeploy/plugin-github" (2023-04-04)<a name="0.10.1"></a>
 
 ### Dependencies

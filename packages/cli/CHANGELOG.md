@@ -2,6 +2,26 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.9.0...monodeploy@4.0.0) "monodeploy" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Min. node version is now v16. ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+* The prependChangelog option has been removed in favour of changelogFilename. prependChangelog has previously been deprecated. ([e425eac](https://github.com/tophat/monodeploy/commits/e425eac))
+* Use registryMode=manifest instead of noRegistry. ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Bug Fixes
+
+* drop the prependChangelog CLI argument in favour of changelogFilename ([e425eac](https://github.com/tophat/monodeploy/commits/e425eac))
+* remove noRegistry option in favour of registryMode ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Features
+
+* raise minimum Node version to v16 (#661) ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+
+
+
 ## [3.9.0](https://github.com/tophat/monodeploy/compare/monodeploy@3.8.0...monodeploy@3.9.0) "monodeploy" (2023-04-04)<a name="3.9.0"></a>
 
 ### Dependencies

@@ -2,6 +2,23 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.9.0...@monodeploy/io@4.0.0) "@monodeploy/io" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Min. node version is now v16. ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+### Bug Fixes
+
+* fail monodeploy if lifecycle scripts return non-zero exit code (#676) ([4cb8021](https://github.com/tophat/monodeploy/commits/4cb8021))
+
+### Features
+
+* raise minimum Node version to v16 (#661) ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+
+
+
 ## [3.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@3.8.0...@monodeploy/io@3.9.0) "@monodeploy/io" (2023-04-04)<a name="3.9.0"></a>
 
 ### Features

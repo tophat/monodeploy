@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.9.0...@monodeploy/publish@4.0.0) "@monodeploy/publish" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Use registryMode=manifest instead of noRegistry. ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Bug Fixes
+
+* remove noRegistry option in favour of registryMode ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+
+
+
 ## [3.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@3.7.5...@monodeploy/publish@3.8.0) "@monodeploy/publish" (2023-03-28)<a name="3.8.0"></a>
 
 ### Dependencies

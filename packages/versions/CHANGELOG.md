@@ -2,6 +2,20 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.9.0...@monodeploy/versions@4.0.0) "@monodeploy/versions" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Use registryMode=manifest instead of noRegistry. ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Bug Fixes
+
+* allow missing name on top-level private workspace (#683) ([46107e0](https://github.com/tophat/monodeploy/commits/46107e0))
+* remove noRegistry option in favour of registryMode ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+
+
+
 ## [3.8.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.7.5...@monodeploy/versions@3.8.0) "@monodeploy/versions" (2023-03-28)<a name="3.8.0"></a>
 
 ### Dependencies

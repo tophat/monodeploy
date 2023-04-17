@@ -2,6 +2,28 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.9.0...@monodeploy/types@4.0.0) "@monodeploy/types" (2023-04-17)<a name="4.0.0"></a>
+
+### Breaking Changes
+
+* Min. node version is now v16. ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+* Use registryMode=manifest instead of noRegistry. ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Bug Fixes
+
+* remove noRegistry option in favour of registryMode ([4547082](https://github.com/tophat/monodeploy/commits/4547082))
+
+### Dependencies
+
+* update dependency typedoc to ^0.23.28 (#664) ([929e163](https://github.com/tophat/monodeploy/commits/929e163))
+
+### Features
+
+* raise minimum Node version to v16 (#661) ([a04b0d9](https://github.com/tophat/monodeploy/commits/a04b0d9))
+
+
+
+
 ## [3.9.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.8.0...@monodeploy/types@3.9.0) "@monodeploy/types" (2023-04-04)<a name="3.9.0"></a>
 
 ### Features
