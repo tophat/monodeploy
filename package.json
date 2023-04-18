@@ -45,7 +45,7 @@
         "docs:dev": "yarn workspace @monodeploy/gatsby develop"
     },
     "devDependencies": {
-        "@commitlint/cli": "^17.5.0",
+        "@commitlint/cli": "^17.5.1",
         "@jest/types": "^29.5.0",
         "@monodeploy/git": "workspace:*",
         "@monodeploy/io": "workspace:*",
