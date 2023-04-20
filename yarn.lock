@@ -2694,7 +2694,7 @@ __metadata:
     "@types/react": ^18.0.31
     "@types/react-dom": ^18.0.11
     "@types/react-helmet": ^6.1.6
-    gatsby: ^4.25.5
+    gatsby: ^4.25.6
     gatsby-plugin-gatsby-cloud: ^4.25.0
     gatsby-plugin-image: ^2.25.0
     gatsby-plugin-manifest: ^4.25.0
@@ -10847,9 +10847,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby@npm:^4.25.5":
-  version: 4.25.5
-  resolution: "gatsby@npm:4.25.5"
+"gatsby@npm:^4.25.6":
+  version: 4.25.6
+  resolution: "gatsby@npm:4.25.6"
   dependencies:
     "@babel/code-frame": ^7.14.0
     "@babel/core": ^7.15.5
@@ -11025,7 +11025,7 @@ __metadata:
       optional: true
   bin:
     gatsby: ./cli.js
-  checksum: 9ea3d0d9e40b945590ce5d7d5e0d28b8d1f1c8c744f0079542ad3f7036720b243554535e7ad819e4055e6f5965e4d1bf6e2b54e3373267a5180b4976f1f3f8a8
+  checksum: ea38242cd811464f8c08c869750d33615b53ca7b2fb7a6ac7bb753a27767dd5cbc080579c0e269873214ddcc07c5078b702bc614192c48a70cf062da6075e9ba
   languageName: node
   linkType: hard
 
