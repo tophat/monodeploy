@@ -68,7 +68,7 @@
         "@yarnpkg/fslib": "^2.10.2",
         "@yarnpkg/plugin-npm": "^2.7.3",
         "@yarnpkg/plugin-pack": "^3.2.0",
-        "@yarnpkg/sdks": "^3.0.0-rc.41",
+        "@yarnpkg/sdks": "^3.0.0-rc.42",
         "@yarnpkg/shell": "^3.2.5",
         "all-contributors-cli": "^6.24.0",
         "commitizen": "^4.3.0",
