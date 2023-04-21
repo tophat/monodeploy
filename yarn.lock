@@ -78,7 +78,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.14.0, @babel/core@npm:^7.15.5, @babel/core@npm:^7.21.3, @babel/core@npm:^7.7.5":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.14.0, @babel/core@npm:^7.15.5, @babel/core@npm:^7.21.4, @babel/core@npm:^7.7.5":
   version: 7.21.4
   resolution: "@babel/core@npm:7.21.4"
   dependencies:
@@ -2685,7 +2685,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/gatsby@workspace:gatsby"
   dependencies:
-    "@babel/core": ^7.21.3
+    "@babel/core": ^7.21.4
     "@mdx-js/loader": ^2.3.0
     "@mdx-js/react": ^2.3.0
     "@types/babel__core": ^7.20.0
