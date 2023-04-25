@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:20-slim
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
