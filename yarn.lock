@@ -2691,7 +2691,7 @@ __metadata:
     "@types/babel__core": ^7.20.0
     "@types/loader-utils": ^2.0.3
     "@types/mdx-js__react": ^1.5.5
-    "@types/react": ^18.0.33
+    "@types/react": ^18.0.34
     "@types/react-dom": ^18.0.11
     "@types/react-helmet": ^6.1.6
     gatsby: ^4.25.6
@@ -4390,14 +4390,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.0.33":
-  version: 18.0.38
-  resolution: "@types/react@npm:18.0.38"
+"@types/react@npm:^18.0.34":
+  version: 18.2.0
+  resolution: "@types/react@npm:18.2.0"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 34481c79f4f7ea2aefbaa45281319dc183200230d932d968463eba1643bd3635073d0a17c5c613150a69e36ca18b811ecffafea6384fa3dff3b5203866339d69
+  checksum: db3d92b423150222a666329f7aa3023e3e942044700557b8a7d161530847e621aec9f56c9e7f71761b06dd164c8a7b17ad52355863efe80963dffa5537e8e5fd
   languageName: node
   linkType: hard
 
