@@ -42,7 +42,8 @@
         "workspace:types:watch": "tsc -p $0 --noEmit --emitDeclarationOnly false --pretty --watch",
         "run-local": "ts-node --ignore '.yarn/plugins/.*' --ignore '(?:^|/)node_modules/' $(yarn bin monodeploy)",
         "docs": "yarn workspace @monodeploy/gatsby build",
-        "docs:dev": "yarn workspace @monodeploy/gatsby develop"
+        "docs:dev": "yarn workspace @monodeploy/gatsby develop",
+        "update:yarn": "yarn semver up '@yarnpkg/*' --include '**'"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.5.1",
@@ -63,12 +64,12 @@
         "@types/node": "^18.15.11",
         "@typescript-eslint/eslint-plugin": "^5.58.0",
         "@typescript-eslint/parser": "^5.58.0",
-        "@yarnpkg/cli": "^3.5.0",
-        "@yarnpkg/core": "^3.5.0",
-        "@yarnpkg/fslib": "^2.10.2",
+        "@yarnpkg/cli": "^3.5.1",
+        "@yarnpkg/core": "^3.5.1",
+        "@yarnpkg/fslib": "^2.10.3",
         "@yarnpkg/plugin-npm": "^2.7.3",
         "@yarnpkg/plugin-pack": "^3.2.0",
-        "@yarnpkg/sdks": "^3.0.0-rc.42",
+        "@yarnpkg/sdks": "^3.0.0-rc.43",
         "@yarnpkg/shell": "^3.2.5",
         "all-contributors-cli": "^6.24.0",
         "commitizen": "^4.3.0",
@@ -106,5 +107,5 @@
             "built": false
         }
     },
-    "packageManager": "yarn@3.5.0"
+    "packageManager": "yarn@3.5.1"
 }
