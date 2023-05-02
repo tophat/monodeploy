@@ -2757,7 +2757,7 @@ __metadata:
     "@yarnpkg/core": ^3.5.0
     "@yarnpkg/fslib": ^2.10.2
     "@yarnpkg/shell": ^3.2.5
-    semver: ^7.3.8
+    semver: ^7.4.0
   peerDependencies:
     "@monodeploy/logging": "workspace:^4.0.0"
     "@monodeploy/types": "workspace:^4.0.0"
@@ -3012,7 +3012,7 @@ __metadata:
     conventional-commits-parser: ^3.2.4
     micromatch: ^4.0.5
     p-limit: ^3.1.0
-    semver: ^7.3.8
+    semver: ^7.4.0
   peerDependencies:
     "@monodeploy/changelog": "workspace:^4.0.0"
     "@monodeploy/dependencies": "workspace:^4.0.0"
@@ -18687,7 +18687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.3.8, semver@npm:7.x, semver@npm:^7.1.2, semver@npm:^7.2.1, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
+"semver@npm:7.3.8, semver@npm:7.x, semver@npm:^7.1.2, semver@npm:^7.2.1, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7":
   version: 7.3.8
   resolution: "semver@npm:7.3.8"
   dependencies:
@@ -18704,6 +18704,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.4.0":
+  version: 7.5.0
+  resolution: "semver@npm:7.5.0"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 2d266937756689a76f124ffb4c1ea3e1bbb2b263219f90ada8a11aebebe1280b13bb76cca2ca96bdee3dbc554cbc0b24752eb895b2a51577aa644427e9229f2b
   languageName: node
   linkType: hard
 
