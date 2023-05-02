@@ -2,6 +2,17 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@4.0.0...@monodeploy/types@4.0.1) "@monodeploy/types" (2023-05-02)<a name="4.0.1"></a>
+
+### Dependencies
+
+* update dependency typescript to v5.0.3 (#691) ([4c98c14](https://github.com/tophat/monodeploy/commits/4c98c14))
+* update dependency typescript to v5.0.4 (#697) ([563bb27](https://github.com/tophat/monodeploy/commits/563bb27))
+* target Yarn 3.5.1 (#701) ([0e17f0d](https://github.com/tophat/monodeploy/commits/0e17f0d))
+
+
+
+
 ## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@3.9.0...@monodeploy/types@4.0.0) "@monodeploy/types" (2023-04-17)<a name="4.0.0"></a>
 
 ### Breaking Changes

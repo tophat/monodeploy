@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.0.0...@monodeploy/changelog@4.0.1) "@monodeploy/changelog" (2023-05-02)<a name="4.0.1"></a>
+
+### Dependencies
+
+* target Yarn 3.5.1 (#701) ([0e17f0d](https://github.com/tophat/monodeploy/commits/0e17f0d))
+
+
+
+
 ## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@3.9.0...@monodeploy/changelog@4.0.0) "@monodeploy/changelog" (2023-04-17)<a name="4.0.0"></a>
 
 ### Breaking Changes

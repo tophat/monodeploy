@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [1.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.0.0...@monodeploy/plugin-github@1.0.1) "@monodeploy/plugin-github" (2023-05-02)<a name="1.0.1"></a>
+
+### Dependencies
+
+* target Yarn 3.5.1 (#701) ([0e17f0d](https://github.com/tophat/monodeploy/commits/0e17f0d))
+
+
+
+
 ## [1.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@0.10.1...@monodeploy/plugin-github@1.0.0) "@monodeploy/plugin-github" (2023-04-17)<a name="1.0.0"></a>
 
 ### Breaking Changes

@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@4.0.0...@monodeploy/versions@4.0.1) "@monodeploy/versions" (2023-05-02)<a name="4.0.1"></a>
+
+### Dependencies
+
+* update dependency semver to ^7.4.0 (#700) ([18a0b54](https://github.com/tophat/monodeploy/commits/18a0b54))
+* target Yarn 3.5.1 (#701) ([0e17f0d](https://github.com/tophat/monodeploy/commits/0e17f0d))
+
+
+
+
 ## [4.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@3.9.0...@monodeploy/versions@4.0.0) "@monodeploy/versions" (2023-04-17)<a name="4.0.0"></a>
 
 ### Breaking Changes
