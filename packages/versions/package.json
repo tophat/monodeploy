@@ -41,7 +41,7 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.3",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.1",
     "@types/micromatch": "^4.0.2",
     "@types/semver": "^7.3.13",
     "@yarnpkg/cli": "^3.5.1",

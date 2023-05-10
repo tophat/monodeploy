@@ -35,7 +35,7 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.1",
     "@yarnpkg/core": "^3.5.1",
     "@yarnpkg/fslib": "^2.10.3"
   }
