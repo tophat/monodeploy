@@ -73,7 +73,7 @@
         "@yarnpkg/shell": "^3.2.5",
         "all-contributors-cli": "^6.24.0",
         "commitizen": "^4.3.0",
-        "eslint": "^8.38.0",
+        "eslint": "^8.39.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-import-resolver-node": "^0.3.7",
         "eslint-import-resolver-typescript": "^3.5.5",
