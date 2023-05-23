@@ -58,7 +58,7 @@
         "@tophat/commitlint-config": "^1.0.2",
         "@tophat/conventional-changelog-config": "^1.0.1",
         "@tophat/eslint-config": "^7.0.0",
-        "@tophat/eslint-import-resolver-require": "^0.1.3",
+        "@tophat/eslint-import-resolver-require": "^0.1.4",
         "@tophat/jest-resolver": "^0.1.0",
         "@types/jest": "^29.5.1",
         "@types/node": "^18.15.11",
