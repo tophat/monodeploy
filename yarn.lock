@@ -2962,7 +2962,7 @@ __metadata:
     "@yarnpkg/plugin-pack": ^3.2.0
     "@yarnpkg/sdks": ^3.0.0-rc.43
     "@yarnpkg/shell": ^3.2.5
-    all-contributors-cli: ^6.24.0
+    all-contributors-cli: ^6.25.0
     commitizen: ^4.3.0
     eslint: ^8.39.0
     eslint-config-prettier: ^8.8.0
@@ -5862,9 +5862,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"all-contributors-cli@npm:^6.24.0":
-  version: 6.24.0
-  resolution: "all-contributors-cli@npm:6.24.0"
+"all-contributors-cli@npm:^6.25.0":
+  version: 6.25.1
+  resolution: "all-contributors-cli@npm:6.25.1"
   dependencies:
     "@babel/runtime": ^7.7.6
     async: ^3.1.0
@@ -5878,7 +5878,7 @@ __metadata:
     yargs: ^15.0.1
   bin:
     all-contributors: dist/cli.js
-  checksum: 26b0a5ec014185d79380a90c5603d26100f8d57956cabbf92b68d3567de058787f5a4ddf788e3b3e71802dff827c3c096c6052805473f243f912018c31a024b7
+  checksum: 7aebb4adfc5f43c5152d374c4260fed499010f6bdb8b4f25a92de4b8a757391a7baf409af76470a06179b6099748d62dae6cc7edfc2e39c8a4b63eaab6b9f2ae
   languageName: node
   linkType: hard
 
