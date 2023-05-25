@@ -2845,7 +2845,7 @@ __metadata:
     "@types/babel__core": ^7.20.0
     "@types/loader-utils": ^2.0.3
     "@types/mdx-js__react": ^1.5.5
-    "@types/react": ^18.2.1
+    "@types/react": ^18.2.4
     "@types/react-dom": ^18.2.3
     "@types/react-helmet": ^6.1.6
     gatsby: ^4.25.6
@@ -4544,7 +4544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.1":
+"@types/react@npm:^18.2.4":
   version: 18.2.7
   resolution: "@types/react@npm:18.2.7"
   dependencies:
