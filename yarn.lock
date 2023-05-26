@@ -3026,7 +3026,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:^4.0.1"
     "@octokit/core": ^4.2.0
-    "@octokit/plugin-throttling": ^5.1.1
+    "@octokit/plugin-throttling": ^5.2.0
     "@types/jest": ^29.5.1
     "@types/node": ^18.15.11
     "@yarnpkg/core": ^3.5.1
@@ -3269,15 +3269,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-throttling@npm:^5.1.1":
-  version: 5.2.0
-  resolution: "@octokit/plugin-throttling@npm:5.2.0"
+"@octokit/plugin-throttling@npm:^5.2.0":
+  version: 5.2.3
+  resolution: "@octokit/plugin-throttling@npm:5.2.3"
   dependencies:
     "@octokit/types": ^9.0.0
     bottleneck: ^2.15.3
   peerDependencies:
     "@octokit/core": ^4.0.0
-  checksum: 965ebaea081117abb10d733baa86a3530de19295549782cc5f49cd145edd5b5a30609dc35b3e3e0bb96e960b2115f6f6eca68e363a0374abca20614081680132
+  checksum: ce7ca75d150c63cf1bbcb5b385513bd8cd1f714c5e59f33d25c2afd08fa730250055ef8dffa74113f92e7fb3f209a147442242151607a513f55e4ce382c8e80c
   languageName: node
   linkType: hard
 
