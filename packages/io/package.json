@@ -27,7 +27,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "dependencies": {
-    "semver": "^7.5.0"
+    "semver": "^7.5.1"
   },
   "devDependencies": {
     "@monodeploy/logging": "workspace:*",
