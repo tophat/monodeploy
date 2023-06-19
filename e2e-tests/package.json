@@ -16,7 +16,7 @@
         "@monodeploy/types": "workspace:*",
         "@tophat/conventional-changelog-config": "^1.0.1",
         "@types/node": "^18.15.11",
-        "@yarnpkg/core": "^3.5.1",
+        "@yarnpkg/core": "^3.5.2",
         "@yarnpkg/fslib": "^2.10.3",
         "helpers": "link:./helpers",
         "monodeploy": "workspace:*"
