@@ -71,7 +71,7 @@
         "@yarnpkg/plugin-pack": "^3.2.0",
         "@yarnpkg/sdks": "^3.0.0-rc.44",
         "@yarnpkg/shell": "^3.2.5",
-        "all-contributors-cli": "^6.25.1",
+        "all-contributors-cli": "^6.26.0",
         "commitizen": "^4.3.0",
         "eslint": "^8.41.0",
         "eslint-config-prettier": "^8.8.0",
