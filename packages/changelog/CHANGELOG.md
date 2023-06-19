@@ -2,6 +2,21 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.0.1...@monodeploy/changelog@4.1.0) "@monodeploy/changelog" (2023-06-19)<a name="4.1.0"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.1 (#714) ([cda20e1](https://github.com/tophat/monodeploy/commits/cda20e1))
+* update dependency @types/conventional-changelog-writer to ^4.0.3 (#761) ([6b02c2b](https://github.com/tophat/monodeploy/commits/6b02c2b))
+
+### Features
+
+* target Yarn@3.6.0 ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+* target Yarn@3.6.0 (#765) ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+
+
+
+
 ## [4.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.0.0...@monodeploy/changelog@4.0.1) "@monodeploy/changelog" (2023-05-02)<a name="4.0.1"></a>
 
 ### Dependencies

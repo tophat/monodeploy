@@ -2,6 +2,27 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [1.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.0.1...@monodeploy/plugin-github@1.1.0) "@monodeploy/plugin-github" (2023-06-19)<a name="1.1.0"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.1 (#714) ([cda20e1](https://github.com/tophat/monodeploy/commits/cda20e1))
+* update dependency @octokit/plugin-throttling to ^5.1.0 (#715) ([1f7739c](https://github.com/tophat/monodeploy/commits/1f7739c))
+* update dependency @octokit/plugin-throttling to ^5.1.1 (#718) ([5022634](https://github.com/tophat/monodeploy/commits/5022634))
+* update dependency @octokit/plugin-throttling to ^5.2.0 (#738) ([085f862](https://github.com/tophat/monodeploy/commits/085f862))
+* update dependency @octokit/plugin-throttling to ^5.2.1 (#748) ([872092c](https://github.com/tophat/monodeploy/commits/872092c))
+* update dependency @octokit/plugin-throttling to ^5.2.2 (#751) ([c092f17](https://github.com/tophat/monodeploy/commits/c092f17))
+* update dependency @octokit/core to ^4.2.1 (#753) ([46ecea0](https://github.com/tophat/monodeploy/commits/46ecea0))
+* update dependency @octokit/plugin-throttling to ^5.2.3 (#754) ([46507e7](https://github.com/tophat/monodeploy/commits/46507e7))
+
+### Features
+
+* target Yarn@3.6.0 ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+* target Yarn@3.6.0 (#765) ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+
+
+
+
 ## [1.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.0.0...@monodeploy/plugin-github@1.0.1) "@monodeploy/plugin-github" (2023-05-02)<a name="1.0.1"></a>
 
 ### Dependencies

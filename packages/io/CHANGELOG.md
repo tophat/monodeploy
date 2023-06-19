@@ -2,6 +2,23 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/io@4.0.1...@monodeploy/io@4.1.0) "@monodeploy/io" (2023-06-19)<a name="4.1.0"></a>
+
+### Dependencies
+
+* update dependency semver to ^7.5.0 (#710) ([c4ae993](https://github.com/tophat/monodeploy/commits/c4ae993))
+* update dependency @types/jest to ^29.5.1 (#714) ([cda20e1](https://github.com/tophat/monodeploy/commits/cda20e1))
+* update dependency @types/semver to ^7.5.0 (#744) ([5c94c2c](https://github.com/tophat/monodeploy/commits/5c94c2c))
+* update dependency semver to ^7.5.1 (#746) ([7305d50](https://github.com/tophat/monodeploy/commits/7305d50))
+
+### Features
+
+* target Yarn@3.6.0 ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+* target Yarn@3.6.0 (#765) ([059a693](https://github.com/tophat/monodeploy/commits/059a693))
+
+
+
+
 ## [4.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/io@4.0.0...@monodeploy/io@4.0.1) "@monodeploy/io" (2023-05-02)<a name="4.0.1"></a>
 
 ### Dependencies
