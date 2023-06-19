@@ -34,7 +34,7 @@
     "@types/jest": "^29.5.1",
     "@types/micromatch": "^4.0.2",
     "@types/node": "^18.15.11",
-    "@yarnpkg/core": "^3.5.1",
+    "@yarnpkg/core": "^3.5.2",
     "@yarnpkg/fslib": "^2.10.3"
   },
   "dependencies": {
@@ -44,7 +44,7 @@
     "@monodeploy/io": "workspace:^4.0.1",
     "@monodeploy/logging": "workspace:^4.0.1",
     "@monodeploy/types": "workspace:^4.0.1",
-    "@yarnpkg/core": "^3.5.1",
+    "@yarnpkg/core": "^3.5.2",
     "@yarnpkg/fslib": "^2.10.3"
   }
 }
