@@ -36,7 +36,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.2",
     "@types/node": "^18.15.11"
   },
   "dependencies": {

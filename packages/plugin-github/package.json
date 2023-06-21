@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.2",
     "@types/node": "^18.15.11",
     "tapable": "^2.2.1"
   },

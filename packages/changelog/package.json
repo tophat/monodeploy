@@ -47,7 +47,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/conventional-changelog-writer": "^4.0.3",
     "@types/conventional-commits-parser": "^3.0.3",
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.2",
     "@types/node": "^18.15.11",
     "@yarnpkg/core": "^3.5.2",
     "@yarnpkg/fslib": "^2.10.3"
