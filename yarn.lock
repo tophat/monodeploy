@@ -7293,7 +7293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clipanion@npm:^3.2.0, clipanion@npm:^3.2.0-rc.10":
+"clipanion@npm:^3.2.0-rc.10":
   version: 3.2.0
   resolution: "clipanion@npm:3.2.0"
   dependencies:
@@ -7301,6 +7301,17 @@ __metadata:
   peerDependencies:
     typanion: "*"
   checksum: e28e6f0d48aecff86097823c604aa486082d76d2a5d3abc71069a0d9f3338af769fd7c6634b2f444c5b1aac0743b503325cc0b30552c094c01ebc602631b273d
+  languageName: node
+  linkType: hard
+
+"clipanion@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "clipanion@npm:3.2.1"
+  dependencies:
+    typanion: ^3.8.0
+  peerDependencies:
+    typanion: "*"
+  checksum: 448efd122ead3c802e61ba7a2002e2080c8cce01ce8a0a789d9b9e4f8fe70fd887dcf163ef8c778f5364a9e6f4b498b9f1853f709d7ed4291713e78bcfb88ee8
   languageName: node
   linkType: hard
 
@@ -15689,7 +15700,7 @@ __metadata:
     "@yarnpkg/core": ^3.5.2
     "@yarnpkg/fslib": ^2.10.3
     ajv: ^8.12.0
-    clipanion: ^3.2.0
+    clipanion: ^3.2.1
     typanion: ^3.12.1
   bin:
     monodeploy: ./src/index.ts
