@@ -2830,7 +2830,7 @@ __metadata:
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
     typescript: 5.1.3
-    yaml-validator: ^4.0.0
+    yaml-validator: ^4.0.1
   dependenciesMeta:
     core-js-pure:
       built: false
@@ -7116,7 +7116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"check-type@npm:^0.4.11":
+"check-type@npm:0.4.11":
   version: 0.4.11
   resolution: "check-type@npm:0.4.11"
   dependencies:
@@ -13680,6 +13680,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-yaml@npm:4.1.0, js-yaml@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "js-yaml@npm:4.1.0"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: c7830dfd456c3ef2c6e355cc5a92e6700ceafa1d14bba54497b34a99f0376cecbb3e9ac14d3e5849b426d5a5140709a66237a8c991c675431271c4ce5504151a
+  languageName: node
+  linkType: hard
+
 "js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
@@ -13689,17 +13700,6 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: bef146085f472d44dee30ec34e5cf36bf89164f5d585435a3d3da89e52622dff0b188a580e4ad091c3341889e14cb88cac6e4deb16dc5b1e9623bb0601fc255c
-  languageName: node
-  linkType: hard
-
-"js-yaml@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "js-yaml@npm:4.1.0"
-  dependencies:
-    argparse: ^2.0.1
-  bin:
-    js-yaml: bin/js-yaml.js
-  checksum: c7830dfd456c3ef2c6e355cc5a92e6700ceafa1d14bba54497b34a99f0376cecbb3e9ac14d3e5849b426d5a5140709a66237a8c991c675431271c4ce5504151a
   languageName: node
   linkType: hard
 
@@ -16410,7 +16410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"optionator@npm:^0.9.1":
+"optionator@npm:0.9.1, optionator@npm:^0.9.1":
   version: 0.9.1
   resolution: "optionator@npm:0.9.1"
   dependencies:
@@ -21818,16 +21818,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml-validator@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "yaml-validator@npm:4.0.0"
+"yaml-validator@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "yaml-validator@npm:4.0.1"
   dependencies:
-    check-type: ^0.4.11
-    js-yaml: ^4.1.0
-    optionator: ^0.9.1
+    check-type: 0.4.11
+    js-yaml: 4.1.0
+    optionator: 0.9.1
   bin:
     yaml-validator: bin/yaml-validator.js
-  checksum: f995e32ee0336653b868fac875f458c2c5d972c5e0a2b0ddf686799cd44352aa3877316b747bcec51d0f215d54c3e383a45494db70a01c082d9ff2b252f9e525
+  checksum: b8b88720c4120be74be0041a545482765d71783d626840bc521fb9093630b0d2f7458e42bb0cffeaca1680eca6884fc398a0b22b0b5c047b9286863b9eefa9e8
   languageName: node
   linkType: hard
 
