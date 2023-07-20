@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@4.1.0...@monodeploy/git@4.2.0) "@monodeploy/git" (2023-07-20)<a name="4.2.0"></a>
+
+### Bug Fixes
+
+* parse repository subgroup correctly (#783) ([58cc2a7](https://github.com/tophat/monodeploy/commits/58cc2a7))
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.2 (#769) ([38b8611](https://github.com/tophat/monodeploy/commits/38b8611))
+
+
+
+
 ## [4.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/git@4.0.1...@monodeploy/git@4.1.0) "@monodeploy/git" (2023-06-19)<a name="4.1.0"></a>
 
 ### Dependencies

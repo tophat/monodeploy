@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@4.1.0...@monodeploy/publish@4.2.0) "@monodeploy/publish" (2023-07-20)<a name="4.2.0"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.2 (#769) ([38b8611](https://github.com/tophat/monodeploy/commits/38b8611))
+
+### Features
+
+* target yarn 3.6.1 (#780) ([3b0d590](https://github.com/tophat/monodeploy/commits/3b0d590))
+
+
+
+
 ## [4.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/publish@4.0.1...@monodeploy/publish@4.1.0) "@monodeploy/publish" (2023-06-19)<a name="4.1.0"></a>
 
 ### Dependencies

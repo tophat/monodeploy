@@ -2,6 +2,15 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [1.1.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.1.0...@monodeploy/plugin-github@1.1.1) "@monodeploy/plugin-github" (2023-07-20)<a name="1.1.1"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.2 (#769) ([38b8611](https://github.com/tophat/monodeploy/commits/38b8611))
+
+
+
+
 ## [1.1.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.0.1...@monodeploy/plugin-github@1.1.0) "@monodeploy/plugin-github" (2023-06-19)<a name="1.1.0"></a>
 
 ### Dependencies
