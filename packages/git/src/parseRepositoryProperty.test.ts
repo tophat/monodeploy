@@ -4,7 +4,7 @@ import { structUtils } from '@yarnpkg/core'
 import { parseRepositoryProperty } from './parseRepositoryProperty'
 
 describe('parseRepositoryProperty', () => {
-    it('parses repository from manifest url as string', async () =>
+    it('parses github repository from manifest url as string', async () =>
         withMonorepoContext({ 'pkg-1': {} }, async (context) => {
             const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
 
@@ -38,6 +38,50 @@ describe('parseRepositoryProperty', () => {
                     owner: 'tophat',
                     repository: 'monodeploy',
                     repoUrl: 'git+https://github.com/tophat/monodeploy',
+                }),
+            )
+        }))
+
+    it('parses arbitrary repository from manifest url as string', async () =>
+        withMonorepoContext({ 'pkg-1': {} }, async (context) => {
+            const workspace = context.project.getWorkspaceByIdent(structUtils.parseIdent('pkg-1'))
+
+            workspace.manifest.setRawField(
+                'repository',
+                'git@anyhost.net:group/subgroup/sub-subgroup/package-name.git',
+            )
+            expect(await parseRepositoryProperty(workspace)).toEqual(
+                expect.objectContaining({
+                    host: 'https://anyhost.net',
+                    owner: 'group/subgroup/sub-subgroup',
+                    repository: 'package-name',
+                    repoUrl: 'https://anyhost.net/group/subgroup/sub-subgroup/package-name',
+                }),
+            )
+
+            workspace.manifest.setRawField(
+                'repository',
+                'https://anyhost.net/group/subgroup/sub-subgroup/package-name.git',
+            )
+            expect(await parseRepositoryProperty(workspace)).toEqual(
+                expect.objectContaining({
+                    host: 'https://anyhost.net',
+                    owner: 'group/subgroup/sub-subgroup',
+                    repository: 'package-name',
+                    repoUrl: 'https://anyhost.net/group/subgroup/sub-subgroup/package-name',
+                }),
+            )
+
+            workspace.manifest.setRawField(
+                'repository',
+                'git+https://anyhost.net/group/subgroup/sub-subgroup/package-name.git',
+            )
+            expect(await parseRepositoryProperty(workspace)).toEqual(
+                expect.objectContaining({
+                    host: 'https://anyhost.net',
+                    owner: 'group/subgroup/sub-subgroup',
+                    repository: 'package-name',
+                    repoUrl: 'git+https://anyhost.net/group/subgroup/sub-subgroup/package-name',
                 }),
             )
         }))

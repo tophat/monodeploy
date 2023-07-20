@@ -9,11 +9,11 @@ export type RepositoryInfo = {
 
 const REPOSITORY_PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]> = [
     [
-        /((?:git\+)?(https?:\/\/[^/]+)\/([^/]+)\/([^/.]+))(?:\.git)?/,
+        /((?:git\+)?(https?:\/\/[^/]+)\/([^.]+)\/([^/.]+))(?:\.git)?/,
         (m) => ({ repoUrl: m[1], host: m[2], owner: m[3], repository: m[4] }),
     ],
     [
-        /(?:git@)?([^:]+):([^/]+)\/([^/.]+)(?:\.git)?/,
+        /(?:git@)?([^:]+):([^.]+)\/([^/.]+)(?:\.git)?/,
         (m) => ({
             repoUrl: `https://${m[1]}/${m[2]}/${m[3]}`,
             host: `https://${m[1]}`,
