@@ -142,8 +142,19 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Papooch",
+      "name": "Ondřej Švanda",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46406259?v=4",
+      "profile": "https://papooch.github.io/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
