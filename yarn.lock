@@ -2990,7 +2990,7 @@ __metadata:
     "@tophat/commitlint-config": ^1.0.2
     "@tophat/conventional-changelog-config": ^1.0.1
     "@tophat/eslint-config": ^7.0.1
-    "@tophat/eslint-import-resolver-require": ^0.1.4
+    "@tophat/eslint-import-resolver-require": ^0.1.5
     "@tophat/jest-resolver": ^0.1.0
     "@types/jest": ^29.5.2
     "@types/node": ^18.15.11
@@ -3998,6 +3998,15 @@ __metadata:
   peerDependencies:
     eslint-plugin-import: ">= 2.0.0"
   checksum: 4dd0dcb36c9cbf185939e2bd36d230a71d90d9692f6958ed219e046d0d6ea8689b47cda0d2c2b05ee0982c3281db7d03b02afa3248716651f52c743317656637
+  languageName: node
+  linkType: hard
+
+"@tophat/eslint-import-resolver-require@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@tophat/eslint-import-resolver-require@npm:0.1.5"
+  peerDependencies:
+    eslint-plugin-import: ">= 2.0.0"
+  checksum: a2d54b30dc8f10bf8d5dac5bc4783ca7841be0bf154bd543567b68191d8ad5c36bb00a5cd99e33df6f1178b7fee89bbfc7a44afaacebdc84b207c0014ad9dd76
   languageName: node
   linkType: hard
 
