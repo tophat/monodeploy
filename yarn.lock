@@ -2989,7 +2989,7 @@ __metadata:
     "@tophat/commitizen-adapter": ^1.0.2
     "@tophat/commitlint-config": ^1.0.2
     "@tophat/conventional-changelog-config": ^1.0.1
-    "@tophat/eslint-config": ^7.0.1
+    "@tophat/eslint-config": ^7.0.4
     "@tophat/eslint-import-resolver-require": ^0.1.5
     "@tophat/jest-resolver": ^0.1.0
     "@types/jest": ^29.5.2
@@ -3955,16 +3955,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/eslint-config@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@tophat/eslint-config@npm:7.0.1"
+"@tophat/eslint-config@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "@tophat/eslint-config@npm:7.0.4"
   dependencies:
-    "@tophat/eslint-import-resolver-require": ^0.1.4
+    "@tophat/eslint-import-resolver-require": ^0.1.5
     eslint-import-resolver-node: ^0.3.7
     eslint-import-resolver-typescript: ^3.5.5
   peerDependencies:
     "@tanstack/eslint-plugin-query": ">=4.29.0"
-    "@tophat/eslint-import-resolver-require": ^0.1.4
+    "@tophat/eslint-import-resolver-require": ^0.1.5
     "@typescript-eslint/eslint-plugin": ">=5.58.0"
     "@typescript-eslint/parser": ">=5.58.0"
     eslint: ">=8.36.0"
@@ -3978,7 +3978,7 @@ __metadata:
     eslint-plugin-react: ">=7.32.2"
     eslint-plugin-react-hooks: ">=4.6.0"
     prettier: ">=2.8.7"
-    typescript: ">=4.9.5"
+    typescript: ">=5.0.4"
   peerDependenciesMeta:
     "@tanstack/eslint-plugin-query":
       optional: true
@@ -3988,16 +3988,7 @@ __metadata:
       optional: true
     eslint-plugin-react-hooks:
       optional: true
-  checksum: a902da0705187aecba8addfeac27d3787fefd41b994614431f6191ad2b4f70dcdceeee2af6c9363e8446d14f4cf4cc44ae62555faab5a4fea58f4f151c6a8351
-  languageName: node
-  linkType: hard
-
-"@tophat/eslint-import-resolver-require@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@tophat/eslint-import-resolver-require@npm:0.1.4"
-  peerDependencies:
-    eslint-plugin-import: ">= 2.0.0"
-  checksum: 4dd0dcb36c9cbf185939e2bd36d230a71d90d9692f6958ed219e046d0d6ea8689b47cda0d2c2b05ee0982c3281db7d03b02afa3248716651f52c743317656637
+  checksum: 0ca1bec7c5a39b30fca186a084161b51b1583dc45ce1efab1b64a377a1fe48605d0d7508b8c5d8e640933a86e2a29c69eb50959fe0e214764c565c9c02daff9a
   languageName: node
   linkType: hard
 
