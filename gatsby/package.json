@@ -20,7 +20,7 @@
     "@types/loader-utils": "^2.0.3",
     "@types/mdx-js__react": "^1.5.5",
     "@types/react": "^18.2.17",
-    "@types/react-dom": "^18.2.4",
+    "@types/react-dom": "^18.2.7",
     "@types/react-helmet": "^6.1.6",
     "gatsby": "^4.25.7",
     "gatsby-plugin-gatsby-cloud": "^4.25.0",

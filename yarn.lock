@@ -2887,7 +2887,7 @@ __metadata:
     "@types/loader-utils": ^2.0.3
     "@types/mdx-js__react": ^1.5.5
     "@types/react": ^18.2.17
-    "@types/react-dom": ^18.2.4
+    "@types/react-dom": ^18.2.7
     "@types/react-helmet": ^6.1.6
     gatsby: ^4.25.7
     gatsby-plugin-gatsby-cloud: ^4.25.0
@@ -4563,12 +4563,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.4":
-  version: 18.2.4
-  resolution: "@types/react-dom@npm:18.2.4"
+"@types/react-dom@npm:^18.2.7":
+  version: 18.2.7
+  resolution: "@types/react-dom@npm:18.2.7"
   dependencies:
     "@types/react": "*"
-  checksum: 8301f35cf1cbfec8c723e9477aecf87774e3c168bd457d353b23c45064737213d3e8008b067c6767b7b08e4f2b3823ee239242a6c225fc91e7f8725ef8734124
+  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
   languageName: node
   linkType: hard
 
