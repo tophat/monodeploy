@@ -47,7 +47,7 @@
     },
     "devDependencies": {
         "@commitlint/cli": "^17.6.7",
-        "@jest/types": "^29.5.0",
+        "@jest/types": "^29.6.1",
         "@monodeploy/git": "workspace:*",
         "@monodeploy/io": "workspace:*",
         "@monodeploy/logging": "workspace:*",
