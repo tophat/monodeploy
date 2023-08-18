@@ -96,7 +96,7 @@
         "yaml-validator": "^4.0.1"
     },
     "engines": {
-        "node": ">=v16.20.0"
+        "node": ">=v16.20.1"
     },
     "resolutions": {
         "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d",
