@@ -16440,7 +16440,7 @@ __metadata:
     "@yarnpkg/fslib": ^2.10.3
     ajv: ^8.12.0
     clipanion: ^3.2.1
-    typanion: ^3.12.1
+    typanion: ^3.13.0
   bin:
     monodeploy: ./src/index.ts
   languageName: unknown
@@ -21270,7 +21270,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typanion@npm:^3.12.1, typanion@npm:^3.3.0, typanion@npm:^3.3.1, typanion@npm:^3.8.0":
+"typanion@npm:^3.13.0":
+  version: 3.14.0
+  resolution: "typanion@npm:3.14.0"
+  checksum: fc0590d02c13c659eb1689e8adf7777e6c00dc911377e44cd36fe1b1271cfaca71547149f12cdc275058c0de5562a14e5273adbae66d47e6e0320e36007f5912
+  languageName: node
+  linkType: hard
+
+"typanion@npm:^3.3.0, typanion@npm:^3.3.1, typanion@npm:^3.8.0":
   version: 3.12.1
   resolution: "typanion@npm:3.12.1"
   checksum: a2e26fa216f8a1dbd2ffbaacb75b1e2dc042a0356e9702fba05a968cad95d9f661b24e37f6c6d8c3adad2c8582c99fca4826ff26a2d07cd2ae617ea87e6187eb
