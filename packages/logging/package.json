@@ -27,7 +27,7 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/jest": "^29.5.2",
+    "@types/jest": "^29.5.3",
     "@types/node": "^18.15.11",
     "@yarnpkg/core": "^3.5.2"
   },
