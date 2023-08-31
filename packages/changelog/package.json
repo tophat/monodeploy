@@ -45,10 +45,10 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/conventional-changelog-writer": "^4.0.3",
+    "@types/conventional-changelog-writer": "^4.0.4",
     "@types/conventional-commits-parser": "^3.0.3",
-    "@types/jest": "^29.5.3",
-    "@types/node": "^18.15.11",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^18.17.12",
     "@yarnpkg/core": "^3.5.3",
     "@yarnpkg/fslib": "^2.10.3"
   }

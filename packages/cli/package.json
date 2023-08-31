@@ -36,8 +36,8 @@
     "prepack": "run workspace:build \"$(pwd)\""
   },
   "devDependencies": {
-    "@types/jest": "^29.5.3",
-    "@types/node": "^18.15.11"
+    "@types/jest": "^29.5.4",
+    "@types/node": "^18.17.12"
   },
   "dependencies": {
     "@monodeploy/logging": "workspace:^4.2.0",
@@ -47,7 +47,7 @@
     "@yarnpkg/fslib": "^2.10.3",
     "ajv": "^8.12.0",
     "clipanion": "^3.2.1",
-    "typanion": "^3.13.0"
+    "typanion": "^3.14.0"
   },
   "engines": {
     "node": ">=v14.21.3"

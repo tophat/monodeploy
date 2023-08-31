@@ -34,8 +34,8 @@
     "@yarnpkg/core": "^3.5.3"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.3",
-    "@types/node": "^18.15.11",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^18.17.12",
     "@yarnpkg/core": "^3.5.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",

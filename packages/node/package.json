@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@monodeploy/test-utils": "link:../../testUtils",
-    "@types/jest": "^29.5.3",
-    "@types/node": "^18.15.11"
+    "@types/jest": "^29.5.4",
+    "@types/node": "^18.17.12"
   },
   "dependencies": {
     "@monodeploy/changelog": "workspace:^4.2.0",
