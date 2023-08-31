@@ -3,7 +3,8 @@
 import { structUtils } from '@yarnpkg/core'
 import { type PortablePath, npath, ppath } from '@yarnpkg/fslib'
 
-import type { ConfigFile } from './types'
+import type { ConfigFile } from '../types'
+
 import validateConfigFile from './validateConfigFile'
 
 class ResolveFailure extends Error {}
@@ -55,7 +56,7 @@ const loadPresetConfig = (presetPath: string | null, cwd: PortablePath) => {
         if (presetPath.startsWith('monodeploy/')) {
             switch (presetPath.split('/')[1]) {
                 case 'preset-recommended':
-                    return require('./presets/recommended')
+                    return require('../presets/recommended')
                 default:
                     break
             }
