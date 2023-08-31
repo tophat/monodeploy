@@ -1,5 +1,6 @@
 name: setup-env
 description: Initializes environment.
+
 inputs:
   node-version:
     description: Override Node Version
@@ -9,10 +10,12 @@ inputs:
     description: Additional cache prefix
     required: false
     default: 'default'
+
 outputs:
   node-version:
     value: ${{ steps.detect-node.outputs.version }}
     description: Detected Node version.
+
 runs:
   using: "composite"
   steps:
@@ -26,7 +29,7 @@ runs:
         fi
       shell: bash
     - name: Install NodeJS
-      uses: actions/setup-node@v3.7.0
+      uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # tag=v3.8.1
       with:
         node-version: ${{ steps.detect-node.outputs.version }}
     - name: Enable Corepack
@@ -34,7 +37,7 @@ runs:
       shell: bash
     - name: Restore Yarn Cache
       id: yarn-cache
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # tag=v3.3.1
       with:
         path: |
           .yarn/cache
