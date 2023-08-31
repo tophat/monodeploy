@@ -13,13 +13,13 @@
     "typedoc": "^0.24.8"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.11",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@types/babel__core": "^7.20.1",
-    "@types/loader-utils": "^2.0.3",
+    "@types/loader-utils": "^2.0.4",
     "@types/mdx-js__react": "^1.5.5",
-    "@types/react": "^18.2.17",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/react-helmet": "^6.1.6",
     "gatsby": "^4.25.7",
