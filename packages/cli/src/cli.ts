@@ -8,6 +8,7 @@ const cli = new Cli({
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     binaryVersion: require('../package.json').version,
 })
+
 cli.register(MonodeployCommand)
 
 export { cli }

@@ -44,6 +44,10 @@ import { writeChangesetFile } from './utils/writeChangesetFile'
 const monodeploy = async (
     baseConfig: RecursivePartial<MonodeployConfiguration>,
 ): Promise<ChangesetSchema> => {
+    if (baseConfig.logLevel !== undefined && baseConfig.logLevel !== null) {
+        process.env.MONODEPLOY_LOG_LEVEL = String(baseConfig.logLevel)
+    }
+
     const config: MonodeployConfiguration = await mergeDefaultConfig(baseConfig)
     if (config.cwd === typeof undefined) {
         throw new Error('Invalid cwd.')

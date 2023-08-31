@@ -20,6 +20,18 @@ export interface MonodeployConfiguration {
     cwd: string
 
     /**
+     * Log levels. Control verbosity of output.
+     *
+     * DEBUG: 0
+     * INFO: 1
+     * WARNING: 2
+     * ERROR: 3
+     *
+     * @default 1
+     */
+    logLevel?: '0' | '1' | '2' | '3' | null
+
+    /**
      * The NPM registry URL for fetching package information, and publishing
      * packages. Note that this overrides any publishConfig.registryUrl or
      * Yarn RC configuration.

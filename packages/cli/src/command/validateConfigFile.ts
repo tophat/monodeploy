@@ -1,6 +1,6 @@
 import Ajv, { type SchemaObject, type ValidateFunction } from 'ajv/dist/2020'
 
-import type { ConfigFile } from './types'
+import type { ConfigFile } from '../types'
 
 const ajv = new Ajv({ allowUnionTypes: true, strictTuples: false })
 
