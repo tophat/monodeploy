@@ -173,7 +173,6 @@ jobs:
       - name: Build
         run: yarn build
       - name: Run Monodeploy in Dry Run Mode
-        id: run-monodeploy
         run: |
           echo "<!-- MONODEPLOY:BELOW -->" > ${{ env.ARTIFACT_DIR }}/CHANGELOG.md
 
@@ -187,11 +186,14 @@ jobs:
             --changeset-ignore-patterns '**/*.test.ts' \
             --package-group-manifest-field group
 
-          changelog_body=$(cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md)
-          changelog_body="${changelog_body//'%'/'%25'}"
-          changelog_body="${changelog_body//$'\n'/'%0A'}"
-          changelog_body="${changelog_body//$'\r'/'%0D'}"
-          echo "name=changelog::${changelog_body}" >> "$GITHUB_OUTPUT"
+          {
+            echo "<!-- MONODEPLOY_CHANGELOG_PREVIEW -->";
+            echo "# Monodeploy Publish Preview";
+            echo;
+            echo "This Pull Request introduces the following changes:";
+            echo;
+            cat ${{ env.ARTIFACT_DIR }}/CHANGELOG.md;
+          } >> "${{ runner.temp }}/changelog_preview.md"
       - name: Check for Changelog Comment
         uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # tag=v2.4.0
         id: found-comment
@@ -209,13 +211,7 @@ jobs:
           comment-id: ${{ steps.found-comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
-          body: |
-            <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
-            # Monodeploy Publish Preview
-
-            This Pull Request introduces the following changes:
-
-            ${{ steps.run-monodeploy.outputs.changelog }}
+          body-path: ${{ runner.temp }}/changelog_preview.md
       - name: Upload Artifacts
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
         with:
