@@ -2640,7 +2640,7 @@ __metadata:
     "@yarnpkg/core": ^3.5.3
     "@yarnpkg/fslib": ^2.10.3
     conventional-changelog-writer: ^5.0.1
-    conventional-commits-parser: ^3.2.4
+    conventional-commits-parser: ^4.0.0
     p-limit: ^3.1.0
   peerDependencies:
     "@monodeploy/git": "workspace:^4.2.0"
@@ -3014,7 +3014,7 @@ __metadata:
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
-    conventional-commits-parser: ^3.2.4
+    conventional-commits-parser: ^4.0.0
     micromatch: ^4.0.5
     p-limit: ^3.1.0
     semver: ^7.5.4
