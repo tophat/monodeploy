@@ -13,7 +13,7 @@ RUN chown -R node: /home/node
 
 USER node
 
-RUN yarn dlx -p verdaccio@5.22.1 binarydoesntexist || true
+RUN yarn dlx -p verdaccio@5.26.2 binarydoesntexist || true
 RUN yarn dlx -p npm-cli-login binarydoesntexist || true
 
 COPY ./docker/ /home/node/
