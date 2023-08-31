@@ -86,7 +86,7 @@
         "husky": "^8.0.3",
         "jest": "^29.6.4",
         "jest-junit": "^16.0.0",
-        "lint-staged": "^13.3.0",
+        "lint-staged": "^14.0.1",
         "monodeploy": "workspace:*",
         "nyc": "^15.1.0",
         "prettier": "^3.0.3",
