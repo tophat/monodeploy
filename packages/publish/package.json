@@ -37,8 +37,8 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/jest": "^29.5.3",
-    "@yarnpkg/cli": "^3.6.1",
-    "@yarnpkg/core": "^3.5.2",
+    "@yarnpkg/cli": "^3.6.3",
+    "@yarnpkg/core": "^3.5.3",
     "@yarnpkg/fslib": "^2.10.3",
     "@yarnpkg/plugin-npm": "^2.7.4",
     "@yarnpkg/plugin-pack": "^3.2.0"
@@ -49,8 +49,8 @@
     "@monodeploy/io": "workspace:^4.2.0",
     "@monodeploy/logging": "workspace:^4.2.0",
     "@monodeploy/types": "workspace:^4.2.0",
-    "@yarnpkg/cli": "^3.6.1",
-    "@yarnpkg/core": "^3.5.2",
+    "@yarnpkg/cli": "^3.6.3",
+    "@yarnpkg/core": "^3.5.3",
     "@yarnpkg/fslib": "^2.10.3",
     "@yarnpkg/plugin-npm": "^2.7.4",
     "@yarnpkg/plugin-pack": "^3.2.0"

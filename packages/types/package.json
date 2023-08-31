@@ -31,12 +31,12 @@
     "tapable": "^2.2.1"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.5.2"
+    "@yarnpkg/core": "^3.5.3"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
     "@types/node": "^18.15.11",
-    "@yarnpkg/core": "^3.5.2",
+    "@yarnpkg/core": "^3.5.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
     "typescript": "5.1.6"
