@@ -13165,17 +13165,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-coverage@npm:3.0.0":
-  version: 3.0.0
-  resolution: "istanbul-lib-coverage@npm:3.0.0"
-  checksum: ea57c2428858cc5d1e04c0e28b362950bbf6415e8ba1235cdd6f4c8dc3c57cb950db8b4e8a4f7e33abc240aa1eb816dba0d7285bdb8b70bda22bb2082492dbfc
-  languageName: node
-  linkType: hard
-
-"istanbul-lib-coverage@patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d::locator=%40monodeploy%2Fmonorepo%40workspace%3A.":
-  version: 3.0.0
-  resolution: "istanbul-lib-coverage@patch:istanbul-lib-coverage@npm%3A3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d::version=3.0.0&hash=4c324d&locator=%40monodeploy%2Fmonorepo%40workspace%3A."
-  checksum: 89190c97ab575a54b152c6d895ec34d9d8408c108ef0fd912bc1f1634e1a98b29f31d487621abd4e801512de00fca43efa371a60e8abe8c2248e3fd0715e6da2
+"istanbul-lib-coverage@npm:^3.0.0, istanbul-lib-coverage@npm:^3.0.0-alpha.1, istanbul-lib-coverage@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "istanbul-lib-coverage@npm:3.2.0"
+  checksum: a2a545033b9d56da04a8571ed05c8120bf10e9bce01cf8633a3a2b0d1d83dff4ac4fe78d6d5673c27fc29b7f21a41d75f83a36be09f82a61c367b56aa73c1ff9
   languageName: node
   linkType: hard
 

@@ -98,10 +98,6 @@
     "engines": {
         "node": ">=v16.20.1"
     },
-    "resolutions": {
-        "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm:3.0.0#.yarn/patches/istanbul-lib-coverage-npm-3.0.0-654bb0146d",
-        "minimist@1.2.5": "npm:1.2.6"
-    },
     "dependenciesMeta": {
         "core-js-pure": {
             "built": false
