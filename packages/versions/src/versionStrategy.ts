@@ -92,9 +92,8 @@ export const createGetConventionalRecommendedStrategy =
         )
         const conventionalCommits = await readStream<Commit>(commitsStream)
 
-        const conventionalStrategy = await conventionalConfig.recommendedBumpOpts.whatBump(
-            conventionalCommits,
-        )
+        const conventionalStrategy =
+            await conventionalConfig.recommendedBumpOpts.whatBump(conventionalCommits)
 
         return conventionalStrategy?.level ?? STRATEGY.NONE
     }
