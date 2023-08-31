@@ -122,9 +122,7 @@ const TypeDocInterface: React.FC<{ schema: ProjectReflection; interfaceName: str
                 </tr>
             </thead>
             <tbody>
-                {interfaceData?.children?.map((data) => (
-                    <InterfaceChildRow data={data} />
-                ))}
+                {interfaceData?.children?.map((data) => <InterfaceChildRow data={data} />)}
             </tbody>
         </table>
     )

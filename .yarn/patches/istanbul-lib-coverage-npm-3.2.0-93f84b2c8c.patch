@@ -20,10 +20,10 @@ index 0a1ebd0a90f958cabf94481fc6ea2dff206bfeb2..36c26a7c423c6db22d2cf1a433d6775a
  
      /**
 diff --git a/lib/file-coverage.js b/lib/file-coverage.js
-index ed056a6f3bd7eaa7bd38b2778c029be5b422648f..2b7d43454f0e3e83a479237fdff60cc48f0601a1 100644
+index 80a36ab55a56cbb8894f9ad8e2a59ae619f51f4c..3f5493298ae614438addabb5c01c15a23ee8d96f 100644
 --- a/lib/file-coverage.js
 +++ b/lib/file-coverage.js
-@@ -76,6 +76,10 @@ class FileCoverage {
+@@ -117,6 +117,10 @@ class FileCoverage {
              throw new Error('Invalid argument to coverage constructor');
          }
          assertValidObject(this.data);

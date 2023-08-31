@@ -16,19 +16,17 @@ const Seo: React.FC<{
     meta?: Array<Record<string, any>>
     title?: string | undefined
 }> = ({ description = '', lang = 'en', meta = [], title }) => {
-    const { site } = useStaticQuery(
-        graphql`
-            query {
-                site {
-                    siteMetadata {
-                        title
-                        description
-                        author
-                    }
+    const { site } = useStaticQuery(graphql`
+        query {
+            site {
+                siteMetadata {
+                    title
+                    description
+                    author
                 }
             }
-        `,
-    )
+        }
+    `)
 
     const metaDescription = description || site.siteMetadata.description
     const defaultTitle = site.siteMetadata?.title

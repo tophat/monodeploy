@@ -209,16 +209,16 @@ const applyVersionStrategies = async ({
             const update = updatedRegistryTags.get(packageName)!
             if (isFullyIndependent) {
                 logging.info(
-                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
-                        versionStrategies.get(packageName)?.type
-                    })`,
+                    `[Version Change] ${packageName}: ${update.previous} -> ${
+                        update.next
+                    } (${versionStrategies.get(packageName)?.type})`,
                     { report: context.report },
                 )
             } else {
                 logging.info(
-                    `[Version Change] ${packageName}: ${update.previous} -> ${update.next} (${
-                        versionStrategies.get(packageName)?.type
-                    }, group: ${groupKey})`,
+                    `[Version Change] ${packageName}: ${update.previous} -> ${
+                        update.next
+                    } (${versionStrategies.get(packageName)?.type}, group: ${groupKey})`,
                     { report: context.report },
                 )
             }
