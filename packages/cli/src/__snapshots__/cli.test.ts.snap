@@ -99,7 +99,10 @@ exports[`CLI Config File gives precedence to cli flags over config file 1`] = `
   "autoCommitMessage": "chore: release",
   "changelogFilename": "from_file.changelog.md",
   "changesetFilename": "from_file.changes.json",
-  "changesetIgnorePatterns": undefined,
+  "changesetIgnorePatterns": [
+    "*.test.js",
+    "*.snap",
+  ],
   "commitIgnorePatterns": [
     "ignore-me",
   ],
@@ -145,7 +148,7 @@ exports[`CLI Config File gives precedence to cli flags over config file with neg
   "autoCommitMessage": "chore: release",
   "changelogFilename": "from_file.changelog.md",
   "changesetFilename": "from_file.changes.json",
-  "changesetIgnorePatterns": undefined,
+  "changesetIgnorePatterns": [],
   "commitIgnorePatterns": undefined,
   "conventionalChangelogConfig": "@my/config-from-file",
   "cwd": undefined,

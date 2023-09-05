@@ -126,6 +126,10 @@ export abstract class BaseCommand extends Command {
         description: 'Globs to use in filtering out files when determining version bumps',
     })
 
+    noChangesetIgnorePatterns = Option.Boolean('--no-changeset-ignore-patterns', false, {
+        description: 'Whether to reset previously set changeset ignore patterns.',
+    })
+
     commitIgnorePatterns = Option.Array('--commit-ignore-patterns', {
         description:
             'Regular expression patterns to filter out commits from version strategy consideration',
@@ -163,10 +167,11 @@ export abstract class BaseCommand extends Command {
                 this.conventionalChangelogConfig ??
                 configFromFile?.conventionalChangelogConfig ??
                 undefined,
-            changesetIgnorePatterns:
-                this.changesetIgnorePatterns ??
-                configFromFile?.changesetIgnorePatterns ??
-                undefined,
+            changesetIgnorePatterns: this.noChangesetIgnorePatterns
+                ? []
+                : this.changesetIgnorePatterns ??
+                  configFromFile?.changesetIgnorePatterns ??
+                  undefined,
             commitIgnorePatterns:
                 this.commitIgnorePatterns ?? configFromFile?.commitIgnorePatterns ?? undefined,
             topological: this.topological ?? configFromFile?.topological,

@@ -359,6 +359,7 @@ describe('CLI', () => {
                 prereleaseId: 'beta',
                 commitIgnorePatterns: ['skip-ci'],
                 packageGroupManifestField: 'group',
+                changesetIgnorePatterns: ['*.test.js', '*.snap'],
             }
         `
 
@@ -408,6 +409,7 @@ describe('CLI', () => {
                 maxConcurrentWrites: 11,
                 prerelease: true,
                 prereleaseId: 'beta',
+                changesetIgnorePatterns: ['*.test.js', '*.snap'],
             }
         `
 
@@ -417,7 +419,7 @@ describe('CLI', () => {
                 await fs.writeFile(configFilename, configFileContents, 'utf-8')
                 setArgs(
                     `--config-file ${configFilename} --git-base-branch next --jobs 3 --no-prerelease ` +
-                        '--no-topological --no-topological-dev --no-persist-versions',
+                        '--no-topological --no-topological-dev --no-persist-versions --no-changeset-ignore-patterns',
                 )
                 jest.isolateModules(() => {
                     require('./index')
