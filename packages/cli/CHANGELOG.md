@@ -2,6 +2,28 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.3.0](https://github.com/tophat/monodeploy/compare/monodeploy@4.2.0...monodeploy@4.3.0) "monodeploy" (2023-09-05)<a name="4.3.0"></a>
+
+### Bug Fixes
+
+* add log level to the monodeploy configuration ([e50d53f](https://github.com/tophat/monodeploy/commits/e50d53f))
+* add log level to the monodeploy configuration (#823) ([e50d53f](https://github.com/tophat/monodeploy/commits/e50d53f))
+
+### Dependencies
+
+* update dependency jest to ^29.6.2 (#810) ([4566664](https://github.com/tophat/monodeploy/commits/4566664))
+* update dependency typanion to ^3.13.0 (#811) ([e0e44e7](https://github.com/tophat/monodeploy/commits/e0e44e7))
+* accept minor and patch updates (#817) ([ca86dd6](https://github.com/tophat/monodeploy/commits/ca86dd6))
+
+### Features
+
+* update yarn target to v3.6.3 (#816) ([c56c619](https://github.com/tophat/monodeploy/commits/c56c619))
+* introduce minimumStrategy config option ([4de51d8](https://github.com/tophat/monodeploy/commits/4de51d8))
+* support clearing changesetIgnorePatterns from cli ([6e823ee](https://github.com/tophat/monodeploy/commits/6e823ee))
+
+
+
+
 ## [4.2.0](https://github.com/tophat/monodeploy/compare/monodeploy@4.1.0...monodeploy@4.2.0) "monodeploy" (2023-07-20)<a name="4.2.0"></a>
 
 ### Dependencies

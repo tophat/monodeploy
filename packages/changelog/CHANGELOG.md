@@ -2,6 +2,25 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [4.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.2.0...@monodeploy/changelog@4.3.0) "@monodeploy/changelog" (2023-09-05)<a name="4.3.0"></a>
+
+### Dependencies
+
+* update dependency jest to ^29.6.2 (#810) ([4566664](https://github.com/tophat/monodeploy/commits/4566664))
+* accept minor and patch updates (#817) ([ca86dd6](https://github.com/tophat/monodeploy/commits/ca86dd6))
+* update conventional changelog dependencies ([c1c8cf9](https://github.com/tophat/monodeploy/commits/c1c8cf9))
+* remove pinned dependencies ([c1c8cf9](https://github.com/tophat/monodeploy/commits/c1c8cf9))
+* update lint dependencies ([c1c8cf9](https://github.com/tophat/monodeploy/commits/c1c8cf9))
+* update lint-staged ([c1c8cf9](https://github.com/tophat/monodeploy/commits/c1c8cf9))
+* update conventional changelog dependencies (#819) ([c1c8cf9](https://github.com/tophat/monodeploy/commits/c1c8cf9))
+
+### Features
+
+* update yarn target to v3.6.3 (#816) ([c56c619](https://github.com/tophat/monodeploy/commits/c56c619))
+
+
+
+
 ## [4.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.1.0...@monodeploy/changelog@4.2.0) "@monodeploy/changelog" (2023-07-20)<a name="4.2.0"></a>
 
 ### Dependencies

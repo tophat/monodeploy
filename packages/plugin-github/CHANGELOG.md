@@ -2,6 +2,21 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [1.2.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.1.1...@monodeploy/plugin-github@1.2.0) "@monodeploy/plugin-github" (2023-09-05)<a name="1.2.0"></a>
+
+### Dependencies
+
+* update dependency @octokit/core to ^4.2.4 (#788) ([a5add73](https://github.com/tophat/monodeploy/commits/a5add73))
+* update dependency jest to ^29.6.2 (#810) ([4566664](https://github.com/tophat/monodeploy/commits/4566664))
+* accept minor and patch updates (#817) ([ca86dd6](https://github.com/tophat/monodeploy/commits/ca86dd6))
+
+### Features
+
+* update yarn target to v3.6.3 (#816) ([c56c619](https://github.com/tophat/monodeploy/commits/c56c619))
+
+
+
+
 ## [1.1.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.1.0...@monodeploy/plugin-github@1.1.1) "@monodeploy/plugin-github" (2023-07-20)<a name="1.1.1"></a>
 
 ### Dependencies
