@@ -310,6 +310,18 @@ export interface VersionStrategyConfiguration {
      * @default "patch"
      */
     coerceImplicitPeerDependency?: 'patch' | 'minor' | 'major'
+
+    /**
+     * If specified, when determining explicit version strategies, a '3' or null
+     * returned from the strategy determiner will be coerced to the minimum strategy.
+     * This can be used to override a third party conventional changelog config such that
+     * all package changes are treated as a 'patch' at a minimum. Without this override,
+     * a strategy determiner, depending on the configuration, may treat a certain commit
+     * as a "no-op".
+     *
+     * @default undefined
+     */
+    minimumStrategy?: 'patch' | 'minor' | 'major' | undefined
 }
 
 export interface GroupConfiguration {

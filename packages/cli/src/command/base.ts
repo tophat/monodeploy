@@ -7,7 +7,7 @@ import { npath, ppath } from '@yarnpkg/fslib'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
-import readConfigFile from './readConfigFile'
+import readConfigFile from './config/readConfigFile'
 
 export abstract class BaseCommand extends Command {
     preset = Option.String('--preset', {
@@ -126,9 +126,18 @@ export abstract class BaseCommand extends Command {
         description: 'Globs to use in filtering out files when determining version bumps',
     })
 
+    noChangesetIgnorePatterns = Option.Boolean('--no-changeset-ignore-patterns', false, {
+        description: 'Whether to reset previously set changeset ignore patterns.',
+    })
+
     commitIgnorePatterns = Option.Array('--commit-ignore-patterns', {
         description:
             'Regular expression patterns to filter out commits from version strategy consideration',
+    })
+
+    minimumVersionStrategy = Option.String('--minimum-version-strategy', {
+        description: 'Minimum version strategy to coerce none strategies to',
+        validator: t.isEnum(['major', 'minor', 'patch', 'none'] as const),
     })
 
     async parseConfiguration(): Promise<{
@@ -158,10 +167,11 @@ export abstract class BaseCommand extends Command {
                 this.conventionalChangelogConfig ??
                 configFromFile?.conventionalChangelogConfig ??
                 undefined,
-            changesetIgnorePatterns:
-                this.changesetIgnorePatterns ??
-                configFromFile?.changesetIgnorePatterns ??
-                undefined,
+            changesetIgnorePatterns: this.noChangesetIgnorePatterns
+                ? []
+                : this.changesetIgnorePatterns ??
+                  configFromFile?.changesetIgnorePatterns ??
+                  undefined,
             commitIgnorePatterns:
                 this.commitIgnorePatterns ?? configFromFile?.commitIgnorePatterns ?? undefined,
             topological: this.topological ?? configFromFile?.topological,
@@ -185,6 +195,13 @@ export abstract class BaseCommand extends Command {
                 configFromFile?.packageGroupManifestField ??
                 undefined,
             packageGroups: configFromFile?.packageGroups,
+            versionStrategy: {
+                minimumStrategy:
+                    this.minimumVersionStrategy === 'none'
+                        ? undefined
+                        : this.minimumVersionStrategy ??
+                          configFromFile?.versionStrategy?.minimumStrategy,
+            },
         }
 
         return { config, configFromFile }
