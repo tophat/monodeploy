@@ -148,4 +148,42 @@ describe('getExplicitVersionStrategies', () => {
             ]),
         )
     })
+
+    it('coerces none determiner results to the minimum strategy', async () => {
+        const cwd = tempRepositoryRoot
+        const context = await setupContext(cwd)
+        await createCommit('feat: initial commit', cwd)
+        await exec('git checkout -b test-branch', { cwd: npath.toPortablePath(cwd) })
+        await createFile({ filePath: path.join('packages', 'pkg-1', 'test.js'), cwd })
+        const mockMessage = 'chore: woa'
+        await createCommit(mockMessage, cwd)
+        const headSha = (
+            await exec('git rev-parse HEAD', {
+                cwd: npath.toPortablePath(cwd),
+            })
+        ).stdout.trim()
+        const strategies = await getExplicitVersionStrategies({
+            config: await getMonodeployConfig({
+                cwd,
+                commitSha: headSha,
+                baseBranch: 'main',
+                versionStrategy: {
+                    minimumStrategy: 'minor',
+                },
+            }),
+            context,
+        })
+
+        expect(strategies).toEqual(
+            new Map([
+                [
+                    'pkg-1',
+                    {
+                        commits: [{ body: `${mockMessage}\n\n`, sha: headSha }],
+                        type: 'minor',
+                    },
+                ],
+            ]),
+        )
+    })
 })

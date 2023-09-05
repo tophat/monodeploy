@@ -38,58 +38,16 @@ describe('CLI', () => {
                     '--auto-commit --auto-commit-message release --plugins plugin-a --plugins plugin-b ' +
                     '--max-concurrent-reads 3 --max-concurrent-writes 4 --no-git-tag --registry-mode npm ' +
                     '--changeset-ignore-patterns *.test.js --prerelease --prerelease-id rc --prerelease-npm-tag beta ' +
-                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group --apply-changeset',
+                    '--commit-ignore-patterns skip-ci --package-group-manifest-field group --apply-changeset ' +
+                    '--minimum-version-strategy minor',
             )
             jest.isolateModules(() => {
                 require('./index')
             })
             await new Promise((r) => setTimeout(r))
-            expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
-                .toMatchInlineSnapshot(`
-                {
-                  "access": "infer",
-                  "applyChangeset": true,
-                  "autoCommit": true,
-                  "autoCommitMessage": "release",
-                  "changelogFilename": "changelog.md",
-                  "changesetFilename": "changes.json",
-                  "changesetIgnorePatterns": [
-                    "*.test.js",
-                  ],
-                  "commitIgnorePatterns": [
-                    "skip-ci",
-                  ],
-                  "conventionalChangelogConfig": "@my/config",
-                  "cwd": "/tmp",
-                  "dryRun": true,
-                  "forceWriteChangeFiles": true,
-                  "git": {
-                    "baseBranch": "main",
-                    "commitSha": "HEAD",
-                    "push": true,
-                    "remote": "origin",
-                    "tag": false,
-                  },
-                  "jobs": 6,
-                  "logLevel": "0",
-                  "maxConcurrentReads": 3,
-                  "maxConcurrentWrites": 4,
-                  "packageGroupManifestField": "group",
-                  "packageGroups": undefined,
-                  "persistVersions": true,
-                  "plugins": [
-                    "plugin-a",
-                    "plugin-b",
-                  ],
-                  "prerelease": true,
-                  "prereleaseId": "rc",
-                  "prereleaseNPMTag": "beta",
-                  "registryMode": "npm",
-                  "registryUrl": "http://example.com",
-                  "topological": true,
-                  "topologicalDev": true,
-                }
-            `)
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+            ).toMatchSnapshot()
         })
 
         it('passes empty config if no cli flags set', async () => {
@@ -98,45 +56,9 @@ describe('CLI', () => {
                 require('./index')
             })
             await new Promise((r) => setTimeout(r))
-            expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
-                .toMatchInlineSnapshot(`
-                {
-                  "access": undefined,
-                  "applyChangeset": false,
-                  "autoCommit": undefined,
-                  "autoCommitMessage": undefined,
-                  "changelogFilename": undefined,
-                  "changesetFilename": undefined,
-                  "changesetIgnorePatterns": undefined,
-                  "commitIgnorePatterns": undefined,
-                  "conventionalChangelogConfig": undefined,
-                  "cwd": undefined,
-                  "dryRun": undefined,
-                  "forceWriteChangeFiles": undefined,
-                  "git": {
-                    "baseBranch": undefined,
-                    "commitSha": undefined,
-                    "push": undefined,
-                    "remote": undefined,
-                    "tag": undefined,
-                  },
-                  "jobs": 0,
-                  "logLevel": undefined,
-                  "maxConcurrentReads": 0,
-                  "maxConcurrentWrites": 0,
-                  "packageGroupManifestField": undefined,
-                  "packageGroups": undefined,
-                  "persistVersions": undefined,
-                  "plugins": undefined,
-                  "prerelease": undefined,
-                  "prereleaseId": undefined,
-                  "prereleaseNPMTag": undefined,
-                  "registryMode": undefined,
-                  "registryUrl": undefined,
-                  "topological": undefined,
-                  "topologicalDev": undefined,
-                }
-            `)
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+            ).toMatchSnapshot()
         })
 
         it('sets exit code to error if monodeploy throws', async () => {
@@ -241,6 +163,9 @@ describe('CLI', () => {
                     prereleaseNPMTag: 'beta',
                     commitIgnorePatterns: ['skip-ci'],
                     packageGroups: { 'pkg-1': { registryMode: 'npm' }, 'pkg-2': { registryMode: 'manifest' } },
+                    versionStrategy: {
+                        minimumStrategy: 'minor',
+                    },
                 }
             `
 
@@ -253,57 +178,9 @@ describe('CLI', () => {
                     require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
-                    .toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": true,
-                      "autoCommitMessage": "chore: release",
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": [
-                        "skip-ci",
-                      ],
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": undefined,
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": true,
-                      },
-                      "jobs": 6,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 3,
-                      "maxConcurrentWrites": 5,
-                      "packageGroupManifestField": undefined,
-                      "packageGroups": {
-                        "pkg-1": {
-                          "registryMode": "npm",
-                        },
-                        "pkg-2": {
-                          "registryMode": "manifest",
-                        },
-                      },
-                      "persistVersions": true,
-                      "plugins": [
-                        "plugin-a",
-                        "plugin-b",
-                      ],
-                      "prerelease": true,
-                      "prereleaseId": "alpha",
-                      "prereleaseNPMTag": "beta",
-                      "registryMode": "manifest",
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+                ).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -351,47 +228,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "restricted",
-                      "applyChangeset": false,
-                      "autoCommit": undefined,
-                      "autoCommitMessage": undefined,
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": {
-                        "name": "@my/config-from-file",
-                        "someData": 123,
-                      },
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": false,
-                      },
-                      "jobs": 6,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 6,
-                      "maxConcurrentWrites": 2,
-                      "packageGroupManifestField": undefined,
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": undefined,
-                      "prerelease": false,
-                      "prereleaseId": undefined,
-                      "prereleaseNPMTag": "alpha",
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -436,47 +273,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": undefined,
-                      "autoCommitMessage": undefined,
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": [
-                        "*.test.js",
-                        "*.snap",
-                      ],
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": false,
-                      },
-                      "jobs": 6,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 2,
-                      "maxConcurrentWrites": 1,
-                      "packageGroupManifestField": "group",
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": undefined,
-                      "prerelease": undefined,
-                      "prereleaseId": undefined,
-                      "prereleaseNPMTag": undefined,
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -527,49 +324,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": true,
-                      "autoCommitMessage": "chore: release",
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": [
-                        "skip-ci",
-                      ],
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": true,
-                      },
-                      "jobs": 6,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 3,
-                      "maxConcurrentWrites": 5,
-                      "packageGroupManifestField": undefined,
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": [
-                        "plugin-a",
-                        "plugin-b",
-                      ],
-                      "prerelease": true,
-                      "prereleaseId": "alpha",
-                      "prereleaseNPMTag": "beta",
-                      "registryMode": "npm",
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -618,49 +373,9 @@ describe('CLI', () => {
                     require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
-                    .toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": true,
-                      "autoCommitMessage": "chore: release",
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": [
-                        "ignore-me",
-                      ],
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": undefined,
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "next",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": false,
-                      },
-                      "jobs": 3,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 10,
-                      "maxConcurrentWrites": 11,
-                      "packageGroupManifestField": "group",
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": [
-                        "plugin-a",
-                      ],
-                      "prerelease": true,
-                      "prereleaseId": "beta",
-                      "prereleaseNPMTag": undefined,
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+                ).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -708,45 +423,9 @@ describe('CLI', () => {
                     require('./index')
                 })
                 await new Promise((r) => setTimeout(r))
-                expect((monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0])
-                    .toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": true,
-                      "autoCommitMessage": "chore: release",
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": undefined,
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": undefined,
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "next",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": false,
-                      },
-                      "jobs": 3,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 10,
-                      "maxConcurrentWrites": 11,
-                      "packageGroupManifestField": undefined,
-                      "packageGroups": undefined,
-                      "persistVersions": false,
-                      "plugins": undefined,
-                      "prerelease": false,
-                      "prereleaseId": "beta",
-                      "prereleaseNPMTag": undefined,
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": false,
-                      "topologicalDev": false,
-                    }
-                `)
+                expect(
+                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+                ).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -874,46 +553,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "infer",
-                      "applyChangeset": false,
-                      "autoCommit": undefined,
-                      "autoCommitMessage": undefined,
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": [
-                        "*.snap",
-                      ],
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main-1",
-                        "commitSha": "HEAD",
-                        "push": false,
-                        "remote": "upstream",
-                        "tag": false,
-                      },
-                      "jobs": 2,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 0,
-                      "maxConcurrentWrites": 1,
-                      "packageGroupManifestField": "group",
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": undefined,
-                      "prerelease": undefined,
-                      "prereleaseId": undefined,
-                      "prereleaseNPMTag": undefined,
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -975,46 +615,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "infer",
-                      "applyChangeset": false,
-                      "autoCommit": undefined,
-                      "autoCommitMessage": undefined,
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": [
-                        "*.snap",
-                      ],
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main-1",
-                        "commitSha": "HEAD",
-                        "push": false,
-                        "remote": "upstream",
-                        "tag": false,
-                      },
-                      "jobs": 2,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 0,
-                      "maxConcurrentWrites": 1,
-                      "packageGroupManifestField": "group",
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": undefined,
-                      "prerelease": undefined,
-                      "prereleaseId": undefined,
-                      "prereleaseNPMTag": undefined,
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }
@@ -1062,50 +663,7 @@ describe('CLI', () => {
                 await new Promise((r) => setTimeout(r))
                 const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
                     .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchInlineSnapshot(`
-                    {
-                      "access": "public",
-                      "applyChangeset": false,
-                      "autoCommit": true,
-                      "autoCommitMessage": "chore: release",
-                      "changelogFilename": "from_file.changelog.md",
-                      "changesetFilename": "from_file.changes.json",
-                      "changesetIgnorePatterns": [
-                        "**/*.test.ts",
-                        "**/*.test.js",
-                      ],
-                      "commitIgnorePatterns": undefined,
-                      "conventionalChangelogConfig": "@my/config-from-file",
-                      "cwd": "/tmp/cwd",
-                      "dryRun": true,
-                      "forceWriteChangeFiles": true,
-                      "git": {
-                        "baseBranch": "main",
-                        "commitSha": "HEAD",
-                        "push": true,
-                        "remote": "origin",
-                        "tag": true,
-                      },
-                      "jobs": 6,
-                      "logLevel": undefined,
-                      "maxConcurrentReads": 3,
-                      "maxConcurrentWrites": 5,
-                      "packageGroupManifestField": undefined,
-                      "packageGroups": undefined,
-                      "persistVersions": true,
-                      "plugins": [
-                        "plugin-a",
-                        "plugin-b",
-                      ],
-                      "prerelease": true,
-                      "prereleaseId": "alpha",
-                      "prereleaseNPMTag": "beta",
-                      "registryMode": undefined,
-                      "registryUrl": "http://example.com",
-                      "topological": true,
-                      "topologicalDev": true,
-                    }
-                `)
+                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
             } finally {
                 await fs.rm(dir, { recursive: true, force: true })
             }

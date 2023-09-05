@@ -1,6 +1,6 @@
 import Ajv, { type SchemaObject, type ValidateFunction } from 'ajv/dist/2020'
 
-import type { ConfigFile } from '../types'
+import type { ConfigFile } from '../../types'
 
 const ajv = new Ajv({ allowUnionTypes: true, strictTuples: false })
 
@@ -100,6 +100,11 @@ const schema: SchemaObject = {
             type: 'object',
             properties: {
                 coerceImplicitPeerDependency: {
+                    type: 'string',
+                    nullable: true,
+                    enum: ['patch', 'minor', 'major'],
+                },
+                minimumStrategy: {
                     type: 'string',
                     nullable: true,
                     enum: ['patch', 'minor', 'major'],

@@ -1,6 +1,6 @@
 import { Cli } from 'clipanion'
 
-import { MonodeployCommand } from './command'
+import { MonodeployCommand } from './command/default'
 
 const cli = new Cli({
     binaryLabel: 'Monodeploy',

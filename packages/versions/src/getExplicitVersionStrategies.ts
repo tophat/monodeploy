@@ -113,7 +113,10 @@ const getExplicitVersionStrategies = async ({
             continue
         }
 
-        const strategy = strategyLevelToType(await strategyDeterminer([commit.body]))
+        const strategy =
+            strategyLevelToType(await strategyDeterminer([commit.body])) ??
+            config.versionStrategy?.minimumStrategy ??
+            null
         const packageNames = await getModifiedPackages({
             config,
             context,

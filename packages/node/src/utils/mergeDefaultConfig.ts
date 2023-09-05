@@ -49,6 +49,7 @@ export const mergeDefaultConfig = async (
         versionStrategy: {
             coerceImplicitPeerDependency:
                 baseConfig.versionStrategy?.coerceImplicitPeerDependency ?? undefined,
+            minimumStrategy: baseConfig.versionStrategy?.minimumStrategy ?? undefined,
         },
     }
 }

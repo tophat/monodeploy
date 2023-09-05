@@ -7,7 +7,7 @@ import { npath, ppath } from '@yarnpkg/fslib'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
-import readConfigFile from './readConfigFile'
+import readConfigFile from './config/readConfigFile'
 
 export abstract class BaseCommand extends Command {
     preset = Option.String('--preset', {
@@ -131,6 +131,11 @@ export abstract class BaseCommand extends Command {
             'Regular expression patterns to filter out commits from version strategy consideration',
     })
 
+    minimumVersionStrategy = Option.String('--minimum-version-strategy', {
+        description: 'Minimum version strategy to coerce none strategies to',
+        validator: t.isEnum(['major', 'minor', 'patch', 'none'] as const),
+    })
+
     async parseConfiguration(): Promise<{
         config: RecursivePartial<MonodeployConfiguration>
         configFromFile: RecursivePartial<Omit<MonodeployConfiguration, 'cwd'>> | undefined
@@ -185,6 +190,13 @@ export abstract class BaseCommand extends Command {
                 configFromFile?.packageGroupManifestField ??
                 undefined,
             packageGroups: configFromFile?.packageGroups,
+            versionStrategy: {
+                minimumStrategy:
+                    this.minimumVersionStrategy === 'none'
+                        ? undefined
+                        : this.minimumVersionStrategy ??
+                          configFromFile?.versionStrategy?.minimumStrategy,
+            },
         }
 
         return { config, configFromFile }
