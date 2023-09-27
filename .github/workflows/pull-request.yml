@@ -31,7 +31,7 @@ jobs:
           CI_BASE_BRANCH: origin/${{ github.base_ref }}
         run: yarn dlx commit-watch
       - name: Upload Artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: commit-watch-artifacts
           path: ${{ env.ARTIFACT_DIR }}
@@ -60,7 +60,7 @@ jobs:
       - name: Tests
         run: yarn test:ci
       - name: Upload Artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: coverage-unit-tests
           path: ./raw-coverage/jest
@@ -87,7 +87,7 @@ jobs:
         - name: Run Tests
           run: yarn test:e2e
         - name: Upload Artifacts
-          uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
+          uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
           if: ${{ matrix.runner }} == 'ubuntu-latest'
           with:
             name: coverage-e2e-tests
@@ -154,7 +154,7 @@ jobs:
       - name: Tests
         run: yarn test:ci
       - name: Upload Artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: report-artifacts
           path: ${{ env.ARTIFACT_DIR }}
@@ -213,7 +213,7 @@ jobs:
           edit-mode: replace
           body-path: ${{ runner.temp }}/changelog_preview.md
       - name: Upload Artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce  # tag=v3.1.2
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: build-artifacts
           path: ${{ env.ARTIFACT_DIR }}
