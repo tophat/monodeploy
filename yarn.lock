@@ -2818,7 +2818,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/conventional-changelog-writer": ^4.0.6
-    "@types/conventional-commits-parser": ^3.0.3
+    "@types/conventional-commits-parser": ^3.0.4
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
     "@yarnpkg/core": ^3.5.3
@@ -3189,7 +3189,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-commits-parser": ^3.0.3
+    "@types/conventional-commits-parser": ^3.0.4
     "@types/jest": ^29.5.4
     "@types/micromatch": ^4.0.2
     "@types/semver": ^7.5.1
@@ -4172,12 +4172,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.2, @types/conventional-commits-parser@npm:^3.0.3":
+"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.2":
   version: 3.0.3
   resolution: "@types/conventional-commits-parser@npm:3.0.3"
   dependencies:
     "@types/node": "*"
   checksum: d40c0685380f160ec4c9f4287c03d1ffe9572eb5805865db1e03a31791da0357457ba389b2b532f9daa4aca3315c6344e822d7d619f082338f23ea01e6423e09
+  languageName: node
+  linkType: hard
+
+"@types/conventional-commits-parser@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@types/conventional-commits-parser@npm:3.0.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: d019c81d1213859d16b181402b51d6fb8aaa8c443b6a9941cc0ed09cb901f83a4e880ed24148b9cb8b98e9fc81645af9ccea1b4ee158648cd2f2db96f6518b0a
   languageName: node
   linkType: hard
 
