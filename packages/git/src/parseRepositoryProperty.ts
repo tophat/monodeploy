@@ -1,13 +1,13 @@
 import { type Workspace, structUtils } from '@yarnpkg/core'
 
-export type RepositoryInfo = {
+export interface RepositoryInfo {
     host: string | null
     owner: string | null
     repository: string | null
     repoUrl: string | null
 }
 
-const REPOSITORY_PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>]> = [
+const REPOSITORY_PATTERNS: [RegExp, (m: RegExpMatchArray) => Partial<RepositoryInfo>][] = [
     [
         /((?:git\+)?(https?:\/\/[^/]+)\/([^.]+)\/([^/.]+))(?:\.git)?/,
         (m) => ({ repoUrl: m[1], host: m[2], owner: m[3], repository: m[4] }),

@@ -9,7 +9,7 @@ import getTopologicalSort from './getTopologicalSort'
 const identToWorkspace = (context: YarnContext, name: string): Workspace =>
     context.project.getWorkspaceByIdent(structUtils.parseIdent(name))
 
-function mapToName(value: Array<Array<Workspace>> | Array<Workspace>) {
+function mapToName(value: Workspace[][] | Workspace[]) {
     return value.map((group) => {
         if (Array.isArray(group)) {
             return group.map((w) => structUtils.stringifyIdent(w.manifest.name!))
@@ -18,13 +18,13 @@ function mapToName(value: Array<Array<Workspace>> | Array<Workspace>) {
     })
 }
 
-function expectOrdering(received: Array<Array<Workspace>>) {
+function expectOrdering(received: Workspace[][]) {
     return {
-        toEqual(actual: Array<Array<Workspace>>) {
+        toEqual(actual: Workspace[][]) {
             expect(mapToName(received)).toEqual(mapToName(actual))
         },
         not: {
-            toEqual(actual: Array<Array<Workspace>>) {
+            toEqual(actual: Workspace[][]) {
                 expect(mapToName(received)).not.toEqual(mapToName(actual))
             },
         },

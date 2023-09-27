@@ -15,7 +15,7 @@ async function writeJSON(filename: string, data: Record<string, unknown>): Promi
 }
 
 async function makeDependencyMap(
-    packages: Record<string, string> | Array<string | [string, string]>,
+    packages: Record<string, string> | (string | [string, string])[],
     { useRelativePath = true }: { useRelativePath?: boolean } = {},
 ): Promise<Record<string, string>> {
     const dependencies: Record<string, string> = {}
@@ -36,9 +36,9 @@ async function makeDependencyMap(
 }
 
 type PackageInitConfiguration = Partial<{
-    dependencies: Record<string, string> | Array<string | [string, string]>
-    devDependencies: Record<string, string> | Array<string | [string, string]>
-    peerDependencies: Record<string, string> | Array<string | [string, string]>
+    dependencies: Record<string, string> | (string | [string, string])[]
+    devDependencies: Record<string, string> | (string | [string, string])[]
+    peerDependencies: Record<string, string> | (string | [string, string])[]
     scripts: Record<string, string>
     private: boolean
     version: string

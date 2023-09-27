@@ -1,19 +1,23 @@
 import * as TypeDoc from 'typedoc'
 
 async function main() {
-    const app = new TypeDoc.Application()
+    const app = await TypeDoc.Application.bootstrapWithPlugins(
+        {
+            // typedoc options here
+            entryPoints: ['./src/types.ts'],
+            exclude: [],
+            jsDocCompatibility: {
+                defaultTag: false,
+            },
+        },
+        [
+            // If you want TypeDoc to load tsconfig.json / typedoc.json files
+            new TypeDoc.TSConfigReader(),
+            new TypeDoc.TypeDocReader(),
+        ],
+    )
 
-    // If you want TypeDoc to load tsconfig.json / typedoc.json files
-    app.options.addReader(new TypeDoc.TSConfigReader())
-    app.options.addReader(new TypeDoc.TypeDocReader())
-
-    app.bootstrap({
-        // typedoc options here
-        entryPoints: ['./src/types.ts'],
-        exclude: [],
-    })
-
-    const project = app.convert()
+    const project = await app.convert()
 
     if (project) {
         // Project may not have converted correctly

@@ -186,7 +186,7 @@ const monodeploy = async (
             await writeChangesetFile({ config, context, changeset })
         })
 
-        let workspaces: Set<Workspace> = new Set()
+        let workspaces = new Set<Workspace>()
 
         await report.startTimerPromise(
             'Fetching Workspace Information',

@@ -146,7 +146,7 @@ export interface MonodeployConfiguration {
      *
      * @default []
      */
-    changesetIgnorePatterns?: Array<string>
+    changesetIgnorePatterns?: string[]
 
     /**
      * By default, the changeset and changelog files are not written in dry run mode, as
@@ -206,7 +206,7 @@ export interface MonodeployConfiguration {
      *
      * @default []
      */
-    commitIgnorePatterns?: Array<string | RegExp>
+    commitIgnorePatterns?: (string | RegExp)[]
 
     /**
      * The manifest field name to use in workspace grouping. All packages
@@ -271,7 +271,7 @@ export interface MonodeployConfiguration {
      *
      * @default []
      */
-    plugins?: Array<string | [string, unknown]>
+    plugins?: (string | [string, unknown])[]
 
     /**
      * Whether to run Monodeploy in Prerelease mode. In prerelease mode, versions are not
@@ -351,7 +351,7 @@ export interface PluginHooks {
     >
 }
 
-export type CommitMessage = {
+export interface CommitMessage {
     sha: string
     body: string
 }
@@ -378,9 +378,7 @@ export interface ChangesetRecord {
     group: string
 }
 
-export interface ChangesetSchema {
-    [packageName: string]: ChangesetRecord
-}
+export type ChangesetSchema = Record<string, ChangesetRecord>
 
 export function isNodeError<T = NodeJS.ErrnoException>(error: unknown): error is T {
     return error instanceof Error || (error as any)?.code !== undefined

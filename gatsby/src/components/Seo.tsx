@@ -13,7 +13,7 @@ const Seo: React.FC<{
     description?: string
     lang?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    meta?: Array<Record<string, any>>
+    meta?: Record<string, any>[]
     title?: string | undefined
 }> = ({ description = '', lang = 'en', meta = [], title }) => {
     const { site } = useStaticQuery(graphql`

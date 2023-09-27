@@ -99,7 +99,7 @@ const getExplicitVersionStrategies = async ({
         ? createGetConventionalRecommendedStrategy(config)
         : getDefaultRecommendedStrategy
 
-    const commitIgnorePatterns: Array<RegExp> = [...(config.commitIgnorePatterns ?? [])].map(
+    const commitIgnorePatterns: RegExp[] = [...(config.commitIgnorePatterns ?? [])].map(
         (pattern) => (pattern instanceof RegExp ? pattern : new RegExp(pattern, 'm')),
     )
 
