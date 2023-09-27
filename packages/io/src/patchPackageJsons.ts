@@ -29,8 +29,8 @@ const patchPackageJsons = async ({
         if (!version) throw new Error(`${pkgName} is missing a version`)
 
         const workspaceProtocols: {
-            dependencies: Array<Descriptor>
-            peerDependencies: Array<Descriptor>
+            dependencies: Descriptor[]
+            peerDependencies: Descriptor[]
         } = {
             dependencies: [],
             peerDependencies: [],

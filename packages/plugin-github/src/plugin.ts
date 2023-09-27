@@ -52,7 +52,7 @@ export const createPluginInternals =
             throw new Error('Cannot determine GitHub owner or repository')
         }
 
-        const changesByTag = new Map<string, Array<ChangesetRecord & { name: string }>>()
+        const changesByTag = new Map<string, (ChangesetRecord & { name: string })[]>()
         for (const [pkgName, changeData] of Object.entries(changeset)) {
             const tag = changeData.tag
             if (!tag) {

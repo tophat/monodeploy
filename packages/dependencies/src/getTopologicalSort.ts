@@ -9,7 +9,7 @@ type Level = number
 const getTopologicalSort = async (
     workspaces: Iterable<Workspace>,
     { dev }: { dev: boolean } = { dev: false },
-): Promise<Array<Array<Workspace>>> => {
+): Promise<Workspace[][]> => {
     const possibleWorkspaces = new Map(
         [...workspaces].map((workspace) => [
             workspace.anchoredDescriptor.descriptorHash,
@@ -44,13 +44,14 @@ const getTopologicalSort = async (
         }
     }
 
-    const grouped = [...ordered.entries()].reduce<{
-        [key: number]: Array<Workspace>
-    }>((groups, [workspace, level]) => {
-        groups[level] = groups[level] ?? []
-        groups[level].push(workspace)
-        return groups
-    }, {})
+    const grouped = [...ordered.entries()].reduce<Record<number, Workspace[]>>(
+        (groups, [workspace, level]) => {
+            groups[level] = groups[level] ?? []
+            groups[level].push(workspace)
+            return groups
+        },
+        {},
+    )
 
     return Object.entries(grouped)
         .sort((a, b) => Number(b[0]) - Number(a[0]))

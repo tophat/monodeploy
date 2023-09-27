@@ -30,12 +30,12 @@ export interface ArgOutput {
     jobs?: number
     maxConcurrentReads?: number
     maxConcurrentWrites?: number
-    plugins?: Array<string>
-    changesetIgnorePatterns?: Array<string>
+    plugins?: string[]
+    changesetIgnorePatterns?: string[]
     prerelease?: boolean
     prereleaseId?: string
     prereleaseNPMTag?: string
-    commitIgnorePatterns?: Array<string>
+    commitIgnorePatterns?: string[]
     packageGroupManifestField?: string
     versionStrategy?: VersionStrategyConfiguration
 }

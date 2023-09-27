@@ -133,7 +133,7 @@ const getLatestPackageTags = async ({
         }
     }
 
-    const distTags = await Promise.all((workspaces as Array<Workspace>).map(fetchDistTag))
+    const distTags = await Promise.all((workspaces as Workspace[]).map(fetchDistTag))
 
     const tags: PackageTagMap = new Map()
     for (const [pkgName, latest] of distTags) {

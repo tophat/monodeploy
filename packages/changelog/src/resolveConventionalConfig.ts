@@ -5,9 +5,11 @@ import type {
     Options as ConventionalCommitsParserOptions,
 } from 'conventional-commits-parser'
 
-type ConventionalStrategy = { level?: number | null }
+interface ConventionalStrategy {
+    level?: number | null
+}
 
-type ConventionalChangelogConfig = {
+interface ConventionalChangelogConfig {
     parserOpts: ConventionalCommitsParserOptions
     writerOpts: ConventionalCommitsWriterOptions
     recommendedBumpOpts: {

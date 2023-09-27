@@ -81,7 +81,10 @@ export const incrementVersion = ({
     }
 }
 
-type VersionChange = { previous: string; next: string }
+interface VersionChange {
+    previous: string
+    next: string
+}
 
 function buildBaseVersionsByGroup({
     workspaceGroups,
