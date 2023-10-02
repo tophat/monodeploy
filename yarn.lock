@@ -2823,7 +2823,7 @@ __metadata:
     "@types/node": ^18.17.12
     "@yarnpkg/core": ^3.5.3
     "@yarnpkg/fslib": ^2.10.3
-    conventional-changelog-writer: ^7.0.0
+    conventional-changelog-writer: ^7.0.1
     conventional-commits-parser: ^5.0.0
     p-limit: ^3.1.0
   peerDependencies:
@@ -7981,9 +7981,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-changelog-writer@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "conventional-changelog-writer@npm:7.0.0"
+"conventional-changelog-writer@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "conventional-changelog-writer@npm:7.0.1"
   dependencies:
     conventional-commits-filter: ^4.0.0
     handlebars: ^4.7.7
@@ -7993,7 +7993,7 @@ __metadata:
     split2: ^4.0.0
   bin:
     conventional-changelog-writer: cli.mjs
-  checksum: db06f93a9f56bc5ae2e0da508beea11766f0a8dbb6377a8c71ca612da5333c9a169044f5eff74eab2e2adb2c0c50111eb883d85979f7ff57c0da03f368258282
+  checksum: 6d1e2ef2d75752c74d87321b9e33562f37a0734bbdb69ed48ce6cf868168e7847d5cf5238402ebd612ac763f521ba063aab452766d39ee81f5748b93a79ae51f
   languageName: node
   linkType: hard
 

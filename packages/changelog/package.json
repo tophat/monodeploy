@@ -35,7 +35,7 @@
     "@yarnpkg/fslib": "^2.10.3"
   },
   "dependencies": {
-    "conventional-changelog-writer": "^7.0.0",
+    "conventional-changelog-writer": "^7.0.1",
     "conventional-commits-parser": "^5.0.0",
     "p-limit": "^3.1.0"
   },
