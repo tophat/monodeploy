@@ -3045,7 +3045,7 @@ __metadata:
     "@tophat/commitizen-adapter": ^1.0.2
     "@tophat/commitlint-config": ^1.0.2
     "@tophat/conventional-changelog-config": ^1.0.1
-    "@tophat/eslint-config": ^9.0.0-rc.0
+    "@tophat/eslint-config": ^9.0.0
     "@tophat/eslint-import-resolver-require": ^1.0.0-rc.0
     "@tophat/jest-resolver": ^0.1.0
     "@types/jest": ^29.5.4
@@ -4011,16 +4011,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tophat/eslint-config@npm:^9.0.0-rc.0":
-  version: 9.0.0-rc.0
-  resolution: "@tophat/eslint-config@npm:9.0.0-rc.0"
+"@tophat/eslint-config@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@tophat/eslint-config@npm:9.0.0"
   dependencies:
-    "@tophat/eslint-import-resolver-require": ^1.0.0-rc.0
+    "@tophat/eslint-import-resolver-require": ^1.0.0
     eslint-import-resolver-node: ^0.3.9
     eslint-import-resolver-typescript: ^3.6.1
   peerDependencies:
     "@tanstack/eslint-plugin-query": ">=4.29.0"
-    "@tophat/eslint-import-resolver-require": ^1.0.0-rc.0
+    "@tophat/eslint-import-resolver-require": ^1.0.0
     "@typescript-eslint/eslint-plugin": ">=6.7.3"
     "@typescript-eslint/parser": ">=6.7.3"
     eslint: ">=8.36.0"
@@ -4044,7 +4044,16 @@ __metadata:
       optional: true
     eslint-plugin-react-hooks:
       optional: true
-  checksum: 6cc043d13265e304c72c1f9ca22f76798e66eb1e6bda3b538928b9cf2e5f8ae07cb54a6ed32069b37a1d4a8a1d993c834fadc0e312550a6be84dc614c61328bd
+  checksum: 2d930278c3ec5b39292f0be5d7c33dd9bc0e35fd763a3919df1524acb9e58494e028d570d8e5f68547ff83156ef0aea5774939ff299290c5e7cd58b59d033fec
+  languageName: node
+  linkType: hard
+
+"@tophat/eslint-import-resolver-require@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tophat/eslint-import-resolver-require@npm:1.0.0"
+  peerDependencies:
+    eslint-plugin-import: ">= 2.0.0"
+  checksum: d348dbca4a6313bfb7ed9a5491a5df330a83ef33ae6d6b34e9bb1cb20158afeb8ebd264c3566481f93bbf022612979f01a8584df0573992872d9ccfe561b5cc9
   languageName: node
   linkType: hard
 
