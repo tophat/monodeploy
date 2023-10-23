@@ -18,8 +18,8 @@
         "gatsby"
     ],
     "scripts": {
-        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi run clean",
-        "build": "yarn workspaces foreach -vpi --topological-dev run prepack",
+        "clean": "rm -rf ${ARTIFACT_DIR:-artifacts} && yarn workspaces foreach -vpi --worktree run clean",
+        "build": "yarn workspaces foreach -vpi --worktree --topological-dev run prepack",
         "contrib:add": "all-contributors add",
         "contrib:check": "all-contributors check",
         "contrib:generate": "all-contributors generate",
@@ -43,7 +43,7 @@
         "run-local": "ts-node --ignore '.yarn/plugins/.*' --ignore '(?:^|/)node_modules/' $(yarn bin monodeploy)",
         "docs": "yarn workspace @monodeploy/gatsby build",
         "docs:dev": "yarn workspace @monodeploy/gatsby develop",
-        "update:yarn": "yarn semver up '@yarnpkg/*' --include '**'"
+        "update:yarn": "echo 'Not implemented.'"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.7.2",
@@ -64,13 +64,14 @@
         "@types/node": "^18.18.3",
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
-        "@yarnpkg/cli": "^3.6.4",
-        "@yarnpkg/core": "^3.5.4",
-        "@yarnpkg/fslib": "^2.10.3",
-        "@yarnpkg/plugin-npm": "^2.7.4",
-        "@yarnpkg/plugin-pack": "^3.2.0",
-        "@yarnpkg/sdks": "^3.0.0-rc.53",
-        "@yarnpkg/shell": "^3.2.5",
+        "@yarnpkg/cli": "^4.0.1",
+        "@yarnpkg/core": "^4.0.1",
+        "@yarnpkg/fslib": "^3.0.1",
+        "@yarnpkg/plugin-npm": "^3.0.0",
+        "@yarnpkg/plugin-pack": "^4.0.0",
+        "@yarnpkg/sdks": "^3.0.0",
+        "@yarnpkg/shell": "^4.0.0",
+        "@yarnpkg/types": "^4.0.0",
         "all-contributors-cli": "^6.26.1",
         "commitizen": "^4.3.0",
         "eslint": "^8.50.0",
@@ -96,14 +97,14 @@
         "yaml-validator": "^5.1.0"
     },
     "engines": {
-        "node": ">=16.20.2"
+        "node": ">=18.12.0"
     },
     "dependenciesMeta": {
         "core-js-pure": {
             "built": false
         }
     },
-    "packageManager": "yarn@3.6.4",
+    "packageManager": "yarn@4.0.1",
     "resolutions": {
         "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm%3A3.2.0#./.yarn/patches/istanbul-lib-coverage-npm-3.2.0-93f84b2c8c.patch"
     }

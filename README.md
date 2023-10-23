@@ -17,7 +17,7 @@
 
 Monodeploy is a powerful tool which aims to simplify the package publishing process for monorepos. It leverages [Yarn Berry workspaces](https://yarnpkg.com/features/workspaces) to do the heavy lifting, and is a direct replacement for tools such as [Lerna](https://github.com/lerna/lerna) and [Semantic Release](https://github.com/semantic-release/semantic-release).
 
-Monodeploy only supports projects using Yarn Berry with the minimum node version set to Node v14.0.0.
+Monodeploy only supports projects using Yarn Modern v4+ with the minimum node version set to Node v18.12.0.
 
 Please see the [Monodeploy Website](https://tophat.github.io/monodeploy) for information on how to get started with Monodeploy.
 

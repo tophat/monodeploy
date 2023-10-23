@@ -75,7 +75,7 @@ export default async function setupMonorepo(
             useRelativePath: false,
         }),
         repository: root?.repository,
-        packageManager: 'yarn@3.6.3',
+        packageManager: 'yarn@4.0.1',
     })
 
     // Generate children workspaces
@@ -98,9 +98,6 @@ export default async function setupMonorepo(
     }
 
     // Generate .yarnrc.yml
-    const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
-    await fs.mkdir(releasesDir, { recursive: true })
-
     const authIdent = Buffer.from('test-user:test-password').toString('base64')
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),

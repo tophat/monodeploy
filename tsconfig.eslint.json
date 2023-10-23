@@ -1,0 +1,4 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["./__mocks__", "yarn.config.cjs", "./e2e-tests", "./gatsby", "./packages", "./testUtils", "./*.js", "./*.ts", "./**/.eslintrc.js"],
+}
