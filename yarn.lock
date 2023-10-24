@@ -2941,7 +2941,7 @@ __metadata:
     "@mdx-js/react": ^2.3.0
     "@types/babel__core": ^7.20.2
     "@types/loader-utils": ^2.0.4
-    "@types/mdx-js__react": ^1.5.5
+    "@types/mdx-js__react": ^1.5.6
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
     "@types/react-helmet": ^6.1.6
@@ -4514,12 +4514,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mdx-js__react@npm:^1.5.5":
-  version: 1.5.5
-  resolution: "@types/mdx-js__react@npm:1.5.5"
+"@types/mdx-js__react@npm:^1.5.6":
+  version: 1.5.7
+  resolution: "@types/mdx-js__react@npm:1.5.7"
   dependencies:
     "@types/react": "*"
-  checksum: 91229e9e4d129bed0cd457459970daf8e505de9932791915cb91ad82f033b85c921c773ad16b7de629a7fa3ba97c8301784aad3b9ab6e431c3e5fc521a16a0f2
+  checksum: 110f3c5f72b1518d5688b2ae0a77e071c8d7368cbcaddb4365eafa510e0267d709ccfe72ecf33f2412ffa774448c01cebb4407c224fc9302c20466f4ffb71f48
   languageName: node
   linkType: hard
 
