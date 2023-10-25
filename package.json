@@ -103,7 +103,7 @@
             "built": false
         }
     },
-    "packageManager": "yarn@3.6.3",
+    "packageManager": "yarn@3.6.4",
     "resolutions": {
         "istanbul-lib-coverage": "patch:istanbul-lib-coverage@npm%3A3.2.0#./.yarn/patches/istanbul-lib-coverage-npm-3.2.0-93f84b2c8c.patch"
     }
