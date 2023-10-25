@@ -2883,7 +2883,7 @@ __metadata:
     "@types/conventional-commits-parser": ^3.0.4
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     conventional-changelog-writer: ^7.0.1
     conventional-commits-parser: ^5.0.0
@@ -2893,7 +2893,7 @@ __metadata:
     "@monodeploy/io": "workspace:^4.3.0"
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
   languageName: unknown
   linkType: soft
@@ -2906,12 +2906,12 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/jest": ^29.5.4
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
   peerDependencies:
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
   languageName: unknown
   linkType: soft
 
@@ -2925,7 +2925,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@tophat/conventional-changelog-config": ^1.0.1
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     helpers: "link:./helpers"
     monodeploy: "workspace:*"
@@ -2983,14 +2983,14 @@ __metadata:
     "@types/jest": ^29.5.4
     "@types/micromatch": ^4.0.3
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     micromatch: ^4.0.5
   peerDependencies:
     "@monodeploy/io": "workspace:^4.3.0"
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
   languageName: unknown
   linkType: soft
@@ -3005,14 +3005,14 @@ __metadata:
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
     "@types/semver": ^7.5.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/shell": ^3.2.5
     semver: ^7.5.4
   peerDependencies:
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/shell": ^3.2.5
   languageName: unknown
@@ -3024,9 +3024,9 @@ __metadata:
   dependencies:
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
   peerDependencies:
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
   languageName: unknown
   linkType: soft
 
@@ -3053,7 +3053,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.7.4
     "@typescript-eslint/parser": ^6.7.4
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -3104,7 +3104,7 @@ __metadata:
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -3126,7 +3126,7 @@ __metadata:
     "@octokit/plugin-throttling": ^5.2.3
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/shell": ^3.2.5
     tapable: ^2.2.1
@@ -3145,7 +3145,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/jest": ^29.5.4
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -3157,7 +3157,7 @@ __metadata:
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -3230,13 +3230,13 @@ __metadata:
   dependencies:
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     tapable: ^2.2.1
     ts-node: ^10.9.1
     typedoc: ^0.25.1
     typescript: 5.2.2
   peerDependencies:
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
   languageName: unknown
   linkType: soft
 
@@ -3256,7 +3256,7 @@ __metadata:
     "@types/micromatch": ^4.0.3
     "@types/semver": ^7.5.3
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -3272,7 +3272,7 @@ __metadata:
     "@monodeploy/logging": "workspace:^4.3.0"
     "@monodeploy/types": "workspace:^4.3.0"
     "@yarnpkg/cli": ^3.6.3
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
@@ -5426,6 +5426,46 @@ __metadata:
     tslib: ^1.13.0
     tunnel: ^0.0.6
   checksum: 203abb513eead0bbe048f56dd2f9f9f0e744fa17362ae1228ca77a9e353e794ec5cbefb09bdb738aecb3a12416b92d5e179bd1627455b1dd6dc27dbd792086f0
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/core@npm:^3.5.4":
+  version: 3.5.4
+  resolution: "@yarnpkg/core@npm:3.5.4"
+  dependencies:
+    "@arcanis/slice-ansi": ^1.1.1
+    "@types/semver": ^7.1.0
+    "@types/treeify": ^1.0.0
+    "@yarnpkg/fslib": ^2.10.3
+    "@yarnpkg/json-proxy": ^2.1.1
+    "@yarnpkg/libzip": ^2.3.0
+    "@yarnpkg/parsers": ^2.5.1
+    "@yarnpkg/pnp": ^3.3.5
+    "@yarnpkg/shell": ^3.2.5
+    camelcase: ^5.3.1
+    chalk: ^3.0.0
+    ci-info: ^3.2.0
+    clipanion: 3.2.0-rc.4
+    cross-spawn: 7.0.3
+    diff: ^5.1.0
+    globby: ^11.0.1
+    got: ^11.7.0
+    json-file-plus: ^3.3.1
+    lodash: ^4.17.15
+    micromatch: ^4.0.2
+    mkdirp: ^0.5.1
+    p-limit: ^2.2.0
+    pluralize: ^7.0.0
+    pretty-bytes: ^5.1.0
+    semver: ^7.1.2
+    stream-to-promise: ^2.2.0
+    strip-ansi: ^6.0.0
+    tar: ^6.0.5
+    tinylogic: ^1.0.3
+    treeify: ^1.1.0
+    tslib: ^1.13.0
+    tunnel: ^0.0.6
+  checksum: 15ace56421687f06d75ab1faa90123b8202391a988c69b6d2c90f3710d483036297ae8907292250bea197cc84bc10066c667fab1c048933cab7368ea7447c8d3
   languageName: node
   linkType: hard
 
@@ -16297,7 +16337,7 @@ __metadata:
     "@monodeploy/types": "workspace:^4.3.0"
     "@types/jest": ^29.5.4
     "@types/node": ^18.17.12
-    "@yarnpkg/core": ^3.5.3
+    "@yarnpkg/core": ^3.5.4
     "@yarnpkg/fslib": ^2.10.3
     ajv: ^8.12.0
     clipanion: ^3.2.1
