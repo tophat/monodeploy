@@ -41,7 +41,7 @@
     "@monodeploy/types": "workspace:^4.3.0",
     "@monodeploy/versions": "workspace:^4.3.0",
     "@yarnpkg/cli": "^3.6.3",
-    "@yarnpkg/core": "^3.5.3",
+    "@yarnpkg/core": "^3.5.4",
     "@yarnpkg/fslib": "^2.10.3",
     "@yarnpkg/plugin-npm": "^2.7.4",
     "@yarnpkg/plugin-pack": "^3.2.0",
