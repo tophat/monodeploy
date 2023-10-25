@@ -3057,7 +3057,7 @@ __metadata:
     "@yarnpkg/fslib": ^2.10.3
     "@yarnpkg/plugin-npm": ^2.7.4
     "@yarnpkg/plugin-pack": ^3.2.0
-    "@yarnpkg/sdks": ^3.0.0-rc.50
+    "@yarnpkg/sdks": ^3.0.0-rc.53
     "@yarnpkg/shell": ^3.2.5
     all-contributors-cli: ^6.26.1
     commitizen: ^4.3.0
@@ -5429,17 +5429,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/core@npm:^4.0.0-rc.50":
-  version: 4.0.0-rc.50
-  resolution: "@yarnpkg/core@npm:4.0.0-rc.50"
+"@yarnpkg/core@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@yarnpkg/core@npm:4.0.0"
   dependencies:
     "@arcanis/slice-ansi": ^1.1.1
     "@types/semver": ^7.1.0
     "@types/treeify": ^1.0.0
-    "@yarnpkg/fslib": ^3.0.0-rc.50
-    "@yarnpkg/libzip": ^3.0.0-rc.50
-    "@yarnpkg/parsers": ^3.0.0-rc.50
-    "@yarnpkg/shell": ^4.0.0-rc.50
+    "@yarnpkg/fslib": ^3.0.0
+    "@yarnpkg/libzip": ^3.0.0
+    "@yarnpkg/parsers": ^3.0.0
+    "@yarnpkg/shell": ^4.0.0
     camelcase: ^5.3.1
     chalk: ^3.0.0
     ci-info: ^3.2.0
@@ -5459,7 +5459,7 @@ __metadata:
     treeify: ^1.1.0
     tslib: ^2.4.0
     tunnel: ^0.0.6
-  checksum: dd87498cc5509623e38c21f79145d163418be3fefa4a959c3e016c862e1b69a3a6638cfd795ad27566f92a6de58f843c4a7bc631c741beed30aa6ad6b81c21dd
+  checksum: 289d745a16888fd000f7a14becc975bb040a2f09933006c4c340471e12b4c191d14193d43849d8b0553b68fd5c158c85378290d69b0d3ba764aa4473647b5fe7
   languageName: node
   linkType: hard
 
@@ -5482,12 +5482,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/fslib@npm:^3.0.0-rc.50":
-  version: 3.0.0-rc.50
-  resolution: "@yarnpkg/fslib@npm:3.0.0-rc.50"
+"@yarnpkg/fslib@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@yarnpkg/fslib@npm:3.0.0"
   dependencies:
     tslib: ^2.4.0
-  checksum: 8572141fa84cd31d70159d57284b3d1e7442b734001b7ccd45524f2dfccbf6e77e4ca77e7a1cf1463baaf24ad4ad4f7f0a17c6b276dfee35c26a142ba25c0012
+  checksum: 128b10b12b7ef1b95a57215c92a93024bdee9ca478a9d3c18cf3551b77defd2085b067e4fdbd0d06fd04cab8594cabd24d06a8837209aec3d7b4c2885ca55dbc
   languageName: node
   linkType: hard
 
@@ -5511,16 +5511,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/libzip@npm:^3.0.0-rc.50":
-  version: 3.0.0-rc.50
-  resolution: "@yarnpkg/libzip@npm:3.0.0-rc.50"
+"@yarnpkg/libzip@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@yarnpkg/libzip@npm:3.0.0"
   dependencies:
     "@types/emscripten": ^1.39.6
-    "@yarnpkg/fslib": ^3.0.0-rc.50
+    "@yarnpkg/fslib": ^3.0.0
     tslib: ^2.4.0
   peerDependencies:
-    "@yarnpkg/fslib": ^3.0.0-rc.50
-  checksum: 8d01738b5d71fd5ea2c7eba9b147c555a86c6edb80667efbe0995d35a48a5113647c63051716a20210ae2b1095af68349914a663279e4080232ff445af42e296
+    "@yarnpkg/fslib": ^3.0.0
+  checksum: 2965c351d229a8afa7e8f88aede6e3b1d8a03a02dc035a61681299689a76b01d985e4cc34085a64dd115cdc73a06349b2f7ac7978bdf53dfc843547db73ad7f5
   languageName: node
   linkType: hard
 
@@ -5545,13 +5545,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/parsers@npm:^3.0.0-rc.50":
-  version: 3.0.0-rc.50
-  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.50"
+"@yarnpkg/parsers@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@yarnpkg/parsers@npm:3.0.0"
   dependencies:
     js-yaml: ^3.10.0
     tslib: ^2.4.0
-  checksum: 6f7843e53f100ffa74a1285aca563b72feda32cc6deacb7176810c5a4ad9f4d3fcd1f5da8e9057ef16dd9dc37c4d8f5ce8926153d26ea84334197ff6b5ed60b3
+  checksum: fefe5ecafb5bfa2b678ac9ba9259810fdda40142afd9d0b7e0e5cc1cce1fd824dffc52217c5e429807481d8fd18ead074bd317e64fd626335d3c9f1a320bade2
   languageName: node
   linkType: hard
 
@@ -5834,13 +5834,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/sdks@npm:^3.0.0-rc.50":
-  version: 3.0.0-rc.50
-  resolution: "@yarnpkg/sdks@npm:3.0.0-rc.50"
+"@yarnpkg/sdks@npm:^3.0.0-rc.53":
+  version: 3.0.0
+  resolution: "@yarnpkg/sdks@npm:3.0.0"
   dependencies:
-    "@yarnpkg/core": ^4.0.0-rc.50
-    "@yarnpkg/fslib": ^3.0.0-rc.50
-    "@yarnpkg/parsers": ^3.0.0-rc.50
+    "@yarnpkg/core": ^4.0.0
+    "@yarnpkg/fslib": ^3.0.0
+    "@yarnpkg/parsers": ^3.0.0
     chalk: ^3.0.0
     clipanion: ^4.0.0-rc.2
     comment-json: ^2.2.0
@@ -5848,7 +5848,7 @@ __metadata:
     tslib: ^2.4.0
   bin:
     sdks: ./lib/cli.js
-  checksum: c6364f044ae8d628604c387cc49cc55ebf55f76cda5902cd9e1d1838551bb68b7a51fa6b23c1e3439be649812e6476573fbe97214ca5de3082d27915e7bbf053
+  checksum: 9ea662310858b3db14eaa0b3367abb09987380c0ceaa05b515fb6bdaf2c0992bc32ae2470837e750665ddbf85309ead2c0b70cd5c9ad6e036e3708b6e0778aae
   languageName: node
   linkType: hard
 
@@ -5871,12 +5871,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/shell@npm:^4.0.0-rc.50":
-  version: 4.0.0-rc.50
-  resolution: "@yarnpkg/shell@npm:4.0.0-rc.50"
+"@yarnpkg/shell@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@yarnpkg/shell@npm:4.0.0"
   dependencies:
-    "@yarnpkg/fslib": ^3.0.0-rc.50
-    "@yarnpkg/parsers": ^3.0.0-rc.50
+    "@yarnpkg/fslib": ^3.0.0
+    "@yarnpkg/parsers": ^3.0.0
     chalk: ^3.0.0
     clipanion: ^4.0.0-rc.2
     cross-spawn: 7.0.3
@@ -5885,7 +5885,7 @@ __metadata:
     tslib: ^2.4.0
   bin:
     shell: ./lib/cli.js
-  checksum: e6a575ebff3399ecf6d97337367212f58b109333ff16b35cb92029c0d6d84cb1aabf411159dc074144a1cec0feb67d681c735c3b96e8abed995b0647e441b911
+  checksum: 8497e278b1d3d0ffe324a3b9c878ca7165bbbe4d182f5ecb02f1bfaaf4dd18c8aaa54c33ee17bb37eb09173816dc4617b70c3fe0925f5fb99749687e2650b7a2
   languageName: node
   linkType: hard
 
