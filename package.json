@@ -64,7 +64,7 @@
         "@types/node": "^18.17.12",
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
-        "@yarnpkg/cli": "^3.6.3",
+        "@yarnpkg/cli": "^3.6.4",
         "@yarnpkg/core": "^3.5.4",
         "@yarnpkg/fslib": "^2.10.3",
         "@yarnpkg/plugin-npm": "^2.7.4",
