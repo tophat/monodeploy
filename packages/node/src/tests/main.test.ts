@@ -164,11 +164,13 @@ describe('Monodeploy', () => {
     })
 
     it('logs an error if publishing fails', async () => {
-        const spyPublish = jest.spyOn(npm.npmHttpUtils, 'put').mockImplementation(() => {
-            throw new Error(
-                'Artificially induced error in a test! This is meant to fail! Ignore this.',
+        const spyPublish = jest
+            .spyOn(npm.npmHttpUtils, 'put')
+            .mockRejectedValue(
+                new Error(
+                    'Artificially induced error in a test! This is meant to fail! Ignore this.',
+                ),
             )
-        })
 
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
@@ -454,7 +456,7 @@ describe('Monodeploy', () => {
         const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
         const changesetFilename = await path.join(tempDir, 'changeset.json')
 
-        const spyStdout = jest.spyOn(process.stdout, 'write')
+        const spyStdout = jest.spyOn(process.stdout, 'write').mockImplementation()
 
         try {
             const result = await monodeploy({

@@ -130,20 +130,21 @@ export default async function setupMonorepo(
     return context
 }
 
-export async function withMonorepoContext(
+export async function createMonorepoContext(
     monorepo: Record<string, PackageInitConfiguration>,
-    cb: (context: YarnContext) => Promise<void>,
     { root, debug }: { root?: ProjectRootInitConfiguration; debug?: boolean } = {},
-): Promise<void> {
+): Promise<AsyncDisposable & YarnContext> {
     const context = await setupMonorepo(monorepo, { root })
     const cwd = context.project.cwd
-    try {
-        await cb(context)
-    } finally {
-        if (debug) {
-            console.log(`Working Directory: ${cwd}`)
-        } else {
-            await fs.rm(cwd, { recursive: true, force: true })
-        }
+
+    return {
+        ...context,
+        async [Symbol.asyncDispose]() {
+            if (debug) {
+                console.log(`Working Directory: ${cwd}`)
+            } else {
+                await fs.rm(cwd, { recursive: true, force: true })
+            }
+        },
     }
 }

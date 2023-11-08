@@ -1,4 +1,5 @@
 import path from 'path'
+import { Writable } from 'stream'
 
 import { prependChangelogFile } from '@monodeploy/changelog'
 import {
@@ -380,10 +381,19 @@ const monodeploy = async (
         }
     }
 
+    // MONODEPLOY_DISABLE_LOGS is used to simplify monodeploy tests
+    const enableLogs = !process.env.MONODEPLOY_DISABLE_LOGS
+
     const report = await StreamReport.start(
         {
             configuration,
-            stdout: process.stdout,
+            stdout: enableLogs
+                ? process.stdout
+                : new Writable({
+                      write(_chunk, _encoding, callback) {
+                          callback()
+                      },
+                  }),
             includeLogs: !plumbingMode,
             includeInfos: !plumbingMode,
             includeWarnings: !plumbingMode,

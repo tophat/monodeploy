@@ -21,6 +21,7 @@ describe('CLI', () => {
     afterEach(() => {
         // eslint-disable-next-line prettier/prettier
         (monodeploy as jest.MockedFunction<typeof monodeploy>).mockClear();
+        process.env.MONODEPLOY_DISABLE_LOGS = '1'
     })
 
     const setArgs = (command: string) => {
@@ -62,8 +63,9 @@ describe('CLI', () => {
         })
 
         it('sets exit code to error if monodeploy throws', async () => {
+            delete process.env.MONODEPLOY_DISABLE_LOGS
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(process.stderr, 'write')
+            const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
             const error = new Error('Monodeploy failed.')
             ;(monodeploy as jest.MockedFunction<typeof monodeploy>).mockImplementation(() => {
                 throw error
@@ -81,8 +83,9 @@ describe('CLI', () => {
 
     describe('Config File', () => {
         it('throws an error if unable to read config file', async () => {
+            delete process.env.MONODEPLOY_DISABLE_LOGS
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(process.stderr, 'write')
+            const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
                 invalid_javascript{} = {
@@ -107,8 +110,9 @@ describe('CLI', () => {
         })
 
         it('throws an error if invalid configuration', async () => {
+            delete process.env.MONODEPLOY_DISABLE_LOGS
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(process.stderr, 'write')
+            const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
                 module.exports = { git: { baseBranch: true } }
@@ -436,8 +440,9 @@ describe('CLI', () => {
 
     describe('Presets', () => {
         it('throws an error if unable to read the preset file', async () => {
+            delete process.env.MONODEPLOY_DISABLE_LOGS
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(process.stderr, 'write')
+            const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
                 module.exports = { preset: './preset.js', git: { baseBranch: 'main' } }
@@ -469,8 +474,9 @@ describe('CLI', () => {
         })
 
         it('throws an error if invalid configuration', async () => {
+            delete process.env.MONODEPLOY_DISABLE_LOGS
             const prevExitCode = process.exitCode ?? 0
-            const spyError = jest.spyOn(process.stderr, 'write')
+            const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
                 module.exports = { preset: './preset.js', git: { baseBranch: true } }

@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run Test",
+            "cwd": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "jest",
+            "runtimeExecutable": "yarn",
+            "console": "integratedTerminal",
+            "args": [
+                "--config=${workspaceFolder}/jest.config.js",
+                "--no-cache",
+                "--runInBand",
+                "${relativeFile}"
+            ]
+        }
+    ]
+}

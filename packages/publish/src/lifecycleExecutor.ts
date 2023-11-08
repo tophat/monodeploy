@@ -20,7 +20,18 @@ export function createWorkspaceLifecycleExecutor({
         await groups.reduce<Promise<void>>(
             (chain, group) =>
                 chain.then(async () => {
-                    await Promise.all(group.map((workspace) => limit(() => callback(workspace))))
+                    // We'll wait for all promises to settle so we don't have runaway 'processes'
+                    const results = await Promise.allSettled(
+                        group.map((workspace) => limit(() => callback(workspace))),
+                    )
+                    const rejections = results.filter(
+                        (result): result is PromiseRejectedResult => result.status === 'rejected',
+                    )
+                    if (rejections.length) {
+                        // We'll throw the first one for now.
+                        // This can be improved in the future.
+                        throw rejections[0].reason
+                    }
                 }),
             Promise.resolve(),
         )

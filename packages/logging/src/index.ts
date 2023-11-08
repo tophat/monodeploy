@@ -36,7 +36,9 @@ const createLogger =
         if (getCurrentLogLevel() > level) return
 
         if (!report) {
-            process.stdout.write(`${util.format(message)}\n`)
+            if (!process.env.MONODEPLOY_DISABLE_LOGS) {
+                process.stdout.write(`${util.format(message)}\n`)
+            }
             return
         }
 

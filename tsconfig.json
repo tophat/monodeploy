@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2021",
+        "target": "ES2022",
         "module": "node16",
         "strict": true,
         "esModuleInterop": true,
@@ -14,7 +14,7 @@
         "allowJs": true,
         "jsx": "preserve",
         "lib": [
-            "ES2021",
+            "ES2022",
             "dom",
             "dom.iterable"
         ],
