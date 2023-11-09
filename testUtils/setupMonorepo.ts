@@ -143,7 +143,9 @@ export async function createMonorepoContext(
             if (debug) {
                 console.log(`Working Directory: ${cwd}`)
             } else {
-                await fs.rm(cwd, { recursive: true, force: true })
+                try {
+                    await fs.rm(cwd, { recursive: true, force: true })
+                } catch {}
             }
         },
     }

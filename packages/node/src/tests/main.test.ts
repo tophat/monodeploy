@@ -1,11 +1,10 @@
 import { promises as fs } from 'fs'
-import os from 'os'
 import path from 'path'
 
 import * as git from '@monodeploy/git'
 import { backupPackageJsons, clearBackupCache, restorePackageJsons } from '@monodeploy/io'
 import { LOG_LEVELS } from '@monodeploy/logging'
-import { setupMonorepo } from '@monodeploy/test-utils'
+import { createTempDir, setupMonorepo } from '@monodeploy/test-utils'
 import {
     type CommitMessage,
     type MonodeployConfiguration,
@@ -342,63 +341,56 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
-        const changesetFilename = await path.join(tempDir, 'changeset.json')
+        await using tmp = await createTempDir()
+        const changelogFilename = await path.join(tmp.dir, 'changelog.md')
+        const changesetFilename = await path.join(tmp.dir, 'changeset.json')
 
-        try {
-            const changelogTemplate = [
-                '# Changelog',
-                'Some blurb',
-                '<!-- MONODEPLOY:BELOW -->',
-                '## Old Versions',
-                'Content',
-            ].join('\n')
-            await fs.writeFile(changelogFilename, changelogTemplate, {
+        const changelogTemplate = [
+            '# Changelog',
+            'Some blurb',
+            '<!-- MONODEPLOY:BELOW -->',
+            '## Old Versions',
+            'Content',
+        ].join('\n')
+        await fs.writeFile(changelogFilename, changelogTemplate, {
+            encoding: 'utf-8',
+        })
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            changesetFilename,
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
+
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
+
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+
+        // assert it contains the old entries
+        expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
+
+        const changeset = JSON.parse(
+            await fs.readFile(changesetFilename, {
                 encoding: 'utf-8',
-            })
+            }),
+        )
 
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                changesetFilename,
-            })
-
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
-
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
-
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
-
-            // assert it contains the old entries
-            expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
-
-            const changeset = JSON.parse(
-                await fs.readFile(changesetFilename, {
-                    encoding: 'utf-8',
+        expect(changeset).toEqual(
+            expect.objectContaining({
+                'pkg-1': expect.objectContaining({
+                    version: '0.1.0',
+                    changelog: expect.stringContaining('some new feature'),
+                    strategy: 'minor',
+                    previousVersion: '0.0.1',
                 }),
-            )
-
-            expect(changeset).toEqual(
-                expect.objectContaining({
-                    'pkg-1': expect.objectContaining({
-                        version: '0.1.0',
-                        changelog: expect.stringContaining('some new feature'),
-                        strategy: 'minor',
-                        previousVersion: '0.0.1',
-                    }),
-                }),
-            )
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+            }),
+        )
     })
 
     it('uses correct sha for each entry in changelog', async () => {
@@ -409,42 +401,35 @@ describe('Monodeploy', () => {
         mockGit._commitFiles_('<sha2>', 'feat: second', ['./packages/pkg-1/README.md'])
         mockGit._commitFiles_('<sha3>', 'feat: third', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
-        const changesetFilename = await path.join(tempDir, 'changeset.json')
+        await using tmp = await createTempDir()
+        const changelogFilename = await path.join(tmp.dir, 'changelog.md')
+        const changesetFilename = await path.join(tmp.dir, 'changeset.json')
 
-        try {
-            const changelogTemplate = [
-                '# Changelog',
-                'Some blurb',
-                '<!-- MONODEPLOY:BELOW -->',
-                '## Old Versions',
-                'Content',
-            ].join('\n')
-            await fs.writeFile(changelogFilename, changelogTemplate, {
-                encoding: 'utf-8',
-            })
+        const changelogTemplate = [
+            '# Changelog',
+            'Some blurb',
+            '<!-- MONODEPLOY:BELOW -->',
+            '## Old Versions',
+            'Content',
+        ].join('\n')
+        await fs.writeFile(changelogFilename, changelogTemplate, {
+            encoding: 'utf-8',
+        })
 
-            await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                changesetFilename,
-            })
+        await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            changesetFilename,
+        })
 
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
 
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('first <sha1>'))
-            expect(updatedChangelog).toEqual(expect.stringContaining('second <sha2>'))
-            expect(updatedChangelog).toEqual(expect.stringContaining('third <sha3>'))
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('first <sha1>'))
+        expect(updatedChangelog).toEqual(expect.stringContaining('second <sha2>'))
+        expect(updatedChangelog).toEqual(expect.stringContaining('third <sha3>'))
     })
 
     it('writes the changeset to standard out if - specified', async () => {
@@ -453,39 +438,34 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changesetFilename = await path.join(tempDir, 'changeset.json')
+        await using tmp = await createTempDir()
+
+        const changesetFilename = await path.join(tmp.dir, 'changeset.json')
 
         const spyStdout = jest.spyOn(process.stdout, 'write').mockImplementation()
 
-        try {
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changesetFilename: '-',
-            })
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changesetFilename: '-',
+        })
 
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
-            // changeset file should not exist
-            await expect(fs.stat(changesetFilename)).rejects.toThrow()
+        // changeset file should not exist
+        await expect(fs.stat(changesetFilename)).rejects.toThrow()
 
-            // assert stdout is equal to the returned result
-            expect(JSON.parse(spyStdout.mock.calls[0][0] as string)).toEqual(result)
+        // assert stdout is equal to the returned result
+        expect(JSON.parse(spyStdout.mock.calls[0][0] as string)).toEqual(result)
 
-            expect(result).toEqual(
-                expect.objectContaining({
-                    'pkg-1': expect.objectContaining({
-                        version: '0.1.0',
-                        changelog: expect.stringContaining('some new feature'),
-                    }),
+        expect(result).toEqual(
+            expect.objectContaining({
+                'pkg-1': expect.objectContaining({
+                    version: '0.1.0',
+                    changelog: expect.stringContaining('some new feature'),
                 }),
-            )
-        } finally {
-            try {
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+            }),
+        )
 
         spyStdout.mockRestore()
     })
@@ -547,52 +527,45 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = path.join(tempDir, 'changelog.md')
+        await using tmp = await createTempDir()
+        const changelogFilename = path.join(tmp.dir, 'changelog.md')
 
-        try {
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                persistVersions: false,
-                autoCommit: true,
-                autoCommitMessage: 'chore: some unique message',
-                git: {
-                    ...monodeployConfig.git,
-                    push: true,
-                },
-            })
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            persistVersions: false,
+            autoCommit: true,
+            autoCommitMessage: 'chore: some unique message',
+            git: {
+                ...monodeployConfig.git,
+                push: true,
+            },
+        })
 
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
 
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
-            // assert tags pushed
-            expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+        // assert tags pushed
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
-            // assert only changelog committed
-            const autoCommit =
-                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
-            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
-            expect(autoCommitFiles).toEqual(expect.arrayContaining([changelogFilename]))
-            expect(autoCommitFiles).not.toEqual(expect.arrayContaining(['**/package.json']))
+        // assert only changelog committed
+        const autoCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+        const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
+        expect(autoCommitFiles).toEqual(expect.arrayContaining([changelogFilename]))
+        expect(autoCommitFiles).not.toEqual(expect.arrayContaining(['**/package.json']))
 
-            // assert commit pushed
-            expect(mockGit._getRegistry_().pushedCommits).toEqual(
-                expect.arrayContaining([autoCommit.sha]),
-            )
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+        // assert commit pushed
+        expect(mockGit._getRegistry_().pushedCommits).toEqual(
+            expect.arrayContaining([autoCommit.sha]),
+        )
     })
 
     it('autocommits package.json files if persistVersions is true', async () => {
@@ -637,53 +610,46 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = path.join(tempDir, 'changelog.md')
+        await using tmp = await createTempDir()
+        const changelogFilename = path.join(tmp.dir, 'changelog.md')
 
-        try {
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                persistVersions: true,
-                autoCommit: true,
-                autoCommitMessage: 'chore: some unique message',
-                git: {
-                    ...monodeployConfig.git,
-                    push: true,
-                },
-            })
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            persistVersions: true,
+            autoCommit: true,
+            autoCommitMessage: 'chore: some unique message',
+            git: {
+                ...monodeployConfig.git,
+                push: true,
+            },
+        })
 
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
 
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
-            // assert tags pushed
-            expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
+        // assert tags pushed
+        expect(mockGit._getPushedTags_()).toEqual(['pkg-1@0.1.0'])
 
-            // assert changelog and package.jsons committed
-            const autoCommit =
-                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
-            const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
-            expect(autoCommitFiles).toEqual(
-                expect.arrayContaining([changelogFilename, '**/package.json']),
-            )
+        // assert changelog and package.jsons committed
+        const autoCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+        const autoCommitFiles = mockGit._getRegistry_().filesModified.get(autoCommit.sha)
+        expect(autoCommitFiles).toEqual(
+            expect.arrayContaining([changelogFilename, '**/package.json']),
+        )
 
-            // assert commit pushed
-            expect(mockGit._getRegistry_().pushedCommits).toEqual(
-                expect.arrayContaining([autoCommit.sha]),
-            )
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+        // assert commit pushed
+        expect(mockGit._getRegistry_().pushedCommits).toEqual(
+            expect.arrayContaining([autoCommit.sha]),
+        )
     })
 
     it('does not autocommit if changelogFilename and persistVersions are unset', async () => {
@@ -725,45 +691,38 @@ describe('Monodeploy', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = path.join(tempDir, 'changelog.md')
+        await using tmp = await createTempDir()
+        const changelogFilename = path.join(tmp.dir, 'changelog.md')
 
         const preMonodeployLatestCommit =
             mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
 
-        try {
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                persistVersions: true,
-                autoCommit: false,
-                autoCommitMessage: 'chore: some unique message',
-                git: {
-                    ...monodeployConfig.git,
-                    push: false,
-                },
-            })
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            persistVersions: true,
+            autoCommit: false,
+            autoCommitMessage: 'chore: some unique message',
+            git: {
+                ...monodeployConfig.git,
+                push: false,
+            },
+        })
 
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
 
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
 
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
-            // assert no further commit
-            const postMonodeployLatestCommit =
-                mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
-            expect(preMonodeployLatestCommit).toEqual(postMonodeployLatestCommit)
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+        // assert no further commit
+        const postMonodeployLatestCommit =
+            mockGit._getRegistry_().commits[mockGit._getRegistry_().commits.length - 1]
+        expect(preMonodeployLatestCommit).toEqual(postMonodeployLatestCommit)
     })
 
     it('supports prereleases', async () => {
