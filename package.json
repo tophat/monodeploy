@@ -46,7 +46,7 @@
         "update:yarn": "echo 'Not implemented.'"
     },
     "devDependencies": {
-        "@commitlint/cli": "^17.7.2",
+        "@commitlint/cli": "^17.8.0",
         "@jest/types": "^29.6.3",
         "@monodeploy/git": "workspace:*",
         "@monodeploy/io": "workspace:*",
