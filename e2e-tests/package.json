@@ -15,7 +15,7 @@
         "@monodeploy/test-utils": "link:../testUtils",
         "@monodeploy/types": "workspace:*",
         "@tophat/conventional-changelog-config": "^1.0.1",
-        "@types/node": "^18.18.3",
+        "@types/node": "^20.8.7",
         "@yarnpkg/core": "^4.0.1",
         "@yarnpkg/fslib": "^3.0.1",
         "helpers": "link:./helpers",

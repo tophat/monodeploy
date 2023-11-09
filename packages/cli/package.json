@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
-    "@types/node": "^18.18.3"
+    "@types/node": "^20.8.7"
   },
   "dependencies": {
     "@monodeploy/logging": "workspace:^4.3.0",
@@ -50,6 +50,6 @@
     "typanion": "^3.14.0"
   },
   "engines": {
-    "node": ">=v14.21.3"
+    "node": ">=20.8.1"
   }
 }
