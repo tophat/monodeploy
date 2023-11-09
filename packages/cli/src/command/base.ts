@@ -30,11 +30,6 @@ export abstract class BaseCommand extends Command {
         description: 'The URL of the registry to publish to',
     })
 
-    registry = Option.Boolean('--registry', true, {
-        description:
-            'Whether to read and write to the npm-like registry (deprecated, use --registry-mode instead)',
-    })
-
     registryMode = Option.String('--registry-mode', {
         description: 'The type of "registry" to use as the source of truth for package versions.',
         validator: t.isEnum(RegistryMode),

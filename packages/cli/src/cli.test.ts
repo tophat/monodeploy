@@ -31,7 +31,7 @@ describe('CLI', () => {
     describe('CLI Args', () => {
         it('passes cli flags to monodeploy', async () => {
             setArgs(
-                '--registry-url http://example.com --no-registry --cwd /tmp --dry-run ' +
+                '--registry-url http://example.com --cwd /tmp --dry-run ' +
                     '--git-base-branch main --git-commit-sha HEAD --git-remote origin ' +
                     '--log-level 0 --conventional-changelog-config @my/config ' +
                     '--changeset-filename changes.json --changelog-filename changelog.md --force-write-change-files ' +
