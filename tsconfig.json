@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2021",
+        "target": "ES2022",
         "module": "node16",
         "strict": true,
         "esModuleInterop": true,
@@ -14,7 +14,7 @@
         "allowJs": true,
         "jsx": "preserve",
         "lib": [
-            "ES2021",
+            "ES2022",
             "dom",
             "dom.iterable"
         ],
@@ -24,7 +24,7 @@
         "outDir": ".tmp/tsc/root",
     },
     "exclude": ["**/lib", "./.pnp.*"],
-    "include": ["./__mocks__", "./e2e-tests", "./gatsby", "./packages", "./testUtils", "./*.js", "./*.ts", "./**/.eslintrc.js"],
+    "include": ["./__mocks__", "./e2e-tests", "./packages", "./testUtils", "./*.js", "./*.ts", "./**/.eslintrc.js"],
     "ts-node": {
         "transpileOnly": true,
         "ignore": ["(?:^|/)node_modules/", ".yarn/plugins/.*"],

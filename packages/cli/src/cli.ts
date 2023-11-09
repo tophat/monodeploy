@@ -7,6 +7,7 @@ const cli = new Cli({
     binaryName: 'yarn monodeploy',
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     binaryVersion: require('../package.json').version,
+    enableCapture: true,
 })
 
 cli.register(MonodeployCommand)

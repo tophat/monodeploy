@@ -7,7 +7,7 @@ import {
     type YarnContext,
 } from '@monodeploy/types'
 import { getPluginConfiguration } from '@yarnpkg/cli'
-import { Configuration, Project, StreamReport } from '@yarnpkg/core'
+import { Configuration, Project, ThrowReport } from '@yarnpkg/core'
 import { type PortablePath } from '@yarnpkg/fslib'
 
 import { mergeDefaultConfig } from '../packages/node/src/utils/mergeDefaultConfig'
@@ -24,7 +24,7 @@ export async function setupContext(cwd: PortablePath): Promise<YarnContext> {
         configuration,
         project,
         workspace,
-        report: new StreamReport({ configuration, stdout: process.stdout }),
+        report: new ThrowReport(),
     }
 
     return context

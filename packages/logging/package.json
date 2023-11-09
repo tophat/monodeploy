@@ -29,9 +29,9 @@
   "devDependencies": {
     "@types/jest": "^29.5.5",
     "@types/node": "^18.18.3",
-    "@yarnpkg/core": "^3.5.4"
+    "@yarnpkg/core": "^4.0.1"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^3.5.4"
+    "@yarnpkg/core": "^4.0.1"
   }
 }

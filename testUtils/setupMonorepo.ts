@@ -75,7 +75,7 @@ export default async function setupMonorepo(
             useRelativePath: false,
         }),
         repository: root?.repository,
-        packageManager: 'yarn@3.6.3',
+        packageManager: 'yarn@4.0.1',
     })
 
     // Generate children workspaces
@@ -98,9 +98,6 @@ export default async function setupMonorepo(
     }
 
     // Generate .yarnrc.yml
-    const releasesDir = path.join(__dirname, '..', '.yarn', 'releases')
-    await fs.mkdir(releasesDir, { recursive: true })
-
     const authIdent = Buffer.from('test-user:test-password').toString('base64')
     await fs.writeFile(
         path.join(workingDir, '.yarnrc.yml'),
@@ -133,20 +130,21 @@ export default async function setupMonorepo(
     return context
 }
 
-export async function withMonorepoContext(
+export async function createMonorepoContext(
     monorepo: Record<string, PackageInitConfiguration>,
-    cb: (context: YarnContext) => Promise<void>,
     { root, debug }: { root?: ProjectRootInitConfiguration; debug?: boolean } = {},
-): Promise<void> {
+): Promise<AsyncDisposable & YarnContext> {
     const context = await setupMonorepo(monorepo, { root })
     const cwd = context.project.cwd
-    try {
-        await cb(context)
-    } finally {
-        if (debug) {
-            console.log(`Working Directory: ${cwd}`)
-        } else {
-            await fs.rm(cwd, { recursive: true, force: true })
-        }
+
+    return {
+        ...context,
+        async [Symbol.asyncDispose]() {
+            if (debug) {
+                console.log(`Working Directory: ${cwd}`)
+            } else {
+                await fs.rm(cwd, { recursive: true, force: true })
+            }
+        },
     }
 }

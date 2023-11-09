@@ -59,12 +59,12 @@ yarn test:watch
 
 You can execute `yarn build` to generate the build assets that ultimately gets uploaded to the NPM registry. It will also leave the intermediate `lib` artifacts, which contain the transpiled code.
 
-You can use `yarn workspaces foreach -p build:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
+You can use `yarn workspaces foreach --worktree -p build:watch` to rebuild the lib directory (minus typescript definitions) on source file change.
 
 To regenerate typescript definition files (and to catch type violations):
 
 ```bash
-yarn workspaces foreach -p types:watch
+yarn workspaces foreach --worktree -p types:watch
 ```
 
 ### Using Example Monorepo

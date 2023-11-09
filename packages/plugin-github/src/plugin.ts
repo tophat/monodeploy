@@ -40,9 +40,7 @@ export const createPluginInternals =
             auth: personalAccessToken,
             throttle: {
                 onRateLimit: () => true,
-                onAbuseLimit: () => {
-                    /* ignore */
-                },
+                onSecondaryRateLimit: () => false,
             },
         })
 

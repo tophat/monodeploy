@@ -1,300 +1,282 @@
-import { getMonodeployConfig, withMonorepoContext } from '@monodeploy/test-utils'
+import { createMonorepoContext, getMonodeployConfig } from '@monodeploy/test-utils'
 import { type MonodeployConfiguration, type PackageStrategyType } from '@monodeploy/types'
 
 import applyVersionStrategies, { incrementVersion } from './applyVersionStrategies'
 
 describe('applyVersionStrategies', () => {
-    it("includes dependencies we're not updating in previous tags", async () =>
-        withMonorepoContext(
-            {
-                'pkg-1': {},
-                'pkg-2': { dependencies: ['pkg-1'] },
-                'pkg-3': {
-                    peerDependencies: ['pkg-2'],
-                    dependencies: ['pkg-1'],
-                },
+    it("includes dependencies we're not updating in previous tags", async () => {
+        await using context = await createMonorepoContext({
+            'pkg-1': {},
+            'pkg-2': { dependencies: ['pkg-1'] },
+            'pkg-3': {
+                peerDependencies: ['pkg-2'],
+                dependencies: ['pkg-1'],
             },
-            async (context) => {
-                const config = {
-                    ...(await getMonodeployConfig({
-                        cwd: context.project.cwd,
-                        baseBranch: 'main',
-                        commitSha: 'shashasha',
-                    })),
-                    persistVersions: true,
-                }
-                const { next: intendedVersions, previous } = await applyVersionStrategies({
-                    config,
-                    context,
-                    registryTags: new Map([
-                        ['pkg-1', { latest: '1.0.0' }],
-                        ['pkg-2', { latest: '2.0.0' }],
-                        ['pkg-3', { latest: '3.3.0' }],
-                    ]),
-                    versionStrategies: new Map([
-                        ['pkg-2', { type: 'minor', commits: [] }],
-                        ['pkg-3', { type: 'patch', commits: [] }],
-                    ]),
-                    workspaceGroups: new Map([
-                        ['pkg-1', new Set(['pkg-1'])],
-                        ['pkg-2', new Set(['pkg-2'])],
-                        ['pkg-3', new Set(['pkg-3'])],
-                    ]),
-                })
+        })
+        const config = {
+            ...(await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'main',
+                commitSha: 'shashasha',
+            })),
+            persistVersions: true,
+        }
+        const { next: intendedVersions, previous } = await applyVersionStrategies({
+            config,
+            context,
+            registryTags: new Map([
+                ['pkg-1', { latest: '1.0.0' }],
+                ['pkg-2', { latest: '2.0.0' }],
+                ['pkg-3', { latest: '3.3.0' }],
+            ]),
+            versionStrategies: new Map([
+                ['pkg-2', { type: 'minor', commits: [] }],
+                ['pkg-3', { type: 'patch', commits: [] }],
+            ]),
+            workspaceGroups: new Map([
+                ['pkg-1', new Set(['pkg-1'])],
+                ['pkg-2', new Set(['pkg-2'])],
+                ['pkg-3', new Set(['pkg-3'])],
+            ]),
+        })
 
-                expect(intendedVersions.has('pkg-1')).toBeFalsy()
-                expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
-                expect(intendedVersions.get('pkg-3')).toBe('3.3.1')
+        expect(intendedVersions.has('pkg-1')).toBeFalsy()
+        expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
+        expect(intendedVersions.get('pkg-3')).toBe('3.3.1')
 
-                // pkg-1 wasn't included in the workspaces set, so shouldn't be updated
-                expect(previous.get('pkg-1')).toBe('1.0.0')
+        // pkg-1 wasn't included in the workspaces set, so shouldn't be updated
+        expect(previous.get('pkg-1')).toBe('1.0.0')
+    })
+
+    it('applies a prerelease version in prerelease mode', async () => {
+        await using context = await createMonorepoContext({
+            'pkg-1': {},
+            'pkg-2': { dependencies: ['pkg-1'] },
+            'pkg-3': {
+                peerDependencies: ['pkg-2'],
+                dependencies: ['pkg-1'],
             },
-        ))
+        })
+        const config: MonodeployConfiguration = {
+            ...(await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'main',
+                commitSha: 'shashasha',
+            })),
+            persistVersions: true,
+            prerelease: true,
+            prereleaseNPMTag: 'next',
+            prereleaseId: 'rc',
+        }
+        const { next: intendedVersions } = await applyVersionStrategies({
+            config,
+            context,
+            registryTags: new Map([
+                ['pkg-1', { latest: '1.0.0' }],
+                ['pkg-2', { latest: '2.0.0', next: '2.1.0-rc.3' }],
+                ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
+            ]),
+            versionStrategies: new Map([
+                ['pkg-1', { type: 'minor', commits: [] }],
+                ['pkg-2', { type: 'minor', commits: [] }],
+                ['pkg-3', { type: 'major', commits: [] }],
+            ]),
+            workspaceGroups: new Map([
+                ['pkg-1', new Set(['pkg-1'])],
+                ['pkg-2', new Set(['pkg-2'])],
+                ['pkg-3', new Set(['pkg-3'])],
+            ]),
+        })
 
-    it('applies a prerelease version in prerelease mode', async () =>
-        withMonorepoContext(
-            {
-                'pkg-1': {},
-                'pkg-2': { dependencies: ['pkg-1'] },
-                'pkg-3': {
-                    peerDependencies: ['pkg-2'],
-                    dependencies: ['pkg-1'],
-                },
-            },
-            async (context) => {
-                const config: MonodeployConfiguration = {
-                    ...(await getMonodeployConfig({
-                        cwd: context.project.cwd,
-                        baseBranch: 'main',
-                        commitSha: 'shashasha',
-                    })),
-                    persistVersions: true,
-                    prerelease: true,
-                    prereleaseNPMTag: 'next',
-                    prereleaseId: 'rc',
-                }
-                const { next: intendedVersions } = await applyVersionStrategies({
-                    config,
-                    context,
-                    registryTags: new Map([
-                        ['pkg-1', { latest: '1.0.0' }],
-                        ['pkg-2', { latest: '2.0.0', next: '2.1.0-rc.3' }],
-                        ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
-                    ]),
-                    versionStrategies: new Map([
-                        ['pkg-1', { type: 'minor', commits: [] }],
-                        ['pkg-2', { type: 'minor', commits: [] }],
-                        ['pkg-3', { type: 'major', commits: [] }],
-                    ]),
-                    workspaceGroups: new Map([
-                        ['pkg-1', new Set(['pkg-1'])],
-                        ['pkg-2', new Set(['pkg-2'])],
-                        ['pkg-3', new Set(['pkg-3'])],
-                    ]),
-                })
+        expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
+        expect(intendedVersions.get('pkg-2')).toBe('2.1.0-rc.4')
+        expect(intendedVersions.get('pkg-3')).toBe('4.0.0-rc.2')
+    })
 
-                expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
-                expect(intendedVersions.get('pkg-2')).toBe('2.1.0-rc.4')
-                expect(intendedVersions.get('pkg-3')).toBe('4.0.0-rc.2')
-            },
-        ))
+    it('returns non-updated versions correctly in prerelease mode', async () => {
+        await using context = await createMonorepoContext({
+            'pkg-1': { dependencies: ['pkg-2', 'pkg-3', 'pkg-4'] },
+            'pkg-2': {},
+            'pkg-3': {},
+            'pkg-4': {},
+        })
+        const config: MonodeployConfiguration = {
+            ...(await getMonodeployConfig({
+                cwd: context.project.cwd,
+                baseBranch: 'main',
+                commitSha: 'shashasha',
+            })),
+            persistVersions: true,
+            prerelease: true,
+            prereleaseNPMTag: 'next',
+            prereleaseId: 'rc',
+        }
 
-    it('returns non-updated versions correctly in prerelease mode', async () =>
-        withMonorepoContext(
-            {
-                'pkg-1': { dependencies: ['pkg-2', 'pkg-3', 'pkg-4'] },
-                'pkg-2': {},
-                'pkg-3': {},
-                'pkg-4': {},
-            },
-            async (context) => {
-                const config: MonodeployConfiguration = {
-                    ...(await getMonodeployConfig({
-                        cwd: context.project.cwd,
-                        baseBranch: 'main',
-                        commitSha: 'shashasha',
-                    })),
-                    persistVersions: true,
-                    prerelease: true,
-                    prereleaseNPMTag: 'next',
-                    prereleaseId: 'rc',
-                }
+        const { next: intendedVersions, previous } = await applyVersionStrategies({
+            config,
+            context,
+            registryTags: new Map([
+                ['pkg-1', { latest: '1.0.0' }],
+                ['pkg-2', { latest: '1.2.0', next: '0.5.0-rc.1' }],
+                ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
+                ['pkg-4', { latest: '0.1.0' }],
+            ]),
+            versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
+            workspaceGroups: new Map([
+                ['pkg-1', new Set(['pkg-1'])],
+                ['pkg-2', new Set(['pkg-2'])],
+                ['pkg-3', new Set(['pkg-3'])],
+                ['pkg-4', new Set(['pkg-4'])],
+            ]),
+        })
+        expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
 
-                const { next: intendedVersions, previous } = await applyVersionStrategies({
-                    config,
-                    context,
-                    registryTags: new Map([
-                        ['pkg-1', { latest: '1.0.0' }],
-                        ['pkg-2', { latest: '1.2.0', next: '0.5.0-rc.1' }],
-                        ['pkg-3', { latest: '3.3.0', next: '4.0.0-rc.1' }],
-                        ['pkg-4', { latest: '0.1.0' }],
-                    ]),
-                    versionStrategies: new Map([['pkg-1', { type: 'minor', commits: [] }]]),
-                    workspaceGroups: new Map([
-                        ['pkg-1', new Set(['pkg-1'])],
-                        ['pkg-2', new Set(['pkg-2'])],
-                        ['pkg-3', new Set(['pkg-3'])],
-                        ['pkg-4', new Set(['pkg-4'])],
-                    ]),
-                })
-                expect(intendedVersions.get('pkg-1')).toBe('1.1.0-rc.0')
-
-                // Use the greaatest version out of latest & prerelease for non-updated packages
-                expect(previous.get('pkg-2')).toBe('1.2.0')
-                expect(previous.get('pkg-3')).toBe('4.0.0-rc.1')
-                expect(previous.get('pkg-4')).toBe('0.1.0')
-            },
-        ))
+        // Use the greaatest version out of latest & prerelease for non-updated packages
+        expect(previous.get('pkg-2')).toBe('1.2.0')
+        expect(previous.get('pkg-3')).toBe('4.0.0-rc.1')
+        expect(previous.get('pkg-4')).toBe('0.1.0')
+    })
 
     describe('Groups', () => {
         // idiomatic version number: x.x.0 is always from a minor strategy, x.0.0 is always from a major strategy
-        it('updates to the greatest version among each group, always resulting in an idiomatic version number', async () =>
-            withMonorepoContext(
-                {
-                    'pkg-1': { raw: { group: 'group-a' } },
-                    'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
-                    'pkg-3': {
-                        raw: { group: 'group-b' },
-                    },
-                    'pkg-4': {
-                        raw: { group: 'group-b' },
-                    },
+        it('updates to the greatest version among each group, always resulting in an idiomatic version number', async () => {
+            await using context = await createMonorepoContext({
+                'pkg-1': { raw: { group: 'group-a' } },
+                'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
+                'pkg-3': {
+                    raw: { group: 'group-b' },
                 },
-                async (context) => {
-                    const config = {
-                        ...(await getMonodeployConfig({
-                            cwd: context.project.cwd,
-                            baseBranch: 'main',
-                            commitSha: 'shashasha',
-                        })),
-                        persistVersions: true,
-                    }
-
-                    const { next: intendedVersions } = await applyVersionStrategies({
-                        config,
-                        context,
-                        registryTags: new Map([
-                            ['pkg-1', { latest: '6.0.0' }],
-                            ['pkg-2', { latest: '2.0.0' }],
-                            ['pkg-3', { latest: '3.3.0' }],
-                            ['pkg-4', { latest: '5.1.0' }],
-                        ]),
-                        versionStrategies: new Map([
-                            ['pkg-1', { type: 'patch', commits: [] }],
-                            ['pkg-2', { type: 'minor', commits: [] }],
-                            ['pkg-3', { type: 'patch', commits: [] }],
-                            ['pkg-4', { type: 'patch', commits: [] }],
-                        ]),
-                        workspaceGroups: new Map([
-                            ['group-a', new Set(['pkg-1', 'pkg-2'])],
-                            ['group-b', new Set(['pkg-3', 'pkg-4'])],
-                        ]),
-                    })
-
-                    // group-a
-                    expect(intendedVersions.get('pkg-1')).toBe('6.1.0')
-                    expect(intendedVersions.get('pkg-2')).toBe('6.1.0')
-
-                    // group-b
-                    expect(intendedVersions.get('pkg-3')).toBe('5.1.1')
-                    expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+                'pkg-4': {
+                    raw: { group: 'group-b' },
                 },
-            ))
+            })
+            const config = {
+                ...(await getMonodeployConfig({
+                    cwd: context.project.cwd,
+                    baseBranch: 'main',
+                    commitSha: 'shashasha',
+                })),
+                persistVersions: true,
+            }
 
-        it('updates to the greatest version among each group, ignoring unchanged packages', async () =>
-            withMonorepoContext(
-                {
-                    'pkg-1': { raw: { group: 'group-a' } },
-                    'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
-                    'pkg-3': {
-                        raw: { group: 'group-b' },
-                    },
-                    'pkg-4': {
-                        raw: { group: 'group-b' },
-                    },
+            const { next: intendedVersions } = await applyVersionStrategies({
+                config,
+                context,
+                registryTags: new Map([
+                    ['pkg-1', { latest: '6.0.0' }],
+                    ['pkg-2', { latest: '2.0.0' }],
+                    ['pkg-3', { latest: '3.3.0' }],
+                    ['pkg-4', { latest: '5.1.0' }],
+                ]),
+                versionStrategies: new Map([
+                    ['pkg-1', { type: 'patch', commits: [] }],
+                    ['pkg-2', { type: 'minor', commits: [] }],
+                    ['pkg-3', { type: 'patch', commits: [] }],
+                    ['pkg-4', { type: 'patch', commits: [] }],
+                ]),
+                workspaceGroups: new Map([
+                    ['group-a', new Set(['pkg-1', 'pkg-2'])],
+                    ['group-b', new Set(['pkg-3', 'pkg-4'])],
+                ]),
+            })
+
+            // group-a
+            expect(intendedVersions.get('pkg-1')).toBe('6.1.0')
+            expect(intendedVersions.get('pkg-2')).toBe('6.1.0')
+
+            // group-b
+            expect(intendedVersions.get('pkg-3')).toBe('5.1.1')
+            expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+        })
+
+        it('updates to the greatest version among each group, ignoring unchanged packages', async () => {
+            await using context = await createMonorepoContext({
+                'pkg-1': { raw: { group: 'group-a' } },
+                'pkg-2': { raw: { group: 'group-a' }, dependencies: ['pkg-1'] },
+                'pkg-3': {
+                    raw: { group: 'group-b' },
                 },
-                async (context) => {
-                    const config = {
-                        ...(await getMonodeployConfig({
-                            cwd: context.project.cwd,
-                            baseBranch: 'main',
-                            commitSha: 'shashasha',
-                        })),
-                        persistVersions: true,
-                    }
-                    const { next: intendedVersions } = await applyVersionStrategies({
-                        config,
-                        context,
-                        registryTags: new Map([
-                            ['pkg-1', { latest: '1.5.0' }],
-                            ['pkg-2', { latest: '2.0.0' }],
-                            ['pkg-3', { latest: '3.3.0' }],
-                            ['pkg-4', { latest: '5.1.0' }],
-                        ]),
-                        versionStrategies: new Map([
-                            ['pkg-1', { type: 'patch', commits: [] }],
-                            ['pkg-2', { type: 'minor', commits: [] }],
-                            ['pkg-4', { type: 'patch', commits: [] }],
-                        ]),
-                        workspaceGroups: new Map([
-                            ['group-a', new Set(['pkg-1', 'pkg-2'])],
-                            ['group-b', new Set(['pkg-3', 'pkg-4'])],
-                        ]),
-                    })
-
-                    // group-a
-                    expect(intendedVersions.get('pkg-1')).toBe('2.1.0')
-                    expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
-
-                    // group-b but with pkg-3 not changing because no strategy
-                    expect(intendedVersions.has('pkg-3')).toBeFalsy()
-                    expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+                'pkg-4': {
+                    raw: { group: 'group-b' },
                 },
-            ))
+            })
+            const config = {
+                ...(await getMonodeployConfig({
+                    cwd: context.project.cwd,
+                    baseBranch: 'main',
+                    commitSha: 'shashasha',
+                })),
+                persistVersions: true,
+            }
+            const { next: intendedVersions } = await applyVersionStrategies({
+                config,
+                context,
+                registryTags: new Map([
+                    ['pkg-1', { latest: '1.5.0' }],
+                    ['pkg-2', { latest: '2.0.0' }],
+                    ['pkg-3', { latest: '3.3.0' }],
+                    ['pkg-4', { latest: '5.1.0' }],
+                ]),
+                versionStrategies: new Map([
+                    ['pkg-1', { type: 'patch', commits: [] }],
+                    ['pkg-2', { type: 'minor', commits: [] }],
+                    ['pkg-4', { type: 'patch', commits: [] }],
+                ]),
+                workspaceGroups: new Map([
+                    ['group-a', new Set(['pkg-1', 'pkg-2'])],
+                    ['group-b', new Set(['pkg-3', 'pkg-4'])],
+                ]),
+            })
 
-        it('uses the largest group version as the base version when applying the update strategy', async () =>
-            withMonorepoContext(
-                {
-                    'pkg-a1': { raw: { group: 'group-a' } },
-                    'pkg-a2': { raw: { group: 'group-a' } },
-                    'pkg-b1': { raw: { group: 'group-b' } },
-                    'pkg-b2': { raw: { group: 'group-b' } },
-                },
-                async (context) => {
-                    const config = {
-                        ...(await getMonodeployConfig({
-                            cwd: context.project.cwd,
-                            baseBranch: 'main',
-                            commitSha: 'shashasha',
-                        })),
-                        persistVersions: true,
-                    }
-                    const { next: intendedVersions } = await applyVersionStrategies({
-                        config,
-                        context,
-                        registryTags: new Map([
-                            ['pkg-a1', { latest: '1.5.0' }],
-                            ['pkg-a2', { latest: '2.0.0' }],
-                            ['pkg-b1', { latest: '3.3.0' }],
-                            ['pkg-b2', { latest: '5.1.0' }],
-                        ]),
-                        versionStrategies: new Map([['pkg-a1', { type: 'minor', commits: [] }]]),
-                        workspaceGroups: new Map([
-                            ['group-a', new Set(['pkg-a1', 'pkg-a2'])],
-                            ['group-b', new Set(['pkg-b1', 'pkg-b2'])],
-                        ]),
-                    })
+            // group-a
+            expect(intendedVersions.get('pkg-1')).toBe('2.1.0')
+            expect(intendedVersions.get('pkg-2')).toBe('2.1.0')
 
-                    // pkg-a1 applies "minor" to 2.0.0, not 1.5.0, since 2.0.0 is the greatest base version
-                    // across the entire group 'a'.
-                    expect(intendedVersions.get('pkg-a1')).toBe('2.1.0')
+            // group-b but with pkg-3 not changing because no strategy
+            expect(intendedVersions.has('pkg-3')).toBeFalsy()
+            expect(intendedVersions.get('pkg-4')).toBe('5.1.1')
+        })
 
-                    // no dependencies between the remaining packages, so they don't get updated
-                    expect(intendedVersions.get('pkg-a2')).toBeFalsy()
-                    expect(intendedVersions.has('pkg-b1')).toBeFalsy()
-                    expect(intendedVersions.get('pkg-b2')).toBeFalsy()
-                },
-            ))
+        it('uses the largest group version as the base version when applying the update strategy', async () => {
+            await using context = await createMonorepoContext({
+                'pkg-a1': { raw: { group: 'group-a' } },
+                'pkg-a2': { raw: { group: 'group-a' } },
+                'pkg-b1': { raw: { group: 'group-b' } },
+                'pkg-b2': { raw: { group: 'group-b' } },
+            })
+            const config = {
+                ...(await getMonodeployConfig({
+                    cwd: context.project.cwd,
+                    baseBranch: 'main',
+                    commitSha: 'shashasha',
+                })),
+                persistVersions: true,
+            }
+            const { next: intendedVersions } = await applyVersionStrategies({
+                config,
+                context,
+                registryTags: new Map([
+                    ['pkg-a1', { latest: '1.5.0' }],
+                    ['pkg-a2', { latest: '2.0.0' }],
+                    ['pkg-b1', { latest: '3.3.0' }],
+                    ['pkg-b2', { latest: '5.1.0' }],
+                ]),
+                versionStrategies: new Map([['pkg-a1', { type: 'minor', commits: [] }]]),
+                workspaceGroups: new Map([
+                    ['group-a', new Set(['pkg-a1', 'pkg-a2'])],
+                    ['group-b', new Set(['pkg-b1', 'pkg-b2'])],
+                ]),
+            })
+
+            // pkg-a1 applies "minor" to 2.0.0, not 1.5.0, since 2.0.0 is the greatest base version
+            // across the entire group 'a'.
+            expect(intendedVersions.get('pkg-a1')).toBe('2.1.0')
+
+            // no dependencies between the remaining packages, so they don't get updated
+            expect(intendedVersions.get('pkg-a2')).toBeFalsy()
+            expect(intendedVersions.has('pkg-b1')).toBeFalsy()
+            expect(intendedVersions.get('pkg-b2')).toBeFalsy()
+        })
     })
 })
 

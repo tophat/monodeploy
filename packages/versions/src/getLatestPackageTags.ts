@@ -6,7 +6,6 @@ import {
     isNodeError,
 } from '@monodeploy/types'
 import { MessageName, ReportError, type Workspace, structUtils } from '@yarnpkg/core'
-import { isReportError } from '@yarnpkg/core/lib/Report'
 import * as pluginNPM from '@yarnpkg/plugin-npm'
 import pLimit from 'p-limit'
 
@@ -29,6 +28,11 @@ function flattenDistTags(rawTags: RawDistTags): NormalizedDistTags {
         tags[key] = Array.isArray(value) ? value[0] : value
     }
     return tags
+}
+
+function isReportError(error: Error): error is ReportError {
+    // TODO: can this be replaced by an instanceof check?
+    return typeof (error as ReportError).reportCode !== 'undefined'
 }
 
 function statusCodeFromHTTPError(err: unknown): number | undefined {
