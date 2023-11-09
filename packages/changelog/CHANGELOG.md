@@ -2,6 +2,30 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [5.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.3.0...@monodeploy/changelog@5.0.0) "@monodeploy/changelog" (2023-11-09)<a name="5.0.0"></a>
+
+### Breaking Changes
+
+* Monodeploy now requires Yarn v4.0.1+, minimum Node 18+. ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+
+### Dependencies
+
+* update dependency @types/conventional-changelog-writer to ^4.0.6 (#829) ([f185d42](https://github.com/tophat/monodeploy/commits/f185d42))
+* update dependency @types/conventional-commits-parser to ^3.0.4 (#831) ([3d54969](https://github.com/tophat/monodeploy/commits/3d54969))
+* update dependency conventional-changelog-writer to ^7.0.1 (#837) ([5f44423](https://github.com/tophat/monodeploy/commits/5f44423))
+* update dependency @yarnpkg/core to ^3.5.4 (#854) ([78a2c9d](https://github.com/tophat/monodeploy/commits/78a2c9d))
+* update dependency @types/node to ^18.18.3 (#857) ([4b7eb4a](https://github.com/tophat/monodeploy/commits/4b7eb4a))
+* update dependency jest to ^29.7.0 (#858) ([32c7dd8](https://github.com/tophat/monodeploy/commits/32c7dd8))
+* update dependency @types/conventional-changelog-writer to ^4.0.7 (#870) ([5a34797](https://github.com/tophat/monodeploy/commits/5a34797))
+
+### Features
+
+* update to Yarn v4 ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+* update to Yarn 4 (#840) ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+
+
+
+
 ## [4.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/changelog@4.2.0...@monodeploy/changelog@4.3.0) "@monodeploy/changelog" (2023-09-05)<a name="4.3.0"></a>
 
 ### Dependencies

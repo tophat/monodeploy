@@ -2,6 +2,25 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [5.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@4.3.0...@monodeploy/dependencies@5.0.0) "@monodeploy/dependencies" (2023-11-09)<a name="5.0.0"></a>
+
+### Breaking Changes
+
+* Monodeploy now requires Yarn v4.0.1+, minimum Node 18+. ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+
+### Dependencies
+
+* update dependency @yarnpkg/core to ^3.5.4 (#854) ([78a2c9d](https://github.com/tophat/monodeploy/commits/78a2c9d))
+* update dependency jest to ^29.7.0 (#858) ([32c7dd8](https://github.com/tophat/monodeploy/commits/32c7dd8))
+
+### Features
+
+* update to Yarn v4 ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+* update to Yarn 4 (#840) ([7624e61](https://github.com/tophat/monodeploy/commits/7624e61))
+
+
+
+
 ## [4.3.0](https://github.com/tophat/monodeploy/compare/@monodeploy/dependencies@4.2.0...@monodeploy/dependencies@4.3.0) "@monodeploy/dependencies" (2023-09-05)<a name="4.3.0"></a>
 
 ### Dependencies
