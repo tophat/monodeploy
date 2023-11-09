@@ -65,7 +65,9 @@ export async function setupTestRepository(
 }
 
 export async function cleanUp(paths: string[]): Promise<void> {
-    await Promise.all(paths.map((path) => fs.rm(path, { recursive: true, force: true })))
+    await Promise.all(
+        paths.map((path) => fs.rm(path, { recursive: true, force: true }).catch(() => {})),
+    )
 }
 
 export async function createCommit(message: string, cwd: string): Promise<void> {
