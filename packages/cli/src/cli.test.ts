@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs'
-import os from 'os'
 import path from 'path'
 
 import monodeploy from '@monodeploy/node'
+import { createTempDir } from '@monodeploy/test-utils'
 
 const scriptPath = path.join(__dirname, 'index.ts')
 
@@ -13,6 +13,10 @@ jest.mock('@monodeploy/node', () => ({
 
 describe('CLI', () => {
     const origArgs = process.argv
+
+    beforeAll(() => {
+        process.env.MONODEPLOY_SUPPRESS_EXIT_CODE = '1'
+    })
 
     afterAll(() => {
         process.argv = origArgs
@@ -64,27 +68,25 @@ describe('CLI', () => {
 
         it('sets exit code to error if monodeploy throws', async () => {
             delete process.env.MONODEPLOY_DISABLE_LOGS
-            const prevExitCode = process.exitCode ?? 0
             const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
             const error = new Error('Monodeploy failed.')
             ;(monodeploy as jest.MockedFunction<typeof monodeploy>).mockImplementation(() => {
                 throw error
             })
             setArgs('')
+
             jest.isolateModules(() => {
                 require('./index')
             })
+
             await new Promise((r) => setTimeout(r))
             expect(spyError).toHaveBeenCalledWith(`${String(error)}\n`)
-            expect(process.exitCode).toBe(1)
-            process.exitCode = prevExitCode
         })
     })
 
     describe('Config File', () => {
         it('throws an error if unable to read config file', async () => {
             delete process.env.MONODEPLOY_DISABLE_LOGS
-            const prevExitCode = process.exitCode ?? 0
             const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
@@ -92,47 +94,34 @@ describe('CLI', () => {
                     invalid code
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ${configFilename}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toBe(1)
-                process.exitCode = prevExitCode
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ${configFilename}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(spyError).toHaveBeenCalled()
         })
 
         it('throws an error if invalid configuration', async () => {
             delete process.env.MONODEPLOY_DISABLE_LOGS
-            const prevExitCode = process.exitCode ?? 0
             const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
                 module.exports = { git: { baseBranch: true } }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ${configFilename}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toBe(1)
-                process.exitCode = prevExitCode
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ${configFilename}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(spyError).toHaveBeenCalled()
         })
 
         it('reads from specified config file using absolute path', async () => {
@@ -173,21 +162,17 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ${configFilename}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
-                ).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ${configFilename}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+            ).toMatchSnapshot()
         })
 
         it('reads from specified config file using path relative to cwd', async () => {
@@ -221,21 +206,16 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file monodeploy.config.js --cwd ${dir}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file monodeploy.config.js --cwd ${tmpDir.dir}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
 
         it('reads from specified config file using relative path', async () => {
@@ -266,21 +246,16 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ./monodeploy.config.js --cwd ${tmpDir.dir}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
 
         it('reads from monodeploy.config.js by default if it exists', async () => {
@@ -317,21 +292,16 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--cwd ${dir}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--cwd ${tmpDir.dir}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
 
         it('gives precedence to cli flags over config file', async () => {
@@ -367,23 +337,19 @@ describe('CLI', () => {
             }
         `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me --plugins plugin-a`,
-                )
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
-                ).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(
+                `--config-file ${configFilename} --git-base-branch next --jobs 3 --commit-ignore-patterns ignore-me --plugins plugin-a`,
+            )
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+            ).toMatchSnapshot()
         })
 
         it('gives precedence to cli flags over config file with negated flags', async () => {
@@ -417,31 +383,26 @@ describe('CLI', () => {
             }
         `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(
-                    `--config-file ${configFilename} --git-base-branch next --jobs 3 --no-prerelease ` +
-                        '--no-topological --no-topological-dev --no-persist-versions --no-changeset-ignore-patterns',
-                )
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(
-                    (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
-                ).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(
+                `--config-file ${configFilename} --git-base-branch next --jobs 3 --no-prerelease ` +
+                    '--no-topological --no-topological-dev --no-persist-versions --no-changeset-ignore-patterns',
+            )
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(
+                (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0],
+            ).toMatchSnapshot()
         })
     })
 
     describe('Presets', () => {
         it('throws an error if unable to read the preset file', async () => {
             delete process.env.MONODEPLOY_DISABLE_LOGS
-            const prevExitCode = process.exitCode ?? 0
             const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
@@ -453,29 +414,22 @@ describe('CLI', () => {
                     invalid code
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const presetFilename = path.resolve(path.join(dir, 'preset.js'))
-                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+            await using tmpDir = await createTempDir()
+            const presetFilename = path.resolve(path.join(tmpDir.dir, 'preset.js'))
+            await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
 
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ${configFilename}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toBe(1)
-                process.exitCode = prevExitCode
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ${configFilename}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(spyError).toHaveBeenCalled()
         })
 
         it('throws an error if invalid configuration', async () => {
             delete process.env.MONODEPLOY_DISABLE_LOGS
-            const prevExitCode = process.exitCode ?? 0
             const spyError = jest.spyOn(process.stderr, 'write').mockImplementation()
 
             const configFileContents = `
@@ -486,24 +440,18 @@ describe('CLI', () => {
                 module.exports = { git: { baseBranch: true } }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const presetFilename = path.resolve(path.join(dir, 'preset.js'))
-                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+            await using tmpDir = await createTempDir()
+            const presetFilename = path.resolve(path.join(tmpDir.dir, 'preset.js'))
+            await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
 
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ${configFilename}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                expect(spyError).toHaveBeenCalled()
-                expect(process.exitCode).toBe(1)
-                process.exitCode = prevExitCode
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ${configFilename}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            expect(spyError).toHaveBeenCalled()
         })
 
         it('merges preset with overrides, defined in config file', async () => {
@@ -548,23 +496,18 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const presetFilename = path.resolve(path.join(dir, 'some-preset.js'))
-                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--config-file ./monodeploy.config.js --cwd ${dir}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const presetFilename = path.resolve(path.join(tmpDir.dir, 'some-preset.js'))
+            await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--config-file ./monodeploy.config.js --cwd ${tmpDir.dir}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
 
         it('merges preset with overrides, with preset passed as cli arg', async () => {
@@ -608,29 +551,24 @@ describe('CLI', () => {
                 }
             `
 
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
-            try {
-                const presetFilename = path.resolve(path.join(dir, 'some-preset.js'))
-                await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(
-                    `--config-file ./monodeploy.config.js --preset ./some-preset.js --cwd ${dir}`,
-                )
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            await using tmpDir = await createTempDir()
+            const presetFilename = path.resolve(path.join(tmpDir.dir, 'some-preset.js'))
+            await fs.writeFile(presetFilename, presetFileContents, 'utf-8')
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(
+                `--config-file ./monodeploy.config.js --preset ./some-preset.js --cwd ${tmpDir.dir}`,
+            )
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
 
         it('reads built-in presets', async () => {
-            const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'monorepo-'))
+            await using tmpDir = await createTempDir()
 
             const configFileContents = `
                 module.exports = {
@@ -661,20 +599,15 @@ describe('CLI', () => {
                 }
             `
 
-            try {
-                const configFilename = path.resolve(path.join(dir, 'monodeploy.config.js'))
-                await fs.writeFile(configFilename, configFileContents, 'utf-8')
-                setArgs(`--cwd ${dir}`)
-                jest.isolateModules(() => {
-                    require('./index')
-                })
-                await new Promise((r) => setTimeout(r))
-                const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock
-                    .calls[0][0]
-                expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
-            } finally {
-                await fs.rm(dir, { recursive: true, force: true })
-            }
+            const configFilename = path.resolve(path.join(tmpDir.dir, 'monodeploy.config.js'))
+            await fs.writeFile(configFilename, configFileContents, 'utf-8')
+            setArgs(`--cwd ${tmpDir.dir}`)
+            jest.isolateModules(() => {
+                require('./index')
+            })
+            await new Promise((r) => setTimeout(r))
+            const config = (monodeploy as jest.MockedFunction<typeof monodeploy>).mock.calls[0][0]
+            expect({ ...config, cwd: config.cwd ? '/tmp/cwd' : null }).toMatchSnapshot()
         })
     })
 })

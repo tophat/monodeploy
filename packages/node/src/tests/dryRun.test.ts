@@ -1,10 +1,9 @@
 import { promises as fs } from 'fs'
-import os from 'os'
 import path from 'path'
 
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
-import { setupMonorepo } from '@monodeploy/test-utils'
+import { createTempDir, setupMonorepo } from '@monodeploy/test-utils'
 import { type MonodeployConfiguration, RegistryMode, type YarnContext } from '@monodeploy/types'
 import { npath } from '@yarnpkg/fslib'
 import * as npm from '@yarnpkg/plugin-npm'
@@ -113,19 +112,13 @@ describe('Monodeploy (Dry Run)', () => {
     })
 
     it('throws an error if invoked in a non-project', async () => {
-        const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'non-workspace-'))
-        try {
-            await expect(async () => {
-                await monodeploy({
-                    ...monodeployConfig,
-                    cwd: tmpDir,
-                })
-            }).rejects.toThrow(/No project/)
-        } finally {
-            try {
-                await fs.rm(tmpDir, { recursive: true, force: true })
-            } catch {}
-        }
+        await using tmp = await createTempDir()
+        await expect(async () => {
+            await monodeploy({
+                ...monodeployConfig,
+                cwd: tmp.dir,
+            })
+        }).rejects.toThrow(/No project/)
     })
 
     it('does not publish if no changes detected', async () => {
@@ -215,61 +208,54 @@ describe('Monodeploy (Dry Run)', () => {
         mockNPM._setTag_('pkg-3', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./packages/pkg-1/README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
-        const changesetFilename = await path.join(tempDir, 'changeset.json')
+        await using tmp = await createTempDir()
+        const changelogFilename = await path.join(tmp.dir, 'changelog.md')
+        const changesetFilename = await path.join(tmp.dir, 'changeset.json')
 
-        try {
-            const changelogTemplate = [
-                '# Changelog',
-                'Some blurb',
-                '<!-- MONODEPLOY:BELOW -->',
-                '## Old Versions',
-                'Content',
-            ].join('\n')
-            await fs.writeFile(changelogFilename, changelogTemplate, {
+        const changelogTemplate = [
+            '# Changelog',
+            'Some blurb',
+            '<!-- MONODEPLOY:BELOW -->',
+            '## Old Versions',
+            'Content',
+        ].join('\n')
+        await fs.writeFile(changelogFilename, changelogTemplate, {
+            encoding: 'utf-8',
+        })
+
+        const result = await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            changesetFilename,
+            forceWriteChangeFiles: true,
+        })
+
+        // pkg-1 is explicitly updated with minor bump
+        expect(result['pkg-1'].version).toBe('0.1.0')
+
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
+
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+
+        // assert it contains the old entries
+        expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
+
+        const changeset = JSON.parse(
+            await fs.readFile(changesetFilename, {
                 encoding: 'utf-8',
-            })
+            }),
+        )
 
-            const result = await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                changesetFilename,
-                forceWriteChangeFiles: true,
-            })
-
-            // pkg-1 is explicitly updated with minor bump
-            expect(result['pkg-1'].version).toBe('0.1.0')
-
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
-
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
-
-            // assert it contains the old entries
-            expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
-
-            const changeset = JSON.parse(
-                await fs.readFile(changesetFilename, {
-                    encoding: 'utf-8',
+        expect(changeset).toEqual(
+            expect.objectContaining({
+                'pkg-1': expect.objectContaining({
+                    version: '0.1.0',
+                    changelog: expect.stringContaining('some new feature'),
                 }),
-            )
-
-            expect(changeset).toEqual(
-                expect.objectContaining({
-                    'pkg-1': expect.objectContaining({
-                        version: '0.1.0',
-                        changelog: expect.stringContaining('some new feature'),
-                    }),
-                }),
-            )
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+            }),
+        )
     })
 })

@@ -26,7 +26,7 @@
         "lint:ci": "eslint . --format junit --output-file ${ARTIFACT_DIR:-artifacts}/test_results/eslint/eslint.junit.xml",
         "lint:fix": "eslint . --fix",
         "lint": "eslint .",
-        "test:ci": "CI=1 run test --ci",
+        "test:ci": "CI=1 run test --ci --runInBand",
         "test:watch": "run test --watch",
         "test": "jest --config=jest.config.js",
         "test:all": "yarn test:ci && yarn test:e2e && yarn test:coverage:merge && yarn test:coverage:report",

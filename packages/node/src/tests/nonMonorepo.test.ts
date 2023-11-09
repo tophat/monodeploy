@@ -1,10 +1,9 @@
 import { promises as fs } from 'fs'
-import os from 'os'
 import path from 'path'
 
 import * as git from '@monodeploy/git'
 import { LOG_LEVELS } from '@monodeploy/logging'
-import { setupMonorepo } from '@monodeploy/test-utils'
+import { createTempDir, setupMonorepo } from '@monodeploy/test-utils'
 import {
     type CommitMessage,
     type MonodeployConfiguration,
@@ -126,42 +125,35 @@ describe('Non-monorepos (single package)', () => {
         mockNPM._setTag_('pkg-1', '0.0.1')
         mockGit._commitFiles_('sha1', 'feat: some new feature!', ['./README.md'])
 
-        const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'changelog-'))
-        const changelogFilename = await path.join(tempDir, 'changelog.md')
-        const changesetFilename = await path.join(tempDir, 'changeset.json')
+        await using tmp = await createTempDir()
+        const changelogFilename = await path.join(tmp.dir, 'changelog.md')
+        const changesetFilename = await path.join(tmp.dir, 'changeset.json')
 
-        try {
-            const changelogTemplate = [
-                '# Changelog',
-                'Some blurb',
-                '<!-- MONODEPLOY:BELOW -->',
-                '## Old Versions',
-                'Content',
-            ].join('\n')
-            await fs.writeFile(changelogFilename, changelogTemplate, {
-                encoding: 'utf-8',
-            })
+        const changelogTemplate = [
+            '# Changelog',
+            'Some blurb',
+            '<!-- MONODEPLOY:BELOW -->',
+            '## Old Versions',
+            'Content',
+        ].join('\n')
+        await fs.writeFile(changelogFilename, changelogTemplate, {
+            encoding: 'utf-8',
+        })
 
-            await monodeploy({
-                ...monodeployConfig,
-                changelogFilename,
-                changesetFilename,
-            })
+        await monodeploy({
+            ...monodeployConfig,
+            changelogFilename,
+            changesetFilename,
+        })
 
-            const updatedChangelog = await fs.readFile(changelogFilename, {
-                encoding: 'utf-8',
-            })
+        const updatedChangelog = await fs.readFile(changelogFilename, {
+            encoding: 'utf-8',
+        })
 
-            // assert it contains the new entry
-            expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
+        // assert it contains the new entry
+        expect(updatedChangelog).toEqual(expect.stringContaining('some new feature'))
 
-            // assert it contains the old entries
-            expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
-        } finally {
-            try {
-                await fs.unlink(changelogFilename)
-                await fs.rm(tempDir, { recursive: true, force: true })
-            } catch {}
-        }
+        // assert it contains the old entries
+        expect(updatedChangelog).toEqual(expect.stringContaining('Old Versions'))
     })
 })

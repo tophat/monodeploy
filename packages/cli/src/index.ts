@@ -12,7 +12,11 @@ const throwAwayStream = () =>
         },
     })
 
-cli.runExit(process.argv.slice(2), {
+cli.run(process.argv.slice(2), {
     stderr: enableLogs ? process.stderr : throwAwayStream(),
     stdout: enableLogs ? process.stdout : throwAwayStream(),
+}).then((exitCode) => {
+    if (!process.env.MONODEPLOY_SUPPRESS_EXIT_CODE) {
+        process.exitCode = exitCode
+    }
 })
