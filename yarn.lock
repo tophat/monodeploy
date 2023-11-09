@@ -2962,7 +2962,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-changelog-writer": "npm:^4.0.6"
+    "@types/conventional-changelog-writer": "npm:^4.0.7"
     "@types/conventional-commits-parser": "npm:^3.0.4"
     "@types/jest": "npm:^29.5.5"
     "@types/node": "npm:^18.18.3"
@@ -4482,7 +4482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/conventional-changelog-writer@npm:^4.0.1, @types/conventional-changelog-writer@npm:^4.0.6":
+"@types/conventional-changelog-writer@npm:^4.0.1, @types/conventional-changelog-writer@npm:^4.0.7":
   version: 4.0.9
   resolution: "@types/conventional-changelog-writer@npm:4.0.9"
   dependencies:
