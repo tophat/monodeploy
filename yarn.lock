@@ -1765,7 +1765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/cli@npm:^17.8.0":
+"@commitlint/cli@npm:^17.8.1":
   version: 17.8.1
   resolution: "@commitlint/cli@npm:17.8.1"
   dependencies:
@@ -3117,7 +3117,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monodeploy/monorepo@workspace:."
   dependencies:
-    "@commitlint/cli": "npm:^17.8.0"
+    "@commitlint/cli": "npm:^17.8.1"
     "@jest/types": "npm:^29.6.3"
     "@monodeploy/git": "workspace:*"
     "@monodeploy/io": "workspace:*"
