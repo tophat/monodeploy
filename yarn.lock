@@ -3023,7 +3023,7 @@ __metadata:
     "@mdx-js/loader": "npm:^2.3.0"
     "@mdx-js/react": "npm:^2.3.0"
     "@types/babel__core": "npm:^7.20.4"
-    "@types/loader-utils": "npm:^2.0.4"
+    "@types/loader-utils": "npm:^2.0.5"
     "@types/mdx-js__react": "npm:^1.5.6"
     "@types/react": "npm:^18.2.25"
     "@types/react-dom": "npm:^18.2.10"
@@ -4712,7 +4712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/loader-utils@npm:^2.0.4":
+"@types/loader-utils@npm:^2.0.5":
   version: 2.0.6
   resolution: "@types/loader-utils@npm:2.0.6"
   dependencies:
