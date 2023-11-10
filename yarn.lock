@@ -2963,7 +2963,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/conventional-changelog-writer": "npm:^4.0.7"
-    "@types/conventional-commits-parser": "npm:^3.0.4"
+    "@types/conventional-commits-parser": "npm:^3.0.5"
     "@types/jest": "npm:^29.5.5"
     "@types/node": "npm:^18.18.3"
     "@yarnpkg/core": "npm:^4.0.1"
@@ -3341,7 +3341,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-commits-parser": "npm:^3.0.4"
+    "@types/conventional-commits-parser": "npm:^3.0.5"
     "@types/jest": "npm:^29.5.5"
     "@types/micromatch": "npm:^4.0.3"
     "@types/semver": "npm:^7.5.3"
@@ -4492,7 +4492,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.2, @types/conventional-commits-parser@npm:^3.0.4":
+"@types/conventional-commits-parser@npm:*, @types/conventional-commits-parser@npm:^3.0.2, @types/conventional-commits-parser@npm:^3.0.5":
   version: 3.0.6
   resolution: "@types/conventional-commits-parser@npm:3.0.6"
   dependencies:
