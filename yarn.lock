@@ -3027,7 +3027,7 @@ __metadata:
     "@types/mdx-js__react": "npm:^1.5.7"
     "@types/react": "npm:^18.2.25"
     "@types/react-dom": "npm:^18.2.14"
-    "@types/react-helmet": "npm:^6.1.7"
+    "@types/react-helmet": "npm:^6.1.8"
     gatsby: "npm:^4.25.7"
     gatsby-plugin-gatsby-cloud: "npm:^4.25.0"
     gatsby-plugin-image: "npm:^2.25.0"
@@ -4881,7 +4881,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-helmet@npm:^6.1.7":
+"@types/react-helmet@npm:^6.1.8":
   version: 6.1.9
   resolution: "@types/react-helmet@npm:6.1.9"
   dependencies:
