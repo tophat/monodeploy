@@ -3087,7 +3087,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/jest": "npm:^29.5.6"
     "@types/node": "npm:^18.18.3"
-    "@types/semver": "npm:^7.5.3"
+    "@types/semver": "npm:^7.5.4"
     "@yarnpkg/core": "npm:^4.0.1"
     "@yarnpkg/fslib": "npm:^3.0.1"
     "@yarnpkg/shell": "npm:^4.0.0"
@@ -3344,7 +3344,7 @@ __metadata:
     "@types/conventional-commits-parser": "npm:^3.0.5"
     "@types/jest": "npm:^29.5.6"
     "@types/micromatch": "npm:^4.0.4"
-    "@types/semver": "npm:^7.5.3"
+    "@types/semver": "npm:^7.5.4"
     "@yarnpkg/cli": "npm:^4.0.1"
     "@yarnpkg/core": "npm:^4.0.1"
     "@yarnpkg/fslib": "npm:^3.0.1"
@@ -4927,7 +4927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.1.0, @types/semver@npm:^7.3.12, @types/semver@npm:^7.5.0, @types/semver@npm:^7.5.3":
+"@types/semver@npm:^7.1.0, @types/semver@npm:^7.3.12, @types/semver@npm:^7.5.0, @types/semver@npm:^7.5.4":
   version: 7.5.5
   resolution: "@types/semver@npm:7.5.5"
   checksum: 1b0be2c4d830f5ef002a305308e06e3616fc38a41c9a2c5b4267df82a038d9bd0ba32ec1da82a52db84a720be7e4b69bac7593797d8dc1400a69069af8f19219
