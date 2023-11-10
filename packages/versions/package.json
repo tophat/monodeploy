@@ -43,7 +43,7 @@
     "@types/conventional-commits-parser": "^3.0.5",
     "@types/jest": "^29.5.6",
     "@types/micromatch": "^4.0.4",
-    "@types/semver": "^7.5.3",
+    "@types/semver": "^7.5.4",
     "@yarnpkg/cli": "^4.0.1",
     "@yarnpkg/core": "^4.0.1",
     "@yarnpkg/fslib": "^3.0.1",
