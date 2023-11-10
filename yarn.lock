@@ -3064,7 +3064,7 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/jest": "npm:^29.5.6"
-    "@types/micromatch": "npm:^4.0.3"
+    "@types/micromatch": "npm:^4.0.4"
     "@types/node": "npm:^18.18.3"
     "@yarnpkg/core": "npm:^4.0.1"
     "@yarnpkg/fslib": "npm:^3.0.1"
@@ -3343,7 +3343,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/conventional-commits-parser": "npm:^3.0.5"
     "@types/jest": "npm:^29.5.6"
-    "@types/micromatch": "npm:^4.0.3"
+    "@types/micromatch": "npm:^4.0.4"
     "@types/semver": "npm:^7.5.3"
     "@yarnpkg/cli": "npm:^4.0.1"
     "@yarnpkg/core": "npm:^4.0.1"
@@ -4754,7 +4754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:^4.0.3":
+"@types/micromatch@npm:^4.0.4":
   version: 4.0.5
   resolution: "@types/micromatch@npm:4.0.5"
   dependencies:
