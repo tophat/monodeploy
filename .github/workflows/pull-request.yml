@@ -205,7 +205,7 @@ jobs:
           comment-author: 'tophat-opensource-bot'
           body-includes: <!-- MONODEPLOY_CHANGELOG_PREVIEW -->
       - name: Post Changelog to PR
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # tag=v3.0.2
+        uses: peter-evans/create-or-update-comment@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.1.0
         if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
