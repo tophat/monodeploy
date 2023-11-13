@@ -10,7 +10,7 @@
     "react-markdown": "^8.0.7",
     "remark-external-links": "^9.0.1",
     "sanitize.css": "^13.0.0",
-    "typedoc": "^0.25.1"
+    "typedoc": "^0.25.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",

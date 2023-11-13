@@ -3051,7 +3051,7 @@ __metadata:
     react-markdown: "npm:^8.0.7"
     remark-external-links: "npm:^9.0.1"
     sanitize.css: "npm:^13.0.0"
-    typedoc: "npm:^0.25.1"
+    typedoc: "npm:^0.25.2"
   languageName: unknown
   linkType: soft
 
@@ -3323,7 +3323,7 @@ __metadata:
     "@yarnpkg/core": "npm:^4.0.1"
     tapable: "npm:^2.2.1"
     ts-node: "npm:^10.9.1"
-    typedoc: "npm:^0.25.1"
+    typedoc: "npm:^0.25.2"
     typescript: "npm:5.2.2"
   peerDependencies:
     "@yarnpkg/core": ^4.0.1
@@ -21378,7 +21378,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.25.1":
+"typedoc@npm:^0.25.2":
   version: 0.25.3
   resolution: "typedoc@npm:0.25.3"
   dependencies:
