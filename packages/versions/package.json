@@ -44,8 +44,8 @@
     "@types/jest": "^29.5.6",
     "@types/micromatch": "^4.0.4",
     "@types/semver": "^7.5.4",
-    "@yarnpkg/cli": "^4.0.1",
-    "@yarnpkg/core": "^4.0.1",
+    "@yarnpkg/cli": "^4.0.2",
+    "@yarnpkg/core": "^4.0.2",
     "@yarnpkg/fslib": "^3.0.1",
     "@yarnpkg/plugin-npm": "^3.0.0",
     "@yarnpkg/plugin-pack": "^4.0.0"
@@ -57,8 +57,8 @@
     "@monodeploy/io": "workspace:^5.0.0",
     "@monodeploy/logging": "workspace:^5.0.0",
     "@monodeploy/types": "workspace:^5.0.0",
-    "@yarnpkg/cli": "^4.0.1",
-    "@yarnpkg/core": "^4.0.1",
+    "@yarnpkg/cli": "^4.0.2",
+    "@yarnpkg/core": "^4.0.2",
     "@yarnpkg/fslib": "^3.0.1",
     "@yarnpkg/plugin-npm": "^3.0.0",
     "@yarnpkg/plugin-pack": "^4.0.0"
