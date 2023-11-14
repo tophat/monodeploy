@@ -2,6 +2,18 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [5.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/types@5.0.0...@monodeploy/types@5.0.1) "@monodeploy/types" (2023-11-14)<a name="5.0.1"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.6 (#874) ([dd726bd](https://github.com/tophat/monodeploy/commits/dd726bd))
+* update node.js to >=18.18.2 (#889) ([5b1880b](https://github.com/tophat/monodeploy/commits/5b1880b))
+* update dependency typedoc to ^0.25.2 (#888) ([e08b0ba](https://github.com/tophat/monodeploy/commits/e08b0ba))
+* update to yarn 4.0.2 (#899) ([a2c3491](https://github.com/tophat/monodeploy/commits/a2c3491))
+
+
+
+
 ## [5.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/types@4.3.0...@monodeploy/types@5.0.0) "@monodeploy/types" (2023-11-09)<a name="5.0.0"></a>
 
 ### Breaking Changes

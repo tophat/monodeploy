@@ -2,6 +2,19 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [5.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@5.0.0...@monodeploy/versions@5.0.1) "@monodeploy/versions" (2023-11-14)<a name="5.0.1"></a>
+
+### Dependencies
+
+* update dependency @types/conventional-commits-parser to ^3.0.5 (#873) ([0c67816](https://github.com/tophat/monodeploy/commits/0c67816))
+* update dependency @types/jest to ^29.5.6 (#874) ([dd726bd](https://github.com/tophat/monodeploy/commits/dd726bd))
+* update dependency @types/micromatch to ^4.0.4 (#878) ([f31ec84](https://github.com/tophat/monodeploy/commits/f31ec84))
+* update dependency @types/semver to ^7.5.4 (#882) ([06e27e1](https://github.com/tophat/monodeploy/commits/06e27e1))
+* update to yarn 4.0.2 (#899) ([a2c3491](https://github.com/tophat/monodeploy/commits/a2c3491))
+
+
+
+
 ## [5.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@4.3.0...@monodeploy/versions@5.0.0) "@monodeploy/versions" (2023-11-09)<a name="5.0.0"></a>
 
 ### Breaking Changes

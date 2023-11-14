@@ -2,6 +2,17 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [2.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@2.0.0...@monodeploy/plugin-github@2.0.1) "@monodeploy/plugin-github" (2023-11-14)<a name="2.0.1"></a>
+
+### Dependencies
+
+* update dependency @types/jest to ^29.5.6 (#874) ([dd726bd](https://github.com/tophat/monodeploy/commits/dd726bd))
+* update node.js to >=18.18.2 (#889) ([5b1880b](https://github.com/tophat/monodeploy/commits/5b1880b))
+* update to yarn 4.0.2 (#899) ([a2c3491](https://github.com/tophat/monodeploy/commits/a2c3491))
+
+
+
+
 ## [2.0.0](https://github.com/tophat/monodeploy/compare/@monodeploy/plugin-github@1.2.0...@monodeploy/plugin-github@2.0.0) "@monodeploy/plugin-github" (2023-11-09)<a name="2.0.0"></a>
 
 ### Breaking Changes
