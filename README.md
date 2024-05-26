@@ -1,3 +1,7 @@
+# ⚠️ DEPRECATION NOTICE
+
+> Monodeploy has been replaced by [Monoweave](https://github.com/monoweave/monoweave). Monoweave supports all the functionality of monodeploy, with additional features, bug fixes, and continued development.
+
 # monodeploy
 
 <span><img align="right" width="200" height="200" src="./assets/monodeploy.svg" alt="monodeploy"></span>
