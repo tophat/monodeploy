@@ -2924,8 +2924,8 @@ __metadata:
     "@monodeploy/io": "workspace:^5.0.1"
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/core": ^4.0.2
-    "@yarnpkg/fslib": ^3.0.1
+    "@yarnpkg/core": ^4.1.1
+    "@yarnpkg/fslib": ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -2942,7 +2942,7 @@ __metadata:
   peerDependencies:
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/core": ^4.0.2
+    "@yarnpkg/core": ^4.1.1
   languageName: unknown
   linkType: soft
 
@@ -3023,8 +3023,8 @@ __metadata:
     "@monodeploy/io": "workspace:^5.0.1"
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/core": ^4.0.2
-    "@yarnpkg/fslib": ^3.0.1
+    "@yarnpkg/core": ^4.1.1
+    "@yarnpkg/fslib": ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -3045,9 +3045,9 @@ __metadata:
   peerDependencies:
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/core": ^4.0.2
-    "@yarnpkg/fslib": ^3.0.1
-    "@yarnpkg/shell": ^4.0.0
+    "@yarnpkg/core": ^4.1.1
+    "@yarnpkg/fslib": ^3.1.0
+    "@yarnpkg/shell": ^4.0.2
   languageName: unknown
   linkType: soft
 
@@ -3059,7 +3059,7 @@ __metadata:
     "@types/node": "npm:^18.18.6"
     "@yarnpkg/core": "npm:^4.1.1"
   peerDependencies:
-    "@yarnpkg/core": ^4.0.2
+    "@yarnpkg/core": ^4.1.1
   languageName: unknown
   linkType: soft
 
@@ -3137,12 +3137,12 @@ __metadata:
     "@monodeploy/versions": "workspace:^5.0.1"
     "@types/jest": "npm:^29.5.6"
     "@types/node": "npm:^18.18.6"
-    "@yarnpkg/cli": "npm:^4.3.1"
-    "@yarnpkg/core": "npm:^4.1.1"
-    "@yarnpkg/fslib": "npm:^3.1.0"
-    "@yarnpkg/plugin-npm": "npm:^3.0.1"
+    "@yarnpkg/cli": "npm:^4.0.2"
+    "@yarnpkg/core": "npm:^4.0.2"
+    "@yarnpkg/fslib": "npm:^3.0.1"
+    "@yarnpkg/plugin-npm": "npm:^3.0.0"
     "@yarnpkg/plugin-pack": "npm:^4.0.0"
-    "@yarnpkg/shell": "npm:^4.0.2"
+    "@yarnpkg/shell": "npm:^4.0.0"
     tapable: "npm:^2.2.1"
   languageName: unknown
   linkType: soft
@@ -3160,9 +3160,9 @@ __metadata:
     "@octokit/plugin-throttling": "npm:^8.1.2"
     "@types/jest": "npm:^29.5.6"
     "@types/node": "npm:^18.18.6"
-    "@yarnpkg/core": "npm:^4.1.1"
-    "@yarnpkg/fslib": "npm:^3.1.0"
-    "@yarnpkg/shell": "npm:^4.0.2"
+    "@yarnpkg/core": "npm:^4.0.2"
+    "@yarnpkg/fslib": "npm:^3.0.1"
+    "@yarnpkg/shell": "npm:^4.0.0"
     tapable: "npm:^2.2.1"
   languageName: unknown
   linkType: soft
@@ -3191,10 +3191,10 @@ __metadata:
     "@monodeploy/io": "workspace:^5.0.1"
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/cli": ^4.0.2
-    "@yarnpkg/core": ^4.0.2
-    "@yarnpkg/fslib": ^3.0.1
-    "@yarnpkg/plugin-npm": ^3.0.0
+    "@yarnpkg/cli": ^4.3.1
+    "@yarnpkg/core": ^4.1.1
+    "@yarnpkg/fslib": ^3.1.0
+    "@yarnpkg/plugin-npm": ^3.0.1
     "@yarnpkg/plugin-pack": ^4.0.0
   languageName: unknown
   linkType: soft
@@ -3277,7 +3277,7 @@ __metadata:
     typedoc: "npm:^0.25.2"
     typescript: "npm:5.2.2"
   peerDependencies:
-    "@yarnpkg/core": ^4.0.2
+    "@yarnpkg/core": ^4.1.1
   languageName: unknown
   linkType: soft
 
@@ -3313,10 +3313,10 @@ __metadata:
     "@monodeploy/io": "workspace:^5.0.1"
     "@monodeploy/logging": "workspace:^5.0.1"
     "@monodeploy/types": "workspace:^5.0.1"
-    "@yarnpkg/cli": ^4.0.2
-    "@yarnpkg/core": ^4.0.2
-    "@yarnpkg/fslib": ^3.0.1
-    "@yarnpkg/plugin-npm": ^3.0.0
+    "@yarnpkg/cli": ^4.3.1
+    "@yarnpkg/core": ^4.1.1
+    "@yarnpkg/fslib": ^3.1.0
+    "@yarnpkg/plugin-npm": ^3.0.1
     "@yarnpkg/plugin-pack": ^4.0.0
   languageName: unknown
   linkType: soft
@@ -5453,7 +5453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/cli@npm:^4.3.1":
+"@yarnpkg/cli@npm:^4.0.2, @yarnpkg/cli@npm:^4.3.1":
   version: 4.3.1
   resolution: "@yarnpkg/cli@npm:4.3.1"
   dependencies:
@@ -5496,7 +5496,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/core@npm:^4.0.3, @yarnpkg/core@npm:^4.1.0, @yarnpkg/core@npm:^4.1.1":
+"@yarnpkg/core@npm:^4.0.2, @yarnpkg/core@npm:^4.0.3, @yarnpkg/core@npm:^4.1.0, @yarnpkg/core@npm:^4.1.1":
   version: 4.1.1
   resolution: "@yarnpkg/core@npm:4.1.1"
   dependencies:
@@ -5811,7 +5811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/plugin-npm@npm:^3.0.1":
+"@yarnpkg/plugin-npm@npm:^3.0.0, @yarnpkg/plugin-npm@npm:^3.0.1":
   version: 3.0.1
   resolution: "@yarnpkg/plugin-npm@npm:3.0.1"
   dependencies:
@@ -5991,7 +5991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/shell@npm:^4.0.2":
+"@yarnpkg/shell@npm:^4.0.0, @yarnpkg/shell@npm:^4.0.2":
   version: 4.0.2
   resolution: "@yarnpkg/shell@npm:4.0.2"
   dependencies:
@@ -16488,7 +16488,7 @@ __metadata:
     "@monodeploy/types": "workspace:^5.0.1"
     "@types/jest": "npm:^29.5.6"
     "@types/node": "npm:^18.18.6"
-    "@yarnpkg/core": "npm:^4.1.1"
+    "@yarnpkg/core": "npm:^4.0.2"
     "@yarnpkg/fslib": "npm:^3.1.0"
     ajv: "npm:^8.12.0"
     clipanion: "npm:^3.2.1"

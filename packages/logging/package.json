@@ -32,6 +32,6 @@
     "@yarnpkg/core": "^4.1.1"
   },
   "peerDependencies": {
-    "@yarnpkg/core": "^4.0.2"
+    "@yarnpkg/core": "^4.1.1"
   }
 }
