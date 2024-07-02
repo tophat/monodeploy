@@ -2,6 +2,16 @@
 
 <!-- MONODEPLOY:BELOW -->
 
+## [5.0.2](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@5.0.1...@monodeploy/versions@5.0.2) "@monodeploy/versions" (2024-07-02)<a name="5.0.2"></a>
+
+### Dependencies
+
+* update yarn ([38800c8](https://github.com/tophat/monodeploy/commits/38800c8))
+* update yarn to 4.3.1 (#905) ([38800c8](https://github.com/tophat/monodeploy/commits/38800c8))
+
+
+
+
 ## [5.0.1](https://github.com/tophat/monodeploy/compare/@monodeploy/versions@5.0.0...@monodeploy/versions@5.0.1) "@monodeploy/versions" (2023-11-14)<a name="5.0.1"></a>
 
 ### Dependencies
