@@ -45,7 +45,7 @@
     "@monodeploy/logging": "workspace:*",
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
-    "@types/conventional-changelog-writer": "^4.0.7",
+    "@types/conventional-changelog-writer": "^4.0.10",
     "@types/conventional-commits-parser": "^3.0.5",
     "@types/jest": "^29.5.6",
     "@types/node": "^18.18.6",

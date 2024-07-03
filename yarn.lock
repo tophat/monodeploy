@@ -2909,7 +2909,7 @@ __metadata:
     "@monodeploy/logging": "workspace:*"
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
-    "@types/conventional-changelog-writer": "npm:^4.0.7"
+    "@types/conventional-changelog-writer": "npm:^4.0.10"
     "@types/conventional-commits-parser": "npm:^3.0.5"
     "@types/jest": "npm:^29.5.6"
     "@types/node": "npm:^18.18.6"
@@ -4447,13 +4447,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/conventional-changelog-writer@npm:^4.0.1, @types/conventional-changelog-writer@npm:^4.0.7":
+"@types/conventional-changelog-writer@npm:^4.0.1":
   version: 4.0.9
   resolution: "@types/conventional-changelog-writer@npm:4.0.9"
   dependencies:
     "@types/conventional-commits-parser": "npm:*"
     "@types/node": "npm:*"
   checksum: 10/f7ded8b6a47ddb2bfb1f39b5ea43571c284c3e67b04cffeca562fc5acf63b958842c5a788ce9d40e2a8e11bb270f0ee44c4a4dcc1c84b37d22c82a4f6a1ad613
+  languageName: node
+  linkType: hard
+
+"@types/conventional-changelog-writer@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "@types/conventional-changelog-writer@npm:4.0.10"
+  dependencies:
+    "@types/conventional-commits-parser": "npm:*"
+    "@types/node": "npm:*"
+  checksum: 10/a7067d123a27e307c1a7c8ea6593f9f288584ee598fae9b625dedbc44a1d290bc9c30d69682021afe06d963a2aea089daf32e58dc481a7ccb8df55e6886d4951
   languageName: node
   linkType: hard
 
