@@ -46,7 +46,7 @@
     "@monodeploy/test-utils": "link:../../testUtils",
     "@monodeploy/types": "workspace:*",
     "@types/conventional-changelog-writer": "^4.0.10",
-    "@types/conventional-commits-parser": "^3.0.5",
+    "@types/conventional-commits-parser": "^3.0.6",
     "@types/jest": "^29.5.6",
     "@types/node": "^18.18.6",
     "@yarnpkg/core": "^4.1.1",
