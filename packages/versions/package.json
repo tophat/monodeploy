@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "conventional-commits-parser": "^5.0.0",
-    "micromatch": "^4.0.5",
+    "micromatch": "^4.0.7",
     "p-limit": "^3.1.0",
     "semver": "^7.5.4"
   },
@@ -42,7 +42,7 @@
     "@monodeploy/types": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.6",
     "@types/jest": "^29.5.12",
-    "@types/micromatch": "^4.0.4",
+    "@types/micromatch": "^4.0.7",
     "@types/semver": "^7.5.4",
     "@yarnpkg/cli": "^4.3.1",
     "@yarnpkg/core": "^4.1.1",
