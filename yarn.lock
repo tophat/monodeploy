@@ -3013,12 +3013,12 @@ __metadata:
     "@monodeploy/test-utils": "link:../../testUtils"
     "@monodeploy/types": "workspace:*"
     "@types/jest": "npm:^29.5.12"
-    "@types/micromatch": "npm:^4.0.4"
+    "@types/micromatch": "npm:^4.0.7"
     "@types/node": "npm:^18.18.6"
     "@yarnpkg/core": "npm:^4.1.1"
     "@yarnpkg/fslib": "npm:^3.1.0"
     "@yarnpkg/shell": "npm:^4.0.2"
-    micromatch: "npm:^4.0.5"
+    micromatch: "npm:^4.0.7"
   peerDependencies:
     "@monodeploy/io": "workspace:^5.0.2"
     "@monodeploy/logging": "workspace:^5.0.2"
@@ -3294,7 +3294,7 @@ __metadata:
     "@monodeploy/types": "workspace:*"
     "@types/conventional-commits-parser": "npm:^3.0.6"
     "@types/jest": "npm:^29.5.12"
-    "@types/micromatch": "npm:^4.0.4"
+    "@types/micromatch": "npm:^4.0.7"
     "@types/semver": "npm:^7.5.4"
     "@yarnpkg/cli": "npm:^4.3.1"
     "@yarnpkg/core": "npm:^4.1.1"
@@ -3303,7 +3303,7 @@ __metadata:
     "@yarnpkg/plugin-pack": "npm:^4.0.0"
     "@yarnpkg/shell": "npm:^4.0.2"
     conventional-commits-parser: "npm:^5.0.0"
-    micromatch: "npm:^4.0.5"
+    micromatch: "npm:^4.0.7"
     p-limit: "npm:^3.1.0"
     semver: "npm:^7.5.4"
   peerDependencies:
@@ -4729,12 +4729,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:^4.0.4":
-  version: 4.0.5
-  resolution: "@types/micromatch@npm:4.0.5"
+"@types/micromatch@npm:^4.0.7":
+  version: 4.0.9
+  resolution: "@types/micromatch@npm:4.0.9"
   dependencies:
     "@types/braces": "npm:*"
-  checksum: 10/146a5dd7d0f797748afc0b3603b55c20daab604d86865011c217fe5cde1a2710d8de9f78863a4c07e249352de44cbf9cf0fdd2e617e708d1dc289bc5a1c509e7
+  checksum: 10/324f4bcb4a7caa2048bdd650f442d2c24b5bf6bc95e4d63d4741bd234fdcf3cde140217bd477b2c02c7fb0034c7293037fd7b61429ace84e997dd3b4d3b2b2f7
   languageName: node
   linkType: hard
 
@@ -7310,6 +7310,15 @@ __metadata:
   dependencies:
     fill-range: "npm:^7.0.1"
   checksum: 10/966b1fb48d193b9d155f810e5efd1790962f2c4e0829f8440b8ad236ba009222c501f70185ef732fef17a4c490bb33a03b90dab0631feafbdf447da91e8165b1
+  languageName: node
+  linkType: hard
+
+"braces@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "braces@npm:3.0.3"
+  dependencies:
+    fill-range: "npm:^7.1.1"
+  checksum: 10/fad11a0d4697a27162840b02b1fad249c1683cbc510cd5bf1a471f2f8085c046d41094308c577a50a03a579dd99d5a6b3724c4b5e8b14df2c4443844cfcda2c6
   languageName: node
   linkType: hard
 
@@ -11049,6 +11058,15 @@ __metadata:
   dependencies:
     to-regex-range: "npm:^5.0.1"
   checksum: 10/e260f7592fd196b4421504d3597cc76f4a1ca7a9488260d533b611fc3cefd61e9a9be1417cb82d3b01ad9f9c0ff2dbf258e1026d2445e26b0cf5148ff4250429
+  languageName: node
+  linkType: hard
+
+"fill-range@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "fill-range@npm:7.1.1"
+  dependencies:
+    to-regex-range: "npm:^5.0.1"
+  checksum: 10/a7095cb39e5bc32fada2aa7c7249d3f6b01bd1ce461a61b0adabacccabd9198500c6fb1f68a7c851a657e273fce2233ba869638897f3d7ed2e87a2d89b4436ea
   languageName: node
   linkType: hard
 
@@ -16717,6 +16735,16 @@ __metadata:
     braces: "npm:^3.0.2"
     picomatch: "npm:^2.3.1"
   checksum: 10/a749888789fc15cac0e03273844dbd749f9f8e8d64e70c564bcf06a033129554c789bb9e30d7566d7ff6596611a08e58ac12cf2a05f6e3c9c47c50c4c7e12fa2
+  languageName: node
+  linkType: hard
+
+"micromatch@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "micromatch@npm:4.0.7"
+  dependencies:
+    braces: "npm:^3.0.3"
+    picomatch: "npm:^2.3.1"
+  checksum: 10/a11ed1cb67dcbbe9a5fc02c4062cf8bb0157d73bf86956003af8dcfdf9b287f9e15ec0f6d6925ff6b8b5b496202335e497b01de4d95ef6cf06411bc5e5c474a0
   languageName: node
   linkType: hard
 
