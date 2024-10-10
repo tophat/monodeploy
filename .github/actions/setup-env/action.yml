@@ -29,7 +29,7 @@ runs:
         fi
       shell: bash
     - name: Install NodeJS
-      uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3.8.2
+      uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6 # v4.0.4
       with:
         node-version: ${{ steps.detect-node.outputs.version }}
     - name: Enable Corepack
